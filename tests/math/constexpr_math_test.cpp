@@ -59,6 +59,28 @@ TEST(ConstexprMath, CompileTimeKernelsAgreeWithCmath)
     agree(d::tanh_ct<double>, [](double x) { return std::tanh(x); }, -25, 25, 1e-14, "tanh");
 }
 
+// expm1 and log1p exist for their accuracy near 0, where an absolute tolerance would hide a cancellation
+TEST(ConstexprMath, Expm1AndLog1pKeepTheirRelativeAccuracyNearZero)
+{
+    namespace d = snicholls::math::detail;
+    for (const double x : {1e-300, -1e-300, 1e-12, -1e-12, 1e-6, -3e-4, 0.1, -0.3, 0.5, -0.5, 0.99, -0.99, 1.0, -1.0, 2.0, -20.0, 300.0}) {
+        EXPECT_LE(std::abs(d::expm1_ct(x) - std::expm1(x)), 4e-16 * std::abs(std::expm1(x))) << "expm1(" << x << ")";
+        if (x > -1)
+            EXPECT_LE(std::abs(d::log1p_ct(x) - std::log1p(x)), 4e-16 * std::abs(std::log1p(x))) << "log1p(" << x << ")";
+    }
+    for (const double x : {1e-20, 1e-9, 0.25, 1e10, 1e300})
+        EXPECT_LE(std::abs(d::log1p_ct(x) - std::log1p(x)), 4e-16 * std::abs(std::log1p(x))) << "log1p(" << x << ")";
+    EXPECT_EQ(m::expm1(0.3), std::expm1(0.3));   // run time: <cmath>
+    EXPECT_EQ(m::log1p(0.3), std::log1p(0.3));
+}
+
+static_assert(m::expm1(0.0) == 0.0 && m::log1p(0.0) == 0.0 && m::expm1(-m::inf) == -1.0 && m::expm1(m::inf) == m::inf);
+static_assert(m::log1p(-1.0) == -m::inf && m::is_nan(m::log1p(-2.0)) && m::log1p(m::inf) == m::inf);
+static_assert(m::is_nan(m::expm1(m::nan)) && m::is_nan(m::log1p(m::nan)));
+static_assert(m::expm1(1e-30) == 1e-30 && m::log1p(1e-30) == 1e-30);   // exp(x) - 1 would be 0
+static_assert(m::near(m::expm1(1.0), m::e_v - 1, 1e-15) && m::near(m::log1p(m::e_v - 1), 1.0, 1e-15));
+static_assert(m::near(m::expm1(1e-5f), 1.00000500001666e-5f, 1e-12f) && m::near(m::log1p(1e-5L), 9.99995000033333e-6L, 1e-18L));
+
 TEST(ConstexprMath, TheRunTimePathIsCmathToTheBit)
 {
     for (const double x : {0.1, 1.7, 33.0, -4.2})

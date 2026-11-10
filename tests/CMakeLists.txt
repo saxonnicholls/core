@@ -66,6 +66,11 @@ add_executable(snicholls_core_tests
     meta/type_list_test.cpp
     meta/type_name_test.cpp
     meta/values_test.cpp
+    ml/activations_test.cpp
+    ml/minifloat_test.cpp
+    ml/norm_test.cpp
+    ml/row_test.cpp
+    ml/softmax_test.cpp
     pipeline/stages_test.cpp
     reflect/member_count_test.cpp
     reflect/string_access_test.cpp

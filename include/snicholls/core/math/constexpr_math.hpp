@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::math`: exp, log, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all `constexpr`, for any floating-point type.
+/// \brief `snicholls::math`: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all `constexpr`, for any floating-point type.
 /// \ingroup core
 ///
 /// **Overview.** `<cmath>` is not `constexpr` in C++20, so a table built at compile time (a normal
@@ -500,6 +500,44 @@ constexpr T tanh_ct(T x)
     return (T(1.0) - e2) / (T(1.0) + e2);
 }
 
+// e^x - 1 without the cancellation near 0: the series below |x| = 1, exp - 1 above. A negative x goes
+// through m = e^-x - 1, whose series has no alternating terms: e^x - 1 = -m / (1 + m).
+template <typename T>
+constexpr T expm1_ct(T x)
+{
+    if (nan_(x)) return x;
+    if (abs_(x) >= T(1.0)) return exp_ct(x) - T(1.0);
+    if (x < T(0.0))
+    {
+        const T m = expm1_ct(-x);
+        return -m / (T(1.0) + m);
+    }
+    T term = x;
+    T sum = x;
+    for (int n = 2; n < 60; ++n)
+    {
+        term *= x / T(n);
+        sum += term;
+        if (abs_(term) < limits<T>::series_tolerance * abs_(sum))
+            break;
+    }
+    return sum;
+}
+
+// log(1 + x) without the cancellation near 0: log(u) * x / (u - 1), with u = 1 + x rounded (Goldberg's
+// correction), which cancels the rounding error of u.
+template <typename T>
+constexpr T log1p_ct(T x)
+{
+    if (nan_(x)) return x;
+    if (x < T(-1.0)) return std::numeric_limits<T>::quiet_NaN();
+    if (x == T(-1.0)) return -std::numeric_limits<T>::infinity();
+    if (inf_(x)) return x;
+    const T u = T(1.0) + x;
+    if (u == T(1.0)) return x;
+    return log_ct(u) * (x / (u - T(1.0)));
+}
+
 // atan via two argument-halvings atan(y) = 2 atan(y/(1+sqrt(1+y^2))) followed
 // by the Maclaurin series, with the range reduction atan(x)=pi/2-atan(1/x).
 template <typename T>
@@ -782,6 +820,26 @@ template <math_argument X>
 constexpr real_t<X> tanh(X x)
 {
     return detail::dispatch<real_t<X>>(x, [](auto v) { return detail::tanh_ct(v); }, [](auto v) { using std::tanh; return tanh(v); });
+}
+
+/// \brief `e^x - 1`, accurate for `x` near 0, where `exp(x) - 1` cancels.
+/// \tparam X An integer or a `math_number`.
+/// \param x The argument.
+/// \return The result.
+template <math_argument X>
+constexpr real_t<X> expm1(X x)
+{
+    return detail::dispatch<real_t<X>>(x, [](auto v) { return detail::expm1_ct(v); }, [](auto v) { using std::expm1; return expm1(v); });
+}
+
+/// \brief `log(1 + x)`, accurate for `x` near 0, where `log(1 + x)` loses the digits of `x`.
+/// \tparam X An integer or a `math_number`.
+/// \param x The argument: NaN below -1, -infinity at -1.
+/// \return The result.
+template <math_argument X>
+constexpr real_t<X> log1p(X x)
+{
+    return detail::dispatch<real_t<X>>(x, [](auto v) { return detail::log1p_ct(v); }, [](auto v) { using std::log1p; return log1p(v); });
 }
 
 /// \brief The arc tangent.

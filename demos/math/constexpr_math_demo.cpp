@@ -50,6 +50,11 @@ int main()
     std::printf("  float z90 %.6f, long double e %.18Lf (%d bits)\n", static_cast<double>(z_gpu[0]), e_wide, std::numeric_limits<long double>::digits);
     ok &= math::near<float>(z_gpu[0], 1.2815516f, 1e-6f);
 
+    // expm1 and log1p keep the digits of a small rate that exp(r) - 1 and log(1 + r) lose: one basis point a day.
+    constexpr double daily = math::expm1(0.0001), back = math::log1p(daily);
+    std::printf("  expm1(1e-4) %.17g, log1p of it %.17g\n", daily, back);
+    ok &= math::near(back, 0.0001, 1e-19) && math::near(daily, 1.00005000166670834e-4, 1e-19);
+
     std::printf(ok ? "constexpr_math demo: ok\n" : "constexpr_math demo: FAILED\n");
     return ok ? 0 : 1;
 }
