@@ -14,6 +14,7 @@
 
 #include <charconv>
 #include <cmath>
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -56,17 +57,30 @@ static_assert(!parse::float_syntax("") && !parse::float_syntax("+1") && !parse::
 static_assert(!parse::float_syntax(".") && !parse::float_syntax("1e") && !parse::float_syntax("0x1p3") && !parse::float_syntax("infx"));
 static_assert(!parse::float_syntax("nan(") && !parse::float_syntax("-") && !parse::float_syntax("1.2.3"));
 
+// std::from_chars' own answer, where the standard library has it: an overload set, so the call is never compiled where
+// it would reach the deleted overload.
+template <typename T>
+    requires parse::has_from_chars<T>
+std::optional<T> from_chars_reference(std::string_view t)
+{
+    T value{};
+    std::from_chars(t.data(), t.data() + t.size(), value);
+    return value;
+}
+template <typename T>
+std::optional<T> from_chars_reference(std::string_view)
+{
+    return std::nullopt;
+}
+
 TEST(CheckedParseFallback, AgreesWithFromCharsWhereTheLibraryHasIt)
 {
     for (const std::string_view t : {"0", "1.25", "-0.1", "3.141592653589793", "1e300", "2.2250738585072014e-308", "4.9e-324", "1e-400",
                                      "123456789012345678901234567890", ".5", "5.", "-1E+10", "inf", "-Infinity"}) {
         const auto ours = parse::parse_float<double>(t);
         ASSERT_TRUE(ours.is_ok()) << t;
-        if constexpr (parse::has_from_chars<double>) {
-            double want = 0;
-            std::from_chars(t.data(), t.data() + t.size(), want);
-            EXPECT_EQ(ours.unwrap(), want) << t;
-        }
+        if (const auto want = from_chars_reference<double>(t))   // none where the library has no floating from_chars
+            EXPECT_EQ(ours.unwrap(), *want) << t;
     }
     EXPECT_TRUE(std::isnan(parse::parse_float<double>("nan").unwrap()));
     EXPECT_EQ(parse::parse_float<double>("1e400").unwrap_err(), std::errc::result_out_of_range);
