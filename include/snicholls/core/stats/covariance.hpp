@@ -40,7 +40,7 @@
 /// **Known issues.** The target is a scaled identity; Ledoit and Wolf's constant-correlation and
 /// single-index targets are not provided.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_stats_covariance_hpp
 #define snicholls_core_stats_covariance_hpp

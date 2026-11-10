@@ -61,7 +61,7 @@
 /// different secret and final mix): Zig's standard library and abseil carry older versions,
 /// so their values differ from these. The literal `_wyhash` is in `snicholls::literals`.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_hash_wyhash_hpp
 #define snicholls_core_hash_wyhash_hpp

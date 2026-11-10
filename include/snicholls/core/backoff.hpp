@@ -50,7 +50,7 @@
 /// standard libraries, so the same seed gives a different schedule on libc++ and libstdc++;
 /// the fraction form is the one to pin in a test.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_backoff_hpp
 #define snicholls_core_backoff_hpp

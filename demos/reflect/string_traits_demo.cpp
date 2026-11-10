@@ -21,23 +21,30 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <vector>
 
+#include <snicholls/core/overloaded.hpp>
 #include <snicholls/core/reflect/string_traits.hpp>
 
 namespace demo {
 
+// A code unit's name: an overload set over std::type_identity, with a catch-all last; no if constexpr chain.
+constexpr auto unit_names = snicholls::overloaded{
+    [](std::type_identity<char>) { return std::string_view{"char"}; },
+    [](std::type_identity<wchar_t>) { return std::string_view{"wchar_t"}; },
+    [](std::type_identity<char8_t>) { return std::string_view{"char8_t"}; },
+    [](std::type_identity<char16_t>) { return std::string_view{"char16_t"}; },
+    [](std::type_identity<char32_t>) { return std::string_view{"char32_t"}; },
+    [](std::type_identity<std::byte>) { return std::string_view{"std::byte"}; },
+    [](std::type_identity<unsigned char>) { return std::string_view{"unsigned char"}; },
+    [](auto) { return std::string_view{"?"}; },
+};
+
 template <typename U>
 constexpr std::string_view unit_name()
 {
-    if constexpr (std::is_same_v<U, char>) return "char";
-    else if constexpr (std::is_same_v<U, wchar_t>) return "wchar_t";
-    else if constexpr (std::is_same_v<U, char8_t>) return "char8_t";
-    else if constexpr (std::is_same_v<U, char16_t>) return "char16_t";
-    else if constexpr (std::is_same_v<U, char32_t>) return "char32_t";
-    else if constexpr (std::is_same_v<U, std::byte>) return "std::byte";
-    else if constexpr (std::is_same_v<U, unsigned char>) return "unsigned char";
-    else return "?";
+    return unit_names(std::type_identity<U>{});
 }
 
 // The properties of S as one table row (without the type's name; optionally without the unit column).

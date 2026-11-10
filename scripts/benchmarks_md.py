@@ -12,6 +12,10 @@
 #      scripts/benchmarks_md.py --build build-x    another Release build with benchmarks on
 #      scripts/benchmarks_md.py --min-time 2       longer runs, steadier numbers
 #      scripts/benchmarks_md.py --filter shapley   only benchmarks whose file name contains this (a,b for several)
+#      scripts/benchmarks_md.py --output - --title "Throughput - Linux GCC" --json bench-json
+#                                                  CI: fresh tables to stdout (the job summary), raw JSON kept;
+#                                                  BENCHMARKS.md is not touched
+#      scripts/benchmarks_md.py --config Release   a multi-configuration build (Visual Studio)
 #
 #  `make benchmarks` configures build-bench, builds it and runs this. Each benchmark checks
 #  its own fairness before it runs; a benchmark that refuses fails the script. A filtered
@@ -114,21 +118,27 @@ def main() -> None:
     ap.add_argument("--build", default="build-bench")
     ap.add_argument("--min-time", type=float, default=0.5)
     ap.add_argument("--filter", default="")
+    ap.add_argument("--output", default=str(OUT), help="the file to write, or - for stdout (default: BENCHMARKS.md)")
+    ap.add_argument("--title", default="", help="a heading for the tables instead of BENCHMARKS.md's introduction")
+    ap.add_argument("--json", default="", help="a folder to keep each benchmark's raw Google Benchmark JSON in")
+    ap.add_argument("--config", default="", help="the configuration of a multi-configuration build (Release)")
     args = ap.parse_args()
+    out = None if args.output == "-" else pathlib.Path(args.output).resolve()
+    into_benchmarks_md = out == OUT.resolve()
 
     build = (ROOT / args.build).resolve()
     if not (build / "CMakeCache.txt").exists():
         sys.exit(f"benchmarks_md: {build} is not configured; run `make benchmarks`")
     cache = cmake_cache(build)
-    if cache.get("CMAKE_BUILD_TYPE", "") != "Release":
+    if (args.config or cache.get("CMAKE_BUILD_TYPE", "")) != "Release":
         sys.exit(f"benchmarks_md: {build} is a {cache.get('CMAKE_BUILD_TYPE') or 'default'} build; only Release numbers mean anything")
 
     sources = {}   # target name -> source, from benchmarks/CMakeLists.txt
     for m in re.finditer(r"snicholls_core_add_benchmark\((\w+)\s+([^)\s]+)\)", (ROOT / "benchmarks/CMakeLists.txt").read_text()):
         sources[m.group(1)] = "benchmarks/" + m.group(2)
 
-    previous = {}
-    if OUT.exists():
+    previous = {}   # kept sections: only when rewriting BENCHMARKS.md itself
+    if into_benchmarks_md and OUT.exists():
         for block in re.split(r"(?m)^(?=## )", OUT.read_text()):
             if block.startswith("## "):
                 previous[block.split("\n", 1)[0][3:].strip()] = block.rstrip() + "\n"
@@ -138,11 +148,17 @@ def main() -> None:
     for target, source in sorted(sources.items()):
         if args.filter and not any(f in target for f in args.filter.split(",")):
             continue
-        binary = build / "benchmarks" / f"snicholls_core_{target}"
+        folder = build / "benchmarks" / args.config if args.config else build / "benchmarks"
+        binary = folder / f"snicholls_core_{target}"
+        if not binary.exists() and binary.with_suffix(".exe").exists():
+            binary = binary.with_suffix(".exe")
         if not binary.exists():
             sys.exit(f"benchmarks_md: {binary} is missing; build the benchmarks first")
         print(f"benchmarks_md: running {target}", file=sys.stderr)
         data = run(binary, args.min_time)
+        if args.json:
+            (pathlib.Path(args.json)).mkdir(parents=True, exist_ok=True)
+            (pathlib.Path(args.json) / f"{target}.json").write_text(json.dumps(data, indent=1))
         context = context or data["context"]
         sections[target] = section(target, source, data)
 
@@ -156,8 +172,13 @@ def main() -> None:
     )
     if args.filter:
         env += "| this run | only " + ", ".join(f"`{f}`" for f in args.filter.split(",")) + "; other sections are from earlier runs |\n"
-    OUT.write_text(INTRO + "\n" + env + "\n" + "\n".join(sections[k] for k in sorted(sections)))
-    print(f"benchmarks_md: wrote {OUT.relative_to(ROOT)} ({len(sections)} benchmark files)", file=sys.stderr)
+    head = f"# {args.title}\n" if args.title else INTRO
+    text = head + "\n" + env + "\n" + "\n".join(sections[k] for k in sorted(sections))
+    if out is None:
+        sys.stdout.write(text)
+        return
+    out.write_text(text)
+    print(f"benchmarks_md: wrote {out} ({len(sections)} benchmark files)", file=sys.stderr)
 
 
 if __name__ == "__main__":

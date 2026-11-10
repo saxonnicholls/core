@@ -46,7 +46,7 @@
 /// budget is smaller and is not measured here; raise it with `-fconstexpr-steps` or
 /// `/constexpr:steps`, or use `for_each_permutation` at run time, which has no such limit.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_combinatorics_permutations_hpp
 #define snicholls_core_combinatorics_permutations_hpp

@@ -36,7 +36,7 @@
 /// **Known issues.** Keys and values must be default-constructible and copyable (the entries live in a
 /// `std::array`). The comparison is `std::less<>` by default.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_containers_static_map_hpp
 #define snicholls_core_containers_static_map_hpp

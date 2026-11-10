@@ -18,7 +18,7 @@
 #  and there is no reason to learn about it from a release later.
 #
 #      python3 scripts/check_version.py                 # header vs CMake
-#      python3 scripts/check_version.py --tag v0.1.0    # ... and vs a tag
+#      python3 scripts/check_version.py --tag v0.5.0    # ... and vs a tag
 #
 #  Exit status is 0 when they agree and 1 when they do not.
 #

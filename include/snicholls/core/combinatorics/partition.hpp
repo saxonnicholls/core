@@ -47,7 +47,7 @@
 /// **Known issues.** Wolfram's other overhang specifications (`{kL, kR}` other than `{1, 1}`) are not
 /// provided.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_combinatorics_partition_hpp
 #define snicholls_core_combinatorics_partition_hpp

@@ -43,7 +43,7 @@
 /// **Known issues.** `T` must be default-constructible: the unused capacity holds default-constructed
 /// elements, which is what makes the container `constexpr` in C++20 (C++26's uses raw storage).
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_containers_inplace_vector_hpp
 #define snicholls_core_containers_inplace_vector_hpp

@@ -62,7 +62,7 @@
 /// as the attribution of `x'Px`; neither agrees with its own tables or with full attribution, and this
 /// header follows the tables: no `- b`, and `P1`. The tests pin both.
 ///
-/// **Status.** New in 0.1.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_game_shapley_hpp
 #define snicholls_core_game_shapley_hpp

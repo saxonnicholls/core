@@ -108,12 +108,12 @@ different commits link silently. Three rules, implemented in `CMakeLists.txt` an
 Consuming core as a submodule:
 
     add_subdirectory(third_party/core EXCLUDE_FROM_ALL)
-    snicholls_core_require(0.1.0)
+    snicholls_core_require(0.5.0)
     target_link_libraries(my_target PRIVATE snicholls::core)
     # last line of the top-level CMakeLists.txt:
     snicholls_core_assert_single_version()
 
-Installed: `find_package(snicholls_core 0.1 REQUIRED)` provides the same target and the same functions.
+Installed: `find_package(snicholls_core 0.5 REQUIRED)` provides the same target and the same functions.
 
 **One core version everywhere.** Every project that uses core pins the same tag; there is never a diamond with two
 versions, inside one build or across separately built projects:
@@ -202,6 +202,10 @@ banner, then `/// \file`, `\brief` and `\ingroup`. `snicholls::detail` is exclud
     make ubuntu          # the full suite on Ubuntu 24.04 in Docker: GCC and Clang, Release and Debug, sanitizers
     make demos           # build and run every demo with its output shown (scripts/run_demos.sh --all, or <name>...)
     make benchmarks      # every benchmark in Release; rewrites BENCHMARKS.md, which is never edited by hand
+
+CI records throughput on every leg: `scripts/benchmarks_md.py --output -` writes each platform's tables into its job
+summary, and the raw Google Benchmark JSON is kept as an artifact. Those numbers come from shared runners: a record,
+never a gate. BENCHMARKS.md and the headers' **Performance** sections quote quiet-machine runs.
 
 **The local gate is macOS plus Ubuntu-in-Docker**, matching CI's two Unix families: run `make test-werror` on the Mac
 and `make ubuntu` before pushing. Ubuntu is a supported target and must be testable without waiting for CI, from any

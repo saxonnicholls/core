@@ -96,7 +96,7 @@
 ///   `(const int&)`) both match; the first written is called.
 /// - An `operator()` with a ref-qualifier (`&`, `&&`) or `volatile` is not read.
 ///
-/// **Status.** New in 0.1.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_invoke_with_hpp
 #define snicholls_core_invoke_with_hpp

@@ -42,11 +42,11 @@ int main()
     std::printf("  encoded            %d\n", snicholls::core::version());
 
     // Gate code on a minimum at compile time, in either language
-#if SNICHOLLS_CORE_VERSION >= SNICHOLLS_CORE_VERSION_CHECK(0, 1, 0)
-    std::printf("  at least 0.1.0     yes, says the preprocessor\n");
+#if SNICHOLLS_CORE_VERSION >= SNICHOLLS_CORE_VERSION_CHECK(0, 5, 0)
+    std::printf("  at least 0.5.0     yes, says the preprocessor\n");
 #endif
-    static_assert(snicholls::core::version() >= SNICHOLLS_CORE_VERSION_CHECK(0, 1, 0));
-    SNICHOLLS_CORE_REQUIRE_VERSION(0, 1, 0);
+    static_assert(snicholls::core::version() >= SNICHOLLS_CORE_VERSION_CHECK(0, 5, 0));
+    SNICHOLLS_CORE_REQUIRE_VERSION(0, 5, 0);
     //! [version]
 
     bool ok = true;

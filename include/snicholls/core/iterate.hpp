@@ -41,7 +41,7 @@
 ///
 /// **Known issues.** `fixed_point` compares with `==`; for floating point, pass a `same` test with a tolerance.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_iterate_hpp
 #define snicholls_core_iterate_hpp

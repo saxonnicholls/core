@@ -35,7 +35,7 @@
 ///
 /// **Known issues.** No units algebra: a product of two strong types is a function the caller writes.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_strong_hpp
 #define snicholls_core_strong_hpp

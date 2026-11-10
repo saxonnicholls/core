@@ -48,7 +48,7 @@
 /// move in units of volatility, a theta per year with the move in years. Third-order terms (speed,
 /// ultima, zomma) are not modelled and land in `unexplained`.
 ///
-/// **Status.** New in 0.1.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_finance_attribution_hpp
 #define snicholls_core_finance_attribution_hpp

@@ -48,7 +48,7 @@
 /// `snicholls::zip_value`, a `std::tuple` underneath, which declares the common reference C++20's
 /// `std::tuple` lacks; compare a value with a tuple through `std::get`, not `==`.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_zip_hpp
 #define snicholls_core_zip_hpp

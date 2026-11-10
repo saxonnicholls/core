@@ -41,7 +41,7 @@
 ///
 /// **Known issues.** Continuous time is the caller's to discretise.
 ///
-/// **Status.** New in 0.3.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_stochastic_martingale_hpp
 #define snicholls_core_stochastic_martingale_hpp

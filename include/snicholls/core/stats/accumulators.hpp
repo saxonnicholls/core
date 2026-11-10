@@ -58,7 +58,7 @@
 /// **Known issues.** `ewma` depends on the order of observations and cannot be merged. `histogram`'s bins
 /// are fixed at construction.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_stats_accumulators_hpp
 #define snicholls_core_stats_accumulators_hpp

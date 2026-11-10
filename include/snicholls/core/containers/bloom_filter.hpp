@@ -124,7 +124,7 @@ namespace snicholls::containers {
     /// integer 1 are not.
     ///
     /// \status
-    /// New in 0.1.0.
+    /// New in 0.5.0.
     class bloom_filter {
     public:
         /// \brief An empty filter of 64 bits and one hash: valid, and almost useless. Size it with the other constructors.

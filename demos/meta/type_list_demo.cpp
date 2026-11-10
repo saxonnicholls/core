@@ -39,26 +39,37 @@ struct needs<open_feed, load_config> : std::true_type {};
 template <>
 struct needs<start_ui, open_feed> : std::true_type {};
 
+// A type's name: an overload set over std::type_identity, with a catch-all last. Overload resolution picks the exact
+// match; no if constexpr chain.
+template <typename T>
+using tag = std::type_identity<T>;
+constexpr auto type_names = snicholls::overloaded{
+    [](tag<char>) { return "char"; },
+    [](tag<int>) { return "int"; },
+    [](tag<unsigned>) { return "unsigned"; },
+    [](tag<double>) { return "double"; },
+    [](tag<load_config>) { return "load_config"; },
+    [](tag<open_feed>) { return "open_feed"; },
+    [](tag<start_ui>) { return "start_ui"; },
+    [](auto) { return "?"; },
+};
+
 template <typename T>
 const char* name()
 {
-    if constexpr (std::is_same_v<T, char>) return "char";
-    else if constexpr (std::is_same_v<T, int>) return "int";
-    else if constexpr (std::is_same_v<T, unsigned>) return "unsigned";
-    else if constexpr (std::is_same_v<T, double>) return "double";
-    else if constexpr (std::is_same_v<T, load_config>) return "load_config";
-    else if constexpr (std::is_same_v<T, open_feed>) return "open_feed";
-    else if constexpr (std::is_same_v<T, start_ui>) return "start_ui";
-    else return "?";
+    return type_names(tag<T>{});
 }
 
+// A list prints as <...>, recursively; anything else by name. first_match: a nested list is tried first.
 template <typename List>
 std::string show()
 {
     std::string out = "<";
     for_each_type<List>([&]<typename T>() {
-        if constexpr (is_type_list_v<T>) out += show<T>();
-        else out += name<T>();
+        out += snicholls::first_match{
+            []<typename... Ts>(tag<type_list<Ts...>>) { return show<type_list<Ts...>>(); },
+            []<typename U>(tag<U>) { return std::string(name<U>()); },
+        }(tag<T>{});
         out += ' ';
     });
     if (out.size() > 1) out.pop_back();

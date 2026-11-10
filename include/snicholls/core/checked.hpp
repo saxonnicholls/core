@@ -30,19 +30,26 @@
 ///
 /// **Tests and demos.** `tests/checked_test.cpp`, `demos/checked_demo.cpp`.
 ///
-/// **Dependencies.** `<charconv>`, `<concepts>`, `<limits>`, `<optional>`, `<string_view>`, `<system_error>`,
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cerrno>`, `<charconv>`, `<cstdlib>`, `<concepts>`, `<limits>`, `<optional>`, `<string_view>`, `<system_error>`,
 /// `<type_traits>`, `<utility>`, `result.hpp`.
 ///
-/// **Known issues.** Integers only for the arithmetic; floating point has its own infinities.
+/// **Known issues.** Integers only for the arithmetic; floating point has its own infinities. Where the standard
+/// library lacks floating-point `std::from_chars` (Xcode 16's libc++ and older), `parse_number` of a floating-point
+/// type uses the C library: the same syntax, but the decimal point follows `LC_NUMERIC` if the program changes it,
+/// and text over 255 characters is refused.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_checked_hpp
 #define snicholls_core_checked_hpp
 
 #include <snicholls/core/result.hpp>
 
+#include <algorithm>
+#include <array>
+#include <cerrno>
 #include <charconv>
+#include <cstdlib>
 #include <concepts>
 #include <limits>
 #include <optional>
@@ -179,13 +186,104 @@ namespace snicholls {
         }
     }
 
+    namespace detail::parse {
+        // Whether the standard library converts T with std::from_chars: every one does integers; Xcode 16's libc++
+        // and older have no floating-point overloads (a double would reach the deleted bool overload).
+        template <typename T>
+        concept has_from_chars = requires(const char* p, T& v) {
+            { std::from_chars(p, p, v) } -> std::same_as<std::from_chars_result>;
+        };
+
+        // The text std::from_chars accepts for a floating-point number in its general format: an optional minus, then
+        // digits with an optional point and exponent, or inf, infinity, nan, nan(chars), in any case. No leading
+        // space, no plus, no hexadecimal.
+        constexpr bool float_syntax(std::string_view t) noexcept
+        {
+            const auto lower = [](char c) { return static_cast<char>(c >= 'A' && c <= 'Z' ? c - 'A' + 'a' : c); };
+            const auto starts = [&](std::string_view w) {
+                if (t.size() < w.size())
+                    return false;
+                for (std::size_t i = 0; i < w.size(); ++i)
+                    if (lower(t[i]) != w[i])
+                        return false;
+                return true;
+            };
+            const auto digit = [](char c) { return c >= '0' && c <= '9'; };
+            if (!t.empty() && t.front() == '-')
+                t.remove_prefix(1);
+            if (starts("infinity"))
+                return t.size() == 8;
+            if (starts("inf"))
+                return t.size() == 3;
+            if (starts("nan")) {
+                t.remove_prefix(3);
+                if (t.empty())
+                    return true;
+                if (t.front() != '(' || t.back() != ')')
+                    return false;
+                for (const char c : t.substr(1, t.size() - 2))
+                    if (!(digit(c) || (lower(c) >= 'a' && lower(c) <= 'z') || c == '_'))
+                        return false;
+                return true;
+            }
+            std::size_t i = 0, mantissa = 0;
+            while (i < t.size() && digit(t[i]))
+                ++i, ++mantissa;
+            if (i < t.size() && t[i] == '.') {
+                ++i;
+                while (i < t.size() && digit(t[i]))
+                    ++i, ++mantissa;
+            }
+            if (mantissa == 0)
+                return false;
+            if (i < t.size() && (t[i] == 'e' || t[i] == 'E')) {
+                ++i;
+                if (i < t.size() && (t[i] == '+' || t[i] == '-'))
+                    ++i;
+                const std::size_t exponent = i;
+                while (i < t.size() && digit(t[i]))
+                    ++i;
+                if (i == exponent)
+                    return false;
+            }
+            return i == t.size();
+        }
+
+        inline float c_parse(const char* b, char** e, float*) noexcept { return std::strtof(b, e); }
+        inline double c_parse(const char* b, char** e, double*) noexcept { return std::strtod(b, e); }
+        inline long double c_parse(const char* b, char** e, long double*) noexcept { return std::strtold(b, e); }
+
+        // The fallback where std::from_chars has no floating-point overload: the same syntax, checked first, then the
+        // C library's correctly rounded conversion. The C library reads the decimal point from LC_NUMERIC, which is
+        // "." unless the program calls setlocale; up to 255 characters.
+        template <std::floating_point T>
+        result<T, std::errc> parse_float(std::string_view text) noexcept
+        {
+            if (!float_syntax(text) || text.size() > 255)
+                return err(std::errc::invalid_argument);
+            std::array<char, 256> buffer{};
+            std::copy(text.begin(), text.end(), buffer.begin());
+            char* end = nullptr;
+            errno = 0;
+            const T value = c_parse(buffer.data(), &end, static_cast<T*>(nullptr));
+            if (end != buffer.data() + text.size())
+                return err(std::errc::invalid_argument);
+            if (errno == ERANGE && (value > T(1) || value < T(-1)))   // overflow; an underflow is the nearest value
+                return err(std::errc::result_out_of_range);
+            return ok(value);
+        }
+    } // namespace detail::parse
+
     /// \brief A whole string as a number, by `std::from_chars`: no leading space, no trailing characters.
     /// \ingroup core
+    ///
+    /// Where the standard library has no floating-point `std::from_chars` (Xcode 16's libc++ and older), a floating-point
+    /// type is parsed with the same syntax by the C library instead; see Known issues.
     /// \tparam T An integer or floating-point type.
     /// \param text The text.
     /// \return The number, or `std::errc::invalid_argument` / `std::errc::result_out_of_range`.
     template <typename T>
-        requires std::is_arithmetic_v<T> && (!std::same_as<T, bool>)
+        requires std::is_arithmetic_v<T> && (!std::same_as<T, bool>) && detail::parse::has_from_chars<T>
     [[nodiscard]] result<T, std::errc> parse_number(std::string_view text) noexcept
     {
         T value{};
@@ -195,6 +293,18 @@ namespace snicholls {
         if (end != text.data() + text.size())
             return err(std::errc::invalid_argument);
         return ok(value);
+    }
+
+    /// \brief A whole string as a floating-point number where `std::from_chars` cannot parse one: the same syntax, by the C library.
+    /// \ingroup core
+    /// \tparam T A floating-point type.
+    /// \param text The text.
+    /// \return The number, or `std::errc::invalid_argument` / `std::errc::result_out_of_range`.
+    template <std::floating_point T>
+        requires(!detail::parse::has_from_chars<T>)
+    [[nodiscard]] result<T, std::errc> parse_number(std::string_view text) noexcept
+    {
+        return detail::parse::parse_float<T>(text);
     }
 
 } // namespace snicholls

@@ -69,6 +69,24 @@ jobs:
       - name: Test
         run: ctest --test-dir build --output-on-failure
 
+      # Every benchmark against its hand-written equivalent, as tables in this job's summary; a shared runner is
+      # noisy, so the numbers are a record per platform, not a gate (BENCHMARKS.md holds the quiet-machine ones).
+      - name: Throughput (informational)
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 scripts/benchmarks_md.py --build build --min-time 0.2 --output - \
+            --title "Throughput - ${{ matrix.name }}" --json bench-json | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the raw benchmark results
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks-${{ matrix.os }}-${{ matrix.cxx }}
+          path: bench-json/
+          if-no-files-found: ignore
+
       - name: Configure, build and test (Debug, -O0, asserts live)
         run: >
           cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug
@@ -110,6 +128,23 @@ jobs:
 
       - name: Test
         run: ctest --test-dir build -C Release --output-on-failure
+
+      - name: Throughput (informational)
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          python scripts/benchmarks_md.py --build build --config Release --min-time 0.2 --output - \
+            --title "Throughput - Windows MSVC" --json bench-json | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the raw benchmark results
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks-windows-msvc
+          path: bench-json/
+          if-no-files-found: ignore
 
   docs:
     name: Documentation (warnings are errors)

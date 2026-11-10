@@ -52,7 +52,7 @@
 ///
 /// **Known issues.** It threads one level, as `Thread` does; nested tuples reach `f` whole.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_thread_apply_hpp
 #define snicholls_core_thread_apply_hpp

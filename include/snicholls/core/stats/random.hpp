@@ -40,7 +40,7 @@
 /// **Known issues.** wyrand's period is 2^64, ample for resampling and Monte Carlo, not for
 /// cryptography.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_stats_random_hpp
 #define snicholls_core_stats_random_hpp

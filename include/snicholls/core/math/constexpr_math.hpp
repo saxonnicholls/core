@@ -47,7 +47,7 @@
 /// arithmetic, comparisons, conversion to and from `long long` and `double`, `std::numeric_limits`, and, for run
 /// time, `exp`, `log`, ... in its own namespace.
 ///
-/// **Status.** New in 0.3.0; generic in 0.5.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_math_constexpr_math_hpp
 #define snicholls_core_math_constexpr_math_hpp
@@ -106,6 +106,7 @@ struct math_limits<double>
     static constexpr double pio2_1 = 1.57079632673412561417e+00;          ///< pi/2 in three parts (Cody-Waite).
     static constexpr double pio2_2 = 6.07710050630396597660e-11;          ///< The second part.
     static constexpr double pio2_3 = 2.02226624871116645580e-21;          ///< The third part.
+    static constexpr double pio2_4 = 0.0;                                 ///< A fourth part, for a type wider than 64 bits.
     static constexpr double inv_pio2 = 6.36619772367581382433e-01;        ///< 2 / pi.
     static constexpr double exp_overflow = 709.79;                        ///< exp is infinite above this.
     static constexpr double exp_underflow = -745.2;                       ///< exp is zero below this.
@@ -160,9 +161,13 @@ namespace detail
         static constexpr T ln2_lo = math_limits<double>::ln2_lo;
         static constexpr T ln2_lo2 = T(1.16122272293625324218337828526629425e-26L);   // ln 2 - ln2_hi - ln2_lo
         static constexpr T inv_ln2 = T(1.44269504088896340735992468100189214L);
-        static constexpr T pio2_1 = math_limits<double>::pio2_1;
-        static constexpr T pio2_2 = math_limits<double>::pio2_2;
-        static constexpr T pio2_3 = math_limits<double>::pio2_3;
+        // Up to 64 bits, double's three Cody-Waite parts (about 100 bits of pi/2) suffice. Wider (binary128) takes pi/2
+        // as four non-overlapping doubles, about 212 bits: each k * part is exact in 113 bits.
+        static constexpr bool wide = L::digits > 64;
+        static constexpr T pio2_1 = wide ? T(0x1.921fb54442d18p+0) : T(math_limits<double>::pio2_1);
+        static constexpr T pio2_2 = wide ? T(0x1.1a62633145c07p-54) : T(math_limits<double>::pio2_2);
+        static constexpr T pio2_3 = wide ? T(-0x1.f1976b7ed8fbcp-110) : T(math_limits<double>::pio2_3);
+        static constexpr T pio2_4 = wide ? T(0x1.4cf98e804177dp-164) : T(0);
         static constexpr T inv_pio2 = T(0.636619772367581343075535053490057448L);
         static constexpr T exp_overflow = T(L::max_exponent) * ln2_full;
         static constexpr T exp_underflow = T(L::min_exponent - L::digits - 1) * ln2_full;
@@ -383,7 +388,7 @@ constexpr reduced<T> reduce_pio2(T x)
     using L = limits<T>;
     const T kd = round_(x * L::inv_pio2);
     const long long k = static_cast<long long>(kd);
-    const T r = ((x - kd * L::pio2_1) - kd * L::pio2_2) - kd * L::pio2_3;
+    const T r = (((x - kd * L::pio2_1) - kd * L::pio2_2) - kd * L::pio2_3) - kd * L::pio2_4;
     int q = static_cast<int>(k % 4);
     if (q < 0)
         q += 4;

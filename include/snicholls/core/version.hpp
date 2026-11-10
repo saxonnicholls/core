@@ -24,7 +24,7 @@
 /// A consumer that needs a minimum says so once, where the compiler can see it:
 ///
 /// \code
-/// SNICHOLLS_CORE_REQUIRE_VERSION(0, 1, 0);
+/// SNICHOLLS_CORE_REQUIRE_VERSION(0, 5, 0);
 /// \endcode
 ///
 /// That is the compile-time half of the diamond rules in CMakeLists.txt; the
@@ -49,7 +49,7 @@
 /// \brief Minor version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_MINOR 5
 /// \brief Patch version of snicholls-core.
-#define SNICHOLLS_CORE_VERSION_PATCH 0
+#define SNICHOLLS_CORE_VERSION_PATCH 1
 
 /// \brief Encode a version as one integer the preprocessor can compare.
 ///
@@ -82,7 +82,7 @@
 /// Put one in a header of yours that depends on a core feature, and a build
 /// against an older core stops with a message that names the number rather
 /// than deep inside a template. No trailing semicolon in the expansion: write
-/// `SNICHOLLS_CORE_REQUIRE_VERSION(0, 1, 0);` like any declaration.
+/// `SNICHOLLS_CORE_REQUIRE_VERSION(0, 5, 0);` like any declaration.
 /// \param major Minimum major version.
 /// \param minor Minimum minor version.
 /// \param patch Minimum patch version.

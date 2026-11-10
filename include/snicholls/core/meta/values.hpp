@@ -30,7 +30,7 @@
 ///
 /// **Known issues.** The values must share a type once `std::common_type` has had its say.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_meta_values_hpp
 #define snicholls_core_meta_values_hpp

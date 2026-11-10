@@ -81,7 +81,7 @@
 ///   `final` class cannot be bases: wrap them in a lambda. Two callables of the same type (the
 ///   same function pointer type twice) cannot both be bases either.
 ///
-/// **Status.** `overloaded` stable. `first_match` and `fn_ptr` new in 0.1.0.
+/// **Status.** `overloaded` stable. `first_match` and `fn_ptr` new in 0.5.0.
 
 #ifndef snicholls_core_overloaded_hpp
 #define snicholls_core_overloaded_hpp

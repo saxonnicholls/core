@@ -38,7 +38,7 @@
 ///
 /// **Known issues.** None known.
 ///
-/// **Status.** New in 0.1.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_game_harsanyi_hpp
 #define snicholls_core_game_harsanyi_hpp

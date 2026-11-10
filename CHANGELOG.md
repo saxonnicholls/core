@@ -3,6 +3,26 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.5.1 - 2026-11-10
+
+The fixes CI found once it could run on every platform.
+
+### Fixed
+
+- `math`: compile-time `sin` and `cos` of a 113-bit `long double` (Linux ARM64) reduce the argument with pi/2 in four
+  parts; the three parts `double` and the 80-bit `long double` use carry only about 100 bits. `double` is unchanged.
+- `parse_number<T>` for a floating-point `T` builds where the standard library has no floating-point `std::from_chars`
+  (Xcode 16's libc++): the same syntax, checked first, then the C library's conversion.
+- `type_list` permutations compile on MSVC.
+- The README and CLAUDE.md show `snicholls_core_require(0.5.0)`; status lines say when a header became public.
+
+### Changed
+
+- The `type_list` and `string_traits` demos name types with an `overloaded` set over `std::type_identity`, not an
+  `if constexpr` chain.
+- CI records every benchmark's throughput in each job's summary and keeps the raw results
+  (`scripts/benchmarks_md.py --output - --json DIR`); the README shows CI's status.
+
 ## 0.5.0 - 2026-11-10
 
 The first public release. Versions before it were developed privately; this entry describes what core holds.

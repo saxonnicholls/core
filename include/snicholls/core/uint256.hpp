@@ -71,7 +71,7 @@
 /// point: scale to human units by division and `to_string`, which is exact, and convert the
 /// text if a `double` is really wanted.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_uint256_hpp
 #define snicholls_core_uint256_hpp

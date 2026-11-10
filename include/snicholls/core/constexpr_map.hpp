@@ -48,7 +48,7 @@
 /// at run time but not in a constant expression; use `std::string_view` or
 /// `snicholls::fixed_string` for text keys.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_constexpr_map_hpp
 #define snicholls_core_constexpr_map_hpp

@@ -47,7 +47,7 @@
 ///
 /// **Known issues.** `std::format` has no thousands separator except through a locale (`L`), so `{:,}` is refused.
 ///
-/// **Status.** New in 0.4.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_display_hpp
 #define snicholls_core_display_hpp

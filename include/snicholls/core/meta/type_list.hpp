@@ -1073,12 +1073,15 @@ struct permutations_impl
 
     static constexpr std::array<std::array<std::size_t, R>, row_count()> rows = table();
 
+    // Read through a function: MSVC rejects a subscript of `rows` inside the pack expansion below.
+    static constexpr std::size_t cell(std::size_t i, std::size_t c) noexcept { return rows[i][c]; }
+
     template <std::size_t I, typename Columns>
     struct row_at;
     template <std::size_t I, std::size_t... Columns>
     struct row_at<I, std::index_sequence<Columns...>>
     {
-        using type = type_list<at_t<distinct, rows[I][Columns]>...>;
+        using type = type_list<at_t<distinct, cell(I, Columns)>...>;
     };
 
     template <typename Rows>

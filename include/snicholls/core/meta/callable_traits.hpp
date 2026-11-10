@@ -45,7 +45,7 @@
 /// whose `operator()` is itself inherited through `using` from two bases is ambiguous and has
 /// none either.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_meta_callable_traits_hpp
 #define snicholls_core_meta_callable_traits_hpp

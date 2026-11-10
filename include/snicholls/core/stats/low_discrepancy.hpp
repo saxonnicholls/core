@@ -49,7 +49,7 @@
 /// integrand (an inverse normal), or use the shifted form. Resampling a dataset with quasi-random
 /// indices does little: a bootstrap's dimension is the dataset's size; see `stats/bootstrap.hpp`.
 ///
-/// **Status.** New in 0.2.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_stats_low_discrepancy_hpp
 #define snicholls_core_stats_low_discrepancy_hpp

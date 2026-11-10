@@ -145,7 +145,7 @@
 /// when its value is not an enumerator; one with its own `operator<<` uses that, and an unscoped one prints
 /// as the stream prints it.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_acout_hpp
 #define snicholls_core_acout_hpp

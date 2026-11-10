@@ -37,7 +37,7 @@
 ///
 /// **Known issues.** Space is about 1.5 slots per key, plus a 32-bit displacement per two keys.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_containers_perfect_map_hpp
 #define snicholls_core_containers_perfect_map_hpp

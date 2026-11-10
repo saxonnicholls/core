@@ -41,7 +41,7 @@
 /// `set_like` are duck-typed on `key_type` and `mapped_type`, which every standard associative
 /// container has and a `std::vector<std::pair<K, V>>` does not.
 ///
-/// **Status.** New in 0.1.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_meta_concepts_hpp
 #define snicholls_core_meta_concepts_hpp

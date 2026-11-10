@@ -47,7 +47,7 @@
 /// - Flag enumerations (combinations of bits) are reflected as their individual enumerators only.
 /// - An enumeration local to a function cannot be reflected on every compiler.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_meta_enums_hpp
 #define snicholls_core_meta_enums_hpp

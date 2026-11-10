@@ -43,7 +43,7 @@
 ///
 /// **Known issues.** Discrete time and finite states: discretising a diffusion is the caller's.
 ///
-/// **Status.** New in 0.3.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_stochastic_snell_hpp
 #define snicholls_core_stochastic_snell_hpp

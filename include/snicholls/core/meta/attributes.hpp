@@ -41,7 +41,7 @@
 /// **Known issues.** `attributes` must be declared in the type's namespace (or as a friend), before the point
 /// where it is printed. `snicholls` itself declares nothing called `attributes`, so the name is the caller's.
 ///
-/// **Status.** New in 0.4.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_meta_attributes_hpp
 #define snicholls_core_meta_attributes_hpp

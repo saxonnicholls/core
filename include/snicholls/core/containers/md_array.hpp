@@ -36,7 +36,7 @@
 ///
 /// **Known issues.** Row-major only; no slicing (a sub-view of fewer dimensions) yet.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_containers_md_array_hpp
 #define snicholls_core_containers_md_array_hpp

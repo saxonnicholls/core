@@ -1,5 +1,7 @@
 # snicholls-core
 
+[![CI](https://github.com/saxonnicholls/core/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/saxonnicholls/core/actions/workflows/ci.yml)
+
 The vocabulary types and the compile-time reflection shared by the snicholls C++ libraries, in one header-only,
 standard-library-only, C++20 library at the bottom of the stack.
 
@@ -35,7 +37,7 @@ As a git submodule, pinned to a release tag:
 
 ```cmake
 add_subdirectory(third_party/core EXCLUDE_FROM_ALL)
-snicholls_core_require(0.1.0)
+snicholls_core_require(0.5.0)
 target_link_libraries(my_target PRIVATE snicholls::core)
 
 # last line of the top-level CMakeLists.txt
@@ -45,7 +47,7 @@ snicholls_core_assert_single_version()
 Installed, with `cmake --install`:
 
 ```cmake
-find_package(snicholls_core 0.1 REQUIRED)
+find_package(snicholls_core 0.5 REQUIRED)
 target_link_libraries(my_target PRIVATE snicholls::core)
 ```
 
@@ -54,8 +56,8 @@ In code:
 ```cpp
 #include <snicholls/core/version.hpp>
 
-SNICHOLLS_CORE_REQUIRE_VERSION(0, 1, 0);   // fails to compile against an older core
-static_assert(snicholls::core::version() >= SNICHOLLS_CORE_VERSION_CHECK(0, 1, 0));
+SNICHOLLS_CORE_REQUIRE_VERSION(0, 5, 0);   // fails to compile against an older core
+static_assert(snicholls::core::version() >= SNICHOLLS_CORE_VERSION_CHECK(0, 5, 0));
 ```
 
 ### Two copies in one build

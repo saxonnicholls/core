@@ -64,7 +64,7 @@
 /// **Known issues.** Poisson counts above 12 are capped (probability below 1e-10). The jackknife for BCa
 /// recomputes the statistic `n` times; for a statistic of moments it could be done in one pass, and is not yet.
 ///
-/// **Status.** New in 0.2.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_stats_bootstrap_hpp
 #define snicholls_core_stats_bootstrap_hpp

@@ -42,7 +42,7 @@
 /// replaced independently of the others, as in SHAP's default. Conditional expectations need a model
 /// of the data, which is the caller's to build.
 ///
-/// **Status.** New in 0.1.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_game_tabular_hpp
 #define snicholls_core_game_tabular_hpp

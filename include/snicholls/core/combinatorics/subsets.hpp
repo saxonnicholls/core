@@ -41,7 +41,7 @@
 /// **Known issues.** A compiler's constant-evaluation budget limits the size of a table; use the `for_each`
 /// forms at run time above it.
 ///
-/// **Status.** New in 0.3.0.
+/// **Status.** New in 0.5.0.
 
 #ifndef snicholls_core_combinatorics_subsets_hpp
 #define snicholls_core_combinatorics_subsets_hpp

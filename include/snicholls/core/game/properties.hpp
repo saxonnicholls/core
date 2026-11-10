@@ -42,7 +42,7 @@
 ///
 /// **Known issues.** The tolerance is absolute; scale it to the game.
 ///
-/// **Status.** New in 0.1.0, experimental.
+/// **Status.** New in 0.5.0, experimental.
 
 #ifndef snicholls_core_game_properties_hpp
 #define snicholls_core_game_properties_hpp
