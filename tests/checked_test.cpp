@@ -79,8 +79,9 @@ TEST(CheckedParseFallback, AgreesWithFromCharsWhereTheLibraryHasIt)
                                      "123456789012345678901234567890", ".5", "5.", "-1E+10", "inf", "-Infinity"}) {
         const auto ours = parse::parse_float<double>(t);
         ASSERT_TRUE(ours.is_ok()) << t;
-        if (const auto want = from_chars_reference<double>(t))   // none where the library has no floating from_chars
+        if (const auto want = from_chars_reference<double>(t)) {   // none where the library has no floating from_chars
             EXPECT_EQ(ours.unwrap(), *want) << t;
+        }
     }
     EXPECT_TRUE(std::isnan(parse::parse_float<double>("nan").unwrap()));
     EXPECT_EQ(parse::parse_float<double>("1e400").unwrap_err(), std::errc::result_out_of_range);
