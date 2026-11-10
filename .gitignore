@@ -1,0 +1,13 @@
+# Build output from CMake and the Makefile wrapper
+build/
+build-*/
+
+# Doxygen output when run by hand from the source tree
+docs/html/
+
+# Editor and OS state
+.DS_Store
+xcuserdata/
+*.xcuserstate
+.vscode/
+.idea/

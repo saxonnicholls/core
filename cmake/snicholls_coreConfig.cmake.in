@@ -1,0 +1,13 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/SnichollsCoreRequire.cmake")
+
+# An installed core takes part in the diamond rules exactly like an in-tree one
+snicholls_core_record_version("@PROJECT_VERSION@" "${CMAKE_CURRENT_LIST_DIR}")
+if(NOT TARGET snicholls::core)
+    include("${CMAKE_CURRENT_LIST_DIR}/snicholls_coreTargets.cmake")
+    set_property(GLOBAL PROPERTY SNICHOLLS_CORE_VERSION "@PROJECT_VERSION@")
+    set_property(GLOBAL PROPERTY SNICHOLLS_CORE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}")
+endif()
+
+check_required_components(snicholls_core)

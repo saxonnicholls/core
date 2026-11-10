@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]          # so a release tag is graded by the same matrix
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Every leg blocks. Nothing here is informational: core sits under every other
+# snicholls library, including one that ships on Windows, so a compiler core
+# does not build on is a compiler the whole family does not build on.
+jobs:
+  build-and-test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux x86-64 GCC
+            os: ubuntu-latest
+            cxx: g++
+          - name: Linux x86-64 Clang
+            os: ubuntu-latest
+            cxx: clang++
+            sanitize: address,undefined
+          - name: Linux ARM64 GCC
+            os: ubuntu-24.04-arm
+            cxx: g++
+          - name: Linux ARM64 Clang
+            os: ubuntu-24.04-arm
+            cxx: clang++
+            sanitize: address,undefined
+          - name: macOS ARM64 Apple Clang
+            os: macos-latest
+            cxx: c++
+          - name: macOS x86-64 Apple Clang
+            os: macos-15-intel
+            cxx: c++
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      # Static properties of the tree, checked on every job rather than
+      # discovered on the one platform that happens to notice
+      - name: Version is the same everywhere
+        env:
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: python3 scripts/check_version.py
+
+      - name: Every header has a registered test and demo
+        run: python3 scripts/check_mirror.py
+
+      - name: Configure (Release, warnings are errors, benchmarks smoke-run)
+        run: >
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+          -DSNICHOLLS_CORE_WERROR=ON
+          -DSNICHOLLS_CORE_BUILD_BENCHMARKS=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Configure, build and test (Debug, -O0, asserts live)
+        run: >
+          cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+          -DSNICHOLLS_CORE_WERROR=ON
+          && cmake --build build-debug --parallel
+          && ctest --test-dir build-debug --output-on-failure
+
+      - name: Address + UB Sanitizers
+        if: matrix.sanitize
+        run: >
+          cmake -B build-san -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+          -DSNICHOLLS_CORE_WERROR=ON
+          -DSNICHOLLS_CORE_SANITIZE=${{ matrix.sanitize }}
+          && cmake --build build-san --parallel
+          && ctest --test-dir build-san --output-on-failure -LE boundary
+
+  windows:
+    name: Windows MSVC
+    runs-on: windows-latest
+    continue-on-error: true   # not a gate for now: no consumer builds on Windows
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Version is the same everywhere
+        run: python3 scripts/check_version.py
+
+      - name: Every header has a registered test and demo
+        run: python3 scripts/check_mirror.py
+
+      - name: Configure (warnings are errors)
+        run: cmake -B build -DSNICHOLLS_CORE_WERROR=ON -DSNICHOLLS_CORE_BUILD_BENCHMARKS=ON
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
+
+  docs:
+    name: Documentation (warnings are errors)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends doxygen
+
+      - name: Configure
+        run: cmake -B build -DSNICHOLLS_CORE_BUILD_TESTS=OFF -DSNICHOLLS_CORE_BUILD_DOCS=ON
+
+      - name: Build the documentation
+        run: cmake --build build --target docs
