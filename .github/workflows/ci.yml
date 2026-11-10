@@ -10,9 +10,10 @@ on:
 permissions:
   contents: read
 
-# Every leg blocks. Nothing here is informational: core sits under every other
-# snicholls library, including one that ships on Windows, so a compiler core
-# does not build on is a compiler the whole family does not build on.
+# Every leg blocks except Windows, which reports without gating while no consumer builds there: core sits
+# under every other snicholls library, so a compiler core does not build on is one the family cannot use.
+# The throughput tables are informational. The documentation is published to GitHub Pages: main to /main/,
+# each release tag to its own /vX.Y.Z/, and the site's root to the newest release.
 jobs:
   build-and-test:
     name: ${{ matrix.name }}
@@ -149,6 +150,11 @@ jobs:
   docs:
     name: Documentation (warnings are errors)
     runs-on: ubuntu-latest
+    permissions:
+      contents: write        # to publish to the gh-pages branch
+    concurrency:
+      group: pages           # main and a tag pushed together must not race on gh-pages
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v5
 
@@ -160,3 +166,32 @@ jobs:
 
       - name: Build the documentation
         run: cmake --build build --target docs
+
+      # gh-pages holds generated HTML only, one folder per version; never edit it by hand.
+      - name: Publish to GitHub Pages
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+        env:
+          DEST: ${{ github.ref_type == 'tag' && github.ref_name || 'main' }}
+        run: |
+          set -euo pipefail
+          site="$RUNNER_TEMP/site"
+          trap 'git worktree remove --force "$site" 2>/dev/null || true' EXIT
+          git branch -D gh-pages 2>/dev/null || true
+          if git fetch --depth 1 origin gh-pages 2>/dev/null; then
+            git worktree add "$site" FETCH_HEAD
+            git -C "$site" switch -C gh-pages
+          else
+            git worktree add --detach "$site"
+            git -C "$site" switch --orphan gh-pages
+          fi
+          rm -rf "${site:?}/$DEST" && mkdir -p "$site/$DEST" && cp -R build/docs/html/. "$site/$DEST/"
+          touch "$site/.nojekyll"
+          latest=$(cd "$site" && ls -d v*/ 2>/dev/null | tr -d / | sort -V | tail -1 || true)
+          target=${latest:-main}
+          printf '<!DOCTYPE html>\n<meta charset="utf-8">\n<title>snicholls-core</title>\n<meta http-equiv="refresh" content="0; url=%s/">\n<p>The documentation for <a href="%s/">snicholls-core %s</a>; every version: %s</p>\n' \
+            "$target" "$target" "$target" "$(cd "$site" && ls -d main v*/ 2>/dev/null | tr -d / | sort -V | sed 's|.*|<a href="&/">&</a>|' | paste -sd ' ' -)" > "$site/index.html"
+          git -C "$site" add -A
+          if git -C "$site" diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
+          git -C "$site" -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "docs: $DEST ($GITHUB_SHA)"
+          git -C "$site" push origin gh-pages

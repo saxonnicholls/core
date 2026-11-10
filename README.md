@@ -1,6 +1,10 @@
 # snicholls-core
 
 [![CI](https://github.com/saxonnicholls/core/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/saxonnicholls/core/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-doxygen-blue)](https://saxonnicholls.github.io/core/)
+
+**Documentation:** <https://saxonnicholls.github.io/core/>: the newest release at the root, every version under
+`/vX.Y.Z/`, and the latest `main` under `/main/`.
 
 The vocabulary types and the compile-time reflection shared by the snicholls C++ libraries, in one header-only,
 standard-library-only, C++20 library at the bottom of the stack.
