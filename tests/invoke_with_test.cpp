@@ -174,7 +174,7 @@ TEST(InvokeAnySet, FirstMatchWithConcreteCallablesDispatchesTheSameWay)
     const auto f = snicholls::first_match{[](int) { return 1; }, [](double) { return 2; }};
     EXPECT_EQ(std::any_cast<int>(snicholls::invoke_any(f, {0}).unwrap()), 1);
     EXPECT_EQ(std::any_cast<int>(snicholls::invoke_any(f, {0.0}).unwrap()), 2);
-    EXPECT_EQ(f(0.0), 1);   // the compile-time call converts; the run-time one matches the exact type
+    EXPECT_EQ(f(short{0}), 1);   // the compile-time call converts (short to int); the run-time one matches the exact type
 }
 
 TEST(InvokeAnySet, RvalueSetAndMutableState)

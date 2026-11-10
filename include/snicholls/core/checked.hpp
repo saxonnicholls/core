@@ -119,9 +119,11 @@ namespace snicholls {
 #else
         if (a == 0 || b == 0)
             return T{0};
+        // min * -1 first: the division below would itself overflow on it
+        if (std::is_signed_v<T> && ((a == T(-1) && b == std::numeric_limits<T>::min()) || (b == T(-1) && a == std::numeric_limits<T>::min())))
+            return std::nullopt;
         const T r = static_cast<T>(static_cast<std::make_unsigned_t<T>>(a) * static_cast<std::make_unsigned_t<T>>(b));
-        if (r / b != a || (std::is_signed_v<T> && a == -1 && b == std::numeric_limits<T>::min()) ||
-            (std::is_signed_v<T> && b == -1 && a == std::numeric_limits<T>::min()))
+        if (r / b != a)
             return std::nullopt;
         return r;
 #endif

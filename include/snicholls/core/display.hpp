@@ -42,8 +42,9 @@
 ///
 /// **Tests and demos.** `tests/display_test.cpp`, `demos/display_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<charconv>`, `<cmath>`, `<cstddef>`, `<initializer_list>`, `<concepts>`, `<optional>`, `<ostream>`, `<string_view>`,
-/// `<type_traits>`, `colour.hpp`, `meta/attributes.hpp`, `meta/enums.hpp`.
+/// **Dependencies.** `<array>`, `<bit>`, `<charconv>`, `<cmath>`, `<cstddef>`, `<cstdint>`, `<initializer_list>`,
+/// `<concepts>`, `<optional>`, `<ostream>`, `<string_view>`, `<type_traits>`, `colour.hpp`, `meta/attributes.hpp`,
+/// `meta/enums.hpp`.
 ///
 /// **Known issues.** `std::format` has no thousands separator except through a locale (`L`), so `{:,}` is refused.
 ///
@@ -57,17 +58,29 @@
 #include <snicholls/core/meta/enums.hpp>
 
 #include <array>
+#include <bit>
 #include <charconv>
 #include <cmath>
 #include <cstddef>
 #include <initializer_list>
 #include <concepts>
+#include <cstdint>
 #include <optional>
 #include <ostream>
 #include <string_view>
 #include <type_traits>
 
 namespace snicholls {
+
+    namespace detail::display {
+        // NaN by its bits: the exponent all ones and a non-zero fraction. Not x != x, which MSVC's constant evaluation
+        // gets wrong.
+        constexpr bool is_nan(double x) noexcept
+        {
+            const auto bits = std::bit_cast<std::uint64_t>(x);
+            return (bits & 0x7ff0000000000000ull) == 0x7ff0000000000000ull && (bits & 0x000fffffffffffffull) != 0;
+        }
+    } // namespace detail::display
 
     /// \brief The colours of a number by its sign: P&L green when positive, red when negative, grey within the dead zone.
     /// \ingroup core
@@ -82,13 +95,13 @@ namespace snicholls {
         /// \return Its colour; none for NaN.
         [[nodiscard]] constexpr std::optional<colour> of(double x) const noexcept
         {
+            if (detail::display::is_nan(x))
+                return std::nullopt;
             if (x > dead_zone)
                 return positive;
             if (x < -dead_zone)
                 return negative;
-            if (x == x)
-                return zero;
-            return std::nullopt;
+            return zero;
         }
     };
 
@@ -126,7 +139,7 @@ namespace snicholls {
         /// \return Its colour; none for NaN.
         [[nodiscard]] constexpr std::optional<colour> of(double x) const noexcept
         {
-            if (x != x)
+            if (detail::display::is_nan(x))
                 return std::nullopt;
             colour c = below;
             for (std::size_t i = 0; i < count; ++i)

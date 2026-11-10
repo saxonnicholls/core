@@ -958,9 +958,9 @@ struct thread_impl<Head, F, Spec, std::index_sequence<Ps...>, Args...>
 
     static consteval std::size_t shortest() noexcept
     {
-        std::size_t length = npos;
-        ((length = thread_length_v<Args, threads<Args, Ps>> < length ? thread_length_v<Args, threads<Args, Ps>> : length), ...);
-        return length == npos ? 0 : length;
+        std::size_t shortest_length = npos;
+        ((shortest_length = thread_length_v<Args, threads<Args, Ps>> < shortest_length ? thread_length_v<Args, threads<Args, Ps>> : shortest_length), ...);
+        return shortest_length == npos ? 0 : shortest_length;
     }
     static constexpr std::size_t length = shortest();
     static_assert((true && ... && (!threads<Args, Ps> || thread_length_v<Args, threads<Args, Ps>> == length)),
@@ -1062,13 +1062,13 @@ struct permutations_impl
 
     static consteval std::array<std::array<std::size_t, R>, row_count()> table() noexcept
     {
-        std::array<std::array<std::size_t, R>, row_count()> rows{};
+        std::array<std::array<std::size_t, R>, row_count()> out{};
         std::array<std::size_t, distinct::size> remaining = counts_of<distinct>::value;
         std::array<std::size_t, R> row{};
         std::size_t next = 0;
-        auto store = [&rows, &next](const std::array<std::size_t, R>& current) noexcept { rows[next++] = current; };
+        auto store = [&out, &next](const std::array<std::size_t, R>& current) noexcept { out[next++] = current; };
         snicholls::detail::for_each_arrangement(remaining, row, 0, store);
-        return rows;
+        return out;
     }
 
     static constexpr std::array<std::array<std::size_t, R>, row_count()> rows = table();

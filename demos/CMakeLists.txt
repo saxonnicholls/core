@@ -6,7 +6,7 @@
 function(snicholls_core_add_demo name source)
     add_executable(snicholls_core_${name} ${source})
     target_link_libraries(snicholls_core_${name} PRIVATE snicholls::core)
-    snicholls_core_compile_options(snicholls_core_${name})
+    snicholls_core_test_options(snicholls_core_${name})
     add_test(NAME demo.${name} COMMAND snicholls_core_${name})
     set_tests_properties(demo.${name} PROPERTIES LABELS demo)
 endfunction()

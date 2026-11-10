@@ -113,6 +113,17 @@ function(snicholls_core_compile_options target)
     endif()
 endfunction()
 
+# Our own tests, demos and benchmarks: the same options, and on MSVC two notes on test code, not on the library. C4459
+# flags a test's global hiding a name inside a header (test hygiene; the header check compiles every header alone at
+# /W4 /WX), and _CRT_SECURE_NO_WARNINGS quiets the CRT's deprecation of tmpfile, sscanf and friends.
+function(snicholls_core_test_options target)
+    snicholls_core_compile_options(${target})
+    if(MSVC)
+        target_compile_options(${target} PRIVATE /wd4459)
+        target_compile_definitions(${target} PRIVATE _CRT_SECURE_NO_WARNINGS)
+    endif()
+endfunction()
+
 # As the top-level project, everything here - including GoogleTest and Google
 # Benchmark - is compiled as C++20, the standard the library requires. Left
 # unset, CMake compiles the vendored test frameworks at their own minimum,

@@ -85,15 +85,15 @@ namespace snicholls::containers {
 
     public:
         /// \brief Place every entry; refuse a duplicate key.
-        /// \param entries The entries, in any order.
+        /// \param items The entries, in any order.
         /// A duplicate key is a compile error.
-        consteval explicit perfect_map(const std::array<std::pair<Key, Value>, N>& entries)
+        consteval explicit perfect_map(const std::array<std::pair<Key, Value>, N>& items)
         {
-            std::array<std::size_t, N> order{}, home{};   // entries grouped by bucket, the fullest first; each key hashed once
+            std::array<std::size_t, N> order{}, home{};   // items grouped by bucket, the fullest first; each key hashed once
             std::array<std::size_t, buckets> fill{};
             for (std::size_t i = 0; i < N; ++i) {
                 order[i] = i;
-                home[i] = bucket(entries[i].first);
+                home[i] = bucket(items[i].first);
                 ++fill[home[i]];
             }
             std::sort(order.begin(), order.end(), [&](std::size_t a, std::size_t b) {
@@ -104,12 +104,12 @@ namespace snicholls::containers {
                 const std::size_t b = home[order[start]], end = start + fill[b];
                 for (std::size_t i = start; i < end; ++i)   // equal keys always share a bucket
                     for (std::size_t j = start; j < i; ++j)
-                        if (entries[order[i]].first == entries[order[j]].first)
+                        if (items[order[i]].first == items[order[j]].first)
                             throw std::invalid_argument("snicholls::containers::perfect_map: a key appears twice");
                 for (std::uint32_t d = 1;; ++d) {   // the first displacement that puts the whole bucket in free slots
                     bool fits = true;
                     for (std::size_t i = start; i < end && fits; ++i) {
-                        at[i] = slot(entries[order[i]].first, d);
+                        at[i] = slot(items[order[i]].first, d);
                         fits = !used_[at[i]];
                         for (std::size_t j = start; j < i && fits; ++j)
                             fits = at[j] != at[i];
@@ -119,7 +119,7 @@ namespace snicholls::containers {
                     displacement_[b] = d;
                     for (std::size_t i = start; i < end; ++i) {
                         used_[at[i]] = true;
-                        table_[at[i]] = entries[order[i]];
+                        table_[at[i]] = items[order[i]];
                     }
                     break;
                 }

@@ -63,9 +63,9 @@ namespace snicholls::containers {
         using const_iterator = typename std::array<value_type, N>::const_iterator;   ///< An iterator, in key order.
 
         /// \brief Sort the entries; refuse a duplicate key.
-        /// \param entries The entries, in any order.
+        /// \param items The entries, in any order.
         /// A duplicate key is a compile error.
-        consteval explicit static_map(std::array<value_type, N> entries) : entries_(std::move(entries))
+        consteval explicit static_map(std::array<value_type, N> items) : entries_(std::move(items))
         {
             std::sort(entries_.begin(), entries_.end(), [](const value_type& a, const value_type& b) { return Less{}(a.first, b.first); });
             for (std::size_t i = 1; i < N; ++i)

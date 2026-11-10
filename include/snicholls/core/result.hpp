@@ -1200,6 +1200,10 @@ public:
     }
 #endif
 
+#if defined(_MSC_VER) && !defined(__clang__)
+#pragma warning(push)
+#pragma warning(disable : 4702)   // unreachable only for a type whose construction always throws, which MSVC inlines
+#endif
     /// \brief Assigns a success.
     /// \param o the success tag.
     /// \return `*this`.
@@ -1221,6 +1225,9 @@ public:
         base::reinit_error(std::move(e.error));
         return *this;
     }
+#if defined(_MSC_VER) && !defined(__clang__)
+#pragma warning(pop)
+#endif
 
     // ---- observers -------------------------------------------------------------------------------------------------
 

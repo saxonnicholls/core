@@ -89,7 +89,7 @@ add_executable(snicholls_core_tests
 target_link_libraries(snicholls_core_tests PRIVATE snicholls::core GTest::gtest_main GTest::gmock)
 # The portability fixtures (tests/fixtures/), read at run time by the same tests on every platform
 target_compile_definitions(snicholls_core_tests PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/fixtures")
-snicholls_core_compile_options(snicholls_core_tests)
+snicholls_core_test_options(snicholls_core_tests)
 
 include(GoogleTest)
 
@@ -101,7 +101,7 @@ add_executable(snicholls_core_allocation_tests
     containers/object_pool_allocation_test.cpp
     support/failing_new.cpp)
 target_link_libraries(snicholls_core_allocation_tests PRIVATE snicholls::core GTest::gtest_main)
-snicholls_core_compile_options(snicholls_core_allocation_tests)
+snicholls_core_test_options(snicholls_core_allocation_tests)
 gtest_discover_tests(snicholls_core_allocation_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
 gtest_discover_tests(snicholls_core_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
 
@@ -165,7 +165,7 @@ foreach(_case_and_regex IN LISTS _compile_fail_cases)
         set(_target snicholls_core_compile_fail_${_case}_${_variant})
         add_library(${_target} OBJECT EXCLUDE_FROM_ALL compile_fail/${_case}.cpp)
         target_link_libraries(${_target} PRIVATE snicholls::core)
-        snicholls_core_compile_options(${_target})
+        snicholls_core_test_options(${_target})
         if(_variant STREQUAL "fail")
             target_compile_definitions(${_target} PRIVATE SNICHOLLS_COMPILE_FAIL)
             set(_test compile_fail.${_case})
