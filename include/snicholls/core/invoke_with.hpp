@@ -247,6 +247,10 @@ namespace snicholls {
         }
 
         // One candidate whose arity already matches: call it if the source supplies every parameter.
+#if defined(_MSC_VER) && !defined(__clang__)
+#pragma warning(push)
+#pragma warning(disable : 4702)   // unreachable only for a callable that always throws, which MSVC inlines
+#endif
         template <typename R, typename F, argument_source S, typename... A, std::size_t... I>
         bool try_call(F&& f, [[maybe_unused]] const S& source, R& out, meta::type_list<A...>,
                       std::index_sequence<I...>)
@@ -267,6 +271,9 @@ namespace snicholls {
                 return true;
             }(source.template get<std::remove_cvref_t<A>>(I)...);
         }
+#if defined(_MSC_VER) && !defined(__clang__)
+#pragma warning(pop)
+#endif
 
         // One candidate: read its parameter list, check the arity, then the parameters.
         template <typename F, typename R, typename Set, argument_source S>

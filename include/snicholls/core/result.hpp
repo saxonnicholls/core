@@ -61,7 +61,7 @@
 #include <source_location>
 #endif
 
-#if __has_include(<expected>)
+#if defined(__cpp_lib_expected)   // C++23; <version> says so without including <expected>, which MSVC warns about before C++23
 #include <expected>
 #endif
 
