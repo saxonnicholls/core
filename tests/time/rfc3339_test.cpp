@@ -558,7 +558,10 @@ std::errc reference_parse(const std::string& s, const snicholls::parse_options& 
         if (oh > 23 || om > 59) return std::errc::invalid_argument;
         offset = (oh * 3600 + om * 60) * (z[0] == '-' ? -1 : 1);
     }
-    const std::int64_t secs = (sys_days(ymd) + hours(h) + minutes(mi) + seconds(sec == 60 ? 59 : sec)).time_since_epoch().count() - offset;
+    // In seconds first: MSVC's chrono keeps hours and minutes in 32 bits, so days + hours + minutes wraps past 2^31
+    // minutes (about the year 6053); libstdc++ and libc++ use 64.
+    const std::int64_t secs = (std::chrono::time_point_cast<std::chrono::seconds>(sys_days(ymd)) + hours(h) + minutes(mi) +
+                               seconds(sec == 60 ? 59 : sec)).time_since_epoch().count() - offset;
     const std::string frac = m[7].matched ? std::string(m[7]).substr(1) : std::string();
     using period = typename D::period;
     constexpr int k = utc<D>::fraction_digits;
