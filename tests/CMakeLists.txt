@@ -17,7 +17,6 @@ add_executable(snicholls_core_tests
     invoke_with_test.cpp
     iterate_test.cpp
     overloaded_test.cpp
-    result_terminate_test.cpp
     result_test.cpp
     secret_test.cpp
     strong_test.cpp
@@ -103,6 +102,15 @@ add_executable(snicholls_core_allocation_tests
 target_link_libraries(snicholls_core_allocation_tests PRIVATE snicholls::core GTest::gtest_main)
 snicholls_core_test_options(snicholls_core_allocation_tests)
 gtest_discover_tests(snicholls_core_allocation_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
+
+# result.hpp under the other unwrap policy (SNICHOLLS_RESULT_THROW=0) is a program of its own: the two policies must
+# never meet in one program, and MSVC enforces that at link time (#pragma detect_mismatch, RESULT_PLAN.md D5).
+add_executable(snicholls_core_result_terminate_tests
+    result_terminate_test.cpp
+)
+target_link_libraries(snicholls_core_result_terminate_tests PRIVATE snicholls::core GTest::gtest_main)
+snicholls_core_test_options(snicholls_core_result_terminate_tests)
+gtest_discover_tests(snicholls_core_result_terminate_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
 gtest_discover_tests(snicholls_core_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
 
 # The diamond rules are CMake, so they are tested with CMake: a fixture project
