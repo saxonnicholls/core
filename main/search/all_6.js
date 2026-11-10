@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['game_0',['game',['../conceptsnicholls_1_1game_1_1game.html',1,'snicholls::game']]],
+  ['game_5fscalar_1',['game_scalar',['../structsnicholls_1_1game_1_1game__scalar.html',1,'snicholls::game']]],
+  ['game_5fscalar_3c_20t_20_3e_2',['game_scalar&lt; T &gt;',['../structsnicholls_1_1game_1_1game__scalar_3_01T_01_4.html',1,'snicholls::game']]],
+  ['game_5fscalar_5ft_3',['game_scalar_t',['../group__core.html#ga226f19a5a242e45143dc1b914f799fdc',1,'snicholls::game']]],
+  ['game_5fvalue_4',['game_value',['../conceptsnicholls_1_1game_1_1game__value.html',1,'snicholls::game']]],
+  ['game_5fvalue_5ft_5',['game_value_t',['../group__core.html#gabd6664222ea7bc155428b52198d5c389',1,'snicholls::game']]],
+  ['gamma_6',['gamma',['../structsnicholls_1_1finance_1_1greeks.html#a2461a7478572a9417eb818524d270a3b',1,'snicholls::finance::greeks::gamma'],['../structsnicholls_1_1finance_1_1greeks__explain.html#a8ea4a1d4a364cc211e8a73e9630b3da5',1,'snicholls::finance::greeks_explain::gamma']]],
+  ['gamma_5fp_7',['gamma_p',['../constexpr__math_8hpp.html#a621220d1ccf89f40177f820ddf68ddc1',1,'snicholls::math']]],
+  ['gamma_5ftolerance_8',['gamma_tolerance',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#ae031084e2b2678005d3fd18e7a096025',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['get_9',['get',['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a8b055f3fb6314d7ec2f121fd6bd05b62',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::get()'],['../structsnicholls_1_1any__source.html#a40e8677a08d98b63bb9a2dd657005238',1,'snicholls::any_source::get()'],['../structsnicholls_1_1attribute__set.html#a0a275e484c8bbdd8aab3b8e62840a807',1,'snicholls::attribute_set::get()']]],
+  ['glance_10',['API at a glance',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md10',1,'']]],
+  ['gradient_11',['gradient',['../structsnicholls_1_1finance_1_1taylor__model.html#a637e4c0b9916b57dec15ebe7445963b3',1,'snicholls::finance::taylor_model']]],
+  ['grand_5fcoalition_12',['grand_coalition',['../group__core.html#ga36a6731b4a94100d1615f3a864450fb5',1,'snicholls::game']]],
+  ['greeks_13',['greeks',['../structsnicholls_1_1finance_1_1greeks.html',1,'snicholls::finance']]],
+  ['greeks_5fexplain_14',['greeks_explain',['../structsnicholls_1_1finance_1_1greeks__explain.html',1,'snicholls::finance']]],
+  ['green_15',['green',['../colour_8hpp.html#ab2d82094fb152ac1d14594aa1257a11b',1,'snicholls::colours::green'],['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a9f27410725ab8cc8854a2769c7a516b8',1,'snicholls::green']]],
+  ['grey_16',['grey',['../colour_8hpp.html#ae1ab49dc56b1aecb11706638d08138e3',1,'snicholls::colours']]],
+  ['group_5fadjacent_5fby_5fkey_5ft_17',['group_adjacent_by_key_t',['../group__core.html#gab8f25f827bab11fac7ca49a7fb86ba97',1,'snicholls::meta']]],
+  ['group_5fadjacent_5ft_18',['group_adjacent_t',['../group__core.html#ga01807110d9d3ddfd07452dc1a75a623b',1,'snicholls::meta']]],
+  ['group_5fby_5ft_19',['group_by_t',['../group__core.html#gafa5de34163b79772cba907529d0536ce',1,'snicholls::meta']]],
+  ['gt_20zero_20overhead_20rethrowable_20with_20traced_20errors_20',['snicholls::result - Rust&apos;s &lt;span class=&quot;tt&quot;&gt;Result&amp;lt;V, E&amp;gt;&lt;/span&gt;, zero overhead, rethrowable, with traced errors',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html',1,'']]],
+  ['guaranteed_21',['guaranteed',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6a7e5b79961b9faf85819de779b895a452',1,'snicholls']]],
+  ['guarantees_20tests_20result_5ftest_20cpp_22',['Layout guarantees (tests/result_test.cpp)',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md11',1,'']]]
+];
