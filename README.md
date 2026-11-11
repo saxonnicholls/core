@@ -33,8 +33,10 @@ sockets or codecs; those are the business of the libraries above it.
 - **Printing:** `acout`, thread-safe printing of any value, container or tuple, with compile-time display
   attributes (colour, label, format, tooltip) exported to JSON for other front ends.
 - **Machine learning (experimental):** activations with their derivatives, softmax and cross-entropy, a running
-  softmax that merges across workers, LayerNorm and RMSNorm, bfloat16, float16, FP8 and the MX formats, and
-  byte-level BPE that gives tiktoken's tokens. Everything is `constexpr` and allocation-free.
+  softmax that merges across workers, LayerNorm and RMSNorm, RoPE, one-pass attention with mergeable partials,
+  embeddings, sampling (temperature, top-k, top-p), AdamW and learning-rate schedules, bfloat16, float16, FP8 and the
+  MX formats, ggml's Q8_0, Q4_0 and MXFP4 blocks with their dot products, and byte-level BPE that gives tiktoken's
+  tokens. Everything is `constexpr` and allocation-free.
 
 `CHANGELOG.md` lists every header by release.
 

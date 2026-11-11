@@ -87,10 +87,16 @@
 #include <snicholls/core/meta/type_name.hpp>
 #include <snicholls/core/meta/values.hpp>
 #include <snicholls/core/ml/activations.hpp>
+#include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/bpe.hpp>
+#include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/norm.hpp>
+#include <snicholls/core/ml/optim.hpp>
+#include <snicholls/core/ml/quantize.hpp>
+#include <snicholls/core/ml/rope.hpp>
 #include <snicholls/core/ml/row.hpp>
+#include <snicholls/core/ml/sampling.hpp>
 #include <snicholls/core/ml/softmax.hpp>
 #include <snicholls/core/pipeline/stages.hpp>
 #include <snicholls/core/reflect/member_count.hpp>

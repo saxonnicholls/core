@@ -74,7 +74,7 @@ libraries above them pin core and those. Nothing in core depends on a library th
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
-  `minifloat`, `bpe`; `snicholls::ml`); `combinatorics/` (`permutations`,
+  `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`); `containers/`; `game/` (`snicholls::game`); `finance/`
   (`snicholls::finance`). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
@@ -302,7 +302,16 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   training and threading belong to the libraries above core. A low-precision value is a `minifloat` (`bfloat16`,
   `float16`, `float8_e4m3`, ...), never a hand-rolled bit trick; stochastic rounding takes the caller's random bits.
   `bpe_encode_piece` gives tiktoken's tokens (`tests/fixtures/ml/bpe_fixture.txt`, from
-  `scripts/generate_bpe_fixture.py`, which needs tiktoken and rustbpe and so is not rerun in CI).
+  `scripts/generate_bpe_fixture.py`, which needs tiktoken and rustbpe and so is not rerun in CI);
+  `bpe_encode_long_piece` from `bpe_long_piece_threshold` bytes. Attention for one query is `attend` (one pass, no
+  row of scores) or `attention_accumulator` partials merged across workers, never a stored score matrix; RoPE is
+  `rope` / `rope_inverse` with a `rope_table` the compiler can build. Sampling takes one uniform draw from the caller
+  (`stats::uniform_real`), so a seed reproduces everywhere. Quantised weights are `block_q8_0`, `block_q4_0` and
+  `block_mxfp4`, byte for byte ggml's, with `dot` equal to ggml's scalar reference
+  (`tests/fixtures/ml/quant_fixture.txt`, from `scripts/generate_quant_fixture.cpp` built against ggml, not rerun in
+  CI); a kernel that must agree with them across machines writes each multiplication and addition as its own
+  statement, so no compiler fuses an FMA. Matrix work (matmul, Muon's matrix iteration) belongs with the matrices,
+  above core.
 - Randomness: `stats::wyrand` and `stats::uniform_index`, never `std::uniform_int_distribution` (its output differs
   between standard libraries, so a seed would not reproduce). Resampling: `stats::bootstrap_moments` for anything
   built from means and variances (no resample is gathered), `stats::resample_table` when the same `n` is bootstrapped

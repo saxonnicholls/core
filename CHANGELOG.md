@@ -3,6 +3,32 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.7.0 - unreleased
+
+More machine-learning primitives, experimental, from llm.c and nanochat.
+
+### Added
+
+- `ml/rope.hpp`: rotary position embedding: `rope_frequency`, `rope_angles`, `rope_table` (built at compile time),
+  `rope` and `rope_inverse` (its backward pass), in the half and interleaved layouts.
+- `ml/attention.hpp`: `attend` for one query in one pass (flash attention's recurrence) and `attend_backward`;
+  `attention_accumulator<T, D>`, a partial that merges across workers; `attention_window` for causal and sliding
+  windows.
+- `ml/embedding.hpp`: `embedding_row`, `embed`, `embed_with_position` (GPT-2) and `embedding_backward`.
+- `ml/sampling.hpp`: `argmax`, `sample`, `sample_logits` at a temperature, `top_k<K>`, `sample_top_k<K>` and
+  `sample_top_p`, each from one uniform draw the caller supplies.
+- `ml/optim.hpp`: `adamw_step` (llm.c's update), `warmup_cosine` and nanochat's `warmup_warmdown`, `squared_norm`
+  and `clip_coefficient`, Muon's `newton_schulz_polynomial`, `transformer_flops_per_token` and
+  `model_flops_utilisation`.
+- `ml/quantize.hpp`: ggml's Q8_0 and Q4_0 blocks and the MXFP4 block, byte for byte, with quantisation,
+  dequantisation and dot products against Q8_0 activations equal to ggml's scalar reference on a committed
+  fixture; symmetric int8 rows.
+
+### Fixed
+
+- `math::round` judged the half on `x + 0.5`, which rounds the largest float below one half (0.49999997f) up to 1;
+  it now gives 0, as `std::round` does.
+
 ## 0.6.1 - 2026-11-11
 
 ### Added

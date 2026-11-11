@@ -254,7 +254,10 @@ namespace detail
     template <typename T>
     constexpr T round_(T x)
     {
-        return x < 0 ? trunc_(x - T(0.5)) : trunc_(x + T(0.5));
+        // x - trunc(x) is exact, so the half is judged on x itself: trunc(x + 0.5) would round 0.49999997f up
+        const T t = trunc_(x);
+        const T frac = x - t;
+        return frac >= T(0.5) ? t + T(1) : frac <= T(-0.5) ? t - T(1) : t;
     }
 
     template <typename T>

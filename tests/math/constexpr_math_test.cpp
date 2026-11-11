@@ -24,6 +24,9 @@ namespace {
 namespace m = snicholls::math;
 
 static_assert(m::abs(-2.5) == 2.5 && m::floor(-1.5) == -2.0 && m::trunc(-1.5) == -1.0 && m::round(2.5) == 3.0);
+// The half is judged on x itself: x + 0.5 would round the largest float below one half up to 1
+static_assert(m::round(0.49999997f) == 0.0f && m::round(-0.49999997f) == 0.0f && m::round(0.5f) == 1.0f && m::round(-2.5) == -3.0);
+static_assert(m::round(0.49999999999999994) == 0.0 && m::round(8388609.0f) == 8388609.0f && m::round(-4503599627370497.0) == -4503599627370497.0);
 static_assert(m::sqrt(4.0) == 2.0 && m::pow(2.0, 10.0) == 1024.0 && m::exp(0.0) == 1.0 && m::log(1.0) == 0.0);
 static_assert(m::near(m::exp(1.0), m::e_v, 1e-15) && m::near(m::log(m::e_v), 1.0, 1e-15));
 static_assert(m::near(m::sin(m::pi / 6), 0.5, 1e-15) && m::near(m::cos(m::pi / 3), 0.5, 1e-15));
