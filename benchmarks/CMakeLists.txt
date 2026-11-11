@@ -25,6 +25,7 @@ snicholls_core_add_benchmark(result_benchmark result_benchmark.cpp)
 snicholls_core_add_benchmark(uint256_benchmark uint256_benchmark.cpp)
 snicholls_core_add_benchmark(zip_benchmark zip_benchmark.cpp)
 snicholls_core_add_benchmark(bloom_filter_benchmark containers/bloom_filter_benchmark.cpp)
+snicholls_core_add_benchmark(byte_map_benchmark containers/byte_map_benchmark.cpp)
 snicholls_core_add_benchmark(dense_id_map_benchmark containers/dense_id_map_benchmark.cpp)
 snicholls_core_add_benchmark(flat_id_map_benchmark containers/flat_id_map_benchmark.cpp)
 snicholls_core_add_benchmark(hierarchical_bitset_benchmark containers/hierarchical_bitset_benchmark.cpp)
@@ -58,3 +59,4 @@ endif()
 
 # The BPE benchmark reads the committed tokenizer fixture
 target_compile_definitions(snicholls_core_bpe_benchmark PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${PROJECT_SOURCE_DIR}/tests/fixtures")
+target_compile_definitions(snicholls_core_byte_map_benchmark PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${PROJECT_SOURCE_DIR}/tests/fixtures")

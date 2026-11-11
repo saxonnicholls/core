@@ -56,6 +56,7 @@
 #include <snicholls/core/combinatorics/permutations.hpp>
 #include <snicholls/core/combinatorics/subsets.hpp>
 #include <snicholls/core/containers/bloom_filter.hpp>
+#include <snicholls/core/containers/byte_map.hpp>
 #include <snicholls/core/containers/dense_id_map.hpp>
 #include <snicholls/core/containers/flat_id_map.hpp>
 #include <snicholls/core/containers/hierarchical_bitset.hpp>

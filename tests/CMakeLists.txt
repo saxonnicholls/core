@@ -30,6 +30,7 @@ add_executable(snicholls_core_tests
     combinatorics/permutations_test.cpp
     combinatorics/subsets_test.cpp
     containers/bloom_filter_test.cpp
+    containers/byte_map_test.cpp
     containers/dense_id_map_test.cpp
     containers/flat_id_map_test.cpp
     containers/hierarchical_bitset_test.cpp
