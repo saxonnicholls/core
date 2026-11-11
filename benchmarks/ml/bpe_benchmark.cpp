@@ -8,13 +8,17 @@
 //  parts per piece, erase to merge), with the same vocabulary lookup, over the pieces of the committed fixture
 //  (tests/fixtures/ml/bpe_fixture.txt). main() runs a fairness check first and refuses to benchmark if any
 //  piece's tokens differ (CLAUDE.md "Zero overhead"). The comparison with tiktoken and rustbpe themselves is
-//  under Performance in ml/bpe.hpp.
+//  under Performance in ml/bpe.hpp. A second group sets bpe_encode_long_piece against bpe_encode_piece on long
+//  pieces of random letters (the same pieces for both, checked to give the same tokens), for the crossover that
+//  bpe_long_piece_threshold records.
 //
 
 #include <snicholls/core/ml/bpe.hpp>
+#include <snicholls/core/stats/random.hpp>
 
 #include <benchmark/benchmark.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -181,8 +185,46 @@ void BM_BpeEncode_HandWritten(benchmark::State& state)
 }
 BENCHMARK(BM_BpeEncode_HandWritten);
 
+// A piece of n random letters: what a split pattern keeps whole as one word-like run
+std::string long_piece(std::size_t n)
+{
+    snicholls::stats::wyrand rng(n);
+    std::string s(n, 'a');
+    for (char& c : s)
+        c = static_cast<char>('a' + snicholls::stats::uniform_index(rng, 26));
+    return s;
+}
+
+template <bool Long>
+std::size_t encode_long_or_short(std::string_view piece, std::vector<std::uint32_t>& out, std::vector<ml::bpe_part>& scratch)
+{
+    return Long ? ml::bpe_encode_long_piece(piece, rank, out, scratch).unwrap() : ml::bpe_encode_piece(piece, rank, out, scratch).unwrap();
+}
+
+template <bool Long>
+void BM_BpeLongPiece(benchmark::State& state)
+{
+    const std::string piece = long_piece(static_cast<std::size_t>(state.range(0)));
+    std::vector<std::uint32_t> out(piece.size());
+    std::vector<ml::bpe_part> scratch(ml::bpe_long_scratch_size(piece.size()));
+    for (auto _ : state)
+        benchmark::DoNotOptimize(encode_long_or_short<Long>(piece, out, scratch));
+    state.SetBytesProcessed(state.iterations() * static_cast<std::int64_t>(piece.size()));
+}
+BENCHMARK(BM_BpeLongPiece<false>)->Name("BM_BpeLongPiece_Rescan")->Arg(64)->Arg(256)->Arg(1024)->Arg(4096);
+BENCHMARK(BM_BpeLongPiece<true>)->Name("BM_BpeLongPiece_Heap")->Arg(64)->Arg(256)->Arg(1024)->Arg(4096);
+
 bool fair()
 {
+    for (const std::size_t n : {std::size_t{64}, std::size_t{256}, std::size_t{1024}, std::size_t{4096}}) {
+        const std::string piece = long_piece(n);
+        std::vector<std::uint32_t> a(n), b(n);
+        std::vector<ml::bpe_part> scratch(ml::bpe_long_scratch_size(n));
+        const std::size_t na = encode_long_or_short<false>(piece, a, scratch);
+        const std::size_t nb = encode_long_or_short<true>(piece, b, scratch);
+        if (na != nb || !std::equal(a.begin(), a.begin() + static_cast<std::ptrdiff_t>(na), b.begin()))
+            return false;
+    }
     if (data().pieces.empty())
         return false;
     std::vector<std::uint32_t> a, b, buf;

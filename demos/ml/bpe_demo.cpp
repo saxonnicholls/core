@@ -85,10 +85,22 @@ int main()
     std::printf("  decoded: \"%.*s\"\n", static_cast<int>(back.unwrap()), text.data());
     ok &= std::string_view(text.data(), back.unwrap()) == "slow lowest";
 
+    // A long piece (a split pattern can keep a run of letters whole): bpe_encode_long_piece, O(n log n), gives
+    // bpe_encode_piece's tokens. Use it from bpe_long_piece_threshold bytes; this one is short, to show the agreement.
+    constexpr std::string_view run = "lowestlowestlowlowest";
+    std::array<std::uint32_t, run.size()> by_rescan{}, by_heap{};
+    std::array<ml::bpe_part, ml::bpe_long_scratch_size(run.size())> long_scratch{};
+    const auto rescan = ml::bpe_encode_piece(run, rank_of, by_rescan, long_scratch);
+    const auto heap = ml::bpe_encode_long_piece(run, rank_of, by_heap, long_scratch);
+    std::printf("  \"%.*s\" -> %zu tokens both ways (threshold %zu bytes)\n", static_cast<int>(run.size()), run.data(),
+                heap.unwrap(), ml::bpe_long_piece_threshold);
+    ok &= rescan.unwrap() == 7 && heap.unwrap() == 7 && by_rescan == by_heap;
+
     // A byte the vocabulary lacks is an error, not a guess.
     const auto missing = ml::bpe_encode_piece("lox", rank_of, tokens, scratch);
     std::printf("  \"lox\": %s\n", missing.is_err() && missing.err() == ml::bpe_error::unknown_bytes ? "unknown_bytes" : "?");
     ok &= missing.is_err() && missing.err() == ml::bpe_error::unknown_bytes;
+    ok &= ml::bpe_encode_long_piece("lox", rank_of, tokens, long_scratch).err() == ml::bpe_error::unknown_bytes;
 
     std::printf(ok ? "bpe demo: ok\n" : "bpe demo: FAILED\n");
     return ok ? 0 : 1;

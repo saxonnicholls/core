@@ -3,6 +3,15 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.6.1 - 2026-11-11
+
+### Added
+
+- `ml/bpe.hpp`: `bpe_encode_long_piece`, the same tokens as `bpe_encode_piece` in O(n log n) from a heap of
+  candidate pairs, for the long pieces a split pattern can keep whole (a run of spaces, a minified line, a base64
+  blob); `bpe_long_scratch_size(n)` (5n + 1) and `bpe_long_piece_threshold` (1024 bytes, where it is at least as
+  fast on every shape measured). Contributed from ts-moveables' parallel tokenizer.
+
 ## 0.6.0 - 2026-11-11
 
 Machine-learning primitives, experimental.
