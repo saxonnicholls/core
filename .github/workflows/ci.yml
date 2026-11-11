@@ -24,6 +24,9 @@ jobs:
   build-and-test:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    # The ARM64 runners are the tightest on memory (macOS ARM64: 3 CPUs, 7 GB), so they build with 3 jobs
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: ${{ matrix.jobs || 4 }}
     strategy:
       fail-fast: false
       matrix:
@@ -38,13 +41,16 @@ jobs:
           - name: Linux ARM64 GCC
             os: ubuntu-24.04-arm
             cxx: g++
+            jobs: 3
           - name: Linux ARM64 Clang
             os: ubuntu-24.04-arm
             cxx: clang++
+            jobs: 3
             sanitize: address,undefined
           - name: macOS ARM64 Apple Clang
             os: macos-latest
             cxx: c++
+            jobs: 3
           - name: macOS x86-64 Apple Clang
             os: macos-15-intel
             cxx: c++
