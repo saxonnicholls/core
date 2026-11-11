@@ -32,8 +32,30 @@ sockets or codecs; those are the business of the libraries above it.
   online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.
 - **Printing:** `acout`, thread-safe printing of any value, container or tuple, with compile-time display
   attributes (colour, label, format, tooltip) exported to JSON for other front ends.
+- **Machine learning (experimental):** activations with their derivatives, softmax and cross-entropy, a running
+  softmax that merges across workers, LayerNorm and RMSNorm, bfloat16, float16, FP8 and the MX formats, and
+  byte-level BPE that gives tiktoken's tokens. Everything is `constexpr` and allocation-free.
 
 `CHANGELOG.md` lists every header by release.
+
+### Tokenizer throughput
+
+`ml/bpe.hpp` against tiktoken and rustbpe. The test text is 12.3 MB of Python source, 2.8 million pieces. Every
+token matched tiktoken's on both vocabularies.
+
+| Vocabulary | snicholls-core | tiktoken 0.14 | rustbpe 0.1 |
+|---|---|---|---|
+| cl100k_base (GPT-4) | **9.2 M tokens/s** (37 MB/s) | 2.3 M tokens/s | - |
+| 32,768 tokens, trained by rustbpe | **11.0 M tokens/s** (47 MB/s) | 2.7 M tokens/s | 0.9 M tokens/s |
+
+How it was run:
+
+- **Machine and build:** one thread on a Xeon W-3245, Release `-O3 -march=native`, Apple clang 17, 2026-11-11.
+- **Core:** splits the text with PCRE2 JIT, using each vocabulary's own pattern, then merges with `bpe_encode_piece`
+  and an open-addressing vocabulary. The merge alone runs at 19 M tokens/s with cl100k and 26 M tokens/s with the
+  32K vocabulary; splitting takes the other half of the time.
+- **tiktoken and rustbpe:** called from Python, one document per call. Their times include building the Python list
+  of tokens.
 
 ## Using it
 
