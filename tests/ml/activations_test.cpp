@@ -67,11 +67,13 @@ TEST(MlActivations, AgreeWithTheTextbookFormulasWhereThoseAreSafe)
         EXPECT_NEAR(ml::logit(p), static_cast<double>(std::log(ld(p) / (1 - ld(p)))), 1e-12) << p;
 }
 
-// d/dx by a central difference in long double, which every derivative must match
+// d/dx by a central difference in long double, which every derivative must match. Its rounding error is about
+// eps |f| / h: where long double is only double (MSVC), a step of 1e-6 leaves ~1e-9 at |f| near 6, so the step
+// there is 1e-5 (truncation stays below 1e-10)
 template <typename F>
 ld central(F f, ld x)
 {
-    const ld h = 1e-6L;
+    const ld h = std::numeric_limits<ld>::digits > 53 ? 1e-6L : 1e-5L;
     return (f(x + h) - f(x - h)) / (2 * h);
 }
 
