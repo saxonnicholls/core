@@ -100,6 +100,19 @@ concept bpe_vocabulary = requires(F& f, std::string_view bytes) {
     { f(bytes) } -> std::convertible_to<std::uint32_t>;
 };
 
+namespace detail::bpe
+{
+    // The rank of parts i and i+1 merged with i+2: the bytes from part i to part i+3. A function, not a lambda
+    // capturing the lookup: MSVC cannot read a captured reference to a function during constant evaluation.
+    template <typename Rank>
+    constexpr std::uint32_t rank_after_merge(std::string_view piece, Rank& rank, const bpe_part* parts, std::size_t len, std::size_t i)
+    {
+        if (i + 3 < len)
+            return rank(piece.substr(parts[i].start, parts[i + 3].start - parts[i].start));
+        return bpe_no_rank;
+    }
+} // namespace detail::bpe
+
 /// \brief The scratch parts `bpe_encode_piece` needs for a piece of `n` bytes: `n + 1`.
 /// \param n The piece's length.
 /// \return The number of `bpe_part`s.
@@ -146,17 +159,11 @@ constexpr result<std::size_t, bpe_error> bpe_encode_piece(std::string_view piece
     parts[n - 1] = {static_cast<std::uint32_t>(n - 1), bpe_no_rank};
     parts[n] = {static_cast<std::uint32_t>(n), bpe_no_rank};
 
-    // The rank of parts i and i+1 merged with i+2: the bytes from part i to part i+3
-    const auto rank_after_merge = [&](std::size_t i) -> std::uint32_t {
-        if (i + 3 < len)
-            return rank(piece.substr(parts[i].start, parts[i + 3].start - parts[i].start));
-        return bpe_no_rank;
-    };
     while (min_rank != bpe_no_rank) {
         const std::size_t i = min_at;
         if (i > 0)
-            parts[i - 1].rank = rank_after_merge(i - 1);
-        parts[i].rank = rank_after_merge(i);
+            parts[i - 1].rank = detail::bpe::rank_after_merge(piece, rank, parts, len, i - 1);
+        parts[i].rank = detail::bpe::rank_after_merge(piece, rank, parts, len, i);
         for (std::size_t k = i + 1; k + 1 < len; ++k)   // remove part i+1
             parts[k] = parts[k + 1];
         --len;

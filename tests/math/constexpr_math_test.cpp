@@ -80,7 +80,7 @@ static_assert(m::log1p(-1.0) == -m::inf && m::is_nan(m::log1p(-2.0)) && m::log1p
 static_assert(m::is_nan(m::expm1(m::nan)) && m::is_nan(m::log1p(m::nan)));
 static_assert(m::expm1(1e-30) == 1e-30 && m::log1p(1e-30) == 1e-30);   // exp(x) - 1 would be 0
 static_assert(m::near(m::expm1(1.0), m::e_v - 1, 1e-15) && m::near(m::log1p(m::e_v - 1), 1.0, 1e-15));
-static_assert(m::near(m::expm1(1e-5f), 1.00000500001666e-5f, 1e-12f) && m::near(m::log1p(1e-5L), 9.99995000033333e-6L, 1e-18L));
+static_assert(m::near(m::expm1(1e-5f), 1.00000500001666e-5f, 1e-12f) && m::near<long double>(m::log1p(1e-5L), 9.99995000033333e-6L, 1e-18L));
 
 TEST(ConstexprMath, TheRunTimePathIsCmathToTheBit)
 {
