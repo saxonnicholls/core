@@ -11,9 +11,10 @@ var searchData=
   ['bits_8',['bits',['../structsnicholls_1_1containers_1_1bloom__parameters.html#a7161ee73449e3ba80d28a3c746125fca',1,'snicholls::containers::bloom_parameters::bits'],['../structsnicholls_1_1ml_1_1minifloat.html#ae50b375830c446056df7a3ec8916f26f',1,'snicholls::ml::minifloat::bits']]],
   ['blocking_9',['blocking',['../structsnicholls_1_1game_1_1core__violation.html#a4d02bde6dd8f55f592fb7372b0ac8ac7',1,'snicholls::game::core_violation']]],
   ['blue_10',['blue',['../colour_8hpp.html#a8628a3a2b4c63fe948452e931a40861f',1,'snicholls::colours']]],
-  ['bpe_5fno_5frank_11',['bpe_no_rank',['../bpe_8hpp.html#a30f4a0cbd21c47a5a17dbb444567ea03',1,'snicholls::ml']]],
-  ['braces_12',['braces',['../structsnicholls_1_1uuid__parse__options.html#acdcab2116d493f6b19823f31b81c5ccd',1,'snicholls::uuid_parse_options']]],
-  ['buffer_13',['buffer',['../structsnicholls_1_1rfc3339__text.html#a6ae95287f070221dc256cdd77d7640bc',1,'snicholls::rfc3339_text']]],
-  ['by_5ffactor_14',['by_factor',['../structsnicholls_1_1finance_1_1taylor__explain.html#aa87fd625a8cbe1fb96e623dfbe03d79a',1,'snicholls::finance::taylor_explain']]],
-  ['bytes_15',['bytes',['../structsnicholls_1_1uuid.html#a2fee467216b51f953d583a877259b60f',1,'snicholls::uuid']]]
+  ['bpe_5flong_5fpiece_5fthreshold_11',['bpe_long_piece_threshold',['../bpe_8hpp.html#a30a0787066f19e5925fbda4f094f8952',1,'snicholls::ml']]],
+  ['bpe_5fno_5frank_12',['bpe_no_rank',['../bpe_8hpp.html#a30f4a0cbd21c47a5a17dbb444567ea03',1,'snicholls::ml']]],
+  ['braces_13',['braces',['../structsnicholls_1_1uuid__parse__options.html#acdcab2116d493f6b19823f31b81c5ccd',1,'snicholls::uuid_parse_options']]],
+  ['buffer_14',['buffer',['../structsnicholls_1_1rfc3339__text.html#a6ae95287f070221dc256cdd77d7640bc',1,'snicholls::rfc3339_text']]],
+  ['by_5ffactor_15',['by_factor',['../structsnicholls_1_1finance_1_1taylor__explain.html#aa87fd625a8cbe1fb96e623dfbe03d79a',1,'snicholls::finance::taylor_explain']]],
+  ['bytes_16',['bytes',['../structsnicholls_1_1uuid.html#a2fee467216b51f953d583a877259b60f',1,'snicholls::uuid']]]
 ];

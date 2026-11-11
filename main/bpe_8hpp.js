@@ -6,7 +6,10 @@ var bpe_8hpp =
       [ "unknown_bytes", "bpe_8hpp.html#ggac39740c58513e4a66ae2f43a7ca3e28ea5727ce3754c37bbc1cfcb1fc8a79a701", null ]
     ] ],
     [ "snicholls::ml::bpe_decode", "bpe_8hpp.html#ac22fb3d04c2c6bb322f6809bcafe0e72", null ],
+    [ "snicholls::ml::bpe_encode_long_piece", "bpe_8hpp.html#abf24c2d8de329994cd6c9e05b8a4becd", null ],
     [ "snicholls::ml::bpe_encode_piece", "bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff", null ],
+    [ "snicholls::ml::bpe_long_scratch_size", "bpe_8hpp.html#aad270028e55d0ae86d631fe58e3c99d5", null ],
     [ "snicholls::ml::bpe_scratch_size", "bpe_8hpp.html#a1d6e6e6f72c374698fa2b70d190a4118", null ],
+    [ "snicholls::ml::bpe_long_piece_threshold", "bpe_8hpp.html#a30a0787066f19e5925fbda4f094f8952", null ],
     [ "snicholls::ml::bpe_no_rank", "bpe_8hpp.html#a30f4a0cbd21c47a5a17dbb444567ea03", null ]
 ];

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -201,7 +201,7 @@ Files</h2></td></tr>
 <tr class="memitem:activations_2Ehpp" id="r_activations_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="activations_8hpp.html">activations.hpp</a></td></tr>
 <tr class="memdesc:activations_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>. <br /></td></tr>
 <tr class="memitem:bpe_2Ehpp" id="r_bpe_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bpe_8hpp.html">bpe.hpp</a></td></tr>
-<tr class="memdesc:bpe_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">snicholls::ml::bpe_encode_piece</a></span> and <span class="tt">bpe_decode</span>: byte-level BPE, token for token what tiktoken gives, with the vocabulary as the caller's lookup and no allocation. <br /></td></tr>
+<tr class="memdesc:bpe_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">snicholls::ml::bpe_encode_piece</a></span>, <span class="tt">bpe_encode_long_piece</span> and <span class="tt">bpe_decode</span>: byte-level BPE, token for token what tiktoken gives, with the vocabulary as the caller's lookup and no allocation. <br /></td></tr>
 <tr class="memitem:minifloat_2Ehpp" id="r_minifloat_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="minifloat_8hpp.html">minifloat.hpp</a></td></tr>
 <tr class="memdesc:minifloat_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html" title="A narrow floating-point number: E exponent bits, M mantissa bits and a sign, stored in 8 or 16 bits.">snicholls::ml::minifloat</a>&lt;E, M, Kind&gt;</span>: the low-precision floating-point formats of machine learning (bfloat16, float16, FP8 E4M3 and E5M2, the MX FP6 and FP4) as one template, with exact decoding, round-to-nearest-even and stochastic rounding, all <span class="tt">constexpr</span>. <br /></td></tr>
 <tr class="memitem:norm_2Ehpp" id="r_norm_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="norm_8hpp.html">norm.hpp</a></td></tr>
@@ -704,7 +704,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;6</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1e7069d6d9a404d68423cd8a030af191" id="r_ga1e7069d6d9a404d68423cd8a030af191"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(major,  minor,  patch)</td></tr>
 <tr class="memdesc:ga1e7069d6d9a404d68423cd8a030af191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode a version as one integer the preprocessor can compare.  <br /></td></tr>
@@ -1933,7 +1933,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;0</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -3313,7 +3313,7 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="bpe_8hpp_source.html#l00081">81</a> of file <a class="el" href="bpe_8hpp_source.html">bpe.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bpe_8hpp_source.html#l00095">95</a> of file <a class="el" href="bpe_8hpp_source.html">bpe.hpp</a>.</p>
 
 </div>
 </div>
