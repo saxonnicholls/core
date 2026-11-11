@@ -45,6 +45,7 @@
 #define snicholls_core_time_rfc3339_hpp
 
 #include <array>
+#include <charconv>
 #include <chrono>
 #include <concepts>
 #include <cstddef>

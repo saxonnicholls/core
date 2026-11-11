@@ -16,7 +16,8 @@ function(snicholls_core_add_benchmark name source)
     target_compile_definitions(snicholls_core_${name} PRIVATE NDEBUG)
     snicholls_core_test_options(snicholls_core_${name})
     add_test(NAME benchmark.${name} COMMAND snicholls_core_${name} --benchmark_min_time=0.01s)
-    set_tests_properties(benchmark.${name} PROPERTIES LABELS benchmark)
+    # A smoke run takes seconds; a benchmark that hangs fails here instead of holding a CI job until it is killed
+    set_tests_properties(benchmark.${name} PROPERTIES LABELS benchmark TIMEOUT 300)
 endfunction()
 
 snicholls_core_add_benchmark(acout_benchmark acout_benchmark.cpp)
