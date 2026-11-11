@@ -10,6 +10,12 @@ on:
 permissions:
   contents: read
 
+# `cmake --build --parallel` with no number lets make start a job per target at once; on a 4-CPU, 16 GB runner a
+# GCC Debug build of every test then runs out of memory and the runner is shut down. Hosted runners have 3 or 4
+# CPUs, so build with 4 jobs; --parallel takes this when it is given no number.
+env:
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
 # Every leg blocks except Windows, which reports without gating while no consumer builds there: core sits
 # under every other snicholls library, so a compiler core does not build on is one the family cannot use.
 # The throughput tables are informational. The documentation is published to GitHub Pages: main to /main/,
