@@ -47,9 +47,9 @@
 /// \brief Major version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_MAJOR 0
 /// \brief Minor version of snicholls-core.
-#define SNICHOLLS_CORE_VERSION_MINOR 6
+#define SNICHOLLS_CORE_VERSION_MINOR 7
 /// \brief Patch version of snicholls-core.
-#define SNICHOLLS_CORE_VERSION_PATCH 1
+#define SNICHOLLS_CORE_VERSION_PATCH 0
 
 /// \brief Encode a version as one integer the preprocessor can compare.
 ///

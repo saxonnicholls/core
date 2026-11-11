@@ -265,7 +265,10 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - `fnv1a_64` where a tiny, specified-by-the-byte hash must agree across machines or be a `switch` label;
   `wyhash` for speed over longer keys and avalanche, also constexpr and machine-independent; `hash_combine` only
   for `std::hash` values that never leave the process. `containers::bloom_filter` in front of an authoritative
-  set when nearly every query is a miss.
+  set when nearly every query is a miss. `containers::byte_map` (owning, `consteval`-buildable) or
+  `byte_map_view` (over the caller's spans) for byte strings to 32-bit values built once and read often, such as a
+  BPE vocabulary: it is an `ml::bpe_vocabulary` as it stands, and `probe` a batch then `find` it once the table
+  is past L2. Never `std::unordered_map<std::string, ...>` on a tokenizer's hot path.
 - `uint256` for EVM amounts: never `std::uint64_t` (18 decimals overflow it at 18 tokens) and never `double`.
   Checked arithmetic and parsing return `std::optional`, the one place core prefers it to `result`, so the type
   stays light.

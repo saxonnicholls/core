@@ -27,7 +27,7 @@ sockets or codecs; those are the business of the libraries above it.
   `traced<E>`, `strong<T, Tag>`, `uuid`, `decimal`, `uint256`, checked arithmetic, UTC time and RFC 3339.
 - **Compile-time loops and types:** `constexpr_for` and `constexpr_nest`, `type_list` (filter, products,
   permutations), `thread_apply`, `zip`, enum reflection, and reflection over plain aggregates.
-- **Containers:** `inplace_vector`, `static_map`, `perfect_map`, `md_array`, and allocation-free id maps and pools.
+- **Containers:** `inplace_vector`, `static_map`, `perfect_map`, `md_array`, `byte_map` (byte strings to 32-bit values, for a BPE vocabulary), and allocation-free id maps and pools.
 - **Numerics:** `constexpr` maths for any floating-point type, random numbers and the bootstrap, Sobol sequences,
   online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.
 - **Printing:** `acout`, thread-safe printing of any value, container or tuple, with compile-time display

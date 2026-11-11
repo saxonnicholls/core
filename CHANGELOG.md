@@ -3,7 +3,7 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## 0.7.0 - unreleased
+## 0.7.0 - 2026-11-12
 
 More machine-learning primitives, experimental, from llm.c and nanochat.
 
@@ -23,11 +23,22 @@ More machine-learning primitives, experimental, from llm.c and nanochat.
 - `ml/quantize.hpp`: ggml's Q8_0 and Q4_0 blocks and the MXFP4 block, byte for byte, with quantisation,
   dequantisation and dot products against Q8_0 activations equal to ggml's scalar reference on a committed
   fixture; symmetric int8 rows.
+- `containers/byte_map.hpp`: `byte_map_view` (over the caller's spans) and `byte_map<Slots, ArenaBytes, Values>`
+  (owning, with a `consteval` constructor): byte strings to 32-bit values in one table of 16-byte slots, with
+  `probe` then `find` so a batch of lookups overlaps its cache misses, and an optional reverse table (`key_of`).
+  An `ml::bpe_vocabulary` as it stands. Contributed from ts-moveables' tokenizer.
+
+### Changed
+
+- A benchmark's smoke CTest times out after 300 seconds, so a benchmark that hangs fails rather than holding a CI
+  job until the runner kills it.
 
 ### Fixed
 
 - `math::round` judged the half on `x + 0.5`, which rounds the largest float below one half (0.49999997f) up to 1;
   it now gives 0, as `std::round` does.
+- `time/rfc3339.hpp` includes `<charconv>` for `std::from_chars_result`, which it had reached through other
+  headers; LLVM 23's libc++ no longer provides it that way.
 
 ## 0.6.1 - 2026-11-11
 
