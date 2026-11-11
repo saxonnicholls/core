@@ -73,7 +73,8 @@ libraries above them pin core and those. Nothing in core depends on a library th
 - Areas: `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`; `snicholls::stats`);
-  `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `combinatorics/` (`permutations`,
+  `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
+  `minifloat`, `bpe`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`); `containers/`; `game/` (`snicholls::game`); `finance/`
   (`snicholls::finance`). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
@@ -295,6 +296,13 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - Compile-time maths: `snicholls::math` (`exp`, `log`, `normal_quantile`, ...) in the argument's type: `float` for
   a table a GPU kernel reads, `double`, `long double`. A type of your own gets them by specialising
   `math::math_limits<T>`, as `std::numeric_limits` is; never a `double`-only copy of a function.
+- Machine learning: `snicholls::ml` holds the pure, fixed-size primitives (activations with their derivatives,
+  softmax and losses, norms, `minifloat` formats, BPE merging), all `constexpr` and alloc-free, taking any `ml::row`.
+  Models, training loops, file formats (GGUF, safetensors, tokenizer files), the split pattern's regex, tokenizer
+  training and threading belong to the libraries above core. A low-precision value is a `minifloat` (`bfloat16`,
+  `float16`, `float8_e4m3`, ...), never a hand-rolled bit trick; stochastic rounding takes the caller's random bits.
+  `bpe_encode_piece` gives tiktoken's tokens (`tests/fixtures/ml/bpe_fixture.txt`, from
+  `scripts/generate_bpe_fixture.py`, which needs tiktoken and rustbpe and so is not rerun in CI).
 - Randomness: `stats::wyrand` and `stats::uniform_index`, never `std::uniform_int_distribution` (its output differs
   between standard libraries, so a seed would not reproduce). Resampling: `stats::bootstrap_moments` for anything
   built from means and variances (no resample is gathered), `stats::resample_table` when the same `n` is bootstrapped

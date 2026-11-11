@@ -13,13 +13,13 @@ and commit the result. The "relative" column is each row's time over the fastest
 
 | | |
 | --- | --- |
-| date | 2026-11-09 |
+| date | 2026-11-11 |
 | machine | Intel(R) Xeon(R) W-3245 CPU @ 3.20GHz, 32 CPUs |
 | OS | Darwin 25.6.0 |
 | compiler | AppleClang 17.0.0.17000309 |
 | build | Release, `build-bench` |
-| min time per benchmark | 1.0 s |
-| this run | only `attributes`; other sections are from earlier runs |
+| min time per benchmark | 0.5 s |
+| this run | only `activations_benchmark`, `softmax_benchmark`, `norm_benchmark`, `minifloat_benchmark`, `bpe_benchmark`; other sections are from earlier runs |
 
 ## accumulators_benchmark
 
@@ -43,6 +43,17 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Acout_HandWrittenVector` | 4.52 ms | 3.26x | 906.09 k/s |
 | `BM_Acout_Coloured` | 2.19 ms | 1.58x | 1.87 M/s |
 | `BM_Acout_ColouredByHand` | 1.67 ms | 1.21x | 2.45 M/s |
+
+## activations_benchmark
+
+`benchmarks/ml/activations_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Sigmoid_Core` | 591.30 us | 1.00x | 110.88 M/s |
+| `BM_Sigmoid_HandWritten` | 592.76 us | 1.00x | 110.59 M/s |
+| `BM_GeluTanh_Core` | 658.43 us | 1.11x | 99.57 M/s |
+| `BM_GeluTanh_HandWritten` | 658.99 us | 1.11x | 99.46 M/s |
 
 ## attributes_benchmark
 
@@ -76,6 +87,15 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Bootstrap_HandWrittenIndices` | 4.35 ms | 2.06x | 463.27 k/s |
 | `BM_Bootstrap_CoreMultinomialCounts` | 3.73 ms | 1.76x | 538.39 k/s |
 | `BM_Bootstrap_CorePoissonCounts` | 5.38 ms | 2.54x | 371.91 k/s |
+
+## bpe_benchmark
+
+`benchmarks/ml/bpe_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_BpeEncode_Core` | 91.60 us | 1.00x |  |
+| `BM_BpeEncode_HandWritten` | 107.97 us | 1.18x |  |
 
 ## dense_id_map_benchmark
 
@@ -131,6 +151,29 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_InvokeWith_Core` | 133.89 us | 5.66x | 30.59 M/s |
 | `BM_InvokeWith_HandWritten` | 91.89 us | 3.88x | 44.58 M/s |
 | `BM_InvokeWith_DirectCall` | 23.65 us | 1.00x | 173.17 M/s |
+
+## minifloat_benchmark
+
+`benchmarks/ml/minifloat_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_ToBfloat16_Core` | 22.93 us | 3.22x | 2.86 G/s |
+| `BM_ToBfloat16_HandWritten` | 23.40 us | 3.29x | 2.80 G/s |
+| `BM_Bfloat16ToFloat_Core` | 7.11 us | 1.00x | 9.22 G/s |
+| `BM_Bfloat16ToFloat_HandWritten` | 7.19 us | 1.01x | 9.15 G/s |
+| `BM_ToFloat8E4M3_Generic` | 1.13 ms | 159.44x | 57.80 M/s |
+
+## norm_benchmark
+
+`benchmarks/ml/norm_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_LayerNorm_Core` | 849.87 us | 1.98x | 462.71 M/s |
+| `BM_LayerNorm_HandWritten` | 847.49 us | 1.97x | 464.09 M/s |
+| `BM_RmsNorm_Core` | 430.07 us | 1.00x | 914.31 M/s |
+| `BM_RmsNorm_HandWritten` | 432.11 us | 1.00x | 910.21 M/s |
 
 ## object_pool_benchmark
 
@@ -198,6 +241,17 @@ and commit the result. The "relative" column is each row's time over the fastest
 | --- | ---: | ---: | ---: |
 | `BM_Shapley_Core` | 466.62 us | 1.00x |  |
 | `BM_Shapley_Formula3ByHand` | 1.58 ms | 3.39x |  |
+
+## softmax_benchmark
+
+`benchmarks/ml/softmax_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Softmax_Core` | 300.42 us | 1.03x | 167.45 M/s |
+| `BM_Softmax_HandWritten` | 292.54 us | 1.00x | 172.04 M/s |
+| `BM_CrossEntropyWithGradient_Core` | 577.79 us | 1.98x | 87.06 M/s |
+| `BM_CrossEntropyWithGradient_HandWritten` | 541.66 us | 1.85x | 92.89 M/s |
 
 ## struct_tuple_benchmark
 

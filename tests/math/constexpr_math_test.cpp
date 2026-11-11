@@ -65,8 +65,9 @@ TEST(ConstexprMath, Expm1AndLog1pKeepTheirRelativeAccuracyNearZero)
     namespace d = snicholls::math::detail;
     for (const double x : {1e-300, -1e-300, 1e-12, -1e-12, 1e-6, -3e-4, 0.1, -0.3, 0.5, -0.5, 0.99, -0.99, 1.0, -1.0, 2.0, -20.0, 300.0}) {
         EXPECT_LE(std::abs(d::expm1_ct(x) - std::expm1(x)), 4e-16 * std::abs(std::expm1(x))) << "expm1(" << x << ")";
-        if (x > -1)
+        if (x > -1) {
             EXPECT_LE(std::abs(d::log1p_ct(x) - std::log1p(x)), 4e-16 * std::abs(std::log1p(x))) << "log1p(" << x << ")";
+        }
     }
     for (const double x : {1e-20, 1e-9, 0.25, 1e10, 1e300})
         EXPECT_LE(std::abs(d::log1p_ct(x) - std::log1p(x)), 4e-16 * std::abs(std::log1p(x))) << "log1p(" << x << ")";

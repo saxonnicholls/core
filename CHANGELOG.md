@@ -3,6 +3,26 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.6.0 - 2026-11-11
+
+Machine-learning primitives, experimental.
+
+### Added
+
+- `ml/` (`snicholls::ml`), experimental: the primitives of language models, `constexpr` and alloc-free.
+  - `activations.hpp`: sigmoid, softplus, log-sigmoid, logit, ReLU, ReLU², SiLU, GELU (erf) and GPT-2's tanh GELU,
+    the logit soft cap, each with its derivative, in forms that neither overflow nor cancel.
+  - `softmax.hpp`: softmax, log-softmax, logsumexp, the softmax backward pass, cross-entropy and its fused gradient
+    (in place), bits per byte, and `online_softmax`, a running softmax whose partials merge across workers.
+  - `norm.hpp`: LayerNorm and RMSNorm, forward and backward, with or without learned parameters.
+  - `minifloat.hpp`: `minifloat<E, M, Kind>` with `bfloat16`, `float16`, FP8 E4M3 and E5M2, MX FP6 and FP4: exact
+    decoding, round to nearest even, stochastic rounding, overflow policies, compile-time decode tables.
+  - `bpe.hpp`: byte-level BPE merging that gives tiktoken's tokens, with the caller's vocabulary lookup. On 12.3 MB
+    of Python source, one thread, it ran at 9.2 million tokens/s with cl100k against tiktoken's 2.3 million
+    (README).
+  - `row.hpp`: the `row` and `mutable_row` concepts the functions take: any contiguous range of numbers.
+- `math`: `expm1` and `log1p`.
+
 ## 0.5.1 - 2026-11-10
 
 The fixes CI found once it could run on every platform.
