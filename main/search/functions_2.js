@@ -39,6 +39,8 @@ var searchData=
   ['cot_36',['cot',['../constexpr__math_8hpp.html#afdaa84ceb45bc18a020ecdb57c2e5b26',1,'snicholls::math']]],
   ['count_37',['count',['../classsnicholls_1_1containers_1_1bloom__filter.html#a1a369fe0ba260eb43a415742ba225991',1,'snicholls::containers::bloom_filter']]],
   ['create_38',['create',['../classsnicholls_1_1containers_1_1object__pool.html#a07fee26782582e00a42b4587c444fdae',1,'snicholls::containers::object_pool']]],
-  ['current_39',['current',['../structsnicholls_1_1source__location.html#a0261559a2fdda4350763aa6a4798bfd0',1,'snicholls::source_location']]],
-  ['current_5fcolour_5fmode_40',['current_colour_mode',['../group__core.html#ga2d0ba6620dca57c302abbcfa66d84b89',1,'snicholls']]]
+  ['cross_5fentropy_39',['cross_entropy',['../softmax_8hpp.html#a294f89799c61ca928550c7a538be9a42',1,'snicholls::ml']]],
+  ['cross_5fentropy_5fwith_5fgradient_40',['cross_entropy_with_gradient',['../softmax_8hpp.html#ad58217569db168aa39c3b6fb1336952c',1,'snicholls::ml']]],
+  ['current_41',['current',['../structsnicholls_1_1source__location.html#a0261559a2fdda4350763aa6a4798bfd0',1,'snicholls::source_location']]],
+  ['current_5fcolour_5fmode_42',['current_colour_mode',['../group__core.html#ga2d0ba6620dca57c302abbcfa66d84b89',1,'snicholls']]]
 ];

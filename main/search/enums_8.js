@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['precision_5fpolicy_0',['precision_policy',['../group__core.html#ga3f99d4e0402ac25c5fea1a11976abe6a',1,'snicholls']]]
+  ['null_5ftermination_0',['null_termination',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6',1,'snicholls']]]
 ];

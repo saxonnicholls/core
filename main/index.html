@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.5.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -108,9 +108,27 @@ What is here</h1>
 <li><b>Containers:</b> <span class="tt">inplace_vector</span>, <span class="tt">static_map</span>, <span class="tt">perfect_map</span>, <span class="tt">md_array</span>, and allocation-free id maps and pools.</li>
 <li><b>Numerics:</b> <span class="tt">constexpr</span> maths for any floating-point type, random numbers and the bootstrap, Sobol sequences, online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.</li>
 <li><b>Printing:</b> <span class="tt">acout</span>, thread-safe printing of any value, container or tuple, with compile-time display attributes (colour, label, format, tooltip) exported to JSON for other front ends.</li>
+<li><b>Machine learning (experimental):</b> activations with their derivatives, softmax and cross-entropy, a running softmax that merges across workers, LayerNorm and RMSNorm, bfloat16, float16, FP8 and the MX formats, and byte-level BPE that gives tiktoken's tokens. Everything is <span class="tt">constexpr</span> and allocation-free.</li>
 </ul>
 <p><span class="tt">CHANGELOG.md</span> lists every header by release.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Tokenizer throughput</h2>
+<p><span class="tt"><a class="el" href="bpe_8hpp.html" title="snicholls::ml::bpe_encode_piece and bpe_decode: byte-level BPE, token for token what tiktoken gives,...">ml/bpe.hpp</a></span> against tiktoken and rustbpe. The test text is 12.3 MB of Python source, 2.8 million pieces. Every token matched tiktoken's on both vocabularies.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Vocabulary  </th><th class="markdownTableHeadNone">snicholls-core  </th><th class="markdownTableHeadNone">tiktoken 0.14  </th><th class="markdownTableHeadNone">rustbpe 0.1  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">cl100k_base (GPT-4)  </td><td class="markdownTableBodyNone"><b>9.2 M tokens/s</b> (37 MB/s)  </td><td class="markdownTableBodyNone">2.3 M tokens/s  </td><td class="markdownTableBodyNone">-  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">32,768 tokens, trained by rustbpe  </td><td class="markdownTableBodyNone"><b>11.0 M tokens/s</b> (47 MB/s)  </td><td class="markdownTableBodyNone">2.7 M tokens/s  </td><td class="markdownTableBodyNone">0.9 M tokens/s  </td></tr>
+</table>
+<p>How it was run:</p>
+<ul>
+<li><b>Machine and build:</b> one thread on a Xeon W-3245, Release <span class="tt">-O3 -march=native</span>, Apple clang 17, 2026-11-11.</li>
+<li><b>Core:</b> splits the text with PCRE2 JIT, using each vocabulary's own pattern, then merges with <span class="tt">bpe_encode_piece</span> and an open-addressing vocabulary. The merge alone runs at 19 M tokens/s with cl100k and 26 M tokens/s with the 32K vocabulary; splitting takes the other half of the time.</li>
+<li><b>tiktoken and rustbpe:</b> called from Python, one document per call. Their times include building the Python list of tokens.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Using it</h1>
 <p>As a git submodule, pinned to a release tag:</p>
 <div class="fragment"><div class="line">add_subdirectory(third_party/core EXCLUDE_FROM_ALL)</div>
@@ -131,10 +149,10 @@ Using it</h1>
 <div class="ttc" id="agroup__core_html_ga1e7069d6d9a404d68423cd8a030af191"><div class="ttname"><a href="group__core.html#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_CHECK(major, minor, patch)</div><div class="ttdoc">Encode a version as one integer the preprocessor can compare.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00061">version.hpp:61</a></div></div>
 <div class="ttc" id="agroup__core_html_ga3f96282a1da786108d1b05820da0cc71"><div class="ttname"><a href="group__core.html#ga3f96282a1da786108d1b05820da0cc71">snicholls::core::version</a></div><div class="ttdeci">constexpr int version() noexcept</div><div class="ttdoc">The encoded version, the same as SNICHOLLS_CORE_VERSION.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00115">version.hpp:115</a></div></div>
 <div class="ttc" id="aversion_8hpp_html"><div class="ttname"><a href="version_8hpp.html">version.hpp</a></div><div class="ttdoc">Which version of snicholls-core you are compiling against.</div></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Two copies in one build</h2>
 <p>A library that pins core and also pins another library that pins core can reach it twice in one build. Core handles that itself: the first copy added defines the target and later copies step aside; every consumer states the minimum it needs with <span class="tt">snicholls_core_require</span> and configure fails if the winning copy is older; and <span class="tt">snicholls_core_assert_single_version</span> fails configure if copies at two different versions were reached. The rules are tested, not just documented: <span class="tt">ctest -L boundary</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Building and testing</h1>
 <div class="fragment"><div class="line">git clone --recurse-submodules &lt;url&gt;</div>
 <div class="line">make test            # configure, build, every test, every demo</div>
@@ -143,7 +161,7 @@ Building and testing</h1>
 <div class="line">make docs            # Doxygen, warnings are errors; output in build-docs/docs/html</div>
 </div><!-- fragment --><p>CI runs the same on Linux (x86-64 and ARM64, GCC and Clang), macOS (ARM64 and x86-64) and Windows (MSVC), plus a Debug build with asserts live and the documentation build. Every leg blocks except Windows, which is reported but not gated on while no consumer builds there.</p>
 <p>The standards the code is held to - what may be admitted, the mirror rule for tests and demos, the documentation standard - are in <span class="tt">CLAUDE.md</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 Licence</h1>
 <p>MIT. Copyright 2010-2026 Saxon Nicholls. </p>
 </div></div><!-- PageDoc -->

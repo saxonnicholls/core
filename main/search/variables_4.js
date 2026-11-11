@@ -21,5 +21,6 @@ var searchData=
   ['exp_5foverflow_18',['exp_overflow',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a017952c7585b7d50e8389bce1cdaae9f',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['exp_5funderflow_19',['exp_underflow',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#adcdd0092863e1d60676f3895a60b760b',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['explained_20',['explained',['../structsnicholls_1_1finance_1_1taylor__explain.html#a0a1c24ede4a5a8609134ed7404ae9a72',1,'snicholls::finance::taylor_explain::explained'],['../structsnicholls_1_1finance_1_1greeks__explain.html#aadb22605b8af0cb43c8795511da5d18d',1,'snicholls::finance::greeks_explain::explained']]],
-  ['extents_21',['extents',['../classsnicholls_1_1containers_1_1md__array.html#a6a434fcfa40944c7a6beacfc77972996',1,'snicholls::containers::md_array']]]
+  ['exponent_5fbits_21',['exponent_bits',['../structsnicholls_1_1ml_1_1minifloat.html#aaf372beb783df0c904c3449c03cc479a',1,'snicholls::ml::minifloat']]],
+  ['extents_22',['extents',['../classsnicholls_1_1containers_1_1md__array.html#a6a434fcfa40944c7a6beacfc77972996',1,'snicholls::containers::md_array']]]
 ];

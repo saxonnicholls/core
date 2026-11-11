@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['error_5flevel_0',['error_level',['../group__core.html#ga05ce5db02909d4d9bfc0fb741a19b8f0',1,'snicholls']]]
+  ['decimal_5fsyntax_0',['decimal_syntax',['../group__core.html#gaa013d97c8c3b51bc39c61b77c316c7b1',1,'snicholls']]]
 ];

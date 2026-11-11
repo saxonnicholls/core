@@ -15,7 +15,15 @@ var searchData=
   ['member_5favl_5ftraits_12',['member_avl_traits',['../structsnicholls_1_1containers_1_1member__avl__traits.html',1,'snicholls::containers']]],
   ['member_5fcount_13',['member_count',['../structsnicholls_1_1member__count.html',1,'snicholls']]],
   ['memoized_14',['memoized',['../classsnicholls_1_1game_1_1memoized.html',1,'snicholls::game']]],
-  ['minimum_15',['minimum',['../structsnicholls_1_1stats_1_1minimum.html',1,'snicholls::stats']]],
-  ['minor_5funits_16',['minor_units',['../structsnicholls_1_1minor__units.html',1,'snicholls']]],
-  ['monotonicity_5fviolation_17',['monotonicity_violation',['../structsnicholls_1_1game_1_1monotonicity__violation.html',1,'snicholls::game']]]
+  ['minifloat_15',['minifloat',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_202_2c_201_2c_20minifloat_5fkind_3a_3afinite_20_3e_16',['minifloat&lt; 2, 1, minifloat_kind::finite &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_202_2c_203_2c_20minifloat_5fkind_3a_3afinite_20_3e_17',['minifloat&lt; 2, 3, minifloat_kind::finite &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_203_2c_202_2c_20minifloat_5fkind_3a_3afinite_20_3e_18',['minifloat&lt; 3, 2, minifloat_kind::finite &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_204_2c_203_2c_20minifloat_5fkind_3a_3afinite_5fnan_20_3e_19',['minifloat&lt; 4, 3, minifloat_kind::finite_nan &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_205_2c_2010_20_3e_20',['minifloat&lt; 5, 10 &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_205_2c_202_20_3e_21',['minifloat&lt; 5, 2 &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minifloat_3c_208_2c_207_20_3e_22',['minifloat&lt; 8, 7 &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
+  ['minimum_23',['minimum',['../structsnicholls_1_1stats_1_1minimum.html',1,'snicholls::stats']]],
+  ['minor_5funits_24',['minor_units',['../structsnicholls_1_1minor__units.html',1,'snicholls']]],
+  ['monotonicity_5fviolation_25',['monotonicity_violation',['../structsnicholls_1_1game_1_1monotonicity__violation.html',1,'snicholls::game']]]
 ];

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.5.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -143,7 +143,7 @@ Functions</h2></td></tr>
 </div><!-- fragment --><p>The envelope's Doob-Meyer decomposition is <span class="tt">U = M - A</span> with <span class="tt">A</span> increasing; its increment <span class="tt">U_t - discount * E[U_{t+1}]</span> is zero exactly where continuing is optimal, and positive where waiting loses value. <span class="tt">compensator_increment</span> is that increment. <span class="tt">stops</span> is "the payoff is at least what continuing
 is worth", so ties stop and <span class="tt">stopping_time</span> is the smallest optimal stopping time; the first time the compensator rises is the largest.</p>
 <p>Two forms: <span class="tt">snell_envelope&lt;States, Horizon&gt;</span> takes a <span class="tt">std::array</span> transition matrix and is <span class="tt">constexpr</span> throughout, so a stopping table for a small chain is computed by the compiler; the <span class="tt">markov_chain</span> form takes any size at run time.</p>
-<p><b>Relationships.</b> <span class="tt"><a class="el" href="martingale_8hpp.html" title="Martingale tools: the Doob decomposition, the martingale transform, quadratic variation,...">stochastic/martingale.hpp</a></span>; <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, sqrt, pow, the trigonometric and hyperbolic functions, erf,...">math/constexpr_math.hpp</a></span> for payoffs at compile time. Continuous models (LSM, HJB solvers) belong in the consuming library. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<p><b>Relationships.</b> <span class="tt"><a class="el" href="martingale_8hpp.html" title="Martingale tools: the Doob decomposition, the martingale transform, quadratic variation,...">stochastic/martingale.hpp</a></span>; <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span> for payoffs at compile time. Continuous models (LSM, HJB solvers) belong in the consuming library. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> O(Horizon x States^2) arithmetic; the fixed form allocates nothing. <span class="tt">value(t, s)</span> is at least <span class="tt">g(t, s)</span> and is a supermartingale along the chain.</p>
 <p><b>Errors.</b> None.</p>
 <p><b>Performance.</b> Not benchmarked.</p>

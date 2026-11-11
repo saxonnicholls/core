@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.5.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -92,9 +92,9 @@ $(function(){initNavTree('md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html
   <div class="headertitle"><div class="title">snicholls::result - Rust's <span class="tt">Result&lt;V, E&gt;</span>, zero overhead, rethrowable, with traced errors </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md7"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md8"></a></p>
 <p>Status: experimental. Headers: <span class="tt"><a class="el" href="result_8hpp.html" title="snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...">include/snicholls/core/result.hpp</a></span>, <span class="tt"><a class="el" href="traced_8hpp.html" title="snicholls::traced&lt;E&gt;: an error with its source location, a context chain, fields and an optional stac...">include/snicholls/core/traced.hpp</a></span> (standard library only). The decisions keep the ids they were made under; the gaps are decisions since folded into others.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 Decisions</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -126,7 +126,7 @@ Decisions</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">D13  </td><td class="markdownTableBodyNone">Wire / remote results: a <span class="tt">result</span> of plain V and E is itself a plain value (no pointer, trivially copyable when they are), so it can be serialised as (state, V or E). <span class="tt">traced&lt;E&gt;</span> holds a pointer and is for logging, not for the wire: send its <span class="tt">error()</span> or its <span class="tt">error_report_fields</span>.  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Per-call choices</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -145,7 +145,7 @@ Per-call choices</h1>
 <td class="markdownTableBodyNone"><span class="tt">SNICHOLLS_TRY</span> (and <span class="tt">_ASSIGN</span>, <span class="tt">_VOID</span>)  </td><td class="markdownTableBodyNone">propagate to the caller  </td></tr>
 </table>
 <p>Every <span class="tt">&amp;&amp;</span> overload that hands out the value or the error (<span class="tt">unwrap</span>, <span class="tt">expect</span>, <span class="tt">value_or_throw</span>, <span class="tt">unwrap_or_terminate</span>, <span class="tt">unwrap_unchecked</span>, <span class="tt">*r</span>, <span class="tt">unwrap_err</span>, <span class="tt">expect_err</span>, <span class="tt">unwrap_err_unchecked</span>) returns it <b>by value</b>, moved out, as Rust's <span class="tt">unwrap</span> does: a reference into a temporary result would dangle (<span class="tt">for (int x : make().unwrap())</span>).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 API at a glance</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -167,7 +167,7 @@ API at a glance</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Other  </td><td class="markdownTableBodyNone"><span class="tt">==</span> (also against <span class="tt">ok_t</span> / <span class="tt">err_t</span>), <span class="tt">&lt;=&gt;</span> (every ok before every err, as Rust's derived <span class="tt">Ord</span>), <span class="tt">std::hash</span>, <span class="tt">swap</span>, <span class="tt"><a class="el" href="group__core.html#gaed997a5b399462986484b135e8347f48" title="One line of text describing an error, for messages (unwrap, expect, logging).">snicholls::error_text</a></span>, <span class="tt">to_expected()</span> / <span class="tt">snicholls::to_result</span> under <span class="tt">__cpp_lib_expected</span>  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Layout guarantees (tests/result_test.cpp)</h1>
 <ul>
 <li><span class="tt">sizeof</span> / <span class="tt">alignof</span> equal to <span class="tt">struct { union { V v; E e; }; bool ok; }</span>; <span class="tt">result&lt;void, E&gt;</span> equal to <span class="tt">struct { E e; bool ok; }</span>; a niche result equal to <span class="tt">sizeof(V)</span>.</li>
@@ -175,16 +175,16 @@ Layout guarantees (tests/result_test.cpp)</h1>
 <li>Passed and returned in registers when V and E are trivial (Clang: <span class="tt">__is_trivially_relocatable</span> static_assert). At -O2 on Apple clang 17, <span class="tt">parse()</span> returning <span class="tt">result&lt;int, E&gt;</span> and its <span class="tt">SNICHOLLS_TRY</span> forwarder compile to the same register code as the hand-written struct (inspected, not benchmarked).</li>
 <li><span class="tt">noexcept</span> on every member is exact (static_asserts), <span class="tt">constexpr</span> throughout except the error paths of unwrap/expect/rethrow and anything touching <span class="tt">traced</span> (it allocates).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Performance</h1>
 <p>Not yet benchmarked in Release (the numbers wait for a quiet machine). <span class="tt">benchmarks/result_benchmark.cpp</span> compares <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a></span>, a hand-written tagged union, an error-code out-parameter and exceptions at 0/1/10/50/100% error rates, <span class="tt">traced</span> on the success path, and one propagation layer (<span class="tt">SNICHOLLS_TRY</span> vs <span class="tt">if (!r.ok) return r</span>), after a fairness check. CTest <span class="tt">benchmark.result_benchmark</span> runs it in every build.</p>
 <p><span class="tt">traced&lt;E&gt;</span> allocation, precisely: creating one stores the location and allocates nothing beyond E's own constructor; the first <span class="tt">context</span> / <span class="tt">with_field</span> / <span class="tt">with_stack</span> allocates one details block, and each frame / field / stack allocates its strings. A success never constructs a traced, so <span class="tt">result&lt;V, traced&lt;E&gt;&gt;</span> costs on the success path what a result of the same size costs (<span class="tt">sizeof(traced&lt;E&gt;)</span> = E + one pointer for the location (three words on MSVC) + one pointer).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Interop</h1>
 <ul>
 <li><span class="tt">std::expected</span> (C++23): <span class="tt">result(const std::expected&lt;V, E&gt;&amp;)</span>, <span class="tt">to_expected()</span>, <span class="tt">snicholls::to_result(expected)</span> under <span class="tt">__cpp_lib_expected</span> (not compiled in today's C++20 builds; untested until the repo moves to C++23).</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Open items</h1>
 <ol type="1">
 <li>Release benchmark numbers on a quiet machine, then fill the Performance section.</li>

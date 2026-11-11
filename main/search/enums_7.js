@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['overload_5fmismatch_0',['overload_mismatch',['../group__core.html#gad3b4684d99ddf23675d64b35fd49071f',1,'snicholls']]]
+  ['minifloat_5fkind_0',['minifloat_kind',['../group__core.html#ga496958a9ba19eac987ca03b8f7968a5a',1,'snicholls::ml']]]
 ];

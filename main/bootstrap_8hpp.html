@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.5.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -200,7 +200,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> None of their own; <span class="tt">n</span> of zero and a mean block length below 1 are precondition violations (asserted). <span class="tt">std::bad_alloc</span>.</p>
 <p><b>Performance.</b> <span class="tt">benchmarks/stats/bootstrap_benchmark.cpp</span>: the bootstrap distribution of the mean of 1,024 observations, 2,000 resamples, against <span class="tt">std::mt19937_64</span> with a gathered copy, after a fairness check. Release, Apple clang 17, Xeon W-3245, 2026-11-07: 10.4 ms for the standard way; 3.7 ms by <span class="tt">for_each_resample</span> (2.8 times faster; 4.4 ms for the same draws written by hand); 3.7 ms by multinomial counts; 5.4 ms by Poisson counts; 2.1 ms reusing a <span class="tt">resample_table</span> (4.9 times faster). All of these are single-threaded.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/stats/bootstrap_test.cpp</span> (BCa against SciPy, block lengths against arch), <span class="tt">demos/stats/bootstrap_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cmath&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;numeric&gt;</span>, <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, sqrt, pow, the trigonometric and hyperbolic functions, erf,...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cmath&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;numeric&gt;</span>, <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span>.</p>
 <p><b>Known issues.</b> Poisson counts above 12 are capped (probability below 1e-10). The jackknife for BCa recomputes the statistic <span class="tt">n</span> times; for a statistic of moments it could be done in one pass, and is not yet.</p>
 <p><b>Status.</b> New in 0.5.0. </p>
 

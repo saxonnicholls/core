@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['red_0',['red',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9abda9643ac6601722a28f238714274da4',1,'snicholls']]],
-  ['reject_1',['reject',['../group__core.html#gga3f99d4e0402ac25c5fea1a11976abe6aa6bfaf02d9f3b165809fb7f056665a6bd',1,'snicholls::reject'],['../group__core.html#ggae1199bd75d7bd4320cd8b8dbb819d737a6bfaf02d9f3b165809fb7f056665a6bd',1,'snicholls::reject']]],
-  ['rfc9562_2',['rfc9562',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca33f3b2517eefeb8afcaeaf60261ff956',1,'snicholls']]]
+  ['plain_0',['plain',['../group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e',1,'snicholls']]],
+  ['poisson_1',['poisson',['../group__core.html#gga6637c07c34c92b444b0751e0ac2a418da2c7fa5b4147150b7dfdb1ff83dbfab3e',1,'snicholls::stats']]],
+  ['propagated_2',['propagated',['../group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac',1,'snicholls']]]
 ];

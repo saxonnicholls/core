@@ -64,6 +64,12 @@ var annotated_dup =
         [ "thread_at", "structsnicholls_1_1meta_1_1thread__at.html", null ],
         [ "thread_range", "structsnicholls_1_1meta_1_1thread__range.html", null ]
       ] ],
+      [ "ml", null, [
+        [ "bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", "structsnicholls_1_1ml_1_1bpe__part" ],
+        [ "minifloat", "structsnicholls_1_1ml_1_1minifloat.html", "structsnicholls_1_1ml_1_1minifloat" ],
+        [ "norm_stats", "structsnicholls_1_1ml_1_1norm__stats.html", "structsnicholls_1_1ml_1_1norm__stats" ],
+        [ "online_softmax", "structsnicholls_1_1ml_1_1online__softmax.html", "structsnicholls_1_1ml_1_1online__softmax" ]
+      ] ],
       [ "pipeline", null, [
         [ "filter_stage", "structsnicholls_1_1pipeline_1_1filter__stage.html", "structsnicholls_1_1pipeline_1_1filter__stage" ],
         [ "transform_stage", "structsnicholls_1_1pipeline_1_1transform__stage.html", "structsnicholls_1_1pipeline_1_1transform__stage" ],

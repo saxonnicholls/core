@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.5.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -179,7 +179,7 @@ Files</h2></td></tr>
 <tr class="memitem:iterate_2Ehpp" id="r_iterate_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterate_8hpp.html">iterate.hpp</a></td></tr>
 <tr class="memdesc:iterate_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wolfram's iteration primitives, <span class="tt">constexpr</span>: <span class="tt">table</span>, <span class="tt">nest</span>, <span class="tt">nest_list</span>, <span class="tt">nest_while</span>, <span class="tt">fixed_point</span>, <span class="tt">fold_list</span>. <br /></td></tr>
 <tr class="memitem:constexpr_5Fmath_2Ehpp" id="r_constexpr_5Fmath_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constexpr__math_8hpp.html">constexpr_math.hpp</a></td></tr>
-<tr class="memdesc:constexpr__math_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::math</span>: exp, log, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all <span class="tt">constexpr</span>, for any floating-point type. <br /></td></tr>
+<tr class="memdesc:constexpr__math_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::math</span>: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all <span class="tt">constexpr</span>, for any floating-point type. <br /></td></tr>
 <tr class="memitem:assignable_2Ehpp" id="r_assignable_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="assignable_8hpp.html">assignable.hpp</a></td></tr>
 <tr class="memdesc:assignable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">non_narrowing_assignable&lt;V, E&gt;</span>: <span class="tt">V = E</span> compiles, does not narrow a number, and never puts a number in a string. <br /></td></tr>
 <tr class="memitem:attributes_2Ehpp" id="r_attributes_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="attributes_8hpp.html">attributes.hpp</a></td></tr>
@@ -198,6 +198,18 @@ Files</h2></td></tr>
 <tr class="memdesc:type__name_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#ga415e6ad88baf1bb6438b965dfff7b18a" title="The name of T as the compiler spells it, normalised, as a constant expression.">snicholls::type_name</a>&lt;T&gt;()</span>: a type's name as a compile-time string, for messages and printed type lists. <br /></td></tr>
 <tr class="memitem:values_2Ehpp" id="r_values_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="values_8hpp.html">values.hpp</a></td></tr>
 <tr class="memdesc:values_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facts about a pack of values at compile time: distinct, increasing, decreasing. <br /></td></tr>
+<tr class="memitem:activations_2Ehpp" id="r_activations_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="activations_8hpp.html">activations.hpp</a></td></tr>
+<tr class="memdesc:activations_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>. <br /></td></tr>
+<tr class="memitem:bpe_2Ehpp" id="r_bpe_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bpe_8hpp.html">bpe.hpp</a></td></tr>
+<tr class="memdesc:bpe_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">snicholls::ml::bpe_encode_piece</a></span> and <span class="tt">bpe_decode</span>: byte-level BPE, token for token what tiktoken gives, with the vocabulary as the caller's lookup and no allocation. <br /></td></tr>
+<tr class="memitem:minifloat_2Ehpp" id="r_minifloat_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="minifloat_8hpp.html">minifloat.hpp</a></td></tr>
+<tr class="memdesc:minifloat_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html" title="A narrow floating-point number: E exponent bits, M mantissa bits and a sign, stored in 8 or 16 bits.">snicholls::ml::minifloat</a>&lt;E, M, Kind&gt;</span>: the low-precision floating-point formats of machine learning (bfloat16, float16, FP8 E4M3 and E5M2, the MX FP6 and FP4) as one template, with exact decoding, round-to-nearest-even and stochastic rounding, all <span class="tt">constexpr</span>. <br /></td></tr>
+<tr class="memitem:norm_2Ehpp" id="r_norm_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="norm_8hpp.html">norm.hpp</a></td></tr>
+<tr class="memdesc:norm_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> normalisation: <span class="tt">layer_norm</span> and <span class="tt">rms_norm</span> over one row, forward and backward, with or without learned parameters. <br /></td></tr>
+<tr class="memitem:row_2Ehpp" id="r_row_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="row_8hpp.html">row.hpp</a></td></tr>
+<tr class="memdesc:row_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="conceptsnicholls_1_1ml_1_1row.html" title="A row of numbers: a contiguous, sized range whose elements are a math::math_number.">snicholls::ml::row</a></span> and <span class="tt">mutable_row</span>: what the <span class="tt">ml</span> functions accept as a row of numbers, and the spans they work on. <br /></td></tr>
+<tr class="memitem:softmax_2Ehpp" id="r_softmax_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="softmax_8hpp.html">softmax.hpp</a></td></tr>
+<tr class="memdesc:softmax_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> softmax and losses: <span class="tt">softmax</span>, <span class="tt">log_softmax</span>, <span class="tt">logsumexp</span>, cross-entropy with its fused gradient, bits per byte, and <span class="tt">online_softmax</span>, a running softmax that merges across workers. <br /></td></tr>
 <tr class="memitem:overloaded_2Ehpp" id="r_overloaded_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="overloaded_8hpp.html">overloaded.hpp</a></td></tr>
 <tr class="memdesc:overloaded_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1overloaded.html" title="An overload set built from several callables: overloaded{[](int) {...}, [](double) {....">snicholls::overloaded</a></span> and <span class="tt"><a class="el" href="structsnicholls_1_1first__match.html" title="An ordered set of callables: a call goes to the first one, in the order written, that accepts the arg...">snicholls::first_match</a></span>: several callables as one, resolved at compile time. <br /></td></tr>
 <tr class="memitem:stages_2Ehpp" id="r_stages_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stages_8hpp.html">stages.hpp</a></td></tr>
@@ -336,6 +348,12 @@ Concepts</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A type with a static <span class="tt">name()</span> usable as a <span class="tt">std::string_view</span>. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Areflectable_5Fenum" id="r_snicholls_3A_3Areflectable_5Fenum"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1reflectable__enum.html">snicholls::reflectable_enum</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An enumeration whose values can be reflected: scoped, or unscoped with a fixed underlying type. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Abpe_5Fvocabulary" id="r_snicholls_3A_3Aml_3A_3Abpe_5Fvocabulary"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1bpe__vocabulary.html">snicholls::ml::bpe_vocabulary</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A vocabulary lookup: bytes to their rank, or <span class="tt">bpe_no_rank</span>. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Arow" id="r_snicholls_3A_3Aml_3A_3Arow"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1row.html">snicholls::ml::row</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A row of numbers: a contiguous, sized range whose elements are a <span class="tt">math::math_number</span>. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Amutable_5Frow" id="r_snicholls_3A_3Aml_3A_3Amutable_5Frow"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1mutable__row.html">snicholls::ml::mutable_row</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A row whose elements can be written. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aplain_5Faggregate" id="r_snicholls_3A_3Aplain_5Faggregate"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1plain__aggregate.html">snicholls::plain_aggregate</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A plain aggregate struct this library can bind: class type, aggregate, not a union (any cv/ref). <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Asequence_5Flike" id="r_snicholls_3A_3Asequence_5Flike"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1sequence__like.html">snicholls::sequence_like</a></td></tr>
@@ -501,6 +519,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread over one argument: Wolfram's <span class="tt">{n}</span>. Positions count from 1, as in Wolfram; negative ones from the end.  <a href="structsnicholls_1_1meta_1_1thread__at.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Ameta_3A_3Athread_5Frange_3C_20M_2C_20N_2C_20S_20_3E" id="r_snicholls_3A_3Ameta_3A_3Athread_5Frange_3C_20M_2C_20N_2C_20S_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1meta_1_1thread__range.html">snicholls::meta::thread_range&lt; M, N, S &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread over positions M to N in steps of S: Wolfram's <span class="tt">{m, n}</span> and <span class="tt">{m, n, s}</span>, so <span class="tt">&lt;1, -1, 2&gt;</span> is every other argument.  <a href="structsnicholls_1_1meta_1_1thread__range.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Abpe_5Fpart" id="r_snicholls_3A_3Aml_3A_3Abpe_5Fpart"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1bpe__part.html">snicholls::ml::bpe_part</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One part of a piece during merging: where it starts, and the rank of it merged with the next part.  <a href="structsnicholls_1_1ml_1_1bpe__part.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aminifloat_3C_20E_2C_20M_2C_20Kind_20_3E" id="r_snicholls_3A_3Aml_3A_3Aminifloat_3C_20E_2C_20M_2C_20Kind_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html">snicholls::ml::minifloat&lt; E, M, Kind &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A narrow floating-point number: <span class="tt">E</span> exponent bits, <span class="tt">M</span> mantissa bits and a sign, stored in 8 or 16 bits.  <a href="structsnicholls_1_1ml_1_1minifloat.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Anorm_5Fstats_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Anorm_5Fstats_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1norm__stats.html">snicholls::ml::norm_stats&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="norm_8hpp.html#a684b655909542f238737ea8d7c229b39" title="LayerNorm of one row: out = (x - mean) · rstd · weight + bias.">layer_norm</a></span> returns for its backward pass: the row's mean and <span class="tt">1 / sqrt(var + eps)</span>.  <a href="structsnicholls_1_1ml_1_1norm__stats.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aonline_5Fsoftmax_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aonline_5Fsoftmax_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html">snicholls::ml::online_softmax&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A running softmax: the maximum and <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html#a9016ad2bcccd86d2e81cf092b3b4bdfc" title="sum e^(x - max) over the values seen.">sum</a> e^(x - <a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html#a359c089d3c76ddd0c180b4803f818c8c" title="The largest value seen; -infinity before any.">max</a>)</span> of the values seen, updated one at a time and merged across workers.  <a href="structsnicholls_1_1ml_1_1online__softmax.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Afn_5Fptr_3C_20P_20_3E" id="r_snicholls_3A_3Afn_5Fptr_3C_20P_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1fn__ptr.html">snicholls::fn_ptr&lt; P &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function pointer as a callable class, so that it can be an element of an overload set.  <a href="structsnicholls_1_1fn__ptr.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aoverloaded_3C_20Fs_20_3E" id="r_snicholls_3A_3Aoverloaded_3C_20Fs_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1overloaded.html">snicholls::overloaded&lt; Fs &gt;</a></td></tr>
@@ -676,9 +702,9 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaa1583aa0ec8823339a420408e653e40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable <span class="tt">?</span> as a statement, discarding the value: returns the error of <span class="tt">expr</span> if there is one.  <br /></td></tr>
 <tr class="memitem:ga4402bc98a6b5059cc7188522bf2c869a" id="r_ga4402bc98a6b5059cc7188522bf2c869a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;6</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1e7069d6d9a404d68423cd8a030af191" id="r_ga1e7069d6d9a404d68423cd8a030af191"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(major,  minor,  patch)</td></tr>
 <tr class="memdesc:ga1e7069d6d9a404d68423cd8a030af191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode a version as one integer the preprocessor can compare.  <br /></td></tr>
@@ -823,6 +849,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ga29214845b901163f04687659b27fc2f1" id="r_ga29214845b901163f04687659b27fc2f1"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename... &gt; class F, typename L1, typename L2, template&lt; typename... &gt; class G&gt; </td></tr>
 <tr class="memitem:ga29214845b901163f04687659b27fc2f1 template"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga29214845b901163f04687659b27fc2f1">snicholls::meta::inner_t</a> = <a class="el" href="type__list_8hpp.html#af3260e10462fc03182add8e7c2e43927">rename_t</a>&lt;<a class="el" href="#ga31ae07e50836d916f95262f048526716">zip_with_t</a>&lt;F, L1, L2&gt;, G&gt;</td></tr>
 <tr class="memdesc:ga29214845b901163f04687659b27fc2f1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Inner[f, list1, list2, g]</span>: <span class="tt">G&lt;F&lt;A0, B0&gt;, F&lt;A1, B1&gt;, ...&gt;</span>, the generalised dot product; lengths must match.  <br /></td></tr>
+<tr class="memitem:gab64702f991c1102c4f17d2651d2035dd" id="r_gab64702f991c1102c4f17d2651d2035dd"><td class="memTemplParams" colspan="2">template&lt;row R&gt; </td></tr>
+<tr class="memitem:gab64702f991c1102c4f17d2651d2035dd template"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gab64702f991c1102c4f17d2651d2035dd">snicholls::ml::row_value_t</a> = std::ranges::range_value_t&lt;R&gt;</td></tr>
+<tr class="memdesc:gab64702f991c1102c4f17d2651d2035dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number type of a row.  <br /></td></tr>
 <tr class="memitem:ga6d4904d03735012430f69815baed610c" id="r_ga6d4904d03735012430f69815baed610c"><td class="memTemplParams" colspan="2">template&lt;typename S&gt; </td></tr>
 <tr class="memitem:ga6d4904d03735012430f69815baed610c template"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6d4904d03735012430f69815baed610c">snicholls::code_unit_t</a> = typename <a class="el" href="structsnicholls_1_1code__unit.html">code_unit</a>&lt;S&gt;::type</td></tr>
 <tr class="memdesc:ga6d4904d03735012430f69815baed610c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The cv-unqualified code unit: char for const char*, std::byte for span&lt;const std::byte&gt;.  <br /></td></tr>
@@ -875,6 +904,20 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#ggad3b4684d99ddf23675d64b35fd49071fad14a8022b085f9ef19d479cbdd581127">snicholls::overload_mismatch::types</a>
  }</td></tr>
 <tr class="memdesc:gad3b4684d99ddf23675d64b35fd49071f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Why <span class="tt"><a class="el" href="#ga4d7db73c9cddf303c1b5fb95d37368d7" title="Call the first callable of f whose parameter list the source can fill, chosen at run time.">snicholls::invoke_with</a></span> called nothing.  <a href="#gad3b4684d99ddf23675d64b35fd49071f">More...</a><br /></td></tr>
+<tr class="memitem:gac39740c58513e4a66ae2f43a7ca3e28e" id="r_gac39740c58513e4a66ae2f43a7ca3e28e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gac39740c58513e4a66ae2f43a7ca3e28e">snicholls::ml::bpe_error</a> { <a class="el" href="#ggac39740c58513e4a66ae2f43a7ca3e28ea43037d815f37811d9c8520506705a220">bpe_error::output_too_small</a>
+, <a class="el" href="#ggac39740c58513e4a66ae2f43a7ca3e28ea4ee5c5ed45ab6ee9afa19ac0b6e089a7">bpe_error::scratch_too_small</a>
+, <a class="el" href="#ggac39740c58513e4a66ae2f43a7ca3e28ea5727ce3754c37bbc1cfcb1fc8a79a701">bpe_error::unknown_bytes</a>
+ }</td></tr>
+<tr class="memdesc:gac39740c58513e4a66ae2f43a7ca3e28e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Why <span class="tt">bpe_encode_piece</span> or <span class="tt">bpe_decode</span> failed.  <a href="#gac39740c58513e4a66ae2f43a7ca3e28e">More...</a><br /></td></tr>
+<tr class="memitem:ga496958a9ba19eac987ca03b8f7968a5a" id="r_ga496958a9ba19eac987ca03b8f7968a5a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga496958a9ba19eac987ca03b8f7968a5a">snicholls::ml::minifloat_kind</a> { <a class="el" href="#gga496958a9ba19eac987ca03b8f7968a5aaedee9258e7ac2f4ed419255d2c6ae8b7">minifloat_kind::ieee</a>
+, <a class="el" href="#gga496958a9ba19eac987ca03b8f7968a5aac18e15d805ffcd01f1572d7ad47e68d5">minifloat_kind::finite_nan</a>
+, <a class="el" href="#gga496958a9ba19eac987ca03b8f7968a5aaf08d9f9dd085b62425e34097fc724a5f">minifloat_kind::finite</a>
+ }</td></tr>
+<tr class="memdesc:ga496958a9ba19eac987ca03b8f7968a5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a format's all-ones exponent means.  <a href="#ga496958a9ba19eac987ca03b8f7968a5a">More...</a><br /></td></tr>
+<tr class="memitem:ga60477dd069f3cda9d37a9c3df1bf3508" id="r_ga60477dd069f3cda9d37a9c3df1bf3508"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga60477dd069f3cda9d37a9c3df1bf3508">snicholls::ml::overflow_policy</a> { <a class="el" href="#gga60477dd069f3cda9d37a9c3df1bf3508af2fdee93271556e428dd9507b3da7235">overflow_policy::infinity</a>
+, <a class="el" href="#gga60477dd069f3cda9d37a9c3df1bf3508a4190a713d2c5d558385aad56c3ef0789">overflow_policy::saturate</a>
+ }</td></tr>
+<tr class="memdesc:ga60477dd069f3cda9d37a9c3df1bf3508"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a conversion does with a value beyond the format's largest finite number.  <a href="#ga60477dd069f3cda9d37a9c3df1bf3508">More...</a><br /></td></tr>
 <tr class="memitem:ga6637c07c34c92b444b0751e0ac2a418d" id="r_ga6637c07c34c92b444b0751e0ac2a418d"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6637c07c34c92b444b0751e0ac2a418d">snicholls::stats::resampling</a> { <a class="el" href="#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386">resampling::multinomial</a>
 , <a class="el" href="#gga6637c07c34c92b444b0751e0ac2a418da2c7fa5b4147150b7dfdb1ff83dbfab3e">resampling::poisson</a>
  }</td></tr>
@@ -1718,6 +1761,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ga6870a74bad04d381c0241bb94768e7aa" id="r_ga6870a74bad04d381c0241bb94768e7aa"><td class="memTemplParams" colspan="2">template&lt;auto... Vs&gt; </td></tr>
 <tr class="memitem:ga6870a74bad04d381c0241bb94768e7aa template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6870a74bad04d381c0241bb94768e7aa">snicholls::decreasing_v</a> = detail::adjacent_all&lt;decltype([](auto a, auto b) { return !(a &lt; b); }), Vs...&gt;({})</td></tr>
 <tr class="memdesc:ga6870a74bad04d381c0241bb94768e7aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Each value is at least the next.  <br /></td></tr>
+<tr class="memitem:gab23bdba90320db412810bac1ce5d9400" id="r_gab23bdba90320db412810bac1ce5d9400"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:gab23bdba90320db412810bac1ce5d9400 template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gab23bdba90320db412810bac1ce5d9400">snicholls::ml::is_minifloat_v</a> = false</td></tr>
+<tr class="memdesc:gab23bdba90320db412810bac1ce5d9400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">T</span> is a <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html" title="A narrow floating-point number: E exponent bits, M mantissa bits and a sign, stored in 8 or 16 bits.">minifloat</a></span>.  <br /></td></tr>
 <tr class="memitem:ga3be52bff97bb886f69cbc21e23283839" id="r_ga3be52bff97bb886f69cbc21e23283839"><td class="memTemplParams" colspan="2">template&lt;plain_aggregate S&gt; </td></tr>
 <tr class="memitem:ga3be52bff97bb886f69cbc21e23283839 template"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3be52bff97bb886f69cbc21e23283839">snicholls::member_count_v</a> = <a class="el" href="structsnicholls_1_1member__count.html">member_count</a>&lt;S&gt;::value</td></tr>
 <tr class="memdesc:ga3be52bff97bb886f69cbc21e23283839"><td class="mdescLeft">&#160;</td><td class="mdescRight">The member count of a plain aggregate struct, detected at compile time.  <br /></td></tr>
@@ -1869,7 +1915,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;5</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;6</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1887,7 +1933,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;1</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2911,6 +2957,26 @@ template&lt;typename List, std::size_t N&gt; </div>
 
 </div>
 </div>
+<a id="gab64702f991c1102c4f17d2651d2035dd" name="gab64702f991c1102c4f17d2651d2035dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab64702f991c1102c4f17d2651d2035dd">&#9670;&#160;</a></span>row_value_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;row R&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#gab64702f991c1102c4f17d2651d2035dd">snicholls::ml::row_value_t</a> = std::ranges::range_value_t&lt;R&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The number type of a row. </p>
+
+<p class="definition">Definition at line <a class="el" href="row_8hpp_source.html#l00063">63</a> of file <a class="el" href="row_8hpp_source.html">row.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ga3f5a2e0c57237fbcb64acce668e9be98" name="ga3f5a2e0c57237fbcb64acce668e9be98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga3f5a2e0c57237fbcb64acce668e9be98">&#9670;&#160;</a></span>stack_trace_hook</h2>
 
@@ -3217,6 +3283,40 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 
 </div>
 </div>
+<a id="gac39740c58513e4a66ae2f43a7ca3e28e" name="gac39740c58513e4a66ae2f43a7ca3e28e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac39740c58513e4a66ae2f43a7ca3e28e">&#9670;&#160;</a></span>bpe_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#gac39740c58513e4a66ae2f43a7ca3e28e">snicholls::ml::bpe_error</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Why <span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">bpe_encode_piece</a></span> or <span class="tt"><a class="el" href="bpe_8hpp.html#ac22fb3d04c2c6bb322f6809bcafe0e72" title="Decodes tokens to bytes: the concatenation of each token&#39;s bytes.">bpe_decode</a></span> failed. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggac39740c58513e4a66ae2f43a7ca3e28ea43037d815f37811d9c8520506705a220" name="ggac39740c58513e4a66ae2f43a7ca3e28ea43037d815f37811d9c8520506705a220"></a>output_too_small&#160;</td><td class="fielddoc"><p>The output span is shorter than the piece (or than the decoded bytes). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggac39740c58513e4a66ae2f43a7ca3e28ea4ee5c5ed45ab6ee9afa19ac0b6e089a7" name="ggac39740c58513e4a66ae2f43a7ca3e28ea4ee5c5ed45ab6ee9afa19ac0b6e089a7"></a>scratch_too_small&#160;</td><td class="fielddoc"><p>The scratch span is shorter than <span class="tt"><a class="el" href="bpe_8hpp.html#a1d6e6e6f72c374698fa2b70d190a4118" title="The scratch parts bpe_encode_piece needs for a piece of n bytes: n + 1.">bpe_scratch_size</a>(piece.size())</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggac39740c58513e4a66ae2f43a7ca3e28ea5727ce3754c37bbc1cfcb1fc8a79a701" name="ggac39740c58513e4a66ae2f43a7ca3e28ea5727ce3754c37bbc1cfcb1fc8a79a701"></a>unknown_bytes&#160;</td><td class="fielddoc"><p>A byte (or, decoding, a token id) is not in the vocabulary. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="bpe_8hpp_source.html#l00081">81</a> of file <a class="el" href="bpe_8hpp_source.html">bpe.hpp</a>.</p>
+
+</div>
+</div>
 <a id="gaf168b1291e2861199a712672e19db6f0" name="gaf168b1291e2861199a712672e19db6f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf168b1291e2861199a712672e19db6f0">&#9670;&#160;</a></span>colour_mode</h2>
 
@@ -3384,6 +3484,72 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </table>
 
 <p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00079">79</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ga496958a9ba19eac987ca03b8f7968a5a" name="ga496958a9ba19eac987ca03b8f7968a5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga496958a9ba19eac987ca03b8f7968a5a">&#9670;&#160;</a></span>minifloat_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ga496958a9ba19eac987ca03b8f7968a5a">snicholls::ml::minifloat_kind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>What a format's all-ones exponent means. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga496958a9ba19eac987ca03b8f7968a5aaedee9258e7ac2f4ed419255d2c6ae8b7" name="gga496958a9ba19eac987ca03b8f7968a5aaedee9258e7ac2f4ed419255d2c6ae8b7"></a>ieee&#160;</td><td class="fielddoc"><p>Infinity and NaN, as IEEE 754. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga496958a9ba19eac987ca03b8f7968a5aac18e15d805ffcd01f1572d7ad47e68d5" name="gga496958a9ba19eac987ca03b8f7968a5aac18e15d805ffcd01f1572d7ad47e68d5"></a>finite_nan&#160;</td><td class="fielddoc"><p>No infinity; NaN only when every exponent and mantissa bit is set (OCP E4M3). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga496958a9ba19eac987ca03b8f7968a5aaf08d9f9dd085b62425e34097fc724a5f" name="gga496958a9ba19eac987ca03b8f7968a5aaf08d9f9dd085b62425e34097fc724a5f"></a>finite&#160;</td><td class="fielddoc"><p>Neither: every code is a finite number (OCP MX FP6 and FP4). </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="minifloat_8hpp_source.html#l00078">78</a> of file <a class="el" href="minifloat_8hpp_source.html">minifloat.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ga60477dd069f3cda9d37a9c3df1bf3508" name="ga60477dd069f3cda9d37a9c3df1bf3508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga60477dd069f3cda9d37a9c3df1bf3508">&#9670;&#160;</a></span>overflow_policy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ga60477dd069f3cda9d37a9c3df1bf3508">snicholls::ml::overflow_policy</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>What a conversion does with a value beyond the format's largest finite number. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga60477dd069f3cda9d37a9c3df1bf3508af2fdee93271556e428dd9507b3da7235" name="gga60477dd069f3cda9d37a9c3df1bf3508af2fdee93271556e428dd9507b3da7235"></a>infinity&#160;</td><td class="fielddoc"><p>Infinity, or NaN in a <span class="tt">finite_nan</span> format; a <span class="tt">finite</span> format saturates. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga60477dd069f3cda9d37a9c3df1bf3508a4190a713d2c5d558385aad56c3ef0789" name="gga60477dd069f3cda9d37a9c3df1bf3508a4190a713d2c5d558385aad56c3ef0789"></a>saturate&#160;</td><td class="fielddoc"><p>The largest finite value, with the sign. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="minifloat_8hpp_source.html#l00087">87</a> of file <a class="el" href="minifloat_8hpp_source.html">minifloat.hpp</a>.</p>
 
 </div>
 </div>
@@ -16393,6 +16559,34 @@ template&lt;auto... Vs&gt; </div>
 <p>Each value is at most the next. </p>
 
 <p class="definition">Definition at line <a class="el" href="values_8hpp_source.html#l00097">97</a> of file <a class="el" href="values_8hpp_source.html">values.hpp</a>.</p>
+
+</div>
+</div>
+<a id="gab23bdba90320db412810bac1ce5d9400" name="gab23bdba90320db412810bac1ce5d9400"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab23bdba90320db412810bac1ce5d9400">&#9670;&#160;</a></span>is_minifloat_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::ml::is_minifloat_v = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether <span class="tt">T</span> is a <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html" title="A narrow floating-point number: E exponent bits, M mantissa bits and a sign, stored in 8 or 16 bits.">minifloat</a></span>. </p>
+
+<p class="definition">Definition at line <a class="el" href="minifloat_8hpp_source.html#l00149">149</a> of file <a class="el" href="minifloat_8hpp_source.html">minifloat.hpp</a>.</p>
 
 </div>
 </div>

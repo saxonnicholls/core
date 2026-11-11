@@ -50,6 +50,12 @@ var group__core =
     [ "type_list.hpp", "type__list_8hpp.html", null ],
     [ "type_name.hpp", "type__name_8hpp.html", null ],
     [ "values.hpp", "values_8hpp.html", null ],
+    [ "activations.hpp", "activations_8hpp.html", null ],
+    [ "bpe.hpp", "bpe_8hpp.html", null ],
+    [ "minifloat.hpp", "minifloat_8hpp.html", null ],
+    [ "norm.hpp", "norm_8hpp.html", null ],
+    [ "row.hpp", "row_8hpp.html", null ],
+    [ "softmax.hpp", "softmax_8hpp.html", null ],
     [ "overloaded.hpp", "overloaded_8hpp.html", null ],
     [ "stages.hpp", "stages_8hpp.html", null ],
     [ "member_count.hpp", "member__count_8hpp.html", null ],
@@ -116,6 +122,9 @@ var group__core =
     [ "snicholls::reservable", "conceptsnicholls_1_1reservable.html", null ],
     [ "snicholls::has_static_name", "conceptsnicholls_1_1has__static__name.html", null ],
     [ "snicholls::reflectable_enum", "conceptsnicholls_1_1reflectable__enum.html", null ],
+    [ "snicholls::ml::bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],
+    [ "snicholls::ml::row", "conceptsnicholls_1_1ml_1_1row.html", null ],
+    [ "snicholls::ml::mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ],
     [ "snicholls::plain_aggregate", "conceptsnicholls_1_1plain__aggregate.html", null ],
     [ "snicholls::sequence_like", "conceptsnicholls_1_1sequence__like.html", null ],
     [ "snicholls::tuple_like", "conceptsnicholls_1_1tuple__like.html", null ],
@@ -652,6 +661,26 @@ var group__core =
     [ "snicholls::meta::thread_first&lt; N &gt;", "structsnicholls_1_1meta_1_1thread__first.html", null ],
     [ "snicholls::meta::thread_at&lt; N &gt;", "structsnicholls_1_1meta_1_1thread__at.html", null ],
     [ "snicholls::meta::thread_range&lt; M, N, S &gt;", "structsnicholls_1_1meta_1_1thread__range.html", null ],
+    [ "snicholls::ml::bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", [
+      [ "rank", "structsnicholls_1_1ml_1_1bpe__part.html#ade2c89abc0ff7139ba296ee327c79cec", null ],
+      [ "start", "structsnicholls_1_1ml_1_1bpe__part.html#a8419193031349ef1342c85ad8ade9e6e", null ]
+    ] ],
+    [ "snicholls::ml::minifloat&lt; E, M, Kind &gt;", "structsnicholls_1_1ml_1_1minifloat.html", [
+      [ "storage_type", "structsnicholls_1_1ml_1_1minifloat.html#a0441a3c9092ec27f639fd675977dab2c", null ],
+      [ "bits", "structsnicholls_1_1ml_1_1minifloat.html#ae50b375830c446056df7a3ec8916f26f", null ]
+    ] ],
+    [ "snicholls::ml::norm_stats&lt; T &gt;", "structsnicholls_1_1ml_1_1norm__stats.html", [
+      [ "mean", "structsnicholls_1_1ml_1_1norm__stats.html#a2ed8f6dd852c4f6b8ea4eea694950e16", null ],
+      [ "rstd", "structsnicholls_1_1ml_1_1norm__stats.html#a79c74f443aa0cdca2038bff67c14be1f", null ]
+    ] ],
+    [ "snicholls::ml::online_softmax&lt; T &gt;", "structsnicholls_1_1ml_1_1online__softmax.html", [
+      [ "add", "structsnicholls_1_1ml_1_1online__softmax.html#a6505b85be53133791c4db0bf82746478", null ],
+      [ "log_sum_exp", "structsnicholls_1_1ml_1_1online__softmax.html#a719b26fca3f79409d106ed6260f5ce5e", null ],
+      [ "merge", "structsnicholls_1_1ml_1_1online__softmax.html#af4c15f45eafd01d3b254fd4d46527b85", null ],
+      [ "probability", "structsnicholls_1_1ml_1_1online__softmax.html#a8c719d67f8d73aa75a0b67b49a3636f8", null ],
+      [ "max", "structsnicholls_1_1ml_1_1online__softmax.html#a359c089d3c76ddd0c180b4803f818c8c", null ],
+      [ "sum", "structsnicholls_1_1ml_1_1online__softmax.html#a9016ad2bcccd86d2e81cf092b3b4bdfc", null ]
+    ] ],
     [ "snicholls::fn_ptr&lt; P &gt;", "structsnicholls_1_1fn__ptr.html", null ],
     [ "snicholls::overloaded&lt; Fs &gt;", "structsnicholls_1_1overloaded.html", null ],
     [ "snicholls::first_match&lt; Fs &gt;", "structsnicholls_1_1first__match.html", [
@@ -1334,6 +1363,7 @@ var group__core =
     [ "snicholls::meta::riffle_t", "group__core.html#ga0cc9345bcf0e80b08f22ead454da4f42", null ],
     [ "snicholls::meta::rotate_left_t", "group__core.html#ga4425323d3be3eab13f5e8394a488a69e", null ],
     [ "snicholls::meta::rotate_right_t", "group__core.html#ga29f4ff292bed4841310536695a27245a", null ],
+    [ "snicholls::ml::row_value_t", "group__core.html#gab64702f991c1102c4f17d2651d2035dd", null ],
     [ "snicholls::stack_trace_hook", "group__core.html#ga3f5a2e0c57237fbcb64acce668e9be98", null ],
     [ "snicholls::meta::subsets_of_size_t", "group__core.html#ga38c339dc7678a2fef15b76d91c6a8d3a", null ],
     [ "snicholls::meta::subsets_t", "group__core.html#gaa73ce77faec004ef7b19051c7bb61e31", null ],
@@ -1364,6 +1394,11 @@ var group__core =
       [ "snicholls::ansi_colour::bright_cyan", "group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9acc69f9955c2bf916bb9a83f38141432f", null ],
       [ "snicholls::ansi_colour::bright_white", "group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9ada7527acf78cb4e7b582e8163a1f642a", null ]
     ] ],
+    [ "snicholls::ml::bpe_error", "group__core.html#gac39740c58513e4a66ae2f43a7ca3e28e", [
+      [ "snicholls::ml::bpe_error::output_too_small", "group__core.html#ggac39740c58513e4a66ae2f43a7ca3e28ea43037d815f37811d9c8520506705a220", null ],
+      [ "snicholls::ml::bpe_error::scratch_too_small", "group__core.html#ggac39740c58513e4a66ae2f43a7ca3e28ea4ee5c5ed45ab6ee9afa19ac0b6e089a7", null ],
+      [ "snicholls::ml::bpe_error::unknown_bytes", "group__core.html#ggac39740c58513e4a66ae2f43a7ca3e28ea5727ce3754c37bbc1cfcb1fc8a79a701", null ]
+    ] ],
     [ "snicholls::colour_mode", "group__core.html#gaf168b1291e2861199a712672e19db6f0", [
       [ "snicholls::colour_mode::automatic", "group__core.html#ggaf168b1291e2861199a712672e19db6f0a2bd9c0ed00116be1258e0cc66617d7c8", null ],
       [ "snicholls::colour_mode::always", "group__core.html#ggaf168b1291e2861199a712672e19db6f0af9f90eeaf400d228facde6bc48da5cfb", null ],
@@ -1388,6 +1423,15 @@ var group__core =
     [ "snicholls::leap_second_policy", "group__core.html#gae1199bd75d7bd4320cd8b8dbb819d737", [
       [ "snicholls::leap_second_policy::reject", "group__core.html#ggae1199bd75d7bd4320cd8b8dbb819d737a6bfaf02d9f3b165809fb7f056665a6bd", null ],
       [ "snicholls::leap_second_policy::clamp", "group__core.html#ggae1199bd75d7bd4320cd8b8dbb819d737aa597a055c00d084069e4bb23dc789ac9", null ]
+    ] ],
+    [ "snicholls::ml::minifloat_kind", "group__core.html#ga496958a9ba19eac987ca03b8f7968a5a", [
+      [ "snicholls::ml::minifloat_kind::ieee", "group__core.html#gga496958a9ba19eac987ca03b8f7968a5aaedee9258e7ac2f4ed419255d2c6ae8b7", null ],
+      [ "snicholls::ml::minifloat_kind::finite_nan", "group__core.html#gga496958a9ba19eac987ca03b8f7968a5aac18e15d805ffcd01f1572d7ad47e68d5", null ],
+      [ "snicholls::ml::minifloat_kind::finite", "group__core.html#gga496958a9ba19eac987ca03b8f7968a5aaf08d9f9dd085b62425e34097fc724a5f", null ]
+    ] ],
+    [ "snicholls::ml::overflow_policy", "group__core.html#ga60477dd069f3cda9d37a9c3df1bf3508", [
+      [ "snicholls::ml::overflow_policy::infinity", "group__core.html#gga60477dd069f3cda9d37a9c3df1bf3508af2fdee93271556e428dd9507b3da7235", null ],
+      [ "snicholls::ml::overflow_policy::saturate", "group__core.html#gga60477dd069f3cda9d37a9c3df1bf3508a4190a713d2c5d558385aad56c3ef0789", null ]
     ] ],
     [ "snicholls::overload_mismatch", "group__core.html#gad3b4684d99ddf23675d64b35fd49071f", [
       [ "snicholls::overload_mismatch::arity", "group__core.html#ggad3b4684d99ddf23675d64b35fd49071fa818a353ca0797d4ed19b5a8fe604fcdd", null ],
@@ -1681,6 +1725,7 @@ var group__core =
     [ "snicholls::meta::find_index_if_v", "group__core.html#ga25bad714737638efb56d825bcd931d0f", null ],
     [ "snicholls::has_attribute_v", "group__core.html#ga1b77588c1b868b7ec4eae9a17bb12945", null ],
     [ "snicholls::increasing_v", "group__core.html#ga56bbf6f9d77dc05ea3a331e626537a4c", null ],
+    [ "snicholls::ml::is_minifloat_v", "group__core.html#gab23bdba90320db412810bac1ce5d9400", null ],
     [ "snicholls::is_std_array_v", "group__core.html#gac138be10423d88f3f52274e6c03e1a6d", null ],
     [ "snicholls::is_traced_v", "group__core.html#ga690aa0da63512a9297b4c2ea8c261017", null ],
     [ "snicholls::masked_field_text", "group__core.html#gab7d49e9c55e334375b515cb783784c61", null ],

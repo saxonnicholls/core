@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['rank_0',['rank',['../classsnicholls_1_1containers_1_1md__array.html#a32687b14a4ed239ae9d37481728df2be',1,'snicholls::containers::md_array']]],
+  ['rank_0',['rank',['../classsnicholls_1_1containers_1_1md__array.html#a32687b14a4ed239ae9d37481728df2be',1,'snicholls::containers::md_array::rank'],['../structsnicholls_1_1ml_1_1bpe__part.html#ade2c89abc0ff7139ba296ee327c79cec',1,'snicholls::ml::bpe_part::rank']]],
   ['rate_1',['rate',['../structsnicholls_1_1finance_1_1market__move.html#a0c3b3cd2df34361731b4c094e2c87043',1,'snicholls::finance::market_move']]],
   ['rates_2',['rates',['../structsnicholls_1_1finance_1_1greeks__explain.html#a42a182a8257d4224acb65b93c4fd6c41',1,'snicholls::finance::greeks_explain']]],
   ['red_3',['red',['../colour_8hpp.html#ac779f729f2a58824d34a3eca99661a69',1,'snicholls::colours']]],
@@ -10,5 +10,6 @@ var searchData=
   ['rgb_7',['rgb',['../structsnicholls_1_1colour.html#a0b5d9092bbf0a19a1d600267107b6642',1,'snicholls::colour']]],
   ['rho_8',['rho',['../structsnicholls_1_1finance_1_1greeks.html#a8f15f31aff8ba06d738f5a90b44f9885',1,'snicholls::finance::greeks::rho'],['../structsnicholls_1_1finance_1_1greeks__explain.html#ad7cee4bb546e3b004055e368c8091720',1,'snicholls::finance::greeks_explain::rho']]],
   ['right_9',['right',['../structsnicholls_1_1containers_1_1avl__hook.html#af4115760a3fe13c9b264aba9f350548f',1,'snicholls::containers::avl_hook']]],
-  ['rng_10',['rng',['../structsnicholls_1_1stats_1_1bootstrapped.html#ace6a171ec7461630e3cb4fa75e01d7ca',1,'snicholls::stats::bootstrapped']]]
+  ['rng_10',['rng',['../structsnicholls_1_1stats_1_1bootstrapped.html#ace6a171ec7461630e3cb4fa75e01d7ca',1,'snicholls::stats::bootstrapped']]],
+  ['rstd_11',['rstd',['../structsnicholls_1_1ml_1_1norm__stats.html#a79c74f443aa0cdca2038bff67c14be1f',1,'snicholls::ml::norm_stats']]]
 ];

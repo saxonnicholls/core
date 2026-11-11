@@ -15,7 +15,8 @@ var searchData=
   ['bloom_5fparameters_12',['bloom_parameters',['../structsnicholls_1_1containers_1_1bloom__parameters.html',1,'snicholls::containers']]],
   ['bootstrap_5fdistribution_13',['bootstrap_distribution',['../structsnicholls_1_1stats_1_1bootstrap__distribution.html',1,'snicholls::stats']]],
   ['bootstrapped_14',['bootstrapped',['../structsnicholls_1_1stats_1_1bootstrapped.html',1,'snicholls::stats']]],
-  ['by_5fname_15',['by_name',['../structsnicholls_1_1stats_1_1by__name.html',1,'snicholls::stats']]],
-  ['by_5ftype_16',['by_type',['../structsnicholls_1_1stats_1_1by__type.html',1,'snicholls::stats']]],
-  ['by_5ftype_3c_20spec_20_3e_17',['by_type&lt; Spec &gt;',['../structsnicholls_1_1stats_1_1by__type.html',1,'snicholls::stats']]]
+  ['bpe_5fpart_15',['bpe_part',['../structsnicholls_1_1ml_1_1bpe__part.html',1,'snicholls::ml']]],
+  ['by_5fname_16',['by_name',['../structsnicholls_1_1stats_1_1by__name.html',1,'snicholls::stats']]],
+  ['by_5ftype_17',['by_type',['../structsnicholls_1_1stats_1_1by__type.html',1,'snicholls::stats']]],
+  ['by_5ftype_3c_20spec_20_3e_18',['by_type&lt; Spec &gt;',['../structsnicholls_1_1stats_1_1by__type.html',1,'snicholls::stats']]]
 ];
