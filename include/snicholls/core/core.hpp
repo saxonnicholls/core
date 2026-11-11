@@ -87,6 +87,7 @@
 #include <snicholls/core/meta/type_name.hpp>
 #include <snicholls/core/meta/values.hpp>
 #include <snicholls/core/ml/activations.hpp>
+#include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/row.hpp>

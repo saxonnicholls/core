@@ -67,6 +67,7 @@ add_executable(snicholls_core_tests
     meta/type_name_test.cpp
     meta/values_test.cpp
     ml/activations_test.cpp
+    ml/bpe_test.cpp
     ml/minifloat_test.cpp
     ml/norm_test.cpp
     ml/row_test.cpp

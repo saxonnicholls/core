@@ -38,6 +38,7 @@ snicholls_core_add_benchmark(hash_combine_benchmark hash/hash_combine_benchmark.
 snicholls_core_add_benchmark(wyhash_benchmark hash/wyhash_benchmark.cpp)
 snicholls_core_add_benchmark(attributes_benchmark meta/attributes_benchmark.cpp)
 snicholls_core_add_benchmark(activations_benchmark ml/activations_benchmark.cpp)
+snicholls_core_add_benchmark(bpe_benchmark ml/bpe_benchmark.cpp)
 snicholls_core_add_benchmark(minifloat_benchmark ml/minifloat_benchmark.cpp)
 snicholls_core_add_benchmark(norm_benchmark ml/norm_benchmark.cpp)
 snicholls_core_add_benchmark(softmax_benchmark ml/softmax_benchmark.cpp)
@@ -51,3 +52,6 @@ snicholls_core_add_benchmark(pivot_benchmark stats/pivot_benchmark.cpp)
 if(NOT WIN32)
     snicholls_core_add_benchmark(utc_benchmark time/utc_benchmark.cpp)
 endif()
+
+# The BPE benchmark reads the committed tokenizer fixture
+target_compile_definitions(snicholls_core_bpe_benchmark PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${PROJECT_SOURCE_DIR}/tests/fixtures")
