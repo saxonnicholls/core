@@ -160,8 +160,9 @@ TEST(MlQuantize, DequantisationIsWithinHalfAStep)
         for (std::size_t i = 0; i < c.x.size(); ++i) {
             const float d = ml::to_float(b[i / 32].d);
             EXPECT_EQ(back[i], float(b[i / 32].qs[i % 32]) * d);
-            if (d >= 6.1035156e-5f)   // a normal float16 scale: subnormal ones lose relative precision
+            if (d >= 6.1035156e-5f) {   // a normal float16 scale: subnormal ones lose relative precision
                 EXPECT_LE(std::fabs(back[i] - c.x[i]), 0.5f * d * 1.01f + 1e-3f * std::fabs(c.x[i]));
+            }
         }
     }
 }
