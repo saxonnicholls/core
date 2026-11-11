@@ -94,9 +94,13 @@ jobs:
           path: bench-json/
           if-no-files-found: ignore
 
+      # Without -g: CI never reads the debug information, and GCC's for these template-heavy tests is what pushed
+      # the 16 GB ARM64 runner out of memory with four jobs. The Release tree is removed first for its disk.
       - name: Configure, build and test (Debug, -O0, asserts live)
         run: >
-          cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug
+          rm -rf build
+          && cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_CXX_FLAGS_DEBUG=-O0
           -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
           -DSNICHOLLS_CORE_WERROR=ON
           && cmake --build build-debug --parallel
