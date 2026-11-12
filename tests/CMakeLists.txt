@@ -34,10 +34,13 @@ add_executable(snicholls_core_tests
     containers/dense_id_map_test.cpp
     containers/flat_id_map_test.cpp
     containers/hierarchical_bitset_test.cpp
+    containers/index_pool_test.cpp
     containers/inplace_vector_test.cpp
     containers/intrusive_avl_tree_test.cpp
+    containers/mapped_header_test.cpp
     containers/md_array_test.cpp
     containers/object_pool_test.cpp
+    containers/offset_ptr_test.cpp
     containers/perfect_map_test.cpp
     containers/static_map_test.cpp
     detail/forward_like_test.cpp

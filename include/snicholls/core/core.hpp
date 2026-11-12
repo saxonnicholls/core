@@ -60,10 +60,13 @@
 #include <snicholls/core/containers/dense_id_map.hpp>
 #include <snicholls/core/containers/flat_id_map.hpp>
 #include <snicholls/core/containers/hierarchical_bitset.hpp>
+#include <snicholls/core/containers/index_pool.hpp>
 #include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/containers/intrusive_avl_tree.hpp>
+#include <snicholls/core/containers/mapped_header.hpp>
 #include <snicholls/core/containers/md_array.hpp>
 #include <snicholls/core/containers/object_pool.hpp>
+#include <snicholls/core/containers/offset_ptr.hpp>
 #include <snicholls/core/containers/perfect_map.hpp>
 #include <snicholls/core/containers/static_map.hpp>
 #include <snicholls/core/finance/attribution.hpp>

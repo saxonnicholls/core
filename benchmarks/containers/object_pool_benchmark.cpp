@@ -5,7 +5,9 @@
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
 //  snicholls::containers::object_pool against new and delete, like for like: create 4,096 orders,
-//  destroy every other one, create 2,048 more, destroy everything.
+//  destroy every other one, create 2,048 more, destroy everything. A third row
+//  runs the same pool with its chunks from a std::pmr::unsynchronized_pool_resource,
+//  to show what taking chunks through a memory_resource costs.
 //  Both sides get identical data and do the same
 //  operations in the same order, and each returns a checksum of what it saw.
 //  main() runs a fairness check first and refuses to benchmark if the
@@ -19,6 +21,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
+#include <memory_resource>
 #include <vector>
 
 namespace {
@@ -31,9 +34,9 @@ struct order {
     order(long i, long q) noexcept : id(i), quantity(q) {}
 };
 
-std::uint64_t run_core()
+std::uint64_t run_core(std::pmr::memory_resource* resource = std::pmr::new_delete_resource())
 {
-    snicholls::containers::object_pool<order, 1024> pool;
+    snicholls::containers::object_pool<order, 1024> pool(resource);
     std::vector<order*> live;
     live.reserve(items);
     std::uint64_t sum = 0;
@@ -64,6 +67,15 @@ void BM_Core(benchmark::State& state)
 }
 BENCHMARK(BM_Core)->Name("object_pool");
 
+void BM_CorePmr(benchmark::State& state)
+{
+    std::pmr::unsynchronized_pool_resource upstream;
+    for (auto _ : state)
+        benchmark::DoNotOptimize(run_core(&upstream));
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(items));
+}
+BENCHMARK(BM_CorePmr)->Name("object_pool_pool_resource");
+
 void BM_Std(benchmark::State& state)
 {
     for (auto _ : state)
@@ -76,7 +88,8 @@ BENCHMARK(BM_Std)->Name("new_delete");
 
 int main(int argc, char** argv)
 {
-    if (run_core() != run_std()) {
+    std::pmr::unsynchronized_pool_resource check;
+    if (run_core() != run_std() || run_core(&check) != run_std()) {
         std::fprintf(stderr, "object_pool benchmark: fairness check FAILED - the checksums disagree; not benchmarking\n");
         return 1;
     }
