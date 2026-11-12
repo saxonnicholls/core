@@ -68,7 +68,6 @@
 #ifndef snicholls_core_ml_quantize_hpp
 #define snicholls_core_ml_quantize_hpp
 
-#include <snicholls/core/math/constexpr_math.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/row.hpp>
 

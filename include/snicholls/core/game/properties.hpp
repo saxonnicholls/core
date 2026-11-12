@@ -37,7 +37,7 @@
 ///
 /// **Tests and demos.** `tests/game/properties_test.cpp`, `demos/game/properties_demo.cpp`.
 ///
-/// **Dependencies.** `<concepts>`, `<cstddef>`, `<optional>`, `<span>`, `<vector>`, `game/coalition.hpp`,
+/// **Dependencies.** `<concepts>`, `<cstddef>`, `<optional>`, `<span>`, `game/coalition.hpp`,
 /// `game/shapley.hpp`.
 ///
 /// **Known issues.** The tolerance is absolute; scale it to the game.
@@ -54,7 +54,6 @@
 #include <cstddef>
 #include <optional>
 #include <span>
-#include <vector>
 
 namespace snicholls::game {
 

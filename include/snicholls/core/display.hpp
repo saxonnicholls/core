@@ -42,7 +42,7 @@
 ///
 /// **Tests and demos.** `tests/display_test.cpp`, `demos/display_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<bit>`, `<charconv>`, `<cmath>`, `<cstddef>`, `<cstdint>`, `<initializer_list>`,
+/// **Dependencies.** `<array>`, `<bit>`, `<charconv>`, `<cstddef>`, `<cstdint>`, `<initializer_list>`,
 /// `<concepts>`, `<optional>`, `<ostream>`, `<string_view>`, `<type_traits>`, `colour.hpp`, `meta/attributes.hpp`,
 /// `meta/enums.hpp`.
 ///
@@ -60,7 +60,6 @@
 #include <array>
 #include <bit>
 #include <charconv>
-#include <cmath>
 #include <cstddef>
 #include <initializer_list>
 #include <concepts>

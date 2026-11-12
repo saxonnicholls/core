@@ -51,7 +51,6 @@
 #include <string>
 #include <string_view>
 #include <system_error>
-#include <utility>
 
 #include <snicholls/core/detail/sha1.hpp>
 #include <snicholls/core/reflect/string_access.hpp>

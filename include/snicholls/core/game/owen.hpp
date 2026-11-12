@@ -34,7 +34,7 @@
 ///
 /// **Tests and demos.** `tests/game/owen_test.cpp`, `demos/game/owen_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<bit>`, `<cassert>`, `<cstddef>`, `<span>`, `<vector>`,
+/// **Dependencies.** `<bit>`, `<cassert>`, `<cstddef>`, `<span>`, `<vector>`,
 /// `game/coalition.hpp`, `game/shapley.hpp`.
 ///
 /// **Known issues.** None known.
@@ -47,7 +47,6 @@
 #include <snicholls/core/game/coalition.hpp>
 #include <snicholls/core/game/shapley.hpp>
 
-#include <array>
 #include <bit>
 #include <cassert>
 #include <cstddef>

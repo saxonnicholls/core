@@ -25,7 +25,6 @@
 #include <cstdint>
 #include <span>
 #include <string_view>
-#include <utility>
 #include <vector>
 
 namespace snicholls::containers {

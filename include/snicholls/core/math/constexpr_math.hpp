@@ -38,7 +38,7 @@
 ///
 /// **Tests and demos.** `tests/math/constexpr_math_test.cpp`, `demos/math/constexpr_math_demo.cpp`.
 ///
-/// **Dependencies.** `<bit>`, `<cmath>`, `<concepts>`, `<cstdint>`, `<limits>`, `<type_traits>`.
+/// **Dependencies.** `<bit>`, `<cmath>`, `<cstdint>`, `<limits>`, `<type_traits>`.
 ///
 /// **Known issues.** At compile time `sin` and `cos` reduce arguments with three parts of pi/2, accurate
 /// for |x| up to about 1e9; beyond that compile-time results drift. `lgamma`, `gamma_p` and `chi_square_cdf` use
@@ -54,7 +54,6 @@
 
 #include <bit>
 #include <cmath>
-#include <concepts>
 #include <cstdint>
 #include <limits>
 #include <type_traits>

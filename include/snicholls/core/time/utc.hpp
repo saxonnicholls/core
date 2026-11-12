@@ -74,7 +74,6 @@
 #include <ratio>
 #include <type_traits>
 
-#include <snicholls/core/time/civil.hpp>
 
 namespace snicholls {
 

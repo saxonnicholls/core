@@ -55,7 +55,7 @@
 /// **Tests and demos.** `tests/stats/pivot_test.cpp`, `demos/stats/pivot_demo.cpp`.
 ///
 /// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<functional>`,
-/// `<optional>`, `<ostream>`, `<ranges>`, `<string_view>`, `<tuple>`, `<type_traits>`, `<unordered_map>`,
+/// `<optional>`, `<ostream>`, `<ranges>`, `<tuple>`, `<type_traits>`, `<unordered_map>`,
 /// `<utility>`, `<vector>`, `meta/concepts.hpp`, `meta/enums.hpp`, `meta/type_list.hpp`,
 /// `stats/accumulators.hpp`.
 ///
@@ -80,11 +80,9 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
-#include <functional>
 #include <optional>
 #include <ostream>
 #include <ranges>
-#include <string_view>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>

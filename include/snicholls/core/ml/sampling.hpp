@@ -51,7 +51,7 @@
 ///
 /// **Tests and demos.** `tests/ml/sampling_test.cpp`, `demos/ml/sampling_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<limits>`, `<span>`,
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<span>`,
 /// `snicholls/core/math/constexpr_math.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** NaN logits are not ordered; a row with one compares as if it were absent from the maximum.
@@ -69,7 +69,6 @@
 #include <cassert>
 #include <concepts>
 #include <cstddef>
-#include <limits>
 #include <span>
 
 namespace snicholls::ml

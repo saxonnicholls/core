@@ -31,7 +31,7 @@
 ///
 /// **Tests and demos.** `tests/strong_test.cpp`, `demos/strong_demo.cpp`.
 ///
-/// **Dependencies.** `<compare>`, `<cstddef>`, `<functional>`, `<ostream>`, `<utility>`.
+/// **Dependencies.** `<cstddef>`, `<functional>`, `<ostream>`, `<utility>`.
 ///
 /// **Known issues.** No units algebra: a product of two strong types is a function the caller writes.
 ///
@@ -40,7 +40,6 @@
 #ifndef snicholls_core_strong_hpp
 #define snicholls_core_strong_hpp
 
-#include <compare>
 #include <cstddef>
 #include <functional>
 #include <ostream>

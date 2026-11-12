@@ -44,7 +44,7 @@
 /// `tests/hash/fnv_test.cpp`, `demos/hash/fnv_demo.cpp`.
 ///
 /// **Dependencies.**
-/// `<cstdint>`, `<string_view>`, `<type_traits>`, and `endian.hpp`.
+/// `<cstdint>`, `<string_view>`, and `endian.hpp`.
 ///
 /// **Status.**
 /// Experimental.
@@ -57,7 +57,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <string_view>
-#include <type_traits>
 
 namespace snicholls {
 

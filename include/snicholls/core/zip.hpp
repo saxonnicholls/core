@@ -38,7 +38,7 @@
 ///
 /// **Tests and demos.** `tests/zip_test.cpp`, `demos/zip_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<concepts>`, `<cstddef>`, `<iterator>`, `<ranges>`, `<tuple>`,
+/// **Dependencies.** `<algorithm>`, `<cstddef>`, `<iterator>`, `<ranges>`, `<tuple>`,
 /// `<type_traits>`, `<utility>`. It specialises `std::tuple_size`, `std::tuple_element` and
 /// `std::basic_common_reference` for `zip_value`, its own type, as the standard permits. `<ranges>` is heavier than it looks.
 ///
@@ -54,7 +54,6 @@
 #define snicholls_core_zip_hpp
 
 #include <algorithm>
-#include <concepts>
 #include <cstddef>
 #include <iterator>
 #include <ranges>
