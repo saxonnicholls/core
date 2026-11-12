@@ -67,47 +67,62 @@ libraries above them pin core and those. Nothing in core depends on a library th
 
 ## The family
 
-Core is the root of a family of libraries that each make sense on their own and together. The same rules hold in
-every one of them.
+Core is the root of a family of libraries that each make sense on their own and together, each with complete
+integrity and consistency. The same ten rules hold in every one of them.
 
-- **Each function appears once in the whole family.** Its owner is the lowest library whose rules admit it; every
-  library above calls it. A copy in a demo, a test or a `utils/` folder is a defect. When a function is found more
-  than once, the very best version wins, wherever it was found: the copies are compared (correctness, edge cases,
-  tests, API, measured speed), the best moves to the owner, takes in what the others did better and is brought to
-  this standard, every caller switches to it, and the copies are deleted in the same change. Search the family before writing a helper; if it
-  does not exist, add it to its owner, with its test and demo.
-- **Place code by what it needs**, the first row that applies:
+1. **One function, one place.** Each function appears once in the whole family. A copy in a demo, a test, a `utils/`
+   folder or a local helper is a defect. Before writing a helper, search the family; if it exists, call it; if not,
+   add it to its owner (rule 3) with its test and demo.
+2. **The very best version wins.** When a function is found more than once, every copy is compared (correctness,
+   edge cases, tests, API, measured speed); the best becomes the owner's, takes in what the others did better, and is
+   brought to this file's standard; then every caller switches to it and the copies are deleted, in the same change.
+   Which library is lower, or which copy came first, decides nothing.
+3. **Place code by what it needs**, the first row that applies:
 
-  | If the code needs | It goes in |
-  |---|---|
-  | the standard library only, and no I/O | core |
-  | hashing or encoding bytes | base-encode-decode |
-  | the operating system: threads, synchronisation, files, sockets, clock sources, `getenv`, process lifecycle | ts-moveables |
-  | a third-party library | an adapter package (core-adapters for JSON and Python) |
-  | an object model, a domain, a product | the libraries and applications above |
+   | If the code needs | It goes in |
+   |---|---|
+   | the standard library only, and no I/O | core |
+   | hashing or encoding bytes | base-encode-decode |
+   | the operating system: threads, synchronisation, files, sockets, clock sources, `getenv`, process lifecycle | ts-moveables |
+   | a third-party library | an adapter package (core-adapters for JSON and Python) |
+   | an object model, a domain, a product | the libraries and applications above |
 
-- **Interfaces in core, implementations where they belong.** A concept is a compile-time contract with no I/O, so core
-  may hold the interface of a capability whose implementations need the operating system or a third-party library
-  (the linear algebra backend, `error_sink`, `ml::attention_cache`, `ml::weight_matrix`); the implementations live in
-  ts-moveables, an adapter or above, and can come later. Callers depend on the concept, never on a concrete library.
-  A capability's contract lives in `interfaces/<capability>.hpp`, all of it in one header: the concept, its error
-  type, a standard-library reference implementation (the fake tests use), a type-erased handle where run-time choice
-  is needed, and a conformance kit (plain functions that drive any implementation through the contract and say which
-  check failed, so no test framework is included). An interface enters as experimental and becomes stable once two
-  real implementations pass its kit. Concepts that classify types (`integer`, `map_like`) stay in `meta/`.
-- **One owner per concept.** Core owns time as values, `result`, printing from threads, the fast hashes, enum and
-  aggregate reflection, and the build mode; ts-moveables owns the run-time environment, reading files, process-wide
-  initialisation, configuration files, clock sources and log levels; core-adapters owns the JSON forms of core's
-  types. A second copy of a concept is deleted, not kept as a variant.
-- **One contract everywhere**: this file's documentation standard, mirrored tests, demos and benchmarks, version
-  checks, naming, platforms and commit rules, each enforced by the library's own CI.
+   Code that fits two rows is two things: split it.
+4. **Interfaces in core, implementations where they belong.** Core holds the contract of any capability, even one
+   whose every implementation needs the operating system or a third-party library, in
+   `interfaces/<capability>.hpp`, in standard C++ types only (`std::string_view`, `std::span<const std::byte>`,
+   `std::optional`, `result` with the interface's own error enumeration): the concept, for static dispatch; a pure
+   virtual interface of the same operations, for run-time choice; an adapter that lets any type satisfying the
+   concept be used through the virtual interface (which satisfies the concept too); a standard-library reference
+   implementation (the fake tests use); and a conformance kit (plain functions that drive any implementation through
+   the contract and say which check failed, so no test framework is included). Implementations live where rule 3
+   puts them and can come later; callers depend on the contract, never on a concrete library. An interface is
+   experimental until two real implementations pass its kit. Already this shape: the linear algebra backend,
+   `error_sink`, `ml::attention_cache`, `ml::weight_matrix`. Concepts that classify types (`integer`, `map_like`) stay
+   in `meta/`.
+5. **Shared vocabulary in core; every type extends it from its own namespace.** Knowledge every library should be able
+   to use, and that is standard-library compile-time data, belongs to core even when it describes an outside system:
+   type support (C++ types to the names of SQL, protobuf, Rust or Go types), presentation (`attributes()`),
+   numeric limits (`math::math_limits`), printing. Core carries the entries for standard types and its own; every
+   other type declares its own entries next to its definition, found by ADL or a specialisation. Core never names a
+   type from a library above it.
+6. **Pins point down; one core version** (see "Versioning and the diamond").
+7. **One owner per concept.** Core owns time as values, `result`, printing from threads, the fast hashes, enum and
+   aggregate reflection, type support, the interfaces, and the build mode; ts-moveables owns the run-time
+   environment, reading files, process-wide initialisation, configuration files, clock sources and log levels;
+   core-adapters owns the JSON forms of core's types. A second copy of a concept is deleted, not kept as a variant.
+8. **One contract everywhere**: this file's documentation standard, mirrored tests, demos and benchmarks, version
+   checks, naming, platforms and commit rules, each enforced by the library's own CI.
+9. **Public libraries name nothing private**: no private repository, product, person, credential or local path.
+10. **No move without an order.** Code moves between libraries only when the owner of the repositories orders it, in
+   dependency order (the owner of the function first, then each caller), each step with its tests green.
 
 ## Layout
 
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
   a few headers. `core.hpp` is the umbrella. `detail/` holds internals (`namespace snicholls::detail`): not public
   API, still tested, not demonstrated.
-- Areas: `interfaces/` for the contracts of capabilities (see "The family"); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
+- Areas: `interfaces/` for the contracts of capabilities ("The family", rule 4); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
