@@ -292,7 +292,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 <p>Take a free slot; its bytes are unspecified (see <span class="tt"><a class="el" href="#a0cb6280129c89a8d71e37fb385f49658" title="Take a free slot and copy value into it.">create</a></span>). </p>
 <dl class="section return"><dt>Returns</dt><dd>its index, or <span class="tt">full</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00215">215</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00219">219</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -362,7 +362,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 <p>Whether the pool has a region. </p>
 <dl class="section return"><dt>Returns</dt><dd>true after a successful <span class="tt"><a class="el" href="#ac7c399eaefeb0e3f1d4a8d515323fd08" title="Start an empty pool in region, overwriting its first header_size bytes.">format</a></span>, <span class="tt"><a class="el" href="#a2d2f555ce8c5ac03f47cd6514d040841" title="Take up the pool already in region (written by format and used, here or in an earlier run).">attach</a></span> or <span class="tt"><a class="el" href="#ae538c8d05f07e7bfd3259660b3e5db8c" title="Point the pool at its region after the region grew, moved or was remapped; indices keep their meaning...">rebase</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00274">274</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00278">278</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -432,7 +432,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 <p>Slots the region holds (at most <span class="tt"><a class="el" href="#afed4e39f837d20816f92e11ca5a65e89" title="The index that names no slot: the end of the free list.">npos</a></span>). </p>
 <dl class="section return"><dt>Returns</dt><dd>the capacity. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00271">271</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00275">275</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -470,7 +470,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>its index, or <span class="tt">full</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00234">234</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00238">238</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -502,7 +502,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 <p>The start of the region. </p>
 <dl class="section return"><dt>Returns</dt><dd>the address <span class="tt"><a class="el" href="#ae538c8d05f07e7bfd3259660b3e5db8c" title="Point the pool at its region after the region grew, moved or was remapped; indices keep their meaning...">rebase</a></span> was last given. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00277">277</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00281">281</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -539,7 +539,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00243">243</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00247">247</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -609,7 +609,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 <p>Slots ever used: every live or freed index is below this. </p>
 <dl class="section return"><dt>Returns</dt><dd>the high-water mark. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00268">268</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00272">272</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -641,7 +641,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 <p>Slots in use. </p>
 <dl class="section return"><dt>Returns</dt><dd>the count. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00265">265</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00269">269</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -679,7 +679,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the object. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00258">258</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00262">262</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
@@ -717,7 +717,7 @@ template&lt;class T, class Index = std::uint32_t&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the object. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00254">254</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="index__pool_8hpp_source.html#l00258">258</a> of file <a class="el" href="index__pool_8hpp_source.html">index_pool.hpp</a>.</p>
 
 </div>
 </div>
