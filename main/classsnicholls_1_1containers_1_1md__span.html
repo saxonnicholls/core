@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>snicholls-core: snicholls::containers::md_span&lt; T, Rank &gt; Class Template Reference</title>
+<title>snicholls-core: snicholls::containers::md_span&lt; T, Rank, Layout &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -89,63 +89,272 @@ $(function(){initNavTree('classsnicholls_1_1containers_1_1md__span.html','','cla
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">snicholls::containers::md_span&lt; T, Rank &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__core.html">snicholls-core</a></div></div></div>
+  <div class="headertitle"><div class="title">snicholls::containers::md_span&lt; T, Rank, Layout &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__core.html">snicholls-core</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A view of contiguous storage as a <span class="tt">Rank</span>-dimensional row-major array whose extents are known at run time.  
+<p>A view of storage as a <span class="tt">Rank</span>-dimensional array whose extents are known at run time; <span class="tt">std::mdspan</span> in miniature.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="md__array_8hpp_source.html">snicholls/core/containers/md_array.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a910424c0b25b519929f353745d2c06fb" id="r_a910424c0b25b519929f353745d2c06fb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a910424c0b25b519929f353745d2c06fb">element_type</a> = T</td></tr>
+<tr class="memdesc:a910424c0b25b519929f353745d2c06fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element type, const for a read-only view.  <br /></td></tr>
+<tr class="memitem:a686c6227d051066a88038ea1a56cdc2f" id="r_a686c6227d051066a88038ea1a56cdc2f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a686c6227d051066a88038ea1a56cdc2f">value_type</a> = std::remove_cv_t&lt;T&gt;</td></tr>
+<tr class="memdesc:a686c6227d051066a88038ea1a56cdc2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element type without const.  <br /></td></tr>
+<tr class="memitem:ab56478dd76964e8430ea4e6874d779db" id="r_ab56478dd76964e8430ea4e6874d779db"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab56478dd76964e8430ea4e6874d779db">index_type</a> = std::size_t</td></tr>
+<tr class="memdesc:ab56478dd76964e8430ea4e6874d779db"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of an index.  <br /></td></tr>
+<tr class="memitem:ae0860ebb754c84b28312cb11fef7c7c9" id="r_ae0860ebb754c84b28312cb11fef7c7c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0860ebb754c84b28312cb11fef7c7c9">size_type</a> = std::size_t</td></tr>
+<tr class="memdesc:ae0860ebb754c84b28312cb11fef7c7c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a size.  <br /></td></tr>
+<tr class="memitem:a9fdf2dd167408bba0e976da7c5119623" id="r_a9fdf2dd167408bba0e976da7c5119623"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fdf2dd167408bba0e976da7c5119623">layout_type</a> = Layout</td></tr>
+<tr class="memdesc:a9fdf2dd167408bba0e976da7c5119623"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layout.  <br /></td></tr>
+<tr class="memitem:a01473989719caa72d241a6924b73678f" id="r_a01473989719caa72d241a6924b73678f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a> = typename Layout::template <a class="el" href="#a2030b501fceff5125b408064873ac9fc">mapping</a>&lt;Rank&gt;</td></tr>
+<tr class="memdesc:a01473989719caa72d241a6924b73678f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The layout's mapping for this rank.  <br /></td></tr>
+<tr class="memitem:a8dedf77acb6f5248f7f9e2ea6b1b81c3" id="r_a8dedf77acb6f5248f7f9e2ea6b1b81c3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dedf77acb6f5248f7f9e2ea6b1b81c3">data_handle_type</a> = T*</td></tr>
+<tr class="memdesc:a8dedf77acb6f5248f7f9e2ea6b1b81c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The storage handle: a pointer.  <br /></td></tr>
+<tr class="memitem:a5fe7e5f499722c5d105751bb5540552d" id="r_a5fe7e5f499722c5d105751bb5540552d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fe7e5f499722c5d105751bb5540552d">reference</a> = T&amp;</td></tr>
+<tr class="memdesc:a5fe7e5f499722c5d105751bb5540552d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of an element access.  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a122061cb50f9b9b56bb27a8f22b6c9e7" id="r_a122061cb50f9b9b56bb27a8f22b6c9e7"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a122061cb50f9b9b56bb27a8f22b6c9e7">md_span</a> (T *<a class="el" href="#aa26971d82ac5928c4a7c2e0a2e8a682c">data</a>, std::array&lt; std::size_t, Rank &gt; extents) noexcept</td></tr>
-<tr class="memdesc:a122061cb50f9b9b56bb27a8f22b6c9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A view of <span class="tt"><a class="el" href="#aa26971d82ac5928c4a7c2e0a2e8a682c" title="The storage.">data</a></span> with these extents.  <br /></td></tr>
-<tr class="memitem:a225167fe531cb6d6025427ce6a230581" id="r_a225167fe531cb6d6025427ce6a230581"><td class="memTemplParams" colspan="2">template&lt;typename... Is&gt; <br />
+<tr class="memitem:ab80468355fdbbf1a623b2539db4a934b" id="r_ab80468355fdbbf1a623b2539db4a934b"><td class="memItemLeft" align="right" valign="top"><a id="ab80468355fdbbf1a623b2539db4a934b" name="ab80468355fdbbf1a623b2539db4a934b"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><b>md_span</b> () noexcept=default</td></tr>
+<tr class="memdesc:ab80468355fdbbf1a623b2539db4a934b"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty view: no storage, every extent 0. <br /></td></tr>
+<tr class="memitem:a20a259057c5e000bedf11401693d4155" id="r_a20a259057c5e000bedf11401693d4155"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20a259057c5e000bedf11401693d4155">md_span</a> (T *<a class="el" href="#ae19f030d025d73d35fa208eec2400fa9">data</a>, const std::array&lt; std::size_t, Rank &gt; &amp;<a class="el" href="#a8481246e1b42483fa3d9772eaf5de7fb">extents</a>) noexcept</td></tr>
+<tr class="memdesc:a20a259057c5e000bedf11401693d4155"><td class="mdescLeft">&#160;</td><td class="mdescRight">A row- or column-major view of <span class="tt"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9" title="The storage.">data</a></span> with these extents.  <br /></td></tr>
+<tr class="memitem:a68500e87ddec23d1b1bb2cb3ae9d21bd" id="r_a68500e87ddec23d1b1bb2cb3ae9d21bd"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68500e87ddec23d1b1bb2cb3ae9d21bd">md_span</a> (T *<a class="el" href="#ae19f030d025d73d35fa208eec2400fa9">data</a>, const std::array&lt; std::size_t, Rank &gt; &amp;<a class="el" href="#a8481246e1b42483fa3d9772eaf5de7fb">extents</a>, const std::array&lt; std::size_t, Rank &gt; &amp;strides) noexcept</td></tr>
+<tr class="memdesc:a68500e87ddec23d1b1bb2cb3ae9d21bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A strided view of <span class="tt"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9" title="The storage.">data</a></span>.  <br /></td></tr>
+<tr class="memitem:a9809e3e56df236abe6b757ce5ea590b2" id="r_a9809e3e56df236abe6b757ce5ea590b2"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9809e3e56df236abe6b757ce5ea590b2">md_span</a> (T *<a class="el" href="#ae19f030d025d73d35fa208eec2400fa9">data</a>, const <a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a> &amp;m) noexcept</td></tr>
+<tr class="memdesc:a9809e3e56df236abe6b757ce5ea590b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">A view of <span class="tt"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9" title="The storage.">data</a></span> through this mapping.  <br /></td></tr>
+<tr class="memitem:a7f158ccf527358f8f99002fa648ec9cc" id="r_a7f158ccf527358f8f99002fa648ec9cc"><td class="memTemplParams" colspan="2">template&lt;typename U, typename Other&gt; <br />
+requires (!std::same_as&lt;md_span&lt;U, Rank, Other&gt;, md_span&gt; &amp;&amp; std::is_convertible_v&lt;U (*)[], T (*)[]&gt; &amp;&amp; std::is_convertible_v&lt;const typename Other::template <a class="el" href="#a2030b501fceff5125b408064873ac9fc">mapping</a>&lt;Rank&gt;&amp;, <a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a>&gt;)</td></tr>
+<tr class="memitem:a7f158ccf527358f8f99002fa648ec9cc template"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f158ccf527358f8f99002fa648ec9cc">md_span</a> (const md_span&lt; U, Rank, Other &gt; &amp;other) noexcept</td></tr>
+<tr class="memdesc:a7f158ccf527358f8f99002fa648ec9cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The same elements, as a view of const elements or in <span class="tt"><a class="el" href="structsnicholls_1_1containers_1_1layout__stride.html" title="Any strides, std::layout_stride: a slice, a transpose, padded rows, a batch with gaps between systems...">layout_stride</a></span>, as <span class="tt">std::mdspan</span> converts.  <br /></td></tr>
+<tr class="memitem:a5785fe766cbceee83e485aeba229a584" id="r_a5785fe766cbceee83e485aeba229a584"><td class="memTemplParams" colspan="2">template&lt;typename... Is&gt; <br />
 requires (sizeof...(Is) == Rank)</td></tr>
-<tr class="memitem:a225167fe531cb6d6025427ce6a230581 template"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a225167fe531cb6d6025427ce6a230581">operator()</a> (Is... is) const noexcept</td></tr>
-<tr class="memdesc:a225167fe531cb6d6025427ce6a230581"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element at these indices, unchecked.  <br /></td></tr>
-<tr class="memitem:a58890319f674967a1b78efbc96e65979" id="r_a58890319f674967a1b78efbc96e65979"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58890319f674967a1b78efbc96e65979">extent</a> (std::size_t d) const noexcept</td></tr>
-<tr class="memdesc:a58890319f674967a1b78efbc96e65979"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extent of dimension <span class="tt">d</span>.  <br /></td></tr>
-<tr class="memitem:a563e9cf2ed37e1e0bc1be2478960e4b2" id="r_a563e9cf2ed37e1e0bc1be2478960e4b2"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a563e9cf2ed37e1e0bc1be2478960e4b2">size</a> () const noexcept</td></tr>
-<tr class="memdesc:a563e9cf2ed37e1e0bc1be2478960e4b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of elements.  <br /></td></tr>
-<tr class="memitem:aa26971d82ac5928c4a7c2e0a2e8a682c" id="r_aa26971d82ac5928c4a7c2e0a2e8a682c"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa26971d82ac5928c4a7c2e0a2e8a682c">data</a> () const noexcept</td></tr>
-<tr class="memdesc:aa26971d82ac5928c4a7c2e0a2e8a682c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The storage.  <br /></td></tr>
+<tr class="memitem:a5785fe766cbceee83e485aeba229a584 template"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5785fe766cbceee83e485aeba229a584">operator()</a> (Is... is) const noexcept</td></tr>
+<tr class="memdesc:a5785fe766cbceee83e485aeba229a584"><td class="mdescLeft">&#160;</td><td class="mdescRight">The element at these indices, unchecked.  <br /></td></tr>
+<tr class="memitem:a982d809cbcd88a140435582043426295" id="r_a982d809cbcd88a140435582043426295"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a982d809cbcd88a140435582043426295">extent</a> (std::size_t d) const noexcept</td></tr>
+<tr class="memdesc:a982d809cbcd88a140435582043426295"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extent of dimension <span class="tt">d</span>.  <br /></td></tr>
+<tr class="memitem:a8481246e1b42483fa3d9772eaf5de7fb" id="r_a8481246e1b42483fa3d9772eaf5de7fb"><td class="memItemLeft" align="right" valign="top">constexpr const std::array&lt; std::size_t, Rank &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8481246e1b42483fa3d9772eaf5de7fb">extents</a> () const noexcept</td></tr>
+<tr class="memdesc:a8481246e1b42483fa3d9772eaf5de7fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The extents.  <br /></td></tr>
+<tr class="memitem:adfcb6fd5e3e87392b1d731939b629288" id="r_adfcb6fd5e3e87392b1d731939b629288"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfcb6fd5e3e87392b1d731939b629288">stride</a> (std::size_t d) const noexcept</td></tr>
+<tr class="memdesc:adfcb6fd5e3e87392b1d731939b629288"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stride of dimension <span class="tt">d</span>, in elements.  <br /></td></tr>
+<tr class="memitem:a5cb96bd171ccb247062ea3c93290916c" id="r_a5cb96bd171ccb247062ea3c93290916c"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cb96bd171ccb247062ea3c93290916c">size</a> () const noexcept</td></tr>
+<tr class="memdesc:a5cb96bd171ccb247062ea3c93290916c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of elements.  <br /></td></tr>
+<tr class="memitem:a0573b8b472731624e59921900ce9f179" id="r_a0573b8b472731624e59921900ce9f179"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0573b8b472731624e59921900ce9f179">empty</a> () const noexcept</td></tr>
+<tr class="memdesc:a0573b8b472731624e59921900ce9f179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the view has no elements.  <br /></td></tr>
+<tr class="memitem:ae19f030d025d73d35fa208eec2400fa9" id="r_ae19f030d025d73d35fa208eec2400fa9"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9">data</a> () const noexcept</td></tr>
+<tr class="memdesc:ae19f030d025d73d35fa208eec2400fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The storage.  <br /></td></tr>
+<tr class="memitem:a65d18ef9ad17dfa71ff567165dea87a8" id="r_a65d18ef9ad17dfa71ff567165dea87a8"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65d18ef9ad17dfa71ff567165dea87a8">data_handle</a> () const noexcept</td></tr>
+<tr class="memdesc:a65d18ef9ad17dfa71ff567165dea87a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The storage, <span class="tt">std::mdspan</span>'s spelling.  <br /></td></tr>
+<tr class="memitem:a2030b501fceff5125b408064873ac9fc" id="r_a2030b501fceff5125b408064873ac9fc"><td class="memItemLeft" align="right" valign="top">constexpr const <a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2030b501fceff5125b408064873ac9fc">mapping</a> () const noexcept</td></tr>
+<tr class="memdesc:a2030b501fceff5125b408064873ac9fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mapping.  <br /></td></tr>
+<tr class="memitem:a5605c5e38fc935ffd8fba1083943a4ac" id="r_a5605c5e38fc935ffd8fba1083943a4ac"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5605c5e38fc935ffd8fba1083943a4ac">is_exhaustive</a> () const noexcept</td></tr>
+<tr class="memdesc:a5605c5e38fc935ffd8fba1083943a4ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the view uses every offset below <span class="tt"><a class="el" href="#a2030b501fceff5125b408064873ac9fc" title="The mapping.">mapping()</a>.required_span_size()</span>.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:afe7412358d0f3b7becd34fbd1a81a5d0" id="r_afe7412358d0f3b7becd34fbd1a81a5d0"><td class="memItemLeft" align="right" valign="top">static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe7412358d0f3b7becd34fbd1a81a5d0">rank</a> () noexcept</td></tr>
+<tr class="memdesc:afe7412358d0f3b7becd34fbd1a81a5d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of dimensions.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, std::size_t Rank&gt;<br />
-class snicholls::containers::md_span&lt; T, Rank &gt;</div><p>A view of contiguous storage as a <span class="tt">Rank</span>-dimensional row-major array whose extents are known at run time. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt;<br />
+class snicholls::containers::md_span&lt; T, Rank, Layout &gt;</div><p>A view of storage as a <span class="tt">Rank</span>-dimensional array whose extents are known at run time; <span class="tt">std::mdspan</span> in miniature. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The element type (const for a read-only view). </td></tr>
     <tr><td class="paramname">Rank</td><td>The number of dimensions. </td></tr>
+    <tr><td class="paramname">Layout</td><td><span class="tt"><a class="el" href="structsnicholls_1_1containers_1_1layout__right.html" title="Row-major layout, std::layout_right: the last index is contiguous.">layout_right</a></span> (row-major, the default), <span class="tt"><a class="el" href="structsnicholls_1_1containers_1_1layout__left.html" title="Column-major layout, std::layout_left: the first index is contiguous.">layout_left</a></span> (column-major) or <span class="tt"><a class="el" href="structsnicholls_1_1containers_1_1layout__stride.html" title="Any strides, std::layout_stride: a slice, a transpose, padded rows, a batch with gaps between systems...">layout_stride</a></span>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00162">162</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a122061cb50f9b9b56bb27a8f22b6c9e7" name="a122061cb50f9b9b56bb27a8f22b6c9e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a122061cb50f9b9b56bb27a8f22b6c9e7">&#9670;&#160;</a></span>md_span()</h2>
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00451">451</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a8dedf77acb6f5248f7f9e2ea6b1b81c3" name="a8dedf77acb6f5248f7f9e2ea6b1b81c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dedf77acb6f5248f7f9e2ea6b1b81c3">&#9670;&#160;</a></span>data_handle_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, std::size_t Rank&gt; </div>
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::data_handle_type = T*</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The storage handle: a pointer. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00461">461</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a910424c0b25b519929f353745d2c06fb" name="a910424c0b25b519929f353745d2c06fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a910424c0b25b519929f353745d2c06fb">&#9670;&#160;</a></span>element_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::element_type = T</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The element type, const for a read-only view. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00455">455</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab56478dd76964e8430ea4e6874d779db" name="ab56478dd76964e8430ea4e6874d779db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab56478dd76964e8430ea4e6874d779db">&#9670;&#160;</a></span>index_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::index_type = std::size_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of an index. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00457">457</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a9fdf2dd167408bba0e976da7c5119623" name="a9fdf2dd167408bba0e976da7c5119623"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fdf2dd167408bba0e976da7c5119623">&#9670;&#160;</a></span>layout_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::layout_type = Layout</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The layout. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00459">459</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a01473989719caa72d241a6924b73678f" name="a01473989719caa72d241a6924b73678f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01473989719caa72d241a6924b73678f">&#9670;&#160;</a></span>mapping_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::mapping_type = typename Layout::template <a class="el" href="#a2030b501fceff5125b408064873ac9fc">mapping</a>&lt;Rank&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The layout's mapping for this rank. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00460">460</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5fe7e5f499722c5d105751bb5540552d" name="a5fe7e5f499722c5d105751bb5540552d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fe7e5f499722c5d105751bb5540552d">&#9670;&#160;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::reference = T&amp;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of an element access. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00462">462</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae0860ebb754c84b28312cb11fef7c7c9" name="ae0860ebb754c84b28312cb11fef7c7c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0860ebb754c84b28312cb11fef7c7c9">&#9670;&#160;</a></span>size_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::size_type = std::size_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The type of a size. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00458">458</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a686c6227d051066a88038ea1a56cdc2f" name="a686c6227d051066a88038ea1a56cdc2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a686c6227d051066a88038ea1a56cdc2f">&#9670;&#160;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::value_type = std::remove_cv_t&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The element type without const. </p>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00456">456</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a20a259057c5e000bedf11401693d4155" name="a20a259057c5e000bedf11401693d4155"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20a259057c5e000bedf11401693d4155">&#9670;&#160;</a></span>md_span() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank &gt;::md_span </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::md_span </td>
           <td>(</td>
           <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; std::size_t, Rank &gt;</td>          <td class="paramname"><span class="paramname"><em>extents</em></span>&#160;)</td>
+          <td class="paramtype">const std::array&lt; std::size_t, Rank &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>extents</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -155,7 +364,7 @@ template&lt;typename T, std::size_t Rank&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>A view of <span class="tt"><a class="el" href="#aa26971d82ac5928c4a7c2e0a2e8a682c" title="The storage.">data</a></span> with these extents. </p>
+<p>A row- or column-major view of <span class="tt"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9" title="The storage.">data</a></span> with these extents. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>At least the product of the extents elements. </td></tr>
@@ -164,24 +373,161 @@ template&lt;typename T, std::size_t Rank&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00169">169</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00470">470</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
 
 </div>
 </div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="aa26971d82ac5928c4a7c2e0a2e8a682c" name="aa26971d82ac5928c4a7c2e0a2e8a682c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa26971d82ac5928c4a7c2e0a2e8a682c">&#9670;&#160;</a></span>data()</h2>
+<a id="a68500e87ddec23d1b1bb2cb3ae9d21bd" name="a68500e87ddec23d1b1bb2cb3ae9d21bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68500e87ddec23d1b1bb2cb3ae9d21bd">&#9670;&#160;</a></span>md_span() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, std::size_t Rank&gt; </div>
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T * <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank &gt;::data </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::md_span </td>
+          <td>(</td>
+          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; std::size_t, Rank &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>extents</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; std::size_t, Rank &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>strides</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A strided view of <span class="tt"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9" title="The storage.">data</a></span>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>At least <span class="tt">required_span_size()</span> elements. </td></tr>
+    <tr><td class="paramname">extents</td><td>The extents. </td></tr>
+    <tr><td class="paramname">strides</td><td>The strides, in elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00480">480</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a9809e3e56df236abe6b757ce5ea590b2" name="a9809e3e56df236abe6b757ce5ea590b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9809e3e56df236abe6b757ce5ea590b2">&#9670;&#160;</a></span>md_span() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::md_span </td>
+          <td>(</td>
+          <td class="paramtype">T *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>m</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A view of <span class="tt"><a class="el" href="#ae19f030d025d73d35fa208eec2400fa9" title="The storage.">data</a></span> through this mapping. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>At least <span class="tt">m.required_span_size()</span> elements. </td></tr>
+    <tr><td class="paramname">m</td><td>The mapping. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00489">489</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7f158ccf527358f8f99002fa648ec9cc" name="a7f158ccf527358f8f99002fa648ec9cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f158ccf527358f8f99002fa648ec9cc">&#9670;&#160;</a></span>md_span() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<div class="memtemplate">
+template&lt;typename U, typename Other&gt; <br />
+requires (!std::same_as&lt;md_span&lt;U, Rank, Other&gt;, md_span&gt; &amp;&amp; std::is_convertible_v&lt;U (*)[], T (*)[]&gt; &amp;&amp; std::is_convertible_v&lt;const typename Other::template <a class="el" href="#a2030b501fceff5125b408064873ac9fc">mapping</a>&lt;Rank&gt;&amp;, <a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a>&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::md_span </td>
+          <td>(</td>
+          <td class="paramtype">const md_span&lt; U, Rank, Other &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The same elements, as a view of const elements or in <span class="tt"><a class="el" href="structsnicholls_1_1containers_1_1layout__stride.html" title="Any strides, std::layout_stride: a slice, a transpose, padded rows, a batch with gaps between systems...">layout_stride</a></span>, as <span class="tt">std::mdspan</span> converts. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The other view's element type: <span class="tt">T</span>, or <span class="tt">T</span> without const. </td></tr>
+    <tr><td class="paramname">Other</td><td>The other view's layout; its mapping converts to this one's. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The view. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00498">498</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ae19f030d025d73d35fa208eec2400fa9" name="ae19f030d025d73d35fa208eec2400fa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae19f030d025d73d35fa208eec2400fa9">&#9670;&#160;</a></span>data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::data </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -195,25 +541,89 @@ template&lt;typename T, std::size_t Rank&gt; </div>
 </div><div class="memdoc">
 
 <p>The storage. </p>
-<dl class="section return"><dt>Returns</dt><dd>The first element. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The element at offset 0. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00201">201</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00542">542</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a58890319f674967a1b78efbc96e65979" name="a58890319f674967a1b78efbc96e65979"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58890319f674967a1b78efbc96e65979">&#9670;&#160;</a></span>extent()</h2>
+<a id="a65d18ef9ad17dfa71ff567165dea87a8" name="a65d18ef9ad17dfa71ff567165dea87a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65d18ef9ad17dfa71ff567165dea87a8">&#9670;&#160;</a></span>data_handle()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, std::size_t Rank&gt; </div>
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank &gt;::extent </td>
+          <td class="memname">T * <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::data_handle </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The storage, <span class="tt">std::mdspan</span>'s spelling. </p>
+<dl class="section return"><dt>Returns</dt><dd>The element at offset 0. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00545">545</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0573b8b472731624e59921900ce9f179" name="a0573b8b472731624e59921900ce9f179"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0573b8b472731624e59921900ce9f179">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::empty </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether the view has no elements. </p>
+<dl class="section return"><dt>Returns</dt><dd>Whether an extent is 0. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00539">539</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a982d809cbcd88a140435582043426295" name="a982d809cbcd88a140435582043426295"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a982d809cbcd88a140435582043426295">&#9670;&#160;</a></span>extent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::extent </td>
           <td>(</td>
           <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>d</em></span></td><td>)</td>
           <td> const</td>
@@ -235,17 +645,113 @@ template&lt;typename T, std::size_t Rank&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00195">195</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00520">520</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a225167fe531cb6d6025427ce6a230581" name="a225167fe531cb6d6025427ce6a230581"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a225167fe531cb6d6025427ce6a230581">&#9670;&#160;</a></span>operator()()</h2>
+<a id="a8481246e1b42483fa3d9772eaf5de7fb" name="a8481246e1b42483fa3d9772eaf5de7fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8481246e1b42483fa3d9772eaf5de7fb">&#9670;&#160;</a></span>extents()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, std::size_t Rank&gt; </div>
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::array&lt; std::size_t, Rank &gt; &amp; <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::extents </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The extents. </p>
+<dl class="section return"><dt>Returns</dt><dd>They. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00523">523</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5605c5e38fc935ffd8fba1083943a4ac" name="a5605c5e38fc935ffd8fba1083943a4ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5605c5e38fc935ffd8fba1083943a4ac">&#9670;&#160;</a></span>is_exhaustive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::is_exhaustive </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether the view uses every offset below <span class="tt"><a class="el" href="#a2030b501fceff5125b408064873ac9fc" title="The mapping.">mapping()</a>.required_span_size()</span>. </p>
+<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00551">551</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2030b501fceff5125b408064873ac9fc" name="a2030b501fceff5125b408064873ac9fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2030b501fceff5125b408064873ac9fc">&#9670;&#160;</a></span>mapping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="#a01473989719caa72d241a6924b73678f">mapping_type</a> &amp; <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::mapping </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The mapping. </p>
+<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00548">548</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5785fe766cbceee83e485aeba229a584" name="a5785fe766cbceee83e485aeba229a584"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5785fe766cbceee83e485aeba229a584">&#9670;&#160;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Is&gt; <br />
 requires (sizeof...(Is) == Rank)</div>
@@ -254,7 +760,7 @@ requires (sizeof...(Is) == Rank)</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T &amp; <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank &gt;::operator() </td>
+          <td class="memname">T &amp; <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">Is...</td>          <td class="paramname"><span class="paramname"><em>is</em></span></td><td>)</td>
           <td> const</td>
@@ -282,23 +788,55 @@ requires (sizeof...(Is) == Rank)</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00185">185</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00509">509</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a563e9cf2ed37e1e0bc1be2478960e4b2" name="a563e9cf2ed37e1e0bc1be2478960e4b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a563e9cf2ed37e1e0bc1be2478960e4b2">&#9670;&#160;</a></span>size()</h2>
+<a id="afe7412358d0f3b7becd34fbd1a81a5d0" name="afe7412358d0f3b7becd34fbd1a81a5d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe7412358d0f3b7becd34fbd1a81a5d0">&#9670;&#160;</a></span>rank()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T, std::size_t Rank&gt; </div>
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank &gt;::size </td>
+          <td class="memname">constexpr std::size_t <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::rank </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of dimensions. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">Rank</span>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00516">516</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5cb96bd171ccb247062ea3c93290916c" name="a5cb96bd171ccb247062ea3c93290916c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cb96bd171ccb247062ea3c93290916c">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::size </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -312,9 +850,47 @@ template&lt;typename T, std::size_t Rank&gt; </div>
 </div><div class="memdoc">
 
 <p>The number of elements. </p>
+<dl class="section return"><dt>Returns</dt><dd>The product of the extents. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00530">530</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+
+</div>
+</div>
+<a id="adfcb6fd5e3e87392b1d731939b629288" name="adfcb6fd5e3e87392b1d731939b629288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfcb6fd5e3e87392b1d731939b629288">&#9670;&#160;</a></span>stride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, std::size_t Rank, typename Layout = layout_right&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">snicholls::containers::md_span</a>&lt; T, Rank, Layout &gt;::stride </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>d</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The stride of dimension <span class="tt">d</span>, in elements. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The dimension. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00198">198</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="md__array_8hpp_source.html#l00527">527</a> of file <a class="el" href="md__array_8hpp_source.html">md_array.hpp</a>.</p>
 
 </div>
 </div>

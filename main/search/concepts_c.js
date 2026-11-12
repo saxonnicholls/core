@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['plain_5faggregate_0',['plain_aggregate',['../conceptsnicholls_1_1plain__aggregate.html',1,'snicholls']]],
-  ['plain_5fstruct_1',['plain_struct',['../conceptsnicholls_1_1plain__struct.html',1,'snicholls']]],
-  ['printable_2',['printable',['../conceptsnicholls_1_1printable.html',1,'snicholls']]],
-  ['printable_5fany_3',['printable_any',['../conceptsnicholls_1_1printable__any.html',1,'snicholls']]],
-  ['printable_5fto_5facout_4',['printable_to_acout',['../conceptsnicholls_1_1printable__to__acout.html',1,'snicholls']]],
-  ['printable_5fto_5fstream_5',['printable_to_stream',['../conceptsnicholls_1_1printable__to__stream.html',1,'snicholls']]]
+  ['non_5fnarrowing_5fassignable_0',['non_narrowing_assignable',['../conceptsnicholls_1_1non__narrowing__assignable.html',1,'snicholls']]],
+  ['nothrow_5fstd_5fhashable_1',['nothrow_std_hashable',['../conceptsnicholls_1_1nothrow__std__hashable.html',1,'snicholls']]],
+  ['null_5fterminated_5fstring_2',['null_terminated_string',['../conceptsnicholls_1_1null__terminated__string.html',1,'snicholls']]],
+  ['number_3',['number',['../conceptsnicholls_1_1number.html',1,'snicholls']]],
+  ['number_5flike_4',['number_like',['../conceptsnicholls_1_1number__like.html',1,'snicholls']]]
 ];

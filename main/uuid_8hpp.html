@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -109,7 +109,6 @@ $(function(){initNavTree('uuid_8hpp.html','',''); });
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;system_error&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;snicholls/core/detail/sha1.hpp&gt;</code><br />
 <code>#include &lt;<a class="el" href="string__access_8hpp_source.html">snicholls/core/reflect/string_access.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="string__traits_8hpp_source.html">snicholls/core/reflect/string_traits.hpp</a>&gt;</code><br />
@@ -193,16 +192,16 @@ Variables</h2></td></tr>
 <div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacesnicholls_1_1literals.html">snicholls::literals</a>;  <span class="keyword">constexpr</span> <span class="keyword">auto</span> ns = <span class="stringliteral">&quot;6ba7b810-9dad-11d1-80b4-00c04fd430c8&quot;</span>_uuid;</div>
 <div class="line"><span class="keywordtype">id</span>.version();  <span class="keywordtype">id</span>.variant();  <span class="keywordtype">id</span>.timestamp();  <span class="keywordtype">id</span>.is_nil();  <a class="code hl_function" href="structsnicholls_1_1uuid.html#a68b54ea0a714eb264627888c67152831">snicholls::uuid::max</a>();</div>
 <div class="line"><a class="code hl_function" href="group__core.html#ga3fe29dcc09ddce32184059c26f28b699">snicholls::make_uuid_v5</a>(<a class="code hl_variable" href="#acc5b6da40736c649c0abf3fe87f56ec6">snicholls::uuid_namespace::dns</a>, <span class="stringliteral">&quot;www.example.com&quot;</span>);   <span class="comment">// name-based, deterministic, constexpr</span></div>
-<div class="ttc" id="agroup__core_html_ga0134c30fee080aebbf47a0cc967d59f7"><div class="ttname"><a href="group__core.html#ga0134c30fee080aebbf47a0cc967d59f7">snicholls::parse_uuid</a></div><div class="ttdeci">constexpr std::optional&lt; uuid &gt; parse_uuid(const S &amp;text, uuid_parse_options options={}) noexcept</div><div class="ttdoc">The whole string as a UUID (see from_chars); std::nullopt if it is not one or anything follows it.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00528">uuid.hpp:528</a></div></div>
-<div class="ttc" id="agroup__core_html_ga3fe29dcc09ddce32184059c26f28b699"><div class="ttname"><a href="group__core.html#ga3fe29dcc09ddce32184059c26f28b699">snicholls::make_uuid_v5</a></div><div class="ttdeci">constexpr uuid make_uuid_v5(const uuid &amp;name_space, std::string_view name) noexcept</div><div class="ttdoc">Version 5 (name-based, SHA-1, RFC 9562 §5.5).</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00314">uuid.hpp:314</a></div></div>
+<div class="ttc" id="agroup__core_html_ga0134c30fee080aebbf47a0cc967d59f7"><div class="ttname"><a href="group__core.html#ga0134c30fee080aebbf47a0cc967d59f7">snicholls::parse_uuid</a></div><div class="ttdeci">constexpr std::optional&lt; uuid &gt; parse_uuid(const S &amp;text, uuid_parse_options options={}) noexcept</div><div class="ttdoc">The whole string as a UUID (see from_chars); std::nullopt if it is not one or anything follows it.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00527">uuid.hpp:527</a></div></div>
+<div class="ttc" id="agroup__core_html_ga3fe29dcc09ddce32184059c26f28b699"><div class="ttname"><a href="group__core.html#ga3fe29dcc09ddce32184059c26f28b699">snicholls::make_uuid_v5</a></div><div class="ttdeci">constexpr uuid make_uuid_v5(const uuid &amp;name_space, std::string_view name) noexcept</div><div class="ttdoc">Version 5 (name-based, SHA-1, RFC 9562 §5.5).</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00313">uuid.hpp:313</a></div></div>
 <div class="ttc" id="agroup__core_html_gacc27c22653e826ed72a03ec964afbf49"><div class="ttname"><a href="group__core.html#gacc27c22653e826ed72a03ec964afbf49">snicholls::to_string</a></div><div class="ttdeci">std::string to_string(const utc&lt; D &gt; &amp;t, int precision=utc&lt; D &gt;::fraction_digits)</div><div class="ttdoc">Allocating convenience.</div><div class="ttdef"><b>Definition</b> <a href="rfc3339_8hpp_source.html#l00526">rfc3339.hpp:526</a></div></div>
-<div class="ttc" id="anamespacesnicholls_1_1literals_html"><div class="ttname"><a href="namespacesnicholls_1_1literals.html">snicholls::literals</a></div><div class="ttdoc">Literals for compile-time string hashes: &quot;GET&quot;_fnv64, &quot;GET&quot;_fnv32.</div><div class="ttdef"><b>Definition</b> <a href="fnv_8hpp_source.html#l00123">fnv.hpp:123</a></div></div>
+<div class="ttc" id="anamespacesnicholls_1_1literals_html"><div class="ttname"><a href="namespacesnicholls_1_1literals.html">snicholls::literals</a></div><div class="ttdoc">Literals for compile-time string hashes: &quot;GET&quot;_fnv64, &quot;GET&quot;_fnv32.</div><div class="ttdef"><b>Definition</b> <a href="fnv_8hpp_source.html#l00122">fnv.hpp:122</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a89bd7f5a936317121b07a7c3572a53e2"><div class="ttname"><a href="namespacesnicholls.html#a89bd7f5a936317121b07a7c3572a53e2">snicholls::to_text</a></div><div class="ttdeci">constexpr rfc3339_text to_text(const utc&lt; D &gt; &amp;t, int precision=utc&lt; D &gt;::fraction_digits) noexcept</div><div class="ttdoc">Converts to text.</div><div class="ttdef"><b>Definition</b> <a href="rfc3339_8hpp_source.html#l00497">rfc3339.hpp:497</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1rfc3339__text_html_ab5f0f906341421777ee583af00324160"><div class="ttname"><a href="structsnicholls_1_1rfc3339__text.html#ab5f0f906341421777ee583af00324160">snicholls::rfc3339_text::view</a></div><div class="ttdeci">constexpr std::string_view view() const noexcept</div><div class="ttdoc">The view.</div><div class="ttdef"><b>Definition</b> <a href="rfc3339_8hpp_source.html#l00483">rfc3339.hpp:483</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1uuid__parse__options_html_a5a55ce868362ace5838fe1cb03d7fde1"><div class="ttname"><a href="structsnicholls_1_1uuid__parse__options.html#a5a55ce868362ace5838fe1cb03d7fde1">snicholls::uuid_parse_options::lenient</a></div><div class="ttdeci">static constexpr uuid_parse_options lenient() noexcept</div><div class="ttdoc">The lenient.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00413">uuid.hpp:413</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1uuid_html"><div class="ttname"><a href="structsnicholls_1_1uuid.html">snicholls::uuid</a></div><div class="ttdoc">An RFC 9562 UUID: exactly 16 bytes in network (big-endian) order, nothing else.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00110">uuid.hpp:111</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1uuid_html_a68b54ea0a714eb264627888c67152831"><div class="ttname"><a href="structsnicholls_1_1uuid.html#a68b54ea0a714eb264627888c67152831">snicholls::uuid::max</a></div><div class="ttdeci">static constexpr uuid max() noexcept</div><div class="ttdoc">00000000-0000-0000-0000-000000000000 and ffffffff-ffff-ffff-ffff-ffffffffffff.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00124">uuid.hpp:124</a></div></div>
-<div class="ttc" id="auuid_8hpp_html_acc5b6da40736c649c0abf3fe87f56ec6"><div class="ttname"><a href="#acc5b6da40736c649c0abf3fe87f56ec6">snicholls::uuid_namespace::dns</a></div><div class="ttdeci">constexpr uuid dns</div><div class="ttdoc">The dns.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00543">uuid.hpp:543</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1uuid__parse__options_html_a5a55ce868362ace5838fe1cb03d7fde1"><div class="ttname"><a href="structsnicholls_1_1uuid__parse__options.html#a5a55ce868362ace5838fe1cb03d7fde1">snicholls::uuid_parse_options::lenient</a></div><div class="ttdeci">static constexpr uuid_parse_options lenient() noexcept</div><div class="ttdoc">The lenient.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00412">uuid.hpp:412</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1uuid_html"><div class="ttname"><a href="structsnicholls_1_1uuid.html">snicholls::uuid</a></div><div class="ttdoc">An RFC 9562 UUID: exactly 16 bytes in network (big-endian) order, nothing else.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00109">uuid.hpp:110</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1uuid_html_a68b54ea0a714eb264627888c67152831"><div class="ttname"><a href="structsnicholls_1_1uuid.html#a68b54ea0a714eb264627888c67152831">snicholls::uuid::max</a></div><div class="ttdeci">static constexpr uuid max() noexcept</div><div class="ttdoc">00000000-0000-0000-0000-000000000000 and ffffffff-ffff-ffff-ffff-ffffffffffff.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00123">uuid.hpp:123</a></div></div>
+<div class="ttc" id="auuid_8hpp_html_acc5b6da40736c649c0abf3fe87f56ec6"><div class="ttname"><a href="#acc5b6da40736c649c0abf3fe87f56ec6">snicholls::uuid_namespace::dns</a></div><div class="ttdeci">constexpr uuid dns</div><div class="ttdoc">The dns.</div><div class="ttdef"><b>Definition</b> <a href="uuid_8hpp_source.html#l00542">uuid.hpp:542</a></div></div>
 </div><!-- fragment --><p>Semantics:</p><ul>
 <li>An aggregate holding std::array&lt;std::uint8_t, 16&gt;: sizeof 16, alignof 1 (adds no padding to an object), trivially copyable, standard layout, structural (usable as a template argument). Value-initialised = nil.</li>
 <li>Every 128-bit value is a valid <a class="el" href="structsnicholls_1_1uuid.html" title="An RFC 9562 UUID: exactly 16 bytes in network (big-endian) order, nothing else.">snicholls::uuid</a> (nil, max, any version or variant); generators and composers set the version and variant bits, the value type never checks them.</li>
@@ -235,7 +234,7 @@ Variables</h2></td></tr>
 <p>The dns. </p>
 <dl class="section return"><dt>Returns</dt><dd>the dns. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00543">543</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00542">542</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
 
 </div>
 </div>
@@ -262,7 +261,7 @@ Variables</h2></td></tr>
 <p>The oid. </p>
 <dl class="section return"><dt>Returns</dt><dd>the oid. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00549">549</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00548">548</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
 
 </div>
 </div>
@@ -289,7 +288,7 @@ Variables</h2></td></tr>
 <p>The url. </p>
 <dl class="section return"><dt>Returns</dt><dd>the url. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00546">546</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00545">545</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
 
 </div>
 </div>
@@ -316,7 +315,7 @@ Variables</h2></td></tr>
 <p>The x500. </p>
 <dl class="section return"><dt>Returns</dt><dd>the x500. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00552">552</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uuid_8hpp_source.html#l00551">551</a> of file <a class="el" href="uuid_8hpp_source.html">uuid.hpp</a>.</p>
 
 </div>
 </div>

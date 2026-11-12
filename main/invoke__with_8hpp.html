@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -200,8 +200,8 @@ Functions</h2></td></tr>
 <div class="line">            [word](snicholls::integer <span class="keyword">auto</span>* tag) {</div>
 <div class="line">                <span class="keyword">using </span>number = std::remove_pointer_t&lt;<span class="keyword">decltype</span>(tag)&gt;;</div>
 <div class="line">                number value{};</div>
-<div class="line">                <span class="keyword">const</span> <span class="keyword">auto</span> [end, <a class="code hl_enumvalue" href="group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282">error</a>] = std::from_chars(word.data(), word.data() + word.size(), value);</div>
-<div class="line">                <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282">error</a> == std::errc{} &amp;&amp; end == word.data() + word.size() ? std::optional&lt;number&gt;{value} : std::nullopt;</div>
+<div class="line">                <span class="keyword">const</span> <span class="keyword">auto</span> [end, <a class="code hl_enumeration" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">error</a>] = std::from_chars(word.data(), word.data() + word.size(), value);</div>
+<div class="line">                <span class="keywordflow">return</span> <a class="code hl_enumeration" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">error</a> == std::errc{} &amp;&amp; end == word.data() + word.size() ? std::optional&lt;number&gt;{value} : std::nullopt;</div>
 <div class="line">            },</div>
 <div class="line">            [word](std::string*) { <span class="keywordflow">return</span> std::optional&lt;std::string&gt;{std::string{word}}; },</div>
 <div class="line">            [](<span class="keyword">auto</span>* tag) { <span class="keywordflow">return</span> std::optional&lt;std::remove_pointer_t&lt;<span class="keyword">decltype</span>(tag)&gt;&gt;{}; },   <span class="comment">// refused</span></div>

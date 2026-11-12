@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -105,7 +105,6 @@ $(function(){initNavTree('utc_8hpp.html','',''); });
 <code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;ratio&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;<a class="el" href="civil_8hpp_source.html">snicholls/core/time/civil.hpp</a>&gt;</code><br />
 </div>
 <p><a href="utc_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -168,10 +167,10 @@ requires (!std::is_same_v&lt;D1, D2&gt;)</td></tr>
 <div class="line"><a class="code hl_class" href="classsnicholls_1_1utc.html">snicholls::utc&lt;&gt;</a> d = std::chrono::sys_days{2025y / April / 30} + 14h;   <span class="comment">// lossless std::chrono converts implicitly</span></div>
 <div class="line">q.<a class="code hl_function" href="classsnicholls_1_1utc.html#aa8956984220b4b0e457a1d2de2f2bea4">unix_millis</a>(); q.date(); q.time_of_day(); q.weekday(); q.floor&lt;std::chrono::days&gt;();</div>
 <div class="line">q + 5ms;  q - t;  q &lt; t;  std::hash&lt;snicholls::utc&lt;&gt;&gt;{}(q);</div>
-<div class="ttc" id="aclasssnicholls_1_1utc_html"><div class="ttname"><a href="classsnicholls_1_1utc.html">snicholls::utc</a></div><div class="ttdoc">A UTC instant: exactly one std::chrono::sys_time&lt;Duration&gt;, nothing else.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00154">utc.hpp:155</a></div></div>
-<div class="ttc" id="aclasssnicholls_1_1utc_html_a70e5f15202483898e2077c564fc59300"><div class="ttname"><a href="classsnicholls_1_1utc.html#a70e5f15202483898e2077c564fc59300">snicholls::utc::from_unix_millis</a></div><div class="ttdeci">static constexpr utc from_unix_millis(std::int64_t ms) noexcept</div><div class="ttdoc">Converts from unix millis.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00255">utc.hpp:255</a></div></div>
-<div class="ttc" id="aclasssnicholls_1_1utc_html_aa8956984220b4b0e457a1d2de2f2bea4"><div class="ttname"><a href="classsnicholls_1_1utc.html#aa8956984220b4b0e457a1d2de2f2bea4">snicholls::utc::unix_millis</a></div><div class="ttdeci">constexpr std::int64_t unix_millis() const noexcept</div><div class="ttdoc">The unix millis.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00311">utc.hpp:311</a></div></div>
-<div class="ttc" id="aclasssnicholls_1_1utc_html_ab4c8eb56f84568c74d00bf1305b2ee0d"><div class="ttname"><a href="classsnicholls_1_1utc.html#ab4c8eb56f84568c74d00bf1305b2ee0d">snicholls::utc::now</a></div><div class="ttdeci">static utc now() noexcept</div><div class="ttdoc">The current time, floored to Duration.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00202">utc.hpp:202</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1utc_html"><div class="ttname"><a href="classsnicholls_1_1utc.html">snicholls::utc</a></div><div class="ttdoc">A UTC instant: exactly one std::chrono::sys_time&lt;Duration&gt;, nothing else.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00153">utc.hpp:154</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1utc_html_a70e5f15202483898e2077c564fc59300"><div class="ttname"><a href="classsnicholls_1_1utc.html#a70e5f15202483898e2077c564fc59300">snicholls::utc::from_unix_millis</a></div><div class="ttdeci">static constexpr utc from_unix_millis(std::int64_t ms) noexcept</div><div class="ttdoc">Converts from unix millis.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00254">utc.hpp:254</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1utc_html_aa8956984220b4b0e457a1d2de2f2bea4"><div class="ttname"><a href="classsnicholls_1_1utc.html#aa8956984220b4b0e457a1d2de2f2bea4">snicholls::utc::unix_millis</a></div><div class="ttdeci">constexpr std::int64_t unix_millis() const noexcept</div><div class="ttdoc">The unix millis.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00310">utc.hpp:310</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1utc_html_ab4c8eb56f84568c74d00bf1305b2ee0d"><div class="ttname"><a href="classsnicholls_1_1utc.html#ab4c8eb56f84568c74d00bf1305b2ee0d">snicholls::utc::now</a></div><div class="ttdeci">static utc now() noexcept</div><div class="ttdoc">The current time, floored to Duration.</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00201">utc.hpp:201</a></div></div>
 </div><!-- fragment --><p>Text (RFC 3339) is in <a class="el" href="rfc3339_8hpp.html" title="RFC 3339 text for snicholls::utc: to_chars / from_chars style, exact round trips.">time/rfc3339.hpp</a>, std::format in <a class="el" href="utc__format_8hpp.html" title="std::format support for snicholls::utc.">time/utc_format.hpp</a>.</p>
 <p>Semantics:</p><ul>
 <li>POSIX / Unix time, i.e. std::chrono::system_clock's epoch and std::chrono::sys_time: every day has 86 400 s. Leap seconds are not representable (as in sys_time, time_t and every Unix-ms feed); a difference across a leap second is one SI second short. This is NOT std::chrono::utc_time, which counts leap seconds.</li>

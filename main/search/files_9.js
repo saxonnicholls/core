@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['martingale_2ehpp_0',['martingale.hpp',['../martingale_8hpp.html',1,'']]],
-  ['md_5farray_2ehpp_1',['md_array.hpp',['../md__array_8hpp.html',1,'']]],
-  ['member_5fcount_2ehpp_2',['member_count.hpp',['../member__count_8hpp.html',1,'']]],
-  ['minifloat_2ehpp_3',['minifloat.hpp',['../minifloat_8hpp.html',1,'']]]
+  ['linear_2ehpp_0',['linear.hpp',['../linear_8hpp.html',1,'']]],
+  ['low_5fdiscrepancy_2ehpp_1',['low_discrepancy.hpp',['../low__discrepancy_8hpp.html',1,'']]]
 ];

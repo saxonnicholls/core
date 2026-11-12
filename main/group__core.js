@@ -15,10 +15,13 @@ var group__core =
     [ "dense_id_map.hpp", "dense__id__map_8hpp.html", null ],
     [ "flat_id_map.hpp", "flat__id__map_8hpp.html", null ],
     [ "hierarchical_bitset.hpp", "hierarchical__bitset_8hpp.html", null ],
+    [ "index_pool.hpp", "index__pool_8hpp.html", null ],
     [ "inplace_vector.hpp", "inplace__vector_8hpp.html", null ],
     [ "intrusive_avl_tree.hpp", "intrusive__avl__tree_8hpp.html", null ],
+    [ "mapped_header.hpp", "mapped__header_8hpp.html", null ],
     [ "md_array.hpp", "md__array_8hpp.html", null ],
     [ "object_pool.hpp", "object__pool_8hpp.html", null ],
+    [ "offset_ptr.hpp", "offset__ptr_8hpp.html", null ],
     [ "perfect_map.hpp", "perfect__map_8hpp.html", null ],
     [ "static_map.hpp", "static__map_8hpp.html", null ],
     [ "core.hpp", "core_8hpp.html", null ],
@@ -41,6 +44,10 @@ var group__core =
     [ "wyhash.hpp", "wyhash_8hpp.html", null ],
     [ "invoke_with.hpp", "invoke__with_8hpp.html", null ],
     [ "iterate.hpp", "iterate_8hpp.html", null ],
+    [ "backend.hpp", "backend_8hpp.html", null ],
+    [ "batched.hpp", "batched_8hpp.html", null ],
+    [ "reference.hpp", "reference_8hpp.html", null ],
+    [ "types.hpp", "types_8hpp.html", null ],
     [ "constexpr_math.hpp", "constexpr__math_8hpp.html", null ],
     [ "assignable.hpp", "assignable_8hpp.html", null ],
     [ "attributes.hpp", "attributes_8hpp.html", null ],
@@ -53,9 +60,13 @@ var group__core =
     [ "values.hpp", "values_8hpp.html", null ],
     [ "activations.hpp", "activations_8hpp.html", null ],
     [ "attention.hpp", "attention_8hpp.html", null ],
+    [ "attention_layer.hpp", "attention__layer_8hpp.html", null ],
     [ "bpe.hpp", "bpe_8hpp.html", null ],
     [ "embedding.hpp", "embedding_8hpp.html", null ],
+    [ "kv_cache.hpp", "kv__cache_8hpp.html", null ],
+    [ "linear.hpp", "linear_8hpp.html", null ],
     [ "minifloat.hpp", "minifloat_8hpp.html", null ],
+    [ "mlp.hpp", "mlp_8hpp.html", null ],
     [ "norm.hpp", "norm_8hpp.html", null ],
     [ "optim.hpp", "optim_8hpp.html", null ],
     [ "quantize.hpp", "quantize_8hpp.html", null ],
@@ -63,6 +74,8 @@ var group__core =
     [ "row.hpp", "row_8hpp.html", null ],
     [ "sampling.hpp", "sampling_8hpp.html", null ],
     [ "softmax.hpp", "softmax_8hpp.html", null ],
+    [ "transformer_block.hpp", "transformer__block_8hpp.html", null ],
+    [ "transformer_config.hpp", "transformer__config_8hpp.html", null ],
     [ "overloaded.hpp", "overloaded_8hpp.html", null ],
     [ "stages.hpp", "stages_8hpp.html", null ],
     [ "member_count.hpp", "member__count_8hpp.html", null ],
@@ -102,6 +115,13 @@ var group__core =
     [ "snicholls::game::game", "conceptsnicholls_1_1game_1_1game.html", null ],
     [ "snicholls::game::ordered_game_value", "conceptsnicholls_1_1game_1_1ordered__game__value.html", null ],
     [ "snicholls::argument_source", "conceptsnicholls_1_1argument__source.html", null ],
+    [ "snicholls::linalg::blas_backend", "conceptsnicholls_1_1linalg_1_1blas__backend.html", null ],
+    [ "snicholls::linalg::factorisation_backend", "conceptsnicholls_1_1linalg_1_1factorisation__backend.html", null ],
+    [ "snicholls::linalg::decomposition_backend", "conceptsnicholls_1_1linalg_1_1decomposition__backend.html", null ],
+    [ "snicholls::linalg::backend", "conceptsnicholls_1_1linalg_1_1backend.html", null ],
+    [ "snicholls::linalg::range_executor", "conceptsnicholls_1_1linalg_1_1range__executor.html", null ],
+    [ "snicholls::linalg::batched_backend", "conceptsnicholls_1_1linalg_1_1batched__backend.html", null ],
+    [ "snicholls::linalg::scalar", "conceptsnicholls_1_1linalg_1_1scalar.html", null ],
     [ "snicholls::math::math_number", "conceptsnicholls_1_1math_1_1math__number.html", null ],
     [ "snicholls::math::math_argument", "conceptsnicholls_1_1math_1_1math__argument.html", null ],
     [ "snicholls::non_narrowing_assignable", "conceptsnicholls_1_1non__narrowing__assignable.html", null ],
@@ -290,6 +310,22 @@ var group__core =
       [ "size", "classsnicholls_1_1containers_1_1hierarchical__bitset.html#a129bccf134ce6b18974df09928b73b07", null ],
       [ "test", "classsnicholls_1_1containers_1_1hierarchical__bitset.html#a6c26b198478642e6905da933f53c8332", null ]
     ] ],
+    [ "snicholls::containers::index_pool&lt; T, Index &gt;", "classsnicholls_1_1containers_1_1index__pool.html", [
+      [ "index_type", "classsnicholls_1_1containers_1_1index__pool.html#ae4e5c368a6c2bb5e9d5d47edd8131daa", null ],
+      [ "value_type", "classsnicholls_1_1containers_1_1index__pool.html#a0e3cca6f162cb613ff66afa1ca228afd", null ],
+      [ "index_pool", "classsnicholls_1_1containers_1_1index__pool.html#afdfc7f5fd35486d5cae0005f29bdae9b", null ],
+      [ "allocate", "classsnicholls_1_1containers_1_1index__pool.html#a6f54a07078492539774ad29c4b94be3a", null ],
+      [ "attached", "classsnicholls_1_1containers_1_1index__pool.html#af8c3465e90960542dac712672cf18e12", null ],
+      [ "capacity", "classsnicholls_1_1containers_1_1index__pool.html#a0a39eeb3b4a76e302cb039541ee3eb72", null ],
+      [ "create", "classsnicholls_1_1containers_1_1index__pool.html#a0cb6280129c89a8d71e37fb385f49658", null ],
+      [ "data", "classsnicholls_1_1containers_1_1index__pool.html#adfae82edb4799476d7631785624cadce", null ],
+      [ "destroy", "classsnicholls_1_1containers_1_1index__pool.html#a2644b52093681448b205c6da8762d4fe", null ],
+      [ "high_water", "classsnicholls_1_1containers_1_1index__pool.html#abaebc4941188156ca6e28144c373d06f", null ],
+      [ "live", "classsnicholls_1_1containers_1_1index__pool.html#ad70adfa77a5d23bb84a287ec5f330ff7", null ],
+      [ "operator[]", "classsnicholls_1_1containers_1_1index__pool.html#a5d351cb4055320b48dd908110f9e6034", null ],
+      [ "operator[]", "classsnicholls_1_1containers_1_1index__pool.html#adc1854f5d99011eb2f75d63af6a7ecc7", null ],
+      [ "rebase", "classsnicholls_1_1containers_1_1index__pool.html#ae538c8d05f07e7bfd3259660b3e5db8c", null ]
+    ] ],
     [ "snicholls::containers::inplace_vector&lt; T, N &gt;", "classsnicholls_1_1containers_1_1inplace__vector.html", [
       [ "const_iterator", "classsnicholls_1_1containers_1_1inplace__vector.html#ab528f937aca3fdc9799605401de48923", null ],
       [ "const_pointer", "classsnicholls_1_1containers_1_1inplace__vector.html#ace310d6bc22bb14e6ed4e7b25f43f5e4", null ],
@@ -390,6 +426,15 @@ var group__core =
       [ "upper_bound", "classsnicholls_1_1containers_1_1intrusive__avl__tree.html#a5893de47fcaa06bfb7ead7fc13e945ac", null ],
       [ "validate", "classsnicholls_1_1containers_1_1intrusive__avl__tree.html#a3768893447b41b43d42b6422d1fdb3d7", null ]
     ] ],
+    [ "snicholls::containers::mapped_header", "structsnicholls_1_1containers_1_1mapped__header.html", [
+      [ "operator==", "structsnicholls_1_1containers_1_1mapped__header.html#adc0f9fe4d2ee21ba2e1c2d7e939a1714", null ],
+      [ "capacity", "structsnicholls_1_1containers_1_1mapped__header.html#a88e37245081558f2cf84be27952a80c9", null ],
+      [ "count", "structsnicholls_1_1containers_1_1mapped__header.html#a59199b01025c5e1b362413266a7cf59b", null ],
+      [ "element_align", "structsnicholls_1_1containers_1_1mapped__header.html#a59d2ec58e9faecac0bb3cc76e7f61454", null ],
+      [ "element_size", "structsnicholls_1_1containers_1_1mapped__header.html#abaaec8511ab40eb879a04c635fa0dab0", null ],
+      [ "type_tag", "structsnicholls_1_1containers_1_1mapped__header.html#a9bffb23fdc4ac298355ed2094f5fae21", null ],
+      [ "user", "structsnicholls_1_1containers_1_1mapped__header.html#ac54e2cd11b48c6b4500f471b67b9f107", null ]
+    ] ],
     [ "snicholls::containers::md_array&lt; T, Extents &gt;", "classsnicholls_1_1containers_1_1md__array.html", [
       [ "at", "classsnicholls_1_1containers_1_1md__array.html#a78b391a4afda797efc2096c9895cc35b", null ],
       [ "flat", "classsnicholls_1_1containers_1_1md__array.html#a5ef39b32e8a0507cfe9e849e35367e5e", null ],
@@ -399,19 +444,79 @@ var group__core =
       [ "operator==", "classsnicholls_1_1containers_1_1md__array.html#a5c414d039acc93ddef92a4f682d87f0e", null ],
       [ "elements", "classsnicholls_1_1containers_1_1md__array.html#a5f576a87091be4430384ed3057caff9f", null ]
     ] ],
-    [ "snicholls::containers::md_span&lt; T, Rank &gt;", "classsnicholls_1_1containers_1_1md__span.html", [
-      [ "md_span", "classsnicholls_1_1containers_1_1md__span.html#a122061cb50f9b9b56bb27a8f22b6c9e7", null ],
-      [ "data", "classsnicholls_1_1containers_1_1md__span.html#aa26971d82ac5928c4a7c2e0a2e8a682c", null ],
-      [ "extent", "classsnicholls_1_1containers_1_1md__span.html#a58890319f674967a1b78efbc96e65979", null ],
-      [ "operator()", "classsnicholls_1_1containers_1_1md__span.html#a225167fe531cb6d6025427ce6a230581", null ],
-      [ "size", "classsnicholls_1_1containers_1_1md__span.html#a563e9cf2ed37e1e0bc1be2478960e4b2", null ]
+    [ "snicholls::containers::layout_right", "structsnicholls_1_1containers_1_1layout__right.html", [
+      [ "mapping", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html", [
+        [ "layout_type", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#a1d952ab4501739a40cd15c5478ff146a", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#a831ba374f38c10e9a43f560efe19bd9c", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#a9317f97c4a664190222182d2a886d74f", null ],
+        [ "extents", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#a98b00bde8d65b903ea801914c3a8fd41", null ],
+        [ "operator()", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#ac1e6d8ffc86482edab73fd6260cc3e7b", null ],
+        [ "required_span_size", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#aa75103a41f9d53d2e675a42cf2b5ab38", null ],
+        [ "stride", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#aa8f06251a3b46a8a59b720acaf6be29e", null ],
+        [ "operator==", "classsnicholls_1_1containers_1_1layout__right_1_1mapping.html#a4f6243a3332e229bcadcb7e7c924c584", null ]
+      ] ]
+    ] ],
+    [ "snicholls::containers::layout_left", "structsnicholls_1_1containers_1_1layout__left.html", [
+      [ "mapping", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html", [
+        [ "layout_type", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a9c7f64db657a67e8d72487765c51b5ca", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a9f1ec807a178ae8b6cd09f046c195c78", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#aacdaa76593e568d0090a4f7639492de6", null ],
+        [ "extents", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a67e732852f5eb815b2f63ad288513756", null ],
+        [ "operator()", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a05b558e4a4418dddffc219ea7fce1f90", null ],
+        [ "required_span_size", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#aa3d9ad5c634331f45e51952e260ff076", null ],
+        [ "stride", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a4e172382f353d86217669d06e99316c3", null ],
+        [ "operator==", "classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a4f6243a3332e229bcadcb7e7c924c584", null ]
+      ] ]
+    ] ],
+    [ "snicholls::containers::layout_stride", "structsnicholls_1_1containers_1_1layout__stride.html", [
+      [ "mapping", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html", [
+        [ "layout_type", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a6bc8d8d48ffa3aa70adb01d6dbad21f4", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a327678e5429ab432e234b048daa1b3db", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aac6e103e74f107edbc31361b3dadfaf5", null ],
+        [ "mapping", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a64acedcabbaa4cec72f3fc2130f256b6", null ],
+        [ "extents", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#ae69176615ce7e4e50b263fd46e37c61b", null ],
+        [ "is_exhaustive", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aceae285787a33b4693812dba4a6bdea4", null ],
+        [ "operator()", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aea40fef70c2794a48b0e5f07fe6d48a4", null ],
+        [ "required_span_size", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a9a7ace1256cb5c9a0d9f242a8b9f945a", null ],
+        [ "stride", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a550c9d0242eb248a7e177a03a4fc775a", null ],
+        [ "strides", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aa5bd729e3bd76ed2d6abe36525a7f75f", null ],
+        [ "operator==", "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a4f6243a3332e229bcadcb7e7c924c584", null ]
+      ] ]
+    ] ],
+    [ "snicholls::containers::full_extent_t", "structsnicholls_1_1containers_1_1full__extent__t.html", [
+      [ "full_extent_t", "structsnicholls_1_1containers_1_1full__extent__t.html#a4e87da772d57fbdd2cc93b7d6bc5921f", null ]
+    ] ],
+    [ "snicholls::containers::md_span&lt; T, Rank, Layout &gt;", "classsnicholls_1_1containers_1_1md__span.html", [
+      [ "data_handle_type", "classsnicholls_1_1containers_1_1md__span.html#a8dedf77acb6f5248f7f9e2ea6b1b81c3", null ],
+      [ "element_type", "classsnicholls_1_1containers_1_1md__span.html#a910424c0b25b519929f353745d2c06fb", null ],
+      [ "index_type", "classsnicholls_1_1containers_1_1md__span.html#ab56478dd76964e8430ea4e6874d779db", null ],
+      [ "layout_type", "classsnicholls_1_1containers_1_1md__span.html#a9fdf2dd167408bba0e976da7c5119623", null ],
+      [ "mapping_type", "classsnicholls_1_1containers_1_1md__span.html#a01473989719caa72d241a6924b73678f", null ],
+      [ "reference", "classsnicholls_1_1containers_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d", null ],
+      [ "size_type", "classsnicholls_1_1containers_1_1md__span.html#ae0860ebb754c84b28312cb11fef7c7c9", null ],
+      [ "value_type", "classsnicholls_1_1containers_1_1md__span.html#a686c6227d051066a88038ea1a56cdc2f", null ],
+      [ "md_span", "classsnicholls_1_1containers_1_1md__span.html#ab80468355fdbbf1a623b2539db4a934b", null ],
+      [ "md_span", "classsnicholls_1_1containers_1_1md__span.html#a20a259057c5e000bedf11401693d4155", null ],
+      [ "md_span", "classsnicholls_1_1containers_1_1md__span.html#a68500e87ddec23d1b1bb2cb3ae9d21bd", null ],
+      [ "md_span", "classsnicholls_1_1containers_1_1md__span.html#a9809e3e56df236abe6b757ce5ea590b2", null ],
+      [ "md_span", "classsnicholls_1_1containers_1_1md__span.html#a7f158ccf527358f8f99002fa648ec9cc", null ],
+      [ "data", "classsnicholls_1_1containers_1_1md__span.html#ae19f030d025d73d35fa208eec2400fa9", null ],
+      [ "data_handle", "classsnicholls_1_1containers_1_1md__span.html#a65d18ef9ad17dfa71ff567165dea87a8", null ],
+      [ "empty", "classsnicholls_1_1containers_1_1md__span.html#a0573b8b472731624e59921900ce9f179", null ],
+      [ "extent", "classsnicholls_1_1containers_1_1md__span.html#a982d809cbcd88a140435582043426295", null ],
+      [ "extents", "classsnicholls_1_1containers_1_1md__span.html#a8481246e1b42483fa3d9772eaf5de7fb", null ],
+      [ "is_exhaustive", "classsnicholls_1_1containers_1_1md__span.html#a5605c5e38fc935ffd8fba1083943a4ac", null ],
+      [ "mapping", "classsnicholls_1_1containers_1_1md__span.html#a2030b501fceff5125b408064873ac9fc", null ],
+      [ "operator()", "classsnicholls_1_1containers_1_1md__span.html#a5785fe766cbceee83e485aeba229a584", null ],
+      [ "size", "classsnicholls_1_1containers_1_1md__span.html#a5cb96bd171ccb247062ea3c93290916c", null ],
+      [ "stride", "classsnicholls_1_1containers_1_1md__span.html#adfcb6fd5e3e87392b1d731939b629288", null ]
     ] ],
     [ "snicholls::containers::object_pool&lt; T, ChunkSize &gt;", "classsnicholls_1_1containers_1_1object__pool.html", [
       [ "value_type", "classsnicholls_1_1containers_1_1object__pool.html#a6cf42f550d00de29e78513a5cb02d59b", null ],
-      [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a407f53747e3159ae8101d02e0d7c3873", null ],
+      [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#aa06789d5549fe4d0f49d240c6bd3a0ff", null ],
       [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a562788290a660afb5f5acafe5f31cce5", null ],
       [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#ab4f9efec3f1bf521c8a842a7f331243b", null ],
-      [ "~object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a125e8c54496e022f4ca07e85783f8b10", null ],
+      [ "~object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a3c1cf7f44fca8399e0e018eed33d3091", null ],
       [ "capacity", "classsnicholls_1_1containers_1_1object__pool.html#a3ea4b3b963b9eead6d7b31cf3b76c079", null ],
       [ "create", "classsnicholls_1_1containers_1_1object__pool.html#a07fee26782582e00a42b4587c444fdae", null ],
       [ "destroy", "classsnicholls_1_1containers_1_1object__pool.html#a903581b59f16cbc60324035472a30e4e", null ],
@@ -419,7 +524,26 @@ var group__core =
       [ "operator=", "classsnicholls_1_1containers_1_1object__pool.html#a963e647a3fddaab6a35b5da0575478c2", null ],
       [ "operator=", "classsnicholls_1_1containers_1_1object__pool.html#ab611d7b850da043d0da69171863125b3", null ],
       [ "release_all", "classsnicholls_1_1containers_1_1object__pool.html#a5166a479296b2a9eaf928faa5dfa1d64", null ],
-      [ "reserve", "classsnicholls_1_1containers_1_1object__pool.html#ad9a7bef09d801cf70c0a4124d86b0810", null ]
+      [ "reserve", "classsnicholls_1_1containers_1_1object__pool.html#ad9a7bef09d801cf70c0a4124d86b0810", null ],
+      [ "resource", "classsnicholls_1_1containers_1_1object__pool.html#ab22e5d91dba346c05ca148f182111535", null ]
+    ] ],
+    [ "snicholls::containers::offset_ptr&lt; T &gt;", "classsnicholls_1_1containers_1_1offset__ptr.html", [
+      [ "element_type", "classsnicholls_1_1containers_1_1offset__ptr.html#a8948d3fad0ce5814f4473028c426040e", null ],
+      [ "offset_ptr", "classsnicholls_1_1containers_1_1offset__ptr.html#a6ff9fb7b78e7b295aed8a10868c1aeda", null ],
+      [ "offset_ptr", "classsnicholls_1_1containers_1_1offset__ptr.html#acd2fccb4c91c43dbaac3150951060faf", null ],
+      [ "offset_ptr", "classsnicholls_1_1containers_1_1offset__ptr.html#abd0878ecc1579bb39f4877365f590852", null ],
+      [ "offset_ptr", "classsnicholls_1_1containers_1_1offset__ptr.html#ae2f89b761539033e5d2fd549de572499", null ],
+      [ "~offset_ptr", "classsnicholls_1_1containers_1_1offset__ptr.html#adefa8f2981c3433b4c05b1d4ebc86364", null ],
+      [ "get", "classsnicholls_1_1containers_1_1offset__ptr.html#a4d253c76a804882805d3dc2aefaffd5f", null ],
+      [ "offset", "classsnicholls_1_1containers_1_1offset__ptr.html#a62cc7d366523772d69a83c11b9a020a0", null ],
+      [ "operator bool", "classsnicholls_1_1containers_1_1offset__ptr.html#a170e638e326a43b0d78fd43ab0a3c00a", null ],
+      [ "operator*", "classsnicholls_1_1containers_1_1offset__ptr.html#a3d0d0fe519ca2a6f0852c95715de5285", null ],
+      [ "operator->", "classsnicholls_1_1containers_1_1offset__ptr.html#a1afd7abae0ad02a215f28e68c8d81704", null ],
+      [ "operator=", "classsnicholls_1_1containers_1_1offset__ptr.html#a2165150573672d5359003213c27b60e7", null ],
+      [ "operator=", "classsnicholls_1_1containers_1_1offset__ptr.html#a6a7df227dea9723b0c25afd07612f852", null ],
+      [ "operator==", "classsnicholls_1_1containers_1_1offset__ptr.html#a6f873f64e495f01daabb1b8037a7ff52", null ],
+      [ "operator==", "classsnicholls_1_1containers_1_1offset__ptr.html#a840422810170d074938a29aabf9df709", null ],
+      [ "operator==", "classsnicholls_1_1containers_1_1offset__ptr.html#a43ebe9a9305a08d909c60c6743e4c154", null ]
     ] ],
     [ "snicholls::containers::perfect_map&lt; Key, Value, N &gt;", "classsnicholls_1_1containers_1_1perfect__map.html", [
       [ "perfect_map", "classsnicholls_1_1containers_1_1perfect__map.html#a8c9c9ec103029dceb9d74bb7a0bad605", null ],
@@ -667,6 +791,37 @@ var group__core =
       [ "iterations", "structsnicholls_1_1fixed__point__result.html#a564a25a283deead804c4d9e90849828a", null ],
       [ "value", "structsnicholls_1_1fixed__point__result.html#a8e44d8852a7079093082ef059e2e1aa6", null ]
     ] ],
+    [ "snicholls::linalg::inline_executor", "structsnicholls_1_1linalg_1_1inline__executor.html", [
+      [ "operator()", "structsnicholls_1_1linalg_1_1inline__executor.html#a981c2298424cc9747955fe586d383e72", null ]
+    ] ],
+    [ "snicholls::linalg::reference_backend", "structsnicholls_1_1linalg_1_1reference__backend.html", [
+      [ "axpy", "structsnicholls_1_1linalg_1_1reference__backend.html#a58007af2078a24f9b53c01a4a9152b2c", null ],
+      [ "cholesky_factor", "structsnicholls_1_1linalg_1_1reference__backend.html#a7152d901e4b6a241b435f77f768c7333", null ],
+      [ "cholesky_solve", "structsnicholls_1_1linalg_1_1reference__backend.html#af16a1a2f31a55db61b281510cdd0ca1f", null ],
+      [ "cholesky_solve_batched", "structsnicholls_1_1linalg_1_1reference__backend.html#ab22f50cb824855e7f5f68c514d874297", null ],
+      [ "dot", "structsnicholls_1_1linalg_1_1reference__backend.html#aee36a02ef7b0cd3b7f019041e958c7b4", null ],
+      [ "gemm", "structsnicholls_1_1linalg_1_1reference__backend.html#a193ad8f5e5039778d684924e6edbead3", null ],
+      [ "gemv", "structsnicholls_1_1linalg_1_1reference__backend.html#a458ed5224e1a166e45114f7502007b84", null ],
+      [ "ldlt_factor", "structsnicholls_1_1linalg_1_1reference__backend.html#adffe5998be5d9c1295a172f0765eae1c", null ],
+      [ "ldlt_solve", "structsnicholls_1_1linalg_1_1reference__backend.html#a9511f5da484967b1e6cfbbf699bd6b4e", null ],
+      [ "ldlt_solve_batched", "structsnicholls_1_1linalg_1_1reference__backend.html#aed3310fb042281a6a9654c601689a06c", null ],
+      [ "lu_factor", "structsnicholls_1_1linalg_1_1reference__backend.html#a62a829a597ace0cb6d175dcf31008978", null ],
+      [ "lu_solve", "structsnicholls_1_1linalg_1_1reference__backend.html#ab0839118963b5da2091da329ac2d0a9c", null ],
+      [ "lu_solve_batched", "structsnicholls_1_1linalg_1_1reference__backend.html#a7c0c435bc5c6715e0090bf48c7a07da3", null ],
+      [ "qr_factor", "structsnicholls_1_1linalg_1_1reference__backend.html#a6197122e96092ab889d4bf0f33be0cef", null ],
+      [ "qr_q", "structsnicholls_1_1linalg_1_1reference__backend.html#a17d59093122c8a68ea8c7fe806edf3f0", null ],
+      [ "qr_solve", "structsnicholls_1_1linalg_1_1reference__backend.html#a9ecf92ddb5607d606950e2d8af4e97ce", null ],
+      [ "svd", "structsnicholls_1_1linalg_1_1reference__backend.html#a656a91ba5553e858b79221da5a09d1fc", null ],
+      [ "symmetric_eigen", "structsnicholls_1_1linalg_1_1reference__backend.html#afb6314e911b96da9c6da99733f940774", null ],
+      [ "syrk", "structsnicholls_1_1linalg_1_1reference__backend.html#a9bacff941165b20924266e00d05738cc", null ],
+      [ "triangular_solve", "structsnicholls_1_1linalg_1_1reference__backend.html#a6d1fff3becee0d352f8fd66774ba9c3f", null ],
+      [ "relative_tolerance", "structsnicholls_1_1linalg_1_1reference__backend.html#a2b0f15807d0bab36960e8d82fc3e8313", null ]
+    ] ],
+    [ "snicholls::linalg::signed_log_det&lt; T &gt;", "structsnicholls_1_1linalg_1_1signed__log__det.html", [
+      [ "value", "structsnicholls_1_1linalg_1_1signed__log__det.html#acdc34f18d961273d0812c9162258222d", null ],
+      [ "log_abs", "structsnicholls_1_1linalg_1_1signed__log__det.html#acac8463f19972d36b6cabc344b1f1bc6", null ],
+      [ "sign", "structsnicholls_1_1linalg_1_1signed__log__det.html#af5d43a8c3ac4c6988f3a40840f0d5c3d", null ]
+    ] ],
     [ "snicholls::math::math_limits&lt; T &gt;", "structsnicholls_1_1math_1_1math__limits.html", null ],
     [ "snicholls::attribute_set&lt; As &gt;", "structsnicholls_1_1attribute__set.html", [
       [ "get", "structsnicholls_1_1attribute__set.html#a0a275e484c8bbdd8aab3b8e62840a807", null ]
@@ -694,13 +849,67 @@ var group__core =
       [ "acc", "structsnicholls_1_1ml_1_1attention__accumulator.html#a83356396fab59103e6f6a4fec08aa58e", null ],
       [ "weights", "structsnicholls_1_1ml_1_1attention__accumulator.html#afc5223f1cc6b12dce95eeb2ba1dc0df5", null ]
     ] ],
+    [ "snicholls::ml::attention_weights&lt; W, T &gt;", "structsnicholls_1_1ml_1_1attention__weights.html", [
+      [ "k", "structsnicholls_1_1ml_1_1attention__weights.html#a93bed58c5c8e1333571c7bbd8a7aea57", null ],
+      [ "k_bias", "structsnicholls_1_1ml_1_1attention__weights.html#aee8a97702b5aba476cd7917e35497ab2", null ],
+      [ "k_norm", "structsnicholls_1_1ml_1_1attention__weights.html#ae3cc9a940eebc6be95d80a6f47295f2d", null ],
+      [ "o", "structsnicholls_1_1ml_1_1attention__weights.html#a82a119bc2e3cf97b2e0868d3e57402ae", null ],
+      [ "o_bias", "structsnicholls_1_1ml_1_1attention__weights.html#a6d469cf555e461dd6b93fc58c743e346", null ],
+      [ "q", "structsnicholls_1_1ml_1_1attention__weights.html#ad45d81294073057aeff9f8229a4b8c1e", null ],
+      [ "q_bias", "structsnicholls_1_1ml_1_1attention__weights.html#a449aad25cc74e8af81498909dbd88dee", null ],
+      [ "q_norm", "structsnicholls_1_1ml_1_1attention__weights.html#a28a5c090dcf44a4f24f84282d9b55d06", null ],
+      [ "v", "structsnicholls_1_1ml_1_1attention__weights.html#a79277090332fba00d3a8de23b980cb00", null ],
+      [ "v_bias", "structsnicholls_1_1ml_1_1attention__weights.html#af7a10f7975ec6b1b40896ae4e9c6b3e5", null ]
+    ] ],
     [ "snicholls::ml::bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", [
       [ "rank", "structsnicholls_1_1ml_1_1bpe__part.html#ade2c89abc0ff7139ba296ee327c79cec", null ],
       [ "start", "structsnicholls_1_1ml_1_1bpe__part.html#a8419193031349ef1342c85ad8ade9e6e", null ]
     ] ],
+    [ "snicholls::ml::kv_cache_view&lt; C, T &gt;", "classsnicholls_1_1ml_1_1kv__cache__view.html", [
+      [ "kv_cache_view", "classsnicholls_1_1ml_1_1kv__cache__view.html#a2d2892aef371db96aefa8cf033c3b71b", null ],
+      [ "kv_cache_view", "classsnicholls_1_1ml_1_1kv__cache__view.html#a3d003e1a49971e201db02bea377fa897", null ],
+      [ "append", "classsnicholls_1_1ml_1_1kv__cache__view.html#ac6d968b276989feac060e43c97ff7dcd", null ],
+      [ "capacity", "classsnicholls_1_1ml_1_1kv__cache__view.html#af8e068b6d18b526aae4e091e43a0bdd7", null ],
+      [ "layers", "classsnicholls_1_1ml_1_1kv__cache__view.html#aaaedae1eece064c017f4e901f7df1210", null ],
+      [ "visible", "classsnicholls_1_1ml_1_1kv__cache__view.html#ae44c4828c7984b4e6e8e09c660b404ed", null ]
+    ] ],
+    [ "snicholls::ml::kv_cache&lt; C, T, Layers, Capacity &gt;", "classsnicholls_1_1ml_1_1kv__cache.html", [
+      [ "view", "classsnicholls_1_1ml_1_1kv__cache.html#a7a4b11a912cf56c758302a4de6b9a650", null ]
+    ] ],
+    [ "snicholls::ml::paged_kv_cache_view&lt; C, T, MaxPages &gt;", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html", [
+      [ "paged_kv_cache_view", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html#ab8c6367d585092cd46b5ce273a312868", null ],
+      [ "append", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html#a73ea23c02c31d301e1bc167a5e4eb673", null ],
+      [ "page_size", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html#a42dd1d5dd5862c66f7c7e83d253ffd7a", null ],
+      [ "visible", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html#a1e8784805a927aa20c50bc25b8ab968f", null ]
+    ] ],
+    [ "snicholls::ml::dense_weights&lt; S &gt;", "structsnicholls_1_1ml_1_1dense__weights.html", [
+      [ "row", "structsnicholls_1_1ml_1_1dense__weights.html#a43debfe223b57f02caba1f42eb0a261d", null ],
+      [ "cols", "structsnicholls_1_1ml_1_1dense__weights.html#a6d2f7582b80e05289d75b888949c9659", null ],
+      [ "data", "structsnicholls_1_1ml_1_1dense__weights.html#a5a08eebfe9c9ef6e02a131aede8e38f2", null ],
+      [ "rows", "structsnicholls_1_1ml_1_1dense__weights.html#a30bdb1a443414f5d3f468d53826578ec", null ]
+    ] ],
+    [ "snicholls::ml::quantized_weights&lt; Block &gt;", "structsnicholls_1_1ml_1_1quantized__weights.html", [
+      [ "row", "structsnicholls_1_1ml_1_1quantized__weights.html#a52ec2e6af4147cd514ab1062e3030423", null ],
+      [ "blocks", "structsnicholls_1_1ml_1_1quantized__weights.html#a0f1a4cb83e578e62bab0d121c5dad5a4", null ],
+      [ "cols", "structsnicholls_1_1ml_1_1quantized__weights.html#a568c435c0e292ba805b23e096e90ba0e", null ],
+      [ "rows", "structsnicholls_1_1ml_1_1quantized__weights.html#aa3c26841a24fb8577f2953523e8ad7ab", null ]
+    ] ],
     [ "snicholls::ml::minifloat&lt; E, M, Kind &gt;", "structsnicholls_1_1ml_1_1minifloat.html", [
       [ "storage_type", "structsnicholls_1_1ml_1_1minifloat.html#a0441a3c9092ec27f639fd675977dab2c", null ],
       [ "bits", "structsnicholls_1_1ml_1_1minifloat.html#ae50b375830c446056df7a3ec8916f26f", null ]
+    ] ],
+    [ "snicholls::ml::mlp_weights&lt; W, T &gt;", "structsnicholls_1_1ml_1_1mlp__weights.html", [
+      [ "down", "structsnicholls_1_1ml_1_1mlp__weights.html#aed552575da3dfad7f0d7132f2dce5715", null ],
+      [ "down_bias", "structsnicholls_1_1ml_1_1mlp__weights.html#a688443fef16bd785692f3f2e02641ffb", null ],
+      [ "gate", "structsnicholls_1_1ml_1_1mlp__weights.html#a16c5c68980a9939116875046a4cd1261", null ],
+      [ "gate_bias", "structsnicholls_1_1ml_1_1mlp__weights.html#a6aa191c3c913d249058a53436c865560", null ],
+      [ "up", "structsnicholls_1_1ml_1_1mlp__weights.html#ad0abb1cb7ce2904381e4aced98c4e071", null ],
+      [ "up_bias", "structsnicholls_1_1ml_1_1mlp__weights.html#a8111f2639ab1d566c12364ec067e8914", null ]
+    ] ],
+    [ "snicholls::ml::moe_route&lt; T, K &gt;", "structsnicholls_1_1ml_1_1moe__route.html", [
+      [ "count", "structsnicholls_1_1ml_1_1moe__route.html#a5ce2b256ecec9b937fbd26e58f406b83", null ],
+      [ "expert", "structsnicholls_1_1ml_1_1moe__route.html#a1c474c0fa7bbb0c172f151f67274426f", null ],
+      [ "weight", "structsnicholls_1_1ml_1_1moe__route.html#a6636afaa48ad1638cae28848d56940d8", null ]
     ] ],
     [ "snicholls::ml::norm_stats&lt; T &gt;", "structsnicholls_1_1ml_1_1norm__stats.html", [
       [ "mean", "structsnicholls_1_1ml_1_1norm__stats.html#a2ed8f6dd852c4f6b8ea4eea694950e16", null ],
@@ -738,6 +947,11 @@ var group__core =
       [ "index", "structsnicholls_1_1ml_1_1top__k__result.html#ab2aa959b07a1defb85ca890bd0fd9798", null ],
       [ "value", "structsnicholls_1_1ml_1_1top__k__result.html#a74209caf5ec265b0e8fff5aa18f50bf6", null ]
     ] ],
+    [ "snicholls::ml::logit_penalties&lt; T &gt;", "structsnicholls_1_1ml_1_1logit__penalties.html", [
+      [ "frequency", "structsnicholls_1_1ml_1_1logit__penalties.html#a57e4e3ed1e58ef77f642ee47376c7e1d", null ],
+      [ "presence", "structsnicholls_1_1ml_1_1logit__penalties.html#a68030d4156db58cb6ecd4b4b150eb668", null ],
+      [ "repetition", "structsnicholls_1_1ml_1_1logit__penalties.html#ab5e07c0fffc29bc2ae681fbf7ec64c23", null ]
+    ] ],
     [ "snicholls::ml::online_softmax&lt; T &gt;", "structsnicholls_1_1ml_1_1online__softmax.html", [
       [ "add", "structsnicholls_1_1ml_1_1online__softmax.html#a6505b85be53133791c4db0bf82746478", null ],
       [ "log_sum_exp", "structsnicholls_1_1ml_1_1online__softmax.html#a719b26fca3f79409d106ed6260f5ce5e", null ],
@@ -745,6 +959,34 @@ var group__core =
       [ "probability", "structsnicholls_1_1ml_1_1online__softmax.html#a8c719d67f8d73aa75a0b67b49a3636f8", null ],
       [ "max", "structsnicholls_1_1ml_1_1online__softmax.html#a359c089d3c76ddd0c180b4803f818c8c", null ],
       [ "sum", "structsnicholls_1_1ml_1_1online__softmax.html#a9016ad2bcccd86d2e81cf092b3b4bdfc", null ]
+    ] ],
+    [ "snicholls::ml::block_weights&lt; W, T &gt;", "structsnicholls_1_1ml_1_1block__weights.html", [
+      [ "attention", "structsnicholls_1_1ml_1_1block__weights.html#a68b2323323dbf9da7b92805a7c487a8c", null ],
+      [ "mlp", "structsnicholls_1_1ml_1_1block__weights.html#a99f0ce8d8f6c62e75b6dcdafb60b63b5", null ],
+      [ "norm1_bias", "structsnicholls_1_1ml_1_1block__weights.html#a973d7fc4aa97fd1c01bf79ef9a33a975", null ],
+      [ "norm1_weight", "structsnicholls_1_1ml_1_1block__weights.html#a665f8dc21145a0aea74bb1656a72216d", null ],
+      [ "norm2_bias", "structsnicholls_1_1ml_1_1block__weights.html#a524168e540f20c887b43438e4eb9f4ef", null ],
+      [ "norm2_weight", "structsnicholls_1_1ml_1_1block__weights.html#a15ef64d1c475a0318f6ced065dae7425", null ]
+    ] ],
+    [ "snicholls::ml::transformer_config", "structsnicholls_1_1ml_1_1transformer__config.html", [
+      [ "group", "structsnicholls_1_1ml_1_1transformer__config.html#aec01774d0494cb03415b3c63aa391038", null ],
+      [ "kv_size", "structsnicholls_1_1ml_1_1transformer__config.html#adf1f510353c962ac46040ef508210e25", null ],
+      [ "layout", "structsnicholls_1_1ml_1_1transformer__config.html#abcc9a37049d08374889ebc6dc86706b1", null ],
+      [ "q_size", "structsnicholls_1_1ml_1_1transformer__config.html#aff8d03962fff5b416d74c5f036799437", null ],
+      [ "attention_softcap", "structsnicholls_1_1ml_1_1transformer__config.html#aa4791aad81be750e414d625cfb26ab76", null ],
+      [ "bias", "structsnicholls_1_1ml_1_1transformer__config.html#af0b6210f03dc35f32ba350f891965a1b", null ],
+      [ "d_ff", "structsnicholls_1_1ml_1_1transformer__config.html#a1b242efe956775b031372b00e6ac7a34", null ],
+      [ "d_model", "structsnicholls_1_1ml_1_1transformer__config.html#ad47a9a838e6bd13ee9c5bbfec6e278b8", null ],
+      [ "head_dim", "structsnicholls_1_1ml_1_1transformer__config.html#a29e68995ac3c56946a981d336cd473ab", null ],
+      [ "mlp", "structsnicholls_1_1ml_1_1transformer__config.html#aad96c6f86f0ac80ac72aa93a048a6fe2", null ],
+      [ "n_heads", "structsnicholls_1_1ml_1_1transformer__config.html#aaa9a62d897b634b112406e00601c6fae", null ],
+      [ "n_kv_heads", "structsnicholls_1_1ml_1_1transformer__config.html#a10be1812002f39d6dba574adb8cb85f4", null ],
+      [ "norm", "structsnicholls_1_1ml_1_1transformer__config.html#a96d96ef48efc1cceee4f8400f38efcec", null ],
+      [ "norm_eps", "structsnicholls_1_1ml_1_1transformer__config.html#a81aef82493cd0ea05697bee863b55324", null ],
+      [ "qk_norm", "structsnicholls_1_1ml_1_1transformer__config.html#ac298bb4c23535b74b87602bc1d2e05d0", null ],
+      [ "rope", "structsnicholls_1_1ml_1_1transformer__config.html#ab6aed4c00dca183dd1f012a68de48274", null ],
+      [ "rope_base", "structsnicholls_1_1ml_1_1transformer__config.html#a36753b1adcc5f5e58da06c3e84509909", null ],
+      [ "window", "structsnicholls_1_1ml_1_1transformer__config.html#af9859e68c624e4927459e47ab9b0331d", null ]
     ] ],
     [ "snicholls::fn_ptr&lt; P &gt;", "structsnicholls_1_1fn__ptr.html", null ],
     [ "snicholls::overloaded&lt; Fs &gt;", "structsnicholls_1_1overloaded.html", null ],
@@ -1392,6 +1634,7 @@ var group__core =
     [ "SNICHOLLS_RESULT_THROW", "group__core.html#gac4298bfb045541ec90324e8a2741c2cd", null ],
     [ "SNICHOLLS_TRY_ASSIGN", "group__core.html#ga3e52450eb4a98b8c99819e0b78252705", null ],
     [ "SNICHOLLS_TRY_VOID", "group__core.html#gaa1583aa0ec8823339a420408e653e40a", null ],
+    [ "snicholls::linalg::batch_view", "group__core.html#ga245e75ffd7eac58719f9763be745db71", null ],
     [ "snicholls::callable_arguments_t", "group__core.html#ga890b884310f8fbbd1cf1589b8cfc413e", null ],
     [ "snicholls::callable_result_t", "group__core.html#ga2a13d6d205d8982a985e5212b3677d90", null ],
     [ "snicholls::meta::cartesian_power_t", "group__core.html#ga3b996690055e68158049d9418fcb4546", null ],
@@ -1415,6 +1658,7 @@ var group__core =
     [ "snicholls::meta::group_by_t", "group__core.html#gafa5de34163b79772cba907529d0536ce", null ],
     [ "snicholls::meta::inner_t", "group__core.html#ga29214845b901163f04687659b27fc2f1", null ],
     [ "snicholls::meta::map_indexed_t", "group__core.html#ga232f46c7233011ecb779502e0c0967ae", null ],
+    [ "snicholls::linalg::matrix_view", "group__core.html#gad57508b817350326f8dc379ffb98e74a", null ],
     [ "snicholls::meta::nest_list_t", "group__core.html#gaaa56dac36f792fa12ee0b28e72f4e3c2", null ],
     [ "snicholls::meta::nest_t", "group__core.html#ga55afc3cdd8328a9f53c9ff908002a8c2", null ],
     [ "snicholls::meta::outer_product_t", "group__core.html#ga742d1c497973c99fdcd42334c4af772c", null ],
@@ -1422,6 +1666,7 @@ var group__core =
     [ "snicholls::meta::partition_n_t", "group__core.html#ga67bd90d3384db811834570a552c45d12", null ],
     [ "snicholls::meta::permutations_t", "group__core.html#gaf6794dc97b0c1c651bf0d1bf678d5d59", null ],
     [ "snicholls::meta::permutations_with_t", "group__core.html#ga496b5dc1aa2f304fb6d217751f1111f2", null ],
+    [ "snicholls::linalg::pivot_index", "group__core.html#gafd1890d6e796465f8c62adeb9608334d", null ],
     [ "snicholls::meta::product_with_t", "group__core.html#ga995f47949917aa6a56dbcc2bddbe7eda", null ],
     [ "snicholls::meta::range_t", "group__core.html#ga9aa0c13965181d4fd8ff5f3e39a10b9b", null ],
     [ "snicholls::math::real_t", "group__core.html#gaee5ee36a464f42353d5a712baf4ba54b", null ],
@@ -1439,6 +1684,7 @@ var group__core =
     [ "snicholls::meta::thread_with_t", "group__core.html#gacf61bac838d4e401a5628488ba3e7efb", null ],
     [ "snicholls::meta::topological_sort_t", "group__core.html#ga82a5f0744e9aa756b4532e8d07b84f71", null ],
     [ "snicholls::traced_t", "group__core.html#ga71f8f69b548ec6b8ee05a18c3863c904", null ],
+    [ "snicholls::linalg::vector_view", "group__core.html#gaaf8a3aeb5ea9394805581b83f3c9254f", null ],
     [ "snicholls::meta::zip_with_t", "group__core.html#ga31ae07e50836d916f95262f048526716", null ],
     [ "snicholls::ansi_colour", "group__core.html#gadc161e1bb4e3c95fb1f92903c8e89da9", [
       [ "snicholls::ansi_colour::none", "group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
@@ -1473,6 +1719,17 @@ var group__core =
       [ "snicholls::decimal_syntax::canonical", "group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1a9f3fda2fef6dda85970e12ce9a9b8cbe", null ],
       [ "snicholls::decimal_syntax::plain", "group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e", null ]
     ] ],
+    [ "snicholls::linalg::diagonal", "group__core.html#ga793302c74afd7e56b5bf507f01b0840b", [
+      [ "snicholls::linalg::diagonal::explicit_diagonal", "group__core.html#gga793302c74afd7e56b5bf507f01b0840ba51d651ec5f55c0e9d7b266320d627195", null ],
+      [ "snicholls::linalg::diagonal::implicit_unit", "group__core.html#gga793302c74afd7e56b5bf507f01b0840ba53ceb6224acdb4758e9104ad007020a2", null ]
+    ] ],
+    [ "snicholls::linalg::error", "group__core.html#ga5022bc05054efff84b4729afa44d90a0", [
+      [ "snicholls::linalg::error::singular", "group__core.html#gga5022bc05054efff84b4729afa44d90a0a6558000adbdbb1f87a94fe236eeae5e8", null ],
+      [ "snicholls::linalg::error::not_positive_definite", "group__core.html#gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964", null ],
+      [ "snicholls::linalg::error::did_not_converge", "group__core.html#gga5022bc05054efff84b4729afa44d90a0aacda4b4490ccb13a5db5192c72bb6d68", null ],
+      [ "snicholls::linalg::error::dimension_mismatch", "group__core.html#gga5022bc05054efff84b4729afa44d90a0afa5a1299c298ea39fb893169e211ceda", null ],
+      [ "snicholls::linalg::error::aliased", "group__core.html#gga5022bc05054efff84b4729afa44d90a0a8daaec0d29fdaf7d91fca1780a779576", null ]
+    ] ],
     [ "snicholls::error_level", "group__core.html#ga05ce5db02909d4d9bfc0fb741a19b8f0", [
       [ "snicholls::error_level::trace", "group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0a04a75036e9d520bb983c5ed03b8d0182", null ],
       [ "snicholls::error_level::debug", "group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0aad42f6697b035b7580e4fef93be20b4d", null ],
@@ -1484,6 +1741,24 @@ var group__core =
     [ "snicholls::frame_kind", "group__core.html#gabf150838e94b74b80e34a2e727ab66c1", [
       [ "snicholls::frame_kind::context", "group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a5c18ef72771564b7f43c497dc507aeab", null ],
       [ "snicholls::frame_kind::propagated", "group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac", null ]
+    ] ],
+    [ "snicholls::containers::header_error", "group__core.html#gae13eae5030df3ed9f6a81bd11debf30f", [
+      [ "snicholls::containers::header_error::too_short", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fab8646db1a4e48e343021c703233ba45c", null ],
+      [ "snicholls::containers::header_error::bad_magic", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa35ca84a2e9411227c0819d26eed0ce2c", null ],
+      [ "snicholls::containers::header_error::bad_version", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa31bfca4f345efd483ada6f1a5142c165", null ],
+      [ "snicholls::containers::header_error::bad_size", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fad6ff71cb1575d3a333d4bc9dfceba82c", null ],
+      [ "snicholls::containers::header_error::bad_checksum", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa49e5c4625b90d9210e28265bdeb6d3a5", null ],
+      [ "snicholls::containers::header_error::count_over_capacity", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa94660698bc34b119b7152959931865d0", null ],
+      [ "snicholls::containers::header_error::element_mismatch", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa0c35732ec59d25e78ace5f793bf8d292", null ],
+      [ "snicholls::containers::header_error::type_mismatch", "group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa570a4fa126d94bc89332b5f610420adf", null ]
+    ] ],
+    [ "snicholls::containers::index_pool_error", "group__core.html#ga6d9fcd0f98a61588c594db54709367fa", [
+      [ "snicholls::containers::index_pool_error::misaligned", "group__core.html#gga6d9fcd0f98a61588c594db54709367faa4fd4dace003cbeba14751db739087a3b", null ],
+      [ "snicholls::containers::index_pool_error::too_small", "group__core.html#gga6d9fcd0f98a61588c594db54709367faae8fca065c883322fc33dcf9c5f422340", null ],
+      [ "snicholls::containers::index_pool_error::full", "group__core.html#gga6d9fcd0f98a61588c594db54709367faae9dc924f238fa6cc29465942875fe8f0", null ],
+      [ "snicholls::containers::index_pool_error::not_formatted", "group__core.html#gga6d9fcd0f98a61588c594db54709367faaacf74f1aa5c5cf82928e3cfe7f8369e3", null ],
+      [ "snicholls::containers::index_pool_error::layout_mismatch", "group__core.html#gga6d9fcd0f98a61588c594db54709367faa2b65a2a34243483bf5c6380eed6a41cd", null ],
+      [ "snicholls::containers::index_pool_error::corrupt", "group__core.html#gga6d9fcd0f98a61588c594db54709367faabc2f39d437ff13dff05f5cfda14327cc", null ]
     ] ],
     [ "snicholls::leap_second_policy", "group__core.html#gae1199bd75d7bd4320cd8b8dbb819d737", [
       [ "snicholls::leap_second_policy::reject", "group__core.html#ggae1199bd75d7bd4320cd8b8dbb819d737a6bfaf02d9f3b165809fb7f056665a6bd", null ],
@@ -1514,6 +1789,18 @@ var group__core =
       [ "snicholls::ml::rope_layout::half", "group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4", null ],
       [ "snicholls::ml::rope_layout::interleaved", "group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa5fc70ff0369f56d734047c9507af8623", null ]
     ] ],
+    [ "snicholls::linalg::status", "group__core.html#gaf6d5e4acbd97a55c224ced751a3bb151", [
+      [ "snicholls::linalg::status::ok", "group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151a444bcb3a3fcf8389296c49467f27e1d6", null ],
+      [ "snicholls::linalg::status::singular", "group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151a6558000adbdbb1f87a94fe236eeae5e8", null ],
+      [ "snicholls::linalg::status::not_positive_definite", "group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151a06b1e69e5f998b50580bad7ca8723964", null ],
+      [ "snicholls::linalg::status::did_not_converge", "group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151aacda4b4490ccb13a5db5192c72bb6d68", null ],
+      [ "snicholls::linalg::status::dimension_mismatch", "group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151afa5a1299c298ea39fb893169e211ceda", null ],
+      [ "snicholls::linalg::status::aliased", "group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151a8daaec0d29fdaf7d91fca1780a779576", null ]
+    ] ],
+    [ "snicholls::linalg::triangle", "group__core.html#ga04587c556fd6ca8c8d13ca465bf59921", [
+      [ "snicholls::linalg::triangle::lower", "group__core.html#gga04587c556fd6ca8c8d13ca465bf59921a81e073b428b50247daba38531dcf412a", null ],
+      [ "snicholls::linalg::triangle::upper", "group__core.html#gga04587c556fd6ca8c8d13ca465bf59921a0122b4c2c01ee1c698ecc309d2b8eb5a", null ]
+    ] ],
     [ "snicholls::uuid_variant", "group__core.html#gafd9c16133382d23495d3d6b1fdeb0c8c", [
       [ "snicholls::uuid_variant::ncs", "group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca020a8cfa922969a0b9035333f45988c3", null ],
       [ "snicholls::uuid_variant::rfc9562", "group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca33f3b2517eefeb8afcaeaf60261ff956", null ],
@@ -1524,12 +1811,15 @@ var group__core =
     [ "snicholls::add_months", "group__core.html#gad6360e74d9f1e2edd46ce6da7e8bf7b3", null ],
     [ "snicholls::ansi_start", "group__core.html#ga55f2c1d9e8b0c841ff391af0f3ce75ac", null ],
     [ "snicholls::as_bytes_view", "group__core.html#ga8a722f064fcb9141660f1d20d6711548", null ],
+    [ "snicholls::linalg::as_column", "group__core.html#ga2ff595850cb4f4ccfc45904d64fbdae6", null ],
     [ "snicholls::finance::as_taylor_model", "group__core.html#ga1cde246bbd635a427f376dd278f909ed", null ],
+    [ "snicholls::linalg::as_vector", "group__core.html#ga6943f185f8cc68ed349d153cbee308c4", null ],
     [ "snicholls::game::attribute_change", "group__core.html#gafc4bb2e658c2a44aeb783033722ac6e3", null ],
     [ "snicholls::game::attribute_change", "group__core.html#gacfc919e6f74ca5d44dcd6ab472a9bf00", null ],
     [ "snicholls::attribute_or", "group__core.html#gad714ad3c9e1655b65fc777eeb06d533c", null ],
     [ "snicholls::attributes_of", "group__core.html#ga908b274c0cbe35b3e1192ee0c6641d07", null ],
     [ "snicholls::attrs", "group__core.html#gafeaa33a96a80efe6cb353859b9086189", null ],
+    [ "snicholls::linalg::axpy", "group__core.html#ga6aa8caf51128063083b46ab1127bdef6", null ],
     [ "snicholls::backoff_ceiling", "group__core.html#ga3c586978c2822a884b577601ab19dfa8", null ],
     [ "snicholls::backoff_delay", "group__core.html#ga7e2785ae288572d14b9b94bff8e5a02f", null ],
     [ "snicholls::backoff_delay", "group__core.html#gab7abca8b803bf65f3a1472bb4ddc107e", null ],
@@ -1548,14 +1838,22 @@ var group__core =
     [ "snicholls::checked_binomial", "group__core.html#ga63d7caa3d27b043683f2e77926ddf122", null ],
     [ "snicholls::checked_mul", "group__core.html#ga2fe85ba1056e41af89fba022f22b8e14", null ],
     [ "snicholls::checked_sub", "group__core.html#ga59ae21f3498928322bcd4a64d07cdb4d", null ],
+    [ "snicholls::linalg::cholesky_factor", "group__core.html#gab50cfb3a7a3a115d85e492110ca90740", null ],
+    [ "snicholls::linalg::cholesky_log_det", "group__core.html#ga696435a10dfcb9b89802df24dd41cf96", null ],
+    [ "snicholls::linalg::cholesky_solve", "group__core.html#gab081cfb35f760ad5759e4493aa6df6f9", null ],
+    [ "snicholls::linalg::cholesky_solve_batched", "group__core.html#ga68cf64fbcb873cc34f150f419c1f598b", null ],
     [ "snicholls::civil_from_days", "group__core.html#ga6b1dc5e3c41bb5bce6c4d81de2c1057b", null ],
     [ "snicholls::civil_from_days_fast", "group__core.html#ga50cb9423e5f8b597084c8041b9822a46", null ],
     [ "snicholls::game::coalition_size", "group__core.html#gabd37b3118667b7681706a19be9889413", null ],
     [ "snicholls::game::contains", "group__core.html#gab4cbb6f36fc52a4e1e6a5e74ad0902f4", null ],
+    [ "snicholls::linalg::count_failures", "group__core.html#gac6f23f7150838c749a48477956034948", null ],
     [ "snicholls::current_colour_mode", "group__core.html#ga2d0ba6620dca57c302abbcfa66d84b89", null ],
     [ "snicholls::days_from_civil", "group__core.html#gab3812a029dd9e9668e84d68ac79c8264", null ],
+    [ "snicholls::containers::decode_header", "group__core.html#ga9e8d83ec71b486513e2619bcdac2ff49", null ],
     [ "snicholls::display_colour", "group__core.html#gad8efcac06156a2317322524824405c2f", null ],
     [ "snicholls::stochastic::doob_decomposition", "group__core.html#ga374e7a1932bf8d989e38e08ca9fefc85", null ],
+    [ "snicholls::linalg::dot", "group__core.html#gaadbc16e6e7853c802ba1f818a4ba36f2", null ],
+    [ "snicholls::containers::encode_header", "group__core.html#ga4bc4d81e397d00e3c482373147502622", null ],
     [ "snicholls::enum_cast", "group__core.html#ga880bef97fa33dbdf6b8ce423ea9da5e2", null ],
     [ "snicholls::enum_cast", "group__core.html#ga5ca5dac3b140a85af42c5b14c8c38440", null ],
     [ "snicholls::enum_contains", "group__core.html#ga5fd7ba6bd3b945c9efdd7edd24c1f7a4", null ],
@@ -1594,6 +1892,7 @@ var group__core =
     [ "snicholls::for_each_subset", "group__core.html#gae5da7f1a06fe3a80747ca9ae1a3d972d", null ],
     [ "snicholls::game::for_each_subset_of", "group__core.html#ga0f4915e2e9ef1b2175d2e6f85dd01d97", null ],
     [ "snicholls::game::for_each_superset_of", "group__core.html#ga3485f0635c86c0687b6e04a671fafb16", null ],
+    [ "snicholls::linalg::for_each_system", "group__core.html#ga27fa355760ad7a6b5bc66ad958267ce2", null ],
     [ "snicholls::meta::for_each_tag", "group__core.html#ga615c08b4eacb8059a0ecedb2e29032d0", null ],
     [ "snicholls::for_each_tuple", "group__core.html#gaf569bdedd834b5c02068ed3f09e104a6", null ],
     [ "snicholls::meta::for_each_type", "group__core.html#ga8677cb25b37c3c96e7e1bdf87a723b3f", null ],
@@ -1604,6 +1903,8 @@ var group__core =
     [ "snicholls::game::from_table", "group__core.html#ga54ce3a13cab76805e9b3ad61f710c365", null ],
     [ "snicholls::from_tuple", "group__core.html#ga01d6ec8c1e1cde5db5315c1dc4f83e32", null ],
     [ "snicholls::from_unix_chars", "group__core.html#ga8dfb528fc08d6e05c7c1e042d6da96d4", null ],
+    [ "snicholls::linalg::gemm", "group__core.html#ga76f7bbdead26969eb45a1066a1c656bf", null ],
+    [ "snicholls::linalg::gemv", "group__core.html#ga5e4abf66c3cb87809190ee17905ee070", null ],
     [ "snicholls::game::grand_coalition", "group__core.html#ga36a6731b4a94100d1615f3a864450fb5", null ],
     [ "snicholls::game::harsanyi_dividends", "group__core.html#gaab05e13c59ffcdff9ed23774b50478c3", null ],
     [ "snicholls::game::harsanyi_dividends", "group__core.html#gab385b61316b98da3628c2d1029d5c05d", null ],
@@ -1629,10 +1930,21 @@ var group__core =
     [ "snicholls::game::is_supermodular", "group__core.html#gadeff15bcd1adf58af186880029274567", null ],
     [ "snicholls::stats::jackknife", "group__core.html#ga7ea6adec1c5ff9a2dc320166be800139", null ],
     [ "snicholls::last_day_of_month", "group__core.html#ga913f6dd3908958b749a4df4969585a92", null ],
+    [ "snicholls::linalg::ldlt_factor", "group__core.html#ga7329865458cab0d39d6e373741298560", null ],
+    [ "snicholls::linalg::ldlt_growth_limit", "group__core.html#ga8a6868c18e99eb39d92b41d3e0ca56b4", null ],
+    [ "snicholls::linalg::ldlt_log_det", "group__core.html#ga278d7dcabbed6c534087cda917acea00", null ],
+    [ "snicholls::linalg::ldlt_solve", "group__core.html#ga7041954b5522fc06a740288f2f1ddcb6", null ],
+    [ "snicholls::linalg::ldlt_solve_batched", "group__core.html#ga57ddec08d2c5e66ef345f664a610dc7a", null ],
+    [ "snicholls::linalg::least_squares", "group__core.html#ga856338f26ed54ec4e18e966930f55d7e", null ],
     [ "snicholls::game::leave_one_out", "group__core.html#gaad44969baa71dd452935c87cb811cd78", null ],
     [ "snicholls::stats::ledoit_wolf", "group__core.html#ga2d0ddbcfa95cd97a02100d7818c45148", null ],
     [ "snicholls::length_of", "group__core.html#ga57d8b51bfef692cb9cef24c86d80c7b1", null ],
     [ "snicholls::stochastic::ljung_box", "group__core.html#ga1a8796ffd5bd8dd716d8121912324f1c", null ],
+    [ "snicholls::linalg::lu_factor", "group__core.html#ga9dc54424d1d635ecdd07f0ad5d26b2bc", null ],
+    [ "snicholls::linalg::lu_inverse", "group__core.html#ga7d8176c853cb478eb3fb09ea0aa4db29", null ],
+    [ "snicholls::linalg::lu_log_det", "group__core.html#ga12b1543e501a04cc918730cc5df8f2fd", null ],
+    [ "snicholls::linalg::lu_solve", "group__core.html#ga7a7014ddb7bec26a66a2bd39bd47f28e", null ],
+    [ "snicholls::linalg::lu_solve_batched", "group__core.html#ga6648116b39752d632b7c3e729bfa9cdb", null ],
     [ "snicholls::meta::make_array", "group__core.html#ga0989f826c7760d012df9c6cec79004a4", null ],
     [ "snicholls::make_constexpr_map", "group__core.html#ga00579d41dc20c2414e00edf8785ed8d6", null ],
     [ "snicholls::make_error_report", "group__core.html#gaa85b628aaaba9214e44844c6e7c67d20", null ],
@@ -1642,6 +1954,7 @@ var group__core =
     [ "snicholls::make_uuid_v4", "group__core.html#ga4c2846482c463807305d78848e93fc0a", null ],
     [ "snicholls::make_uuid_v5", "group__core.html#ga3fe29dcc09ddce32184059c26f28b699", null ],
     [ "snicholls::make_uuid_v7", "group__core.html#ga878ec814159aae81fa7243a7f5dc6960", null ],
+    [ "snicholls::containers::mapped_header_for", "group__core.html#gaccccd74150bb90bb19ea120425d92052", null ],
     [ "snicholls::stochastic::martingale_transform", "group__core.html#ga3f17b5c34a7f37377251685636e5f00f", null ],
     [ "snicholls::mask_url_credentials", "group__core.html#gad77ce23dfe8ea2198c2377454c0de766", null ],
     [ "snicholls::stats::moments_of", "group__core.html#gaaf495d3b8f8cd5ff3615cba6b61f86b0", null ],
@@ -1682,6 +1995,7 @@ var group__core =
     [ "snicholls::permutations", "group__core.html#ga0fa9c01a8d0ac2a167cf4740bb328560", null ],
     [ "snicholls::game::permuted_sequential", "group__core.html#ga511fe402346e49019d60f6516a00c05c", null ],
     [ "snicholls::game::permuted_sequential", "group__core.html#ga12a7267f2ba37f7f76789b98d1833ec6", null ],
+    [ "snicholls::linalg::pivot_tolerance", "group__core.html#gac523ae3ebb34fc316ad2069364c9ee46", null ],
     [ "snicholls::previous_weekday", "group__core.html#gae1a2da362868b8a745432765f216f505", null ],
     [ "snicholls::print", "group__core.html#ga616a9da7d36e9557384a40dc5e651026", null ],
     [ "snicholls::print", "group__core.html#gac7b4b296fd6634a3866b49dd8aa3deb7", null ],
@@ -1699,6 +2013,9 @@ var group__core =
     [ "snicholls::println", "group__core.html#ga4fab5af7e84035fc6d8be99777d239a6", null ],
     [ "snicholls::println", "group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb", null ],
     [ "snicholls::println", "group__core.html#ga1333ab74d11169e1c3a099897d92a6da", null ],
+    [ "snicholls::linalg::qr_factor", "group__core.html#ga68bc7c71bc151ac00263022b1dd90f5e", null ],
+    [ "snicholls::linalg::qr_q", "group__core.html#ga13d803b241e00daa0d7c054bf0e0734d", null ],
+    [ "snicholls::linalg::qr_solve", "group__core.html#ga8eb2604538d13cf7e9ac8a31d936c80f", null ],
     [ "snicholls::stochastic::quadratic_variation", "group__core.html#ga5d7cf5201ffb578dc72357bfeacfc13f", null ],
     [ "snicholls::stats::radical_inverse", "group__core.html#gaa7a250b519634660eec04304e82f1d9c", null ],
     [ "snicholls::stats::random_u64", "group__core.html#gaca0a11c5b3d6279bc5d29641b8e073b8", null ],
@@ -1732,9 +2049,13 @@ var group__core =
     [ "snicholls::source_site", "group__core.html#ga19879396e06cbb587e10ad2fcefa0b28", null ],
     [ "snicholls::splitmix64", "group__core.html#gac9ccdf4eaddcfeea9ce3e01da6d128f6", null ],
     [ "snicholls::styled", "group__core.html#gab8a87c5fa0d75473441feaa477a637ad", null ],
+    [ "snicholls::containers::submdspan", "group__core.html#gacd1208b4f1c4b2a8d7ae52458fd4aae1", null ],
     [ "snicholls::subsets", "group__core.html#gab97fda04f997a6be3cdbe8f49a242a24", null ],
     [ "snicholls::sun_position", "group__core.html#ga71e6503653a25e6957872ab789629f9a", null ],
+    [ "snicholls::linalg::svd", "group__core.html#gaa4186a1a9381060f610702a2c3d19164", null ],
+    [ "snicholls::linalg::symmetric_eigen", "group__core.html#ga11b35a3a7ed3186a355b12d04ecb9740", null ],
     [ "snicholls::synth_three_way", "group__core.html#ga87cff9973bf702fb7ee4c1cfc17f3aff", null ],
+    [ "snicholls::linalg::syrk", "group__core.html#ga3bb2b904c33c49683ad21d8a6b1cad6a", null ],
     [ "snicholls::table", "group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63", null ],
     [ "snicholls::game::table_size", "group__core.html#gabeefa2162fd95feb25229a44765d8c8b", null ],
     [ "snicholls::game::tabulate", "group__core.html#ga58d2edac5425c81d02b8a67d2a31f13f", null ],
@@ -1746,6 +2067,7 @@ var group__core =
     [ "snicholls::to_chars", "group__core.html#gaddf00cf2543f994c39ea153900158b7e", null ],
     [ "snicholls::to_chars", "group__core.html#gacdac82231d3fb4ffea32c03f0051deb9", null ],
     [ "snicholls::game::to_dividends", "group__core.html#gada14fed64c28ce2054612039ae42b9bc", null ],
+    [ "snicholls::linalg::to_status", "group__core.html#ga6b0f6b1926f86138e053d45c09e56c67", null ],
     [ "snicholls::to_string", "group__core.html#gac7d6811ca6d1a3e41080b84400864228", null ],
     [ "snicholls::to_string", "group__core.html#gacc27c22653e826ed72a03ec964afbf49", null ],
     [ "snicholls::to_string", "group__core.html#ga08bab2b1f1ae6750ee252872bbd2cae5", null ],
@@ -1753,6 +2075,10 @@ var group__core =
     [ "snicholls::to_tuple", "group__core.html#gab6e85e5ecfec81aca2e8a6fd6285e870", null ],
     [ "snicholls::traced", "group__core.html#gae3fd023b948b4d74ddbf15fc639c016f", null ],
     [ "snicholls::traced_err", "group__core.html#ga69169ce4d212bdfa205d809d07c30e4b", null ],
+    [ "snicholls::linalg::transposed", "group__core.html#ga0c676778e4c374a87500bb2a96830ed0", null ],
+    [ "snicholls::linalg::transposed", "group__core.html#ga917cfc576e4add12d2dd75725f40b4a2", null ],
+    [ "snicholls::linalg::transposed", "group__core.html#gafe573895f5b2e659d86d66f940860828", null ],
+    [ "snicholls::linalg::triangular_solve", "group__core.html#ga3743c1a8727bbd17eae3d3977b0fb889", null ],
     [ "snicholls::result_throws::try_invoke", "group__core.html#gac024103da53d559155ac418013ddd41c", null ],
     [ "snicholls::tuples", "group__core.html#ga58876fa4aed8c556d5ece13cd9725bde", null ],
     [ "snicholls::type_name", "group__core.html#ga415e6ad88baf1bb6438b965dfff7b18a", null ],
@@ -1760,6 +2086,7 @@ var group__core =
     [ "snicholls::stats::uniform_index", "group__core.html#ga994076086c4d4ef3f1d8877fe5bd0929", null ],
     [ "snicholls::stats::uniform_index32", "group__core.html#ga25d0cb27298b6b67e7307f67c0815edd", null ],
     [ "snicholls::stats::uniform_real", "group__core.html#ga4985e2a83e6d6f215e3e7034182b2f02", null ],
+    [ "snicholls::containers::validate_header", "group__core.html#gad8c1465a2418eac84f0618c4ab3d5a3c", null ],
     [ "snicholls::stochastic::variance_ratio_test", "group__core.html#gabff0b8868eeca87833bd416169ad49fd", null ],
     [ "snicholls::core::version", "group__core.html#ga3f96282a1da786108d1b05820da0cc71", null ],
     [ "snicholls::core::version_major", "group__core.html#ga2a13fce9ccbd4d1ba5768f8b327060b2", null ],
@@ -1792,6 +2119,7 @@ var group__core =
     [ "snicholls::enum_values_v", "group__core.html#ga8f03ca14809538b3fb24f921f963956a", null ],
     [ "snicholls::err_in_place", "group__core.html#gaa773e0369a0f4256fd8e4db03d6ee61b", null ],
     [ "snicholls::meta::find_index_if_v", "group__core.html#ga25bad714737638efb56d825bcd931d0f", null ],
+    [ "snicholls::containers::full_extent", "group__core.html#gad1cbe8dd3842562ba177ffb3ab0f4c32", null ],
     [ "snicholls::has_attribute_v", "group__core.html#ga1b77588c1b868b7ec4eae9a17bb12945", null ],
     [ "snicholls::increasing_v", "group__core.html#ga56bbf6f9d77dc05ea3a331e626537a4c", null ],
     [ "snicholls::ml::is_minifloat_v", "group__core.html#gab23bdba90320db412810bac1ce5d9400", null ],
@@ -1803,6 +2131,7 @@ var group__core =
     [ "snicholls::member_count_v", "group__core.html#ga3be52bff97bb886f69cbc21e23283839", null ],
     [ "snicholls::game::no_player", "group__core.html#gaef46c88a9736ec7c58acbd2356653a90", null ],
     [ "snicholls::permutation_count_v", "group__core.html#ga30d70b18ea848f03c245f2232b347b96", null ],
+    [ "snicholls::linalg::reference", "group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9", null ],
     [ "snicholls::rfc3339_max_chars", "group__core.html#ga89675ef9d40c6c4b694fa401d4bc4b45", null ],
     [ "snicholls::static_length_v", "group__core.html#gafb257b1d6adac4d68fb2aa5fbeb9e1c1", null ],
     [ "snicholls::strictly_decreasing_v", "group__core.html#ga0c83d612e90d91a97851b98827acb2d9", null ],

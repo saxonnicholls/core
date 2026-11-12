@@ -1,10 +1,10 @@
 var classsnicholls_1_1containers_1_1object__pool =
 [
     [ "value_type", "classsnicholls_1_1containers_1_1object__pool.html#a6cf42f550d00de29e78513a5cb02d59b", null ],
-    [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a407f53747e3159ae8101d02e0d7c3873", null ],
+    [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#aa06789d5549fe4d0f49d240c6bd3a0ff", null ],
     [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a562788290a660afb5f5acafe5f31cce5", null ],
     [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html#ab4f9efec3f1bf521c8a842a7f331243b", null ],
-    [ "~object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a125e8c54496e022f4ca07e85783f8b10", null ],
+    [ "~object_pool", "classsnicholls_1_1containers_1_1object__pool.html#a3c1cf7f44fca8399e0e018eed33d3091", null ],
     [ "capacity", "classsnicholls_1_1containers_1_1object__pool.html#a3ea4b3b963b9eead6d7b31cf3b76c079", null ],
     [ "create", "classsnicholls_1_1containers_1_1object__pool.html#a07fee26782582e00a42b4587c444fdae", null ],
     [ "destroy", "classsnicholls_1_1containers_1_1object__pool.html#a903581b59f16cbc60324035472a30e4e", null ],
@@ -12,5 +12,6 @@ var classsnicholls_1_1containers_1_1object__pool =
     [ "operator=", "classsnicholls_1_1containers_1_1object__pool.html#a963e647a3fddaab6a35b5da0575478c2", null ],
     [ "operator=", "classsnicholls_1_1containers_1_1object__pool.html#ab611d7b850da043d0da69171863125b3", null ],
     [ "release_all", "classsnicholls_1_1containers_1_1object__pool.html#a5166a479296b2a9eaf928faa5dfa1d64", null ],
-    [ "reserve", "classsnicholls_1_1containers_1_1object__pool.html#ad9a7bef09d801cf70c0a4124d86b0810", null ]
+    [ "reserve", "classsnicholls_1_1containers_1_1object__pool.html#ad9a7bef09d801cf70c0a4124d86b0810", null ],
+    [ "resource", "classsnicholls_1_1containers_1_1object__pool.html#ab22e5d91dba346c05ca148f182111535", null ]
 ];

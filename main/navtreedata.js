@@ -81,14 +81,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accumulators_8hpp.html",
-"classsnicholls_1_1containers_1_1static__set.html#a25c9a2c3c19e412153d0dd8604bef553",
-"classsnicholls_1_1traced.html#a98873be6c8b5bbb34a51555e05cd84cc",
-"functions_r.html",
-"group__core.html#ga913f6dd3908958b749a4df4969585a92",
-"namespacemembers_func_d.html",
-"structsnicholls_1_1constexpr__map.html#adb404744d4605f5ed493f674e52c1753",
-"structsnicholls_1_1ml_1_1norm__stats.html",
-"structsnicholls_1_1strong.html#a0140b7396c611b6891a64b3ce8a5d95c"
+"classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aa5bd729e3bd76ed2d6abe36525a7f75f",
+"classsnicholls_1_1result__throws_1_1result.html#a4bc853424f49cba29094a3d3b4202986",
+"colour_8hpp.html",
+"group__core.html#ga1d09c542be0eba20821c344ecab771b5",
+"group__core.html#gab6e85e5ecfec81aca2e8a6fd6285e870",
+"namespacemembers_func_e.html",
+"structsnicholls_1_1constexpr__map.html#ab8bc4a27a177885ab8396f7c467b6b0f",
+"structsnicholls_1_1meta_1_1rename_3_01Source_3_01Ts_8_8_8_01_4_00_01Target_01_4.html#abc998ce3079a55e136d2efe5759761a4",
+"structsnicholls_1_1stats_1_1compensated__sum.html#a1f61c64e3d2845eafc49b047d97954c6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -127,10 +127,13 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="dense__id__map_8hpp_source.html">snicholls/core/containers/dense_id_map.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="flat__id__map_8hpp_source.html">snicholls/core/containers/flat_id_map.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="hierarchical__bitset_8hpp_source.html">snicholls/core/containers/hierarchical_bitset.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="index__pool_8hpp_source.html">snicholls/core/containers/index_pool.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="inplace__vector_8hpp_source.html">snicholls/core/containers/inplace_vector.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="intrusive__avl__tree_8hpp_source.html">snicholls/core/containers/intrusive_avl_tree.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="mapped__header_8hpp_source.html">snicholls/core/containers/mapped_header.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="md__array_8hpp_source.html">snicholls/core/containers/md_array.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="object__pool_8hpp_source.html">snicholls/core/containers/object_pool.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="offset__ptr_8hpp_source.html">snicholls/core/containers/offset_ptr.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="perfect__map_8hpp_source.html">snicholls/core/containers/perfect_map.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="static__map_8hpp_source.html">snicholls/core/containers/static_map.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="attribution_8hpp_source.html">snicholls/core/finance/attribution.hpp</a>&gt;</code><br />
@@ -144,6 +147,10 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="fnv_8hpp_source.html">snicholls/core/hash/fnv.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="hash__combine_8hpp_source.html">snicholls/core/hash/hash_combine.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="wyhash_8hpp_source.html">snicholls/core/hash/wyhash.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="backend_8hpp_source.html">snicholls/core/linalg/backend.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="batched_8hpp_source.html">snicholls/core/linalg/batched.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="reference_8hpp_source.html">snicholls/core/linalg/reference.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="types_8hpp_source.html">snicholls/core/linalg/types.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="assignable_8hpp_source.html">snicholls/core/meta/assignable.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="attributes_8hpp_source.html">snicholls/core/meta/attributes.hpp</a>&gt;</code><br />
@@ -156,9 +163,13 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="values_8hpp_source.html">snicholls/core/meta/values.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="activations_8hpp_source.html">snicholls/core/ml/activations.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="attention_8hpp_source.html">snicholls/core/ml/attention.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="attention__layer_8hpp_source.html">snicholls/core/ml/attention_layer.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="bpe_8hpp_source.html">snicholls/core/ml/bpe.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="embedding_8hpp_source.html">snicholls/core/ml/embedding.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="kv__cache_8hpp_source.html">snicholls/core/ml/kv_cache.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="linear_8hpp_source.html">snicholls/core/ml/linear.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="minifloat_8hpp_source.html">snicholls/core/ml/minifloat.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="mlp_8hpp_source.html">snicholls/core/ml/mlp.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="norm_8hpp_source.html">snicholls/core/ml/norm.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="optim_8hpp_source.html">snicholls/core/ml/optim.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="quantize_8hpp_source.html">snicholls/core/ml/quantize.hpp</a>&gt;</code><br />
@@ -166,6 +177,8 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="row_8hpp_source.html">snicholls/core/ml/row.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="sampling_8hpp_source.html">snicholls/core/ml/sampling.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="softmax_8hpp_source.html">snicholls/core/ml/softmax.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="transformer__block_8hpp_source.html">snicholls/core/ml/transformer_block.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="transformer__config_8hpp_source.html">snicholls/core/ml/transformer_config.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="stages_8hpp_source.html">snicholls/core/pipeline/stages.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="member__count_8hpp_source.html">snicholls/core/reflect/member_count.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="string__access_8hpp_source.html">snicholls/core/reflect/string_access.hpp</a>&gt;</code><br />

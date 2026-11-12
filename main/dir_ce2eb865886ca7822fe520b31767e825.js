@@ -6,6 +6,7 @@ var dir_ce2eb865886ca7822fe520b31767e825 =
     [ "finance", "dir_0e21ce1a627f98415fda02b4e8ea07cb.html", "dir_0e21ce1a627f98415fda02b4e8ea07cb" ],
     [ "game", "dir_79a9c417f9eea2a45bcfd3cb512ea71e.html", "dir_79a9c417f9eea2a45bcfd3cb512ea71e" ],
     [ "hash", "dir_daedd7797dcf4f1b9df5a556f0f11e89.html", "dir_daedd7797dcf4f1b9df5a556f0f11e89" ],
+    [ "linalg", "dir_067ece75941afe668f6e8667e1d210a6.html", "dir_067ece75941afe668f6e8667e1d210a6" ],
     [ "math", "dir_ad817f4edeacd4b07376db34efe588d8.html", "dir_ad817f4edeacd4b07376db34efe588d8" ],
     [ "meta", "dir_4fab7210189806bd27bd6ecdc6e6aab2.html", "dir_4fab7210189806bd27bd6ecdc6e6aab2" ],
     [ "ml", "dir_45bfda8d10d67fec6764e25982387e1e.html", "dir_45bfda8d10d67fec6764e25982387e1e" ],

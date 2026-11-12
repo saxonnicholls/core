@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -101,7 +101,6 @@ $(function(){initNavTree('display_8hpp.html','',''); });
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;bit&gt;</code><br />
 <code>#include &lt;charconv&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;initializer_list&gt;</code><br />
 <code>#include &lt;concepts&gt;</code><br />
@@ -221,7 +220,7 @@ requires has_attributes&lt;E&gt;</td></tr>
 <p><b>Errors.</b> None: the JSON writer sets the stream's state on a failed write, as any <span class="tt">operator&lt;&lt;</span> does.</p>
 <p><b>Performance.</b> Not benchmarked: printing; the lookup it rests on is benchmarked in <span class="tt"><a class="el" href="attributes_8hpp.html" title="attribute_set, attrs and attributes_of: compile-time attributes declared beside a type,...">meta/attributes.hpp</a></span>.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/display_test.cpp</span>, <span class="tt">demos/display_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;bit&gt;</span>, <span class="tt">&lt;charconv&gt;</span>, <span class="tt">&lt;cmath&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;initializer_list&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;ostream&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="colour_8hpp.html" title="snicholls::colour: one display colour, as RGB for user interfaces and an ANSI code for terminals.">colour.hpp</a></span>, <span class="tt"><a class="el" href="attributes_8hpp.html" title="attribute_set, attrs and attributes_of: compile-time attributes declared beside a type,...">meta/attributes.hpp</a></span>, <span class="tt"><a class="el" href="enums_8hpp.html" title="Enum reflection at compile time: names, values and parsing of an enumeration&#39;s enumerators.">meta/enums.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;bit&gt;</span>, <span class="tt">&lt;charconv&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;initializer_list&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;ostream&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="colour_8hpp.html" title="snicholls::colour: one display colour, as RGB for user interfaces and an ANSI code for terminals.">colour.hpp</a></span>, <span class="tt"><a class="el" href="attributes_8hpp.html" title="attribute_set, attrs and attributes_of: compile-time attributes declared beside a type,...">meta/attributes.hpp</a></span>, <span class="tt"><a class="el" href="enums_8hpp.html" title="Enum reflection at compile time: names, values and parsing of an enumeration&#39;s enumerators.">meta/enums.hpp</a></span>.</p>
 <p><b>Known issues.</b> <span class="tt">std::format</span> has no thousands separator except through a locale (<span class="tt">L</span>), so <span class="tt">{:,}</span> is refused.</p>
 <p><b>Status.</b> New in 0.5.0. </p>
 

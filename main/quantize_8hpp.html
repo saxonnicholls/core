@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -95,8 +95,7 @@ $(function(){initNavTree('quantize_8hpp.html','',''); });
 
 <p><span class="tt">snicholls::ml</span> quantised weights: ggml's Q8_0 and Q4_0 blocks and the OCP MXFP4 block, byte for byte as ggml lays them out, with quantisation, dequantisation and the integer dot products, plus symmetric int8 rows.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="minifloat_8hpp_source.html">snicholls/core/ml/minifloat.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="minifloat_8hpp_source.html">snicholls/core/ml/minifloat.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="row_8hpp_source.html">snicholls/core/ml/row.hpp</a>&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;bit&gt;</code><br />
@@ -247,7 +246,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00263">263</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00262">262</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -296,7 +295,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00361">361</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00360">360</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +336,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum over blocks of d_y · 2^(e - 128) · (sum 2v_x · q_y)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00315">315</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00314">314</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -378,7 +377,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum over blocks of (sum (q_x - 8) · q_y) · d_x · d_y</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00294">294</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00293">293</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -419,7 +418,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum over blocks of (sum q_x · q_y) · d_x · d_y</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00275">275</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00274">274</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +467,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00250">250</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00249">249</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -512,7 +511,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The scale; 0 for a row of zeros. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00339">339</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00338">338</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -539,7 +538,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 
 <p>The numbers in one quantised block: 32, for every format here. </p>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00087">87</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00086">86</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>

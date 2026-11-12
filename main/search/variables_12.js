@@ -14,5 +14,6 @@ var searchData=
   ['total_5fbits_11',['total_bits',['../structsnicholls_1_1ml_1_1minifloat.html#a586e13fc31fe264081d25c6f32beb95f',1,'snicholls::ml::minifloat']]],
   ['trig_5ftolerance_12',['trig_tolerance',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a5e1e541e7a69c40b318cf6f59c216283',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['tuple_5fcount_5fv_13',['tuple_count_v',['../group__core.html#ga029ab6b7ee9a3069898f8867d97480f6',1,'snicholls']]],
-  ['two_5fover_5fsqrt_5fpi_14',['two_over_sqrt_pi',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a06209c36d71d13d4f7c0d06dd5bb88e2',1,'snicholls::math::math_limits&lt; double &gt;::two_over_sqrt_pi'],['../constexpr__math_8hpp.html#a22809e59c706ce6ef864bd9566d87dfb',1,'snicholls::math::two_over_sqrt_pi']]]
+  ['two_5fover_5fsqrt_5fpi_14',['two_over_sqrt_pi',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a06209c36d71d13d4f7c0d06dd5bb88e2',1,'snicholls::math::math_limits&lt; double &gt;::two_over_sqrt_pi'],['../constexpr__math_8hpp.html#a22809e59c706ce6ef864bd9566d87dfb',1,'snicholls::math::two_over_sqrt_pi']]],
+  ['type_5ftag_15',['type_tag',['../structsnicholls_1_1containers_1_1mapped__header.html#a9bffb23fdc4ac298355ed2094f5fae21',1,'snicholls::containers::mapped_header']]]
 ];

@@ -11,13 +11,20 @@ var annotated_dup =
         [ "dense_id_map", "classsnicholls_1_1containers_1_1dense__id__map.html", "classsnicholls_1_1containers_1_1dense__id__map" ],
         [ "flat_id_map", "classsnicholls_1_1containers_1_1flat__id__map.html", "classsnicholls_1_1containers_1_1flat__id__map" ],
         [ "hierarchical_bitset", "classsnicholls_1_1containers_1_1hierarchical__bitset.html", "classsnicholls_1_1containers_1_1hierarchical__bitset" ],
+        [ "index_pool", "classsnicholls_1_1containers_1_1index__pool.html", "classsnicholls_1_1containers_1_1index__pool" ],
         [ "inplace_vector", "classsnicholls_1_1containers_1_1inplace__vector.html", "classsnicholls_1_1containers_1_1inplace__vector" ],
         [ "avl_hook", "structsnicholls_1_1containers_1_1avl__hook.html", "structsnicholls_1_1containers_1_1avl__hook" ],
         [ "member_avl_traits", "structsnicholls_1_1containers_1_1member__avl__traits.html", "structsnicholls_1_1containers_1_1member__avl__traits" ],
         [ "intrusive_avl_tree", "classsnicholls_1_1containers_1_1intrusive__avl__tree.html", "classsnicholls_1_1containers_1_1intrusive__avl__tree" ],
+        [ "mapped_header", "structsnicholls_1_1containers_1_1mapped__header.html", "structsnicholls_1_1containers_1_1mapped__header" ],
         [ "md_array", "classsnicholls_1_1containers_1_1md__array.html", "classsnicholls_1_1containers_1_1md__array" ],
+        [ "layout_right", "structsnicholls_1_1containers_1_1layout__right.html", "structsnicholls_1_1containers_1_1layout__right" ],
+        [ "layout_left", "structsnicholls_1_1containers_1_1layout__left.html", "structsnicholls_1_1containers_1_1layout__left" ],
+        [ "layout_stride", "structsnicholls_1_1containers_1_1layout__stride.html", "structsnicholls_1_1containers_1_1layout__stride" ],
+        [ "full_extent_t", "structsnicholls_1_1containers_1_1full__extent__t.html", "structsnicholls_1_1containers_1_1full__extent__t" ],
         [ "md_span", "classsnicholls_1_1containers_1_1md__span.html", "classsnicholls_1_1containers_1_1md__span" ],
         [ "object_pool", "classsnicholls_1_1containers_1_1object__pool.html", "classsnicholls_1_1containers_1_1object__pool" ],
+        [ "offset_ptr", "classsnicholls_1_1containers_1_1offset__ptr.html", "classsnicholls_1_1containers_1_1offset__ptr" ],
         [ "perfect_map", "classsnicholls_1_1containers_1_1perfect__map.html", "classsnicholls_1_1containers_1_1perfect__map" ],
         [ "static_map", "classsnicholls_1_1containers_1_1static__map.html", "classsnicholls_1_1containers_1_1static__map" ],
         [ "static_set", "classsnicholls_1_1containers_1_1static__set.html", "classsnicholls_1_1containers_1_1static__set" ]
@@ -47,6 +54,15 @@ var annotated_dup =
         [ "lift_sampling", "structsnicholls_1_1game_1_1lift__sampling.html", "structsnicholls_1_1game_1_1lift__sampling" ],
         [ "interventional_game", "classsnicholls_1_1game_1_1interventional__game.html", "classsnicholls_1_1game_1_1interventional__game" ]
       ] ],
+      [ "linalg", null, [
+        [ "inline_executor", "structsnicholls_1_1linalg_1_1inline__executor.html", "structsnicholls_1_1linalg_1_1inline__executor" ],
+        [ "reference_backend", "structsnicholls_1_1linalg_1_1reference__backend.html", "structsnicholls_1_1linalg_1_1reference__backend" ],
+        [ "signed_log_det", "structsnicholls_1_1linalg_1_1signed__log__det.html", "structsnicholls_1_1linalg_1_1signed__log__det" ],
+        [ "layout_left", "structsnicholls_1_1linalg_1_1layout__left.html", "structsnicholls_1_1linalg_1_1layout__left" ],
+        [ "layout_right", "structsnicholls_1_1linalg_1_1layout__right.html", "structsnicholls_1_1linalg_1_1layout__right" ],
+        [ "layout_stride", "structsnicholls_1_1linalg_1_1layout__stride.html", "structsnicholls_1_1linalg_1_1layout__stride" ],
+        [ "md_span", "classsnicholls_1_1linalg_1_1md__span.html", "classsnicholls_1_1linalg_1_1md__span" ]
+      ] ],
       [ "math", null, [
         [ "math_limits", "structsnicholls_1_1math_1_1math__limits.html", null ],
         [ "math_limits&lt; double &gt;", "structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html", "structsnicholls_1_1math_1_1math__limits_3_01double_01_4" ],
@@ -71,8 +87,18 @@ var annotated_dup =
       [ "ml", null, [
         [ "key_range", "structsnicholls_1_1ml_1_1key__range.html", "structsnicholls_1_1ml_1_1key__range" ],
         [ "attention_accumulator", "structsnicholls_1_1ml_1_1attention__accumulator.html", "structsnicholls_1_1ml_1_1attention__accumulator" ],
+        [ "no_rope_t", "structsnicholls_1_1ml_1_1no__rope__t.html", null ],
+        [ "attention_weights", "structsnicholls_1_1ml_1_1attention__weights.html", "structsnicholls_1_1ml_1_1attention__weights" ],
         [ "bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", "structsnicholls_1_1ml_1_1bpe__part" ],
+        [ "kv_runs", "structsnicholls_1_1ml_1_1kv__runs.html", "structsnicholls_1_1ml_1_1kv__runs" ],
+        [ "kv_cache_view", "classsnicholls_1_1ml_1_1kv__cache__view.html", "classsnicholls_1_1ml_1_1kv__cache__view" ],
+        [ "kv_cache", "classsnicholls_1_1ml_1_1kv__cache.html", "classsnicholls_1_1ml_1_1kv__cache" ],
+        [ "paged_kv_cache_view", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html", "classsnicholls_1_1ml_1_1paged__kv__cache__view" ],
+        [ "dense_weights", "structsnicholls_1_1ml_1_1dense__weights.html", "structsnicholls_1_1ml_1_1dense__weights" ],
+        [ "quantized_weights", "structsnicholls_1_1ml_1_1quantized__weights.html", "structsnicholls_1_1ml_1_1quantized__weights" ],
         [ "minifloat", "structsnicholls_1_1ml_1_1minifloat.html", "structsnicholls_1_1ml_1_1minifloat" ],
+        [ "mlp_weights", "structsnicholls_1_1ml_1_1mlp__weights.html", "structsnicholls_1_1ml_1_1mlp__weights" ],
+        [ "moe_route", "structsnicholls_1_1ml_1_1moe__route.html", "structsnicholls_1_1ml_1_1moe__route" ],
         [ "norm_stats", "structsnicholls_1_1ml_1_1norm__stats.html", "structsnicholls_1_1ml_1_1norm__stats" ],
         [ "adamw_config", "structsnicholls_1_1ml_1_1adamw__config.html", "structsnicholls_1_1ml_1_1adamw__config" ],
         [ "muon_newton_schulz", "structsnicholls_1_1ml_1_1muon__newton__schulz.html", null ],
@@ -81,7 +107,10 @@ var annotated_dup =
         [ "block_mxfp4", "structsnicholls_1_1ml_1_1block__mxfp4.html", "structsnicholls_1_1ml_1_1block__mxfp4" ],
         [ "rope_table", "structsnicholls_1_1ml_1_1rope__table.html", "structsnicholls_1_1ml_1_1rope__table" ],
         [ "top_k_result", "structsnicholls_1_1ml_1_1top__k__result.html", "structsnicholls_1_1ml_1_1top__k__result" ],
-        [ "online_softmax", "structsnicholls_1_1ml_1_1online__softmax.html", "structsnicholls_1_1ml_1_1online__softmax" ]
+        [ "logit_penalties", "structsnicholls_1_1ml_1_1logit__penalties.html", "structsnicholls_1_1ml_1_1logit__penalties" ],
+        [ "online_softmax", "structsnicholls_1_1ml_1_1online__softmax.html", "structsnicholls_1_1ml_1_1online__softmax" ],
+        [ "block_weights", "structsnicholls_1_1ml_1_1block__weights.html", "structsnicholls_1_1ml_1_1block__weights" ],
+        [ "transformer_config", "structsnicholls_1_1ml_1_1transformer__config.html", "structsnicholls_1_1ml_1_1transformer__config" ]
       ] ],
       [ "pipeline", null, [
         [ "filter_stage", "structsnicholls_1_1pipeline_1_1filter__stage.html", "structsnicholls_1_1pipeline_1_1filter__stage" ],

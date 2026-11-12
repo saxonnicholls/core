@@ -9,12 +9,24 @@ var concepts =
         [ "game", "conceptsnicholls_1_1game_1_1game.html", null ],
         [ "ordered_game_value", "conceptsnicholls_1_1game_1_1ordered__game__value.html", null ]
       ] ],
+      [ "linalg", null, [
+        [ "blas_backend", "conceptsnicholls_1_1linalg_1_1blas__backend.html", null ],
+        [ "factorisation_backend", "conceptsnicholls_1_1linalg_1_1factorisation__backend.html", null ],
+        [ "decomposition_backend", "conceptsnicholls_1_1linalg_1_1decomposition__backend.html", null ],
+        [ "backend", "conceptsnicholls_1_1linalg_1_1backend.html", null ],
+        [ "range_executor", "conceptsnicholls_1_1linalg_1_1range__executor.html", null ],
+        [ "batched_backend", "conceptsnicholls_1_1linalg_1_1batched__backend.html", null ],
+        [ "scalar", "conceptsnicholls_1_1linalg_1_1scalar.html", null ]
+      ] ],
       [ "math", null, [
         [ "math_number", "conceptsnicholls_1_1math_1_1math__number.html", null ],
         [ "math_argument", "conceptsnicholls_1_1math_1_1math__argument.html", null ]
       ] ],
       [ "ml", null, [
+        [ "rope_source", "conceptsnicholls_1_1ml_1_1rope__source.html", null ],
         [ "bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],
+        [ "kv_store", "conceptsnicholls_1_1ml_1_1kv__store.html", null ],
+        [ "weight_matrix", "conceptsnicholls_1_1ml_1_1weight__matrix.html", null ],
         [ "quant_block", "conceptsnicholls_1_1ml_1_1quant__block.html", null ],
         [ "row", "conceptsnicholls_1_1ml_1_1row.html", null ],
         [ "mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ]

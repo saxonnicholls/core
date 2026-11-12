@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,7 +96,6 @@ $(function(){initNavTree('zip_8hpp.html','',''); });
 <p><span class="tt">snicholls::zip(a, b, ...)</span>: walk several ranges together, stopping at the shortest.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;iterator&gt;</code><br />
 <code>#include &lt;ranges&gt;</code><br />
@@ -150,7 +149,7 @@ requires (sizeof...(Ranges) &gt; 0)</td></tr>
 <p><b>Errors.</b> None of its own; whatever the ranges' iterators do.</p>
 <p><b>Performance.</b> <span class="tt">benchmarks/zip_benchmark.cpp</span>, a dot product of two <span class="tt">std::vector&lt;double&gt;</span> of 4,096 elements, against the index loop, after a fairness check. Release, Apple clang 17, Xeon W-3245, 2026-11-07: 4.11 us through <span class="tt">zip</span> against 4.04 us for the index loop, identical sums.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/zip_test.cpp</span>, <span class="tt">demos/zip_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;iterator&gt;</span>, <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;tuple&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;utility&gt;</span>. It specialises <span class="tt">std::tuple_size</span>, <span class="tt">std::tuple_element</span> and <span class="tt">std::basic_common_reference</span> for <span class="tt">zip_value</span>, its own type, as the standard permits. <span class="tt">&lt;ranges&gt;</span> is heavier than it looks.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;iterator&gt;</span>, <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;tuple&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;utility&gt;</span>. It specialises <span class="tt">std::tuple_size</span>, <span class="tt">std::tuple_element</span> and <span class="tt">std::basic_common_reference</span> for <span class="tt">zip_value</span>, its own type, as the standard permits. <span class="tt">&lt;ranges&gt;</span> is heavier than it looks.</p>
 <p><b>Known issues.</b> It has no reverse iteration, random access or pipe form (<span class="tt">a | zip(b)</span>), which <span class="tt">std::views::zip</span> has no pipe form for either. Its end is a sentinel, so it works with range-for and <span class="tt">std::ranges</span> algorithms, not classic iterator-pair algorithms. Its value type is <span class="tt"><a class="el" href="structsnicholls_1_1zip__value.html" title="The value type of a zip_view: a std::tuple of the elements&#39; values.">snicholls::zip_value</a></span>, a <span class="tt">std::tuple</span> underneath, which declares the common reference C++20's <span class="tt">std::tuple</span> lacks; compare a value with a tuple through <span class="tt">std::get</span>, not <span class="tt">==</span>.</p>
 <p><b>Status.</b> New in 0.5.0. </p>
 

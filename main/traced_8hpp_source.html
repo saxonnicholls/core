@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -497,19 +497,19 @@ $(function(){initNavTree('traced_8hpp_source.html','',''); });
 <div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>    <a class="code hl_struct" href="structsnicholls_1_1error__report.html">error_report</a> r;</div>
 <div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_variable" href="group__core.html#ga690aa0da63512a9297b4c2ea8c261017">is_traced_v&lt;E&gt;</a>)</div>
 <div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>    {</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac682dc7581def8e07bbbd7a72a2356af">message</a> = e.message();</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#af41ae348db0cae5eb4fdad579d8b16bb">error</a> = <a class="code hl_function" href="group__core.html#gaed997a5b399462986484b135e8347f48">error_text</a>(e.error());</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac00ecc8fa8d7911330366bb29a1a89f6">where</a> = e.where();</div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a68812fe64484aa5d15f1f23d5bcf9c69">located</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>.assign(e.frames().begin(), e.frames().end());</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aee8f50eec5fb6297cd4b4f3da1ecef2c">fields</a>.assign(e.fields().begin(), e.fields().end());</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aa77419ba5923f99343d521f3fb7f164e">stack</a> = std::string(e.stack());</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        r.message = e.message();</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>        r.error = <a class="code hl_function" href="group__core.html#gaed997a5b399462986484b135e8347f48">error_text</a>(e.error());</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        r.where = e.where();</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>        r.located = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        r.frames.assign(e.frames().begin(), e.frames().end());</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>        r.fields.assign(e.fields().begin(), e.fields().end());</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>        r.stack = std::string(e.stack());</div>
 <div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>    }</div>
 <div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>    {</div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac682dc7581def8e07bbbd7a72a2356af">message</a> = <a class="code hl_function" href="group__core.html#gaed997a5b399462986484b135e8347f48">error_text</a>(e);</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#af41ae348db0cae5eb4fdad579d8b16bb">error</a> = r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac682dc7581def8e07bbbd7a72a2356af">message</a>;</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>        r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac00ecc8fa8d7911330366bb29a1a89f6">where</a> = log_site;</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>        r.message = <a class="code hl_function" href="group__core.html#gaed997a5b399462986484b135e8347f48">error_text</a>(e);</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        r.error = r.message;</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>        r.where = log_site;</div>
 <div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>    }</div>
 <div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>    <span class="keywordflow">return</span> r;</div>
 <div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>}</div>
@@ -538,15 +538,15 @@ $(function(){initNavTree('traced_8hpp_source.html','',''); });
 <div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>        }</div>
 <div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>        <span class="keywordflow">return</span> escaped;</div>
 <div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>    };</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>    std::string out = <span class="stringliteral">&quot;error: &quot;</span> + one_line(r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac682dc7581def8e07bbbd7a72a2356af">message</a>);</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>    out += r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a68812fe64484aa5d15f1f23d5bcf9c69">located</a> ? <span class="stringliteral">&quot;\n  at &quot;</span> : <span class="stringliteral">&quot;\n  logged at &quot;</span>;</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>    out += <a class="code hl_function" href="group__core.html#ga19879396e06cbb587e10ad2fcefa0b28">source_site</a>(r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac00ecc8fa8d7911330366bb29a1a89f6">where</a>);</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>    <span class="keywordflow">if</span> (!r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>.empty())</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>    std::string out = <span class="stringliteral">&quot;error: &quot;</span> + one_line(r.message);</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>    out += r.located ? <span class="stringliteral">&quot;\n  at &quot;</span> : <span class="stringliteral">&quot;\n  logged at &quot;</span>;</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>    out += <a class="code hl_function" href="group__core.html#ga19879396e06cbb587e10ad2fcefa0b28">source_site</a>(r.where);</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>    <span class="keywordflow">if</span> (!r.frames.empty())</div>
 <div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>    {</div>
 <div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>        out += <span class="stringliteral">&quot;\n  context (innermost first):&quot;</span>;</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>.size(); ++i)</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; r.frames.size(); ++i)</div>
 <div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>        {</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; f = r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>[i];</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; f = r.frames[i];</div>
 <div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>            out += <span class="stringliteral">&quot;\n    &quot;</span> + std::to_string(i) + <span class="stringliteral">&quot;: &quot;</span>;</div>
 <div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>            <span class="keywordflow">if</span> (f.kind == <a class="code hl_enumvalue" href="group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac">frame_kind::propagated</a>)</div>
 <div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                out += <span class="stringliteral">&quot;propagated `&quot;</span> + one_line(f.message) + <span class="stringliteral">&quot;`&quot;</span>;</div>
@@ -555,16 +555,16 @@ $(function(){initNavTree('traced_8hpp_source.html','',''); });
 <div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            out += <span class="stringliteral">&quot; at &quot;</span> + <a class="code hl_function" href="group__core.html#ga19879396e06cbb587e10ad2fcefa0b28">source_site</a>(f.where);</div>
 <div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>        }</div>
 <div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>    }</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>    <span class="keywordflow">if</span> (!r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aee8f50eec5fb6297cd4b4f3da1ecef2c">fields</a>.empty())</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>    <span class="keywordflow">if</span> (!r.fields.empty())</div>
 <div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>    {</div>
 <div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>        out += <span class="stringliteral">&quot;\n  fields:&quot;</span>;</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; f : r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aee8f50eec5fb6297cd4b4f3da1ecef2c">fields</a>)</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; f : r.fields)</div>
 <div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            out += <span class="stringliteral">&quot;\n    &quot;</span> + one_line(f.key) + <span class="stringliteral">&quot; = &quot;</span> + one_line(f.value);</div>
 <div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>    }</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>    <span class="keywordflow">if</span> (!r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aa77419ba5923f99343d521f3fb7f164e">stack</a>.empty())</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>    <span class="keywordflow">if</span> (!r.stack.empty())</div>
 <div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>    {</div>
 <div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>        out += <span class="stringliteral">&quot;\n  stack:&quot;</span>;</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>        std::string_view s = r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aa77419ba5923f99343d521f3fb7f164e">stack</a>;</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>        std::string_view s = r.stack;</div>
 <div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        <span class="keywordflow">while</span> (!s.empty())</div>
 <div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>        {</div>
 <div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>            <span class="keyword">const</span> <span class="keyword">auto</span> nl = s.find(<span class="charliteral">&#39;\n&#39;</span>);</div>
@@ -589,20 +589,20 @@ $(function(){initNavTree('traced_8hpp_source.html','',''); });
 <div class="line"><a id="l00718" name="l00718"></a><span class="lineno"><a class="line" href="group__core.html#ga76183c46aaf9c6b17cbc427e43e677df">  718</a></span>[[nodiscard]] <span class="keyword">inline</span> std::vector&lt;error_field&gt; <a class="code hl_function" href="group__core.html#ga76183c46aaf9c6b17cbc427e43e677df">error_report_fields</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsnicholls_1_1error__report.html">error_report</a>&amp; r)</div>
 <div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>{</div>
 <div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>    std::vector&lt;error_field&gt; out;</div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>    out.reserve(3 + r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>.size() + r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aee8f50eec5fb6297cd4b4f3da1ecef2c">fields</a>.size());</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>    out.push_back({<span class="stringliteral">&quot;error&quot;</span>, r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#af41ae348db0cae5eb4fdad579d8b16bb">error</a>});</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>    out.push_back({<span class="stringliteral">&quot;src&quot;</span>, <a class="code hl_function" href="group__core.html#ga19879396e06cbb587e10ad2fcefa0b28">source_site</a>(r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#ac00ecc8fa8d7911330366bb29a1a89f6">where</a>)});</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>.size(); ++i)</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>    out.reserve(3 + r.frames.size() + r.fields.size());</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>    out.push_back({<span class="stringliteral">&quot;error&quot;</span>, r.error});</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>    out.push_back({<span class="stringliteral">&quot;src&quot;</span>, <a class="code hl_function" href="group__core.html#ga19879396e06cbb587e10ad2fcefa0b28">source_site</a>(r.where)});</div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; r.frames.size(); ++i)</div>
 <div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>    {</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; f = r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007">frames</a>[i];</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; f = r.frames[i];</div>
 <div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>        std::string v = f.kind == <a class="code hl_enumvalue" href="group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac">frame_kind::propagated</a> ? <span class="stringliteral">&quot;propagated &quot;</span> + f.message : f.message;</div>
 <div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>        v += <span class="stringliteral">&quot; @ &quot;</span> + <a class="code hl_function" href="group__core.html#ga19879396e06cbb587e10ad2fcefa0b28">source_site</a>(f.where);</div>
 <div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>        out.push_back({<span class="stringliteral">&quot;context.&quot;</span> + std::to_string(i), std::move(v)});</div>
 <div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>    }</div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; f : r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aee8f50eec5fb6297cd4b4f3da1ecef2c">fields</a>)</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; f : r.fields)</div>
 <div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>        out.push_back({<a class="code hl_function" href="group__core.html#gae81174d3664c6e77d648b84acf5e7876">is_reserved_error_field</a>(f.key) ? <span class="stringliteral">&quot;field.&quot;</span> + f.key : f.key, f.value});</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    <span class="keywordflow">if</span> (!r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aa77419ba5923f99343d521f3fb7f164e">stack</a>.empty())</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>        out.push_back({<span class="stringliteral">&quot;stack&quot;</span>, r.<a class="code hl_variable" href="structsnicholls_1_1error__report.html#aa77419ba5923f99343d521f3fb7f164e">stack</a>});</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    <span class="keywordflow">if</span> (!r.stack.empty())</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>        out.push_back({<span class="stringliteral">&quot;stack&quot;</span>, r.stack});</div>
 <div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>    <span class="keywordflow">return</span> out;</div>
 <div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>}</div>
 </div>

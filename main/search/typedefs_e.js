@@ -3,7 +3,7 @@ var searchData=
   ['range_5ft_0',['range_t',['../group__core.html#ga9aa0c13965181d4fd8ff5f3e39a10b9b',1,'snicholls::meta']]],
   ['real_5ft_1',['real_t',['../group__core.html#gaee5ee36a464f42353d5a712baf4ba54b',1,'snicholls::math']]],
   ['rebind_2',['rebind',['../classsnicholls_1_1result__throws_1_1result.html#a1e0b77f79f5209a04b71cc7bdcaf2a96',1,'snicholls::result_throws::result']]],
-  ['reference_3',['reference',['../classsnicholls_1_1containers_1_1inplace__vector.html#ae6eeaf22752ceea82befbcc5bf9574f1',1,'snicholls::containers::inplace_vector::reference'],['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a5b7afb169a426e96aec97d25c15c9d3b',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::reference']]],
+  ['reference_3',['reference',['../classsnicholls_1_1containers_1_1inplace__vector.html#ae6eeaf22752ceea82befbcc5bf9574f1',1,'snicholls::containers::inplace_vector::reference'],['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a5b7afb169a426e96aec97d25c15c9d3b',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::reference'],['../classsnicholls_1_1containers_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d',1,'snicholls::containers::md_span::reference'],['../classsnicholls_1_1linalg_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d',1,'snicholls::linalg::md_span::reference']]],
   ['remove_5fif_5ft_4',['remove_if_t',['../type__list_8hpp.html#a1e23ba4455fb4af202109bee2794ade2',1,'snicholls::meta']]],
   ['remove_5ft_5',['remove_t',['../type__list_8hpp.html#a41b9e0bdd904550531391e80b490c135',1,'snicholls::meta']]],
   ['rename_5ft_6',['rename_t',['../type__list_8hpp.html#af3260e10462fc03182add8e7c2e43927',1,'snicholls::meta']]],

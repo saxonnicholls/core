@@ -1,16 +1,20 @@
 var searchData=
 [
   ['d_0',['d',['../structsnicholls_1_1ml_1_1block__q8__0.html#a338fadb5ac478e8d4fec0fc3b87ee538',1,'snicholls::ml::block_q8_0::d'],['../structsnicholls_1_1ml_1_1block__q4__0.html#ae1d35d8e8781328f973841dbb7808741',1,'snicholls::ml::block_q4_0::d']]],
-  ['data_1',['data',['../structsnicholls_1_1colour__text.html#a442a9c40e7eb2aa8c21f30bdd8f603b9',1,'snicholls::colour_text::data'],['../structsnicholls_1_1decimal__text.html#a0b4dbee7e716bdbc2f7b575976a94f86',1,'snicholls::decimal_text::data']]],
-  ['day_2',['day',['../structsnicholls_1_1civil__date.html#a8139fca0656aee9e80e9cead846f5c69',1,'snicholls::civil_date']]],
-  ['dead_5fzone_3',['dead_zone',['../structsnicholls_1_1sign__colours.html#ad8bd46715bc6b32c2e53f57f283e20dc',1,'snicholls::sign_colours']]],
-  ['declination_5fdeg_4',['declination_deg',['../structsnicholls_1_1solar__position.html#a502386f6210b598645234a8c744a3806',1,'snicholls::solar_position']]],
-  ['decode_5ftable_5',['decode_table',['../minifloat_8hpp.html#aa31e18abd7ed39af2630e028c19a7852',1,'snicholls::ml']]],
-  ['decreasing_5fv_6',['decreasing_v',['../group__core.html#ga6870a74bad04d381c0241bb94768e7aa',1,'snicholls']]],
-  ['default_5foverflow_7',['default_overflow',['../structsnicholls_1_1ml_1_1minifloat.html#a49cc2db377f3fb9f683e4b20db6f32e2',1,'snicholls::ml::minifloat']]],
-  ['delta_8',['delta',['../structsnicholls_1_1finance_1_1greeks.html#ae358e71a92b187b858513fb8b32bdcda',1,'snicholls::finance::greeks::delta'],['../structsnicholls_1_1finance_1_1greeks__explain.html#aeb02d6c37dfa429bfb8d8427f0ffdb1c',1,'snicholls::finance::greeks_explain::delta']]],
-  ['difference_9',['difference',['../structsnicholls_1_1game_1_1interaction__violation.html#aa84e8ffb7db8ccd36567012024b5263c',1,'snicholls::game::interaction_violation']]],
-  ['digits_10',['digits',['../structsnicholls_1_1minor__units.html#af38b458916a5ec46b74bf5e85eba27ab',1,'snicholls::minor_units']]],
-  ['distinct_5fstatic_5fnames_5fv_11',['distinct_static_names_v',['../group__core.html#gade004a919886e243a3cb941a3bbeeeb3',1,'snicholls']]],
-  ['dns_12',['dns',['../uuid_8hpp.html#acc5b6da40736c649c0abf3fe87f56ec6',1,'snicholls::uuid_namespace']]]
+  ['d_5fff_1',['d_ff',['../structsnicholls_1_1ml_1_1transformer__config.html#a1b242efe956775b031372b00e6ac7a34',1,'snicholls::ml::transformer_config']]],
+  ['d_5fmodel_2',['d_model',['../structsnicholls_1_1ml_1_1transformer__config.html#ad47a9a838e6bd13ee9c5bbfec6e278b8',1,'snicholls::ml::transformer_config']]],
+  ['data_3',['data',['../structsnicholls_1_1colour__text.html#a442a9c40e7eb2aa8c21f30bdd8f603b9',1,'snicholls::colour_text::data'],['../structsnicholls_1_1decimal__text.html#a0b4dbee7e716bdbc2f7b575976a94f86',1,'snicholls::decimal_text::data'],['../structsnicholls_1_1ml_1_1dense__weights.html#a5a08eebfe9c9ef6e02a131aede8e38f2',1,'snicholls::ml::dense_weights::data']]],
+  ['day_4',['day',['../structsnicholls_1_1civil__date.html#a8139fca0656aee9e80e9cead846f5c69',1,'snicholls::civil_date']]],
+  ['dead_5fzone_5',['dead_zone',['../structsnicholls_1_1sign__colours.html#ad8bd46715bc6b32c2e53f57f283e20dc',1,'snicholls::sign_colours']]],
+  ['declination_5fdeg_6',['declination_deg',['../structsnicholls_1_1solar__position.html#a502386f6210b598645234a8c744a3806',1,'snicholls::solar_position']]],
+  ['decode_5ftable_7',['decode_table',['../minifloat_8hpp.html#aa31e18abd7ed39af2630e028c19a7852',1,'snicholls::ml']]],
+  ['decreasing_5fv_8',['decreasing_v',['../group__core.html#ga6870a74bad04d381c0241bb94768e7aa',1,'snicholls']]],
+  ['default_5foverflow_9',['default_overflow',['../structsnicholls_1_1ml_1_1minifloat.html#a49cc2db377f3fb9f683e4b20db6f32e2',1,'snicholls::ml::minifloat']]],
+  ['delta_10',['delta',['../structsnicholls_1_1finance_1_1greeks.html#ae358e71a92b187b858513fb8b32bdcda',1,'snicholls::finance::greeks::delta'],['../structsnicholls_1_1finance_1_1greeks__explain.html#aeb02d6c37dfa429bfb8d8427f0ffdb1c',1,'snicholls::finance::greeks_explain::delta']]],
+  ['difference_11',['difference',['../structsnicholls_1_1game_1_1interaction__violation.html#aa84e8ffb7db8ccd36567012024b5263c',1,'snicholls::game::interaction_violation']]],
+  ['digits_12',['digits',['../structsnicholls_1_1minor__units.html#af38b458916a5ec46b74bf5e85eba27ab',1,'snicholls::minor_units']]],
+  ['distinct_5fstatic_5fnames_5fv_13',['distinct_static_names_v',['../group__core.html#gade004a919886e243a3cb941a3bbeeeb3',1,'snicholls']]],
+  ['dns_14',['dns',['../uuid_8hpp.html#acc5b6da40736c649c0abf3fe87f56ec6',1,'snicholls::uuid_namespace']]],
+  ['down_15',['down',['../structsnicholls_1_1ml_1_1mlp__weights.html#aed552575da3dfad7f0d7132f2dce5715',1,'snicholls::ml::mlp_weights']]],
+  ['down_5fbias_16',['down_bias',['../structsnicholls_1_1ml_1_1mlp__weights.html#a688443fef16bd785692f3f2e02641ffb',1,'snicholls::ml::mlp_weights']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uuid_5fvariant_0',['uuid_variant',['../group__core.html#gafd9c16133382d23495d3d6b1fdeb0c8c',1,'snicholls']]]
+  ['precision_5fpolicy_0',['precision_policy',['../group__core.html#ga3f99d4e0402ac25c5fea1a11976abe6a',1,'snicholls']]]
 ];

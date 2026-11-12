@@ -12,5 +12,7 @@ var searchData=
   ['fnv1a_5f64_5fprime_9',['fnv1a_64_prime',['../namespacesnicholls.html#a7988e48981adedcc4e5dbde26ead7f2b',1,'snicholls']]],
   ['fraction_5fdigits_10',['fraction_digits',['../classsnicholls_1_1utc.html#a9decdc461195688569cb523753abc73b',1,'snicholls::utc']]],
   ['frames_11',['frames',['../structsnicholls_1_1error__report.html#a9e5de1503b31d579a588956ee0d0b007',1,'snicholls::error_report']]],
-  ['from_12',['from',['../structsnicholls_1_1threshold__colours_1_1step.html#a97702616a50c89e0bb6b2018a8418bba',1,'snicholls::threshold_colours::step']]]
+  ['frequency_12',['frequency',['../structsnicholls_1_1ml_1_1logit__penalties.html#a57e4e3ed1e58ef77f642ee47376c7e1d',1,'snicholls::ml::logit_penalties']]],
+  ['from_13',['from',['../structsnicholls_1_1threshold__colours_1_1step.html#a97702616a50c89e0bb6b2018a8418bba',1,'snicholls::threshold_colours::step']]],
+  ['full_5fextent_14',['full_extent',['../group__core.html#gad1cbe8dd3842562ba177ffb3ab0f4c32',1,'snicholls::containers']]]
 ];

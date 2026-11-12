@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -322,7 +322,7 @@ $(function(){initNavTree('string__traits_8hpp_source.html','',''); });
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> text_only = kind == carrier::pointer || kind == carrier::string</div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>                                      || kind == carrier::string_view || kind == carrier::fixed_string;</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> valid = (<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a> || (<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a> &amp;&amp; !text_only)) &amp;&amp; !std::is_volatile_v&lt;element&gt;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="transformer__config_8hpp.html#a381e1581feafff052df52f713595f04d">valid</a> = (<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a> || (<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a> &amp;&amp; !text_only)) &amp;&amp; !std::is_volatile_v&lt;element&gt;</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                                  &amp;&amp; !std::is_volatile_v&lt;std::remove_reference_t&lt;S&gt;&gt;;</div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> owning = Shape::owning &amp;&amp; !std::is_reference_v&lt;S&gt;;</div>
@@ -544,6 +544,7 @@ $(function(){initNavTree('string__traits_8hpp_source.html','',''); });
 <div class="ttc" id="astructsnicholls_1_1string__traits_html_ab43a1c058ba3b051dfbe30ad91eb47ae"><div class="ttname"><a href="structsnicholls_1_1string__traits.html#ab43a1c058ba3b051dfbe30ad91eb47ae">snicholls::string_traits::termination</a></div><div class="ttdeci">static constexpr null_termination termination</div><div class="ttdoc">The termination.</div><div class="ttdef"><b>Definition</b> <a href="#l00504">string_traits.hpp:504</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1string__traits_html_abd9ab901521f986e68f86dc4a54ed9cb"><div class="ttname"><a href="structsnicholls_1_1string__traits.html#abd9ab901521f986e68f86dc4a54ed9cb">snicholls::string_traits::owning</a></div><div class="ttdeci">static constexpr bool owning</div><div class="ttdoc">The owning.</div><div class="ttdef"><b>Definition</b> <a href="#l00498">string_traits.hpp:498</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1string__traits_html_ad785623911baa1cd0e5ce5880708603e"><div class="ttname"><a href="structsnicholls_1_1string__traits.html#ad785623911baa1cd0e5ce5880708603e">snicholls::string_traits::category</a></div><div class="ttdeci">static constexpr code_unit_category category</div><div class="ttdoc">The category.</div><div class="ttdef"><b>Definition</b> <a href="#l00496">string_traits.hpp:496</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a381e1581feafff052df52f713595f04d"><div class="ttname"><a href="transformer__config_8hpp.html#a381e1581feafff052df52f713595f04d">snicholls::ml::valid</a></div><div class="ttdeci">constexpr bool valid(const transformer_config &amp;c) noexcept</div><div class="ttdoc">Whether a configuration is consistent: every width set, n_heads a multiple of n_kv_heads,...</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00126">transformer_config.hpp:126</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

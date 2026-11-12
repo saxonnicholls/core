@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -105,7 +105,8 @@ What is here</h1>
 <ul>
 <li><b>Vocabulary types:</b> <span class="tt">overloaded</span> and <span class="tt">first_match</span>, <span class="tt">fixed_string</span>, <span class="tt">function_ref</span>, <span class="tt">result&lt;V, E&gt;</span> and <span class="tt">traced&lt;E&gt;</span>, <span class="tt">strong&lt;T, Tag&gt;</span>, <span class="tt">uuid</span>, <span class="tt">decimal</span>, <span class="tt">uint256</span>, checked arithmetic, UTC time and RFC 3339.</li>
 <li><b>Compile-time loops and types:</b> <span class="tt">constexpr_for</span> and <span class="tt">constexpr_nest</span>, <span class="tt">type_list</span> (filter, products, permutations), <span class="tt">thread_apply</span>, <span class="tt">zip</span>, enum reflection, and reflection over plain aggregates.</li>
-<li><b>Containers:</b> <span class="tt">inplace_vector</span>, <span class="tt">static_map</span>, <span class="tt">perfect_map</span>, <span class="tt">md_array</span>, <span class="tt">byte_map</span> (byte strings to 32-bit values, for a BPE vocabulary), and allocation-free id maps and pools.</li>
+<li><b>Containers:</b> <span class="tt">inplace_vector</span>, <span class="tt">static_map</span>, <span class="tt">perfect_map</span>, <span class="tt">md_array</span> and <span class="tt">md_span</span> (row-major, column-major and strided views, <span class="tt">submdspan</span>), <span class="tt">byte_map</span> (byte strings to 32-bit values, for a BPE vocabulary), allocation-free id maps and pools, and the platform-free half of mapped storage (<span class="tt">index_pool</span>, <span class="tt">mapped_header</span>, <span class="tt">offset_ptr</span>).</li>
+<li><b>Linear algebra:</b> an interface resolved at compile time (BLAS operations, LU, Cholesky, LDLT, QR, least squares, the symmetric eigenproblem, SVD, batched solves with a status per system) over <span class="tt">md_span</span> views, a standard-library reference backend, and a conformance suite for backends in other libraries.</li>
 <li><b>Numerics:</b> <span class="tt">constexpr</span> maths for any floating-point type, random numbers and the bootstrap, Sobol sequences, online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.</li>
 <li><b>Printing:</b> <span class="tt">acout</span>, thread-safe printing of any value, container or tuple, with compile-time display attributes (colour, label, format, tooltip) exported to JSON for other front ends.</li>
 <li><b>Machine learning (experimental):</b> activations with their derivatives, softmax and cross-entropy, a running softmax that merges across workers, LayerNorm and RMSNorm, RoPE, one-pass attention with mergeable partials, embeddings, sampling (temperature, top-k, top-p), AdamW and learning-rate schedules, bfloat16, float16, FP8 and the MX formats, ggml's Q8_0, Q4_0 and MXFP4 blocks with their dot products, and byte-level BPE that gives tiktoken's tokens. Everything is <span class="tt">constexpr</span> and allocation-free.</li>

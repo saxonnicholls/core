@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -108,11 +108,9 @@ $(function(){initNavTree('pivot_8hpp.html','',''); });
 <code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;ostream&gt;</code><br />
 <code>#include &lt;ranges&gt;</code><br />
-<code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;tuple&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
@@ -192,7 +190,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> Compile errors with a message for a key that cannot be placed. <span class="tt">std::bad_alloc</span>.</p>
 <p><b>Performance.</b> <span class="tt">benchmarks/stats/pivot_benchmark.cpp</span>, P&amp;L sum and return mean by currency and index over 1,000,000 rows, against the same loop written out, after a fairness check. Release, Apple clang 17, Xeon W-3245, 2026-11-07: by enumerations, 4.76 ms (210 million rows a second) against 4.67 ms by hand; by 32 desk names found at run time, 36.4 ms against 33.5 ms for a hand-written <span class="tt">std::unordered_map</span>.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/stats/pivot_test.cpp</span>, <span class="tt">demos/stats/pivot_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;functional&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;ostream&gt;</span>, <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;tuple&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;unordered_map&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>, <span class="tt"><a class="el" href="enums_8hpp.html" title="Enum reflection at compile time: names, values and parsing of an enumeration&#39;s enumerators.">meta/enums.hpp</a></span>, <span class="tt"><a class="el" href="type__list_8hpp.html" title="snicholls::meta::type_list and the compile-time algorithms over type lists.">meta/type_list.hpp</a></span>, <span class="tt"><a class="el" href="accumulators_8hpp.html" title="Streaming accumulators: count, sum, min, max, mean, variance, covariance, exponentially weighted mome...">stats/accumulators.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;functional&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;ostream&gt;</span>, <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;tuple&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;unordered_map&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>, <span class="tt"><a class="el" href="enums_8hpp.html" title="Enum reflection at compile time: names, values and parsing of an enumeration&#39;s enumerators.">meta/enums.hpp</a></span>, <span class="tt"><a class="el" href="type__list_8hpp.html" title="snicholls::meta::type_list and the compile-time algorithms over type lists.">meta/type_list.hpp</a></span>, <span class="tt"><a class="el" href="accumulators_8hpp.html" title="Streaming accumulators: count, sum, min, max, mean, variance, covariance, exponentially weighted mome...">stats/accumulators.hpp</a></span>.</p>
 <p><b>Known issues.</b> Not thread-safe: one pivot per worker, then <span class="tt">merge</span>.</p>
 <p><b>Status.</b> New in 0.5.0, experimental. </p>
 

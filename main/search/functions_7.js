@@ -11,5 +11,6 @@ var searchData=
   ['hex_8',['hex',['../group__core.html#gabed8de3d913b71c6bd8d00a9a8f2151f',1,'snicholls']]],
   ['hierarchical_5fbitset_9',['hierarchical_bitset',['../classsnicholls_1_1containers_1_1hierarchical__bitset.html#af8dc1fae9d0a38dd71c5c33c010c2ecd',1,'snicholls::containers::hierarchical_bitset::hierarchical_bitset()=default'],['../classsnicholls_1_1containers_1_1hierarchical__bitset.html#aae03f775ec8f86ccf1d0057187251468',1,'snicholls::containers::hierarchical_bitset::hierarchical_bitset(std::size_t n)']]],
   ['high_10',['high',['../structsnicholls_1_1uuid.html#af23f122e18c2aa16ada71713e8e5a684',1,'snicholls::uuid']]],
-  ['hook_11',['hook',['../structsnicholls_1_1containers_1_1member__avl__traits.html#abd10a2ffd9c7ba10a546975591093013',1,'snicholls::containers::member_avl_traits']]]
+  ['high_5fwater_11',['high_water',['../classsnicholls_1_1containers_1_1index__pool.html#abaebc4941188156ca6e28144c373d06f',1,'snicholls::containers::index_pool']]],
+  ['hook_12',['hook',['../structsnicholls_1_1containers_1_1member__avl__traits.html#abd10a2ffd9c7ba10a546975591093013',1,'snicholls::containers::member_avl_traits']]]
 ];

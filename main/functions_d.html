@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,7 +93,11 @@ $(function(){initNavTree('functions_d.html','',''); });
 
 <h3 class="doxsection"><a id="index_d" name="index_d"></a>- d -</h3><ul>
 <li>d&#160;:&#160;<a class="el" href="structsnicholls_1_1ml_1_1block__q4__0.html#ae1d35d8e8781328f973841dbb7808741">snicholls::ml::block_q4_0</a>, <a class="el" href="structsnicholls_1_1ml_1_1block__q8__0.html#a338fadb5ac478e8d4fec0fc3b87ee538">snicholls::ml::block_q8_0</a></li>
-<li>data()&#160;:&#160;<a class="el" href="structsnicholls_1_1basic__fixed__string.html#aac1c431151d8ed8b547961c40eae3627">snicholls::basic_fixed_string&lt; CharT, N &gt;</a>, <a class="el" href="structsnicholls_1_1colour__text.html#a442a9c40e7eb2aa8c21f30bdd8f603b9">snicholls::colour_text&lt; Capacity &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1inplace__vector.html#ac098cc39434b918cacae17d2723cc9a6">snicholls::containers::inplace_vector&lt; T, N &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1md__span.html#aa26971d82ac5928c4a7c2e0a2e8a682c">snicholls::containers::md_span&lt; T, Rank &gt;</a>, <a class="el" href="structsnicholls_1_1decimal__text.html#a0b4dbee7e716bdbc2f7b575976a94f86">snicholls::decimal_text</a></li>
+<li>d_ff&#160;:&#160;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html#a1b242efe956775b031372b00e6ac7a34">snicholls::ml::transformer_config</a></li>
+<li>d_model&#160;:&#160;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html#ad47a9a838e6bd13ee9c5bbfec6e278b8">snicholls::ml::transformer_config</a></li>
+<li>data()&#160;:&#160;<a class="el" href="structsnicholls_1_1basic__fixed__string.html#aac1c431151d8ed8b547961c40eae3627">snicholls::basic_fixed_string&lt; CharT, N &gt;</a>, <a class="el" href="structsnicholls_1_1colour__text.html#a442a9c40e7eb2aa8c21f30bdd8f603b9">snicholls::colour_text&lt; Capacity &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1index__pool.html#adfae82edb4799476d7631785624cadce">snicholls::containers::index_pool&lt; T, Index &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1inplace__vector.html#ac098cc39434b918cacae17d2723cc9a6">snicholls::containers::inplace_vector&lt; T, N &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1md__span.html#ae19f030d025d73d35fa208eec2400fa9">snicholls::containers::md_span&lt; T, Rank, Layout &gt;</a>, <a class="el" href="structsnicholls_1_1decimal__text.html#a0b4dbee7e716bdbc2f7b575976a94f86">snicholls::decimal_text</a>, <a class="el" href="classsnicholls_1_1linalg_1_1md__span.html#ae19f030d025d73d35fa208eec2400fa9">snicholls::linalg::md_span&lt; T, Rank, Layout &gt;</a>, <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html#a5a08eebfe9c9ef6e02a131aede8e38f2">snicholls::ml::dense_weights&lt; S &gt;</a></li>
+<li>data_handle()&#160;:&#160;<a class="el" href="classsnicholls_1_1containers_1_1md__span.html#a65d18ef9ad17dfa71ff567165dea87a8">snicholls::containers::md_span&lt; T, Rank, Layout &gt;</a>, <a class="el" href="classsnicholls_1_1linalg_1_1md__span.html#a65d18ef9ad17dfa71ff567165dea87a8">snicholls::linalg::md_span&lt; T, Rank, Layout &gt;</a></li>
+<li>data_handle_type&#160;:&#160;<a class="el" href="classsnicholls_1_1containers_1_1md__span.html#a8dedf77acb6f5248f7f9e2ea6b1b81c3">snicholls::containers::md_span&lt; T, Rank, Layout &gt;</a>, <a class="el" href="classsnicholls_1_1linalg_1_1md__span.html#a8dedf77acb6f5248f7f9e2ea6b1b81c3">snicholls::linalg::md_span&lt; T, Rank, Layout &gt;</a></li>
 <li>date()&#160;:&#160;<a class="el" href="classsnicholls_1_1utc.html#a2af7e13b3a532961118727983317a930">snicholls::utc&lt; Duration &gt;</a></li>
 <li>day&#160;:&#160;<a class="el" href="structsnicholls_1_1civil__date.html#a8139fca0656aee9e80e9cead846f5c69">snicholls::civil_date</a></li>
 <li>days()&#160;:&#160;<a class="el" href="classsnicholls_1_1utc.html#a16b5c511482a63ddc7e2af9f36cd289f">snicholls::utc&lt; Duration &gt;</a></li>
@@ -103,13 +107,16 @@ $(function(){initNavTree('functions_d.html','',''); });
 <li>default_overflow&#160;:&#160;<a class="el" href="structsnicholls_1_1ml_1_1minifloat.html#a49cc2db377f3fb9f683e4b20db6f32e2">snicholls::ml::minifloat&lt; E, M, Kind &gt;</a></li>
 <li>delta&#160;:&#160;<a class="el" href="structsnicholls_1_1finance_1_1greeks.html#ae358e71a92b187b858513fb8b32bdcda">snicholls::finance::greeks&lt; T &gt;</a>, <a class="el" href="structsnicholls_1_1finance_1_1greeks__explain.html#aeb02d6c37dfa429bfb8d8427f0ffdb1c">snicholls::finance::greeks_explain&lt; T &gt;</a></li>
 <li>dense_id_map()&#160;:&#160;<a class="el" href="classsnicholls_1_1containers_1_1dense__id__map.html#aa582c1e8b210787e0329aa993a8e9914">snicholls::containers::dense_id_map&lt; Value &gt;</a></li>
-<li>destroy()&#160;:&#160;<a class="el" href="classsnicholls_1_1containers_1_1object__pool.html#a903581b59f16cbc60324035472a30e4e">snicholls::containers::object_pool&lt; T, ChunkSize &gt;</a></li>
+<li>destroy()&#160;:&#160;<a class="el" href="classsnicholls_1_1containers_1_1index__pool.html#a2644b52093681448b205c6da8762d4fe">snicholls::containers::index_pool&lt; T, Index &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1object__pool.html#a903581b59f16cbc60324035472a30e4e">snicholls::containers::object_pool&lt; T, ChunkSize &gt;</a></li>
 <li>difference&#160;:&#160;<a class="el" href="structsnicholls_1_1game_1_1interaction__violation.html#aa84e8ffb7db8ccd36567012024b5263c">snicholls::game::interaction_violation&lt; T &gt;</a></li>
 <li>difference_type&#160;:&#160;<a class="el" href="classsnicholls_1_1containers_1_1inplace__vector.html#ae8de897a6d57b93ad8377bb6cfa85849">snicholls::containers::inplace_vector&lt; T, N &gt;</a>, <a class="el" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a99125e23149e0c475fd53cdc2ff90c28">snicholls::containers::intrusive_avl_tree&lt; T, Traits &gt;::basic_iterator&lt; Const &gt;</a></li>
 <li>digits&#160;:&#160;<a class="el" href="structsnicholls_1_1minor__units.html#af38b458916a5ec46b74bf5e85eba27ab">snicholls::minor_units</a></li>
 <li>dispatch()&#160;:&#160;<a class="el" href="structsnicholls_1_1basic__type__registry.html#a1796a182a020a704dff49c3b13d80a41">snicholls::basic_type_registry&lt; Bindings &gt;</a></li>
 <li>divmod()&#160;:&#160;<a class="el" href="classsnicholls_1_1uint256.html#a44d5ade1c0216c2b1246201ed4907c50">snicholls::uint256</a></li>
 <li>doob()&#160;:&#160;<a class="el" href="classsnicholls_1_1stochastic_1_1markov__chain.html#aa30bd334b099cf7070d26e2204ed853e">snicholls::stochastic::markov_chain</a></li>
+<li>dot()&#160;:&#160;<a class="el" href="structsnicholls_1_1linalg_1_1reference__backend.html#aee36a02ef7b0cd3b7f019041e958c7b4">snicholls::linalg::reference_backend</a></li>
+<li>down&#160;:&#160;<a class="el" href="structsnicholls_1_1ml_1_1mlp__weights.html#aed552575da3dfad7f0d7132f2dce5715">snicholls::ml::mlp_weights&lt; W, T &gt;</a></li>
+<li>down_bias&#160;:&#160;<a class="el" href="structsnicholls_1_1ml_1_1mlp__weights.html#a688443fef16bd785692f3f2e02641ffb">snicholls::ml::mlp_weights&lt; W, T &gt;</a></li>
 <li>dropped()&#160;:&#160;<a class="el" href="classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html#a196db86c82c853fcf9ab5ba1eeb947b0">snicholls::stats::pivot&lt; Row, meta::type_list&lt; Rs... &gt;, meta::type_list&lt; Cs... &gt;, measure&lt; Vs, As &gt;... &gt;</a></li>
 <li>duration&#160;:&#160;<a class="el" href="classsnicholls_1_1utc.html#a2d8bdfe795caca4094130dfba76c335a">snicholls::utc&lt; Duration &gt;</a></li>
 </ul>
