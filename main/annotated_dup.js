@@ -4,6 +4,10 @@ var annotated_dup =
       [ "containers", null, [
         [ "bloom_parameters", "structsnicholls_1_1containers_1_1bloom__parameters.html", "structsnicholls_1_1containers_1_1bloom__parameters" ],
         [ "bloom_filter", "classsnicholls_1_1containers_1_1bloom__filter.html", "classsnicholls_1_1containers_1_1bloom__filter" ],
+        [ "byte_map_slot", "structsnicholls_1_1containers_1_1byte__map__slot.html", "structsnicholls_1_1containers_1_1byte__map__slot" ],
+        [ "byte_map_probe", "structsnicholls_1_1containers_1_1byte__map__probe.html", "structsnicholls_1_1containers_1_1byte__map__probe" ],
+        [ "byte_map_view", "classsnicholls_1_1containers_1_1byte__map__view.html", "classsnicholls_1_1containers_1_1byte__map__view" ],
+        [ "byte_map", "classsnicholls_1_1containers_1_1byte__map.html", "classsnicholls_1_1containers_1_1byte__map" ],
         [ "dense_id_map", "classsnicholls_1_1containers_1_1dense__id__map.html", "classsnicholls_1_1containers_1_1dense__id__map" ],
         [ "flat_id_map", "classsnicholls_1_1containers_1_1flat__id__map.html", "classsnicholls_1_1containers_1_1flat__id__map" ],
         [ "hierarchical_bitset", "classsnicholls_1_1containers_1_1hierarchical__bitset.html", "classsnicholls_1_1containers_1_1hierarchical__bitset" ],
@@ -65,9 +69,18 @@ var annotated_dup =
         [ "thread_range", "structsnicholls_1_1meta_1_1thread__range.html", null ]
       ] ],
       [ "ml", null, [
+        [ "key_range", "structsnicholls_1_1ml_1_1key__range.html", "structsnicholls_1_1ml_1_1key__range" ],
+        [ "attention_accumulator", "structsnicholls_1_1ml_1_1attention__accumulator.html", "structsnicholls_1_1ml_1_1attention__accumulator" ],
         [ "bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", "structsnicholls_1_1ml_1_1bpe__part" ],
         [ "minifloat", "structsnicholls_1_1ml_1_1minifloat.html", "structsnicholls_1_1ml_1_1minifloat" ],
         [ "norm_stats", "structsnicholls_1_1ml_1_1norm__stats.html", "structsnicholls_1_1ml_1_1norm__stats" ],
+        [ "adamw_config", "structsnicholls_1_1ml_1_1adamw__config.html", "structsnicholls_1_1ml_1_1adamw__config" ],
+        [ "muon_newton_schulz", "structsnicholls_1_1ml_1_1muon__newton__schulz.html", null ],
+        [ "block_q8_0", "structsnicholls_1_1ml_1_1block__q8__0.html", "structsnicholls_1_1ml_1_1block__q8__0" ],
+        [ "block_q4_0", "structsnicholls_1_1ml_1_1block__q4__0.html", "structsnicholls_1_1ml_1_1block__q4__0" ],
+        [ "block_mxfp4", "structsnicholls_1_1ml_1_1block__mxfp4.html", "structsnicholls_1_1ml_1_1block__mxfp4" ],
+        [ "rope_table", "structsnicholls_1_1ml_1_1rope__table.html", "structsnicholls_1_1ml_1_1rope__table" ],
+        [ "top_k_result", "structsnicholls_1_1ml_1_1top__k__result.html", "structsnicholls_1_1ml_1_1top__k__result" ],
         [ "online_softmax", "structsnicholls_1_1ml_1_1online__softmax.html", "structsnicholls_1_1ml_1_1online__softmax" ]
       ] ],
       [ "pipeline", null, [

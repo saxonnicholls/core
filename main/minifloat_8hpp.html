@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -233,7 +233,7 @@ Variables</h2></td></tr>
 <div class="line">        r ^= r &lt;&lt; 13; r ^= r &gt;&gt; 17; r ^= r &lt;&lt; 5;   <span class="comment">// the caller&#39;s random bits</span></div>
 <div class="line">        stochastic = ml::to_float(ml::to_minifloat_stochastic&lt;ml::bfloat16&gt;(stochastic + 1e-4f, r));</div>
 <div class="line">    }</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt">ml/quantize.hpp</span> stores block scales in <span class="tt">float16</span> and MX elements in these formats. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span> stores block scales in <span class="tt">float16</span> and MX elements in these formats. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One generic conversion; <span class="tt">bfloat16</span> from <span class="tt">float</span> takes the usual integer fast path, which gives the same bits.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span> (through <span class="tt">std::bit_cast</span>), <span class="tt">noexcept</span>, trivially copyable, <span class="tt">sizeof</span> 1 or 2. Decoding is exact. Encoding rounds once from <span class="tt">double</span>, so a <span class="tt">float</span> or a <span class="tt">double</span> converts correctly rounded. Stochastic rounding rounds up with probability equal to the discarded fraction, to 2^-32.</p>
 <p><b>Errors.</b> None. A NaN converts to NaN where the format has one, and to the largest magnitude, with its sign, where it does not. A value below half the smallest subnormal converts to zero, keeping its sign.</p>

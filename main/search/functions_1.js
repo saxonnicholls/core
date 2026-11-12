@@ -30,7 +30,10 @@ var searchData=
   ['bpe_5fencode_5fpiece_27',['bpe_encode_piece',['../bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff',1,'snicholls::ml']]],
   ['bpe_5flong_5fscratch_5fsize_28',['bpe_long_scratch_size',['../bpe_8hpp.html#aad270028e55d0ae86d631fe58e3c99d5',1,'snicholls::ml']]],
   ['bpe_5fscratch_5fsize_29',['bpe_scratch_size',['../bpe_8hpp.html#a1d6e6e6f72c374698fa2b70d190a4118',1,'snicholls::ml']]],
-  ['business_5fdays_5fbetween_30',['business_days_between',['../group__core.html#ga8d27e22f780a6f16ff339f9de00babf1',1,'snicholls']]],
-  ['by_5fsign_31',['by_sign',['../group__core.html#ga7686fde70e2d2f311be0404cca14603d',1,'snicholls']]],
-  ['byteswap_32',['byteswap',['../namespacesnicholls.html#a64b2578a7500e65a203bdc4fce497e95',1,'snicholls']]]
+  ['build_30',['build',['../classsnicholls_1_1containers_1_1byte__map__view.html#ad08d2b3986c62c64bc85fc9f09eb9182',1,'snicholls::containers::byte_map_view::build()'],['../classsnicholls_1_1containers_1_1byte__map.html#aabac754c8a0d3fad987de8e0df598977',1,'snicholls::containers::byte_map::build()']]],
+  ['business_5fdays_5fbetween_31',['business_days_between',['../group__core.html#ga8d27e22f780a6f16ff339f9de00babf1',1,'snicholls']]],
+  ['by_5fsign_32',['by_sign',['../group__core.html#ga7686fde70e2d2f311be0404cca14603d',1,'snicholls']]],
+  ['byte_5fmap_33',['byte_map',['../classsnicholls_1_1containers_1_1byte__map.html#a7f23d689a44b7a38fec323776d003881',1,'snicholls::containers::byte_map::byte_map() noexcept'],['../classsnicholls_1_1containers_1_1byte__map.html#acc64b58444091935504ca34e10bd9361',1,'snicholls::containers::byte_map::byte_map(const std::array&lt; std::pair&lt; std::string_view, std::uint32_t &gt;, N &gt; &amp;entries)']]],
+  ['byte_5fmap_5fview_34',['byte_map_view',['../classsnicholls_1_1containers_1_1byte__map__view.html#ad239aecba32a6fe08b0a22fb9dddaf99',1,'snicholls::containers::byte_map_view::byte_map_view() noexcept=default'],['../classsnicholls_1_1containers_1_1byte__map__view.html#aff5628ed5c226cb19d0ec4a99dde9d65',1,'snicholls::containers::byte_map_view::byte_map_view(std::span&lt; byte_map_slot &gt; slots, std::span&lt; char &gt; arena, std::span&lt; byte_map_key_ref &gt; by_value={}) noexcept']]],
+  ['byteswap_35',['byteswap',['../namespacesnicholls.html#a64b2578a7500e65a203bdc4fce497e95',1,'snicholls']]]
 ];

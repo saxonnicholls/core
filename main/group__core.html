@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -120,6 +120,8 @@ Files</h2></td></tr>
 <tr class="memdesc:constexpr__map_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1constexpr__map.html" title="A fixed table of N key-value pairs, an aggregate over std::array, looked up by linear search.">snicholls::constexpr_map</a></span>: a fixed table of key-value pairs, looked up at compile time or run time. <br /></td></tr>
 <tr class="memitem:bloom_5Ffilter_2Ehpp" id="r_bloom_5Ffilter_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bloom__filter_8hpp.html">bloom_filter.hpp</a></td></tr>
 <tr class="memdesc:bloom__filter_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="classsnicholls_1_1containers_1_1bloom__filter.html" title="A fixed-size probabilistic set: &quot;definitely not present&quot; in O(k), or &quot;maybe present&quot;.">snicholls::containers::bloom_filter</a></span>: a fixed-size probabilistic set that never says "no" wrongly. <br /></td></tr>
+<tr class="memitem:byte_5Fmap_2Ehpp" id="r_byte_5Fmap_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="byte__map_8hpp.html">byte_map.hpp</a></td></tr>
+<tr class="memdesc:byte__map_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">containers::byte_map_view</span> and <span class="tt">containers::byte_map</span>: byte strings to 32-bit values in one flat table of 16-byte slots, with a lookup split in two so a batch of them overlaps its cache misses. <br /></td></tr>
 <tr class="memitem:dense_5Fid_5Fmap_2Ehpp" id="r_dense_5Fid_5Fmap_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dense__id__map_8hpp.html">dense_id_map.hpp</a></td></tr>
 <tr class="memdesc:dense__id__map_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">An id map for (mostly) sequential ids: a growing direct-indexed window, a hash map for outliers. <br /></td></tr>
 <tr class="memitem:flat_5Fid_5Fmap_2Ehpp" id="r_flat_5Fid_5Fmap_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flat__id__map_8hpp.html">flat_id_map.hpp</a></td></tr>
@@ -200,14 +202,26 @@ Files</h2></td></tr>
 <tr class="memdesc:values_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facts about a pack of values at compile time: distinct, increasing, decreasing. <br /></td></tr>
 <tr class="memitem:activations_2Ehpp" id="r_activations_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="activations_8hpp.html">activations.hpp</a></td></tr>
 <tr class="memdesc:activations_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>. <br /></td></tr>
+<tr class="memitem:attention_2Ehpp" id="r_attention_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="attention_8hpp.html">attention.hpp</a></td></tr>
+<tr class="memdesc:attention_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> attention for one query: <span class="tt">attend</span> over a block of keys and values in one pass, its backward pass, <span class="tt">attention_accumulator</span>, the partial that merges across workers, and <span class="tt">attention_window</span> for causal and sliding-window masks. <br /></td></tr>
 <tr class="memitem:bpe_2Ehpp" id="r_bpe_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bpe_8hpp.html">bpe.hpp</a></td></tr>
 <tr class="memdesc:bpe_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">snicholls::ml::bpe_encode_piece</a></span>, <span class="tt">bpe_encode_long_piece</span> and <span class="tt">bpe_decode</span>: byte-level BPE, token for token what tiktoken gives, with the vocabulary as the caller's lookup and no allocation. <br /></td></tr>
+<tr class="memitem:embedding_2Ehpp" id="r_embedding_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="embedding_8hpp.html">embedding.hpp</a></td></tr>
+<tr class="memdesc:embedding_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> embeddings: a token's row of a table, GPT-2's token plus position, and the backward pass that adds a gradient into the token's row. <br /></td></tr>
 <tr class="memitem:minifloat_2Ehpp" id="r_minifloat_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="minifloat_8hpp.html">minifloat.hpp</a></td></tr>
 <tr class="memdesc:minifloat_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html" title="A narrow floating-point number: E exponent bits, M mantissa bits and a sign, stored in 8 or 16 bits.">snicholls::ml::minifloat</a>&lt;E, M, Kind&gt;</span>: the low-precision floating-point formats of machine learning (bfloat16, float16, FP8 E4M3 and E5M2, the MX FP6 and FP4) as one template, with exact decoding, round-to-nearest-even and stochastic rounding, all <span class="tt">constexpr</span>. <br /></td></tr>
 <tr class="memitem:norm_2Ehpp" id="r_norm_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="norm_8hpp.html">norm.hpp</a></td></tr>
 <tr class="memdesc:norm_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> normalisation: <span class="tt">layer_norm</span> and <span class="tt">rms_norm</span> over one row, forward and backward, with or without learned parameters. <br /></td></tr>
+<tr class="memitem:optim_2Ehpp" id="r_optim_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optim_8hpp.html">optim.hpp</a></td></tr>
+<tr class="memdesc:optim_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> training arithmetic: the AdamW step, learning-rate schedules, clipping by the global norm, Muon's Newton-Schulz polynomial, and the FLOPs and utilisation of a transformer. <br /></td></tr>
+<tr class="memitem:quantize_2Ehpp" id="r_quantize_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="quantize_8hpp.html">quantize.hpp</a></td></tr>
+<tr class="memdesc:quantize_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> quantised weights: ggml's Q8_0 and Q4_0 blocks and the OCP MXFP4 block, byte for byte as ggml lays them out, with quantisation, dequantisation and the integer dot products, plus symmetric int8 rows. <br /></td></tr>
+<tr class="memitem:rope_2Ehpp" id="r_rope_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rope_8hpp.html">rope.hpp</a></td></tr>
+<tr class="memdesc:rope_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> rotary position embedding: the frequencies, a table of cosines and sines the compiler can build, and the rotation of a head, forward and inverse. <br /></td></tr>
 <tr class="memitem:row_2Ehpp" id="r_row_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="row_8hpp.html">row.hpp</a></td></tr>
 <tr class="memdesc:row_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="conceptsnicholls_1_1ml_1_1row.html" title="A row of numbers: a contiguous, sized range whose elements are a math::math_number.">snicholls::ml::row</a></span> and <span class="tt">mutable_row</span>: what the <span class="tt">ml</span> functions accept as a row of numbers, and the spans they work on. <br /></td></tr>
+<tr class="memitem:sampling_2Ehpp" id="r_sampling_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sampling_8hpp.html">sampling.hpp</a></td></tr>
+<tr class="memdesc:sampling_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> sampling the next token: <span class="tt">argmax</span>, sampling from probabilities or from logits at a temperature, <span class="tt">top_k</span> and top-k sampling with a fixed-size buffer, and nucleus (top-p) sampling with the caller's scratch. <br /></td></tr>
 <tr class="memitem:softmax_2Ehpp" id="r_softmax_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="softmax_8hpp.html">softmax.hpp</a></td></tr>
 <tr class="memdesc:softmax_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> softmax and losses: <span class="tt">softmax</span>, <span class="tt">log_softmax</span>, <span class="tt">logsumexp</span>, cross-entropy with its fused gradient, bits per byte, and <span class="tt">online_softmax</span>, a running softmax that merges across workers. <br /></td></tr>
 <tr class="memitem:overloaded_2Ehpp" id="r_overloaded_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="overloaded_8hpp.html">overloaded.hpp</a></td></tr>
@@ -350,6 +364,8 @@ Concepts</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An enumeration whose values can be reflected: scoped, or unscoped with a fixed underlying type. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Abpe_5Fvocabulary" id="r_snicholls_3A_3Aml_3A_3Abpe_5Fvocabulary"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1bpe__vocabulary.html">snicholls::ml::bpe_vocabulary</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A vocabulary lookup: bytes to their rank, or <span class="tt">bpe_no_rank</span>. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aquant_5Fblock" id="r_snicholls_3A_3Aml_3A_3Aquant_5Fblock"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1quant__block.html">snicholls::ml::quant_block</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">B</span> is one of the quantised blocks. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Arow" id="r_snicholls_3A_3Aml_3A_3Arow"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1row.html">snicholls::ml::row</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A row of numbers: a contiguous, sized range whose elements are a <span class="tt">math::math_number</span>. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Amutable_5Frow" id="r_snicholls_3A_3Aml_3A_3Amutable_5Frow"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1mutable__row.html">snicholls::ml::mutable_row</a></td></tr>
@@ -397,6 +413,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of a Bloom filter: its bits and the number of hashes per key.  <a href="structsnicholls_1_1containers_1_1bloom__parameters.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Acontainers_3A_3Abloom_5Ffilter" id="r_snicholls_3A_3Acontainers_3A_3Abloom_5Ffilter"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1bloom__filter.html">snicholls::containers::bloom_filter</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A fixed-size probabilistic set: "definitely not present" in O(k), or "maybe present".  <a href="classsnicholls_1_1containers_1_1bloom__filter.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Acontainers_3A_3Abyte_5Fmap_5Fview" id="r_snicholls_3A_3Acontainers_3A_3Abyte_5Fmap_5Fview"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1byte__map__view.html">snicholls::containers::byte_map_view</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A byte-string map over three spans the caller owns: the slots, the key arena and, optionally, the reverse table.  <a href="classsnicholls_1_1containers_1_1byte__map__view.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Acontainers_3A_3Abyte_5Fmap_3C_20Slots_2C_20ArenaBytes_2C_20Values_20_3E" id="r_snicholls_3A_3Acontainers_3A_3Abyte_5Fmap_3C_20Slots_2C_20ArenaBytes_2C_20Values_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1byte__map.html">snicholls::containers::byte_map&lt; Slots, ArenaBytes, Values &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A byte-string map that owns fixed-size storage, so it can be built by the compiler or live in static storage with no allocation.  <a href="classsnicholls_1_1containers_1_1byte__map.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Acontainers_3A_3Adense_5Fid_5Fmap_3C_20Value_20_3E" id="r_snicholls_3A_3Acontainers_3A_3Adense_5Fid_5Fmap_3C_20Value_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1dense__id__map.html">snicholls::containers::dense_id_map&lt; Value &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps ids to pointers with one array lookup when ids are dense and increasing (exchange order refs).  <a href="classsnicholls_1_1containers_1_1dense__id__map.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Acontainers_3A_3Aflat_5Fid_5Fmap_3C_20Value_20_3E" id="r_snicholls_3A_3Acontainers_3A_3Aflat_5Fid_5Fmap_3C_20Value_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1flat__id__map.html">snicholls::containers::flat_id_map&lt; Value &gt;</a></td></tr>
@@ -519,12 +539,30 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread over one argument: Wolfram's <span class="tt">{n}</span>. Positions count from 1, as in Wolfram; negative ones from the end.  <a href="structsnicholls_1_1meta_1_1thread__at.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Ameta_3A_3Athread_5Frange_3C_20M_2C_20N_2C_20S_20_3E" id="r_snicholls_3A_3Ameta_3A_3Athread_5Frange_3C_20M_2C_20N_2C_20S_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1meta_1_1thread__range.html">snicholls::meta::thread_range&lt; M, N, S &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread over positions M to N in steps of S: Wolfram's <span class="tt">{m, n}</span> and <span class="tt">{m, n, s}</span>, so <span class="tt">&lt;1, -1, 2&gt;</span> is every other argument.  <a href="structsnicholls_1_1meta_1_1thread__range.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Akey_5Frange" id="r_snicholls_3A_3Aml_3A_3Akey_5Frange"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1key__range.html">snicholls::ml::key_range</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The keys a query may attend to: positions <span class="tt">[<a class="el" href="structsnicholls_1_1ml_1_1key__range.html#a85755b94a0b92c152ad7ca5ec760a6bf" title="The first visible key.">first</a>, <a class="el" href="structsnicholls_1_1ml_1_1key__range.html#a0be29b0a9dc85feb9d6abeec36d42619" title="One past the last visible key.">last</a>)</span>.  <a href="structsnicholls_1_1ml_1_1key__range.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aattention_5Faccumulator_3C_20T_2C_20D_20_3E" id="r_snicholls_3A_3Aml_3A_3Aattention_5Faccumulator_3C_20T_2C_20D_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1attention__accumulator.html">snicholls::ml::attention_accumulator&lt; T, D &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A partial of attention for one query: the running softmax of the scores and the weighted sum of the values.  <a href="structsnicholls_1_1ml_1_1attention__accumulator.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Abpe_5Fpart" id="r_snicholls_3A_3Aml_3A_3Abpe_5Fpart"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1bpe__part.html">snicholls::ml::bpe_part</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One part of a piece during merging: where it starts, and the rank of it merged with the next part.  <a href="structsnicholls_1_1ml_1_1bpe__part.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aminifloat_3C_20E_2C_20M_2C_20Kind_20_3E" id="r_snicholls_3A_3Aml_3A_3Aminifloat_3C_20E_2C_20M_2C_20Kind_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html">snicholls::ml::minifloat&lt; E, M, Kind &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A narrow floating-point number: <span class="tt">E</span> exponent bits, <span class="tt">M</span> mantissa bits and a sign, stored in 8 or 16 bits.  <a href="structsnicholls_1_1ml_1_1minifloat.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Anorm_5Fstats_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Anorm_5Fstats_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1norm__stats.html">snicholls::ml::norm_stats&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="norm_8hpp.html#a684b655909542f238737ea8d7c229b39" title="LayerNorm of one row: out = (x - mean) · rstd · weight + bias.">layer_norm</a></span> returns for its backward pass: the row's mean and <span class="tt">1 / sqrt(var + eps)</span>.  <a href="structsnicholls_1_1ml_1_1norm__stats.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aadamw_5Fconfig_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aadamw_5Fconfig_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1adamw__config.html">snicholls::ml::adamw_config&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hyperparameters of AdamW.  <a href="structsnicholls_1_1ml_1_1adamw__config.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Amuon_5Fnewton_5Fschulz_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Amuon_5Fnewton_5Fschulz_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1muon__newton__schulz.html">snicholls::ml::muon_newton_schulz&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The coefficients of Muon's quintic Newton-Schulz iteration and its step count.  <a href="structsnicholls_1_1ml_1_1muon__newton__schulz.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Fq8_5F0" id="r_snicholls_3A_3Aml_3A_3Ablock_5Fq8_5F0"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__q8__0.html">snicholls::ml::block_q8_0</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ggml's Q8_0: a <span class="tt"><a class="el" href="minifloat_8hpp.html#afd5e1ae8f11fa94843002e72782a7963" title="IEEE 754 binary16.">float16</a></span> scale and 32 signed bytes, <span class="tt">x ≈ <a class="el" href="structsnicholls_1_1ml_1_1block__q8__0.html#a338fadb5ac478e8d4fec0fc3b87ee538" title="The scale, amax / 127.">d</a> · q</span>.  <a href="structsnicholls_1_1ml_1_1block__q8__0.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Fq4_5F0" id="r_snicholls_3A_3Aml_3A_3Ablock_5Fq4_5F0"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__q4__0.html">snicholls::ml::block_q4_0</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ggml's Q4_0: a <span class="tt"><a class="el" href="minifloat_8hpp.html#afd5e1ae8f11fa94843002e72782a7963" title="IEEE 754 binary16.">float16</a></span> scale and 32 four-bit numbers, <span class="tt">x ≈ <a class="el" href="structsnicholls_1_1ml_1_1block__q4__0.html#ae1d35d8e8781328f973841dbb7808741" title="The scale: the signed value of largest magnitude / -8.">d</a> · (q - 8)</span>.  <a href="structsnicholls_1_1ml_1_1block__q4__0.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Fmxfp4" id="r_snicholls_3A_3Aml_3A_3Ablock_5Fmxfp4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__mxfp4.html">snicholls::ml::block_mxfp4</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The OCP MXFP4 block as ggml stores it: an E8M0 exponent and 32 FP4 (E2M1) numbers, <span class="tt">x ≈ 2^(<a class="el" href="structsnicholls_1_1ml_1_1block__mxfp4.html#a3f562d18f790c895878bb969bf2670e5" title="The shared exponent, biased by 127.">e</a> - 127) · v</span>.  <a href="structsnicholls_1_1ml_1_1block__mxfp4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Arope_5Ftable_3C_20T_2C_20Positions_2C_20HeadDim_20_3E" id="r_snicholls_3A_3Aml_3A_3Arope_5Ftable_3C_20T_2C_20Positions_2C_20HeadDim_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1rope__table.html">snicholls::ml::rope_table&lt; T, Positions, HeadDim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every position's cosines and sines, <span class="tt">Positions</span> rows of <span class="tt">HeadDim / 2</span>.  <a href="structsnicholls_1_1ml_1_1rope__table.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Atop_5Fk_5Fresult_3C_20T_2C_20K_20_3E" id="r_snicholls_3A_3Aml_3A_3Atop_5Fk_5Fresult_3C_20T_2C_20K_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1top__k__result.html">snicholls::ml::top_k_result&lt; T, K &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <span class="tt">K</span> largest values of a row and their indices, largest first.  <a href="structsnicholls_1_1ml_1_1top__k__result.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aonline_5Fsoftmax_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aonline_5Fsoftmax_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html">snicholls::ml::online_softmax&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A running softmax: the maximum and <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html#a9016ad2bcccd86d2e81cf092b3b4bdfc" title="sum e^(x - max) over the values seen.">sum</a> e^(x - <a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html#a359c089d3c76ddd0c180b4803f818c8c" title="The largest value seen; -infinity before any.">max</a>)</span> of the values seen, updated one at a time and merged across workers.  <a href="structsnicholls_1_1ml_1_1online__softmax.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Afn_5Fptr_3C_20P_20_3E" id="r_snicholls_3A_3Afn_5Fptr_3C_20P_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1fn__ptr.html">snicholls::fn_ptr&lt; P &gt;</a></td></tr>
@@ -702,9 +740,9 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaa1583aa0ec8823339a420408e653e40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable <span class="tt">?</span> as a statement, discarding the value: returns the error of <span class="tt">expr</span> if there is one.  <br /></td></tr>
 <tr class="memitem:ga4402bc98a6b5059cc7188522bf2c869a" id="r_ga4402bc98a6b5059cc7188522bf2c869a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;7</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1e7069d6d9a404d68423cd8a030af191" id="r_ga1e7069d6d9a404d68423cd8a030af191"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(major,  minor,  patch)</td></tr>
 <tr class="memdesc:ga1e7069d6d9a404d68423cd8a030af191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode a version as one integer the preprocessor can compare.  <br /></td></tr>
@@ -918,6 +956,10 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#gga60477dd069f3cda9d37a9c3df1bf3508a4190a713d2c5d558385aad56c3ef0789">overflow_policy::saturate</a>
  }</td></tr>
 <tr class="memdesc:ga60477dd069f3cda9d37a9c3df1bf3508"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a conversion does with a value beyond the format's largest finite number.  <a href="#ga60477dd069f3cda9d37a9c3df1bf3508">More...</a><br /></td></tr>
+<tr class="memitem:ga1b1c78946b7bd882aeb3621f79c7a69f" id="r_ga1b1c78946b7bd882aeb3621f79c7a69f"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1b1c78946b7bd882aeb3621f79c7a69f">snicholls::ml::rope_layout</a> { <a class="el" href="#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a>
+, <a class="el" href="#gga1b1c78946b7bd882aeb3621f79c7a69fa5fc70ff0369f56d734047c9507af8623">rope_layout::interleaved</a>
+ }</td></tr>
+<tr class="memdesc:ga1b1c78946b7bd882aeb3621f79c7a69f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Which channels of a head RoPE rotates together.  <a href="#ga1b1c78946b7bd882aeb3621f79c7a69f">More...</a><br /></td></tr>
 <tr class="memitem:ga6637c07c34c92b444b0751e0ac2a418d" id="r_ga6637c07c34c92b444b0751e0ac2a418d"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6637c07c34c92b444b0751e0ac2a418d">snicholls::stats::resampling</a> { <a class="el" href="#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386">resampling::multinomial</a>
 , <a class="el" href="#gga6637c07c34c92b444b0751e0ac2a418da2c7fa5b4147150b7dfdb1ff83dbfab3e">resampling::poisson</a>
  }</td></tr>
@@ -1915,7 +1957,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;6</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;7</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1933,7 +1975,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;1</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -3483,7 +3525,7 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00079">79</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00080">80</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -3614,7 +3656,7 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00072">72</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00073">73</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -3647,6 +3689,38 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </table>
 
 <p class="definition">Definition at line <a class="el" href="bootstrap_8hpp_source.html#l00605">605</a> of file <a class="el" href="bootstrap_8hpp_source.html">bootstrap.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ga1b1c78946b7bd882aeb3621f79c7a69f" name="ga1b1c78946b7bd882aeb3621f79c7a69f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1b1c78946b7bd882aeb3621f79c7a69f">&#9670;&#160;</a></span>rope_layout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ga1b1c78946b7bd882aeb3621f79c7a69f">snicholls::ml::rope_layout</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Which channels of a head RoPE rotates together. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4" name="gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4"></a>half&#160;</td><td class="fielddoc"><p>Channel <span class="tt">i</span> with <span class="tt">i + d/2</span>: GPT-NeoX, Hugging Face LLaMA, nanochat. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1b1c78946b7bd882aeb3621f79c7a69fa5fc70ff0369f56d734047c9507af8623" name="gga1b1c78946b7bd882aeb3621f79c7a69fa5fc70ff0369f56d734047c9507af8623"></a>interleaved&#160;</td><td class="fielddoc"><p>Channel <span class="tt">2i</span> with <span class="tt">2i + 1</span>: Meta's LLaMA, GPT-J. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00068">68</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
 
 </div>
 </div>
@@ -7468,7 +7542,7 @@ template&lt;typename List, typename F&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00667">667</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00668">668</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -7714,7 +7788,7 @@ requires (Unit::period::num == 1)</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a Unix time in Unit as decimal text: -?DIGITS(.DIGITS)?, e.g. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00750">750</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00751">751</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -10237,7 +10311,7 @@ template&lt;std::size_t N, game V&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00830">830</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00831">831</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -10402,7 +10476,7 @@ template&lt;utc_duration D&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00541">541</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00542">542</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -10739,7 +10813,7 @@ template&lt;detail::char_string S&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the whole string as "YYYY-MM-DD". </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00813">813</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00814">814</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -10828,7 +10902,7 @@ requires (Unit::period::num == 1)</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the whole string as a Unix time in Unit (see from_unix_chars). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00797">797</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00798">798</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -10872,7 +10946,7 @@ template&lt;utc_duration D = std::chrono::nanoseconds, detail::char_string S&gt;
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the whole string as an RFC 3339 timestamp. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00777">777</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00778">778</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -12491,7 +12565,7 @@ template&lt;class F, class M&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00187">187</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00188">188</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -14347,7 +14421,7 @@ requires plain_struct&lt;S&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00452">452</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00453">453</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -14396,7 +14470,7 @@ template&lt;utc_duration D&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00439">439</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00440">440</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -14644,7 +14718,7 @@ template&lt;utc_duration D&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the end of the text, or an error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00371">371</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00372">372</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -14823,7 +14897,7 @@ template&lt;utc_duration D&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00525">525</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00526">526</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -16709,7 +16783,7 @@ template&lt;utc_duration D&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00197">197</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00198">198</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>
@@ -16901,7 +16975,7 @@ template&lt;std::size_t N, std::size_t R = N&gt; </div>
 <p>... </p>
 <p>and at any precision (0..9). </p>
 
-<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00203">203</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rfc3339_8hpp_source.html#l00204">204</a> of file <a class="el" href="rfc3339_8hpp_source.html">rfc3339.hpp</a>.</p>
 
 </div>
 </div>

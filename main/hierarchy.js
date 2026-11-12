@@ -3,7 +3,9 @@ var hierarchy =
     [ "snicholls::acout", "classsnicholls_1_1acout.html", [
       [ "snicholls::acerr", "structsnicholls_1_1acerr.html", null ]
     ] ],
+    [ "snicholls::ml::adamw_config&lt; T &gt;", "structsnicholls_1_1ml_1_1adamw__config.html", null ],
     [ "snicholls::any_source", "structsnicholls_1_1any__source.html", null ],
+    [ "snicholls::ml::attention_accumulator&lt; T, D &gt;", "structsnicholls_1_1ml_1_1attention__accumulator.html", null ],
     [ "snicholls::attribute_json&lt; A &gt;", "structsnicholls_1_1attribute__json.html", null ],
     [ "snicholls::attribute_json&lt; colour &gt;", "structsnicholls_1_1attribute__json_3_01colour_01_4.html", null ],
     [ "snicholls::attribute_json&lt; label &gt;", "structsnicholls_1_1attribute__json_3_01label_01_4.html", null ],
@@ -25,6 +27,9 @@ var hierarchy =
     [ "snicholls::pipeline::batch_spec&lt; T &gt;", "structsnicholls_1_1pipeline_1_1batch__spec.html", null ],
     [ "snicholls::pipeline::batch_stage&lt; T, Next &gt;", "structsnicholls_1_1pipeline_1_1batch__stage.html", null ],
     [ "snicholls::stats::block_lengths", "structsnicholls_1_1stats_1_1block__lengths.html", null ],
+    [ "snicholls::ml::block_mxfp4", "structsnicholls_1_1ml_1_1block__mxfp4.html", null ],
+    [ "snicholls::ml::block_q4_0", "structsnicholls_1_1ml_1_1block__q4__0.html", null ],
+    [ "snicholls::ml::block_q8_0", "structsnicholls_1_1ml_1_1block__q8__0.html", null ],
     [ "snicholls::containers::bloom_filter", "classsnicholls_1_1containers_1_1bloom__filter.html", null ],
     [ "snicholls::containers::bloom_parameters", "structsnicholls_1_1containers_1_1bloom__parameters.html", null ],
     [ "std::bool_constant", null, [
@@ -42,6 +47,14 @@ var hierarchy =
     [ "snicholls::ml::bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", null ],
     [ "snicholls::stats::by_name&lt; Name &gt;", "structsnicholls_1_1stats_1_1by__name.html", null ],
     [ "snicholls::stats::by_type&lt; T &gt;", "structsnicholls_1_1stats_1_1by__type.html", null ],
+    [ "snicholls::containers::detail::byte_map_lookup&lt; byte_map&lt; Slots, ArenaBytes, 0 &gt; &gt;", null, [
+      [ "snicholls::containers::byte_map< Slots, ArenaBytes, Values >", "classsnicholls_1_1containers_1_1byte__map.html", null ]
+    ] ],
+    [ "snicholls::containers::detail::byte_map_lookup&lt; byte_map_view &gt;", null, [
+      [ "snicholls::containers::byte_map_view", "classsnicholls_1_1containers_1_1byte__map__view.html", null ]
+    ] ],
+    [ "snicholls::containers::byte_map_probe", "structsnicholls_1_1containers_1_1byte__map__probe.html", null ],
+    [ "snicholls::containers::byte_map_slot", "structsnicholls_1_1containers_1_1byte__map__slot.html", null ],
     [ "snicholls::callable_traits&lt; F &gt;", "structsnicholls_1_1callable__traits.html", null ],
     [ "snicholls::callable_traits&lt; decltype(&amp;F::operator())&gt;", "structsnicholls_1_1callable__traits.html", [
       [ "snicholls::callable_traits< F >", "structsnicholls_1_1callable__traits_3_01F_01_4.html", null ]
@@ -143,6 +156,7 @@ var hierarchy =
     [ "snicholls::game::interaction_violation&lt; T &gt;", "structsnicholls_1_1game_1_1interaction__violation.html", null ],
     [ "snicholls::game::interventional_game&lt; Model, Instance, Background &gt;", "classsnicholls_1_1game_1_1interventional__game.html", null ],
     [ "snicholls::containers::intrusive_avl_tree&lt; T, Traits &gt;", "classsnicholls_1_1containers_1_1intrusive__avl__tree.html", null ],
+    [ "snicholls::ml::key_range", "structsnicholls_1_1ml_1_1key__range.html", null ],
     [ "snicholls::label", "structsnicholls_1_1label.html", null ],
     [ "snicholls::game::lift_sampling", "structsnicholls_1_1game_1_1lift__sampling.html", null ],
     [ "snicholls::finance::market_move&lt; T &gt;", "structsnicholls_1_1finance_1_1market__move.html", null ],
@@ -161,6 +175,7 @@ var hierarchy =
     [ "snicholls::stats::minimum&lt; T &gt;", "structsnicholls_1_1stats_1_1minimum.html", null ],
     [ "snicholls::minor_units", "structsnicholls_1_1minor__units.html", null ],
     [ "snicholls::game::monotonicity_violation&lt; T &gt;", "structsnicholls_1_1game_1_1monotonicity__violation.html", null ],
+    [ "snicholls::ml::muon_newton_schulz&lt; T &gt;", "structsnicholls_1_1ml_1_1muon__newton__schulz.html", null ],
     [ "snicholls::named&lt; Name, T &gt;", "structsnicholls_1_1named.html", null ],
     [ "snicholls::ml::norm_stats&lt; T &gt;", "structsnicholls_1_1ml_1_1norm__stats.html", null ],
     [ "snicholls::number_format", "structsnicholls_1_1number__format.html", null ],
@@ -183,6 +198,7 @@ var hierarchy =
     [ "snicholls::result_niche&lt; V &gt;", "structsnicholls_1_1result__niche.html", null ],
     [ "snicholls::rfc3339_text", "structsnicholls_1_1rfc3339__text.html", null ],
     [ "snicholls::finance::risk_contribution&lt; K, T &gt;", "structsnicholls_1_1finance_1_1risk__contribution.html", null ],
+    [ "snicholls::ml::rope_table&lt; T, Positions, HeadDim &gt;", "structsnicholls_1_1ml_1_1rope__table.html", null ],
     [ "snicholls::scale", "structsnicholls_1_1scale.html", null ],
     [ "snicholls::secret&lt; T &gt;", "classsnicholls_1_1secret.html", null ],
     [ "snicholls::sign_colours", "structsnicholls_1_1sign__colours.html", null ],
@@ -233,6 +249,7 @@ var hierarchy =
     [ "snicholls::meta::thread_range&lt; M, N, S &gt;", "structsnicholls_1_1meta_1_1thread__range.html", null ],
     [ "snicholls::threshold_colours", "structsnicholls_1_1threshold__colours.html", null ],
     [ "snicholls::tooltip", "structsnicholls_1_1tooltip.html", null ],
+    [ "snicholls::ml::top_k_result&lt; T, K &gt;", "structsnicholls_1_1ml_1_1top__k__result.html", null ],
     [ "snicholls::traced&lt; E &gt;", "classsnicholls_1_1traced.html", null ],
     [ "snicholls::pipeline::transform_spec&lt; F &gt;", "structsnicholls_1_1pipeline_1_1transform__spec.html", null ],
     [ "snicholls::pipeline::transform_stage&lt; F, Next &gt;", "structsnicholls_1_1pipeline_1_1transform__stage.html", null ],

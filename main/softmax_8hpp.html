@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -178,7 +178,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Bits per byte: 1,000 tokens with a mean loss of 2.1 nats, encoding 4,200 bytes of text.</span></div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> bpb = ml::bits_per_byte(2.1 * 1000, 4200);</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="activations_8hpp.html" title="snicholls::ml activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the...">ml/activations.hpp</a></span>; <span class="tt">ml/attention.hpp</span> extends <span class="tt">online_softmax</span> with the weighted sum of the values. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="activations_8hpp.html" title="snicholls::ml activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the...">ml/activations.hpp</a></span>; <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">ml/attention.hpp</a></span> extends <span class="tt">online_softmax</span> with the weighted sum of the values. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>. No allocation. <span class="tt">online_softmax</span> is trivially copyable, and <span class="tt">merge</span> is commutative and associative up to rounding, so partials can be reduced in any order. Complexity: linear in the row, two passes for <span class="tt">softmax</span> and <span class="tt">logsumexp</span>, one for <span class="tt">online_softmax</span>.</p>
 <p><b>Errors.</b> Preconditions, asserted: <span class="tt">in</span> and <span class="tt">out</span> have equal sizes; <span class="tt">target</span> is an index of the row. An empty row has <span class="tt">logsumexp</span> -infinity. A row of only -infinity has <span class="tt">logsumexp</span> -infinity and a softmax of NaN, as in PyTorch; NaN propagates.</p>

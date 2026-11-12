@@ -15,6 +15,7 @@ var concepts =
       ] ],
       [ "ml", null, [
         [ "bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],
+        [ "quant_block", "conceptsnicholls_1_1ml_1_1quant__block.html", null ],
         [ "row", "conceptsnicholls_1_1ml_1_1row.html", null ],
         [ "mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ]
       ] ],

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -126,7 +126,7 @@ Functions</h2></td></tr>
 <p><b>Overview.</b> With many assets and a short history the sample covariance is noisy and badly conditioned: its smallest eigenvalues are too small, so an optimiser leans on them and risk contributions swing from day to day. Ledoit and Wolf (2004) shrink it towards a multiple of the identity by the amount that minimises the expected error, estimated from the data:</p>
 <div class="fragment"><div class="line">    <span class="comment">// The sample estimate is noisy with 40 dates and 20 assets; Ledoit and Wolf shrink it towards the</span></div>
 <div class="line">    <span class="comment">// average variance by the amount that minimises the expected error.</span></div>
-<div class="line">    <span class="keyword">const</span> stats::covariance_matrix sample = stats::sample_covariance(returns);</div>
+<div class="line">    <span class="keyword">const</span> stats::covariance_matrix <a class="code hl_function" href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">sample</a> = stats::sample_covariance(returns);</div>
 <div class="line">    <span class="keyword">const</span> stats::covariance_matrix shrunk = stats::ledoit_wolf(returns);</div>
 </div><!-- fragment --><p>The data are rows of returns, one row per date, each a random-access range of the same length (one column per asset). <span class="tt">sample_covariance</span> is the maximum-likelihood estimate (divided by T, about each column's mean), the one Ledoit and Wolf shrink; <span class="tt">ledoit_wolf</span> returns the shrunk matrix and the shrinkage, the same as scikit-learn's <span class="tt">LedoitWolf</span>.</p>
 <p><b>Relationships.</b> <span class="tt"><a class="el" href="attribution_8hpp.html" title="P&amp;L explained by greeks and factors, and risk by contributor: Taylor terms, shared fairly by Shapley.">finance/attribution.hpp</a></span>'s <span class="tt">risk_contributions</span> takes the result; <span class="tt"><a class="el" href="accumulators_8hpp.html" title="Streaming accumulators: count, sum, min, max, mean, variance, covariance, exponentially weighted mome...">stats/accumulators.hpp</a></span>'s <span class="tt">covariance</span> for one pair, streaming. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>

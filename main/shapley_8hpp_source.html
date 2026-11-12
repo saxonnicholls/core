@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.6.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.7.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -292,9 +292,9 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            {</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                ++count;</div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; mean.size(); ++i) {</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                    <span class="keyword">const</span> T delta = sample[i] - mean[i];</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                    <span class="keyword">const</span> T delta = <a class="code hl_function" href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">sample</a>[i] - mean[i];</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                    mean[i] += delta / <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(count);</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>                    m2[i] += delta * (sample[i] - mean[i]);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>                    m2[i] += delta * (<a class="code hl_function" href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">sample</a>[i] - mean[i]);</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>                }</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>            }</div>
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
@@ -317,7 +317,7 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            std::vector&lt;std::size_t&gt; order(n);</div>
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>                order[i] = i;</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            std::vector&lt;T&gt; forward(n), sample(n);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            std::vector&lt;T&gt; forward(n), <a class="code hl_function" href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">sample</a>(n);</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            <span class="keyword">const</span> <span class="keyword">auto</span> walk = [&amp;](<span class="keyword">auto</span> first, <span class="keyword">auto</span> last, std::vector&lt;T&gt;&amp; into) {</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>                T previous = out.baseline;</div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>                <a class="code hl_typedef" href="group__core.html#ga544c9a8168cfdb2145b7b24b85759dcc">coalition</a> s = 0;</div>
@@ -338,7 +338,7 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                        sample[i] = (sample[i] + forward[i]) / T(2);</div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                    sample = forward;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                    <a class="code hl_function" href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">sample</a> = forward;</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                }</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                stats.add(std::span&lt;const T&gt;(sample));</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>            }</div>
@@ -620,7 +620,7 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="ttc" id="acoalition_8hpp_html"><div class="ttname"><a href="coalition_8hpp.html">coalition.hpp</a></div><div class="ttdoc">Coalitions as bit strings, their enumeration, and games: functions from 2^N to a value.</div></div>
 <div class="ttc" id="aconcepts_8hpp_html"><div class="ttname"><a href="concepts_8hpp.html">concepts.hpp</a></div><div class="ttdoc">The small concepts the family keeps re-declaring: streamable, printable, enumeration,...</div></div>
 <div class="ttc" id="aconceptsnicholls_1_1streamable_html"><div class="ttname"><a href="conceptsnicholls_1_1streamable.html">snicholls::streamable</a></div><div class="ttdoc">os &lt;&lt; t is an expression for a std::ostream.</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00092">concepts.hpp:92</a></div></div>
-<div class="ttc" id="aconstexpr__math_8hpp_html_a0b16773df7354cfaf804d91b977b7b69"><div class="ttname"><a href="constexpr__math_8hpp.html#a0b16773df7354cfaf804d91b977b7b69">snicholls::math::sqrt</a></div><div class="ttdeci">constexpr real_t&lt; X &gt; sqrt(X x)</div><div class="ttdoc">The square root.</div><div class="ttdef"><b>Definition</b> <a href="constexpr__math_8hpp_source.html#l00754">constexpr_math.hpp:754</a></div></div>
+<div class="ttc" id="aconstexpr__math_8hpp_html_a0b16773df7354cfaf804d91b977b7b69"><div class="ttname"><a href="constexpr__math_8hpp.html#a0b16773df7354cfaf804d91b977b7b69">snicholls::math::sqrt</a></div><div class="ttdeci">constexpr real_t&lt; X &gt; sqrt(X x)</div><div class="ttdoc">The square root.</div><div class="ttdef"><b>Definition</b> <a href="constexpr__math_8hpp_source.html#l00757">constexpr_math.hpp:757</a></div></div>
 <div class="ttc" id="agroup__core_html_ga05621a2dbab647a5b588a3eb6ae2b1be"><div class="ttname"><a href="group__core.html#ga05621a2dbab647a5b588a3eb6ae2b1be">snicholls::game::with</a></div><div class="ttdeci">constexpr coalition with(coalition s, std::size_t i) noexcept</div><div class="ttdoc">s with player i added.</div><div class="ttdef"><b>Definition</b> <a href="coalition_8hpp_source.html#l00105">coalition.hpp:105</a></div></div>
 <div class="ttc" id="agroup__core_html_ga226f19a5a242e45143dc1b914f799fdc"><div class="ttname"><a href="group__core.html#ga226f19a5a242e45143dc1b914f799fdc">snicholls::game::game_scalar_t</a></div><div class="ttdeci">typename game_scalar&lt; T &gt;::type game_scalar_t</div><div class="ttdoc">game_scalar&lt;T&gt;::type.</div><div class="ttdef"><b>Definition</b> <a href="coalition_8hpp_source.html#l00279">coalition.hpp:279</a></div></div>
 <div class="ttc" id="agroup__core_html_ga30d70b18ea848f03c245f2232b347b96"><div class="ttname"><a href="group__core.html#ga30d70b18ea848f03c245f2232b347b96">snicholls::permutation_count_v</a></div><div class="ttdeci">constexpr std::size_t permutation_count_v</div><div class="ttdoc">permutation_count&lt;N, R&gt;::value.</div><div class="ttdef"><b>Definition</b> <a href="permutations_8hpp_source.html#l00126">permutations.hpp:126</a></div></div>
@@ -653,6 +653,7 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gaf6124ef0b361d0cbe71cbe6bf3a179f5"><div class="ttname"><a href="group__core.html#gaf6124ef0b361d0cbe71cbe6bf3a179f5">snicholls::game::shapley_sampled_lifts</a></div><div class="ttdeci">sampled_attribution&lt; game_value_t&lt; V &gt;, std::array&lt; game_value_t&lt; V &gt;, N &gt; &gt; shapley_sampled_lifts(const V &amp;v, G &amp;g, lift_sampling options={})</div><div class="ttdoc">The Shapley attribution estimated from random lifts, the importance sampling of Moehle,...</div><div class="ttdef"><b>Definition</b> <a href="#l00649">shapley.hpp:649</a></div></div>
 <div class="ttc" id="apermutations_8hpp_html"><div class="ttname"><a href="permutations_8hpp.html">permutations.hpp</a></div><div class="ttdoc">Compile-time permutations of positions and values: index_permutations, permutations,...</div></div>
 <div class="ttc" id="arandom_8hpp_html"><div class="ttname"><a href="random_8hpp.html">random.hpp</a></div><div class="ttdoc">wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.</div></div>
+<div class="ttc" id="asampling_8hpp_html_a53c47c801bc534104f8c2356ae9d791e"><div class="ttname"><a href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">snicholls::ml::sample</a></div><div class="ttdeci">constexpr std::size_t sample(const R &amp;probabilities, std::type_identity_t&lt; row_value_t&lt; R &gt; &gt; u)</div><div class="ttdoc">Samples an index from probabilities: the first whose cumulative sum exceeds u.</div><div class="ttdef"><b>Definition</b> <a href="sampling_8hpp_source.html#l00089">sampling.hpp:89</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1game_1_1attribution_html"><div class="ttname"><a href="structsnicholls_1_1game_1_1attribution.html">snicholls::game::attribution</a></div><div class="ttdoc">An attribution: the baseline v(none), the amount for each player, and the total v(all).</div><div class="ttdef"><b>Definition</b> <a href="#l00094">shapley.hpp:94</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1game_1_1attribution_html_a1c2c1b229cfba4b7eaa423e793121f52"><div class="ttname"><a href="structsnicholls_1_1game_1_1attribution.html#a1c2c1b229cfba4b7eaa423e793121f52">snicholls::game::attribution::unattributed</a></div><div class="ttdeci">constexpr T unattributed() const</div><div class="ttdoc">What is left over: zero for a method with full attribution.</div><div class="ttdef"><b>Definition</b> <a href="#l00113">shapley.hpp:113</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1game_1_1attribution_html_a56732f9d2d5bcfa98f76e266e212b240"><div class="ttname"><a href="structsnicholls_1_1game_1_1attribution.html#a56732f9d2d5bcfa98f76e266e212b240">snicholls::game::attribution&lt; T, std::array&lt; T, N &gt; &gt;::total</a></div><div class="ttdeci">T total</div><div class="ttdef"><b>Definition</b> <a href="#l00098">shapley.hpp:98</a></div></div>

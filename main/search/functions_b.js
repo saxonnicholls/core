@@ -24,7 +24,7 @@ var searchData=
   ['log_5ferror_21',['log_error',['../classsnicholls_1_1error__sink.html#acd88dbb762ca742a5d781d44430ef695',1,'snicholls::error_sink::log_error(error_level level, const E &amp;e, source_location where=source_location::current()) noexcept'],['../classsnicholls_1_1error__sink.html#a5477008fd86fb3222884e38e1f34d73c',1,'snicholls::error_sink::log_error(const E &amp;e, source_location where=source_location::current()) noexcept']]],
   ['log_5fsigmoid_22',['log_sigmoid',['../activations_8hpp.html#a6701c42db569ed695dce656b3354e300',1,'snicholls::ml']]],
   ['log_5fsoftmax_23',['log_softmax',['../softmax_8hpp.html#a4f1d8e4fc27e67d0f994b4ed2192f518',1,'snicholls::ml']]],
-  ['log_5fsum_5fexp_24',['log_sum_exp',['../structsnicholls_1_1ml_1_1online__softmax.html#a719b26fca3f79409d106ed6260f5ce5e',1,'snicholls::ml::online_softmax']]],
+  ['log_5fsum_5fexp_24',['log_sum_exp',['../structsnicholls_1_1ml_1_1attention__accumulator.html#abbafc749aa74aecb8d3fcfeac88f4f4e',1,'snicholls::ml::attention_accumulator::log_sum_exp()'],['../structsnicholls_1_1ml_1_1online__softmax.html#a719b26fca3f79409d106ed6260f5ce5e',1,'snicholls::ml::online_softmax::log_sum_exp()']]],
   ['logit_25',['logit',['../activations_8hpp.html#aa28a710f561f9d6b87eacee2d94725f8',1,'snicholls::ml']]],
   ['logsumexp_26',['logsumexp',['../softmax_8hpp.html#addb90f3f02c797a051fdaa6d5d563fa8',1,'snicholls::ml']]],
   ['long_5fvolatility_27',['long_volatility',['../structsnicholls_1_1finance_1_1greeks.html#a4acebd04c0bba4094fff3ba5b8e693f1',1,'snicholls::finance::greeks']]],

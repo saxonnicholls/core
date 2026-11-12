@@ -1,7 +1,18 @@
 var searchData=
 [
-  ['unexplained_0',['unexplained',['../structsnicholls_1_1finance_1_1taylor__explain.html#a1ef9ee194d3c2fc1fb59a77e9fdcf9cb',1,'snicholls::finance::taylor_explain::unexplained'],['../structsnicholls_1_1finance_1_1greeks__explain.html#a5146cbc909939be04d04b8a6966e8a0c',1,'snicholls::finance::greeks_explain::unexplained']]],
-  ['url_1',['url',['../uuid_8hpp.html#af77d05d48b0df7f3813febc235d8db42',1,'snicholls::uuid_namespace']]],
-  ['urn_2',['urn',['../structsnicholls_1_1uuid__parse__options.html#a79de827f701471759f3cc9645bfd064f',1,'snicholls::uuid_parse_options']]],
-  ['uuid_5ftext_5fsize_3',['uuid_text_size',['../group__core.html#ga40b1e1fca19cc3a6fa4ccbb7ff3708b6',1,'snicholls']]]
+  ['tanh_5fone_0',['tanh_one',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#add293133631374f7c14ac4a53398fc4a',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['target_1',['target',['../structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_4.html#a59adec14b4c43f2ae49c8ca5fb41b61a',1,'snicholls::fn_ptr&lt; R(*)(Args...)&gt;::target'],['../structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_01noexcept_01_4.html#a30bb1a70492da15ed1aca38691cb1496',1,'snicholls::fn_ptr&lt; R(*)(Args...) noexcept &gt;::target'],['../structsnicholls_1_1stats_1_1covariance__matrix.html#a39a6fa37faa238dd0cd06a8840e37d21',1,'snicholls::stats::covariance_matrix::target']]],
+  ['termination_2',['termination',['../structsnicholls_1_1string__traits.html#ab43a1c058ba3b051dfbe30ad91eb47ae',1,'snicholls::string_traits']]],
+  ['text_3',['text',['../structsnicholls_1_1units.html#abbc889e60f8d74ddf87eb825f623d89f',1,'snicholls::units::text'],['../structsnicholls_1_1label.html#ab46222d0d06ac30497c8e8fe8cd03b0a',1,'snicholls::label::text'],['../structsnicholls_1_1tooltip.html#a9012fd167b2fb0637910b60770fa7769',1,'snicholls::tooltip::text']]],
+  ['theta_4',['theta',['../structsnicholls_1_1finance_1_1greeks.html#aeb777bfab55a7d2d375e6080848cdcb0',1,'snicholls::finance::greeks::theta'],['../structsnicholls_1_1finance_1_1greeks__explain.html#a502f4c1f437c46ca50360632f643381a',1,'snicholls::finance::greeks_explain::theta']]],
+  ['time_5',['time',['../structsnicholls_1_1finance_1_1market__move.html#ac15c3c9a0a17f2c8c32e3a8605b21188',1,'snicholls::finance::market_move::time'],['../structsnicholls_1_1finance_1_1greeks__explain.html#a5666d0cf4d29e5e59010df27e7efe536',1,'snicholls::finance::greeks_explain::time']]],
+  ['tint_6',['tint',['../structsnicholls_1_1styled__value.html#a014b903a8061f59dd19d0cb6ab3587b8',1,'snicholls::styled_value::tint'],['../structsnicholls_1_1threshold__colours_1_1step.html#a6fceba4e09450fb505617bbdf94c1a65',1,'snicholls::threshold_colours::step::tint']]],
+  ['tiny_7',['tiny',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#ab9d669722ed255d8eaa3a3a98cdee55f',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['to_5fvariance_8',['to_variance',['../structsnicholls_1_1finance_1_1risk__contribution.html#ad7b502411ee209c917fcfb11122de434',1,'snicholls::finance::risk_contribution']]],
+  ['to_5fvolatility_9',['to_volatility',['../structsnicholls_1_1finance_1_1risk__contribution.html#a46cbb2577b7c2993c7f4f2028cd408e2',1,'snicholls::finance::risk_contribution']]],
+  ['total_10',['total',['../structsnicholls_1_1game_1_1attribution.html#a56732f9d2d5bcfa98f76e266e212b240',1,'snicholls::game::attribution::total'],['../structsnicholls_1_1stats_1_1sum.html#a9d75f203dd90761bb95ed5a6bd270813',1,'snicholls::stats::sum::total'],['../structsnicholls_1_1stats_1_1compensated__sum.html#a1f61c64e3d2845eafc49b047d97954c6',1,'snicholls::stats::compensated_sum::total']]],
+  ['total_5fbits_11',['total_bits',['../structsnicholls_1_1ml_1_1minifloat.html#a586e13fc31fe264081d25c6f32beb95f',1,'snicholls::ml::minifloat']]],
+  ['trig_5ftolerance_12',['trig_tolerance',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a5e1e541e7a69c40b318cf6f59c216283',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['tuple_5fcount_5fv_13',['tuple_count_v',['../group__core.html#ga029ab6b7ee9a3069898f8867d97480f6',1,'snicholls']]],
+  ['two_5fover_5fsqrt_5fpi_14',['two_over_sqrt_pi',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a06209c36d71d13d4f7c0d06dd5bb88e2',1,'snicholls::math::math_limits&lt; double &gt;::two_over_sqrt_pi'],['../constexpr__math_8hpp.html#a22809e59c706ce6ef864bd9566d87dfb',1,'snicholls::math::two_over_sqrt_pi']]]
 ];

@@ -1,19 +1,12 @@
 var searchData=
 [
-  ['sampled_5fattribution_0',['sampled_attribution',['../structsnicholls_1_1game_1_1sampled__attribution.html',1,'snicholls::game']]],
-  ['scale_1',['scale',['../structsnicholls_1_1scale.html',1,'snicholls']]],
-  ['secret_2',['secret',['../classsnicholls_1_1secret.html',1,'snicholls']]],
-  ['sign_5fcolours_3',['sign_colours',['../structsnicholls_1_1sign__colours.html',1,'snicholls']]],
-  ['snell_4',['snell',['../structsnicholls_1_1stochastic_1_1snell.html',1,'snicholls::stochastic']]],
-  ['sobol_5',['sobol',['../classsnicholls_1_1stats_1_1sobol.html',1,'snicholls::stats']]],
-  ['solar_5fposition_6',['solar_position',['../structsnicholls_1_1solar__position.html',1,'snicholls']]],
-  ['source_5flocation_7',['source_location',['../structsnicholls_1_1source__location.html',1,'snicholls']]],
-  ['static_5fmap_8',['static_map',['../classsnicholls_1_1containers_1_1static__map.html',1,'snicholls::containers']]],
-  ['static_5fset_9',['static_set',['../classsnicholls_1_1containers_1_1static__set.html',1,'snicholls::containers']]],
-  ['step_10',['step',['../structsnicholls_1_1threshold__colours_1_1step.html',1,'snicholls::threshold_colours']]],
-  ['string_5ftraits_11',['string_traits',['../structsnicholls_1_1string__traits.html',1,'snicholls']]],
-  ['strong_12',['strong',['../structsnicholls_1_1strong.html',1,'snicholls']]],
-  ['styled_5fvalue_13',['styled_value',['../structsnicholls_1_1styled__value.html',1,'snicholls']]],
-  ['sum_14',['sum',['../structsnicholls_1_1stats_1_1sum.html',1,'snicholls::stats']]],
-  ['superadditivity_5fviolation_15',['superadditivity_violation',['../structsnicholls_1_1game_1_1superadditivity__violation.html',1,'snicholls::game']]]
+  ['rename_0',['rename',['../structsnicholls_1_1meta_1_1rename.html',1,'snicholls::meta']]],
+  ['rename_3c_20source_3c_20ts_2e_2e_2e_20_3e_2c_20target_20_3e_1',['rename&lt; Source&lt; Ts... &gt;, Target &gt;',['../structsnicholls_1_1meta_1_1rename_3_01Source_3_01Ts_8_8_8_01_4_00_01Target_01_4.html',1,'snicholls::meta']]],
+  ['resample_5ftable_2',['resample_table',['../classsnicholls_1_1stats_1_1resample__table.html',1,'snicholls::stats']]],
+  ['result_3',['result',['../classsnicholls_1_1result__throws_1_1result.html',1,'snicholls::result&lt; V, E &gt;'],['../classsnicholls_1_1result__throws_1_1result.html',1,'snicholls::result_throws::result&lt; V, E &gt;']]],
+  ['result_3c_20u_2c_20e_20_3e_4',['result&lt; U, E &gt;',['../classsnicholls_1_1result__throws_1_1result.html',1,'snicholls::result_throws']]],
+  ['result_5fniche_5',['result_niche',['../structsnicholls_1_1result__niche.html',1,'snicholls']]],
+  ['rfc3339_5ftext_6',['rfc3339_text',['../structsnicholls_1_1rfc3339__text.html',1,'snicholls']]],
+  ['risk_5fcontribution_7',['risk_contribution',['../structsnicholls_1_1finance_1_1risk__contribution.html',1,'snicholls::finance']]],
+  ['rope_5ftable_8',['rope_table',['../structsnicholls_1_1ml_1_1rope__table.html',1,'snicholls::ml']]]
 ];

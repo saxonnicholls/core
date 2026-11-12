@@ -1,6 +1,7 @@
 var dir_b5e7cfac1d310247f32b46a8a9157390 =
 [
     [ "bloom_filter.hpp", "bloom__filter_8hpp.html", "bloom__filter_8hpp" ],
+    [ "byte_map.hpp", "byte__map_8hpp.html", "byte__map_8hpp" ],
     [ "dense_id_map.hpp", "dense__id__map_8hpp.html", null ],
     [ "flat_id_map.hpp", "flat__id__map_8hpp.html", null ],
     [ "hierarchical_bitset.hpp", "hierarchical__bitset_8hpp.html", null ],

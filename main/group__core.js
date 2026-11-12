@@ -11,6 +11,7 @@ var group__core =
     [ "constexpr_for.hpp", "constexpr__for_8hpp.html", null ],
     [ "constexpr_map.hpp", "constexpr__map_8hpp.html", null ],
     [ "bloom_filter.hpp", "bloom__filter_8hpp.html", null ],
+    [ "byte_map.hpp", "byte__map_8hpp.html", null ],
     [ "dense_id_map.hpp", "dense__id__map_8hpp.html", null ],
     [ "flat_id_map.hpp", "flat__id__map_8hpp.html", null ],
     [ "hierarchical_bitset.hpp", "hierarchical__bitset_8hpp.html", null ],
@@ -51,10 +52,16 @@ var group__core =
     [ "type_name.hpp", "type__name_8hpp.html", null ],
     [ "values.hpp", "values_8hpp.html", null ],
     [ "activations.hpp", "activations_8hpp.html", null ],
+    [ "attention.hpp", "attention_8hpp.html", null ],
     [ "bpe.hpp", "bpe_8hpp.html", null ],
+    [ "embedding.hpp", "embedding_8hpp.html", null ],
     [ "minifloat.hpp", "minifloat_8hpp.html", null ],
     [ "norm.hpp", "norm_8hpp.html", null ],
+    [ "optim.hpp", "optim_8hpp.html", null ],
+    [ "quantize.hpp", "quantize_8hpp.html", null ],
+    [ "rope.hpp", "rope_8hpp.html", null ],
     [ "row.hpp", "row_8hpp.html", null ],
+    [ "sampling.hpp", "sampling_8hpp.html", null ],
     [ "softmax.hpp", "softmax_8hpp.html", null ],
     [ "overloaded.hpp", "overloaded_8hpp.html", null ],
     [ "stages.hpp", "stages_8hpp.html", null ],
@@ -123,6 +130,7 @@ var group__core =
     [ "snicholls::has_static_name", "conceptsnicholls_1_1has__static__name.html", null ],
     [ "snicholls::reflectable_enum", "conceptsnicholls_1_1reflectable__enum.html", null ],
     [ "snicholls::ml::bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],
+    [ "snicholls::ml::quant_block", "conceptsnicholls_1_1ml_1_1quant__block.html", null ],
     [ "snicholls::ml::row", "conceptsnicholls_1_1ml_1_1row.html", null ],
     [ "snicholls::ml::mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ],
     [ "snicholls::plain_aggregate", "conceptsnicholls_1_1plain__aggregate.html", null ],
@@ -220,6 +228,18 @@ var group__core =
       [ "memory_bytes", "classsnicholls_1_1containers_1_1bloom__filter.html#a7f263a9f81b6f18bfedc422b5497d7c9", null ],
       [ "merge", "classsnicholls_1_1containers_1_1bloom__filter.html#a534b448c4e894a6680e252126068a060", null ],
       [ "words", "classsnicholls_1_1containers_1_1bloom__filter.html#a11a9029f2002b1404a030fcc63830e9a", null ]
+    ] ],
+    [ "snicholls::containers::byte_map_view", "classsnicholls_1_1containers_1_1byte__map__view.html", [
+      [ "byte_map_view", "classsnicholls_1_1containers_1_1byte__map__view.html#ad239aecba32a6fe08b0a22fb9dddaf99", null ],
+      [ "byte_map_view", "classsnicholls_1_1containers_1_1byte__map__view.html#aff5628ed5c226cb19d0ec4a99dde9d65", null ],
+      [ "build", "classsnicholls_1_1containers_1_1byte__map__view.html#ad08d2b3986c62c64bc85fc9f09eb9182", null ],
+      [ "insert", "classsnicholls_1_1containers_1_1byte__map__view.html#a8bca35678838094608a3029239c5c1ab", null ]
+    ] ],
+    [ "snicholls::containers::byte_map&lt; Slots, ArenaBytes, Values &gt;", "classsnicholls_1_1containers_1_1byte__map.html", [
+      [ "byte_map", "classsnicholls_1_1containers_1_1byte__map.html#a7f23d689a44b7a38fec323776d003881", null ],
+      [ "byte_map", "classsnicholls_1_1containers_1_1byte__map.html#acc64b58444091935504ca34e10bd9361", null ],
+      [ "build", "classsnicholls_1_1containers_1_1byte__map.html#aabac754c8a0d3fad987de8e0df598977", null ],
+      [ "insert", "classsnicholls_1_1containers_1_1byte__map.html#ac3f65287b86b35ef80d5d6492adcfc98", null ]
     ] ],
     [ "snicholls::containers::dense_id_map&lt; Value &gt;", "classsnicholls_1_1containers_1_1dense__id__map.html", [
       [ "key_type", "classsnicholls_1_1containers_1_1dense__id__map.html#aac0da3e402f8af5c41e8b24ae2b5c342", null ],
@@ -661,6 +681,19 @@ var group__core =
     [ "snicholls::meta::thread_first&lt; N &gt;", "structsnicholls_1_1meta_1_1thread__first.html", null ],
     [ "snicholls::meta::thread_at&lt; N &gt;", "structsnicholls_1_1meta_1_1thread__at.html", null ],
     [ "snicholls::meta::thread_range&lt; M, N, S &gt;", "structsnicholls_1_1meta_1_1thread__range.html", null ],
+    [ "snicholls::ml::key_range", "structsnicholls_1_1ml_1_1key__range.html", [
+      [ "size", "structsnicholls_1_1ml_1_1key__range.html#a259ef3d325aab04fe695ddecbb41b6ec", null ],
+      [ "first", "structsnicholls_1_1ml_1_1key__range.html#a85755b94a0b92c152ad7ca5ec760a6bf", null ],
+      [ "last", "structsnicholls_1_1ml_1_1key__range.html#a0be29b0a9dc85feb9d6abeec36d42619", null ]
+    ] ],
+    [ "snicholls::ml::attention_accumulator&lt; T, D &gt;", "structsnicholls_1_1ml_1_1attention__accumulator.html", [
+      [ "add", "structsnicholls_1_1ml_1_1attention__accumulator.html#a082a96bbd8f79f92a2108ff22f283bf0", null ],
+      [ "log_sum_exp", "structsnicholls_1_1ml_1_1attention__accumulator.html#abbafc749aa74aecb8d3fcfeac88f4f4e", null ],
+      [ "merge", "structsnicholls_1_1ml_1_1attention__accumulator.html#a17c71ecd3f11c00372668b3a1b6622e6", null ],
+      [ "result", "structsnicholls_1_1ml_1_1attention__accumulator.html#ad41f3d961b096b1ec8592abde485c057", null ],
+      [ "acc", "structsnicholls_1_1ml_1_1attention__accumulator.html#a83356396fab59103e6f6a4fec08aa58e", null ],
+      [ "weights", "structsnicholls_1_1ml_1_1attention__accumulator.html#afc5223f1cc6b12dce95eeb2ba1dc0df5", null ]
+    ] ],
     [ "snicholls::ml::bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", [
       [ "rank", "structsnicholls_1_1ml_1_1bpe__part.html#ade2c89abc0ff7139ba296ee327c79cec", null ],
       [ "start", "structsnicholls_1_1ml_1_1bpe__part.html#a8419193031349ef1342c85ad8ade9e6e", null ]
@@ -672,6 +705,38 @@ var group__core =
     [ "snicholls::ml::norm_stats&lt; T &gt;", "structsnicholls_1_1ml_1_1norm__stats.html", [
       [ "mean", "structsnicholls_1_1ml_1_1norm__stats.html#a2ed8f6dd852c4f6b8ea4eea694950e16", null ],
       [ "rstd", "structsnicholls_1_1ml_1_1norm__stats.html#a79c74f443aa0cdca2038bff67c14be1f", null ]
+    ] ],
+    [ "snicholls::ml::adamw_config&lt; T &gt;", "structsnicholls_1_1ml_1_1adamw__config.html", [
+      [ "beta1", "structsnicholls_1_1ml_1_1adamw__config.html#af92a99f6442ae5a73279406426f64144", null ],
+      [ "beta2", "structsnicholls_1_1ml_1_1adamw__config.html#a43a07517e1426e22d77be01c74265a7b", null ],
+      [ "eps", "structsnicholls_1_1ml_1_1adamw__config.html#a8d3eefc98c03006c9ad1b3604c7297b7", null ],
+      [ "learning_rate", "structsnicholls_1_1ml_1_1adamw__config.html#a85cc6a9b444fe4851edcbd5d412beb18", null ],
+      [ "weight_decay", "structsnicholls_1_1ml_1_1adamw__config.html#a6b2cc79645b5afcc12d176706fa68fdd", null ]
+    ] ],
+    [ "snicholls::ml::muon_newton_schulz&lt; T &gt;", "structsnicholls_1_1ml_1_1muon__newton__schulz.html", null ],
+    [ "snicholls::ml::block_q8_0", "structsnicholls_1_1ml_1_1block__q8__0.html", [
+      [ "d", "structsnicholls_1_1ml_1_1block__q8__0.html#a338fadb5ac478e8d4fec0fc3b87ee538", null ],
+      [ "qs", "structsnicholls_1_1ml_1_1block__q8__0.html#a7cbd39743b061abff65ae870682d558c", null ]
+    ] ],
+    [ "snicholls::ml::block_q4_0", "structsnicholls_1_1ml_1_1block__q4__0.html", [
+      [ "d", "structsnicholls_1_1ml_1_1block__q4__0.html#ae1d35d8e8781328f973841dbb7808741", null ],
+      [ "qs", "structsnicholls_1_1ml_1_1block__q4__0.html#a45ad53b806aa3914adea8d370dcd799f", null ]
+    ] ],
+    [ "snicholls::ml::block_mxfp4", "structsnicholls_1_1ml_1_1block__mxfp4.html", [
+      [ "e", "structsnicholls_1_1ml_1_1block__mxfp4.html#a3f562d18f790c895878bb969bf2670e5", null ],
+      [ "qs", "structsnicholls_1_1ml_1_1block__mxfp4.html#aeb1a49260a529415bd96b290afda820b", null ]
+    ] ],
+    [ "snicholls::ml::rope_table&lt; T, Positions, HeadDim &gt;", "structsnicholls_1_1ml_1_1rope__table.html", [
+      [ "rope_table", "structsnicholls_1_1ml_1_1rope__table.html#a17e6cdc20a9b79a540c60c76b3ba55c7", null ],
+      [ "cos_at", "structsnicholls_1_1ml_1_1rope__table.html#a44e8b745193e6043e567d01a0241eac8", null ],
+      [ "sin_at", "structsnicholls_1_1ml_1_1rope__table.html#a61e34439460a69d95a5cc0cca9405f51", null ],
+      [ "cos", "structsnicholls_1_1ml_1_1rope__table.html#ab75fe9e3aa6aca558087bee1f5e76868", null ],
+      [ "sin", "structsnicholls_1_1ml_1_1rope__table.html#a98d60f4b8c853c31507ea250b82d7db7", null ]
+    ] ],
+    [ "snicholls::ml::top_k_result&lt; T, K &gt;", "structsnicholls_1_1ml_1_1top__k__result.html", [
+      [ "count", "structsnicholls_1_1ml_1_1top__k__result.html#a895ed5010d3ff0ccec130ee946763a15", null ],
+      [ "index", "structsnicholls_1_1ml_1_1top__k__result.html#ab2aa959b07a1defb85ca890bd0fd9798", null ],
+      [ "value", "structsnicholls_1_1ml_1_1top__k__result.html#a74209caf5ec265b0e8fff5aa18f50bf6", null ]
     ] ],
     [ "snicholls::ml::online_softmax&lt; T &gt;", "structsnicholls_1_1ml_1_1online__softmax.html", [
       [ "add", "structsnicholls_1_1ml_1_1online__softmax.html#a6505b85be53133791c4db0bf82746478", null ],
@@ -1444,6 +1509,10 @@ var group__core =
     [ "snicholls::stats::resampling", "group__core.html#ga6637c07c34c92b444b0751e0ac2a418d", [
       [ "snicholls::stats::resampling::multinomial", "group__core.html#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386", null ],
       [ "snicholls::stats::resampling::poisson", "group__core.html#gga6637c07c34c92b444b0751e0ac2a418da2c7fa5b4147150b7dfdb1ff83dbfab3e", null ]
+    ] ],
+    [ "snicholls::ml::rope_layout", "group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f", [
+      [ "snicholls::ml::rope_layout::half", "group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4", null ],
+      [ "snicholls::ml::rope_layout::interleaved", "group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa5fc70ff0369f56d734047c9507af8623", null ]
     ] ],
     [ "snicholls::uuid_variant", "group__core.html#gafd9c16133382d23495d3d6b1fdeb0c8c", [
       [ "snicholls::uuid_variant::ncs", "group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca020a8cfa922969a0b9035333f45988c3", null ],
