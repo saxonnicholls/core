@@ -203,7 +203,7 @@ Variables</h2></td></tr>
 <p><b>Performance.</b> Against ggml's scalar loops written out by hand (<span class="tt">benchmarks/ml/quantize_benchmark.cpp</span>), rows of 4,096: the three dot products level, 1.9 to 2.6 billion weights per second; Q8_0 quantisation 2x faster than ggml's loop (590 against 300 million per second), from rounding without <span class="tt">roundf</span> (Xeon W-3245, Release, Apple clang 17, 2026-11-11, one thread, scalar code; SIMD kernels are the libraries' above).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/quantize_test.cpp</span>, <span class="tt">demos/ml/quantize_demo.cpp</span>.</p>
 <p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;bit&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
-<p><b>Known issues.</b> ggml computes MXFP4's exponent as <span class="tt">floorf(log2f(amax))</span>, which depends on the C library and can round up for an amax a few units in the last place below a power of two; core reads the exponent from the bits, as the OCP specification defines it. An amax below 2^-125 gives exponent 0 (ggml's conversion there is undefined).</p>
+<p><b>Known issues.</b> ggml computes MXFP4's exponent as <span class="tt">floorf(log2f(amax))</span>, which depends on the C library and can round up for an amax a few units in the last place below a power of two; core reads the exponent from the bits, as the OCP specification defines it. An amax below 2^-125 gives exponent 0 (ggml's conversion there is undefined). A dot product over infinities is a NaN whose sign is the hardware's (negative on x86, positive on ARM), so results are bit-identical across platforms except for the sign of a NaN. Each multiply and add is its own statement, which Clang never fuses, but GCC fuses across statements by default in C++ (<span class="tt">-ffp-contract=fast</span>), so on a target with FMA (every ARM64) the last bit can differ: compile with <span class="tt">-ffp-contract=off</span> for ggml's bits.</p>
 <p><b>Status.</b> Experimental, new in 0.7.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
@@ -247,7 +247,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00260">260</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00263">263</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -296,7 +296,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00358">358</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00361">361</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +337,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum over blocks of d_y · 2^(e - 128) · (sum 2v_x · q_y)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00312">312</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00315">315</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -378,7 +378,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum over blocks of (sum (q_x - 8) · q_y) · d_x · d_y</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00291">291</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00294">294</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -419,7 +419,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum over blocks of (sum q_x · q_y) · d_x · d_y</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00272">272</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00275">275</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +468,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00247">247</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00250">250</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -512,7 +512,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The scale; 0 for a row of zeros. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00336">336</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00339">339</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -539,7 +539,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, float&gt;</div>
 
 <p>The numbers in one quantised block: 32, for every format here. </p>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00084">84</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00087">87</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
