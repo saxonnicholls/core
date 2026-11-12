@@ -48,9 +48,10 @@ constexpr std::size_t heads_v = C.n_heads;
 static_assert(heads_v<ml::llama3_8b> == 32);
 
 // Clang reads a double member of a template argument wrongly at run time; the readers evaluate it at compile time.
-// This runs the reads where the bug showed (a function the optimiser does not fold), so a regression is a failure.
+// This runs the reads where the bug showed (selected by a volatile, so the optimiser cannot fold them), so a
+// regression is a failure.
 template <ml::transformer_config C>
-[[gnu::noinline]] double read_at_run_time(int which)
+double read_at_run_time(int which)
 {
     return which == 0 ? ml::norm_eps_v<C, double> : which == 1 ? ml::rope_base_v<C, double> : ml::attention_softcap_v<C, double>;
 }
@@ -59,9 +60,10 @@ TEST(MlTransformerConfig, TheFloatingPointMembersReadCorrectlyAtRunTime)
 {
     constexpr ml::transformer_config c{.d_model = 8, .n_heads = 1, .n_kv_heads = 1, .head_dim = 8, .d_ff = 9, .norm_eps = 1e-5,
                                        .rope = ml::rope_kind::half, .rope_base = 500, .window = 7, .attention_softcap = 5};
-    EXPECT_EQ(read_at_run_time<c>(0), 1e-5);
-    EXPECT_EQ(read_at_run_time<c>(1), 500.0);
-    EXPECT_EQ(read_at_run_time<c>(2), 5.0);
+    volatile int which[3] = {0, 1, 2};
+    EXPECT_EQ(read_at_run_time<c>(which[0]), 1e-5);
+    EXPECT_EQ(read_at_run_time<c>(which[1]), 500.0);
+    EXPECT_EQ(read_at_run_time<c>(which[2]), 5.0);
     EXPECT_EQ((ml::norm_eps_v<ml::nanochat_d20, float>), std::numeric_limits<float>::epsilon());
 }
 

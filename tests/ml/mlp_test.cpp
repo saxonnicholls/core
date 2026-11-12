@@ -12,6 +12,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <numbers>
 #include <vector>
 
 namespace {
@@ -44,7 +45,7 @@ std::vector<double> reference(const std::vector<float>& up, const std::vector<fl
         }
         switch (K) {
         case ml::mlp_kind::gelu: h[i] = 0.5 * u * (1 + std::erf(u / std::sqrt(2.0))); break;
-        case ml::mlp_kind::gelu_tanh: h[i] = 0.5 * u * (1 + std::tanh(std::sqrt(2 / M_PI) * (u + 0.044715 * u * u * u))); break;
+        case ml::mlp_kind::gelu_tanh: h[i] = 0.5 * u * (1 + std::tanh(std::sqrt(2 / std::numbers::pi) * (u + 0.044715 * u * u * u))); break;
         case ml::mlp_kind::relu_squared: h[i] = u > 0 ? u * u : 0; break;
         case ml::mlp_kind::swiglu: h[i] = g / (1 + std::exp(-g)) * u; break;
         }
