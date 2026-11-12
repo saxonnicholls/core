@@ -71,8 +71,10 @@ Core is the root of a family of libraries that each make sense on their own and 
 every one of them.
 
 - **Each function appears once in the whole family.** Its owner is the lowest library whose rules admit it; every
-  library above calls it. A copy in a demo, a test or a `utils/` folder is a defect: the lower copy wins, every caller
-  switches to it, and the copies are deleted in the same change. Search the family before writing a helper; if it
+  library above calls it. A copy in a demo, a test or a `utils/` folder is a defect. When a function is found more
+  than once, the very best version wins, wherever it was found: the copies are compared (correctness, edge cases,
+  tests, API, measured speed), the best moves to the owner, takes in what the others did better and is brought to
+  this standard, every caller switches to it, and the copies are deleted in the same change. Search the family before writing a helper; if it
   does not exist, add it to its owner, with its test and demo.
 - **Place code by what it needs**, the first row that applies:
 
