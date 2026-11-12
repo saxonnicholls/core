@@ -86,6 +86,10 @@ every one of them.
   | a third-party library | an adapter package (core-adapters for JSON and Python) |
   | an object model, a domain, a product | the libraries and applications above |
 
+- **Interfaces in core, implementations where they belong.** A concept is a compile-time contract with no I/O, so core
+  may hold the interface of a capability whose implementations need the operating system or a third-party library
+  (the linear algebra backend, `error_sink`, `kv_store`, `weight_matrix`); the implementations live in ts-moveables,
+  an adapter or above, and can come later. Callers depend on the concept, never on a concrete library.
 - **One owner per concept.** Core owns time as values, `result`, printing from threads, the fast hashes, enum and
   aggregate reflection, and the build mode; ts-moveables owns the run-time environment, reading files, process-wide
   initialisation, configuration files, clock sources and log levels; core-adapters owns the JSON forms of core's
