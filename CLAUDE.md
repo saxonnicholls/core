@@ -68,7 +68,7 @@ libraries above them pin core and those. Nothing in core depends on a library th
 ## The family
 
 Core is the root of a family of libraries that each make sense on their own and together, each with complete
-integrity and consistency. The same eleven rules hold in every one of them.
+integrity and consistency. The same twelve rules hold in every one of them.
 
 1. **One function, one place.** Each function appears once in the whole family. A copy in a demo, a test, a `utils/`
    folder or a local helper is a defect. Before writing a helper, search the family; if it exists, call it; if not,
@@ -125,6 +125,10 @@ integrity and consistency. The same eleven rules hold in every one of them.
    `<algorithm>`, `<iosfwd>` over `<iostream>`, `<span>` over `<vector>` in interfaces); heavy parts behind their
    own header; library code never includes an umbrella header such as `core.hpp`, which is for applications; the
    compile time of the heaviest header is recorded, and a regression is treated like a slower benchmark.
+12. **Every library always knows what it is missing and what could be better.** Its session keeps a current list of
+   proposals (kind: missing, improvement, duplicate, defect, security; the evidence; the change and where it goes; the
+   cost; the status: proposed, approved, rejected, done) for the owner of the repositories to review; nothing is built
+   until it is approved, and a security finding is raised at once.
 
 ## Layout
 
