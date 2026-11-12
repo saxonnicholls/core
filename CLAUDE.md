@@ -115,8 +115,10 @@ integrity and consistency. The same eleven rules hold in every one of them.
 8. **One contract everywhere**: this file's documentation standard, mirrored tests, demos and benchmarks, version
    checks, naming, platforms and commit rules, each enforced by the library's own CI.
 9. **Public libraries name nothing private**: no private repository, product, person, credential or local path.
-10. **No move without an order.** Code moves between libraries only when the owner of the repositories orders it, in
-   dependency order (the owner of the function first, then each caller), each step with its tests green.
+10. **No move without an order; rebuild outside first, then migrate.** The best version is built in its owner
+   library and released there first; only then, when the owner of the repositories orders it, do the callers switch,
+   one library at a time in dependency order, each with its tests green; the old copies are deleted last. Until the
+   switch, the old code keeps working untouched.
 11. **The bare minimum of headers at any point.** Every translation unit pulls in only what it needs. Each header
    includes exactly what it uses and nothing more (the standalone-header check proves nothing is missing;
    `clang-include-cleaner` proves nothing is extra); the lightest standard header that serves (`<concepts>` over
