@@ -141,7 +141,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`); `containers/`; `game/` (`snicholls::game`); `finance/`
-  (`snicholls::finance`). A new trait or concept goes in `meta/`, never in a library above core.
+  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`; `snicholls::linalg`). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
   which takes its test, demo and benchmark along and rewrites every include, guard and registration. CMake lists
   and `core.hpp` are sorted: top-level files first, then each area, alphabetically.
@@ -361,6 +361,10 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   (`p >= 0 ? green : red`, a switch from enumerator to colour, an `ImVec4` table, a CSS `.pos` / `.neg`); declare it
   on the type. `by_sign(x)` is for a bare number with no type of its own. Green and red mean up and down: never give
   an identity (a currency, a greek) either.
+- Linear algebra: `linalg::lu_factor(backend, a, pivots)` and the other free functions, backend first, views in any
+  layout; a backend is a type modelling `linalg::backend`. Many small systems go through `*_solve_batched` with a
+  status span, never a loop of single solves. Backends from other libraries register in
+  `tests/support/snicholls/core/conformance/linalg.hpp` (`snicholls::core_conformance`).
 - Compile-time maths: `snicholls::math` (`exp`, `log`, `normal_quantile`, ...) in the argument's type: `float` for
   a table a GPU kernel reads, `double`, `long double`. A type of your own gets them by specialising
   `math::math_limits<T>`, as `std::numeric_limits` is; never a `double`-only copy of a function.

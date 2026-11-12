@@ -3,6 +3,47 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.8.0 - 2026-11-12
+
+The transformer layer, linear algebra, mapped storage, and the family's rules.
+
+### Added
+
+- **The transformer layer for inference** (`ml/`, plan in `INFERENCE.md`; training is planned in `TRAINING.md`):
+  `transformer_config` (the architecture as one compile-time value: MHA, GQA and MQA, layer or RMS norm, QK norm
+  before or after RoPE, both RoPE layouts, GELU, ReLU² or SwiGLU, a sliding window, an attention soft cap, biases;
+  presets `gpt2_small`, `llama3_8b`, `nanochat_d20`), `linear` (dense float, double or bfloat16, or ggml's quantised
+  blocks, the input prepared once), `mlp` (and `moe_gate<K>`, a mixture-of-experts router), `kv_cache` (a flat or
+  ring cache, and a paged cache with content-addressed pages, `kv_page_hash`, so requests sharing a prefix share its
+  pages), `attention_layer` and `transformer_block` (prefill is decode token by token). Checked against llm.c's
+  GPT-2 block and a double-precision textbook block for the rest, within about one float epsilon; a GPT-2-small
+  decode step runs level with the same layer by hand, float and Q8_0.
+- `ml/sampling.hpp`: `sample_min_p`, `min_p_threshold`, and `apply_penalties` (repetition, presence, frequency).
+- **Linear algebra** (`linalg/`, `snicholls::linalg`): backend concepts and free functions over `md_span` views
+  (`dot`, `axpy`, `gemv`, `gemm`, `syrk`, `triangular_solve`, LU, Cholesky, LDLT, QR, least squares, the symmetric
+  eigenproblem, SVD, log-determinants), errors as `result<V, linalg::error>`; batched LU, Cholesky and LDLT solves
+  with a status per system on the caller's executor, bit-for-bit the same for every thread count with the reference
+  backend; a `constexpr` reference backend; a conformance suite for any backend, exported as the test-only target
+  `snicholls::core_conformance`.
+- `md_span<T, Rank, Layout>` takes a layout as `std::mdspan` does: `layout_right` (the default), `layout_left`,
+  `layout_stride`, with `submdspan` and the `std::mdspan` spellings.
+- **Mapped storage, the platform-free half** (the mapping is ts-moveables'): `object_pool` takes a
+  `std::pmr::memory_resource`; `index_pool` (slots by index over a region that may move); `mapped_header` (a
+  checked 64-byte file header); `offset_ptr`.
+
+### Changed
+
+- `CLAUDE.md`: "The family", twelve rules every snicholls library follows (each function once, the best version
+  wins, placement by need, interfaces in core, shared vocabulary extended from each type's namespace, one owner per
+  concept, the bare minimum of headers, proposals for approval, and the rest).
+- 17 unused includes removed from 16 headers.
+
+### Fixed
+
+- A run-time read of a `double` member of a class-type template argument is miscompiled by Clang (Apple clang 17,
+  Clang 18): `transformer_config`'s floating-point members are read through `norm_eps_v`, `rope_base_v` and
+  `attention_softcap_v`, which evaluate them at compile time.
+
 ## 0.7.0 - 2026-11-12
 
 More machine-learning primitives, experimental, from llm.c and nanochat.

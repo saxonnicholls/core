@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(snicholls_core
-    VERSION 0.7.0
+    VERSION 0.8.0
     DESCRIPTION "snicholls-core - vocabulary types and compile-time reflection shared by the snicholls libraries"
     LANGUAGES CXX)
 
