@@ -99,3 +99,26 @@ constexpr bool compile_time()
 static_assert(compile_time());
 
 } // namespace
+
+namespace {
+
+TEST(MlMlpMoe, RoutesToTheKLargestRouterLogitsWithASoftmaxOverThem)
+{
+    const std::array<float, 5> router{0.5f, 2.0f, -1.0f, 2.0f, 1.0f};
+    const auto r = ml::moe_gate<2>(router);
+    ASSERT_EQ(r.count, 2u);
+    EXPECT_EQ(r.expert, (std::array<std::size_t, 2>{1, 3}));   // a tie: the lower-numbered expert first
+    EXPECT_FLOAT_EQ(r.weight[0], 0.5f);
+    EXPECT_FLOAT_EQ(r.weight[1], 0.5f);
+    const auto three = ml::moe_gate<3>(router);
+    const float e = std::exp(-1.0f), sum = 2.0f + e;
+    EXPECT_EQ(three.expert[2], 4u);
+    EXPECT_NEAR(three.weight[2], e / sum, 1e-7f);
+    EXPECT_NEAR(three.weight[0] + three.weight[1] + three.weight[2], 1.0f, 1e-6f);
+    const auto all = ml::moe_gate<8>(std::array<float, 2>{0.0f, 0.0f});   // more slots than experts
+    EXPECT_EQ(all.count, 2u);
+}
+
+static_assert(ml::moe_gate<1>(std::array<double, 3>{1, 3, 2}).expert[0] == 1 && ml::moe_gate<1>(std::array<double, 3>{1, 3, 2}).weight[0] == 1);
+
+} // namespace

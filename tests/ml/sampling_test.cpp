@@ -123,3 +123,48 @@ TEST(MlSampling, TopPKeepsTheSmallestSetReachingP)
 }
 
 } // namespace
+
+namespace {
+
+namespace mls = snicholls::ml;
+
+// Logits 2, 1, 0, -3 at temperature 1: probabilities proportional to e^2, e^1, 1, e^-3. With min_p = 0.3 the cut is
+// 2 + log 0.3 = 0.796: tokens 0 and 1 stay
+TEST(MlSamplingMinP, KeepsTokensAtLeastMinPAsProbableAsTheTop)
+{
+    const std::array<float, 4> logits{2, 1, 0, -3};
+    EXPECT_NEAR(mls::min_p_threshold(logits, 1.0f, 0.3f), 2.0f + std::log(0.3f), 1e-6f);
+    const float p0 = 1.0f / (1.0f + std::exp(-1.0f));   // token 0's share among the two kept
+    EXPECT_EQ(mls::sample_min_p(logits, 1.0f, 0.3f, 0.0f), 0u);
+    EXPECT_EQ(mls::sample_min_p(logits, 1.0f, 0.3f, p0 - 1e-4f), 0u);
+    EXPECT_EQ(mls::sample_min_p(logits, 1.0f, 0.3f, p0 + 1e-4f), 1u);
+    EXPECT_EQ(mls::sample_min_p(logits, 1.0f, 0.3f, 0.9999f), 1u);   // never a dropped token
+    EXPECT_EQ(mls::sample_min_p(logits, 1.0f, 1.0f, 0.9f), 0u);      // min_p 1 keeps only the top
+    EXPECT_EQ(mls::sample_min_p(logits, 0.0f, 0.3f, 0.9f), 0u);      // temperature 0 is argmax
+    EXPECT_EQ(mls::sample_min_p(logits, 1.0f, 1e-6f, 0.9999f), 3u);  // a tiny min_p keeps everything
+}
+
+TEST(MlSamplingPenalties, RepetitionPresenceAndFrequencyApplyOncePerToken)
+{
+    std::array<float, 4> logits{2, -2, 1, 5};
+    const std::array<int, 5> history{0, 1, 0, 0, 2};
+    mls::apply_penalties(logits, std::span<const int>(history), mls::logit_penalties<float>{.repetition = 2, .presence = 0.5f, .frequency = 0.25f});
+    EXPECT_FLOAT_EQ(logits[0], 2.0f / 2 - 0.5f - 0.25f * 3);    // positive: divided; seen three times
+    EXPECT_FLOAT_EQ(logits[1], -2.0f * 2 - 0.5f - 0.25f * 1);   // negative: multiplied
+    EXPECT_FLOAT_EQ(logits[2], 1.0f / 2 - 0.5f - 0.25f);
+    EXPECT_EQ(logits[3], 5.0f);                                  // never seen: untouched
+    std::array<float, 2> same{1, -1};
+    mls::apply_penalties(same, std::span<const int>(history).first(2), mls::logit_penalties<float>{});
+    EXPECT_EQ(same, (std::array<float, 2>{1, -1}));              // the defaults change nothing
+}
+
+constexpr bool penalties_at_compile_time()
+{
+    std::array<double, 2> l{4, 1};
+    const std::array<unsigned, 2> h{0, 0};
+    mls::apply_penalties(l, std::span<const unsigned>(h), mls::logit_penalties<double>{.repetition = 2, .frequency = 1});
+    return l[0] == 0 && l[1] == 1;   // 4 / 2 - 1 · 2
+}
+static_assert(penalties_at_compile_time());
+
+} // namespace

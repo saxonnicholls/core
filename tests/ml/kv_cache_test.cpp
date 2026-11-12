@@ -11,6 +11,8 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
+#include <span>
 #include <vector>
 
 namespace {
@@ -99,5 +101,45 @@ constexpr bool compile_time()
     return r.keys[0][0] == 3 && r.values[0][1] == 8;
 }
 static_assert(compile_time());
+
+} // namespace
+
+namespace {
+
+// Two pages of 2 positions, in pool pages 3 and 1 of 4: position p is in page table[p / 2], slot p % 2
+TEST(MlKvCache, APagedCacheReadsOneRunPerPageInPositionOrder)
+{
+    using paged = ml::paged_kv_cache_view<two_heads, float, 4>;
+    std::vector<float> k(paged::required_size(4, 1, 2)), v(k.size());
+    const std::array<std::uint32_t, 3> table{3, 1, 0};
+    const paged cache(k, v, 1, 2, table);
+    for (std::size_t p = 0; p < 5; ++p)
+        cache.append(0, p, keys_of(p), values_of(p));
+    const auto runs = cache.visible(0, 1, ml::attention_window(4));
+    EXPECT_EQ(positions_in(runs.keys[0]), (std::vector<float>{10, 110}));
+    EXPECT_EQ(positions_in(runs.keys[1]), (std::vector<float>{210, 310}));
+    EXPECT_EQ(positions_in(runs.keys[2]), (std::vector<float>{410}));
+    EXPECT_TRUE(runs.keys[3].empty());
+    EXPECT_EQ(positions_in(cache.visible(0, 0, {1, 3}).keys[0]), (std::vector<float>{100}));   // a range from mid-page
+    EXPECT_EQ(cache.page_size(), 2u);
+    static_assert(ml::kv_store<paged, float> && ml::kv_store<ml::kv_cache_view<two_heads>, float>);
+}
+
+// A page's address depends on its tokens and on every page before it
+TEST(MlKvCache, PageHashesAddressWholePrefixes)
+{
+    const std::array<int, 4> a{1, 2, 3, 4}, b{1, 2, 3, 5};
+    const auto pa = std::span<const int>(a), pb = std::span<const int>(b);
+    const std::uint64_t first = ml::kv_page_hash(ml::kv_page_hash_root, pa.first(2));
+    EXPECT_EQ(first, ml::kv_page_hash(ml::kv_page_hash_root, pb.first(2)));   // the same first page
+    EXPECT_NE(ml::kv_page_hash(first, pa.last(2)), ml::kv_page_hash(first, pb.last(2)));
+    // The same tokens after a different prefix are a different page
+    EXPECT_NE(ml::kv_page_hash(first, pa.last(2)), ml::kv_page_hash(ml::kv_page_hash_root, pa.last(2)));
+    // Order and length matter; the hash is a constant expression
+    const std::array<int, 2> ab{1, 2}, ba{2, 1};
+    EXPECT_NE(ml::kv_page_hash(0, std::span<const int>(ab)), ml::kv_page_hash(0, std::span<const int>(ba)));
+    EXPECT_NE(ml::kv_page_hash(0, std::span<const int>(ab).first(1)), ml::kv_page_hash(0, std::span<const int>(ab)));
+    static_assert(ml::kv_page_hash(1, std::span<const int>{}) != ml::kv_page_hash(2, std::span<const int>{}));
+}
 
 } // namespace

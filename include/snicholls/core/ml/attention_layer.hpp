@@ -108,18 +108,18 @@ struct attention_weights
 /// \brief One query head over its visible keys: `out = softmax(cap(scale · q·k)) · v`, in one pass.
 /// \tparam C The configuration (its `head_dim` and `attention_softcap`).
 /// \param q The head's query, `head_dim`.
-/// \param runs The visible keys and values, from `kv_cache_view::visible`.
+/// \param runs The visible keys and values, from a cache's `visible`, folded run after run.
 /// \param out The head's output, `head_dim`.
 /// \return `logsumexp` of the scores, for a backward pass; -infinity with no keys.
-template <transformer_config C, math::math_number T, row Q, mutable_row Out>
+template <transformer_config C, math::math_number T, std::size_t N, row Q, mutable_row Out>
     requires std::same_as<row_value_t<Q>, T> && std::same_as<row_value_t<Out>, T>
-constexpr T attention_head(const Q& q, const kv_runs<T>& runs, Out&& out)
+constexpr T attention_head(const Q& q, const kv_runs<T, N>& runs, Out&& out)
 {
     const auto qs = as_row(q);
     assert(qs.size() == C.head_dim);
     const T scale = T(1) / math::sqrt(T(C.head_dim));
     attention_accumulator<T, C.head_dim> acc{};
-    for (std::size_t r = 0; r < 2; ++r)
+    for (std::size_t r = 0; r < N; ++r)
         for (std::size_t j = 0; j < runs.keys[r].size() / C.head_dim; ++j) {
             T s = scale * detail::attention::dot(qs, runs.keys[r].subspan(j * C.head_dim, C.head_dim));
             if constexpr (C.attention_softcap > 0)
@@ -151,14 +151,15 @@ namespace detail::attention_layer
 /// \param w The weights.
 /// \param x The token's (normalised) input, `d_model`.
 /// \param pos Its position.
-/// \param cache The KV cache; this token's keys and values are appended to `layer` at `pos`.
+/// \param cache The KV cache (`kv_cache_view`, `paged_kv_cache_view`); this token's keys and values are appended to
+/// `layer` at `pos`.
 /// \param layer The layer.
 /// \param rope_src The cosines and sines by position (a `rope_table` of `head_dim`), or `no_rope`.
 /// \param out The output, `d_model`; may not alias `x`.
-template <transformer_config C, weight_matrix W, math::math_number T, row X, typename R, mutable_row Out>
+template <transformer_config C, weight_matrix W, math::math_number T, row X, kv_store<T> S, typename R, mutable_row Out>
     requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Out>, T>
              && (C.rope == rope_kind::none || rope_source<R>)
-constexpr void attention_forward(const attention_weights<W, T>& w, const X& x, std::size_t pos, const kv_cache_view<C, T>& cache,
+constexpr void attention_forward(const attention_weights<W, T>& w, const X& x, std::size_t pos, const S& cache,
                                  std::size_t layer, const R& rope_src, Out&& out)
 {
     static_assert(valid(C), "snicholls::ml::attention_forward: the transformer_config is not valid");

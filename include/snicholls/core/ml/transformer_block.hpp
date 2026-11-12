@@ -103,12 +103,12 @@ constexpr void block_norm(const X& x, std::span<const row_value_t<X>> weight, st
 /// \param w The weights.
 /// \param x The token's residual stream, `d_model`, updated in place.
 /// \param pos Its position.
-/// \param cache The KV cache.
+/// \param cache The KV cache (`kv_cache_view`, `paged_kv_cache_view`).
 /// \param layer This block's layer in the cache.
 /// \param rope_src The cosines and sines by position, or `no_rope`.
-template <transformer_config C, weight_matrix W, math::math_number T, mutable_row X, typename R>
+template <transformer_config C, weight_matrix W, math::math_number T, mutable_row X, kv_store<T> S, typename R>
     requires std::same_as<row_value_t<X>, T>
-constexpr void block_forward(const block_weights<W, T>& w, X&& x, std::size_t pos, const kv_cache_view<C, T>& cache, std::size_t layer,
+constexpr void block_forward(const block_weights<W, T>& w, X&& x, std::size_t pos, const S& cache, std::size_t layer,
                              const R& rope_src)
 {
     const auto s = as_mutable_row(x);
@@ -132,9 +132,9 @@ constexpr void block_forward(const block_weights<W, T>& w, X&& x, std::size_t po
 /// \param cache The KV cache.
 /// \param layer This block's layer in the cache.
 /// \param rope_src The cosines and sines by position, or `no_rope`.
-template <transformer_config C, weight_matrix W, math::math_number T, mutable_row X, typename R>
+template <transformer_config C, weight_matrix W, math::math_number T, mutable_row X, kv_store<T> S, typename R>
     requires std::same_as<row_value_t<X>, T>
-constexpr void block_prefill(const block_weights<W, T>& w, X&& xs, std::size_t first, const kv_cache_view<C, T>& cache, std::size_t layer,
+constexpr void block_prefill(const block_weights<W, T>& w, X&& xs, std::size_t first, const S& cache, std::size_t layer,
                              const R& rope_src)
 {
     const auto s = as_mutable_row(xs);

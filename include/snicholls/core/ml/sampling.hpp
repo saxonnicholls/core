@@ -23,6 +23,12 @@
 /// - `sample_top_k<K>(logits, temperature, u)`: sampling among the `K` largest logits (nanochat's `top_k`).
 /// - `sample_top_p(logits, temperature, p, u, scratch)`: sampling among the smallest set of most probable tokens
 ///   whose probability reaches `p` (Holtzman et al.), sorting the caller's `scratch` of indices.
+/// - `sample_min_p(logits, temperature, min_p, u)`: sampling among the tokens at least `min_p` times as probable as
+///   the most probable (Nguyen et al.), in logit space, with no scratch; `min_p_threshold` is its cut.
+/// - `apply_penalties(logits, history, penalties)`: the logit processors of serving stacks, applied in place before
+///   sampling: the repetition penalty of Keskar et al. (a seen token's positive logit divided by it, a negative one
+///   multiplied) and OpenAI's presence and frequency penalties (subtract `presence` once and `frequency` per
+///   occurrence), over the recent tokens the caller passes.
 ///
 /// \snippet ml/sampling_demo.cpp sampling
 ///
@@ -32,23 +38,25 @@
 /// **Implementations.** One each.
 ///
 /// **Guarantees.** `constexpr`, no allocation. Deterministic: the same row and draw give the same index.
-/// Complexity: linear for `argmax`, `sample`, `sample_logits`; O(n · K) for `top_k`; O(n log n) for
-/// `sample_top_p`.
+/// Complexity: linear for `argmax`, `sample`, `sample_logits`, `sample_min_p`; O(n · K) for `top_k`; O(n log n) for
+/// `sample_top_p`; O(h²) for `apply_penalties` over `h` recent tokens (each token's first occurrence is found by
+/// scanning back, so no table of counts is needed; pass the window the penalties look at, usually 64 tokens or so).
 ///
 /// **Errors.** Preconditions, asserted: the row is not empty; `u` is in `[0, 1)`; the temperature is not negative;
-/// `p` is in `(0, 1]`; `scratch` has the row's size. Rounding never makes a sampler return an index past the row:
+/// `p` and `min_p` are in `(0, 1]`; `scratch` has the row's size; a penalty's token is in the row; the repetition
+/// penalty is positive. Rounding never makes a sampler return an index past the row:
 /// if `u` falls beyond the last cumulative sum, the last index with a nonzero probability is returned.
 ///
 /// **Performance.** Not benchmarked: one or two passes over the row, dominated by the exponentials.
 ///
 /// **Tests and demos.** `tests/ml/sampling_test.cpp`, `demos/ml/sampling_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<limits>`, `<span>`,
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<limits>`, `<span>`,
 /// `snicholls/core/math/constexpr_math.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** NaN logits are not ordered; a row with one compares as if it were absent from the maximum.
 ///
-/// **Status.** Experimental, new in 0.7.0.
+/// **Status.** Experimental, new in 0.7.0; `sample_min_p`, `min_p_threshold` and `apply_penalties` new in 0.8.0.
 
 #ifndef snicholls_core_ml_sampling_hpp
 #define snicholls_core_ml_sampling_hpp
@@ -59,6 +67,7 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <concepts>
 #include <cstddef>
 #include <limits>
 #include <span>
@@ -221,6 +230,95 @@ constexpr std::size_t sample_top_p(const R& logits, std::type_identity_t<row_val
             return scratch[i];
     }
     return scratch[kept - 1];
+}
+
+/// \brief The logit below which `sample_min_p` drops a token: `max + temperature · log(min_p)`.
+/// \param logits A non-empty row.
+/// \param temperature Greater than 0.
+/// \param min_p The fraction of the most probable token's probability a token must reach, in `(0, 1]`.
+/// \return The threshold: a token is kept when its logit is at least this.
+template <row R>
+constexpr row_value_t<R> min_p_threshold(const R& logits, std::type_identity_t<row_value_t<R>> temperature,
+                                         std::type_identity_t<row_value_t<R>> min_p)
+{
+    using T [[maybe_unused]] = row_value_t<R>;   // read only by the assert
+    const auto x = as_row(logits);
+    assert(!x.empty() && temperature > T(0) && min_p > T(0) && min_p <= T(1));
+    return x[argmax(x)] + temperature * math::log(min_p);
+}
+
+/// \brief Min-p sampling: among the tokens at least `min_p` times as probable as the most probable, at a temperature.
+/// \param logits A non-empty row.
+/// \param temperature 0 for `argmax`.
+/// \param min_p The fraction of the top probability a token must reach, in `(0, 1]`; 1 keeps only the top.
+/// \param u A uniform draw in `[0, 1)`.
+/// \return The index in the row.
+template <row R>
+constexpr std::size_t sample_min_p(const R& logits, std::type_identity_t<row_value_t<R>> temperature,
+                                   std::type_identity_t<row_value_t<R>> min_p, std::type_identity_t<row_value_t<R>> u)
+{
+    using T = row_value_t<R>;
+    const auto x = as_row(logits);
+    assert(!x.empty() && u >= T(0) && u < T(1));
+    const std::size_t best = argmax(x);
+    if (temperature == T(0))
+        return best;
+    const T cut = min_p_threshold(x, temperature, min_p), max = x[best];
+    T mass = T(0);
+    for (const T v : x)
+        if (v >= cut)
+            mass += math::exp((v - max) / temperature);
+    const T target = u * mass;
+    T cdf = T(0);
+    std::size_t last = best;
+    for (std::size_t i = 0; i < x.size(); ++i)
+        if (x[i] >= cut) {
+            cdf += math::exp((x[i] - max) / temperature);
+            last = i;
+            if (target < cdf)
+                return i;
+        }
+    return last;
+}
+
+/// \brief The penalties of `apply_penalties`; the defaults change nothing.
+/// \ingroup core
+/// \tparam T The number type.
+template <math::math_number T>
+struct logit_penalties
+{
+    T repetition = T(1);   ///< Keskar et al.: a seen token's logit divided by it if positive, multiplied if not; 1 for none.
+    T presence = T(0);     ///< Subtracted once from a seen token's logit.
+    T frequency = T(0);    ///< Subtracted from a token's logit for each time it was seen.
+};
+
+/// \brief Applies the repetition, presence and frequency penalties to the logits of the tokens in `history`, in place.
+/// \param logits The row, updated.
+/// \param history The recent tokens: indices into the row.
+/// \param penalties The penalties.
+template <mutable_row R, typename Token>
+    requires std::integral<Token>
+constexpr void apply_penalties(R&& logits, std::span<const Token> history, const logit_penalties<row_value_t<R>>& penalties)
+{
+    using T = row_value_t<R>;
+    const auto x = as_mutable_row(logits);
+    assert(penalties.repetition > T(0));
+    for (std::size_t i = 0; i < history.size(); ++i) {
+        const auto t = static_cast<std::size_t>(history[i]);
+        assert(t < x.size());
+        bool first = true;
+        std::size_t count = 0;
+        for (std::size_t j = 0; j < history.size(); ++j)
+            if (history[j] == history[i]) {
+                first = first && j >= i;
+                ++count;
+            }
+        if (!first)
+            continue;   // each distinct token once, at its first occurrence
+        T& v = x[t];
+        v = v > T(0) ? v / penalties.repetition : v * penalties.repetition;
+        v -= penalties.presence + penalties.frequency * T(count);
+    }
 }
 
 } // namespace snicholls::ml

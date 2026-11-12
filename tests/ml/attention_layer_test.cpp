@@ -14,6 +14,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <span>
 #include <vector>
 
@@ -186,5 +187,29 @@ constexpr bool compile_time()
     return out[0] == 1 && out[1] == 2 && k[0] == 1 && v[1] == 2;
 }
 static_assert(compile_time());
+
+} // namespace
+
+namespace {
+
+// A paged cache and a flat cache of the same positions: attention gives the same bits
+TEST(MlAttentionLayer, APagedCacheGivesTheFlatCachesBits)
+{
+    const identity_layer<windowed> layer;
+    static const ml::rope_table<float, 16, 4> table{};
+    using paged = ml::paged_kv_cache_view<windowed, float, 8>;
+    std::vector<float> pk(paged::required_size(5, 1, 2)), pv(pk.size());
+    std::vector<float> fk(ml::kv_cache_view<windowed>::required_size(1, 10)), fv(fk.size());
+    const std::array<std::uint32_t, 5> pages{4, 0, 3, 1, 2};
+    const paged p(pk, pv, 1, 2, pages);
+    const ml::kv_cache_view<windowed> flat(fk, fv, 1, 10);
+    for (std::size_t pos = 0; pos < 10; ++pos) {
+        const auto x = pattern(8, 1.0f, pos);
+        std::array<float, 8> a{}, b{};
+        ml::attention_forward<windowed>(layer.weights(), x, pos, p, 0, table, a);
+        ml::attention_forward<windowed>(layer.weights(), x, pos, flat, 0, table, b);
+        EXPECT_EQ(a, b) << "position " << pos;
+    }
+}
 
 } // namespace
