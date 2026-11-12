@@ -10,6 +10,7 @@
 #
 #      scripts/test_ubuntu.sh            every configuration below
 #      scripts/test_ubuntu.sh --quick    GCC Release only
+#      scripts/test_ubuntu.sh -j 4       at most 4 compiles (and 4 tests) at once, on a shared machine
 #
 #  Configurations, each a fresh CMake build of everything with warnings as
 #  errors, then every CTest:
@@ -31,13 +32,20 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 QUICK=0
-for arg in "$@"; do
-    case "$arg" in
+JOBS=""
+while [ $# -gt 0 ]; do
+    case "$1" in
         --quick) QUICK=1 ;;
-        -h|--help) sed -n '2,30p' "$0" | sed 's/^#\s\{0,1\}//'; exit 0 ;;
-        *) echo "test_ubuntu: unknown argument $arg" >&2; exit 2 ;;
+        -j) shift; JOBS="${1:-}" ;;
+        -j*) JOBS="${1#-j}" ;;
+        -h|--help) sed -n '2,31p' "$0" | sed 's/^#\s\{0,1\}//'; exit 0 ;;
+        *) echo "test_ubuntu: unknown argument $1" >&2; exit 2 ;;
     esac
+    shift
 done
+case "$JOBS" in
+    ""|*[!0-9]*) [ -z "$JOBS" ] || { echo "test_ubuntu: -j needs a number" >&2; exit 2; } ;;
+esac
 
 command -v docker >/dev/null || { echo "test_ubuntu: docker is not installed" >&2; exit 2; }
 docker info >/dev/null 2>&1 || { echo "test_ubuntu: docker is not running" >&2; exit 2; }
@@ -60,6 +68,7 @@ trap 'rm -f "$LIST"' EXIT
 docker run --rm -i \
     -v "$ROOT:/src:ro" -v "$LIST:/filelist:ro" \
     -e QUICK="$QUICK" \
+    ${JOBS:+-e CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" -e CTEST_PARALLEL_LEVEL="$JOBS"} \
     "$IMAGE" bash -s <<'IN_CONTAINER'
 set -uo pipefail
 mkdir -p /work/core && cd /src && tar -cf - -T /filelist | tar -C /work/core -xf -

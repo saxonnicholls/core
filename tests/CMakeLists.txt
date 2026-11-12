@@ -57,6 +57,10 @@ add_executable(snicholls_core_tests
     hash/fnv_test.cpp
     hash/hash_combine_test.cpp
     hash/wyhash_test.cpp
+    linalg/backend_test.cpp
+    linalg/batched_test.cpp
+    linalg/reference_test.cpp
+    linalg/types_test.cpp
     math/constexpr_math_test.cpp
     meta/assignable_test.cpp
     meta/attributes_test.cpp
@@ -104,7 +108,7 @@ add_executable(snicholls_core_tests
     time/solar_test.cpp
     time/utc_format_test.cpp
     time/utc_test.cpp)
-target_link_libraries(snicholls_core_tests PRIVATE snicholls::core GTest::gtest_main GTest::gmock)
+target_link_libraries(snicholls_core_tests PRIVATE snicholls::core snicholls::core_conformance GTest::gtest_main GTest::gmock)
 # The portability fixtures (tests/fixtures/), read at run time by the same tests on every platform
 target_compile_definitions(snicholls_core_tests PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/fixtures")
 snicholls_core_test_options(snicholls_core_tests)
@@ -183,7 +187,8 @@ set(_compile_fail_cases
     "thread_t_lengths|snicholls::meta::thread_t: the threaded arguments must all be the same length"
     "thread_t_position|snicholls::meta::thread_t: the position specification does not fit"
     "thread_apply_lengths|snicholls::thread_apply: the threaded tuples must all be the same length"
-    "thread_apply_mixed_void|snicholls::thread_apply: the calls must all return void or all return a value")
+    "thread_apply_mixed_void|snicholls::thread_apply: the calls must all return void or all return a value"
+    "linalg_backend_missing_member|snicholls::linalg::lu_factor: the backend has no member")
 foreach(_case_and_regex IN LISTS _compile_fail_cases)
     string(REPLACE "|" ";" _parts "${_case_and_regex}")
     list(GET _parts 0 _case)

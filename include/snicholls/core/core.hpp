@@ -77,6 +77,10 @@
 #include <snicholls/core/hash/fnv.hpp>
 #include <snicholls/core/hash/hash_combine.hpp>
 #include <snicholls/core/hash/wyhash.hpp>
+#include <snicholls/core/linalg/backend.hpp>
+#include <snicholls/core/linalg/batched.hpp>
+#include <snicholls/core/linalg/reference.hpp>
+#include <snicholls/core/linalg/types.hpp>
 #include <snicholls/core/math/constexpr_math.hpp>
 #include <snicholls/core/meta/assignable.hpp>
 #include <snicholls/core/meta/attributes.hpp>

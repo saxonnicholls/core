@@ -72,6 +72,14 @@ target_include_directories(snicholls_core INTERFACE
 # propagates.
 target_compile_options(snicholls_core INTERFACE $<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>)
 
+# The conformance suites (tests/support/snicholls/core/conformance/): typed GoogleTest suites that a backend from
+# another library registers in, e.g. linalg's (#include <snicholls/core/conformance/linalg.hpp>). Test-only:
+# defined for the build tree, never installed, and GoogleTest is the consumer's to link.
+add_library(snicholls_core_conformance INTERFACE)
+add_library(snicholls::core_conformance ALIAS snicholls_core_conformance)
+target_include_directories(snicholls_core_conformance INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/tests/support>)
+target_link_libraries(snicholls_core_conformance INTERFACE snicholls::core)
+
 set_property(GLOBAL PROPERTY SNICHOLLS_CORE_VERSION ${PROJECT_VERSION})
 set_property(GLOBAL PROPERTY SNICHOLLS_CORE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
