@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['a_0',['a',['../structsnicholls_1_1ml_1_1muon__newton__schulz.html#a87f9f58d1c50ab3633e3b08f1e4843c6',1,'snicholls::ml::muon_newton_schulz']]],
+  ['above_1',['above',['../structsnicholls_1_1stats_1_1histogram.html#afdc08fee79337a7c9911e9d86b4f85f7',1,'snicholls::stats::histogram']]],
+  ['acc_2',['acc',['../structsnicholls_1_1ml_1_1attention__accumulator.html#a83356396fab59103e6f6a4fec08aa58e',1,'snicholls::ml::attention_accumulator']]],
+  ['actual_3',['actual',['../structsnicholls_1_1finance_1_1taylor__explain.html#ad0138fdfe657f1f6621dd329423b66a3',1,'snicholls::finance::taylor_explain::actual'],['../structsnicholls_1_1finance_1_1greeks__explain.html#ad284a782466ebb3a48b39282793375d8',1,'snicholls::finance::greeks_explain::actual']]],
+  ['all_5fdistinct_5fv_4',['all_distinct_v',['../group__core.html#gad824e986a5d855d8030f63a9f21ab5fa',1,'snicholls']]],
+  ['all_5fof_5fv_5',['all_of_v',['../type__list_8hpp.html#a3d3423d5f4f58b3d1170dbd8cacdaeb1',1,'snicholls::meta']]],
+  ['alpha_6',['alpha',['../structsnicholls_1_1stats_1_1ewma.html#aaad63a07bab4902e2f8c801c43335be9',1,'snicholls::stats::ewma']]],
+  ['always_5ffalse_5fv_7',['always_false_v',['../group__core.html#ga5a51fab6ab1781c30cc36af4f03694d0',1,'snicholls']]],
+  ['ansi_8',['ansi',['../structsnicholls_1_1colour.html#af7f1b186c0985f4bdd2706b191d5d932',1,'snicholls::colour']]],
+  ['ansi_5freset_9',['ansi_reset',['../group__core.html#ga0d4912d07bdaead8635f61f29da6ff3e',1,'snicholls']]],
+  ['antithetic_10',['antithetic',['../structsnicholls_1_1game_1_1permutation__sampling.html#a68000a6058a9f51ce5e1cef746da2775',1,'snicholls::game::permutation_sampling']]],
+  ['any_5fof_5fv_11',['any_of_v',['../type__list_8hpp.html#a3fa66c0c6df50e5d7330531a4433f359',1,'snicholls::meta']]],
+  ['args_12',['args',['../structsnicholls_1_1any__source.html#a454597fa7b7e313f4a902eaf3a8ee1c8',1,'snicholls::any_source']]],
+  ['attention_13',['attention',['../structsnicholls_1_1ml_1_1block__weights.html#a68b2323323dbf9da7b92805a7c487a8c',1,'snicholls::ml::block_weights']]],
+  ['attention_5fsoftcap_14',['attention_softcap',['../structsnicholls_1_1ml_1_1transformer__config.html#aa4791aad81be750e414d625cfb26ab76',1,'snicholls::ml::transformer_config']]],
+  ['attention_5fsoftcap_5fv_15',['attention_softcap_v',['../transformer__config_8hpp.html#ad1aa73dd03ffcdabf3595501ed14db8a',1,'snicholls::ml']]]
+];
