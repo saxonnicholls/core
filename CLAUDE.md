@@ -88,8 +88,13 @@ every one of them.
 
 - **Interfaces in core, implementations where they belong.** A concept is a compile-time contract with no I/O, so core
   may hold the interface of a capability whose implementations need the operating system or a third-party library
-  (the linear algebra backend, `error_sink`, `kv_store`, `weight_matrix`); the implementations live in ts-moveables,
-  an adapter or above, and can come later. Callers depend on the concept, never on a concrete library.
+  (the linear algebra backend, `error_sink`, `ml::attention_cache`, `ml::weight_matrix`); the implementations live in
+  ts-moveables, an adapter or above, and can come later. Callers depend on the concept, never on a concrete library.
+  A capability's contract lives in `interfaces/<capability>.hpp`, all of it in one header: the concept, its error
+  type, a standard-library reference implementation (the fake tests use), a type-erased handle where run-time choice
+  is needed, and a conformance kit (plain functions that drive any implementation through the contract and say which
+  check failed, so no test framework is included). An interface enters as experimental and becomes stable once two
+  real implementations pass its kit. Concepts that classify types (`integer`, `map_like`) stay in `meta/`.
 - **One owner per concept.** Core owns time as values, `result`, printing from threads, the fast hashes, enum and
   aggregate reflection, and the build mode; ts-moveables owns the run-time environment, reading files, process-wide
   initialisation, configuration files, clock sources and log levels; core-adapters owns the JSON forms of core's
@@ -102,7 +107,7 @@ every one of them.
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
   a few headers. `core.hpp` is the umbrella. `detail/` holds internals (`namespace snicholls::detail`): not public
   API, still tested, not demonstrated.
-- Areas: `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
+- Areas: `interfaces/` for the contracts of capabilities (see "The family"); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
