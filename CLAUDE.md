@@ -68,7 +68,7 @@ libraries above them pin core and those. Nothing in core depends on a library th
 ## The family
 
 Core is the root of a family of libraries that each make sense on their own and together, each with complete
-integrity and consistency. The same ten rules hold in every one of them.
+integrity and consistency. The same eleven rules hold in every one of them.
 
 1. **One function, one place.** Each function appears once in the whole family. A copy in a demo, a test, a `utils/`
    folder or a local helper is a defect. Before writing a helper, search the family; if it exists, call it; if not,
@@ -93,9 +93,10 @@ integrity and consistency. The same ten rules hold in every one of them.
    `interfaces/<capability>.hpp`, in standard C++ types only (`std::string_view`, `std::span<const std::byte>`,
    `std::optional`, `result` with the interface's own error enumeration): the concept, for static dispatch; a pure
    virtual interface of the same operations, for run-time choice; an adapter that lets any type satisfying the
-   concept be used through the virtual interface (which satisfies the concept too); a standard-library reference
-   implementation (the fake tests use); and a conformance kit (plain functions that drive any implementation through
-   the contract and say which check failed, so no test framework is included). Implementations live where rule 3
+   concept be used through the virtual interface (which satisfies the concept too). Beside it, in their own headers
+   (rule 11): a standard-library reference implementation (the fake tests use) and a conformance kit (plain functions
+   that drive any implementation through the contract and say which check failed, so no test framework is
+   included). Implementations live where rule 3
    puts them and can come later; callers depend on the contract, never on a concrete library. An interface is
    experimental until two real implementations pass its kit. Already this shape: the linear algebra backend,
    `error_sink`, `ml::attention_cache`, `ml::weight_matrix`. Concepts that classify types (`integer`, `map_like`) stay
@@ -116,6 +117,12 @@ integrity and consistency. The same ten rules hold in every one of them.
 9. **Public libraries name nothing private**: no private repository, product, person, credential or local path.
 10. **No move without an order.** Code moves between libraries only when the owner of the repositories orders it, in
    dependency order (the owner of the function first, then each caller), each step with its tests green.
+11. **The bare minimum of headers at any point.** Every translation unit pulls in only what it needs. Each header
+   includes exactly what it uses and nothing more (the standalone-header check proves nothing is missing;
+   `clang-include-cleaner` proves nothing is extra); the lightest standard header that serves (`<concepts>` over
+   `<algorithm>`, `<iosfwd>` over `<iostream>`, `<span>` over `<vector>` in interfaces); heavy parts behind their
+   own header; library code never includes an umbrella header such as `core.hpp`, which is for applications; the
+   compile time of the heaviest header is recorded, and a regression is treated like a slower benchmark.
 
 ## Layout
 
