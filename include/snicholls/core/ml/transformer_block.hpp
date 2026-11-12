@@ -29,8 +29,18 @@
 /// **Errors.** Preconditions, asserted, as `attention_forward` and `mlp_forward`; the norm weights and biases are
 /// empty or have `d_model`; a prefill's rows are `d_model` each.
 ///
-/// **Performance.** Not yet benchmarked; the decode step's benchmark against the same loops written by hand comes
-/// with the fixtures (`INFERENCE.md`, step 6).
+/// **Performance.** One decode step of a GPT-2-small layer (768 wide, 12 heads, MLP of 3072) at position 256, against
+/// the same layer written as loops over raw pointers with every operation in the same order, after a bit-for-bit
+/// fairness check (`benchmarks/ml/transformer_block_benchmark.cpp`; Release, Apple clang 17, Xeon W-3245, macOS 26,
+/// 2026-11-12, medians of five, on a shared machine with load average 45 to 120):
+///
+/// | Weights | Core | By hand |
+/// |---|---|---|
+/// | float | 8.45 ms | 8.31 ms |
+/// | Q8_0 | 3.07 ms | 3.00 ms |
+///
+/// Level within the machine's noise. A decode step reads every weight once, so it is bound by memory: Q8_0's quarter
+/// of the bytes makes it 2.8x faster than float.
 ///
 /// **Tests and demos.** `tests/ml/transformer_block_test.cpp`, `demos/ml/transformer_block_demo.cpp`.
 ///
