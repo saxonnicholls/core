@@ -65,6 +65,32 @@ A header is admitted only if all of the following hold.
 Who pins whom, and this never reverses: core pins nothing; base-encode-decode and ts-moveables pin core; the
 libraries above them pin core and those. Nothing in core depends on a library that depends on core.
 
+## The family
+
+Core is the root of a family of libraries that each make sense on their own and together. The same rules hold in
+every one of them.
+
+- **Each function appears once in the whole family.** Its owner is the lowest library whose rules admit it; every
+  library above calls it. A copy in a demo, a test or a `utils/` folder is a defect: the lower copy wins, every caller
+  switches to it, and the copies are deleted in the same change. Search the family before writing a helper; if it
+  does not exist, add it to its owner, with its test and demo.
+- **Place code by what it needs**, the first row that applies:
+
+  | If the code needs | It goes in |
+  |---|---|
+  | the standard library only, and no I/O | core |
+  | hashing or encoding bytes | base-encode-decode |
+  | the operating system: threads, synchronisation, files, sockets, clock sources, `getenv`, process lifecycle | ts-moveables |
+  | a third-party library | an adapter package (core-adapters for JSON and Python) |
+  | an object model, a domain, a product | the libraries and applications above |
+
+- **One owner per concept.** Core owns time as values, `result`, printing from threads, the fast hashes, enum and
+  aggregate reflection, and the build mode; ts-moveables owns the run-time environment, reading files, process-wide
+  initialisation, configuration files, clock sources and log levels; core-adapters owns the JSON forms of core's
+  types. A second copy of a concept is deleted, not kept as a variant.
+- **One contract everywhere**: this file's documentation standard, mirrored tests, demos and benchmarks, version
+  checks, naming, platforms and commit rules, each enforced by the library's own CI.
+
 ## Layout
 
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
