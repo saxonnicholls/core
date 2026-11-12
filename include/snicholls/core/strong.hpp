@@ -40,6 +40,7 @@
 #ifndef snicholls_core_strong_hpp
 #define snicholls_core_strong_hpp
 
+#include <compare>
 #include <cstddef>
 #include <functional>
 #include <ostream>
