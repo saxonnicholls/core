@@ -134,7 +134,7 @@ class index_pool
         std::uint64_t live;
         std::uint64_t reserved[2];
     };
-    static_assert(sizeof(state) == 64);
+    static_assert(sizeof(state) == 64 && std::is_trivially_copyable_v<state>);   // read from a region with memcpy
 
     static constexpr std::size_t round_up(std::size_t n, std::size_t a) noexcept { return (n + a - 1) / a * a; }
 
@@ -196,17 +196,21 @@ public:
     {
         if (reinterpret_cast<std::uintptr_t>(region.data()) % region_alignment != 0) return err(index_pool_error::misaligned);
         if (region.size() < header_size) return err(index_pool_error::too_small);
-        state* st = std::launder(reinterpret_cast<state*>(region.data()));
-        if (st->magic != magic) return err(index_pool_error::not_formatted);
-        if (st->slot_size != slot_size || st->index_size != sizeof(Index)) return err(index_pool_error::layout_mismatch);
+        // The bytes may hold another pool's state (another T or Index), or no object at all (a file mapped in): read
+        // them as bytes, never through this pool's state type, which would be undefined (GCC at -O3 then reads stale
+        // bytes). Only a valid header becomes this pool's state, constructed in place with the same value.
+        state seen;
+        std::memcpy(&seen, region.data(), sizeof(state));
+        if (seen.magic != magic) return err(index_pool_error::not_formatted);
+        if (seen.slot_size != slot_size || seen.index_size != sizeof(Index)) return err(index_pool_error::layout_mismatch);
         const std::size_t cap = capacity_of(region.size());
-        if (st->live > st->high_water || (st->free_head != npos && st->free_head >= st->high_water)
-            || (st->free_head == npos && st->live != st->high_water))
+        if (seen.live > seen.high_water || (seen.free_head != npos && seen.free_head >= seen.high_water)
+            || (seen.free_head == npos && seen.live != seen.high_water))
             return err(index_pool_error::corrupt);
-        if (st->high_water > cap) return err(index_pool_error::too_small);
+        if (seen.high_water > cap) return err(index_pool_error::too_small);
         base_ = region.data();
         capacity_ = cap;
-        st_ = st;
+        st_ = ::new (static_cast<void*>(region.data())) state(seen);
         return ok();
     }
 
