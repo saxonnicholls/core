@@ -14,6 +14,7 @@
 
 #include <cstddef>
 #include <memory_resource>
+#include <new>
 #include <type_traits>
 #include <utility>
 #include <vector>
