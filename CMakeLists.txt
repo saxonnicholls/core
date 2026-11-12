@@ -118,6 +118,11 @@ endfunction()
 # /W4 /WX), and _CRT_SECURE_NO_WARNINGS quiets the CRT's deprecation of tmpfile, sscanf and friends.
 function(snicholls_core_test_options target)
     snicholls_core_compile_options(${target})
+    # No multiply-add fused across statements: GCC fuses by default in C++ (-ffp-contract=fast), which on ARM64
+    # changes the last bit of results the tests check bit for bit (ml/quantize.hpp against ggml's fixture)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${target} PRIVATE -ffp-contract=off)
+    endif()
     if(MSVC)
         target_compile_options(${target} PRIVATE /wd4459)
         target_compile_definitions(${target} PRIVATE _CRT_SECURE_NO_WARNINGS)

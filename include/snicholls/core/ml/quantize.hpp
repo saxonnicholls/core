@@ -58,7 +58,10 @@
 /// **Known issues.** ggml computes MXFP4's exponent as `floorf(log2f(amax))`, which depends on the C library and can
 /// round up for an amax a few units in the last place below a power of two; core reads the exponent from the bits,
 /// as the OCP specification defines it. An amax below 2^-125 gives exponent 0 (ggml's conversion there is
-/// undefined).
+/// undefined). A dot product over infinities is a NaN whose sign is the hardware's (negative on x86, positive on
+/// ARM), so results are bit-identical across platforms except for the sign of a NaN. Each multiply and add is its own
+/// statement, which Clang never fuses, but GCC fuses across statements by default in C++ (`-ffp-contract=fast`), so
+/// on a target with FMA (every ARM64) the last bit can differ: compile with `-ffp-contract=off` for ggml's bits.
 ///
 /// **Status.** Experimental, new in 0.7.0.
 

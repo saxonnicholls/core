@@ -136,6 +136,17 @@ TEST(MlQuantize, BytesAreGgmlsOnEveryFixtureCase)
     }
 }
 
+// The bits of a dot product, except that every NaN is one value: the sign of a NaN the hardware makes (inf - inf)
+// is its own, negative on x86 and positive on ARM, and the fixture was generated on x86
+std::uint32_t dot_bits(float d)
+{
+    return d != d ? 0x7fc00000u : std::bit_cast<std::uint32_t>(d);
+}
+std::uint32_t fixture_bits(std::uint32_t bits)
+{
+    return dot_bits(std::bit_cast<float>(bits));
+}
+
 TEST(MlQuantize, DotProductsAreGgmlsBitForBit)
 {
     for (std::size_t i = 0; i < data().size(); ++i) {
@@ -145,10 +156,17 @@ TEST(MlQuantize, DotProductsAreGgmlsBitForBit)
         const auto x8 = quantized<ml::block_q8_0>(c.x);
         const auto x4 = quantized<ml::block_q4_0>(c.x);
         const auto xm = quantized<ml::block_mxfp4>(c.x);
-        EXPECT_EQ(std::bit_cast<std::uint32_t>(ml::dot(std::span<const ml::block_q8_0>(x8), ys)), c.dot[0]) << "case " << i;
-        EXPECT_EQ(std::bit_cast<std::uint32_t>(ml::dot(std::span<const ml::block_q4_0>(x4), ys)), c.dot[1]) << "case " << i;
-        EXPECT_EQ(std::bit_cast<std::uint32_t>(ml::dot(std::span<const ml::block_mxfp4>(xm), ys)), c.dot[2]) << "case " << i;
+        EXPECT_EQ(dot_bits(ml::dot(std::span<const ml::block_q8_0>(x8), ys)), fixture_bits(c.dot[0])) << "case " << i;
+        EXPECT_EQ(dot_bits(ml::dot(std::span<const ml::block_q4_0>(x4), ys)), fixture_bits(c.dot[1])) << "case " << i;
+        EXPECT_EQ(dot_bits(ml::dot(std::span<const ml::block_mxfp4>(xm), ys)), fixture_bits(c.dot[2])) << "case " << i;
     }
+}
+
+TEST(MlQuantize, ANanDotProductMatchesTheFixturesNanWhateverItsSign)
+{
+    EXPECT_EQ(dot_bits(std::bit_cast<float>(0xffc00000u)), dot_bits(std::bit_cast<float>(0x7fc00000u)));
+    EXPECT_NE(dot_bits(1.0f), dot_bits(-1.0f));
+    EXPECT_NE(dot_bits(0.0f), dot_bits(-0.0f));
 }
 
 TEST(MlQuantize, DequantisationIsWithinHalfAStep)
