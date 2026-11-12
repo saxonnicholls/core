@@ -89,9 +89,13 @@
 #include <snicholls/core/meta/values.hpp>
 #include <snicholls/core/ml/activations.hpp>
 #include <snicholls/core/ml/attention.hpp>
+#include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/embedding.hpp>
+#include <snicholls/core/ml/kv_cache.hpp>
+#include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
+#include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/optim.hpp>
 #include <snicholls/core/ml/quantize.hpp>
@@ -99,6 +103,8 @@
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/sampling.hpp>
 #include <snicholls/core/ml/softmax.hpp>
+#include <snicholls/core/ml/transformer_block.hpp>
+#include <snicholls/core/ml/transformer_config.hpp>
 #include <snicholls/core/pipeline/stages.hpp>
 #include <snicholls/core/reflect/member_count.hpp>
 #include <snicholls/core/reflect/string_access.hpp>

@@ -68,10 +68,14 @@ add_executable(snicholls_core_tests
     meta/type_name_test.cpp
     meta/values_test.cpp
     ml/activations_test.cpp
+    ml/attention_layer_test.cpp
     ml/attention_test.cpp
     ml/bpe_test.cpp
     ml/embedding_test.cpp
+    ml/kv_cache_test.cpp
+    ml/linear_test.cpp
     ml/minifloat_test.cpp
+    ml/mlp_test.cpp
     ml/norm_test.cpp
     ml/optim_test.cpp
     ml/quantize_test.cpp
@@ -79,6 +83,8 @@ add_executable(snicholls_core_tests
     ml/row_test.cpp
     ml/sampling_test.cpp
     ml/softmax_test.cpp
+    ml/transformer_block_test.cpp
+    ml/transformer_config_test.cpp
     pipeline/stages_test.cpp
     reflect/member_count_test.cpp
     reflect/string_access_test.cpp
