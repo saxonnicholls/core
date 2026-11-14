@@ -33,7 +33,7 @@ than changing them.
 | `attention_layer.hpp` | `attention_backward` per head and per layer, from the saved lse |
 | `transformer_block.hpp` | `activations<Config, T, Save>`, `block_grads<Config>`, `block_backward` |
 | `softmax.hpp` | the sequence cross-entropy with its fused gradient over the LM head |
-| `optim.hpp` | the Muon iteration, once a matrix product is available |
+| `optim.hpp` | the Muon iteration, once a matrix product is available (done: `ml/muon.hpp`, over a `linalg` backend) |
 
 ## Order of work
 

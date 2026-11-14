@@ -104,6 +104,7 @@
 #include <snicholls/core/ml/lm_head.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/mlp.hpp>
+#include <snicholls/core/ml/muon.hpp>
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/optim.hpp>
 #include <snicholls/core/ml/quantize.hpp>

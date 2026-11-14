@@ -23,7 +23,8 @@
 ///   multiplied by the coefficient.
 /// - `muon_newton_schulz<T>` and `newton_schulz_polynomial(x)`: the quintic Muon iterates on each singular value
 ///   (Jordan et al., nanochat's optimiser), `a x + b x³ + c x⁵` with `(a, b, c) = (3.4445, -4.7750, 2.0315)`. The
-///   matrix iteration, `X ← a X + (b A + c A²) X` with `A = X Xᵀ`, belongs with the matrices, above core.
+///   matrix iteration, `X ← a X + (b A + c A²) X` with `A = X Xᵀ`, is `muon_orthogonalise` and `muon_step`
+///   (`ml/muon.hpp`), over a `linalg` backend.
 /// - `transformer_flops_per_token(...)` and `model_flops_utilisation(...)`: `6N + 12·L·H·Q·T` (PaLM's appendix,
 ///   llm.c, nanochat) and the fraction of the hardware's peak a run achieves.
 ///

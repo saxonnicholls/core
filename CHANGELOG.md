@@ -16,6 +16,10 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`self_attention_head_backward`**: the head's backward pass from what the forward saved (`attend_backward` from
   the log-sum-exps, `rope_inverse`, then the projections), into `self_attention_gradients`. Checked against central
   differences in double, causal, windowed and with RoPE; level with the same pass by hand, bit for bit.
+- **`ml/muon.hpp`: the Muon optimiser.** `muon_orthogonalise` runs the Newton-Schulz quintic on a matrix (on its
+  transpose when tall) through any `linalg::blas_backend`, and `muon_step` adds momentum (Nesterov by default) and
+  nanochat's `sqrt(max(1, rows / cols))` scaling; `muon_work_size` sizes the caller's working space. Checked
+  against the iteration as plain loops, the singular values in Muon's band by `linalg::svd`, and at compile time.
 - **`ml/lm_head.hpp`: the loss of a sequence through the head.** `lm_head_loss(head, hs, targets, logits)` is the
   mean next-token cross-entropy; with `dhs` and `dhead` it also adds the gradients, one row of logits at a time
   (never `n x V`), turned into its gradient in place. A tied head is the embedding table viewed as
