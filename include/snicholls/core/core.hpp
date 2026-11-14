@@ -101,6 +101,7 @@
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/kv_cache.hpp>
 #include <snicholls/core/ml/linear.hpp>
+#include <snicholls/core/ml/lm_head.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/norm.hpp>

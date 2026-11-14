@@ -1,0 +1,62 @@
+//
+//  lm_head_demo.cpp
+//  snicholls-core
+//
+//  Copyright 2010-2026 Saxon Herschel Nicholls
+//
+//  Demo for <snicholls/core/ml/lm_head.hpp>: the loss of a sequence through a tied head, its gradients, and gradient
+//  descent on the shared table lowering it. Exits non-zero if a result is not what it documents.
+//
+
+#include <snicholls/core/ml/lm_head.hpp>
+
+#include <snicholls/core/ml/embedding.hpp>
+
+#include <algorithm>
+#include <cmath>
+#include <cstddef>
+#include <cstdio>
+#include <span>
+#include <vector>
+
+int main()
+{
+    std::printf("snicholls-core lm_head demo\n");
+    namespace ml = snicholls::ml;
+    bool ok = true;
+
+    //! [lm_head]
+    // A vocabulary of 5 tokens, 3 channels, one table for the embedding and the head (tied, as GPT-2)
+    constexpr std::size_t vocab = 5, d = 3;
+    std::vector<float> table(vocab * d);
+    for (std::size_t i = 0; i < table.size(); ++i)
+        table[i] = 0.3f * std::sin(static_cast<float>(i));
+    const std::vector<std::size_t> tokens{0, 1, 2, 3}, next{1, 2, 3, 4};   // learn "the next token is one more"
+
+    std::vector<float> hs(tokens.size() * d), logits(vocab), dhs(hs.size()), dtable(table.size());
+    float first = 0.0f, last = 0.0f;
+    for (int step = 0; step < 50; ++step) {
+        for (std::size_t t = 0; t < tokens.size(); ++t)
+            ml::embed(table, tokens[t], std::span<float>(hs).subspan(t * d, d));   // here the model is the embedding alone
+        std::fill(dhs.begin(), dhs.end(), 0.0f);
+        std::fill(dtable.begin(), dtable.end(), 0.0f);
+        const ml::dense_weights<float> head{table, vocab, d};
+        const float loss = ml::lm_head_loss(head, hs, next, logits, dhs, dtable);   // the head's gradient into dtable
+        for (std::size_t t = 0; t < tokens.size(); ++t)
+            ml::embedding_backward(std::span<const float>(dhs).subspan(t * d, d), tokens[t], dtable);   // and the embedding's
+        for (std::size_t i = 0; i < table.size(); ++i)
+            table[i] -= 0.5f * dtable[i];
+        (step == 0 ? first : last) = loss;
+    }
+    // Evaluation, with the trained table, needs no gradient buffers
+    for (std::size_t t = 0; t < tokens.size(); ++t)
+        ml::embed(table, tokens[t], std::span<float>(hs).subspan(t * d, d));
+    const float eval = ml::lm_head_loss(ml::dense_weights<float>{table, vocab, d}, hs, next, logits);
+    //! [lm_head]
+
+    std::printf("  loss: %.4f at step 0, %.4f at step 49, %.4f after the last step\n", static_cast<double>(first),
+                static_cast<double>(last), static_cast<double>(eval));
+    ok &= last < 0.7f * first && eval < last;   // descent lowers the loss, and the last step lowered it again
+    std::printf(ok ? "lm_head demo: ok\n" : "lm_head demo: FAILED\n");
+    return ok ? 0 : 1;
+}

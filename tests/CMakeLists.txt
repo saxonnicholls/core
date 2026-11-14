@@ -81,6 +81,7 @@ add_executable(snicholls_core_tests
     ml/embedding_test.cpp
     ml/kv_cache_test.cpp
     ml/linear_test.cpp
+    ml/lm_head_test.cpp
     ml/minifloat_test.cpp
     ml/mlp_test.cpp
     ml/norm_test.cpp
