@@ -6,7 +6,8 @@
 //
 //  snicholls::ml::self_attention_head against the same head written by hand (the same projections, the same
 //  one-pass recurrence, the same operations in the same order, std::exp), one causal float head of 64 channels over
-//  tokens of 128, for sequences of 128 and 512 tokens. main() runs a fairness check first and refuses to benchmark if
+//  tokens of 128, for sequences of 128 and 512 tokens; and its backward pass against attend_backward's and
+//  matmul_backward's loops by hand, the same way. main() runs a fairness check first and refuses to benchmark if
 //  any output differs in a single bit (CLAUDE.md "Zero overhead").
 //
 
@@ -44,12 +45,15 @@ struct problem {
     std::size_t n;
     std::vector<float> x, wq, wk, wv, bq, bk, bv;
     std::vector<float> q, k, v, lse, out;
+    std::vector<float> dout, dq, dk, dv, dwq, dwk, dwv, dbq, dbk, dbv, dx;
     explicit problem(std::size_t tokens)
         : n(tokens), x(make(tokens * dm, 1)), wq(make(dh * dm, 2)), wk(make(dh * dm, 3)), wv(make(dh * dm, 4)),
           bq(make(dh, 5)), bk(make(dh, 6)), bv(make(dh, 7)), q(tokens * dh), k(tokens * dh), v(tokens * dh), lse(tokens),
-          out(tokens * dh)
+          out(tokens * dh), dout(make(tokens * dh, 8)), dq(tokens * dh), dk(tokens * dh), dv(tokens * dh), dwq(dh * dm),
+          dwk(dh * dm), dwv(dh * dm), dbq(dh), dbk(dh), dbv(dh), dx(tokens * dm)
     {
     }
+    [[nodiscard]] ml::self_attention_gradients<float> grads() { return {dq, dk, dv, dwq, dwk, dwv, dbq, dbk, dbv}; }
     [[nodiscard]] ml::self_attention_weights<ml::dense_weights<float>> weights() const
     {
         return {{wq, dh, dm}, {wk, dh, dm}, {wv, dh, dm}, bq, bk, bv};
@@ -111,6 +115,73 @@ void head_by_hand(problem& p)
     }
 }
 
+// By hand: llm.c's matmul_backward for one token, then attend_backward's loop per position
+void project_backward(const float* w, const float* x, const float* dy, float* dx, float* dw, float* db)
+{
+    for (std::size_t i = 0; i < dh; ++i) {
+        const float d = dy[i];
+        for (std::size_t j = 0; j < dm; ++j) {
+            const float p = w[i * dm + j] * d;
+            dx[j] += p;
+        }
+        for (std::size_t j = 0; j < dm; ++j) {
+            const float p = d * x[j];
+            dw[i * dm + j] += p;
+        }
+        db[i] += d;
+    }
+}
+
+float dot(const float* a, const float* b)
+{
+    float s = 0.0f;
+    for (std::size_t i = 0; i < dh; ++i)
+        s += a[i] * b[i];
+    return s;
+}
+
+void backward_by_hand(problem& p)
+{
+    for (std::size_t i = 0; i < p.n * dh; ++i)
+        p.dk[i] = p.dv[i] = 0.0f;
+    const float scale = 1.0f / std::sqrt(static_cast<float>(dh));
+    for (std::size_t t = 0; t < p.n; ++t) {
+        const float* q = p.q.data() + t * dh;
+        const float* o = p.out.data() + t * dh;
+        const float* g = p.dout.data() + t * dh;
+        float* gq = p.dq.data() + t * dh;
+        for (std::size_t i = 0; i < dh; ++i)
+            gq[i] = 0.0f;
+        if (p.lse[t] == -std::numeric_limits<float>::infinity())
+            continue;
+        const float big_d = dot(g, o);
+        for (std::size_t j = 0; j <= t; ++j) {
+            const float* k = p.k.data() + j * dh;
+            const float* v = p.v.data() + j * dh;
+            const float pr = std::exp(scale * dot(q, k) - p.lse[t]);
+            const float ds = pr * (dot(g, v) - big_d);
+            for (std::size_t i = 0; i < dh; ++i) {
+                p.dv[j * dh + i] += pr * g[i];
+                gq[i] += scale * ds * k[i];
+                p.dk[j * dh + i] += scale * ds * q[i];
+            }
+        }
+    }
+    for (std::size_t t = 0; t < p.n; ++t) {
+        const float* x = p.x.data() + t * dm;
+        float* dx = p.dx.data() + t * dm;
+        project_backward(p.wq.data(), x, p.dq.data() + t * dh, dx, p.dwq.data(), p.dbq.data());
+        project_backward(p.wk.data(), x, p.dk.data() + t * dh, dx, p.dwk.data(), p.dbk.data());
+        project_backward(p.wv.data(), x, p.dv.data() + t * dh, dx, p.dwv.data(), p.dbv.data());
+    }
+}
+
+void backward_core(problem& p)
+{
+    ml::self_attention_head_backward<dm, dh>(p.weights(), p.x, ml::self_attention_activations<float>{p.q, p.k, p.v, p.lse},
+                                             p.out, p.dout, p.dx, p.grads());
+}
+
 void run_core(problem& p)
 {
     ml::self_attention_head<dm, dh>(p.weights(), p.x, ml::self_attention_activations<float>{p.q, p.k, p.v, p.lse}, p.out);
@@ -140,6 +211,32 @@ void BM_SelfAttentionHead_HandWritten(benchmark::State& state)
 }
 BENCHMARK(BM_SelfAttentionHead_HandWritten)->Arg(128)->Arg(512);
 
+void BM_SelfAttentionHeadBackward_Core(benchmark::State& state)
+{
+    problem p(static_cast<std::size_t>(state.range(0)));
+    run_core(p);
+    for (auto _ : state) {
+        backward_core(p);
+        benchmark::DoNotOptimize(p.dx.data());
+        benchmark::ClobberMemory();
+    }
+    state.SetItemsProcessed(state.iterations() * state.range(0));
+}
+BENCHMARK(BM_SelfAttentionHeadBackward_Core)->Arg(128)->Arg(512);
+
+void BM_SelfAttentionHeadBackward_HandWritten(benchmark::State& state)
+{
+    problem p(static_cast<std::size_t>(state.range(0)));
+    head_by_hand(p);
+    for (auto _ : state) {
+        backward_by_hand(p);
+        benchmark::DoNotOptimize(p.dx.data());
+        benchmark::ClobberMemory();
+    }
+    state.SetItemsProcessed(state.iterations() * state.range(0));
+}
+BENCHMARK(BM_SelfAttentionHeadBackward_HandWritten)->Arg(128)->Arg(512);
+
 bool same_bits(const std::vector<float>& a, const std::vector<float>& b)
 {
     for (std::size_t i = 0; i < a.size(); ++i)
@@ -157,6 +254,12 @@ bool fair()
         if (!same_bits(a.q, b.q) || !same_bits(a.k, b.k) || !same_bits(a.v, b.v) || !same_bits(a.out, b.out)
             || !same_bits(a.lse, b.lse))
             return false;
+        backward_core(a);
+        backward_by_hand(b);
+        for (const auto m : {&problem::dq, &problem::dk, &problem::dv, &problem::dwq, &problem::dwk, &problem::dwv,
+                             &problem::dbq, &problem::dbk, &problem::dbv, &problem::dx})
+            if (!same_bits(a.*m, b.*m))
+                return false;
     }
     return true;
 }

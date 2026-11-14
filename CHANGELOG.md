@@ -13,6 +13,12 @@ A version is released when its tag is on a commit where every blocking CI leg is
   It has no configuration and no cache. The queries, keys, values and log-sum-exps go to `self_attention_activations`,
   buffers the caller owns, for a backward pass to read. Checked against the naive masked softmax in double; a
   prefix gives the whole sequence's bits; level with the same head written by hand, bit for bit.
+- **`self_attention_head_backward`**: the head's backward pass from what the forward saved (`attend_backward` from
+  the log-sum-exps, `rope_inverse`, then the projections), into `self_attention_gradients`. Checked against central
+  differences in double, causal, windowed and with RoPE; level with the same pass by hand, bit for bit.
+- **`linear_backward`** (`ml/linear.hpp`): `dx += Wᵀ dy`, `dW += dy xᵀ`, `db += dy` for dense float, double and
+  bfloat16 weights, as llm.c's `matmul_backward`. Quantised weights have no backward: training them is a compile
+  error.
 
 ### Changed
 

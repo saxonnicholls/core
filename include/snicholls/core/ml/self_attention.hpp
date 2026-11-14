@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::ml::self_attention_head`: one causal self-attention head over a sequence, from its own Q, K and V projections, with no configuration and no cache.
+/// \brief `snicholls::ml::self_attention_head` and its backward pass: one causal self-attention head over a sequence, from its own Q, K and V projections, with no configuration and no cache.
 /// \ingroup core
 ///
 /// **Overview.** The textbook head (Vaswani et al., 2017), on its own: for tokens `x_0 ... x_{n-1}` of `DModel`
@@ -25,7 +25,15 @@
 ///
 /// The weights are any `weight_matrix`: dense rows of float, double or bfloat16, or quantised blocks.
 ///
+/// `self_attention_head_backward` is its backward pass, from what the forward saved: `attend_backward` per position
+/// from the log-sum-exp, `rope_inverse`, then `linear_backward` through the projections. It writes the gradients in
+/// the queries, keys and values (`self_attention_gradients`, the caller's buffers) and adds into those of the
+/// weights, the biases and the tokens, so micro-batches and heads sharing an input accumulate. Only dense weights
+/// train: a quantised head's backward is a compile error.
+///
 /// \snippet ml/self_attention_demo.cpp self_attention
+///
+/// \snippet ml/self_attention_demo.cpp self_attention_backward
 ///
 /// **Relationships.** `ml/linear.hpp` (the projections), `ml/attention.hpp` (`attend`, `attention_window`),
 /// `ml/rope.hpp` (`rope_table` is a rope source; `no_rope`), `ml/attention_layer.hpp` (the configured layer).
@@ -40,12 +48,14 @@
 ///
 /// **Errors.** Preconditions, asserted: the input is a whole number of tokens; the matrices are `DHead x DModel`;
 /// `q`, `k`, `v` and `out` have `n · DHead` elements, `lse` none or `n`; biases are empty or `DHead`; the rope source
-/// covers position `n - 1`. An odd `DHead` with RoPE is a compile error.
+/// covers position `n - 1`; the backward pass needs the log-sum-exps saved, and its gradient buffers sized as the
+/// activations. An odd `DHead` with RoPE is a compile error.
 ///
 /// **Performance.** Against the same projections and recurrence written by hand
 /// (`benchmarks/ml/self_attention_benchmark.cpp`), one causal float head of 64 channels over tokens of 128, the bits
 /// identical: within 6% at 128 tokens (3.4 ms against 3.2 ms) and 4% at 512 (23.1 ms against 22.2 ms) (Xeon W-3245,
-/// Release, Apple clang 17, 2026-11-14, one thread). Both keep every sum in written order (`-ffp-contract=off`, no
+/// Release, Apple clang 17, 2026-11-14, one thread). The backward pass, the same way: within 10% at 128 tokens
+/// (1.94 ms against 1.76 ms) and level at 512 (20.8 ms against 20.9 ms). Both keep every sum in written order (`-ffp-contract=off`, no
 /// reassociation), so neither is vectorised across a reduction.
 ///
 /// **Tests and demos.** `tests/ml/self_attention_test.cpp`, `demos/ml/self_attention_demo.cpp`.
@@ -67,6 +77,7 @@
 #include <snicholls/core/ml/rope.hpp>
 #include <snicholls/core/ml/row.hpp>
 
+#include <algorithm>
 #include <cassert>
 #include <concepts>
 #include <cstddef>
@@ -149,6 +160,84 @@ constexpr void self_attention_head(const self_attention_weights<W, T>& w, const 
                            y.subspan(t * DHead, DHead), scale);
         if (!act.lse.empty())
             act.lse[t] = l;
+    }
+}
+
+/// \brief The gradients of one head: views the caller owns.
+/// \ingroup core
+/// \tparam T The number type.
+template <math::math_number T>
+struct self_attention_gradients
+{
+    std::span<T> q{};        ///< `n · DHead`: written, the gradients in the projected queries.
+    std::span<T> k{};        ///< `n · DHead`: written, the gradients in the projected keys.
+    std::span<T> v{};        ///< `n · DHead`: written, the gradients in the values.
+    std::span<T> wq{};       ///< `DHead · DModel`: added into.
+    std::span<T> wk{};       ///< `DHead · DModel`: added into.
+    std::span<T> wv{};       ///< `DHead · DModel`: added into.
+    std::span<T> q_bias{};   ///< `DHead`: added into; or empty.
+    std::span<T> k_bias{};   ///< `DHead`: added into; or empty.
+    std::span<T> v_bias{};   ///< `DHead`: added into; or empty.
+};
+
+/// \brief The backward pass of `self_attention_head`, from what its forward pass saved.
+///
+/// Per position, `attend_backward` from the saved log-sum-exp gives the gradients in the query, and adds into the
+/// keys' and values' it saw; RoPE's are undone by `rope_inverse`; `linear_backward` takes them through the three
+/// projections. No `n x n` probabilities are formed.
+/// \tparam DModel The channels of a token.
+/// \tparam DHead The channels of the head.
+/// \param w The weights the forward pass used: dense storage (float, double, bfloat16).
+/// \param xs The tokens it read.
+/// \param act What it saved, the log-sum-exps included.
+/// \param out What it wrote.
+/// \param dout The gradient in `out`.
+/// \param dxs Added into, `n · DModel`; or empty to skip it.
+/// \param grads Receives the gradients: `q`, `k`, `v` written, the weights' and biases' added into.
+/// \param window The forward pass's window.
+/// \param rope_src The forward pass's rope source, or `no_rope`.
+/// \param layout The forward pass's RoPE layout.
+template <std::size_t DModel, std::size_t DHead, typename S, math::math_number T, row X, row O, row DO, mutable_row DX,
+          typename R = no_rope_t>
+    requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<O>, T> && std::same_as<row_value_t<DO>, T>
+             && std::same_as<row_value_t<DX>, T> && (std::same_as<R, no_rope_t> || (rope_source<R> && DHead % 2 == 0))
+constexpr void self_attention_head_backward(const self_attention_weights<dense_weights<S>, T>& w, const X& xs,
+                                            const self_attention_activations<T>& act, const O& out, const DO& dout,
+                                            DX&& dxs, const self_attention_gradients<T>& grads, std::size_t window = 0,
+                                            const R& rope_src = no_rope, rope_layout layout = rope_layout::half)
+{
+    const auto x = as_row(xs);
+    const auto y = as_row(out);
+    const auto g = as_row(dout);
+    const auto gx = as_mutable_row(dxs);
+    const std::size_t n = x.size() / DModel;
+    assert(x.size() == n * DModel && y.size() == n * DHead && g.size() == n * DHead && (gx.empty() || gx.size() == x.size()));
+    assert(act.q.size() == n * DHead && act.k.size() == n * DHead && act.v.size() == n * DHead && act.lse.size() == n);
+    assert(grads.q.size() == n * DHead && grads.k.size() == n * DHead && grads.v.size() == n * DHead);
+    std::fill(grads.k.begin(), grads.k.end(), T(0));
+    std::fill(grads.v.begin(), grads.v.end(), T(0));
+    const T scale = T(1) / math::sqrt(T(DHead));
+    for (std::size_t t = 0; t < n; ++t) {
+        const key_range r = attention_window(t, window);
+        const auto keys = std::span<const T>(act.k.subspan(r.first * DHead, r.size() * DHead));
+        const auto values = std::span<const T>(act.v.subspan(r.first * DHead, r.size() * DHead));
+        attend_backward(std::span<const T>(act.q.subspan(t * DHead, DHead)), keys, values, y.subspan(t * DHead, DHead),
+                        g.subspan(t * DHead, DHead), act.lse[t], scale, grads.q.subspan(t * DHead, DHead),
+                        grads.k.subspan(r.first * DHead, r.size() * DHead),
+                        grads.v.subspan(r.first * DHead, r.size() * DHead));
+    }
+    const std::span<T> no_dx{};
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto dq = grads.q.subspan(t * DHead, DHead), dk = grads.k.subspan(t * DHead, DHead);
+        if constexpr (!std::same_as<R, no_rope_t>) {
+            rope_inverse(dq, rope_src.cos_at(t), rope_src.sin_at(t), layout);
+            rope_inverse(dk, rope_src.cos_at(t), rope_src.sin_at(t), layout);
+        }
+        const auto xt = x.subspan(t * DModel, DModel);
+        const auto dxt = gx.empty() ? no_dx : gx.subspan(t * DModel, DModel);
+        linear_backward(w.q, xt, dq, dxt, grads.wq, grads.q_bias);
+        linear_backward(w.k, xt, dk, dxt, grads.wk, grads.k_bias);
+        linear_backward(w.v, xt, grads.v.subspan(t * DHead, DHead), dxt, grads.wv, grads.v_bias);
     }
 }
 

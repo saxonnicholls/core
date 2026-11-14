@@ -28,7 +28,7 @@ than changing them.
 
 | Header | Adds |
 |---|---|
-| `linear.hpp` | `linear_backward` for trainable weights |
+| `linear.hpp` | `linear_backward` for trainable weights (done; with `self_attention_head_backward`, one head on its own) |
 | `mlp.hpp` | `mlp_backward` |
 | `attention_layer.hpp` | `attention_backward` per head and per layer, from the saved lse |
 | `transformer_block.hpp` | `activations<Config, T, Save>`, `block_grads<Config>`, `block_backward` |

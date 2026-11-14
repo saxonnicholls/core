@@ -121,4 +121,101 @@ TEST(MlLinear, RowsAreViewsIntoTheMatrix)
     EXPECT_EQ(w.row(1).size(), 3u);
 }
 
+// linear_backward: dx += W^T dy, dw += dy x^T, db += dy
+template <typename W>
+concept has_backward = requires(const W& w, std::span<const float> x, std::span<float> g) { ml::linear_backward(w, x, x, g, g, g); };
+static_assert(has_backward<ml::dense_weights<float>> && has_backward<ml::dense_weights<ml::bfloat16>>);
+static_assert(!has_backward<ml::quantized_weights<ml::block_q4_0>>, "quantised weights are inference only");
+
+constexpr bool backward_compile_time()
+{
+    const std::array<double, 6> w{1, 2, 3, 4, 5, 6};   // 2 x 3
+    const std::array<double, 3> x{1, 0, -1};
+    const std::array<double, 2> dy{1, 10};
+    std::array<double, 3> dx{100, 0, 0};
+    std::array<double, 6> dw{};
+    std::array<double, 2> db{};
+    ml::linear_backward(ml::dense_weights<double>{w, 2, 3}, x, dy, dx, dw, db);
+    return dx == std::array<double, 3>{100 + 1 + 40, 2 + 50, 3 + 60} && dw == std::array<double, 6>{1, 0, -1, 10, 0, -10}
+           && db == std::array<double, 2>{1, 10};
+}
+static_assert(backward_compile_time());
+
+TEST(MlLinear, BackwardIsTheTransposeTheOuterProductAndTheGradient)
+{
+    constexpr std::size_t rows = 3, cols = 5;
+    const auto w = pattern(rows * cols, 0.5f, 1), x = pattern(cols, 2.0f, 2), dy = pattern(rows, 1.0f, 3);
+    std::vector<float> dx(cols), dw(rows * cols), db(rows);
+    ml::linear_backward(ml::dense_weights<float>{w, rows, cols}, x, dy, dx, dw, db);
+    std::vector<float> want_dx(cols);
+    for (std::size_t i = 0; i < rows; ++i)
+        for (std::size_t j = 0; j < cols; ++j) {
+            const float p = w[i * cols + j] * dy[i];
+            want_dx[j] += p;
+            EXPECT_EQ(dw[i * cols + j], dy[i] * x[j]);
+        }
+    EXPECT_EQ(dx, want_dx);
+    EXPECT_EQ(db, dy);
+}
+
+TEST(MlLinear, BackwardAccumulatesAndSkipsAnEmptyInputOrBiasGradient)
+{
+    constexpr std::size_t rows = 2, cols = 4;
+    const auto w = pattern(rows * cols, 0.5f, 1), x = pattern(cols, 2.0f, 2), dy = pattern(rows, 1.0f, 3);
+    const ml::dense_weights<float> m{w, rows, cols};
+    std::vector<float> dx(cols), dw(rows * cols), db(rows), dw2(rows * cols);
+    ml::linear_backward(m, x, dy, dx, dw, db);
+    ml::linear_backward(m, x, dy, dx, dw, db);
+    ml::linear_backward(m, x, dy, std::span<float>{}, dw2);
+    for (std::size_t i = 0; i < dw.size(); ++i)
+        EXPECT_EQ(dw[i], dw2[i] + dw2[i]);
+    for (std::size_t i = 0; i < rows; ++i)
+        EXPECT_EQ(db[i], dy[i] + dy[i]);
+}
+
+TEST(MlLinear, BackwardMatchesCentralDifferences)
+{
+    // L = g . (W x + b): dL/dx, dL/dW, dL/db by central differences in double
+    constexpr std::size_t rows = 3, cols = 4;
+    std::vector<double> w(rows * cols), x(cols), b(rows), g(rows);
+    for (std::size_t i = 0; i < w.size(); ++i) w[i] = std::sin(0.3 * double(i) + 0.2);
+    for (std::size_t i = 0; i < cols; ++i) x[i] = std::cos(0.7 * double(i));
+    for (std::size_t i = 0; i < rows; ++i) { b[i] = 0.1 * double(i); g[i] = std::sin(1.3 * double(i) + 0.5); }
+    auto loss = [&] {
+        std::vector<double> y(rows);
+        ml::linear(ml::dense_weights<double>{w, rows, cols}, x, y, b);
+        double l = 0;
+        for (std::size_t i = 0; i < rows; ++i) l += g[i] * y[i];
+        return l;
+    };
+    std::vector<double> dx(cols), dw(rows * cols), db(rows);
+    ml::linear_backward(ml::dense_weights<double>{w, rows, cols}, x, g, dx, dw, db);
+    auto check = [&](std::vector<double>& p, const std::vector<double>& grad) {
+        for (std::size_t i = 0; i < p.size(); ++i) {
+            const double keep = p[i], h = 1e-6;
+            p[i] = keep + h; const double up = loss();
+            p[i] = keep - h; const double down = loss();
+            p[i] = keep;
+            EXPECT_NEAR(grad[i], (up - down) / (2 * h), 1e-8) << i;
+        }
+    };
+    check(x, dx);
+    check(w, dw);
+    check(b, db);
+}
+
+TEST(MlLinear, BackwardWidensBFloat16Weights)
+{
+    constexpr std::size_t rows = 2, cols = 3;
+    const std::vector<float> w{0.5f, -1.0f, 2.0f, 0.25f, 4.0f, -0.125f};   // exact in bfloat16
+    std::vector<ml::bfloat16> wb;
+    for (float v : w) wb.push_back(ml::to_minifloat<ml::bfloat16>(v));
+    const std::vector<float> x{1, 2, 3}, dy{1, -2};
+    std::vector<float> dx(cols), dw(rows * cols), dxb(cols), dwb(rows * cols);
+    ml::linear_backward(ml::dense_weights<float>{w, rows, cols}, x, dy, dx, dw);
+    ml::linear_backward(ml::dense_weights<ml::bfloat16>{wb, rows, cols}, x, dy, dxb, dwb);
+    EXPECT_EQ(dx, dxb);
+    EXPECT_EQ(dw, dwb);
+}
+
 } // namespace

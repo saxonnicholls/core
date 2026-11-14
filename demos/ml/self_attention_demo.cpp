@@ -5,13 +5,15 @@
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
 //  Demo for <snicholls/core/ml/self_attention.hpp>: one causal head over five tokens, the same head with a sliding
-//  window, and with RoPE. Exits non-zero if a result is not what it documents.
+//  window, with RoPE, and the backward pass of a squared-error loss. Exits non-zero if a result is not
+//  what it documents.
 //
 
 #include <snicholls/core/ml/self_attention.hpp>
 
 #include <snicholls/core/ml/rope.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -53,6 +55,40 @@ int main()
     std::array<float, n * d_head> rotated{};
     ml::self_attention_head<d_model, d_head>(w, x, act, rotated, 0, table);
     //! [self_attention]
+
+    //! [self_attention_backward]
+    // Training: run the causal head again (act now holds its Q, K, V and log-sum-exps), then for the loss
+    // L = 1/2 |out - target|^2 the gradient in out is out - target
+    ml::self_attention_head<d_model, d_head>(w, x, act, out);
+    std::array<float, n * d_head> dout{};
+    for (std::size_t i = 0; i < dout.size(); ++i)
+        dout[i] = out[i] - 0.25f;   // a target of 0.25 everywhere
+
+    // Q, K, V gradients are written; the weights', biases' and tokens' are added into, so zero them first
+    std::array<float, n * d_head> dq{}, dk{}, dv{};
+    std::array<float, d_head * d_model> dwq{}, dwk{}, dwv{};
+    std::array<float, n * d_model> dx{};
+    const ml::self_attention_gradients<float> grads{dq, dk, dv, dwq, dwk, dwv};
+    ml::self_attention_head_backward<d_model, d_head>(w, x, act, out, dout, dx, grads);
+
+    // One step of gradient descent on Wv lowers the loss
+    std::array<float, d_head * d_model> wv2 = wv;
+    for (std::size_t i = 0; i < wv2.size(); ++i)
+        wv2[i] -= 0.5f * dwv[i];
+    const ml::self_attention_weights<ml::dense_weights<float>> stepped{w.q, w.k, {wv2, d_head, d_model}};
+    std::array<float, n * d_head> after{};
+    ml::self_attention_head<d_model, d_head>(stepped, x, act, after);
+    //! [self_attention_backward]
+    auto loss = [](const std::array<float, n * d_head>& o) {
+        float l = 0;
+        for (float e : o)
+            l += 0.5f * (e - 0.25f) * (e - 0.25f);
+        return l;
+    };
+    std::printf("  backward: loss %.5f, after one step on Wv %.5f\n", double(loss(out)), double(loss(after)));
+    ok &= loss(after) < loss(out);
+    // Position 0's output is its own value, so Wv's gradient at row 0 includes token 0's channels; the tokens get one too
+    ok &= dwv[0] != 0.0f && std::any_of(dx.begin(), dx.end(), [](float g) { return g != 0.0f; });
 
     for (std::size_t t = 0; t < n; ++t)
         std::printf("  position %zu: causal (%+.4f, %+.4f)  window 2 (%+.4f, %+.4f)  rope (%+.4f, %+.4f)\n", t,

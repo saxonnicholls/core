@@ -47,6 +47,13 @@ int main()
     std::array<float, 2> yb{}, yq{};
     ml::linear(half, ml::prepare_input<32>(half, x), yb, bias);
     ml::linear(q4, ml::prepare_input<32>(q4, x), yq, bias);
+
+    // Training: the backward pass of the float product adds W^T dy, dy x^T and dy into the gradients
+    const std::array<float, 2> dy{1.0f, 0.0f};   // the gradient in output 0 only
+    std::array<float, 32> dx{};
+    std::array<float, 2 * 32> dw{};
+    std::array<float, 2> db{};
+    ml::linear_backward(dense, x, dy, dx, dw, db);
     //! [linear]
 
     std::printf("  float [%.4f %.4f], bfloat16 [%.4f %.4f], Q4_0 [%.4f %.4f]\n", static_cast<double>(y[0]), static_cast<double>(y[1]),
@@ -54,6 +61,12 @@ int main()
     ok &= y[0] == 1.0f + 0.5f * 496.0f / 8.0f && y[1] == (0.5f * 240.0f - 256.0f) / 8.0f && yb == y;   // 0.5 and -1 are exact in bfloat16
     // Q4_0 holds 0.5 and -1 exactly too (its scale is 1/8), so what remains is the input's rounding to Q8_0
     ok &= std::abs(yq[0] - y[0]) < 0.05f && std::abs(yq[1] - y[1]) < 0.05f;
+    // Only output 0 had a gradient: dx is its row of weights, dw's row 0 is x and row 1 zero, db is dy
+    std::printf("  backward: dx[0] %.2f, dw[0][8] %.2f, dw[1][8] %.2f, db [%.0f %.0f]\n", static_cast<double>(dx[0]),
+                static_cast<double>(dw[8]), static_cast<double>(dw[32 + 8]), static_cast<double>(db[0]), static_cast<double>(db[1]));
+    for (std::size_t j = 0; j < 32; ++j)
+        ok &= dx[j] == 0.5f && dw[j] == x[j] && dw[32 + j] == 0.0f;
+    ok &= db == dy;
     std::printf(ok ? "linear demo: ok\n" : "linear demo: FAILED\n");
     return ok ? 0 : 1;
 }

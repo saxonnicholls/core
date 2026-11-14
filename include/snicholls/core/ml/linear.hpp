@@ -19,6 +19,8 @@
 ///   input.
 /// - `linear(w, input, y, bias)`: each output starts at its bias (or 0) and adds the products in input order, as
 ///   llm.c's `matmul_forward` does, so a dense float product is llm.c's to the bit.
+/// - `linear_backward(w, x, dy, dx, dw, db)`: for dense (trainable) storage, adds `Wᵀ dy`, `dy xᵀ` and `dy` into the
+///   gradients, as llm.c's `matmul_backward`.
 ///
 /// A storage of the caller's own joins by overloading `prepare_input` and `linear` in its namespace (found by ADL);
 /// that is the seam for a BLAS or device backend.
@@ -170,6 +172,48 @@ constexpr void linear(const dense_weights<S>& w, const X& x, Y&& y, const B& bia
             acc += p;
         }
         out[i] = acc;
+    }
+}
+
+/// \brief The backward pass of a dense `linear`: adds `Wᵀ dy` into `dx`, `dy xᵀ` into `dw` and `dy` into `db`.
+///
+/// Every gradient is accumulated, so an input shared by several products (Q, K and V) and the positions of a
+/// sequence add into one buffer; zero them first. The loops are llm.c's `matmul_backward`: for each output `i`,
+/// `dx_j += w_ij · dy_i` and `dw_ij += dy_i · x_j` for `j` in order, then `db_i += dy_i`. Only dense storage has a
+/// backward: training quantised weights is a compile error.
+/// \param w The matrix, `rows x cols`.
+/// \param x The input the forward pass read, `cols`.
+/// \param dy The gradient in the output, `rows`.
+/// \param dx Added into, `cols`; or empty to skip it (a first layer's input).
+/// \param dw Added into, `rows · cols`, row by row as `w`.
+/// \param db Added into, `rows`; or empty for a matrix without a bias.
+template <typename S, row X, row DY, mutable_row DX, mutable_row DW, mutable_row DB = std::span<row_value_t<X>>>
+    requires std::same_as<row_value_t<X>, row_value_t<DY>> && std::same_as<row_value_t<X>, row_value_t<DX>>
+             && std::same_as<row_value_t<X>, row_value_t<DW>> && std::same_as<row_value_t<X>, row_value_t<DB>>
+constexpr void linear_backward(const dense_weights<S>& w, const X& x, const DY& dy, DX&& dx, DW&& dw, DB&& db = DB{})
+{
+    using T = row_value_t<X>;
+    const auto in = as_row(x);
+    const auto g = as_row(dy);
+    const auto gx = as_mutable_row(dx);
+    const auto gw = as_mutable_row(dw);
+    const auto gb = as_mutable_row(db);
+    assert(in.size() == w.cols && g.size() == w.rows && w.data.size() == w.rows * w.cols && gw.size() == w.rows * w.cols
+           && (gx.empty() || gx.size() == w.cols) && (gb.empty() || gb.size() == w.rows));
+    for (std::size_t i = 0; i < w.rows; ++i) {
+        const auto r = w.row(i);
+        const T d = g[i];
+        if (!gx.empty())
+            for (std::size_t j = 0; j < w.cols; ++j) {
+                const T p = detail::linear::widen<T>(r[j]) * d;
+                gx[j] += p;
+            }
+        for (std::size_t j = 0; j < w.cols; ++j) {
+            const T p = d * in[j];
+            gw[i * w.cols + j] += p;
+        }
+        if (!gb.empty())
+            gb[i] += d;
     }
 }
 

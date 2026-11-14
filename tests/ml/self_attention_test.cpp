@@ -7,7 +7,8 @@
 //  Tests for <snicholls/core/ml/self_attention.hpp>: one head against the naive softmax(Q K^T / sqrt(d) + mask) V in
 //  double, with and without biases, a sliding window, RoPE in both layouts, the log-sum-exps, a prefix that gives
 //  the same bits as the whole sequence, float within rounding of double, quantised and bfloat16 weights, no tokens,
-//  and compile-time use.
+//  and compile-time use; the backward pass against central differences in double (causal, windowed, with RoPE),
+//  its accumulation, the skipped input gradient, and that only dense weights train.
 //
 
 #include <snicholls/core/ml/self_attention.hpp>
@@ -336,6 +337,113 @@ TEST(MlSelfAttention, QuantisedWeightsProjectThroughQ8)
     ml::self_attention_head<qm, dh>(wd, x, ml::self_attention_activations<float>{q2, k2, v2, {}}, out2);
     for (std::size_t i = 0; i < out.size(); ++i)
         EXPECT_NEAR(out[i], out2[i], 5e-2);
+}
+
+// The backward pass: L = sum(out . G) for a fixed G, so dL/dout = G
+template <typename W>
+concept trainable = requires(const ml::self_attention_weights<W, float>& w, std::span<const float> x,
+                             const ml::self_attention_activations<float>& a, const ml::self_attention_gradients<float>& g,
+                             std::span<float> dx) {
+    ml::self_attention_head_backward<32, dh>(w, x, a, x, x, dx, g);
+};
+static_assert(trainable<ml::dense_weights<float>> && trainable<ml::dense_weights<ml::bfloat16>>);
+static_assert(!trainable<ml::quantized_weights<ml::block_q8_0>>, "quantised weights are inference only");
+
+struct grads
+{
+    std::vector<double> q, k, v, wq, wk, wv, bq, bk, bv, x;
+    explicit grads(std::size_t tokens)
+        : q(tokens * dh), k(tokens * dh), v(tokens * dh), wq(dh * dm), wk(dh * dm), wv(dh * dm), bq(dh), bk(dh), bv(dh),
+          x(tokens * dm)
+    {
+    }
+    [[nodiscard]] ml::self_attention_gradients<double> view() { return {q, k, v, wq, wk, wv, bq, bk, bv}; }
+};
+
+template <typename R = ml::no_rope_t>
+void expect_backward_is_central_differences(std::size_t window, const R& rope_src = ml::no_rope)
+{
+    head<double> h(true);
+    auto x = wave(n * dm, 1.0, 0.3);
+    const auto gout = wave(n * dh, 0.8, 1.9);
+    auto loss = [&] {
+        run<double> r(n);
+        ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, window, rope_src);
+        double l = 0;
+        for (std::size_t i = 0; i < r.out.size(); ++i)
+            l += gout[i] * r.out[i];
+        return l;
+    };
+    run<double> r(n);
+    ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, window, rope_src);
+    grads g(n);
+    ml::self_attention_head_backward<dm, dh>(h.weights(), x, r.act(), r.out, gout, g.x, g.view(), window, rope_src);
+    auto check = [&](std::vector<double>& p, const std::vector<double>& grad, const char* what) {
+        for (std::size_t i = 0; i < p.size(); ++i) {
+            const double keep = p[i], e = 1e-6;
+            p[i] = keep + e;
+            const double up = loss();
+            p[i] = keep - e;
+            const double down = loss();
+            p[i] = keep;
+            EXPECT_NEAR(grad[i], (up - down) / (2 * e), 1e-7) << what << " " << i;
+        }
+    };
+    check(x, g.x, "x");
+    check(h.wq, g.wq, "wq");
+    check(h.wk, g.wk, "wk");
+    check(h.wv, g.wv, "wv");
+    check(h.bq, g.bq, "bq");
+    check(h.bk, g.bk, "bk");
+    check(h.bv, g.bv, "bv");
+}
+
+TEST(MlSelfAttention, BackwardMatchesCentralDifferences)
+{
+    expect_backward_is_central_differences(0);
+}
+
+TEST(MlSelfAttention, BackwardWithASlidingWindowMatchesCentralDifferences)
+{
+    expect_backward_is_central_differences(2);
+    expect_backward_is_central_differences(3);
+}
+
+TEST(MlSelfAttention, BackwardWithRopeMatchesCentralDifferences)
+{
+    static const ml::rope_table<double, 16, dh> table{};
+    expect_backward_is_central_differences(0, table);
+}
+
+TEST(MlSelfAttention, BackwardAccumulatesTheWeightGradientsAndCanSkipTheInputs)
+{
+    const head<double> h(true);
+    const auto x = wave(n * dm, 1.0, 0.3);
+    const auto gout = wave(n * dh, 0.8, 1.9);
+    run<double> r(n);
+    ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out);
+    grads once(n), twice(n);
+    ml::self_attention_head_backward<dm, dh>(h.weights(), x, r.act(), r.out, gout, once.x, once.view());
+    ml::self_attention_head_backward<dm, dh>(h.weights(), x, r.act(), r.out, gout, twice.x, twice.view());
+    ml::self_attention_head_backward<dm, dh>(h.weights(), x, r.act(), r.out, gout, std::span<double>{}, twice.view());
+    // The weights' and biases' gradients add; the queries', keys' and values' are written each time
+    for (std::size_t i = 0; i < once.wq.size(); ++i)
+        EXPECT_NEAR(twice.wq[i], 2 * once.wq[i], 1e-15);
+    for (std::size_t i = 0; i < dh; ++i)
+        EXPECT_NEAR(twice.bv[i], 2 * once.bv[i], 1e-15);
+    EXPECT_EQ(twice.q, once.q);
+    EXPECT_EQ(twice.k, once.k);
+    EXPECT_EQ(twice.v, once.v);
+    EXPECT_EQ(twice.x, once.x);   // the skipped input gradient was not touched
+}
+
+TEST(MlSelfAttention, BackwardOfNoTokensAddsNothing)
+{
+    const head<double> h(true);
+    run<double> r(0);
+    grads g(0);
+    ml::self_attention_head_backward<dm, dh>(h.weights(), std::span<const double>{}, r.act(), r.out, r.out, g.x, g.view());
+    EXPECT_TRUE(std::all_of(g.wq.begin(), g.wq.end(), [](double v) { return v == 0; }));
 }
 
 } // namespace
