@@ -7,7 +7,8 @@
 //  Demo for <snicholls/core/ml/transformer_block.hpp>: a two-layer stack of small blocks (RMS norm, grouped-query
 //  attention with RoPE, SwiGLU) prefilling a prompt and then decoding one more token, and the norm each configuration
 //  applies. Prefill and decode are one code path, so prefilling the prompt and decoding it token by token agree to the
-//  bit. Exits non-zero if a result is not what it documents.
+//  bit; then one block trained by gradient descent, its loss falling. Exits non-zero if a result is not what it
+//  documents.
 //
 
 #include <snicholls/core/ml/transformer_block.hpp>
@@ -16,6 +17,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
+#include <span>
 #include <vector>
 
 namespace {
@@ -102,6 +104,53 @@ int main()
     ok &= prompt == stepped && next == next2 && keys == k2 && std::abs(std::sqrt(ms / 8) - 1.0) < 1e-4;
     for (float v : next)
         ok &= std::isfinite(v);
+    //! [block_backward]
+    // Training one block: 1/2 |block(x) - target|^2 over 3 tokens, by plain gradient descent on every weight
+    layer t(1);   // a copy of layer 0's weights, to train
+    const std::vector<float> x = pattern(3 * 8, 2.0f, 20), target = pattern(3 * 8, 1.0f, 40);
+    std::vector<float> x0(x.size()), h1(x.size()), x1(x.size()), h2(x.size()), sq(3 * 8), sk(3 * 4), sv(3 * 4), sy(3 * 8),
+        slse(3 * 2), sup(3 * 16), sgate(3 * 16), scratch(x.size());
+    const ml::block_activations<float> act{x0, h1, x1, h2, {sq, sk, sv, {}, {}, sy, slse}, sup, sgate};
+    std::vector<float> losses;
+    for (int step = 0; step < 5; ++step) {
+        std::vector<float> out = x;
+        ml::block_forward_sequence<c>(t.weights(), out, rope, act);
+        std::vector<float> dout(out.size());
+        float loss = 0.0f;
+        for (std::size_t i = 0; i < out.size(); ++i) {
+            dout[i] = out[i] - target[i];
+            loss += 0.5f * dout[i] * dout[i];
+        }
+        losses.push_back(loss);
+        // Gradients have the weights' shapes; the backward pass adds into them
+        std::vector<float> gq(t.q.size()), gkv(t.kv.size()), gv(t.kv.size()), go(t.o.size()), gup(t.up.size()),
+            ggate(t.gate.size()), gdown(t.down.size()), dq(sq.size()), dk(sk.size()), dv(sv.size());
+        const ml::block_gradients<float> grads{{}, {}, {}, {}, {dq, dk, dv, gq, gkv, gv, go}, {gup, ggate, gdown}, scratch};
+        ml::block_backward<c>(t.weights(), rope, act, dout, grads);   // dout becomes the gradient in x
+        // K and V share one matrix in this layer, so its gradient is the sum of both uses
+        auto descend = [](std::vector<float>& w, const std::vector<float>& g) {
+            for (std::size_t i = 0; i < w.size(); ++i)
+                w[i] -= 0.02f * g[i];
+        };
+        for (std::size_t i = 0; i < gkv.size(); ++i)
+            gkv[i] += gv[i];
+        descend(t.q, gq), descend(t.kv, gkv), descend(t.o, go), descend(t.up, gup), descend(t.gate, ggate), descend(t.down, gdown);
+    }
+    //! [block_backward]
+    std::printf("  training one block, loss by step:");
+    for (float l : losses)
+        std::printf(" %.4f", static_cast<double>(l));
+    std::printf("\n");
+    for (std::size_t i = 1; i < losses.size(); ++i)
+        ok &= losses[i] < losses[i - 1];
+
+    // The sequence forward is block_prefill, to the bit
+    std::vector<float> seq = pattern(3 * 8, 2.0f, 20), pre = seq;
+    std::vector<float> k3(ml::kv_cache_view<c>::required_size(1, 3)), v3(k3.size());
+    ml::block_forward_sequence<c>(l0.weights(), seq, rope, act);
+    ml::block_prefill<c>(l0.weights(), pre, 0, ml::kv_cache_view<c>(k3, v3, 1, 3), 0, rope);
+    ok &= seq == pre;
+
     std::printf(ok ? "transformer_block demo: ok\n" : "transformer_block demo: FAILED\n");
     return ok ? 0 : 1;
 }

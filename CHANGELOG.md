@@ -16,6 +16,12 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`self_attention_head_backward`**: the head's backward pass from what the forward saved (`attend_backward` from
   the log-sum-exps, `rope_inverse`, then the projections), into `self_attention_gradients`. Checked against central
   differences in double, causal, windowed and with RoPE; level with the same pass by hand, bit for bit.
+- **The transformer block trains** (`ml/transformer_block.hpp`): `block_forward_sequence` runs a block over a
+  sequence in place and saves `block_activations` (each token's result `block_prefill`'s, to the bit);
+  `block_backward` turns the gradient in its output into the gradient in its input and adds every weight's into
+  `block_gradients`. Checked against central differences in double for GPT-2-, Llama- and nanochat-shaped blocks
+  (layer and RMS norm, GELU, SwiGLU and ReLU², GQA, QK norm, RoPE, a window); the demo trains one block by gradient
+  descent.
 - **The attention layer trains** (`ml/attention_layer.hpp`): `attention_forward_sequence` saves
   `attention_activations` over a sequence (each token's output `attention_forward`'s, to the bit), and
   `attention_backward` gives every gradient (`attention_gradients`: the projections, biases, QK-norm weights and the

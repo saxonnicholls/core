@@ -253,4 +253,158 @@ constexpr bool compile_time()
 }
 static_assert(compile_time());
 
+// Training: the block over a sequence and its backward pass, in double
+using WD = ml::dense_weights<double>;
+
+constexpr ml::transformer_config b_gpt2{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 12,
+                                        .norm = ml::norm_kind::layer, .mlp = ml::mlp_kind::gelu_tanh};
+constexpr ml::transformer_config b_llama{.d_model = 8, .n_heads = 2, .n_kv_heads = 1, .head_dim = 4, .d_ff = 12,
+                                         .mlp = ml::mlp_kind::swiglu, .rope = ml::rope_kind::half};
+constexpr ml::transformer_config b_nanochat{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 12,
+                                            .qk_norm = ml::qk_norm_kind::after_rope, .mlp = ml::mlp_kind::relu_squared,
+                                            .rope = ml::rope_kind::half, .window = 3};
+
+std::vector<double> bwave(std::size_t n, double a, double b)
+{
+    std::vector<double> v(n);
+    for (std::size_t i = 0; i < n; ++i)
+        v[i] = a * std::sin(0.47 * double(i) + b);
+    return v;
+}
+
+static const ml::rope_table<double, 16, 4> brope{};
+
+template <ml::transformer_config C>
+const auto& brope_for()
+{
+    if constexpr (C.rope == ml::rope_kind::none)
+        return ml::no_rope;
+    else
+        return brope;
+}
+
+// Every parameter of a block, owned; each vector is one tensor
+template <ml::transformer_config C>
+struct train_block {
+    static constexpr std::size_t n = 5, d = C.d_model, f = C.d_ff;
+    static constexpr bool layer = C.norm == ml::norm_kind::layer, swiglu = C.mlp == ml::mlp_kind::swiglu,
+                          qk = C.qk_norm != ml::qk_norm_kind::none;
+    std::vector<std::vector<double>> p;
+    enum { n1w, n1b, wq, wk, wv, wo, bq, bk, bv, bo, nq, nk, n2w, n2b, up, gate, down, bup, bgate, bdown, count };
+    train_block() : p(count)
+    {
+        auto set = [&](int i, std::size_t size, double a) { p[i] = bwave(size, a, 0.37 * i); };
+        set(n1w, d, 0.2); set(n2w, d, 0.2);
+        for (double& e : p[n1w]) e += 1;
+        for (double& e : p[n2w]) e += 1;
+        if (layer) { set(n1b, d, 0.1); set(n2b, d, 0.1); }
+        set(wq, C.q_size() * d, 0.5); set(wk, C.kv_size() * d, 0.5); set(wv, C.kv_size() * d, 0.6); set(wo, d * C.q_size(), 0.5);
+        set(bq, C.q_size(), 0.1); set(bk, C.kv_size(), 0.1); set(bv, C.kv_size(), 0.1); set(bo, d, 0.1);
+        if (qk) { set(nq, C.head_dim, 0.1); set(nk, C.head_dim, 0.1); for (double& e : p[nq]) e += 1; for (double& e : p[nk]) e += 1; }
+        set(up, f * d, 0.5); set(down, d * f, 0.5); set(bup, f, 0.1); set(bdown, d, 0.1);
+        if (swiglu) { set(gate, f * d, 0.5); set(bgate, f, 0.1); }
+    }
+    ml::block_weights<WD, double> weights() const
+    {
+        return {p[n1w], p[n1b],
+                {WD{p[wq], C.q_size(), d}, WD{p[wk], C.kv_size(), d}, WD{p[wv], C.kv_size(), d}, WD{p[wo], d, C.q_size()},
+                 p[bq], p[bk], p[bv], p[bo], p[nq], p[nk]},
+                p[n2w], p[n2b],
+                {WD{p[up], f, d}, swiglu ? WD{p[gate], f, d} : WD{}, WD{p[down], d, f}, p[bup], p[bgate], p[bdown]}};
+    }
+};
+
+template <ml::transformer_config C>
+struct train_block_buffers {
+    static constexpr std::size_t n = train_block<C>::n, d = C.d_model;
+    static constexpr bool qk = C.qk_norm != ml::qk_norm_kind::none, swiglu = C.mlp == ml::mlp_kind::swiglu;
+    std::vector<double> x0 = std::vector<double>(n * d), h1 = x0, x1 = x0, h2 = x0, q = std::vector<double>(n * C.q_size()),
+                        k = std::vector<double>(n * C.kv_size()), v = k, qr = std::vector<double>(qk ? q.size() : 0),
+                        kr = std::vector<double>(qk ? k.size() : 0), y = q, lse = std::vector<double>(n * C.n_heads),
+                        up = std::vector<double>(n * C.d_ff), gate = std::vector<double>(swiglu ? up.size() : 0);
+    ml::block_activations<double> act() { return {x0, h1, x1, h2, {q, k, v, qr, kr, y, lse}, up, gate}; }
+};
+
+template <ml::transformer_config C>
+void block_sequence_is_prefill()
+{
+    const train_block<C> b;
+    constexpr std::size_t n = train_block<C>::n;
+    auto xs = bwave(n * C.d_model, 1.1, 0.2), xp = xs;
+    train_block_buffers<C> buf;
+    ml::block_forward_sequence<C>(b.weights(), xs, brope_for<C>(), buf.act());
+    std::vector<double> keys(ml::kv_cache_view<C, double>::required_size(1, n)), values(keys.size());
+    ml::block_prefill<C>(b.weights(), xp, 0, ml::kv_cache_view<C, double>(keys, values, 1, n), 0, brope_for<C>());
+    EXPECT_EQ(xs, xp);
+}
+
+TEST(MlTransformerBlockTraining, TheSequenceForwardIsPrefillToTheBit)
+{
+    block_sequence_is_prefill<b_gpt2>();
+    block_sequence_is_prefill<b_llama>();
+    block_sequence_is_prefill<b_nanochat>();
+}
+
+template <ml::transformer_config C>
+void block_backward_is_central_differences()
+{
+    train_block<C> b;
+    constexpr std::size_t n = train_block<C>::n;
+    auto x = bwave(n * C.d_model, 1.1, 0.2);
+    const auto gout = bwave(n * C.d_model, 0.9, 1.4);
+    auto loss = [&] {
+        auto xs = x;
+        train_block_buffers<C> buf;
+        ml::block_forward_sequence<C>(b.weights(), xs, brope_for<C>(), buf.act());
+        double l = 0;
+        for (std::size_t i = 0; i < xs.size(); ++i)
+            l += gout[i] * xs[i];
+        return l;
+    };
+    auto xs = x;
+    train_block_buffers<C> buf;
+    ml::block_forward_sequence<C>(b.weights(), xs, brope_for<C>(), buf.act());
+    std::vector<std::vector<double>> gp(b.p.size());
+    for (std::size_t i = 0; i < b.p.size(); ++i)
+        gp[i].assign(b.p[i].size(), 0.0);
+    using B = train_block<C>;
+    std::vector<double> dq(buf.q.size()), dk(buf.k.size()), dv(buf.v.size()), scratch(x.size());
+    const ml::block_gradients<double> grads{
+        gp[B::n1w], gp[B::n1b], gp[B::n2w], gp[B::n2b],
+        {dq, dk, dv, gp[B::wq], gp[B::wk], gp[B::wv], gp[B::wo], gp[B::bq], gp[B::bk], gp[B::bv], gp[B::bo], gp[B::nq], gp[B::nk]},
+        {gp[B::up], gp[B::gate], gp[B::down], gp[B::bup], gp[B::bgate], gp[B::bdown]},
+        scratch};
+    auto dx = gout;
+    ml::block_backward<C>(b.weights(), brope_for<C>(), buf.act(), dx, grads);
+    auto check = [&](std::vector<double>& p, const std::vector<double>& grad, std::size_t which) {
+        for (std::size_t i = 0; i < p.size(); ++i) {
+            const double keep = p[i], e = 1e-6;
+            p[i] = keep + e;
+            const double hi = loss();
+            p[i] = keep - e;
+            const double lo = loss();
+            p[i] = keep;
+            EXPECT_NEAR(grad[i], (hi - lo) / (2 * e), 3e-7) << "tensor " << which << " at " << i;
+        }
+    };
+    check(x, dx, 999);
+    for (std::size_t i = 0; i < b.p.size(); ++i)
+        check(b.p[i], gp[i], i);
+}
+
+TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForAGpt2Block)
+{
+    block_backward_is_central_differences<b_gpt2>();
+}
+
+TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForALlamaBlock)
+{
+    block_backward_is_central_differences<b_llama>();
+}
+
+TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForANanochatBlock)
+{
+    block_backward_is_central_differences<b_nanochat>();
+}
+
 } // namespace
