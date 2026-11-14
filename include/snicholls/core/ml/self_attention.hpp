@@ -66,7 +66,7 @@
 /// **Known issues.** The projections are matrix-vector products, one token at a time, as `linear` does them; a
 /// matrix-matrix backend for long sequences is to come. The score scale is `1 / sqrt(DHead)`, rounded once to `T`.
 ///
-/// **Status.** Experimental, new in 0.8.1.
+/// **Status.** Experimental, new in 0.9.0.
 
 #ifndef snicholls_core_ml_self_attention_hpp
 #define snicholls_core_ml_self_attention_hpp

@@ -223,4 +223,53 @@ TEST(MlSoftmax, FloatRowsComputeInFloat)
     EXPECT_NEAR(ml::logsumexp(x), static_cast<float>(std::log(std::exp(0.5) + std::exp(-1.0) + std::exp(2.0))), 1e-6f);
 }
 
+TEST(MlSoftmax, LogSoftmaxBackwardMatchesCentralDifferencesAndSoftmaxBackward)
+{
+    // L = c . log_softmax(x)
+    std::vector<double> x{0.2, -1.3, 2.1, 0.7, -0.4};
+    const std::vector<double> c{0.5, -1.0, 2.0, 0.25, 1.5};
+    auto loss = [&] {
+        std::vector<double> lp(x.size());
+        ml::log_softmax(x, lp);
+        double l = 0;
+        for (std::size_t i = 0; i < x.size(); ++i)
+            l += c[i] * lp[i];
+        return l;
+    };
+    std::vector<double> lp(x.size()), d(x.size());
+    ml::log_softmax(x, lp);
+    ml::log_softmax_backward(lp, c, d);
+    for (std::size_t i = 0; i < x.size(); ++i) {
+        const double keep = x[i], e = 1e-6;
+        x[i] = keep + e;
+        const double hi = loss();
+        x[i] = keep - e;
+        const double lo = loss();
+        x[i] = keep;
+        EXPECT_NEAR(d[i], (hi - lo) / (2 * e), 1e-8) << i;
+    }
+    // Through softmax: d/dp of c . log p is c / p, and softmax_backward of that is the same gradient
+    std::vector<double> p(x.size()), cp(x.size()), via(x.size());
+    ml::softmax(x, p);
+    for (std::size_t i = 0; i < x.size(); ++i)
+        cp[i] = c[i] / p[i];
+    ml::softmax_backward(p, cp, via);
+    for (std::size_t i = 0; i < x.size(); ++i)
+        EXPECT_NEAR(d[i], via[i], 1e-12);
+    // In place
+    std::vector<double> inplace = c;
+    ml::log_softmax_backward(lp, inplace, inplace);
+    EXPECT_EQ(inplace, d);
+}
+
+constexpr bool log_softmax_backward_compile_time()
+{
+    // Two equal logits: log p = -ln 2 each; d = (1, 0) gives (1/2, -1/2)
+    const std::array<double, 2> lp{-snicholls::math::log(2.0), -snicholls::math::log(2.0)};
+    std::array<double, 2> g{};
+    ml::log_softmax_backward(lp, std::array<double, 2>{1, 0}, g);
+    return snicholls::math::near(g[0], 0.5, 1e-15) && snicholls::math::near(g[1], -0.5, 1e-15);
+}
+static_assert(log_softmax_backward_compile_time());
+
 } // namespace

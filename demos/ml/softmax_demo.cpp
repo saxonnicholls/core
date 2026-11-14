@@ -36,6 +36,11 @@ int main()
     std::vector<float> dlogits(logits.size());
     ml::softmax_backward(probs, dprobs, dlogits);
 
+    // And of log_softmax: the loss -log p[2] has gradient -1 in log p[2], which is cross-entropy's gradient again
+    const std::vector<float> dlogp{0.0f, 0.0f, -1.0f, 0.0f, 0.0f};
+    std::vector<float> dlogits_lp(logits.size());
+    ml::log_softmax_backward(log_probs, dlogp, dlogits_lp);
+
     // A row of 100,000 logits split across four workers: each keeps an online_softmax, and the partials merge.
     std::vector<double> big(100000);
     for (std::size_t i = 0; i < big.size(); ++i)
@@ -59,6 +64,10 @@ int main()
     ok &= std::abs(loss + log_probs[2]) < 1e-6f && std::abs(grad[2] - (probs[2] - 1.0f) / 4) < 1e-7f;
     std::printf("  softmax_backward: dlogits[2] %.4f\n", static_cast<double>(dlogits[2]));
     ok &= std::abs(dlogits[2] - (-probs[2] * (1.0f - probs[2]))) < 1e-6f;
+    std::printf("  log_softmax_backward: dlogits[2] %.4f = 4 x cross-entropy's %.4f\n", static_cast<double>(dlogits_lp[2]),
+                static_cast<double>(grad[2]));
+    for (std::size_t i = 0; i < logits.size(); ++i)
+        ok &= std::abs(dlogits_lp[i] - 4 * grad[i]) < 1e-6f;
 
     const double one_pass = ml::logsumexp(big);
     std::printf("  logsumexp of 100,000 logits: merged from 4 workers %.12f, one pass %.12f\n", all.log_sum_exp(), one_pass);

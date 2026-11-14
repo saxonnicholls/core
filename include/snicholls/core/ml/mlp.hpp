@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::ml::mlp_forward`: a transformer's MLP for one token, `down(act(up x))` or SwiGLU's `down(silu(gate x) · up x)`, as the configuration says.
+/// \brief `snicholls::ml::mlp_forward` and `mlp_backward`: a transformer's MLP for one token, `down(act(up x))` or SwiGLU's `down(silu(gate x) · up x)`, as the configuration says, and its backward pass; `moe_gate` and its backward.
 /// \ingroup core
 ///
 /// **Overview.** The feed-forward half of a transformer block. `transformer_config::mlp` chooses the form: GELU
@@ -14,11 +14,18 @@
 /// `weight_matrix` storage, so the same call runs on float, bfloat16 or quantised weights. The input is prepared
 /// once for `up` and `gate`.
 ///
+/// For training, `mlp_forward(w, x, y, save)` also writes the pre-activations into `mlp_activations` (the output is
+/// the same to the bit), and `mlp_backward` reads them back: it recomputes the hidden row, then adds the gradients
+/// into `mlp_gradients` and the input's. Only dense weights train; a quantised MLP's backward is a compile error.
+///
 /// For a mixture of experts, `moe_gate<K>(router_logits)` picks the `K` experts a token goes to and their weights
 /// (a softmax over the `K` largest router logits, as Mixtral); the token's output is the weighted sum of those
-/// experts' `mlp_forward`s, each expert's weights a `mlp_weights` of its own.
+/// experts' `mlp_forward`s, each expert's weights a `mlp_weights` of its own. `moe_gate_backward` takes the gradient in
+/// those weights back to the router logits.
 ///
 /// \snippet ml/mlp_demo.cpp mlp
+///
+/// \snippet ml/mlp_demo.cpp mlp_backward
 ///
 /// **Relationships.** `ml/transformer_config.hpp`, `ml/linear.hpp`, `ml/activations.hpp`,
 /// `ml/transformer_block.hpp` (the user). Group: \ref core.
@@ -32,11 +39,12 @@
 /// `d_ff x d_model`, `down` is `d_model x d_ff`), biases are empty or of the output's size, `x` and `y` have `d_model`.
 /// An invalid configuration is a compile error.
 ///
-/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step.
+/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step; the backward pass will be through
+/// the block's.
 ///
 /// **Tests and demos.** `tests/ml/mlp_test.cpp`, `demos/ml/mlp_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cassert>`, `<span>`, `ml/activations.hpp`, `ml/linear.hpp`, `ml/row.hpp`,
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<span>`, `ml/activations.hpp`, `ml/linear.hpp`, `ml/row.hpp`,
 /// `ml/sampling.hpp` (`top_k`),
 /// `ml/transformer_config.hpp`.
 ///
@@ -53,6 +61,7 @@
 #include <snicholls/core/ml/sampling.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <span>
@@ -91,6 +100,78 @@ constexpr T mlp_activation(T x)
     return x;
 }
 
+/// \brief What an MLP's forward pass saves for its backward: views the caller owns, each `d_ff`.
+/// \ingroup core
+/// \tparam T The number type.
+template <math::math_number T>
+struct mlp_activations
+{
+    std::span<T> up{};     ///< `up x + b`, before the activation.
+    std::span<T> gate{};   ///< `gate x + b`, before SiLU; SwiGLU only, else empty.
+};
+
+/// \brief The gradients of an MLP's weights: views the caller owns, each added into.
+/// \ingroup core
+/// \tparam T The number type.
+template <math::math_number T>
+struct mlp_gradients
+{
+    std::span<T> up{};          ///< `d_ff · d_model`.
+    std::span<T> gate{};        ///< `d_ff · d_model`; SwiGLU only, else empty.
+    std::span<T> down{};        ///< `d_model · d_ff`.
+    std::span<T> up_bias{};     ///< `d_ff`, or empty.
+    std::span<T> gate_bias{};   ///< `d_ff`, or empty.
+    std::span<T> down_bias{};   ///< `d_model`, or empty.
+};
+
+/// \brief The derivative of a configuration's activation (not SwiGLU's product).
+/// \tparam K The MLP's kind.
+/// \param x A hidden value before the activation.
+/// \return `act'(x)`.
+template <mlp_kind K, math::math_number T>
+constexpr T mlp_activation_derivative(T x)
+{
+    switch (K) {
+    case mlp_kind::gelu: return gelu_derivative(x);
+    case mlp_kind::gelu_tanh: return gelu_tanh_derivative(x);
+    case mlp_kind::relu_squared: return relu_squared_derivative(x);
+    case mlp_kind::swiglu: return silu_derivative(x);
+    }
+    return T(1);
+}
+
+namespace detail::mlp
+{
+    using ::snicholls::ml::linear;   // the function, not namespace detail::linear; still found by ADL for other storages
+
+    // The forward pass, saving the pre-activations into non-empty spans
+    template <transformer_config C, typename W, typename T, typename X, typename Y>
+    constexpr void forward(const mlp_weights<W, T>& w, const X& x, Y&& y, const mlp_activations<T>& save)
+    {
+        static_assert(valid(C), "snicholls::ml::mlp_forward: the transformer_config is not valid");
+        assert(w.up.rows == C.d_ff && w.up.cols == C.d_model && w.down.rows == C.d_model && w.down.cols == C.d_ff);
+        assert((save.up.empty() || save.up.size() == C.d_ff) && (save.gate.empty() || save.gate.size() == C.d_ff));
+        std::array<T, C.d_ff> h{};
+        const auto in = prepare_input<C.d_model>(w.up, x);
+        linear(w.up, in, h, w.up_bias);
+        if (!save.up.empty())
+            std::copy(h.begin(), h.end(), save.up.begin());
+        if constexpr (C.mlp == mlp_kind::swiglu) {
+            assert(w.gate.rows == C.d_ff && w.gate.cols == C.d_model);
+            std::array<T, C.d_ff> g{};
+            linear(w.gate, in, g, w.gate_bias);
+            if (!save.gate.empty())
+                std::copy(g.begin(), g.end(), save.gate.begin());
+            for (std::size_t i = 0; i < C.d_ff; ++i)
+                h[i] = silu(g[i]) * h[i];
+        } else {
+            for (T& v : h)
+                v = mlp_activation<C.mlp>(v);
+        }
+        linear(w.down, prepare_input<C.d_ff>(w.down, h), y, w.down_bias);
+    }
+} // namespace detail::mlp
+
 /// \brief The MLP for one token: `y = down(act(up x + b) ) + b`, or SwiGLU's `down(silu(gate x) · up x)`.
 /// \tparam C The configuration.
 /// \param w The weights.
@@ -100,22 +181,62 @@ template <transformer_config C, weight_matrix W, math::math_number T, row X, mut
     requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Y>, T>
 constexpr void mlp_forward(const mlp_weights<W, T>& w, const X& x, Y&& y)
 {
-    static_assert(valid(C), "snicholls::ml::mlp_forward: the transformer_config is not valid");
-    assert(w.up.rows == C.d_ff && w.up.cols == C.d_model && w.down.rows == C.d_model && w.down.cols == C.d_ff);
-    std::array<T, C.d_ff> h{};
-    const auto in = prepare_input<C.d_model>(w.up, x);
-    linear(w.up, in, h, w.up_bias);
-    if constexpr (C.mlp == mlp_kind::swiglu) {
-        assert(w.gate.rows == C.d_ff && w.gate.cols == C.d_model);
-        std::array<T, C.d_ff> g{};
-        linear(w.gate, in, g, w.gate_bias);
-        for (std::size_t i = 0; i < C.d_ff; ++i)
-            h[i] = silu(g[i]) * h[i];
+    detail::mlp::forward<C>(w, x, y, mlp_activations<T>{});
+}
+
+/// \brief The MLP for one token, saving its pre-activations for `mlp_backward`: the same output, to the bit.
+/// \tparam C The configuration.
+/// \param w The weights.
+/// \param x The input, `d_model`.
+/// \param y The output, `d_model`; may not alias `x`.
+/// \param save Receives `up x + b` and, for SwiGLU, `gate x + b`.
+template <transformer_config C, weight_matrix W, math::math_number T, row X, mutable_row Y>
+    requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Y>, T>
+constexpr void mlp_forward(const mlp_weights<W, T>& w, const X& x, Y&& y, const mlp_activations<T>& save)
+{
+    assert(save.up.size() == C.d_ff && (C.mlp != mlp_kind::swiglu || save.gate.size() == C.d_ff));
+    detail::mlp::forward<C>(w, x, y, save);
+}
+
+/// \brief The backward pass of `mlp_forward`, from its saved pre-activations.
+///
+/// The hidden row is recomputed from them (`d_ff` operations, no buffer saved for it); then `down`'s backward
+/// gives its gradient, the activation's derivative (or SwiGLU's product rule) takes it through, and `up`'s and
+/// `gate`'s backward give the input's. Only dense weights train.
+/// \tparam C The configuration.
+/// \param w The weights the forward pass used.
+/// \param x The input it read, `d_model`.
+/// \param saved What it saved.
+/// \param dy The gradient in its output, `d_model`.
+/// \param dx Added into, `d_model`; or empty to skip it.
+/// \param grads Added into.
+template <transformer_config C, typename S, math::math_number T, row X, row DY, mutable_row DX>
+    requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<DY>, T> && std::same_as<row_value_t<DX>, T>
+constexpr void mlp_backward(const mlp_weights<dense_weights<S>, T>& w, const X& x, const mlp_activations<T>& saved,
+                            const DY& dy, DX&& dx, const mlp_gradients<T>& grads)
+{
+    static_assert(valid(C), "snicholls::ml::mlp_backward: the transformer_config is not valid");
+    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    assert(saved.up.size() == C.d_ff && (!swiglu || saved.gate.size() == C.d_ff));
+    std::array<T, C.d_ff> h{}, dh{};
+    for (std::size_t i = 0; i < C.d_ff; ++i)
+        if constexpr (swiglu)
+            h[i] = silu(saved.gate[i]) * saved.up[i];
+        else
+            h[i] = mlp_activation<C.mlp>(saved.up[i]);
+    linear_backward(w.down, h, dy, dh, grads.down, grads.down_bias);
+    if constexpr (swiglu) {
+        std::array<T, C.d_ff> dgate{};
+        for (std::size_t i = 0; i < C.d_ff; ++i) {
+            dgate[i] = dh[i] * saved.up[i] * silu_derivative(saved.gate[i]);
+            dh[i] = dh[i] * silu(saved.gate[i]);
+        }
+        linear_backward(w.gate, x, dgate, dx, grads.gate, grads.gate_bias);
     } else {
-        for (T& v : h)
-            v = mlp_activation<C.mlp>(v);
+        for (std::size_t i = 0; i < C.d_ff; ++i)
+            dh[i] = dh[i] * mlp_activation_derivative<C.mlp>(saved.up[i]);
     }
-    linear(w.down, prepare_input<C.d_ff>(w.down, h), y, w.down_bias);
+    linear_backward(w.up, x, dh, dx, grads.up, grads.up_bias);
 }
 
 /// \brief The experts a token is routed to and their weights.
@@ -152,6 +273,28 @@ constexpr moe_route<row_value_t<R>, K> moe_gate(const R& router_logits)
     for (std::size_t i = 0; i < best.count; ++i)
         out.weight[i] /= sum;
     return out;
+}
+
+/// \brief The backward pass of `moe_gate`: the gradient in the router logits from the gradient in the route's weights.
+///
+/// The weights are a softmax over the chosen experts' logits, so a chosen expert's logit gets
+/// `w_i (dw_i - sum_k w_k dw_k)` and every other expert's 0 (the choice itself has no gradient).
+/// \param route What `moe_gate` returned.
+/// \param dweight The gradient in `route.weight`, `K` (the first `route.count` are read).
+/// \param dlogits The gradient in the router logits, one per expert: written.
+template <math::math_number T, std::size_t K, row DW, mutable_row Out>
+    requires std::same_as<row_value_t<DW>, T> && std::same_as<row_value_t<Out>, T>
+constexpr void moe_gate_backward(const moe_route<T, K>& route, const DW& dweight, Out&& dlogits)
+{
+    const auto dw = as_row(dweight);
+    const auto g = as_mutable_row(dlogits);
+    assert(dw.size() >= route.count && route.count <= g.size());
+    T dot = T(0);
+    for (std::size_t i = 0; i < route.count; ++i)
+        dot += route.weight[i] * dw[i];
+    std::fill(g.begin(), g.end(), T(0));
+    for (std::size_t i = 0; i < route.count; ++i)
+        g[route.expert[i]] = route.weight[i] * (dw[i] - dot);
 }
 
 } // namespace snicholls::ml

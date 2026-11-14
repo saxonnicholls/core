@@ -9,10 +9,12 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
 #include <numbers>
+#include <span>
 #include <vector>
 
 namespace {
@@ -121,5 +123,148 @@ TEST(MlMlpMoe, RoutesToTheKLargestRouterLogitsWithASoftmaxOverThem)
 }
 
 static_assert(ml::moe_gate<1>(std::array<double, 3>{1, 3, 2}).expert[0] == 1 && ml::moe_gate<1>(std::array<double, 3>{1, 3, 2}).weight[0] == 1);
+
+// The backward pass, against central differences in double: L = g . mlp(x)
+using WD = ml::dense_weights<double>;
+
+std::vector<double> wave(std::size_t n, double a, double b)
+{
+    std::vector<double> v(n);
+    for (std::size_t i = 0; i < n; ++i)
+        v[i] = a * std::sin(0.41 * double(i) + b);
+    return v;
+}
+
+template <ml::mlp_kind K>
+void backward_is_central_differences()
+{
+    constexpr bool swiglu = K == ml::mlp_kind::swiglu;
+    auto up = wave(32, 0.9, 0.1), gate = wave(32, 0.8, 1.2), down = wave(32, 0.7, 2.3), bu = wave(8, 0.3, 0.4),
+         bg = wave(8, 0.2, 1.1), bd = wave(4, 0.1, 0.7), x = wave(4, 1.5, 0.9);
+    const auto g = wave(4, 1.0, 1.7);
+    auto weights = [&] {
+        return ml::mlp_weights<WD, double>{WD{up, 8, 4}, swiglu ? WD{gate, 8, 4} : WD{}, WD{down, 4, 8}, bu,
+                                           swiglu ? std::span<const double>(bg) : std::span<const double>{}, bd};
+    };
+    auto loss = [&] {
+        std::array<double, 4> y{};
+        ml::mlp_forward<shape<K>>(weights(), x, y);
+        double l = 0;
+        for (std::size_t i = 0; i < 4; ++i)
+            l += g[i] * y[i];
+        return l;
+    };
+    std::vector<double> su(8), sg(swiglu ? 8 : 0), dx(4), dup(32), dgate(swiglu ? 32 : 0), ddown(32), dbu(8),
+        dbg(swiglu ? 8 : 0), dbd(4);
+    std::array<double, 4> y{};
+    ml::mlp_forward<shape<K>>(weights(), x, y, ml::mlp_activations<double>{su, sg});
+    ml::mlp_backward<shape<K>>(weights(), x, ml::mlp_activations<double>{su, sg}, g, dx,
+                               ml::mlp_gradients<double>{dup, dgate, ddown, dbu, dbg, dbd});
+    auto check = [&](std::vector<double>& p, const std::vector<double>& grad, const char* what) {
+        for (std::size_t i = 0; i < p.size(); ++i) {
+            const double keep = p[i], e = 1e-6;
+            p[i] = keep + e;
+            const double hi = loss();
+            p[i] = keep - e;
+            const double lo = loss();
+            p[i] = keep;
+            EXPECT_NEAR(grad[i], (hi - lo) / (2 * e), 1e-7) << int(K) << " " << what << " " << i;
+        }
+    };
+    check(x, dx, "x");
+    check(up, dup, "up");
+    check(down, ddown, "down");
+    check(bu, dbu, "up_bias");
+    check(bd, dbd, "down_bias");
+    if (swiglu) {
+        check(gate, dgate, "gate");
+        check(bg, dbg, "gate_bias");
+    }
+}
+
+TEST(MlMlp, BackwardOfEachKindMatchesCentralDifferences)
+{
+    backward_is_central_differences<ml::mlp_kind::gelu>();
+    backward_is_central_differences<ml::mlp_kind::gelu_tanh>();
+    backward_is_central_differences<ml::mlp_kind::relu_squared>();
+    backward_is_central_differences<ml::mlp_kind::swiglu>();
+}
+
+template <ml::mlp_kind K>
+void saving_gives_the_same_bits()
+{
+    const auto up = pattern(32, 1.0f, 1), gate = pattern(32, 1.0f, 2), down = pattern(32, 1.0f, 3), b1 = pattern(8, 0.2f, 4),
+               b2 = pattern(4, 0.2f, 5), x = pattern(4, 2.0f, 6);
+    const bool swiglu = K == ml::mlp_kind::swiglu;
+    const ml::mlp_weights<W> w{W{up, 8, 4}, swiglu ? W{gate, 8, 4} : W{}, W{down, 4, 8}, b1, {}, b2};
+    std::array<float, 4> plain{}, saving{};
+    std::vector<float> su(8), sg(swiglu ? 8 : 0);
+    ml::mlp_forward<shape<K>>(w, x, plain);
+    ml::mlp_forward<shape<K>>(w, x, saving, ml::mlp_activations<float>{su, sg});
+    EXPECT_EQ(plain, saving);
+    // The saved up row is the up projection itself
+    std::array<float, 8> h{};
+    ml::linear(W{up, 8, 4}, x, h, std::span<const float>(b1));
+    EXPECT_TRUE(std::equal(h.begin(), h.end(), su.begin()));
+}
+
+TEST(MlMlp, SavingThePreActivationsChangesNoOutput)
+{
+    saving_gives_the_same_bits<ml::mlp_kind::gelu>();
+    saving_gives_the_same_bits<ml::mlp_kind::relu_squared>();
+    saving_gives_the_same_bits<ml::mlp_kind::swiglu>();
+}
+
+TEST(MlMlp, ActivationDerivativesAreTheActivations)
+{
+    for (double v : {-2.0, -0.3, 0.0, 0.4, 1.7}) {
+        EXPECT_EQ(ml::mlp_activation_derivative<ml::mlp_kind::gelu>(v), ml::gelu_derivative(v));
+        EXPECT_EQ(ml::mlp_activation_derivative<ml::mlp_kind::gelu_tanh>(v), ml::gelu_tanh_derivative(v));
+        EXPECT_EQ(ml::mlp_activation_derivative<ml::mlp_kind::relu_squared>(v), ml::relu_squared_derivative(v));
+        EXPECT_EQ(ml::mlp_activation_derivative<ml::mlp_kind::swiglu>(v), ml::silu_derivative(v));
+    }
+}
+
+template <typename Wt>
+concept mlp_trainable = requires(const ml::mlp_weights<Wt, float>& w, std::span<const float> x,
+                                 const ml::mlp_activations<float>& a, const ml::mlp_gradients<float>& g, std::span<float> dx) {
+    ml::mlp_backward<shape<ml::mlp_kind::gelu>>(w, x, a, x, dx, g);
+};
+static_assert(mlp_trainable<W> && mlp_trainable<ml::dense_weights<ml::bfloat16>>);
+static_assert(!mlp_trainable<ml::quantized_weights<ml::block_q8_0>>, "quantised weights are inference only");
+
+TEST(MlMlp, GateBackwardMatchesCentralDifferencesAndLeavesUnchosenExpertsAtZero)
+{
+    // L = c . weights(logits): the choice of experts is fixed near the point, so differences are valid
+    std::vector<double> logits{0.3, 1.9, -0.4, 1.2, 0.8};
+    const std::array<double, 3> c{1.0, -2.0, 0.5};
+    auto loss = [&] {
+        const auto r = ml::moe_gate<3>(logits);
+        double l = 0;
+        for (std::size_t i = 0; i < r.count; ++i)
+            l += c[i] * r.weight[i];
+        return l;
+    };
+    const auto route = ml::moe_gate<3>(logits);
+    std::vector<double> d(5, 99.0);
+    ml::moe_gate_backward(route, c, d);
+    for (std::size_t i = 0; i < logits.size(); ++i) {
+        const double keep = logits[i], e = 1e-6;
+        logits[i] = keep + e;
+        const double hi = loss();
+        logits[i] = keep - e;
+        const double lo = loss();
+        logits[i] = keep;
+        EXPECT_NEAR(d[i], (hi - lo) / (2 * e), 1e-8) << i;
+    }
+    EXPECT_EQ(d[0], 0.0);   // expert 0 and 2 were not chosen
+    EXPECT_EQ(d[2], 0.0);
+    // A route of one expert has weight 1 whatever its logit: no gradient
+    const auto one = ml::moe_gate<1>(logits);
+    std::vector<double> d1(5);
+    ml::moe_gate_backward(one, std::array<double, 1>{3.0}, d1);
+    for (double v : d1)
+        EXPECT_EQ(v, 0.0);
+}
 
 } // namespace

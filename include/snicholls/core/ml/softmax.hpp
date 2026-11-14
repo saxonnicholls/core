@@ -16,7 +16,8 @@
 ///
 /// - `softmax(in, out)`, `log_softmax(in, out)`, `logsumexp(in)` over one row of logits (any `row`: a vector, an array,
 ///   a span). `out` may be `in`.
-/// - `softmax_backward(probs, dprobs, dlogits)`: the Jacobian-vector product of the backward pass.
+/// - `softmax_backward(probs, dprobs, dlogits)` and `log_softmax_backward(logprobs, dlogprobs, dlogits)`: the
+///   Jacobian-vector products of the backward passes.
 /// - `cross_entropy(logits, target)` and `cross_entropy_with_gradient(logits, target, dlogits, scale)`: the loss of
 ///   one row and, in the same pass, its gradient `scale · (softmax - one_hot)`, which may overwrite the logits
 ///   (llm.c's fused classifier).
@@ -200,6 +201,29 @@ constexpr void log_softmax(const In& in, Out&& out)
     const auto lse = detail::softmax::logsumexp(x);
     for (std::size_t i = 0; i < x.size(); ++i)
         y[i] = x[i] - lse;
+}
+
+/// \brief The backward pass of `log_softmax`: `dlogits_i = d_i - softmax_i · sum_j d_j`, with `softmax_i = e^(logp_i)`.
+/// \tparam L A `row`.
+/// \tparam D A `row` of the same number type.
+/// \tparam Out A `mutable_row` of the same number type.
+/// \param logprobs The `log_softmax` output of the forward pass.
+/// \param dlogprobs The gradient of the loss in the log-probabilities.
+/// \param dlogits The gradient in the logits: the same size, written; may be `dlogprobs`.
+template <row L, row D, mutable_row Out>
+    requires std::same_as<row_value_t<L>, row_value_t<D>> && std::same_as<row_value_t<L>, row_value_t<Out>>
+constexpr void log_softmax_backward(const L& logprobs, const D& dlogprobs, Out&& dlogits)
+{
+    using T = row_value_t<L>;
+    const auto lp = as_row(logprobs);
+    const auto d = as_row(dlogprobs);
+    const auto g = as_mutable_row(dlogits);
+    assert(lp.size() == d.size() && lp.size() == g.size());
+    T sum = T(0);
+    for (std::size_t i = 0; i < d.size(); ++i)
+        sum += d[i];
+    for (std::size_t i = 0; i < lp.size(); ++i)
+        g[i] = d[i] - math::exp(lp[i]) * sum;
 }
 
 /// \brief The backward pass of `softmax`: `dlogits_i = p_i (dp_i - sum_j p_j dp_j)`.

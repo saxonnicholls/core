@@ -16,6 +16,11 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`self_attention_head_backward`**: the head's backward pass from what the forward saved (`attend_backward` from
   the log-sum-exps, `rope_inverse`, then the projections), into `self_attention_gradients`. Checked against central
   differences in double, causal, windowed and with RoPE; level with the same pass by hand, bit for bit.
+- **`mlp_backward`** (`ml/mlp.hpp`) for GELU, tanh GELU, ReLU² and SwiGLU, from the pre-activations a new
+  `mlp_forward(w, x, y, save)` writes into `mlp_activations` (the output is the same to the bit);
+  `mlp_activation_derivative<K>`; **`moe_gate_backward`**, the router's gradient through the top-K softmax. Checked
+  against central differences in double.
+- **`log_softmax_backward`** (`ml/softmax.hpp`), checked against central differences and against `softmax_backward`.
 - **`linear_backward`** (`ml/linear.hpp`): `dx += Wᵀ dy`, `dW += dy xᵀ`, `db += dy` for dense float, double and
   bfloat16 weights, as llm.c's `matmul_backward`. Quantised weights have no backward: training them is a compile
   error.
