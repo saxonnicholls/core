@@ -16,6 +16,12 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`self_attention_head_backward`**: the head's backward pass from what the forward saved (`attend_backward` from
   the log-sum-exps, `rope_inverse`, then the projections), into `self_attention_gradients`. Checked against central
   differences in double, causal, windowed and with RoPE; level with the same pass by hand, bit for bit.
+- **The attention layer trains** (`ml/attention_layer.hpp`): `attention_forward_sequence` saves
+  `attention_activations` over a sequence (each token's output `attention_forward`'s, to the bit), and
+  `attention_backward` gives every gradient (`attention_gradients`: the projections, biases, QK-norm weights and the
+  inputs) through grouped-query heads, QK norm before or after RoPE, a sliding window and the soft cap;
+  `attention_head_backward` is one configured head's. Checked against central differences in double in five
+  configurations.
 - **`mlp_backward`** (`ml/mlp.hpp`) for GELU, tanh GELU, ReLU² and SwiGLU, from the pre-activations a new
   `mlp_forward(w, x, y, save)` writes into `mlp_activations` (the output is the same to the bit);
   `mlp_activation_derivative<K>`; **`moe_gate_backward`**, the router's gradient through the top-K softmax. Checked

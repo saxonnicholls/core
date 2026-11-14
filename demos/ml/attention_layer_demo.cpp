@@ -14,6 +14,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
+#include <span>
 #include <vector>
 
 int main()
@@ -49,6 +50,32 @@ int main()
     const float lse = ml::attention_head<c, float>(q, cache.visible(0, 0, ml::attention_window(2)), head);
     //! [attention_layer]
 
+    //! [attention_backward]
+    // Training: the same three tokens as one sequence, saving what the backward pass reads
+    constexpr std::size_t n = 3;
+    std::vector<float> xs;
+    for (std::size_t pos = 0; pos < n; ++pos)
+        for (float e : {1.0f, float(pos), 0.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f})
+            xs.push_back(e);
+    std::vector<float> sq(n * c.q_size()), sk(n * c.kv_size()), sv(sk.size()), sy(sq.size()), slse(n * c.n_heads), seq(n * 8);
+    const ml::attention_activations<float> act{sq, sk, sv, {}, {}, sy, slse};   // no QK norm: no raw projections
+    ml::attention_forward_sequence<c>(w, xs, rope, act, seq);
+
+    // A gradient in the last token's first output channel, back to every weight and every input
+    std::vector<float> dout(n * 8);
+    dout[2 * 8 + 0] = 1.0f;
+    std::vector<float> dq(sq.size()), dk(sk.size()), dv(sv.size()), dwq(wq.size()), dwk(wkv.size()), dwv(wkv.size()),
+        dwo(wo.size()), dx(xs.size());
+    ml::attention_backward<c>(w, xs, rope, act, dout, dx, ml::attention_gradients<float>{dq, dk, dv, dwq, dwk, dwv, dwo});
+
+    // One head's backward, soft cap or not, over the keys it saw
+    std::array<float, 4> dhead_q{};
+    std::vector<float> dhead_k(sk.size()), dhead_v(sv.size());
+    ml::attention_head_backward<c, float>(std::span<const float>(sq).subspan(2 * 8, 4), sk, sv,
+                                          std::span<const float>(sy).subspan(2 * 8, 4), std::array<float, 4>{1, 0, 0, 0},
+                                          slse[2 * 2], dhead_q, dhead_k, dhead_v);
+    //! [attention_backward]
+
     for (std::size_t pos = 0; pos < 3; ++pos)
         std::printf("  position %zu: [%.3f %.3f %.3f %.3f | %.3f ...]\n", pos, static_cast<double>(out[pos][0]), static_cast<double>(out[pos][1]),
                     static_cast<double>(out[pos][2]), static_cast<double>(out[pos][3]), static_cast<double>(out[pos][4]));
@@ -58,6 +85,19 @@ int main()
     ok &= out[0][0] == 1.0f && out[0][1] == 0.0f && out[0][4] == 1.0f && out[0][5] == 0.0f;
     // Both query heads read the one key-value head, so their outputs are averages of the same values: weights sum to 1
     ok &= std::abs(out[2][0] - 1.0f) < 1e-6f && out[2][1] > 0.0f && out[2][1] < 2.0f && std::isfinite(lse);
+    // The sequence gives the decoded tokens' bits; the gradient reaches only what token 2's channel 0 depends on
+    bool same = true;
+    for (std::size_t pos = 0; pos < n; ++pos)
+        for (std::size_t i = 0; i < 8; ++i)
+            same &= seq[pos * 8 + i] == out[pos][i];
+    std::printf("  sequence = decode: %s; d Wo[0][0] %.3f (= y[2][0]); dx[2][0] %.3f\n", same ? "yes" : "no",
+                static_cast<double>(dwo[0]), static_cast<double>(dx[2 * 8 + 0]));
+    ok &= same && dwo[0] == sy[2 * 8 + 0] && dwo[1 * 8 + 0] == 0.0f;   // only output row 0 had a gradient
+    // One head with a gradient of 1 in its output channel 0: the values' gradients in channel 0 are its weights
+    float vsum = 0.0f;
+    for (std::size_t j = 0; j < n; ++j)
+        vsum += dhead_v[j * 4 + 0];
+    ok &= std::abs(vsum - 1.0f) < 1e-6f;   // the softmax weights over the three keys sum to 1
     std::printf(ok ? "attention_layer demo: ok\n" : "attention_layer demo: FAILED\n");
     return ok ? 0 : 1;
 }

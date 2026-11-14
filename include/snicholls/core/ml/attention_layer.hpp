@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::ml::attention_forward`: a transformer's attention for one token at one position: the Q, K and V projections, QK norm, RoPE, the KV cache, grouped-query attention, the soft cap and the output projection, as the configuration says.
+/// \brief `snicholls::ml::attention_forward`, `attention_forward_sequence` and `attention_backward`: a transformer's attention for one token at one position, or over a sequence for training, and its backward pass: the Q, K and V projections, QK norm, RoPE, the KV cache, grouped-query attention, the soft cap and the output projection, as the configuration says.
 /// \ingroup core
 ///
 /// **Overview.** The generic multi-head attention layer. For a token `x` at position `pos`:
@@ -24,7 +24,16 @@
 ///
 /// `attention_head` is one head on its own: the unit to run on threads or devices.
 ///
+/// For training, `attention_forward_sequence` runs a whole sequence and saves `attention_activations` (each token's
+/// output is `attention_forward`'s, to the bit), and `attention_backward` takes the gradient in the outputs back to
+/// every weight, bias, QK-norm weight and input (`attention_gradients`): `Wo`'s backward, each head's
+/// (`attention_head_backward`, the soft cap included; grouped-query heads add into the key-value head they share),
+/// then QK norm and RoPE undone in the configuration's order, then the projections'. No `n x n` probabilities are
+/// formed. Only dense weights train.
+///
 /// \snippet ml/attention_layer_demo.cpp attention_layer
+///
+/// \snippet ml/attention_layer_demo.cpp attention_backward
 ///
 /// **Relationships.** `ml/transformer_config.hpp`, `ml/linear.hpp`, `ml/kv_cache.hpp`, `ml/attention.hpp`,
 /// `ml/rope.hpp` (`rope_table` is a rope source), `ml/norm.hpp`, `ml/activations.hpp` (`softcap`),
@@ -40,11 +49,13 @@
 /// size, the rope source covers `pos`, the cache's capacity covers the visible range. An invalid configuration is a
 /// compile error.
 ///
-/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step.
+/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step; the training passes will be
+/// through the block's.
 ///
 /// **Tests and demos.** `tests/ml/attention_layer_test.cpp`, `demos/ml/attention_layer_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cassert>`, `<cstddef>`, `<span>`, and the `ml/` headers above.
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<limits>`, `<span>`,
+/// `<type_traits>`, and the `ml/` headers above.
 ///
 /// **Known issues.** The score scale is `1 / sqrt(head_dim)`, rounded once to `T`.
 ///
@@ -63,10 +74,14 @@
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cassert>
+#include <concepts>
 #include <cstddef>
+#include <limits>
 #include <span>
+#include <type_traits>
 
 namespace snicholls::ml
 {
@@ -168,6 +183,254 @@ constexpr void attention_forward(const attention_weights<W, T>& w, const X& x, s
         attention_head<C>(std::span<const T>(q).subspan(h * d, d), cache.visible(layer, h / C.group(), visible),
                           std::span<T>(y).subspan(h * d, d));
     linear(w.o, prepare_input<C.q_size()>(w.o, y), out, w.o_bias);
+}
+
+/// \brief The backward pass of `attention_head` over one contiguous run of keys, soft cap included.
+///
+/// With `r_j = scale · q·k_j`, `s_j = cap(r_j)` and `p_j = e^(s_j - lse)`: `dv_j += p_j · dout`,
+/// `ds_j = p_j · (dout·v_j - dout·out) · cap'(r_j)`, `dq = scale · sum ds_j · k_j`, `dk_j += scale · ds_j · q`.
+/// Without a soft cap it is `attend_backward`, to the bit.
+/// \tparam C The configuration (its `head_dim` and `attention_softcap`).
+/// \param q The head's query, `head_dim`.
+/// \param keys The visible keys, `head_dim` per position, end to end.
+/// \param values The visible values, laid out as the keys.
+/// \param out What `attention_head` wrote.
+/// \param dout The gradient in `out`.
+/// \param lse What `attention_head` returned.
+/// \param dq The gradient in `q`: written.
+/// \param dkeys Added into; `keys`' size.
+/// \param dvalues Added into; `values`' size.
+template <transformer_config C, math::math_number T, row Q, row K, row V, row O, row DO, mutable_row DQ, mutable_row DK,
+          mutable_row DV>
+    requires std::same_as<row_value_t<Q>, T> && std::same_as<row_value_t<K>, T> && std::same_as<row_value_t<V>, T>
+             && std::same_as<row_value_t<O>, T> && std::same_as<row_value_t<DO>, T> && std::same_as<row_value_t<DQ>, T>
+             && std::same_as<row_value_t<DK>, T> && std::same_as<row_value_t<DV>, T>
+constexpr void attention_head_backward(const Q& q, const K& keys, const V& values, const O& out, const DO& dout,
+                                       std::type_identity_t<T> lse, DQ&& dq, DK&& dkeys, DV&& dvalues)
+{
+    const T scale = T(1) / math::sqrt(T(C.head_dim));
+    if constexpr (C.attention_softcap == 0) {
+        attend_backward(q, keys, values, out, dout, lse, scale, dq, dkeys, dvalues);
+    } else {
+        constexpr std::size_t d = C.head_dim;
+        const auto qs = as_row(q), ks = as_row(keys), vs = as_row(values), o = as_row(out), g = as_row(dout);
+        const auto gq = as_mutable_row(dq), gk = as_mutable_row(dkeys), gv = as_mutable_row(dvalues);
+        assert(qs.size() == d && o.size() == d && g.size() == d && gq.size() == d && ks.size() == vs.size()
+               && ks.size() % d == 0 && gk.size() == ks.size() && gv.size() == vs.size());
+        std::fill(gq.begin(), gq.end(), T(0));
+        if (lse == -std::numeric_limits<T>::infinity())
+            return;
+        constexpr T cap = attention_softcap_v<C, T>;
+        const T big_d = detail::attention::dot(g, o);
+        for (std::size_t j = 0; j < ks.size() / d; ++j) {
+            const auto k = ks.subspan(j * d, d);
+            const auto v = vs.subspan(j * d, d);
+            const T r = scale * detail::attention::dot(qs, k);
+            const T p = math::exp(softcap(r, cap) - lse);
+            const T ds = p * (detail::attention::dot(g, v) - big_d) * softcap_derivative(r, cap);
+            for (std::size_t i = 0; i < d; ++i) {
+                gv[j * d + i] += p * g[i];
+                gq[i] += scale * ds * k[i];
+                gk[j * d + i] += scale * ds * qs[i];
+            }
+        }
+    }
+}
+
+/// \brief What `attention_forward_sequence` saves for `attention_backward`: views the caller owns.
+/// \ingroup core
+/// \tparam T The number type.
+template <math::math_number T>
+struct attention_activations
+{
+    std::span<T> q{};       ///< `n · q_size`, token by token: the queries after QK norm and RoPE.
+    std::span<T> k{};       ///< `n_kv_heads · n · head_dim`, head by head: the keys after QK norm and RoPE.
+    std::span<T> v{};       ///< `n_kv_heads · n · head_dim`, head by head: the values.
+    std::span<T> q_raw{};   ///< `n · q_size`: the projected queries before QK norm; with QK norm only, else empty.
+    std::span<T> k_raw{};   ///< `n · kv_size`: the projected keys before QK norm; with QK norm only, else empty.
+    std::span<T> y{};       ///< `n · q_size`, token by token: the heads' outputs, the input of `Wo`.
+    std::span<T> lse{};     ///< `n · n_heads`, token by token: each head's log-sum-exp.
+};
+
+/// \brief The gradients of an attention layer: views the caller owns.
+/// \ingroup core
+/// \tparam T The number type.
+template <math::math_number T>
+struct attention_gradients
+{
+    std::span<T> q{};        ///< `n · q_size`: written, the gradients in the projected queries.
+    std::span<T> k{};        ///< `n_kv_heads · n · head_dim`: written, in the projected keys, laid out as the activations.
+    std::span<T> v{};        ///< `n_kv_heads · n · head_dim`: written, in the values.
+    std::span<T> wq{};       ///< `q_size · d_model`: added into.
+    std::span<T> wk{};       ///< `kv_size · d_model`: added into.
+    std::span<T> wv{};       ///< `kv_size · d_model`: added into.
+    std::span<T> wo{};       ///< `d_model · q_size`: added into.
+    std::span<T> q_bias{};   ///< `q_size`: added into; or empty.
+    std::span<T> k_bias{};   ///< `kv_size`: added into; or empty.
+    std::span<T> v_bias{};   ///< `kv_size`: added into; or empty.
+    std::span<T> o_bias{};   ///< `d_model`: added into; or empty.
+    std::span<T> q_norm{};   ///< `head_dim`: added into; or empty.
+    std::span<T> k_norm{};   ///< `head_dim`: added into; or empty.
+};
+
+namespace detail::attention_layer
+{
+    // The backward of position(): the gradient in a head after it, to the gradient in its raw projection, in place
+    template <transformer_config C, typename T, typename R>
+    constexpr void position_backward(std::span<T> d, std::span<const T> raw, std::span<const T> norm,
+                                     std::span<T> dnorm, std::size_t pos, const R& rope_src)
+    {
+        if constexpr (C.qk_norm == qk_norm_kind::after_rope) {
+            constexpr T eps = norm_eps_v<C, T>;
+            std::array<T, C.head_dim> x{}, scratch{};
+            std::copy(raw.begin(), raw.end(), x.begin());   // the norm's input: the rotated projection
+            if constexpr (C.rope != rope_kind::none)
+                ml::rope(x, rope_src.cos_at(pos), rope_src.sin_at(pos), C.layout());
+            const T rstd = rms_norm(x, norm, scratch, eps);
+            rms_norm_backward(d, x, norm, rstd, d, dnorm);
+        }
+        if constexpr (C.rope != rope_kind::none)
+            rope_inverse(d, rope_src.cos_at(pos), rope_src.sin_at(pos), C.layout());
+        if constexpr (C.qk_norm == qk_norm_kind::before_rope) {
+            constexpr T eps = norm_eps_v<C, T>;
+            std::array<T, C.head_dim> x{}, scratch{};
+            std::copy(raw.begin(), raw.end(), x.begin());
+            const T rstd = rms_norm(x, norm, scratch, eps);
+            rms_norm_backward(d, x, norm, rstd, d, dnorm);
+        }
+    }
+} // namespace detail::attention_layer
+
+/// \brief Attention over a whole sequence, saving what `attention_backward` needs: each token's output is
+/// `attention_forward`'s, to the bit.
+/// \tparam C The configuration.
+/// \param w The weights.
+/// \param xs `n` tokens of `d_model`, end to end (normalised inputs).
+/// \param rope_src The cosines and sines by position, covering `n - 1`, or `no_rope`.
+/// \param act Receives the activations.
+/// \param out Receives `n` outputs of `d_model`; may not alias `xs`.
+template <transformer_config C, weight_matrix W, math::math_number T, row X, typename R, mutable_row Out>
+    requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Out>, T>
+             && (C.rope == rope_kind::none || rope_source<R>)
+constexpr void attention_forward_sequence(const attention_weights<W, T>& w, const X& xs, const R& rope_src,
+                                          const attention_activations<T>& act, Out&& out)
+{
+    static_assert(valid(C), "snicholls::ml::attention_forward_sequence: the transformer_config is not valid");
+    constexpr std::size_t d = C.head_dim, qn = C.q_size(), kn = C.kv_size();
+    constexpr bool raw = C.qk_norm != qk_norm_kind::none;
+    const auto x = as_row(xs);
+    const auto y = as_mutable_row(out);
+    const std::size_t n = x.size() / C.d_model;
+    assert(x.size() == n * C.d_model && y.size() == n * C.d_model);
+    assert(act.q.size() == n * qn && act.k.size() == n * kn && act.v.size() == n * kn && act.y.size() == n * qn
+           && act.lse.size() == n * C.n_heads && (!raw || (act.q_raw.size() == n * qn && act.k_raw.size() == n * kn)));
+    std::array<T, kn> k{}, v{};
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto q = act.q.subspan(t * qn, qn);
+        const auto in = prepare_input<C.d_model>(w.q, x.subspan(t * C.d_model, C.d_model));
+        linear(w.q, in, q, w.q_bias);
+        linear(w.k, in, k, w.k_bias);
+        linear(w.v, in, v, w.v_bias);
+        if constexpr (raw) {
+            std::copy(q.begin(), q.end(), act.q_raw.begin() + std::ptrdiff_t(t * qn));
+            std::copy(k.begin(), k.end(), act.k_raw.begin() + std::ptrdiff_t(t * kn));
+        }
+        for (std::size_t h = 0; h < C.n_heads; ++h)
+            detail::attention_layer::position<C>(q.subspan(h * d, d), w.q_norm, t, rope_src);
+        for (std::size_t h = 0; h < C.n_kv_heads; ++h) {
+            detail::attention_layer::position<C>(std::span<T>(k).subspan(h * d, d), w.k_norm, t, rope_src);
+            std::copy(k.begin() + std::ptrdiff_t(h * d), k.begin() + std::ptrdiff_t((h + 1) * d),
+                      act.k.begin() + std::ptrdiff_t((h * n + t) * d));
+            std::copy(v.begin() + std::ptrdiff_t(h * d), v.begin() + std::ptrdiff_t((h + 1) * d),
+                      act.v.begin() + std::ptrdiff_t((h * n + t) * d));
+        }
+        const key_range r = attention_window(t, C.window);
+        const auto yt = act.y.subspan(t * qn, qn);
+        for (std::size_t h = 0; h < C.n_heads; ++h) {
+            const std::size_t kvh = h / C.group();
+            kv_runs<T, 1> run{};
+            run.keys[0] = std::span<const T>(act.k).subspan((kvh * n + r.first) * d, r.size() * d);
+            run.values[0] = std::span<const T>(act.v).subspan((kvh * n + r.first) * d, r.size() * d);
+            act.lse[t * C.n_heads + h] = attention_head<C>(std::span<const T>(q).subspan(h * d, d), run, yt.subspan(h * d, d));
+        }
+        linear(w.o, prepare_input<qn>(w.o, yt), y.subspan(t * C.d_model, C.d_model), w.o_bias);
+    }
+}
+
+/// \brief The backward pass of `attention_forward_sequence`, from what it saved.
+///
+/// Token by token, `Wo`'s backward gives the heads' output gradients. Each query head's backward
+/// (`attention_head_backward`) writes its query gradient and adds into the key and value gradients of the key-value
+/// head it shares, so grouped-query heads sum. QK norm and RoPE are undone in the configuration's order
+/// (`rope_inverse`, `rms_norm_backward`, the norm weights' gradients summed over heads and positions), and
+/// `linear_backward` takes the gradients through `Wq`, `Wk` and `Wv`. Only dense weights train.
+/// \tparam C The configuration.
+/// \param w The weights the forward pass used.
+/// \param xs The tokens it read.
+/// \param rope_src Its rope source.
+/// \param act What it saved.
+/// \param dout The gradient in its output, `n · d_model`.
+/// \param dxs Added into, `n · d_model`; or empty to skip it.
+/// \param grads Receives the gradients: `q`, `k`, `v` written, the rest added into.
+template <transformer_config C, typename S, math::math_number T, row X, typename R, row DO, mutable_row DX>
+    requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<DO>, T> && std::same_as<row_value_t<DX>, T>
+             && (C.rope == rope_kind::none || rope_source<R>)
+constexpr void attention_backward(const attention_weights<dense_weights<S>, T>& w, const X& xs, const R& rope_src,
+                                  const attention_activations<T>& act, const DO& dout, DX&& dxs,
+                                  const attention_gradients<T>& grads)
+{
+    static_assert(valid(C), "snicholls::ml::attention_backward: the transformer_config is not valid");
+    constexpr std::size_t d = C.head_dim, qn = C.q_size(), kn = C.kv_size();
+    const auto x = as_row(xs);
+    const auto g = as_row(dout);
+    const auto gx = as_mutable_row(dxs);
+    const std::size_t n = x.size() / C.d_model;
+    assert(g.size() == x.size() && (gx.empty() || gx.size() == x.size()));
+    assert(grads.q.size() == n * qn && grads.k.size() == n * kn && grads.v.size() == n * kn);
+    std::fill(grads.k.begin(), grads.k.end(), T(0));
+    std::fill(grads.v.begin(), grads.v.end(), T(0));
+    for (std::size_t t = 0; t < n; ++t) {
+        std::array<T, qn> dy{};
+        const auto yt = std::span<const T>(act.y).subspan(t * qn, qn);
+        linear_backward(w.o, yt, g.subspan(t * C.d_model, C.d_model), dy, grads.wo, grads.o_bias);
+        const key_range r = attention_window(t, C.window);
+        for (std::size_t h = 0; h < C.n_heads; ++h) {
+            const std::size_t kvh = h / C.group(), at = (kvh * n + r.first) * d;
+            attention_head_backward<C, T>(std::span<const T>(act.q).subspan(t * qn + h * d, d),
+                                          std::span<const T>(act.k).subspan(at, r.size() * d),
+                                          std::span<const T>(act.v).subspan(at, r.size() * d), yt.subspan(h * d, d),
+                                          std::span<const T>(dy).subspan(h * d, d), act.lse[t * C.n_heads + h],
+                                          grads.q.subspan(t * qn + h * d, d), grads.k.subspan(at, r.size() * d),
+                                          grads.v.subspan(at, r.size() * d));
+        }
+    }
+    const std::span<T> no_dx{};
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto dq = grads.q.subspan(t * qn, qn);
+        std::array<T, kn> dk{}, dv{};
+        for (std::size_t h = 0; h < C.n_kv_heads; ++h)
+            for (std::size_t i = 0; i < d; ++i) {
+                dk[h * d + i] = grads.k[(h * n + t) * d + i];
+                dv[h * d + i] = grads.v[(h * n + t) * d + i];
+            }
+        if constexpr (C.qk_norm != qk_norm_kind::none || C.rope != rope_kind::none) {
+            constexpr bool raw = C.qk_norm != qk_norm_kind::none;
+            for (std::size_t h = 0; h < C.n_heads; ++h)
+                detail::attention_layer::position_backward<C>(
+                    dq.subspan(h * d, d), raw ? std::span<const T>(act.q_raw).subspan(t * qn + h * d, d) : std::span<const T>{},
+                    w.q_norm, grads.q_norm, t, rope_src);
+            for (std::size_t h = 0; h < C.n_kv_heads; ++h)
+                detail::attention_layer::position_backward<C>(
+                    std::span<T>(dk).subspan(h * d, d),
+                    raw ? std::span<const T>(act.k_raw).subspan(t * kn + h * d, d) : std::span<const T>{}, w.k_norm,
+                    grads.k_norm, t, rope_src);
+        }
+        const auto xt = x.subspan(t * C.d_model, C.d_model);
+        const auto dxt = gx.empty() ? no_dx : gx.subspan(t * C.d_model, C.d_model);
+        linear_backward(w.q, xt, dq, dxt, grads.wq, grads.q_bias);
+        linear_backward(w.k, xt, dk, dxt, grads.wk, grads.k_bias);
+        linear_backward(w.v, xt, dv, dxt, grads.wv, grads.v_bias);
+    }
 }
 
 } // namespace snicholls::ml
