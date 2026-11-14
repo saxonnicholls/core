@@ -109,6 +109,7 @@
 #include <snicholls/core/ml/rope.hpp>
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/sampling.hpp>
+#include <snicholls/core/ml/self_attention.hpp>
 #include <snicholls/core/ml/softmax.hpp>
 #include <snicholls/core/ml/transformer_block.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>

@@ -89,6 +89,7 @@ add_executable(snicholls_core_tests
     ml/rope_test.cpp
     ml/row_test.cpp
     ml/sampling_test.cpp
+    ml/self_attention_test.cpp
     ml/softmax_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp

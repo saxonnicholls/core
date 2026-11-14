@@ -3,6 +3,22 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **`ml/self_attention.hpp`: one causal self-attention head on its own.** `self_attention_head<DModel, DHead>` takes
+  `Wq`, `Wk`, `Wv` (any `weight_matrix`: dense float, double, bfloat16 or quantised) and a sequence of tokens and
+  writes each position's `softmax(q · K / sqrt(DHead)) · V`, causal or within a sliding window, with optional RoPE.
+  It has no configuration and no cache. The queries, keys, values and log-sum-exps go to `self_attention_activations`,
+  buffers the caller owns, for a backward pass to read. Checked against the naive masked softmax in double; a
+  prefix gives the whole sequence's bits; level with the same head written by hand, bit for bit.
+
+### Changed
+
+- `rope_source` and `no_rope` moved from `ml/attention_layer.hpp` to `ml/rope.hpp`, so a head can take RoPE without
+  the layer's header. Same names, same namespace; `attention_layer.hpp` still provides them.
+
 ## 0.8.0 - 2026-11-12
 
 The transformer layer, linear algebra, mapped storage, and the family's rules.

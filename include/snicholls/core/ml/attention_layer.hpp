@@ -71,21 +71,6 @@
 namespace snicholls::ml
 {
 
-/// \brief The rope source of a configuration without RoPE.
-struct no_rope_t
-{
-};
-
-/// \brief Pass where a configuration has `rope_kind::none`.
-inline constexpr no_rope_t no_rope{};
-
-/// \brief A source of RoPE's cosines and sines by position, such as `rope_table`.
-template <typename R>
-concept rope_source = requires(const R& r, std::size_t pos) {
-    r.cos_at(pos);
-    r.sin_at(pos);
-};
-
 /// \brief The weights of an attention layer: views the caller fills.
 /// \ingroup core
 /// \tparam W A `weight_matrix`.

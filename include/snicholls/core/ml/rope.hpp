@@ -20,6 +20,8 @@
 ///   reads), or at start-up for a long context, which would exceed the compiler's evaluation limits.
 /// - `rope(x, cos, sin, layout)` rotates a head by `+θ`; `rope_inverse` by `-θ`. The rotation is orthogonal, so
 ///   the backward pass of `rope` is `rope_inverse` applied to the gradient, and the other way round.
+/// - `rope_source<R>`: anything with `cos_at(pos)` and `sin_at(pos)`, such as `rope_table`; `no_rope` stands in where
+///   a model has no RoPE (`ml/attention_layer.hpp`, `ml/self_attention.hpp`).
 /// - `rope_layout::half` pairs channel `i` with `i + d/2` (GPT-NeoX, Hugging Face LLaMA, nanochat);
 ///   `rope_layout::interleaved` pairs `2i` with `2i + 1` (Meta's LLaMA, GPT-J).
 ///
@@ -70,6 +72,22 @@ enum class rope_layout
     half,          ///< Channel `i` with `i + d/2`: GPT-NeoX, Hugging Face LLaMA, nanochat.
     interleaved,   ///< Channel `2i` with `2i + 1`: Meta's LLaMA, GPT-J.
 };
+
+/// \brief A source of RoPE's cosines and sines by position, such as `rope_table`.
+template <typename R>
+concept rope_source = requires(const R& r, std::size_t pos) {
+    r.cos_at(pos);
+    r.sin_at(pos);
+};
+
+/// \brief The rope source of a model without RoPE.
+/// \ingroup core
+struct no_rope_t
+{
+};
+
+/// \brief Pass where a model has no RoPE.
+inline constexpr no_rope_t no_rope{};
 
 /// \brief The angular frequency of pair `i` of a head of `head_dim` channels: `base^(-2i / head_dim)`.
 /// \tparam T A `math::math_number`.
