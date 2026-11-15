@@ -28,8 +28,13 @@ A version is released when its tag is on a commit where every blocking CI leg is
   sequence in place and saves `block_activations` (each token's result `block_prefill`'s, to the bit);
   `block_backward` turns the gradient in its output into the gradient in its input and adds every weight's into
   `block_gradients`. Checked against central differences in double for GPT-2-, Llama- and nanochat-shaped blocks
-  (layer and RMS norm, GELU, SwiGLU and ReLU², GQA, QK norm, RoPE, a window); the demo trains one block by gradient
-  descent.
+  (layer and RMS norm, GELU, SwiGLU and ReLU², GQA, QK norm, RoPE, a window), and against llm.c's `gpt2_backward`
+  from the committed fixture (every gradient within two float epsilons); the demo trains one block by gradient
+  descent. Benchmarked on a GPT-2-shaped layer over 64 tokens against the same passes by hand, after a bit-for-bit
+  check on every activation and gradient: within 5% forward and 3% backward.
+- **A tiny GPT-2 trained end to end** (`demos/ml/muon_demo.cpp`): embeddings, two blocks, the final norm and a tied
+  head, Muon on the blocks' matrices and AdamW on the rest; the loss falls from a uniform guess to 0.01 in 30 steps,
+  with the same bits on a second run.
 - **The attention layer trains** (`ml/attention_layer.hpp`): `attention_forward_sequence` saves
   `attention_activations` over a sequence (each token's output `attention_forward`'s, to the bit), and
   `attention_backward` gives every gradient (`attention_gradients`: the projections, biases, QK-norm weights and the

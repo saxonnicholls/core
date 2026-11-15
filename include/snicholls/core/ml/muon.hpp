@@ -26,6 +26,13 @@
 ///
 /// \snippet ml/muon_demo.cpp muon
 ///
+/// A tiny GPT-2 trained end to end with both: token and position embeddings, two blocks
+/// (`block_forward_sequence`, `block_backward`), the final norm, a tied head (`lm_head_loss`), Muon on the blocks'
+/// matrices and AdamW on the rest. It learns a 17-token sequence (loss 2.81, a uniform guess, to 0.01 in 30 steps),
+/// with the same bits on a second run:
+///
+/// \snippet ml/muon_demo.cpp train_gpt2
+///
 /// **Relationships.** `ml/optim.hpp` (`muon_newton_schulz`, `adamw_step`), `linalg/backend.hpp` (the backend
 /// concept), `linalg/reference.hpp` (the reference backend). Group: \ref core.
 ///
