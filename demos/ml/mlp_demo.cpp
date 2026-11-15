@@ -10,6 +10,8 @@
 
 #include <snicholls/core/ml/mlp.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <array>
 #include <cmath>
 #include <cstdio>
@@ -67,6 +69,22 @@ int main()
                 static_cast<double>(drouter[1]), static_cast<double>(drouter[2]), static_cast<double>(drouter[3]));
     ok &= route.count == 2 && route.expert[0] == 1 && route.expert[1] == 3 && drouter[0] == 0.0f && drouter[2] == 0.0f;
     ok &= drouter[1] > 0.0f && std::abs(drouter[1] + drouter[3]) < 1e-7f;
+
+    //! [mlp_sequence]
+    // A sequence of tokens at once: the products through a linalg backend, the hidden rows saved for the backward
+    const std::array<float, 4> xs{2.0f, -1.0f, 2.0f, -1.0f};   // the same token twice
+    std::array<float, 4> ys{}, sup{}, shidden{}, dxs{}, dup2{}, ddown2{}, scratch{};
+    const ml::mlp_activations<float> save{sup, {}, shidden};
+    ml::mlp_forward_sequence<relu2>(snicholls::linalg::reference, relu_w, xs, ys, save);
+    const std::array<float, 4> dys{1.0f, 0.0f, 1.0f, 0.0f};
+    ml::mlp_backward_sequence<relu2>(snicholls::linalg::reference, relu_w, xs, save, dys, dxs,
+                                     ml::mlp_gradients<float>{dup2, {}, ddown2, {}, {}, {}, scratch});
+    //! [mlp_sequence]
+    std::printf("  sequence: [%.1f %.1f] twice; d up[0] %.1f, twice the per-token %.1f\n", static_cast<double>(ys[0]),
+                static_cast<double>(ys[1]), static_cast<double>(dup2[0]), static_cast<double>(dup[0]));
+    ok &= ys[0] == y[0] && ys[1] == y[1] && ys[2] == y[0] && ys[3] == y[1] && dxs[0] == dx[0] && dxs[2] == dx[0];
+    ok &= dup2[0] == 2 * dup[0] && ddown2[0] == 2 * ddown[0];   // two identical tokens: twice the weights' gradients
+
     std::printf(ok ? "mlp demo: ok\n" : "mlp demo: FAILED\n");
     return ok ? 0 : 1;
 }

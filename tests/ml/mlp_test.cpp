@@ -7,6 +7,8 @@
 
 #include <snicholls/core/ml/mlp.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <algorithm>
@@ -213,6 +215,57 @@ TEST(MlMlp, SavingThePreActivationsChangesNoOutput)
     saving_gives_the_same_bits<ml::mlp_kind::gelu>();
     saving_gives_the_same_bits<ml::mlp_kind::relu_squared>();
     saving_gives_the_same_bits<ml::mlp_kind::swiglu>();
+}
+
+// The batched pair over a sequence of three tokens, through the reference backend, against mlp_forward and
+// mlp_backward token by token: the same outputs and gradients within rounding
+template <ml::mlp_kind K>
+void batched_is_per_token()
+{
+    constexpr bool swiglu = K == ml::mlp_kind::swiglu;
+    constexpr std::size_t n = 3, m = n * 8;
+    const auto up = wave(32, 0.9, 0.1), gate = wave(32, 0.8, 1.2), down = wave(32, 0.7, 2.3), bu = wave(8, 0.3, 0.4),
+               bg = wave(8, 0.2, 1.1), bd = wave(4, 0.1, 0.7), xs = wave(n * 4, 1.5, 0.9), gs = wave(n * 4, 1.0, 1.7);
+    const ml::mlp_weights<WD, double> w{WD{up, 8, 4}, swiglu ? WD{gate, 8, 4} : WD{}, WD{down, 4, 8}, bu,
+                                        swiglu ? std::span<const double>(bg) : std::span<const double>{}, bd};
+    struct grads_t {
+        std::vector<double> dx = std::vector<double>(n * 4), up = std::vector<double>(32), gate = std::vector<double>(swiglu ? 32 : 0),
+                            down = std::vector<double>(32), bu = std::vector<double>(8), bg = std::vector<double>(swiglu ? 8 : 0),
+                            bd = std::vector<double>(4), scratch = std::vector<double>(2 * m);
+        ml::mlp_gradients<double> view() { return {up, gate, down, bu, bg, bd, scratch}; }
+    } one, many;
+    std::vector<double> ys1(n * 4), su(8), sg(swiglu ? 8 : 0);
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto x = std::span<const double>(xs).subspan(t * 4, 4);
+        ml::mlp_forward<shape<K>>(w, x, std::span<double>(ys1).subspan(t * 4, 4), ml::mlp_activations<double>{su, sg});
+        ml::mlp_backward<shape<K>>(w, x, ml::mlp_activations<double>{su, sg}, std::span<const double>(gs).subspan(t * 4, 4),
+                                   std::span<double>(one.dx).subspan(t * 4, 4), one.view());
+    }
+    std::vector<double> ys(n * 4), up_s(m), gate_s(swiglu ? m : 0), hidden(m);
+    const ml::mlp_activations<double> save{up_s, gate_s, hidden};
+    ml::mlp_forward_sequence<shape<K>>(snicholls::linalg::reference, w, xs, ys, save);
+    ml::mlp_backward_sequence<shape<K>>(snicholls::linalg::reference, w, xs, save, gs, many.dx, many.view());
+    auto near = [](const std::vector<double>& x, const std::vector<double>& y, const char* what) {
+        ASSERT_EQ(x.size(), y.size()) << what;
+        for (std::size_t i = 0; i < x.size(); ++i)
+            EXPECT_NEAR(x[i], y[i], 1e-12 * std::max(1.0, std::abs(x[i]))) << int(K) << " " << what << " " << i;
+    };
+    near(ys1, ys, "y");
+    near(one.dx, many.dx, "dx");
+    near(one.up, many.up, "up");
+    near(one.gate, many.gate, "gate");
+    near(one.down, many.down, "down");
+    near(one.bu, many.bu, "up_bias");
+    near(one.bg, many.bg, "gate_bias");
+    near(one.bd, many.bd, "down_bias");
+}
+
+TEST(MlMlp, BatchedThroughABackendIsThePerTokenPathWithinRounding)
+{
+    batched_is_per_token<ml::mlp_kind::gelu>();
+    batched_is_per_token<ml::mlp_kind::gelu_tanh>();
+    batched_is_per_token<ml::mlp_kind::relu_squared>();
+    batched_is_per_token<ml::mlp_kind::swiglu>();
 }
 
 TEST(MlMlp, ActivationDerivativesAreTheActivations)

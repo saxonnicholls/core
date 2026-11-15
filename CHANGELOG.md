@@ -3,6 +3,27 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **Batched training through a `linalg` backend** (`ml/linear.hpp`, `ml/mlp.hpp`, `ml/attention_layer.hpp`,
+  `ml/transformer_block.hpp`): `linear_sequence` and `linear_sequence_backward` are a sequence's projection and its
+  backward as matrix products through any `linalg::blas_backend`; `mlp_forward_sequence` / `mlp_backward_sequence`
+  and backend-first overloads of `attention_forward_sequence`, `attention_backward`, `block_forward_sequence` and
+  `block_backward` run every projection of a layer that way, so a BLAS or a GPU backend in another library trains the
+  layer with the same call. QK norm, RoPE and the heads are the per-token path's own code, now in shared helpers (the
+  per-token path's bits unchanged, checked by the bit-for-bit tests and the benchmark's fairness check). New working
+  buffers: `mlp_activations::hidden`, `mlp_gradients::scratch`, `attention_gradients::y`,
+  `block_activations::mlp_hidden`. Checked against the per-token path in double for every configuration (GQA, QK
+  norm before and after RoPE, the soft cap, windows, SwiGLU, ReLU², GELU); `linear_sequence` is level with the same
+  products by hand through `linalg::reference`, bit for bit (`benchmarks/ml/linear_benchmark.cpp`).
+
+### Changed
+
+- `attention_backward` now leaves `attention_gradients::k` holding the gradients in the projected keys (QK norm and
+  RoPE undone), as its documentation always said; it held them before the undoing.
+
 ## 0.9.0 - 2026-11-15
 
 ### Added

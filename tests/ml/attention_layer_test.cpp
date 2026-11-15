@@ -8,9 +8,11 @@
 #include <snicholls/core/ml/attention_layer.hpp>
 
 #include <snicholls/core/combinatorics/permutations.hpp>
+#include <snicholls/core/linalg/reference.hpp>
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -370,6 +372,67 @@ TEST(MlAttentionLayer, BackwardMatchesCentralDifferencesWithQkNormBeforeAndAfter
 {
     backward_is_central_differences<t_qk_before>();
     backward_is_central_differences<t_qk_after>();
+}
+
+// The batched overloads (projections as gemms through the reference backend) against the per-token ones, every
+// configuration: the same activations and gradients within rounding; and an empty dxs skips the input's gradient
+template <ml::transformer_config C>
+void batched_is_per_token()
+{
+    const train_layer<C> l;
+    constexpr std::size_t n = train_layer<C>::n;
+    const auto gout = wave(n * C.d_model, 0.9, 1.7);
+    struct grads_t {
+        std::vector<double> dq, dk, dv, dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, dx, dy;
+        explicit grads_t(const train_layer<C>& l)
+            : dq(n * C.q_size()), dk(n * C.kv_size()), dv(dk.size()), dwq(l.wq.size()), dwk(l.wk.size()), dwv(l.wv.size()),
+              dwo(l.wo.size()), dbq(l.bq.size()), dbk(l.bk.size()), dbv(l.bv.size()), dbo(l.bo.size()), dnq(l.nq.size()),
+              dnk(l.nk.size()), dx(l.x.size()), dy(n * C.q_size())
+        {
+        }
+        ml::attention_gradients<double> view() { return {dq, dk, dv, dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, dy}; }
+    };
+    train_buffers<C> a, b;
+    grads_t ga(l), gb(l), gc(l);
+    ml::attention_forward_sequence<C>(l.weights(), l.x, rope_for<C>(), a.act(), a.out);
+    ml::attention_backward<C>(l.weights(), l.x, rope_for<C>(), a.act(), gout, ga.dx, ga.view());
+    ml::attention_forward_sequence<C>(snicholls::linalg::reference, l.weights(), l.x, rope_for<C>(), b.act(), b.out);
+    ml::attention_backward<C>(snicholls::linalg::reference, l.weights(), l.x, rope_for<C>(), b.act(), gout, gb.dx, gb.view());
+    ml::attention_backward<C>(snicholls::linalg::reference, l.weights(), l.x, rope_for<C>(), b.act(), gout, {}, gc.view());
+    auto near = [](const std::vector<double>& x, const std::vector<double>& y, const char* what) {
+        ASSERT_EQ(x.size(), y.size()) << what;
+        for (std::size_t i = 0; i < x.size(); ++i)
+            EXPECT_NEAR(x[i], y[i], 1e-12 * std::max(1.0, std::abs(x[i]))) << what << " " << i;
+    };
+    near(a.out, b.out, "out");
+    near(a.q, b.q, "q");
+    near(a.k, b.k, "k");
+    near(a.v, b.v, "v");
+    near(a.lse, b.lse, "lse");
+    near(a.qr, b.qr, "q_raw");
+    near(a.kr, b.kr, "k_raw");
+    near(ga.dx, gb.dx, "dx");
+    near(ga.dwq, gb.dwq, "dwq");
+    near(ga.dwk, gb.dwk, "dwk");
+    near(ga.dwv, gb.dwv, "dwv");
+    near(ga.dwo, gb.dwo, "dwo");
+    near(ga.dbq, gb.dbq, "dbq");
+    near(ga.dbk, gb.dbk, "dbk");
+    near(ga.dbv, gb.dbv, "dbv");
+    near(ga.dbo, gb.dbo, "dbo");
+    near(ga.dnq, gb.dnq, "dnq");
+    near(ga.dnk, gb.dnk, "dnk");
+    EXPECT_EQ(gc.dx, std::vector<double>(l.x.size(), 0.0));   // skipped
+    EXPECT_EQ(gc.dwq, gb.dwq);                                  // and nothing else changed
+}
+
+TEST(MlAttentionLayer, BatchedThroughABackendIsThePerTokenPathWithinRounding)
+{
+    batched_is_per_token<t_plain>();
+    batched_is_per_token<t_gqa_rope>();
+    batched_is_per_token<t_cap>();
+    batched_is_per_token<t_qk_before>();
+    batched_is_per_token<t_qk_after>();
 }
 
 TEST(MlAttentionLayer, HeadBackwardWithoutACapIsAttendBackwardToTheBit)

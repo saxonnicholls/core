@@ -10,6 +10,9 @@
 
 #include <snicholls/core/ml/attention_layer.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -98,6 +101,26 @@ int main()
     for (std::size_t j = 0; j < n; ++j)
         vsum += dhead_v[j * 4 + 0];
     ok &= std::abs(vsum - 1.0f) < 1e-6f;   // the softmax weights over the three keys sum to 1
+
+    //! [attention_batched]
+    // The same sequence with its projections as matrix products through a linalg backend (a BLAS or a GPU backend
+    // from another library the same way); the backward needs one more working buffer, the heads' output gradients
+    std::vector<float> bq(sq.size()), bk(sk.size()), bv(sv.size()), by(sy.size()), blse(slse.size()), bout(seq.size());
+    const ml::attention_activations<float> bact{bq, bk, bv, {}, {}, by, blse};
+    ml::attention_forward_sequence<c>(snicholls::linalg::reference, w, xs, rope, bact, bout);
+    std::vector<float> gq(sq.size()), gk(sk.size()), gv(sv.size()), gwq(wq.size()), gwk(wkv.size()), gwv(wkv.size()),
+        gwo(wo.size()), gx(xs.size()), gy(sq.size());
+    ml::attention_backward<c>(snicholls::linalg::reference, w, xs, rope, bact, dout, gx,
+                              ml::attention_gradients<float>{gq, gk, gv, gwq, gwk, gwv, gwo, {}, {}, {}, {}, {}, {}, gy});
+    //! [attention_batched]
+    float worst = 0.0f;
+    for (std::size_t i = 0; i < seq.size(); ++i)
+        worst = std::max(worst, std::abs(bout[i] - seq[i]));
+    for (std::size_t i = 0; i < dx.size(); ++i)
+        worst = std::max(worst, std::abs(gx[i] - dx[i]));
+    std::printf("  batched through the reference backend: within %.2g of the per-token path\n", static_cast<double>(worst));
+    ok &= worst < 1e-6f;
+
     std::printf(ok ? "attention_layer demo: ok\n" : "attention_layer demo: FAILED\n");
     return ok ? 0 : 1;
 }

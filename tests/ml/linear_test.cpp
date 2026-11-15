@@ -7,9 +7,12 @@
 
 #include <snicholls/core/ml/linear.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <array>
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <cstddef>
@@ -216,6 +219,73 @@ TEST(MlLinear, BackwardWidensBFloat16Weights)
     ml::linear_backward(ml::dense_weights<ml::bfloat16>{wb, rows, cols}, x, dy, dxb, dwb);
     EXPECT_EQ(dx, dxb);
     EXPECT_EQ(dw, dwb);
+}
+
+// ---- the batched forms through a linalg backend ----
+
+namespace la = snicholls::linalg;
+
+constexpr bool sequence_compile_time()
+{
+    const std::array<double, 6> w{1, 2, 3, 4, 5, 6};   // 2 x 3
+    const std::array<double, 6> xs{1, 0, -1, 0, 1, 0};   // two rows
+    const std::array<double, 2> b{10, 20};
+    std::array<double, 4> ys{};
+    ml::linear_sequence(la::reference, ml::dense_weights<double>{w, 2, 3}, xs, ys, b);
+    const std::array<double, 4> dys{1, 0, 0, 1};
+    std::array<double, 6> dxs{}, dw{};
+    std::array<double, 2> db{};
+    ml::linear_sequence_backward(la::reference, ml::dense_weights<double>{w, 2, 3}, xs, dys, dxs, dw, db);
+    return ys[0] == 8 && ys[1] == 18 && ys[2] == 12 && ys[3] == 25          // W x + b, row by row
+           && dxs[0] == 1 && dxs[2] == 3 && dxs[3] == 4 && dxs[5] == 6      // row t of dY picks row t of W
+           && dw[0] == 1 && dw[2] == -1 && dw[4] == 1 && db[0] == 1 && db[1] == 1;
+}
+static_assert(sequence_compile_time());
+
+TEST(MlLinear, SequenceAgreesWithLinearRowByRow)
+{
+    constexpr std::size_t rows = 24, cols = 40, n = 7;
+    const auto w = pattern(rows * cols, 0.3f, 1), xs = pattern(n * cols, 1.0f, 2), b = pattern(rows, 0.1f, 3);
+    const ml::dense_weights<float> m{w, rows, cols};
+    std::vector<float> ys(n * rows), row(rows);
+    ml::linear_sequence(la::reference, m, xs, ys, b);
+    for (std::size_t t = 0; t < n; ++t) {
+        ml::linear(m, std::span<const float>(xs).subspan(t * cols, cols), row, b);
+        for (std::size_t i = 0; i < rows; ++i)   // the same products; only where the bias joins the sum differs
+            EXPECT_NEAR(ys[t * rows + i], row[i], 1e-5f) << t << " " << i;
+    }
+}
+
+TEST(MlLinear, SequenceBackwardAgreesWithLinearBackwardRowByRow)
+{
+    constexpr std::size_t rows = 24, cols = 40, n = 7;
+    const auto w = pattern(rows * cols, 0.3f, 1), xs = pattern(n * cols, 1.0f, 2), dys = pattern(n * rows, 0.5f, 4);
+    const ml::dense_weights<float> m{w, rows, cols};
+    std::vector<float> dxs(n * cols, 0.25f), dw(rows * cols, 0.5f), db(rows, 1.0f);   // accumulated into
+    auto dxs_r = dxs, dw_r = dw, db_r = db;
+    ml::linear_sequence_backward(la::reference, m, xs, dys, dxs, dw, db);
+    for (std::size_t t = 0; t < n; ++t)
+        ml::linear_backward(m, std::span<const float>(xs).subspan(t * cols, cols), std::span<const float>(dys).subspan(t * rows, rows),
+                            std::span<float>(dxs_r).subspan(t * cols, cols), dw_r, db_r);
+    for (std::size_t i = 0; i < dxs.size(); ++i)
+        EXPECT_NEAR(dxs[i], dxs_r[i], 1e-5f);
+    for (std::size_t i = 0; i < dw.size(); ++i)
+        EXPECT_NEAR(dw[i], dw_r[i], 1e-5f);
+    for (std::size_t i = 0; i < db.size(); ++i)
+        EXPECT_NEAR(db[i], db_r[i], 1e-5f);
+}
+
+TEST(MlLinear, SequenceSkipsEmptyGradientsAndAnEmptySequence)
+{
+    const std::vector<float> w{1, 2, 3, 4, 5, 6}, xs{1, 1, 1}, dys{1, 1};
+    const ml::dense_weights<float> m{w, 2, 3};
+    std::vector<float> dw(6);
+    ml::linear_sequence_backward(la::reference, m, xs, dys, {}, dw);   // no dX, no db
+    EXPECT_EQ(dw, (std::vector<float>{1, 1, 1, 1, 1, 1}));
+    std::vector<float> none;
+    ml::linear_sequence(la::reference, m, {}, none);                    // zero rows: nothing to do
+    ml::linear_sequence_backward(la::reference, m, {}, {}, {}, dw);
+    EXPECT_EQ(dw, (std::vector<float>{1, 1, 1, 1, 1, 1}));
 }
 
 } // namespace

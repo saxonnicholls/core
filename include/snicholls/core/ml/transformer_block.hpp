@@ -21,6 +21,12 @@
 /// gradient in its input, in place, and adds every weight's gradient into `block_gradients`: the MLP's and second
 /// norm's per token, the attention's over the sequence, the first norm's, each through its residual.
 ///
+/// Both have a batched overload taking a `linalg` backend first, every projection a matrix product over the sequence
+/// (`attention_forward_sequence`, `mlp_forward_sequence` and their backward passes, a BLAS or a GPU backend from another library, the same call); it saves
+/// `block_activations::mlp_hidden` too, and its backward uses `mlp_gradients::scratch` and `attention_gradients::y`.
+///
+/// \snippet ml/transformer_block_demo.cpp block_batched
+///
 /// \snippet ml/transformer_block_demo.cpp block_backward
 ///
 /// \snippet ml/transformer_block_demo.cpp transformer_block
@@ -64,8 +70,8 @@
 ///
 /// **Tests and demos.** `tests/ml/transformer_block_test.cpp`, `demos/ml/transformer_block_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<span>`, `ml/attention_layer.hpp`, `ml/mlp.hpp`,
-/// `ml/norm.hpp`.
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<span>`, `<type_traits>`,
+/// `linalg/backend.hpp`, `ml/attention_layer.hpp`, `ml/mlp.hpp`, `ml/norm.hpp`.
 ///
 /// **Known issues.** Post-norm and sandwich-norm blocks (Gemma's extra norms) are not configurable.
 ///
@@ -74,6 +80,7 @@
 #ifndef snicholls_core_ml_transformer_block_hpp
 #define snicholls_core_ml_transformer_block_hpp
 
+#include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/norm.hpp>
@@ -83,6 +90,7 @@
 #include <cassert>
 #include <cstddef>
 #include <span>
+#include <type_traits>
 
 namespace snicholls::ml
 {
@@ -177,6 +185,7 @@ struct block_activations
     attention_activations<T> attention{};      ///< The attention's, over the sequence.
     std::span<T> mlp_up{};                     ///< `n · d_ff`: each token's MLP up pre-activation.
     std::span<T> mlp_gate{};                   ///< `n · d_ff`: each token's gate pre-activation; SwiGLU only, else empty.
+    std::span<T> mlp_hidden{};                 ///< `n · d_ff`: the hidden rows; the batched path only, else empty.
 };
 
 /// \brief The gradients of a block: views the caller owns.
@@ -288,6 +297,81 @@ constexpr void block_backward(const block_weights<dense_weights<S>, T>& w, const
                                            grads.norm1_weight, grads.norm1_bias);
         for (std::size_t i = 0; i < d; ++i)
             g[t * d + i] += dn[i];
+    }
+}
+
+/// \brief A block over a whole sequence with every projection a matrix product through a `linalg` backend, in
+/// place, saving what the batched `block_backward` needs.
+///
+/// The norms run token by token as in the per-token path; the attention and the MLP are
+/// `attention_forward_sequence` and `mlp_forward_sequence` with the backend. Dense weights in the sequence's type.
+/// \tparam C The configuration.
+/// \param backend A `linalg::blas_backend`.
+/// \param w The weights.
+/// \param xs `n` residual rows of `d_model`, end to end: updated in place.
+/// \param rope_src The cosines and sines by position, or `no_rope`.
+/// \param act Receives the activations, `mlp_hidden` included.
+template <transformer_config C, typename B, math::math_number T, typename R>
+    requires linalg::blas_backend<B, T> && (C.rope == rope_kind::none || rope_source<R>)
+constexpr void block_forward_sequence(const B& backend, const block_weights<dense_weights<T>, T>& w, std::type_identity_t<std::span<T>> xs,
+                                      const R& rope_src, const block_activations<T>& act)
+{
+    constexpr std::size_t d = C.d_model;
+    const std::size_t n = xs.size() / d;
+    assert(xs.size() == n * d && act.x0.size() == n * d && act.h1.size() == n * d && act.x1.size() == n * d && act.h2.size() == n * d);
+    std::copy(xs.begin(), xs.end(), act.x0.begin());
+    for (std::size_t t = 0; t < n; ++t)
+        block_norm<C>(xs.subspan(t * d, d), w.norm1_weight, w.norm1_bias, act.h1.subspan(t * d, d));
+    attention_forward_sequence<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, xs);
+    for (std::size_t i = 0; i < n * d; ++i)
+        xs[i] = act.x0[i] + xs[i];
+    std::copy(xs.begin(), xs.end(), act.x1.begin());
+    for (std::size_t t = 0; t < n; ++t)
+        block_norm<C>(xs.subspan(t * d, d), w.norm2_weight, w.norm2_bias, act.h2.subspan(t * d, d));
+    mlp_forward_sequence<C>(backend, w.mlp, std::span<const T>(act.h2), xs, mlp_activations<T>{act.mlp_up, act.mlp_gate, act.mlp_hidden});
+    for (std::size_t i = 0; i < n * d; ++i)
+        xs[i] = act.x1[i] + xs[i];
+}
+
+/// \brief The backward pass of the batched `block_forward_sequence`, in place, its products through the backend.
+///
+/// The MLP's backward over the sequence (`mlp_backward_sequence`), each token's second norm and the residual, the
+/// attention's (`attention_backward` with the backend), each token's first norm and the residual. The working spaces
+/// are `grads.scratch` (`n · d_model`), `grads.mlp.scratch` (`n · d_ff`, twice for SwiGLU) and
+/// `grads.attention.y` (`n · q_size`).
+/// \tparam C The configuration.
+/// \param backend A `linalg::blas_backend`.
+/// \param w The weights the forward pass used.
+/// \param rope_src Its rope source.
+/// \param act What it saved.
+/// \param dxs The gradient in its output, `n · d_model`: replaced by the gradient in its input.
+/// \param grads Receives the gradients.
+template <transformer_config C, typename B, math::math_number T, typename R>
+    requires linalg::blas_backend<B, T> && (C.rope == rope_kind::none || rope_source<R>)
+constexpr void block_backward(const B& backend, const block_weights<dense_weights<T>, T>& w, const R& rope_src,
+                              const block_activations<T>& act, std::type_identity_t<std::span<T>> dxs, const block_gradients<T>& grads)
+{
+    constexpr std::size_t d = C.d_model;
+    const std::size_t n = dxs.size() / d;
+    assert(dxs.size() == n * d && act.x0.size() == n * d && grads.scratch.size() == n * d);
+    std::array<T, d> dn{};
+    std::fill(grads.scratch.begin(), grads.scratch.end(), T(0));
+    mlp_backward_sequence<C>(backend, w.mlp, std::span<const T>(act.h2), mlp_activations<T>{act.mlp_up, act.mlp_gate, act.mlp_hidden},
+                             std::span<const T>(dxs), grads.scratch, grads.mlp);
+    for (std::size_t t = 0; t < n; ++t) {
+        detail::block::norm_backward<C, T>(std::span<const T>(grads.scratch).subspan(t * d, d), std::span<const T>(act.x1).subspan(t * d, d),
+                                           w.norm2_weight, w.norm2_bias, dn, grads.norm2_weight, grads.norm2_bias);
+        for (std::size_t i = 0; i < d; ++i)
+            dxs[t * d + i] += dn[i];
+    }
+    std::fill(grads.scratch.begin(), grads.scratch.end(), T(0));
+    attention_backward<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, std::span<const T>(dxs),
+                          grads.scratch, grads.attention);
+    for (std::size_t t = 0; t < n; ++t) {
+        detail::block::norm_backward<C, T>(std::span<const T>(grads.scratch).subspan(t * d, d), std::span<const T>(act.x0).subspan(t * d, d),
+                                           w.norm1_weight, w.norm1_bias, dn, grads.norm1_weight, grads.norm1_bias);
+        for (std::size_t i = 0; i < d; ++i)
+            dxs[t * d + i] += dn[i];
     }
 }
 

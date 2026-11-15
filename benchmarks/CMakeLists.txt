@@ -49,6 +49,7 @@ snicholls_core_add_benchmark(linalg_reference_benchmark linalg/reference_benchma
 snicholls_core_add_benchmark(activations_benchmark ml/activations_benchmark.cpp)
 snicholls_core_add_benchmark(attention_benchmark ml/attention_benchmark.cpp)
 snicholls_core_add_benchmark(bpe_benchmark ml/bpe_benchmark.cpp)
+snicholls_core_add_benchmark(linear_benchmark ml/linear_benchmark.cpp)
 snicholls_core_add_benchmark(minifloat_benchmark ml/minifloat_benchmark.cpp)
 snicholls_core_add_benchmark(norm_benchmark ml/norm_benchmark.cpp)
 snicholls_core_add_benchmark(optim_benchmark ml/optim_benchmark.cpp)

@@ -48,7 +48,8 @@ than changing them.
 ## After 0.9.0
 
 1. **Batched products.** Training multiplies one token at a time, matrix by vector; a sequence path through
-   `linalg::gemm` (any backend: the reference, a BLAS, a device) for the projections, forward and backward.
+   `linalg::gemm` (any backend: the reference, a BLAS, a device) for the projections, forward and backward. Done (for
+   0.10.0): `linear_sequence` and the backend-first overloads of the layer, MLP and block passes.
 2. **bfloat16 training**, tested end to end (T4).
 3. **The fixed-order gradient sum** across workers (T5).
 4. nanochat's logit soft cap in `lm_head_loss`; Muon in `bfloat16`.

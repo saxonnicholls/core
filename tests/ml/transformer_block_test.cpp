@@ -7,6 +7,8 @@
 
 #include <snicholls/core/ml/transformer_block.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <algorithm>
@@ -433,6 +435,65 @@ TEST(MlTransformerBlockTraining, Gpt2BackwardIsLlmcsWithinTolerance)
     // As the forward: llm.c's attention is three passes with expf, core's one with its own exp. Measured, the worst
     // gradient (dqkvw, dqkvb) is within 2.4e-7, two float epsilons; the bound is eight
     EXPECT_LT(e, 1e-6);
+}
+
+// The batched path (every projection a gemm through the reference backend) against the per-token path, which the
+// tests above check against central differences: the same values within rounding, forward and every gradient
+template <ml::transformer_config C>
+void batched_is_per_token()
+{
+    using B = train_block<C>;
+    const B b;
+    constexpr std::size_t n = B::n, d = C.d_model;
+    struct run_t {
+        train_block_buffers<C> buf;
+        std::vector<double> hidden = std::vector<double>(n * C.d_ff), xs, dx;
+        std::vector<std::vector<double>> gp;
+        std::vector<double> dq = std::vector<double>(n * C.q_size()), dk = std::vector<double>(n * C.kv_size()), dv = dk,
+                            dy = dq, scratch = std::vector<double>(n * d), mlp_scratch = std::vector<double>(2 * n * C.d_ff);
+        ml::block_gradients<double> grads()
+        {
+            return {gp[B::n1w], gp[B::n1b], gp[B::n2w], gp[B::n2b],
+                    {dq, dk, dv, gp[B::wq], gp[B::wk], gp[B::wv], gp[B::wo], gp[B::bq], gp[B::bk], gp[B::bv], gp[B::bo], gp[B::nq], gp[B::nk], dy},
+                    {gp[B::up], gp[B::gate], gp[B::down], gp[B::bup], gp[B::bgate], gp[B::bdown], mlp_scratch},
+                    scratch};
+        }
+        ml::block_activations<double> act()
+        {
+            auto a = buf.act();
+            a.mlp_hidden = hidden;
+            return a;
+        }
+    };
+    run_t one, many;
+    for (run_t* r : {&one, &many}) {
+        r->xs = bwave(n * d, 1.1, 0.2);
+        r->dx = bwave(n * d, 0.9, 1.4);
+        r->gp.resize(b.p.size());
+        for (std::size_t i = 0; i < b.p.size(); ++i)
+            r->gp[i].assign(b.p[i].size(), 0.0);
+    }
+    ml::block_forward_sequence<C>(b.weights(), one.xs, brope_for<C>(), one.buf.act());
+    ml::block_backward<C>(b.weights(), brope_for<C>(), one.buf.act(), one.dx, one.grads());
+    ml::block_forward_sequence<C>(snicholls::linalg::reference, b.weights(), many.xs, brope_for<C>(), many.act());
+    ml::block_backward<C>(snicholls::linalg::reference, b.weights(), brope_for<C>(), many.act(), many.dx, many.grads());
+    auto near = [](const std::vector<double>& x, const std::vector<double>& y, const char* what) {
+        ASSERT_EQ(x.size(), y.size()) << what;
+        for (std::size_t i = 0; i < x.size(); ++i)
+            EXPECT_NEAR(x[i], y[i], 1e-12 * std::max(1.0, std::abs(x[i]))) << what << " at " << i;
+    };
+    near(one.xs, many.xs, "output");
+    near(one.dx, many.dx, "input gradient");
+    near(one.buf.lse, many.buf.lse, "log-sum-exps");
+    for (std::size_t i = 0; i < b.p.size(); ++i)
+        near(one.gp[i], many.gp[i], "a weight gradient");
+}
+
+TEST(MlTransformerBlockTraining, BatchedThroughABackendIsThePerTokenPathWithinRounding)
+{
+    batched_is_per_token<b_gpt2>();
+    batched_is_per_token<b_llama>();
+    batched_is_per_token<b_nanochat>();
 }
 
 TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForALlamaBlock)

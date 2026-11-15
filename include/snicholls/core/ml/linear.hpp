@@ -21,11 +21,18 @@
 ///   llm.c's `matmul_forward` does, so a dense float product is llm.c's to the bit.
 /// - `linear_backward(w, x, dy, dx, dw, db)`: for dense (trainable) storage, adds `Wᵀ dy`, `dy xᵀ` and `dy` into the
 ///   gradients, as llm.c's `matmul_backward`.
+/// - `linear_sequence(backend, w, xs, ys, bias)` and `linear_sequence_backward(backend, w, xs, dys, dxs, dw, db)`: the
+///   same over a sequence of `n` rows, as one matrix product (and two for the backward) through a `linalg` backend:
+///   core's reference, or a BLAS or a GPU backend from another library, the same call. Dense weights in the sequence's type. The result is the backend's:
+///   the reference sums each output in input order and adds the bias after, so it can differ from `linear` in the
+///   last bit.
 ///
 /// A storage of the caller's own joins by overloading `prepare_input` and `linear` in its namespace (found by ADL);
 /// that is the seam for a BLAS or device backend.
 ///
 /// \snippet ml/linear_demo.cpp linear
+///
+/// \snippet ml/linear_demo.cpp linear_sequence
 ///
 /// **Relationships.** `ml/quantize.hpp` (the blocks and their dot products), `ml/minifloat.hpp` (`bfloat16`),
 /// `ml/attention_layer.hpp` and `ml/mlp.hpp` (the users). Group: \ref core.
@@ -43,9 +50,24 @@
 /// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step and training passes (see there), and
 /// `linear_backward` through `ml/self_attention.hpp`'s backward; level with llm.c's `matmul_backward` loops.
 ///
+/// `linear_sequence` through `linalg::reference` against the same products as loops over raw pointers, after a
+/// bit-for-bit check: 64 tokens of 256 inputs (`benchmarks/ml/linear_benchmark.cpp`; Release, Apple clang 17, Xeon
+/// W-3245, macOS 26, 2026-11-16, medians of five, load average about 16):
+///
+/// | Product | Core | By hand |
+/// |---|---|---|
+/// | forward, 256 outputs | 3.96 ms | 3.98 ms |
+/// | forward, 1024 outputs | 15.9 ms | 16.1 ms |
+/// | backward, 256 outputs | 8.43 ms | 8.58 ms |
+/// | backward, 1024 outputs | 42.9 ms | 43.9 ms |
+///
+/// Level: the views, the extent checks and the backend's dispatch cost nothing measurable. The reference backend is
+/// no faster than `linear` token by token (3.96 ms and 16.1 ms the same rows); the batched path is for a backend that
+/// is (a BLAS, a device).
+///
 /// **Tests and demos.** `tests/ml/linear_test.cpp`, `demos/ml/linear_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<span>`, `ml/minifloat.hpp`,
+/// **Dependencies.** `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<span>`, `<type_traits>`, `linalg/backend.hpp`, `ml/minifloat.hpp`,
 /// `ml/quantize.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** A quantised product is in `float` only, as ggml's are.
@@ -55,6 +77,7 @@
 #ifndef snicholls_core_ml_linear_hpp
 #define snicholls_core_ml_linear_hpp
 
+#include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/row.hpp>
@@ -64,6 +87,7 @@
 #include <concepts>
 #include <cstddef>
 #include <span>
+#include <type_traits>
 
 namespace snicholls::ml
 {
@@ -234,6 +258,91 @@ constexpr void linear(const quantized_weights<Block>& w, const std::array<block_
         const float d = dot(w.row(i), std::span<const block_q8_0>(x));
         out[i] = b.empty() ? d : b[i] + d;
     }
+}
+
+namespace detail::linear
+{
+    template <typename T>
+    constexpr auto view(std::span<const T> s, std::size_t rows, std::size_t cols)
+    {
+        return linalg::matrix_view<const T, linalg::layout_right>(s.data(), {rows, cols});
+    }
+
+    template <typename T>
+    constexpr auto view(std::span<T> s, std::size_t rows, std::size_t cols)
+    {
+        return linalg::matrix_view<T, linalg::layout_right>(s.data(), {rows, cols});
+    }
+
+    // C = alpha op(A) op(B) + beta C. The shapes are right by construction and C never overlaps A or B, so the
+    // backend's product always succeeds
+    template <typename B, typename T, typename L, typename R, typename C>
+    constexpr void product(const B& backend, T alpha, const L& lhs, const R& rhs, T beta, const C& c)
+    {
+        [[maybe_unused]] const auto done = linalg::gemm(backend, alpha, lhs, rhs, beta, c);
+        assert(done.is_ok());
+    }
+} // namespace detail::linear
+
+/// \brief `Y = X Wᵀ + b` for a sequence of `n` rows, as one matrix product through a `linalg` backend.
+///
+/// The batched form of `linear`, for training and prefill: the backend does the work (core's reference, a BLAS, a
+/// device), so its result is the backend's: core's reference backend sums each output in input order and then
+/// adds the bias, which can differ from `linear`'s bias-first sum in the last bit.
+/// \param backend A `linalg::blas_backend`.
+/// \param w The matrix, `rows x cols`, dense in the sequence's own type.
+/// \param xs `n` inputs of `cols`, end to end.
+/// \param ys Receives `n` outputs of `rows`; may not alias `xs`.
+/// \param bias `rows` biases, or empty for none.
+template <math::math_number T, typename B>
+    requires linalg::blas_backend<B, T>
+constexpr void linear_sequence(const B& backend, const dense_weights<T>& w, std::type_identity_t<std::span<const T>> xs,
+                               std::type_identity_t<std::span<T>> ys, std::type_identity_t<std::span<const T>> bias = {})
+{
+    assert(w.cols > 0 && xs.size() % w.cols == 0);
+    const std::size_t n = xs.size() / w.cols;
+    assert(ys.size() == n * w.rows && w.data.size() == w.rows * w.cols && (bias.empty() || bias.size() == w.rows));
+    if (n == 0 || w.rows == 0)
+        return;
+    using detail::linear::view;
+    detail::linear::product(backend, T(1), view(xs, n, w.cols), linalg::transposed(view(w.data, w.rows, w.cols)), T(0),
+                            view(ys, n, w.rows));
+    if (!bias.empty())
+        for (std::size_t t = 0; t < n; ++t)
+            for (std::size_t i = 0; i < w.rows; ++i)
+                ys[t * w.rows + i] += bias[i];
+}
+
+/// \brief The backward pass of `linear_sequence`: `dX += dY W`, `dW += dYᵀ X`, `db += Σ dY`, as two matrix
+/// products through the backend.
+/// \param backend A `linalg::blas_backend`.
+/// \param w The matrix the forward pass used.
+/// \param xs Its `n` inputs.
+/// \param dys The gradients in its `n` outputs.
+/// \param dxs Added into, `n · cols`; or empty to skip it.
+/// \param dw Added into, `rows · cols`.
+/// \param db Added into, `rows`; or empty.
+template <math::math_number T, typename B>
+    requires linalg::blas_backend<B, T>
+constexpr void linear_sequence_backward(const B& backend, const dense_weights<T>& w, std::type_identity_t<std::span<const T>> xs,
+                                        std::type_identity_t<std::span<const T>> dys, std::type_identity_t<std::span<T>> dxs,
+                                        std::type_identity_t<std::span<T>> dw, std::type_identity_t<std::span<T>> db = {})
+{
+    assert(w.cols > 0 && xs.size() % w.cols == 0);
+    const std::size_t n = xs.size() / w.cols;
+    assert(dys.size() == n * w.rows && (dxs.empty() || dxs.size() == xs.size()) && dw.size() == w.rows * w.cols
+           && (db.empty() || db.size() == w.rows));
+    if (n == 0 || w.rows == 0)
+        return;
+    using detail::linear::view;
+    const auto dy = view(dys, n, w.rows);
+    if (!dxs.empty())
+        detail::linear::product(backend, T(1), dy, view(w.data, w.rows, w.cols), T(1), view(dxs, n, w.cols));
+    detail::linear::product(backend, T(1), linalg::transposed(dy), view(xs, n, w.cols), T(1), view(dw, w.rows, w.cols));
+    if (!db.empty())
+        for (std::size_t t = 0; t < n; ++t)
+            for (std::size_t i = 0; i < w.rows; ++i)
+                db[i] += dys[t * w.rows + i];
 }
 
 } // namespace snicholls::ml

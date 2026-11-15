@@ -17,6 +17,9 @@
 /// For training, `mlp_forward(w, x, y, save)` also writes the pre-activations into `mlp_activations` (the output is
 /// the same to the bit), and `mlp_backward` reads them back: it recomputes the hidden row, then adds the gradients
 /// into `mlp_gradients` and the input's. Only dense weights train; a quantised MLP's backward is a compile error.
+/// `mlp_forward_sequence` and `mlp_backward_sequence` are the batched pair over a sequence: each product one `gemm`
+/// through a `linalg` backend, the hidden rows saved (`mlp_activations::hidden`), the backward's working space in
+/// `mlp_gradients::scratch`.
 ///
 /// For a mixture of experts, `moe_gate<K>(router_logits)` picks the `K` experts a token goes to and their weights
 /// (a softmax over the `K` largest router logits, as Mixtral); the token's output is the weighted sum of those
@@ -26,6 +29,8 @@
 /// \snippet ml/mlp_demo.cpp mlp
 ///
 /// \snippet ml/mlp_demo.cpp mlp_backward
+///
+/// \snippet ml/mlp_demo.cpp mlp_sequence
 ///
 /// **Relationships.** `ml/transformer_config.hpp`, `ml/linear.hpp`, `ml/activations.hpp`,
 /// `ml/transformer_block.hpp` (the user). Group: \ref core.
@@ -44,9 +49,8 @@
 ///
 /// **Tests and demos.** `tests/ml/mlp_test.cpp`, `demos/ml/mlp_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<span>`, `ml/activations.hpp`, `ml/linear.hpp`, `ml/row.hpp`,
-/// `ml/sampling.hpp` (`top_k`),
-/// `ml/transformer_config.hpp`.
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<span>`, `<type_traits>`, `linalg/backend.hpp`,
+/// `ml/activations.hpp`, `ml/linear.hpp`, `ml/row.hpp`, `ml/sampling.hpp` (`top_k`), `ml/transformer_config.hpp`.
 ///
 /// **Known issues.** None known.
 ///
@@ -55,6 +59,7 @@
 #ifndef snicholls_core_ml_mlp_hpp
 #define snicholls_core_ml_mlp_hpp
 
+#include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/ml/activations.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/row.hpp>
@@ -65,6 +70,7 @@
 #include <array>
 #include <cassert>
 #include <span>
+#include <type_traits>
 
 namespace snicholls::ml
 {
@@ -108,6 +114,7 @@ struct mlp_activations
 {
     std::span<T> up{};     ///< `up x + b`, before the activation.
     std::span<T> gate{};   ///< `gate x + b`, before SiLU; SwiGLU only, else empty.
+    std::span<T> hidden{}; ///< The hidden row after the activation, `down`'s input: saved by `mlp_forward_sequence` only.
 };
 
 /// \brief The gradients of an MLP's weights: views the caller owns, each added into.
@@ -122,6 +129,7 @@ struct mlp_gradients
     std::span<T> up_bias{};     ///< `d_ff`, or empty.
     std::span<T> gate_bias{};   ///< `d_ff`, or empty.
     std::span<T> down_bias{};   ///< `d_model`, or empty.
+    std::span<T> scratch{};     ///< `n · d_ff` (twice that for SwiGLU): `mlp_backward_sequence`'s working space; else empty.
 };
 
 /// \brief The derivative of a configuration's activation (not SwiGLU's product).
@@ -237,6 +245,78 @@ constexpr void mlp_backward(const mlp_weights<dense_weights<S>, T>& w, const X& 
             dh[i] = dh[i] * mlp_activation_derivative<C.mlp>(saved.up[i]);
     }
     linear_backward(w.up, x, dh, dx, grads.up, grads.up_bias);
+}
+
+/// \brief The MLP over a sequence of `n` tokens, its products through a `linalg` backend, saving what
+/// `mlp_backward_sequence` needs.
+///
+/// The batched form of `mlp_forward` for dense weights in the sequence's type: `U = X Wupᵀ` (and SwiGLU's gate), the
+/// activation, `Y = H Wdownᵀ`, each product one `gemm` (`linear_sequence`). The hidden rows are saved, so the backward
+/// does not recompute them.
+/// \tparam C The configuration.
+/// \param backend A `linalg::blas_backend`.
+/// \param w The weights.
+/// \param xs `n` inputs of `d_model`, end to end.
+/// \param ys Receives `n` outputs of `d_model`; may not alias `xs`.
+/// \param save Receives the pre-activations and the hidden rows, `n · d_ff` each (the gate for SwiGLU only).
+template <transformer_config C, typename B, math::math_number T>
+    requires linalg::blas_backend<B, T>
+constexpr void mlp_forward_sequence(const B& backend, const mlp_weights<dense_weights<T>, T>& w, std::type_identity_t<std::span<const T>> xs,
+                                    std::type_identity_t<std::span<T>> ys, const mlp_activations<T>& save)
+{
+    static_assert(valid(C), "snicholls::ml::mlp_forward_sequence: the transformer_config is not valid");
+    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    const std::size_t n = xs.size() / C.d_model, m = n * C.d_ff;
+    assert(xs.size() == n * C.d_model && ys.size() == xs.size() && save.up.size() == m && save.hidden.size() == m
+           && (!swiglu || save.gate.size() == m));
+    linear_sequence(backend, w.up, xs, save.up, w.up_bias);
+    if constexpr (swiglu) {
+        linear_sequence(backend, w.gate, xs, save.gate, w.gate_bias);
+        for (std::size_t i = 0; i < m; ++i)
+            save.hidden[i] = silu(save.gate[i]) * save.up[i];
+    } else {
+        for (std::size_t i = 0; i < m; ++i)
+            save.hidden[i] = mlp_activation<C.mlp>(save.up[i]);
+    }
+    linear_sequence(backend, w.down, std::span<const T>(save.hidden), ys, w.down_bias);
+}
+
+/// \brief The backward pass of `mlp_forward_sequence`, its products through the backend.
+/// \tparam C The configuration.
+/// \param backend A `linalg::blas_backend`.
+/// \param w The weights the forward pass used.
+/// \param xs Its `n` inputs.
+/// \param saved What it saved.
+/// \param dys The gradients in its outputs, `n · d_model`.
+/// \param dxs Added into, `n · d_model`; or empty to skip it.
+/// \param grads Added into; its `scratch` (`n · d_ff`, twice for SwiGLU) is written.
+template <transformer_config C, typename B, math::math_number T>
+    requires linalg::blas_backend<B, T>
+constexpr void mlp_backward_sequence(const B& backend, const mlp_weights<dense_weights<T>, T>& w,
+                                     std::type_identity_t<std::span<const T>> xs, const mlp_activations<T>& saved,
+                                     std::type_identity_t<std::span<const T>> dys, std::type_identity_t<std::span<T>> dxs,
+                                     const mlp_gradients<T>& grads)
+{
+    static_assert(valid(C), "snicholls::ml::mlp_backward_sequence: the transformer_config is not valid");
+    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    const std::size_t n = xs.size() / C.d_model, m = n * C.d_ff;
+    assert(dys.size() == xs.size() && saved.up.size() == m && saved.hidden.size() == m && (!swiglu || saved.gate.size() == m)
+           && grads.scratch.size() >= (swiglu ? 2 : 1) * m);
+    const auto dh = grads.scratch.first(m);
+    std::fill(dh.begin(), dh.end(), T(0));
+    linear_sequence_backward(backend, w.down, std::span<const T>(saved.hidden), dys, dh, grads.down, grads.down_bias);
+    if constexpr (swiglu) {
+        const auto dgate = grads.scratch.subspan(m, m);
+        for (std::size_t i = 0; i < m; ++i) {
+            dgate[i] = dh[i] * saved.up[i] * silu_derivative(saved.gate[i]);
+            dh[i] = dh[i] * silu(saved.gate[i]);
+        }
+        linear_sequence_backward(backend, w.gate, xs, std::span<const T>(dgate), dxs, grads.gate, grads.gate_bias);
+    } else {
+        for (std::size_t i = 0; i < m; ++i)
+            dh[i] = dh[i] * mlp_activation_derivative<C.mlp>(saved.up[i]);
+    }
+    linear_sequence_backward(backend, w.up, xs, std::span<const T>(dh), dxs, grads.up, grads.up_bias);
 }
 
 /// \brief The experts a token is routed to and their weights.

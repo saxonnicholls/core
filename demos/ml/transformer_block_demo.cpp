@@ -13,6 +13,9 @@
 
 #include <snicholls/core/ml/transformer_block.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -150,6 +153,38 @@ int main()
     ml::block_forward_sequence<c>(l0.weights(), seq, rope, act);
     ml::block_prefill<c>(l0.weights(), pre, 0, ml::kv_cache_view<c>(k3, v3, 1, 3), 0, rope);
     ok &= seq == pre;
+
+    //! [block_batched]
+    // The same block with every projection a matrix product through a linalg backend (a BLAS or a GPU backend from
+    // another library the same way). It also saves the MLP's hidden rows, and its backward has two more working
+    // buffers: the MLP's hidden gradients (twice d_ff for SwiGLU) and the heads' output gradients
+    std::vector<float> hidden(3 * 16), mlp_scratch(2 * 3 * 16), dy(3 * 8);
+    ml::block_activations<float> bact = act;
+    bact.mlp_hidden = hidden;
+    auto one_step = [&](bool batched, std::vector<float>& out, std::vector<float>& dout, std::vector<float>& gq) {
+        std::vector<float> gkv(t.kv.size()), gv(t.kv.size()), go(t.o.size()), gup(t.up.size()), ggate(t.gate.size()),
+            gdown(t.down.size()), dq(sq.size()), dk(sk.size()), dv(sv.size());
+        const ml::block_gradients<float> grads{
+            {}, {}, {}, {}, {dq, dk, dv, gq, gkv, gv, go, {}, {}, {}, {}, {}, {}, dy}, {gup, ggate, gdown, {}, {}, {}, mlp_scratch}, scratch};
+        if (batched) {
+            ml::block_forward_sequence<c>(snicholls::linalg::reference, t.weights(), out, rope, bact);
+            ml::block_backward<c>(snicholls::linalg::reference, t.weights(), rope, bact, dout, grads);
+        } else {
+            ml::block_forward_sequence<c>(t.weights(), out, rope, act);
+            ml::block_backward<c>(t.weights(), rope, act, dout, grads);
+        }
+    };
+    std::vector<float> out_p = x, out_b = x, dout_p = target, dout_b = target, gq_p(t.q.size()), gq_b(t.q.size());
+    one_step(false, out_p, dout_p, gq_p);
+    one_step(true, out_b, dout_b, gq_b);
+    //! [block_batched]
+    float worst = 0.0f;
+    for (std::size_t i = 0; i < out_p.size(); ++i)
+        worst = std::max({worst, std::abs(out_p[i] - out_b[i]), std::abs(dout_p[i] - dout_b[i])});
+    for (std::size_t i = 0; i < gq_p.size(); ++i)
+        worst = std::max(worst, std::abs(gq_p[i] - gq_b[i]));
+    std::printf("  batched through the reference backend: within %.2g of the per-token path\n", static_cast<double>(worst));
+    ok &= worst < 1e-5f;
 
     std::printf(ok ? "transformer_block demo: ok\n" : "transformer_block demo: FAILED\n");
     return ok ? 0 : 1;

@@ -10,6 +10,8 @@
 
 #include <snicholls/core/ml/linear.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -67,6 +69,28 @@ int main()
     for (std::size_t j = 0; j < 32; ++j)
         ok &= dx[j] == 0.5f && dw[j] == x[j] && dw[32 + j] == 0.0f;
     ok &= db == dy;
+
+    //! [linear_sequence]
+    // Training and prefill: a sequence of rows at once, Y = X Wᵀ + b, as one matrix product through a linalg backend
+    // (core's reference here; a BLAS or a GPU backend from another library the same way)
+    const std::array<float, 6> m{1, 2, 3, 4, 5, 6};        // 2 x 3
+    const std::array<float, 6> rows{1, 0, -1, 0, 1, 0};   // two inputs
+    const std::array<float, 2> row_bias{10, 20};
+    std::array<float, 4> outs{};
+    ml::linear_sequence(snicholls::linalg::reference, ml::dense_weights<float>{m, 2, 3}, rows, outs, row_bias);
+    const std::array<float, 4> douts{1, 0, 0, 1};          // the gradient in output 0 of row 0 and output 1 of row 1
+    std::array<float, 6> drows{}, dm{};
+    std::array<float, 2> dbias{};
+    ml::linear_sequence_backward(snicholls::linalg::reference, ml::dense_weights<float>{m, 2, 3}, rows, douts, drows, dm, dbias);
+    //! [linear_sequence]
+    std::printf("  sequence: [%.0f %.0f] [%.0f %.0f]; d rows [%.0f %.0f %.0f] [%.0f %.0f %.0f]\n", static_cast<double>(outs[0]),
+                static_cast<double>(outs[1]), static_cast<double>(outs[2]), static_cast<double>(outs[3]), static_cast<double>(drows[0]),
+                static_cast<double>(drows[1]), static_cast<double>(drows[2]), static_cast<double>(drows[3]), static_cast<double>(drows[4]),
+                static_cast<double>(drows[5]));
+    ok &= outs == std::array<float, 4>{8, 18, 12, 25};                    // W x + b for each row
+    ok &= drows == std::array<float, 6>{1, 2, 3, 4, 5, 6};                // row t of dY picks row t of W
+    ok &= dm == std::array<float, 6>{1, 0, -1, 0, 1, 0} && dbias == std::array<float, 2>{1, 1};
+
     std::printf(ok ? "linear demo: ok\n" : "linear demo: FAILED\n");
     return ok ? 0 : 1;
 }
