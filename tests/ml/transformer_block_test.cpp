@@ -18,8 +18,10 @@
 #include <cstdlib>
 #include <fstream>
 #include <map>
+#include <span>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace {
@@ -395,6 +397,42 @@ void block_backward_is_central_differences()
 TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForAGpt2Block)
 {
     block_backward_is_central_differences<b_gpt2>();
+}
+
+// llm.c's gpt2_backward for one layer, from the fixture: the same block, the same output gradient, every gradient
+TEST(MlTransformerBlockTraining, Gpt2BackwardIsLlmcsWithinTolerance)
+{
+    constexpr std::size_t n = 4, c = 32, f = 128;
+    using v = std::vector<float>;
+    const auto w = gpt2_weights();
+    v xs = filled("gpt2", "x"), x0(n * c), h1(n * c), x1(n * c), h2(n * c), q(n * c), k(n * c), val(n * c), y(n * c), lse(n * 2),
+      up(n * f);
+    const ml::block_activations<float> act{x0, h1, x1, h2, {q, k, val, {}, {}, y, lse}, up, {}};
+    ml::block_forward_sequence<gpt2_tiny>(w, xs, ml::no_rope, act);
+    v dln1w(c), dln1b(c), dln2w(c), dln2b(c), dq(n * c), dk(n * c), dv(n * c), dqkvw(3 * c * c), dqkvb(3 * c), dattprojw(c * c),
+      dattprojb(c), dfcw(f * c), dfcb(f), dfcprojw(c * f), dfcprojb(c), scratch(n * c);
+    const std::span<float> gw(dqkvw), gb(dqkvb);
+    const ml::block_gradients<float> grads{
+        dln1w, dln1b, dln2w, dln2b,
+        {dq, dk, dv, gw.subspan(0, c * c), gw.subspan(c * c, c * c), gw.subspan(2 * c * c, c * c), dattprojw, gb.subspan(0, c),
+         gb.subspan(c, c), gb.subspan(2 * c, c), dattprojb, {}, {}},
+        {dfcw, {}, dfcprojw, dfcb, {}, dfcprojb},
+        scratch};
+    v dx = filled("gpt2", "dout");
+    ml::block_backward<gpt2_tiny>(w, ml::no_rope, act, dx, grads);
+    const auto& want = data().floats.at("gpt2");
+    double e = 0;
+    for (const auto& [name, got] : std::initializer_list<std::pair<const char*, const v*>>{
+             {"dx", &dx}, {"dln1w", &dln1w}, {"dln1b", &dln1b}, {"dqkvw", &dqkvw}, {"dqkvb", &dqkvb}, {"dattprojw", &dattprojw},
+             {"dattprojb", &dattprojb}, {"dln2w", &dln2w}, {"dln2b", &dln2b}, {"dfcw", &dfcw}, {"dfcb", &dfcb},
+             {"dfcprojw", &dfcprojw}, {"dfcprojb", &dfcprojb}}) {
+        const double here = worst(*got, want.at(name));
+        EXPECT_LT(here, 1e-6) << name;
+        e = std::max(e, here);
+    }
+    // As the forward: llm.c's attention is three passes with expf, core's one with its own exp. Measured, the worst
+    // gradient (dqkvw, dqkvb) is within 2.4e-7, two float epsilons; the bound is eight
+    EXPECT_LT(e, 1e-6);
 }
 
 TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForALlamaBlock)

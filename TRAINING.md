@@ -39,6 +39,6 @@ than changing them.
 
 1. `save::all` in the forward, with a test that it changes no output.
 2. `linear_backward`, `mlp_backward`, then `attention_backward`, then `block_backward`.
-3. Tests against the llm.c backward fixture; central differences for the rest.
+3. Tests against the llm.c backward fixture (done: `Gpt2BackwardIsLlmcsWithinTolerance`, every gradient within two float epsilons); central differences for the rest (done).
 4. A demo that trains the tiny GPT-2 for a few steps and shows the loss falling, reproducibly.
 5. Benchmarks against the same loops by hand; documentation; the gate; release 0.9.0.
