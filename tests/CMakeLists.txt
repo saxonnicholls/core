@@ -62,6 +62,7 @@ add_executable(snicholls_core_tests
     hash/wyhash_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
+    linalg/randomized_svd_test.cpp
     linalg/reference_test.cpp
     linalg/types_test.cpp
     math/constexpr_math_test.cpp
@@ -104,6 +105,7 @@ add_executable(snicholls_core_tests
     stats/bootstrap_test.cpp
     stats/covariance_test.cpp
     stats/low_discrepancy_test.cpp
+    stats/normal_test.cpp
     stats/pivot_test.cpp
     stats/random_test.cpp
     stochastic/martingale_test.cpp

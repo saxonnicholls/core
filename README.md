@@ -32,16 +32,22 @@ sockets or codecs; those are the business of the libraries above it.
   id maps and pools, and the platform-free half of mapped storage (`index_pool`, `mapped_header`, `offset_ptr`).
 - **Linear algebra:** an interface resolved at compile time (BLAS operations, LU, Cholesky, LDLT, QR, least squares,
   the symmetric eigenproblem, SVD, batched solves with a status per system) over `md_span` views, a
-  standard-library reference backend, and a conformance suite for backends in other libraries.
-- **Numerics:** `constexpr` maths for any floating-point type, random numbers and the bootstrap, Sobol sequences,
+  standard-library reference backend, and a conformance suite for backends in other libraries. On top of it, the
+  randomised truncated SVD (the leading `k` factors of a large matrix, with an interchangeable random sketch). A GPU
+  backend (OpenCL) is [snicholls-gpu](https://github.com/saxonnicholls/gpu).
+- **Numerics:** `constexpr` maths for any floating-point type, random numbers (with interchangeable Gaussian
+  samplers) and the bootstrap, Sobol sequences,
   online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.
 - **Printing:** `acout`, thread-safe printing of any value, container or tuple, with compile-time display
   attributes (colour, label, format, tooltip) exported to JSON for other front ends.
-- **Machine learning (experimental):** activations with their derivatives, softmax and cross-entropy, a running
-  softmax that merges across workers, LayerNorm and RMSNorm, RoPE, one-pass attention with mergeable partials,
-  embeddings, sampling (temperature, top-k, top-p), AdamW and learning-rate schedules, bfloat16, float16, FP8 and the
-  MX formats, ggml's Q8_0, Q4_0 and MXFP4 blocks with their dot products, and byte-level BPE that gives tiktoken's
-  tokens. Everything is `constexpr` and allocation-free.
+- **Machine learning (experimental):** the primitives (activations with their derivatives, softmax and
+  cross-entropy, a running softmax that merges across workers, LayerNorm and RMSNorm, RoPE, one-pass attention with
+  mergeable partials, embeddings, sampling, bfloat16, float16, FP8 and the MX formats, ggml's Q8_0, Q4_0 and MXFP4
+  blocks, byte-level BPE that gives tiktoken's tokens); the transformer layer, configured at compile time for GPT-2,
+  Llama and nanochat shapes, with a KV cache (flat, ring or paged) for decoding; and training: the backward pass of
+  every primitive, the attention layer, the MLP and the block, checked against llm.c and central differences, the
+  LM-head loss, AdamW and Muon, and batched products through any linalg backend. Everything is `constexpr` and
+  allocation-free.
 
 `CHANGELOG.md` lists every header by release.
 

@@ -3,10 +3,22 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.9.0 - 2026-11-16
 
 ### Added
 
+- **`linalg/randomized_svd.hpp`: the truncated SVD.** `truncated_svd(backend, a, s, u, v, work, options, sketch)`
+  gives the leading `k` singular triplets by randomised range finding (Halko, Martinsson and Tropp): a random sketch,
+  power iterations re-orthonormalised by QR, and the exact SVD of the small projection, on any backend with the BLAS,
+  factorisations and decompositions; `truncated_svd_work_size` sizes the caller's space. The random test matrix is a
+  seam: `sketch` is any callable that fills it, `gaussian_sketch<Normal>` (over any Gaussian sampler) by default and
+  `rademacher_sketch` beside it. Checked against matrices built from known singular values (an exact low rank to
+  rounding, a decaying spectrum to the best rank-k error), the exact SVD when the sketch is full, every sketch and
+  sampler and one of the test's own, layouts, float, errors, and at compile time; 19 to 64 times faster than the exact
+  SVD for the leading 10 of 500 x 100 and 2000 x 200.
+- **`stats/normal.hpp`: Gaussian samplers behind one concept.** `normal_sampler<S, G>`, with `normal_inverse_cdf`
+  (the normal quantile of an exact open uniform: the same draws on every platform, never infinite) and
+  `normal_box_muller` (four times faster); a ziggurat or a device's generator drops in as a third.
 - **Batched training through a `linalg` backend** (`ml/linear.hpp`, `ml/mlp.hpp`, `ml/attention_layer.hpp`,
   `ml/transformer_block.hpp`): `linear_sequence` and `linear_sequence_backward` are a sequence's projection and its
   backward as matrix products through any `linalg::blas_backend`; `mlp_forward_sequence` / `mlp_backward_sequence`
@@ -18,15 +30,6 @@ A version is released when its tag is on a commit where every blocking CI leg is
   `block_activations::mlp_hidden`. Checked against the per-token path in double for every configuration (GQA, QK
   norm before and after RoPE, the soft cap, windows, SwiGLU, ReLU², GELU); `linear_sequence` is level with the same
   products by hand through `linalg::reference`, bit for bit (`benchmarks/ml/linear_benchmark.cpp`).
-
-### Changed
-
-- `attention_backward` now leaves `attention_gradients::k` holding the gradients in the projected keys (QK norm and
-  RoPE undone), as its documentation always said; it held them before the undoing.
-
-## 0.9.0 - 2026-11-15
-
-### Added
 
 - **The error-sink conformance suite is exported** (`snicholls::core_conformance`): `#include
   <snicholls/core/conformance/error_sink.hpp>` and `SNICHOLLS_ERROR_SINK_CONFORMANCE(Prefix, probes...)` register a
@@ -78,6 +81,8 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Changed
 
+- `attention_backward` now leaves `attention_gradients::k` holding the gradients in the projected keys (QK norm and
+  RoPE undone), as its documentation always said; it held them before the undoing.
 - `rope_source` and `no_rope` moved from `ml/attention_layer.hpp` to `ml/rope.hpp`, so a head can take RoPE without
   the layer's header. Same names, same namespace; `attention_layer.hpp` still provides them.
 

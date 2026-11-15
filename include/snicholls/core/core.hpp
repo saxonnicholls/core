@@ -82,6 +82,7 @@
 #include <snicholls/core/hash/wyhash.hpp>
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
+#include <snicholls/core/linalg/randomized_svd.hpp>
 #include <snicholls/core/linalg/reference.hpp>
 #include <snicholls/core/linalg/types.hpp>
 #include <snicholls/core/math/constexpr_math.hpp>
@@ -124,6 +125,7 @@
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/covariance.hpp>
 #include <snicholls/core/stats/low_discrepancy.hpp>
+#include <snicholls/core/stats/normal.hpp>
 #include <snicholls/core/stats/pivot.hpp>
 #include <snicholls/core/stats/random.hpp>
 #include <snicholls/core/stochastic/martingale.hpp>
