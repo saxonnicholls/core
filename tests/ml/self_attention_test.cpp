@@ -262,7 +262,8 @@ TEST(MlSelfAttention, FloatIsWithinRoundingOfDouble)
     const head<double> hd(true);
     const head<float> hf(true);
     const auto xd = wave(n * dm, 1.0, 0.3);
-    const std::vector<float> xf(xd.begin(), xd.end());
+    std::vector<float> xf(xd.size());
+    std::transform(xd.begin(), xd.end(), xf.begin(), [](double x) { return static_cast<float>(x); });
     run<float> r(n);
     ml::self_attention_head<dm, dh>(hf.weights(), xf, r.act(), r.out);
     const auto want = reference(hd, xd, 0);

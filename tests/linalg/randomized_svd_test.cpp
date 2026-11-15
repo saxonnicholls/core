@@ -208,7 +208,8 @@ TEST(LinalgTruncatedSvd, FloatWorksToFloatsPrecision)
 {
     constexpr std::size_t m = 40, n = 20, k = 3;
     const auto ad = with_spectrum(m, n, {4, 2, 1});
-    std::vector<float> a(ad.begin(), ad.end()), s(k), u(m * k), v(n * k), work(la::truncated_svd_work_size(m, n, k));
+    std::vector<float> a(ad.size()), s(k), u(m * k), v(n * k), work(la::truncated_svd_work_size(m, n, k));
+    std::transform(ad.begin(), ad.end(), a.begin(), [](double x) { return static_cast<float>(x); });
     ASSERT_TRUE(la::truncated_svd(la::reference, rm<const float>(a.data(), {m, n}), std::span<float>(s), rm<float>(u.data(), {m, k}),
                                   rm<float>(v.data(), {n, k}), std::span<float>(work))
                     .is_ok());
