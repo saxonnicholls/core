@@ -3,7 +3,7 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.9.0 - 2026-11-15
 
 ### Added
 

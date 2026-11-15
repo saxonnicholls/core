@@ -47,7 +47,7 @@
 /// \brief Major version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_MAJOR 0
 /// \brief Minor version of snicholls-core.
-#define SNICHOLLS_CORE_VERSION_MINOR 8
+#define SNICHOLLS_CORE_VERSION_MINOR 9
 /// \brief Patch version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_PATCH 0
 
