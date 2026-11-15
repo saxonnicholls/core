@@ -10,11 +10,18 @@
 //  float and with Q8_0 weights. A fairness check refuses to benchmark unless the outputs and the appended keys and
 //  values agree to the bit.
 //
+//  Training: a GPT-2-shaped layer (256 wide, 4 heads of 64, MLP of 1024, layer norm, tanh GELU, biases) over a
+//  sequence of 64 tokens, ml::block_forward_sequence and ml::block_backward (which run attention_backward,
+//  mlp_backward and linear_backward) against the same passes as direct loops: llm.c's matmul_backward, flash
+//  attention's backward from the log-sum-exp, the layer norms through ml::layer_norm_backward. The fairness check
+//  compares every saved activation and every gradient to the bit.
+//
 
 #include <snicholls/core/ml/transformer_block.hpp>
 
 #include <benchmark/benchmark.h>
 
+#include <algorithm>
 #include <bit>
 #include <cmath>
 #include <cstddef>
@@ -225,6 +232,268 @@ BENCHMARK(BM_Decode<by_hand_dense>)->Name("BM_DecodeGpt2Layer_Float_HandWritten"
 BENCHMARK(BM_Decode<core_q8>)->Name("BM_DecodeGpt2Layer_Q8_0_Core")->Unit(benchmark::kMicrosecond);
 BENCHMARK(BM_Decode<by_hand_q8>)->Name("BM_DecodeGpt2Layer_Q8_0_HandWritten")->Unit(benchmark::kMicrosecond);
 
+// ---- training: a GPT-2-shaped layer over a sequence, forward with its activations saved, then backward ----
+
+constexpr ml::transformer_config tc{.d_model = 256, .n_heads = 4, .n_kv_heads = 4, .head_dim = 64, .d_ff = 1024,
+                                    .norm = ml::norm_kind::layer, .norm_eps = 1e-5, .mlp = ml::mlp_kind::gelu_tanh, .bias = true};
+constexpr std::size_t td = tc.d_model, tf = tc.d_ff, th = tc.n_heads, thd = tc.head_dim, tn = 64;
+constexpr float teps = 1e-5f;
+
+struct tparams_t {
+    std::vector<float> ln1w = stream(td, 2, 30), ln1b = stream(td, 0.2f, 31), wq = stream(td * td, 0.2f, 32), wk = stream(td * td, 0.2f, 33),
+                       wv = stream(td * td, 0.2f, 34), bq = stream(td, 0.1f, 35), bk = stream(td, 0.1f, 36), bv = stream(td, 0.1f, 37),
+                       wo = stream(td * td, 0.1f, 38), bo = stream(td, 0.1f, 39), ln2w = stream(td, 2, 40), ln2b = stream(td, 0.2f, 41),
+                       wup = stream(tf * td, 0.1f, 42), bup = stream(tf, 0.1f, 43), wdown = stream(td * tf, 0.05f, 44), bdown = stream(td, 0.1f, 45);
+    ml::block_weights<ml::dense_weights<float>> weights() const
+    {
+        using W = ml::dense_weights<float>;
+        ml::block_weights<W> w{};
+        w.norm1_weight = ln1w;
+        w.norm1_bias = ln1b;
+        w.attention = {W{wq, td, td}, W{wk, td, td}, W{wv, td, td}, W{wo, td, td}, bq, bk, bv, bo};
+        w.norm2_weight = ln2w;
+        w.norm2_bias = ln2b;
+        w.mlp = {W{wup, tf, td}, W{}, W{wdown, td, tf}, bup, {}, bdown};
+        return w;
+    }
+};
+
+const tparams_t& tparams()
+{
+    static const tparams_t p;
+    return p;
+}
+
+// One sequence's residual rows, what the forward pass saves, the output gradient, and every gradient
+struct tstate_t {
+    using v = std::vector<float>;
+    v xs = stream(tn * td, 2, 50), dout = stream(tn * td, 1, 51), dxs = dout;
+    v x0 = v(tn * td), h1 = v(tn * td), x1 = v(tn * td), h2 = v(tn * td), q = v(tn * td), k = v(tn * td), vv = v(tn * td),
+      y = v(tn * td), lse = v(tn * th), up = v(tn * tf);
+    v gln1w = v(td), gln1b = v(td), gln2w = v(td), gln2b = v(td), gq = v(tn * td), gk = v(tn * td), gv = v(tn * td),
+      gwq = v(td * td), gwk = v(td * td), gwv = v(td * td), gwo = v(td * td), gbq = v(td), gbk = v(td), gbv = v(td), gbo = v(td),
+      gup = v(tf * td), gupb = v(tf), gdown = v(td * tf), gdownb = v(td), scratch = v(tn * td);
+    ml::block_activations<float> act() { return {x0, h1, x1, h2, {q, k, vv, {}, {}, y, lse}, up, {}}; }
+    ml::block_gradients<float> grads()
+    {
+        return {gln1w, gln1b, gln2w, gln2b, {gq, gk, gv, gwq, gwk, gwv, gwo, gbq, gbk, gbv, gbo, {}, {}},
+                {gup, {}, gdown, gupb, {}, gdownb}, scratch};
+    }
+};
+
+// llm.c's matmul_backward for one row: dx += Wᵀ dy, dW += dy xᵀ, db += dy, in linear_backward's order
+void linear_backward_by_hand(const float* w, const float* x, const float* dy, float* dx, float* dw, float* db, std::size_t rows,
+                             std::size_t cols)
+{
+    for (std::size_t i = 0; i < rows; ++i) {
+        const float g = dy[i];
+        for (std::size_t j = 0; j < cols; ++j) {
+            const float p = w[i * cols + j] * g;
+            dx[j] += p;
+        }
+        for (std::size_t j = 0; j < cols; ++j) {
+            const float p = g * x[j];
+            dw[i * cols + j] += p;
+        }
+        db[i] += g;
+    }
+}
+
+float tdot(const float* a, const float* b)
+{
+    float s = 0;
+    for (std::size_t i = 0; i < thd; ++i)
+        s += a[i] * b[i];
+    return s;
+}
+
+std::span<const float> row_of(const std::vector<float>& v, std::size_t t, std::size_t width = td)
+{
+    return std::span<const float>(v).subspan(t * width, width);
+}
+
+void forward_by_hand(tstate_t& s)
+{
+    const tparams_t& w = tparams();
+    float* x = s.xs.data();
+    std::copy(s.xs.begin(), s.xs.end(), s.x0.begin());
+    for (std::size_t t = 0; t < tn; ++t)
+        ml::layer_norm(row_of(s.xs, t), w.ln1w, w.ln1b, std::span<float>(s.h1).subspan(t * td, td), teps);
+    const float scale = 1.0f / snicholls::math::sqrt(float(thd));
+    for (std::size_t t = 0; t < tn; ++t) {
+        const float* in = s.h1.data() + t * td;
+        float k[td], v[td];
+        linear_by_hand(w.wq.data(), w.bq.data(), in, s.q.data() + t * td, td, td);
+        linear_by_hand(w.wk.data(), w.bk.data(), in, k, td, td);
+        linear_by_hand(w.wv.data(), w.bv.data(), in, v, td, td);
+        for (std::size_t h = 0; h < th; ++h)   // saved as [head][position][head_dim]
+            for (std::size_t i = 0; i < thd; ++i) {
+                s.k[(h * tn + t) * thd + i] = k[h * thd + i];
+                s.vv[(h * tn + t) * thd + i] = v[h * thd + i];
+            }
+        for (std::size_t h = 0; h < th; ++h) {
+            const float* q = s.q.data() + t * td + h * thd;
+            float* out = s.y.data() + t * td + h * thd;
+            float max = -std::numeric_limits<float>::infinity(), sum = 0, acc[thd] = {};
+            for (std::size_t j = 0; j <= t; ++j) {
+                const float* kj = s.k.data() + (h * tn + j) * thd;
+                const float* vj = s.vv.data() + (h * tn + j) * thd;
+                const float sc = scale * tdot(q, kj);
+                if (sc > max) {
+                    const float r = snicholls::math::exp(max - sc);
+                    for (std::size_t i = 0; i < thd; ++i)
+                        acc[i] = acc[i] * r + vj[i];
+                    sum = sum * r + 1.0f;
+                    max = sc;
+                } else {
+                    const float e = snicholls::math::exp(sc - max);
+                    for (std::size_t i = 0; i < thd; ++i)
+                        acc[i] += e * vj[i];
+                    sum += e;
+                }
+            }
+            for (std::size_t i = 0; i < thd; ++i)
+                out[i] = acc[i] / sum;
+            s.lse[t * th + h] = max + snicholls::math::log(sum);
+        }
+        linear_by_hand(w.wo.data(), w.bo.data(), s.y.data() + t * td, x + t * td, td, td);
+    }
+    for (std::size_t i = 0; i < tn * td; ++i)
+        x[i] = s.x0[i] + x[i];
+    std::copy(s.xs.begin(), s.xs.end(), s.x1.begin());
+    for (std::size_t t = 0; t < tn; ++t) {
+        float hidden[tf], a[td];
+        ml::layer_norm(row_of(s.xs, t), w.ln2w, w.ln2b, std::span<float>(s.h2).subspan(t * td, td), teps);
+        linear_by_hand(w.wup.data(), w.bup.data(), s.h2.data() + t * td, s.up.data() + t * tf, tf, td);
+        for (std::size_t i = 0; i < tf; ++i)
+            hidden[i] = ml::gelu_tanh(s.up[t * tf + i]);
+        linear_by_hand(w.wdown.data(), w.bdown.data(), hidden, a, td, tf);
+        for (std::size_t i = 0; i < td; ++i)
+            x[t * td + i] += a[i];
+    }
+}
+
+// The backward of a layer norm row: recompute its statistics, then layer_norm_backward
+void norm_backward_by_hand(std::span<const float> dh, std::span<const float> x, const std::vector<float>& weight,
+                           const std::vector<float>& bias, float* dn, std::vector<float>& dweight, std::vector<float>& dbias)
+{
+    float scratch[td];
+    const auto stats = ml::layer_norm(x, weight, bias, std::span<float>(scratch, td), teps);
+    ml::layer_norm_backward(dh, x, weight, stats, std::span<float>(dn, td), std::span<float>(dweight), std::span<float>(dbias));
+}
+
+void backward_by_hand(tstate_t& s)
+{
+    const tparams_t& w = tparams();
+    float* g = s.dxs.data();
+    for (std::size_t t = 0; t < tn; ++t) {   // the MLP and the second norm, plus the residual
+        float hidden[tf], dhid[tf] = {}, dh[td] = {}, dn[td];
+        const float* up = s.up.data() + t * tf;
+        for (std::size_t i = 0; i < tf; ++i)
+            hidden[i] = ml::gelu_tanh(up[i]);
+        linear_backward_by_hand(w.wdown.data(), hidden, g + t * td, dhid, s.gdown.data(), s.gdownb.data(), td, tf);
+        for (std::size_t i = 0; i < tf; ++i)
+            dhid[i] = dhid[i] * ml::gelu_tanh_derivative(up[i]);
+        linear_backward_by_hand(w.wup.data(), s.h2.data() + t * td, dhid, dh, s.gup.data(), s.gupb.data(), tf, td);
+        norm_backward_by_hand(std::span<const float>(dh, td), row_of(s.x1, t), w.ln2w, w.ln2b, dn, s.gln2w, s.gln2b);
+        for (std::size_t i = 0; i < td; ++i)
+            g[t * td + i] += dn[i];
+    }
+    std::fill(s.scratch.begin(), s.scratch.end(), 0.0f);
+    std::fill(s.gk.begin(), s.gk.end(), 0.0f);
+    std::fill(s.gv.begin(), s.gv.end(), 0.0f);
+    const float scale = 1.0f / snicholls::math::sqrt(float(thd));
+    for (std::size_t t = 0; t < tn; ++t) {   // Wo, then flash attention's backward per head
+        float dy[td] = {};
+        const float* yt = s.y.data() + t * td;
+        linear_backward_by_hand(w.wo.data(), yt, g + t * td, dy, s.gwo.data(), s.gbo.data(), td, td);
+        for (std::size_t h = 0; h < th; ++h) {
+            const float* q = s.q.data() + t * td + h * thd;
+            const float* gout = dy + h * thd;
+            float* gq = s.gq.data() + t * td + h * thd;
+            for (std::size_t i = 0; i < thd; ++i)
+                gq[i] = 0.0f;
+            const float lse = s.lse[t * th + h], big_d = tdot(gout, yt + h * thd);
+            for (std::size_t j = 0; j <= t; ++j) {
+                const std::size_t at = (h * tn + j) * thd;
+                const float* kj = s.k.data() + at;
+                const float p = snicholls::math::exp(scale * tdot(q, kj) - lse);
+                const float ds = p * (tdot(gout, s.vv.data() + at) - big_d);
+                for (std::size_t i = 0; i < thd; ++i) {
+                    s.gv[at + i] += p * gout[i];
+                    gq[i] += scale * ds * kj[i];
+                    s.gk[at + i] += scale * ds * q[i];
+                }
+            }
+        }
+    }
+    for (std::size_t t = 0; t < tn; ++t) {   // Wq, Wk, Wv into the first norm's output
+        float dk[td], dv[td];
+        for (std::size_t h = 0; h < th; ++h)
+            for (std::size_t i = 0; i < thd; ++i) {
+                dk[h * thd + i] = s.gk[(h * tn + t) * thd + i];
+                dv[h * thd + i] = s.gv[(h * tn + t) * thd + i];
+            }
+        const float* xt = s.h1.data() + t * td;
+        float* dxt = s.scratch.data() + t * td;
+        linear_backward_by_hand(w.wq.data(), xt, s.gq.data() + t * td, dxt, s.gwq.data(), s.gbq.data(), td, td);
+        linear_backward_by_hand(w.wk.data(), xt, dk, dxt, s.gwk.data(), s.gbk.data(), td, td);
+        linear_backward_by_hand(w.wv.data(), xt, dv, dxt, s.gwv.data(), s.gbv.data(), td, td);
+    }
+    for (std::size_t t = 0; t < tn; ++t) {   // the first norm, plus the residual
+        float dn[td];
+        norm_backward_by_hand(row_of(s.scratch, t), row_of(s.x0, t), w.ln1w, w.ln1b, dn, s.gln1w, s.gln1b);
+        for (std::size_t i = 0; i < td; ++i)
+            g[t * td + i] += dn[i];
+    }
+}
+
+void forward_core(tstate_t& s)
+{
+    static const auto w = tparams().weights();
+    ml::block_forward_sequence<tc>(w, s.xs, ml::no_rope, s.act());
+}
+
+void backward_core(tstate_t& s)
+{
+    static const auto w = tparams().weights();
+    ml::block_backward<tc>(w, ml::no_rope, s.act(), s.dxs, s.grads());
+}
+
+template <void (*Forward)(tstate_t&)>
+void BM_TrainForward(benchmark::State& state)
+{
+    tstate_t s;
+    const std::vector<float> x0 = s.xs;
+    for (auto _ : state) {
+        s.xs = x0;
+        Forward(s);
+        benchmark::DoNotOptimize(s.xs.data());
+        benchmark::ClobberMemory();
+    }
+    state.SetItemsProcessed(state.iterations() * std::int64_t(tn));   // tokens
+}
+
+template <void (*Forward)(tstate_t&), void (*Backward)(tstate_t&)>
+void BM_TrainBackward(benchmark::State& state)
+{
+    tstate_t s;
+    Forward(s);
+    for (auto _ : state) {
+        s.dxs = s.dout;   // the same output gradient every iteration; the weights' gradients keep accumulating
+        Backward(s);
+        benchmark::DoNotOptimize(s.dxs.data());
+        benchmark::ClobberMemory();
+    }
+    state.SetItemsProcessed(state.iterations() * std::int64_t(tn));
+}
+BENCHMARK(BM_TrainForward<forward_core>)->Name("BM_TrainGpt2ShapedLayerForward_Core")->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_TrainForward<forward_by_hand>)->Name("BM_TrainGpt2ShapedLayerForward_HandWritten")->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_TrainBackward<forward_core, backward_core>)->Name("BM_TrainGpt2ShapedLayerBackward_Core")->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_TrainBackward<forward_by_hand, backward_by_hand>)
+    ->Name("BM_TrainGpt2ShapedLayerBackward_HandWritten")
+    ->Unit(benchmark::kMicrosecond);
+
 bool same(const std::vector<float>& a, const std::vector<float>& b)
 {
     return a.size() == b.size() && std::memcmp(a.data(), b.data(), a.size() * sizeof(float)) == 0;
@@ -239,9 +508,30 @@ bool agree()
     return same(a.x, b.x) && same(a.keys, b.keys) && same(a.values, b.values);
 }
 
+bool agree_training()
+{
+    tstate_t a, b;
+    forward_core(a);
+    forward_by_hand(b);
+    using m = std::vector<float> tstate_t::*;
+    for (const m f : {&tstate_t::xs, &tstate_t::x0, &tstate_t::h1, &tstate_t::x1, &tstate_t::h2, &tstate_t::q, &tstate_t::k,
+                      &tstate_t::vv, &tstate_t::y, &tstate_t::lse, &tstate_t::up})
+        if (!same(a.*f, b.*f))
+            return false;
+    backward_core(a);
+    backward_by_hand(b);
+    for (const m f : {&tstate_t::dxs, &tstate_t::gln1w, &tstate_t::gln1b, &tstate_t::gln2w, &tstate_t::gln2b, &tstate_t::gq,
+                      &tstate_t::gk, &tstate_t::gv, &tstate_t::gwq, &tstate_t::gwk, &tstate_t::gwv, &tstate_t::gwo, &tstate_t::gbq,
+                      &tstate_t::gbk, &tstate_t::gbv, &tstate_t::gbo, &tstate_t::gup, &tstate_t::gupb, &tstate_t::gdown,
+                      &tstate_t::gdownb, &tstate_t::scratch})
+        if (!same(a.*f, b.*f))
+            return false;
+    return true;
+}
+
 bool fair()
 {
-    return agree<core_dense, by_hand_dense>() && agree<core_q8, by_hand_q8>();
+    return agree<core_dense, by_hand_dense>() && agree<core_q8, by_hand_q8>() && agree_training();
 }
 
 } // namespace

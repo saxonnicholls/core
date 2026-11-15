@@ -49,8 +49,8 @@
 /// size, the rope source covers `pos`, the cache's capacity covers the visible range. An invalid configuration is a
 /// compile error.
 ///
-/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step; the training passes will be
-/// through the block's.
+/// **Performance.** Benchmarked through `ml/transformer_block.hpp`: its decode step, and its training passes, where
+/// `attention_forward_sequence` and `attention_backward` run inside a layer within 5% and 3% of the same loops by hand.
 ///
 /// **Tests and demos.** `tests/ml/attention_layer_test.cpp`, `demos/ml/attention_layer_demo.cpp`.
 ///

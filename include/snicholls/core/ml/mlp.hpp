@@ -39,8 +39,8 @@
 /// `d_ff x d_model`, `down` is `d_model x d_ff`), biases are empty or of the output's size, `x` and `y` have `d_model`.
 /// An invalid configuration is a compile error.
 ///
-/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step; the backward pass will be through
-/// the block's.
+/// **Performance.** Benchmarked through `ml/transformer_block.hpp`: its decode step, and its training passes, where
+/// `mlp_backward` runs inside the block's backward, within 3% of the same loops by hand.
 ///
 /// **Tests and demos.** `tests/ml/mlp_test.cpp`, `demos/ml/mlp_demo.cpp`.
 ///

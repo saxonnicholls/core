@@ -49,6 +49,19 @@
 /// Level within the machine's noise. A decode step reads every weight once, so it is bound by memory: Q8_0's quarter
 /// of the bytes makes it 2.8x faster than float.
 ///
+/// Training, a GPT-2-shaped float layer (256 wide, 4 heads of 64, MLP of 1024, layer norm, tanh GELU, biases) over 64
+/// tokens, against the same passes by hand with the same bit-for-bit check on every activation and gradient (same
+/// file and machine, 2026-11-15, medians of five, load average about 6):
+///
+/// | Pass | Core | By hand |
+/// |---|---|---|
+/// | `block_forward_sequence` | 50.4 ms | 48.2 ms |
+/// | `block_backward` | 20.0 ms | 19.4 ms |
+///
+/// Within 5% and 3%. The backward, `attention_backward`, `mlp_backward` and `linear_backward` inside it, is faster than
+/// the forward: its products accumulate into rows (`+=` across a row, which vectorises) where the forward's are dot
+/// products, whose sums keep their order.
+///
 /// **Tests and demos.** `tests/ml/transformer_block_test.cpp`, `demos/ml/transformer_block_demo.cpp`.
 ///
 /// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<span>`, `ml/attention_layer.hpp`, `ml/mlp.hpp`,

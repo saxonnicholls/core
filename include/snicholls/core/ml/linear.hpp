@@ -40,7 +40,8 @@
 /// **Errors.** Preconditions, asserted: the input has `cols` elements, `y` has `rows`, a bias is empty or has `rows`,
 /// a quantised matrix has `cols` a multiple of 32 and `rows · cols / 32` blocks.
 ///
-/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step (see there).
+/// **Performance.** Benchmarked through `ml/transformer_block.hpp`'s decode step and training passes (see there), and
+/// `linear_backward` through `ml/self_attention.hpp`'s backward; level with llm.c's `matmul_backward` loops.
 ///
 /// **Tests and demos.** `tests/ml/linear_test.cpp`, `demos/ml/linear_demo.cpp`.
 ///
