@@ -49,7 +49,11 @@ struct head
     std::vector<T> wq, wk, wv, bq, bk, bv;
     head(bool biases)
     {
-        auto cast = [](const std::vector<double>& d) { return std::vector<T>(d.begin(), d.end()); };
+        auto cast = [](const std::vector<double>& d) {
+            std::vector<T> out(d.size());
+            std::transform(d.begin(), d.end(), out.begin(), [](double x) { return static_cast<T>(x); });
+            return out;
+        };
         wq = cast(wave(dh * dm, 0.9, 0.1));
         wk = cast(wave(dh * dm, 0.8, 1.3));
         wv = cast(wave(dh * dm, 1.1, 2.9));
