@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['k_0',['k',['../structsnicholls_1_1ml_1_1attention__weights.html#a93bed58c5c8e1333571c7bbd8a7aea57',1,'snicholls::ml::attention_weights']]],
-  ['k_5fbias_1',['k_bias',['../structsnicholls_1_1ml_1_1attention__weights.html#aee8a97702b5aba476cd7917e35497ab2',1,'snicholls::ml::attention_weights']]],
-  ['k_5fnorm_2',['k_norm',['../structsnicholls_1_1ml_1_1attention__weights.html#ae3cc9a940eebc6be95d80a6f47295f2d',1,'snicholls::ml::attention_weights']]],
-  ['key_3',['key',['../structsnicholls_1_1error__field.html#a2dcc321214dc4444e6a0bae88560b949',1,'snicholls::error_field']]],
-  ['keys_4',['keys',['../structsnicholls_1_1ml_1_1kv__runs.html#a207b89f0ed81016879e0dfa4f85d186f',1,'snicholls::ml::kv_runs']]],
-  ['kind_5',['kind',['../structsnicholls_1_1ml_1_1minifloat.html#a656d6dfb048e8e5c0d1729806ee56f1c',1,'snicholls::ml::minifloat::kind'],['../structsnicholls_1_1context__frame.html#a12395a34bb9b7fa88abb90c2c64afdac',1,'snicholls::context_frame::kind']]],
-  ['kv_5fpage_5fhash_5froot_6',['kv_page_hash_root',['../kv__cache_8hpp.html#a518e5b4cda3d0d2bd586e9a11f583d6c',1,'snicholls::ml']]]
+  ['k_0',['k',['../structsnicholls_1_1ml_1_1attention__weights.html#a93bed58c5c8e1333571c7bbd8a7aea57',1,'snicholls::ml::attention_weights::k'],['../structsnicholls_1_1ml_1_1attention__activations.html#a69a4446effb8d4a708428dfc76b02423',1,'snicholls::ml::attention_activations::k'],['../structsnicholls_1_1ml_1_1attention__gradients.html#a9d46073204cef766e8848df76e70ab9b',1,'snicholls::ml::attention_gradients::k'],['../structsnicholls_1_1ml_1_1self__attention__weights.html#a720fccf6a092c85c4038f3e20657f895',1,'snicholls::ml::self_attention_weights::k'],['../structsnicholls_1_1ml_1_1self__attention__activations.html#aa805262284dccafafd45f7350597c121',1,'snicholls::ml::self_attention_activations::k'],['../structsnicholls_1_1ml_1_1self__attention__gradients.html#af1cf128f494388da61f33f4186c8d93a',1,'snicholls::ml::self_attention_gradients::k']]],
+  ['k_5fbias_1',['k_bias',['../structsnicholls_1_1ml_1_1attention__weights.html#aee8a97702b5aba476cd7917e35497ab2',1,'snicholls::ml::attention_weights::k_bias'],['../structsnicholls_1_1ml_1_1attention__gradients.html#a1ab748241dad02e9e4f0d726ec83b2f7',1,'snicholls::ml::attention_gradients::k_bias'],['../structsnicholls_1_1ml_1_1self__attention__weights.html#a8f8dfcfb7713d0c6b4835e13c79a3d12',1,'snicholls::ml::self_attention_weights::k_bias'],['../structsnicholls_1_1ml_1_1self__attention__gradients.html#aac33f5f15a06e0fad43ea3a8a716e3cf',1,'snicholls::ml::self_attention_gradients::k_bias']]],
+  ['k_5fnorm_2',['k_norm',['../structsnicholls_1_1ml_1_1attention__weights.html#ae3cc9a940eebc6be95d80a6f47295f2d',1,'snicholls::ml::attention_weights::k_norm'],['../structsnicholls_1_1ml_1_1attention__gradients.html#a75d98848c84b513f09648c049b50d300',1,'snicholls::ml::attention_gradients::k_norm']]],
+  ['k_5fraw_3',['k_raw',['../structsnicholls_1_1ml_1_1attention__activations.html#a32925d51fefcd32ba57f4ff4771001be',1,'snicholls::ml::attention_activations']]],
+  ['key_4',['key',['../structsnicholls_1_1error__field.html#a2dcc321214dc4444e6a0bae88560b949',1,'snicholls::error_field']]],
+  ['keys_5',['keys',['../structsnicholls_1_1ml_1_1kv__runs.html#a207b89f0ed81016879e0dfa4f85d186f',1,'snicholls::ml::kv_runs']]],
+  ['kind_6',['kind',['../structsnicholls_1_1ml_1_1minifloat.html#a656d6dfb048e8e5c0d1729806ee56f1c',1,'snicholls::ml::minifloat::kind'],['../structsnicholls_1_1context__frame.html#a12395a34bb9b7fa88abb90c2c64afdac',1,'snicholls::context_frame::kind']]],
+  ['kv_5fpage_5fhash_5froot_7',['kv_page_hash_root',['../kv__cache_8hpp.html#a518e5b4cda3d0d2bd586e9a11f583d6c',1,'snicholls::ml']]]
 ];

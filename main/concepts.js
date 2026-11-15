@@ -16,6 +16,7 @@ var concepts =
         [ "backend", "conceptsnicholls_1_1linalg_1_1backend.html", null ],
         [ "range_executor", "conceptsnicholls_1_1linalg_1_1range__executor.html", null ],
         [ "batched_backend", "conceptsnicholls_1_1linalg_1_1batched__backend.html", null ],
+        [ "sketch", "conceptsnicholls_1_1linalg_1_1sketch.html", null ],
         [ "scalar", "conceptsnicholls_1_1linalg_1_1scalar.html", null ]
       ] ],
       [ "math", null, [
@@ -23,11 +24,11 @@ var concepts =
         [ "math_argument", "conceptsnicholls_1_1math_1_1math__argument.html", null ]
       ] ],
       [ "ml", null, [
-        [ "rope_source", "conceptsnicholls_1_1ml_1_1rope__source.html", null ],
         [ "bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],
         [ "kv_store", "conceptsnicholls_1_1ml_1_1kv__store.html", null ],
         [ "weight_matrix", "conceptsnicholls_1_1ml_1_1weight__matrix.html", null ],
         [ "quant_block", "conceptsnicholls_1_1ml_1_1quant__block.html", null ],
+        [ "rope_source", "conceptsnicholls_1_1ml_1_1rope__source.html", null ],
         [ "row", "conceptsnicholls_1_1ml_1_1row.html", null ],
         [ "mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ]
       ] ],
@@ -37,6 +38,7 @@ var concepts =
       [ "stats", null, [
         [ "accumulator", "conceptsnicholls_1_1stats_1_1accumulator.html", null ],
         [ "mergeable", "conceptsnicholls_1_1stats_1_1mergeable.html", null ],
+        [ "normal_sampler", "conceptsnicholls_1_1stats_1_1normal__sampler.html", null ],
         [ "full_range_generator", "conceptsnicholls_1_1stats_1_1full__range__generator.html", null ]
       ] ],
       [ "printable_any", "conceptsnicholls_1_1printable__any.html", null ],

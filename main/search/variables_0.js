@@ -13,7 +13,7 @@ var searchData=
   ['antithetic_10',['antithetic',['../structsnicholls_1_1game_1_1permutation__sampling.html#a68000a6058a9f51ce5e1cef746da2775',1,'snicholls::game::permutation_sampling']]],
   ['any_5fof_5fv_11',['any_of_v',['../type__list_8hpp.html#a3fa66c0c6df50e5d7330531a4433f359',1,'snicholls::meta']]],
   ['args_12',['args',['../structsnicholls_1_1any__source.html#a454597fa7b7e313f4a902eaf3a8ee1c8',1,'snicholls::any_source']]],
-  ['attention_13',['attention',['../structsnicholls_1_1ml_1_1block__weights.html#a68b2323323dbf9da7b92805a7c487a8c',1,'snicholls::ml::block_weights']]],
+  ['attention_13',['attention',['../structsnicholls_1_1ml_1_1block__weights.html#a68b2323323dbf9da7b92805a7c487a8c',1,'snicholls::ml::block_weights::attention'],['../structsnicholls_1_1ml_1_1block__activations.html#aff29ba9fb904c98dd73f6d8997573f94',1,'snicholls::ml::block_activations::attention'],['../structsnicholls_1_1ml_1_1block__gradients.html#a0566b6748dfec10528834838004b38cb',1,'snicholls::ml::block_gradients::attention']]],
   ['attention_5fsoftcap_14',['attention_softcap',['../structsnicholls_1_1ml_1_1transformer__config.html#aa4791aad81be750e414d625cfb26ab76',1,'snicholls::ml::transformer_config']]],
   ['attention_5fsoftcap_5fv_15',['attention_softcap_v',['../transformer__config_8hpp.html#ad1aa73dd03ffcdabf3595501ed14db8a',1,'snicholls::ml']]]
 ];

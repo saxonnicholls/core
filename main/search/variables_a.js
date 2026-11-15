@@ -14,5 +14,7 @@ var searchData=
   ['ln2_5flo2_11',['ln2_lo2',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a0237dcb352b83153dfc85a00cf6fb76a',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['lo_12',['lo',['../structsnicholls_1_1stats_1_1histogram.html#a61adc3b430a4eb9ac5921322bfe5894f',1,'snicholls::stats::histogram']]],
   ['located_13',['located',['../structsnicholls_1_1error__report.html#a68812fe64484aa5d15f1f23d5bcf9c69',1,'snicholls::error_report']]],
-  ['log_5fabs_14',['log_abs',['../structsnicholls_1_1linalg_1_1signed__log__det.html#acac8463f19972d36b6cabc344b1f1bc6',1,'snicholls::linalg::signed_log_det']]]
+  ['log_5fabs_14',['log_abs',['../structsnicholls_1_1linalg_1_1signed__log__det.html#acac8463f19972d36b6cabc344b1f1bc6',1,'snicholls::linalg::signed_log_det']]],
+  ['lr_15',['lr',['../structsnicholls_1_1ml_1_1muon__config.html#a66ce03932b2109a9c2581afc9bf8439c',1,'snicholls::ml::muon_config']]],
+  ['lse_16',['lse',['../structsnicholls_1_1ml_1_1attention__activations.html#acde42c45e6078c95297b60f2209783fd',1,'snicholls::ml::attention_activations::lse'],['../structsnicholls_1_1ml_1_1self__attention__activations.html#ab1a3f883fc8d8791b4d79c2b053e808d',1,'snicholls::ml::self_attention_activations::lse']]]
 ];

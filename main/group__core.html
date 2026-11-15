@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -190,6 +190,8 @@ Files</h2></td></tr>
 <tr class="memdesc:backend_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">The linear-algebra interface: the <span class="tt">linalg::backend</span> concepts and the free functions that check extents and call a backend, resolved at compile time. <br /></td></tr>
 <tr class="memitem:batched_2Ehpp" id="r_batched_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batched_8hpp.html">batched.hpp</a></td></tr>
 <tr class="memdesc:batched_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Batched factorise-and-solve: <span class="tt">n</span> systems of one size as strided views, one <span class="tt">status</span> per system, on parallelism the caller provides. <br /></td></tr>
+<tr class="memitem:randomized_5Fsvd_2Ehpp" id="r_randomized_5Fsvd_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="randomized__svd_8hpp.html">randomized_svd.hpp</a></td></tr>
+<tr class="memdesc:randomized__svd_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#gaa4d57c5fcbb59e9944725d10d16d0157" title="The leading k singular values and vectors of A, A ≈ U diag(s) Vᵀ, by randomised range finding.">snicholls::linalg::truncated_svd</a></span>: the leading <span class="tt">k</span> singular values and vectors of a matrix by randomised range finding (Halko, Martinsson and Tropp), on any <span class="tt">linalg</span> backend. <br /></td></tr>
 <tr class="memitem:reference_2Ehpp" id="r_reference_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reference_8hpp.html">reference.hpp</a></td></tr>
 <tr class="memdesc:reference_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">linalg::reference_backend</span>: the standard-library-only backend, naive and correct, that every other backend is checked beside. <br /></td></tr>
 <tr class="memitem:types_2Ehpp" id="r_types_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="types_8hpp.html">types.hpp</a></td></tr>
@@ -219,7 +221,7 @@ Files</h2></td></tr>
 <tr class="memitem:attention_2Ehpp" id="r_attention_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="attention_8hpp.html">attention.hpp</a></td></tr>
 <tr class="memdesc:attention_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> attention for one query: <span class="tt">attend</span> over a block of keys and values in one pass, its backward pass, <span class="tt">attention_accumulator</span>, the partial that merges across workers, and <span class="tt">attention_window</span> for causal and sliding-window masks. <br /></td></tr>
 <tr class="memitem:attention_5Flayer_2Ehpp" id="r_attention_5Flayer_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="attention__layer_8hpp.html">attention_layer.hpp</a></td></tr>
-<tr class="memdesc:attention__layer_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="attention__layer_8hpp.html#a05dbf58ac6804a349884e68a84dd92bd" title="Attention for one token at position pos: projects, rotates, caches, attends and projects back.">snicholls::ml::attention_forward</a></span>: a transformer's attention for one token at one position: the Q, K and V projections, QK norm, RoPE, the KV cache, grouped-query attention, the soft cap and the output projection, as the configuration says. <br /></td></tr>
+<tr class="memdesc:attention__layer_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="attention__layer_8hpp.html#a05dbf58ac6804a349884e68a84dd92bd" title="Attention for one token at position pos: projects, rotates, caches, attends and projects back.">snicholls::ml::attention_forward</a></span>, <span class="tt">attention_forward_sequence</span> and <span class="tt">attention_backward</span>: a transformer's attention for one token at one position, or over a sequence for training, and its backward pass: the Q, K and V projections, QK norm, RoPE, the KV cache, grouped-query attention, the soft cap and the output projection, as the configuration says. <br /></td></tr>
 <tr class="memitem:bpe_2Ehpp" id="r_bpe_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bpe_8hpp.html">bpe.hpp</a></td></tr>
 <tr class="memdesc:bpe_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">snicholls::ml::bpe_encode_piece</a></span>, <span class="tt">bpe_encode_long_piece</span> and <span class="tt">bpe_decode</span>: byte-level BPE, token for token what tiktoken gives, with the vocabulary as the caller's lookup and no allocation. <br /></td></tr>
 <tr class="memitem:embedding_2Ehpp" id="r_embedding_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="embedding_8hpp.html">embedding.hpp</a></td></tr>
@@ -228,10 +230,14 @@ Files</h2></td></tr>
 <tr class="memdesc:kv__cache_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="classsnicholls_1_1ml_1_1kv__cache__view.html" title="A KV cache over the caller&#39;s memory: [layer][kv_head][slot][head_dim], position p in slot p % capacit...">snicholls::ml::kv_cache_view</a></span> and <span class="tt">kv_cache</span>: the keys and values of every layer and key-value head, laid out so one head's keys are contiguous, with a sliding window as a ring. <br /></td></tr>
 <tr class="memitem:linear_2Ehpp" id="r_linear_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linear_8hpp.html">linear.hpp</a></td></tr>
 <tr class="memdesc:linear_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="linear_8hpp.html#a7f753dcb3fe22677ab0d494d93c058bd" title="y = W x + b with dense weights: each output starts at its bias and adds w_ij · x_j for j in order.">snicholls::ml::linear</a></span>: <span class="tt">y = W x + b</span> over any weight storage: dense rows of float, double or bfloat16, or ggml's quantised blocks. <br /></td></tr>
+<tr class="memitem:lm_5Fhead_2Ehpp" id="r_lm_5Fhead_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lm__head_8hpp.html">lm_head.hpp</a></td></tr>
+<tr class="memdesc:lm__head_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="lm__head_8hpp.html#aa734859414255d795b62a8dfc8186b25" title="The mean cross-entropy of a sequence&#39;s next-token predictions through a head.">snicholls::ml::lm_head_loss</a></span>: a language model's loss over a sequence, the head's logits and the cross-entropy fused, and its backward pass into the hidden states and the head (tied or not). <br /></td></tr>
 <tr class="memitem:minifloat_2Ehpp" id="r_minifloat_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="minifloat_8hpp.html">minifloat.hpp</a></td></tr>
 <tr class="memdesc:minifloat_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1minifloat.html" title="A narrow floating-point number: E exponent bits, M mantissa bits and a sign, stored in 8 or 16 bits.">snicholls::ml::minifloat</a>&lt;E, M, Kind&gt;</span>: the low-precision floating-point formats of machine learning (bfloat16, float16, FP8 E4M3 and E5M2, the MX FP6 and FP4) as one template, with exact decoding, round-to-nearest-even and stochastic rounding, all <span class="tt">constexpr</span>. <br /></td></tr>
 <tr class="memitem:mlp_2Ehpp" id="r_mlp_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mlp_8hpp.html">mlp.hpp</a></td></tr>
-<tr class="memdesc:mlp_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="mlp_8hpp.html#ae14cf64ec8f41fa7075c0980689408ac" title="The MLP for one token: y = down(act(up x + b) ) + b, or SwiGLU&#39;s down(silu(gate x) · up x).">snicholls::ml::mlp_forward</a></span>: a transformer's MLP for one token, <span class="tt">down(act(up x))</span> or SwiGLU's <span class="tt">down(silu(gate x) · up x)</span>, as the configuration says. <br /></td></tr>
+<tr class="memdesc:mlp_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="mlp_8hpp.html#ae14cf64ec8f41fa7075c0980689408ac" title="The MLP for one token: y = down(act(up x + b) ) + b, or SwiGLU&#39;s down(silu(gate x) · up x).">snicholls::ml::mlp_forward</a></span> and <span class="tt">mlp_backward</span>: a transformer's MLP for one token, <span class="tt">down(act(up x))</span> or SwiGLU's <span class="tt">down(silu(gate x) · up x)</span>, as the configuration says, and its backward pass; <span class="tt">moe_gate</span> and its backward. <br /></td></tr>
+<tr class="memitem:muon_2Ehpp" id="r_muon_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="muon_8hpp.html">muon.hpp</a></td></tr>
+<tr class="memdesc:muon_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="muon_8hpp.html#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend. <br /></td></tr>
 <tr class="memitem:norm_2Ehpp" id="r_norm_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="norm_8hpp.html">norm.hpp</a></td></tr>
 <tr class="memdesc:norm_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> normalisation: <span class="tt">layer_norm</span> and <span class="tt">rms_norm</span> over one row, forward and backward, with or without learned parameters. <br /></td></tr>
 <tr class="memitem:optim_2Ehpp" id="r_optim_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optim_8hpp.html">optim.hpp</a></td></tr>
@@ -244,10 +250,12 @@ Files</h2></td></tr>
 <tr class="memdesc:row_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="conceptsnicholls_1_1ml_1_1row.html" title="A row of numbers: a contiguous, sized range whose elements are a math::math_number.">snicholls::ml::row</a></span> and <span class="tt">mutable_row</span>: what the <span class="tt">ml</span> functions accept as a row of numbers, and the spans they work on. <br /></td></tr>
 <tr class="memitem:sampling_2Ehpp" id="r_sampling_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sampling_8hpp.html">sampling.hpp</a></td></tr>
 <tr class="memdesc:sampling_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> sampling the next token: <span class="tt">argmax</span>, sampling from probabilities or from logits at a temperature, <span class="tt">top_k</span> and top-k sampling with a fixed-size buffer, and nucleus (top-p) sampling with the caller's scratch. <br /></td></tr>
+<tr class="memitem:self_5Fattention_2Ehpp" id="r_self_5Fattention_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="self__attention_8hpp.html">self_attention.hpp</a></td></tr>
+<tr class="memdesc:self__attention_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="self__attention_8hpp.html#a0ea74707c09d30a70da3faae479ac3ad" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">snicholls::ml::self_attention_head</a></span> and its backward pass: one causal self-attention head over a sequence, from its own Q, K and V projections, with no configuration and no cache. <br /></td></tr>
 <tr class="memitem:softmax_2Ehpp" id="r_softmax_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="softmax_8hpp.html">softmax.hpp</a></td></tr>
 <tr class="memdesc:softmax_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> softmax and losses: <span class="tt">softmax</span>, <span class="tt">log_softmax</span>, <span class="tt">logsumexp</span>, cross-entropy with its fused gradient, bits per byte, and <span class="tt">online_softmax</span>, a running softmax that merges across workers. <br /></td></tr>
 <tr class="memitem:transformer_5Fblock_2Ehpp" id="r_transformer_5Fblock_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="transformer__block_8hpp.html">transformer_block.hpp</a></td></tr>
-<tr class="memdesc:transformer__block_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="transformer__block_8hpp.html#ace07388b9b5ed6cfd293f889d29e1a7b" title="One block for one token: x += attention(norm1(x)); x += mlp(norm2(x)), appending to the cache at pos.">snicholls::ml::block_forward</a></span>: one pre-norm transformer block, <span class="tt">x += attention(norm(x)); x += mlp(norm(x))</span>, for a token or a run of tokens. <br /></td></tr>
+<tr class="memdesc:transformer__block_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="transformer__block_8hpp.html#ace07388b9b5ed6cfd293f889d29e1a7b" title="One block for one token: x += attention(norm1(x)); x += mlp(norm2(x)), appending to the cache at pos.">snicholls::ml::block_forward</a></span>: one pre-norm transformer block, <span class="tt">x += attention(norm(x)); x += mlp(norm(x))</span>, for a token or a run of tokens; and for training, over a sequence with its backward pass. <br /></td></tr>
 <tr class="memitem:transformer_5Fconfig_2Ehpp" id="r_transformer_5Fconfig_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="transformer__config_8hpp.html">transformer_config.hpp</a></td></tr>
 <tr class="memdesc:transformer__config_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html" title="The architecture of a transformer layer: a structural aggregate, passed as a template parameter.">snicholls::ml::transformer_config</a></span>: the architecture of a transformer layer as one compile-time value, from which every size is a constant. <br /></td></tr>
 <tr class="memitem:overloaded_2Ehpp" id="r_overloaded_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="overloaded_8hpp.html">overloaded.hpp</a></td></tr>
@@ -274,6 +282,8 @@ Files</h2></td></tr>
 <tr class="memdesc:covariance_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Covariance matrices from a history of returns: the sample estimate and Ledoit and Wolf's shrinkage. <br /></td></tr>
 <tr class="memitem:low_5Fdiscrepancy_2Ehpp" id="r_low_5Fdiscrepancy_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="low__discrepancy_8hpp.html">low_discrepancy.hpp</a></td></tr>
 <tr class="memdesc:low__discrepancy_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sobol and Halton sequences: points that fill the unit cube evenly, for faster-converging Monte Carlo. <br /></td></tr>
+<tr class="memitem:normal_2Ehpp" id="r_normal_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="normal_8hpp.html">normal.hpp</a></td></tr>
+<tr class="memdesc:normal_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="conceptsnicholls_1_1stats_1_1normal__sampler.html" title="A source of standard normal draws: s(g) takes what it needs from the generator g.">snicholls::stats::normal_sampler</a></span>: standard normal draws from a full-range generator, with interchangeable methods (the inverse CDF, Box-Muller). <br /></td></tr>
 <tr class="memitem:pivot_2Ehpp" id="r_pivot_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pivot_8hpp.html">pivot.hpp</a></td></tr>
 <tr class="memdesc:pivot_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">stats::pivot</span>: a pivot table whose rows, columns and measures are types, filled in one pass. <br /></td></tr>
 <tr class="memitem:random_2Ehpp" id="r_random_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="random_8hpp.html">random.hpp</a></td></tr>
@@ -346,6 +356,8 @@ Concepts</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A caller's parallelism: <span class="tt">ex(n, f)</span> calls <span class="tt">f(begin, end)</span> on disjoint ranges covering <span class="tt">[0, n)</span>, then returns. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Alinalg_3A_3Abatched_5Fbackend" id="r_snicholls_3A_3Alinalg_3A_3Abatched_5Fbackend"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1linalg_1_1batched__backend.html">snicholls::linalg::batched_backend</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A backend that factorises and solves batches for <span class="tt">T</span>: <span class="tt">lu_solve_batched</span>, <span class="tt">cholesky_solve_batched</span>, <span class="tt">ldlt_solve_batched</span>. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Alinalg_3A_3Asketch" id="r_snicholls_3A_3Alinalg_3A_3Asketch"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1linalg_1_1sketch.html">snicholls::linalg::sketch</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A source of random test matrices for <span class="tt">truncated_svd</span>: <span class="tt">s(omega, rows, cols)</span> fills <span class="tt">rows x cols</span>, row-major. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Alinalg_3A_3Ascalar" id="r_snicholls_3A_3Alinalg_3A_3Ascalar"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1linalg_1_1scalar.html">snicholls::linalg::scalar</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A number the operations accept: <span class="tt">std::numeric_limits</span> and <span class="tt">math::math_limits</span> specialised, not an integer (<span class="tt">float</span>, <span class="tt">double</span>; later half and quantised types). <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Amath_3A_3Amath_5Fnumber" id="r_snicholls_3A_3Amath_3A_3Amath_5Fnumber"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1math_1_1math__number.html">snicholls::math::math_number</a></td></tr>
@@ -422,6 +434,8 @@ Concepts</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A streaming accumulator of <span class="tt">T</span>: <span class="tt">add(t)</span>, <span class="tt">value()</span>, and <span class="tt">merge</span> with another of its kind. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Amergeable" id="r_snicholls_3A_3Astats_3A_3Amergeable"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1stats_1_1mergeable.html">snicholls::stats::mergeable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An accumulator whose partial results can be combined: parallel workers each build one. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Astats_3A_3Anormal_5Fsampler" id="r_snicholls_3A_3Astats_3A_3Anormal_5Fsampler"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1stats_1_1normal__sampler.html">snicholls::stats::normal_sampler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A source of standard normal draws: <span class="tt">s(g)</span> takes what it needs from the generator <span class="tt">g</span>. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Afull_5Frange_5Fgenerator" id="r_snicholls_3A_3Astats_3A_3Afull_5Frange_5Fgenerator"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1stats_1_1full__range__generator.html">snicholls::stats::full_range_generator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generator of 32 or 64 full bits: <span class="tt">[0, 2^32)</span> or <span class="tt">[0, 2^64)</span>. <br /></td></tr>
 </table><table class="memberdecls">
@@ -571,6 +585,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="#gabc5641db0fdd665b648a36e73f6a9eb1" title="FixedPoint[f, x]: apply f until two successive values are the same, at most limit times.">fixed_point</a></span> found: the value, and how many applications it took.  <a href="structsnicholls_1_1fixed__point__result.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Alinalg_3A_3Ainline_5Fexecutor" id="r_snicholls_3A_3Alinalg_3A_3Ainline_5Fexecutor"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1linalg_1_1inline__executor.html">snicholls::linalg::inline_executor</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The executor that runs <span class="tt">f(0, n)</span> on the calling thread: no threads, the default.  <a href="structsnicholls_1_1linalg_1_1inline__executor.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Alinalg_3A_3Atruncated_5Fsvd_5Foptions" id="r_snicholls_3A_3Alinalg_3A_3Atruncated_5Fsvd_5Foptions"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1linalg_1_1truncated__svd__options.html">snicholls::linalg::truncated_svd_options</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">How <span class="tt"><a class="el" href="#gaa4d57c5fcbb59e9944725d10d16d0157" title="The leading k singular values and vectors of A, A ≈ U diag(s) Vᵀ, by randomised range finding.">truncated_svd</a></span> samples.  <a href="structsnicholls_1_1linalg_1_1truncated__svd__options.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Alinalg_3A_3Agaussian_5Fsketch_3C_20Normal_20_3E" id="r_snicholls_3A_3Alinalg_3A_3Agaussian_5Fsketch_3C_20Normal_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1linalg_1_1gaussian__sketch.html">snicholls::linalg::gaussian_sketch&lt; Normal &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gaussian test matrices, in row-major order, from a <span class="tt"><a class="el" href="conceptsnicholls_1_1stats_1_1normal__sampler.html" title="A source of standard normal draws: s(g) takes what it needs from the generator g.">stats::normal_sampler</a></span> over <span class="tt"><a class="el" href="classsnicholls_1_1stats_1_1wyrand.html" title="wyhash&#39;s generator: 64 random bits per call from one add and one wide multiply.">stats::wyrand</a></span>.  <a href="structsnicholls_1_1linalg_1_1gaussian__sketch.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Alinalg_3A_3Arademacher_5Fsketch" id="r_snicholls_3A_3Alinalg_3A_3Arademacher_5Fsketch"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1linalg_1_1rademacher__sketch.html">snicholls::linalg::rademacher_sketch</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rademacher test matrices: each entry +1 or -1 with probability one half, one bit of <span class="tt"><a class="el" href="classsnicholls_1_1stats_1_1wyrand.html" title="wyhash&#39;s generator: 64 random bits per call from one add and one wide multiply.">stats::wyrand</a></span> each.  <a href="structsnicholls_1_1linalg_1_1rademacher__sketch.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Alinalg_3A_3Areference_5Fbackend" id="r_snicholls_3A_3Alinalg_3A_3Areference_5Fbackend"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1linalg_1_1reference__backend.html">snicholls::linalg::reference_backend</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The standard-library-only backend: naive, correct, <span class="tt">constexpr</span>, deterministic. Models <span class="tt"><a class="el" href="conceptsnicholls_1_1linalg_1_1backend.html" title="A complete backend for T: every operation of the interface.">linalg::backend</a></span>.  <a href="structsnicholls_1_1linalg_1_1reference__backend.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Alinalg_3A_3Asigned_5Flog_5Fdet_3C_20T_20_3E" id="r_snicholls_3A_3Alinalg_3A_3Asigned_5Flog_5Fdet_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1linalg_1_1signed__log__det.html">snicholls::linalg::signed_log_det&lt; T &gt;</a></td></tr>
@@ -605,6 +625,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A partial of attention for one query: the running softmax of the scores and the weighted sum of the values.  <a href="structsnicholls_1_1ml_1_1attention__accumulator.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aattention_5Fweights_3C_20W_2C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aattention_5Fweights_3C_20W_2C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">snicholls::ml::attention_weights&lt; W, T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weights of an attention layer: views the caller fills.  <a href="structsnicholls_1_1ml_1_1attention__weights.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aattention_5Factivations_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aattention_5Factivations_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">snicholls::ml::attention_activations&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="attention__layer_8hpp.html#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span> saves for <span class="tt"><a class="el" href="attention__layer_8hpp.html#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span>: views the caller owns.  <a href="structsnicholls_1_1ml_1_1attention__activations.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aattention_5Fgradients_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aattention_5Fgradients_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">snicholls::ml::attention_gradients&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gradients of an attention layer: views the caller owns.  <a href="structsnicholls_1_1ml_1_1attention__gradients.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Abpe_5Fpart" id="r_snicholls_3A_3Aml_3A_3Abpe_5Fpart"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1bpe__part.html">snicholls::ml::bpe_part</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One part of a piece during merging: where it starts, and the rank of it merged with the next part.  <a href="structsnicholls_1_1ml_1_1bpe__part.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Akv_5Fcache_5Fview_3C_20C_2C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Akv_5Fcache_5Fview_3C_20C_2C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1ml_1_1kv__cache__view.html">snicholls::ml::kv_cache_view&lt; C, T &gt;</a></td></tr>
@@ -621,8 +645,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A narrow floating-point number: <span class="tt">E</span> exponent bits, <span class="tt">M</span> mantissa bits and a sign, stored in 8 or 16 bits.  <a href="structsnicholls_1_1ml_1_1minifloat.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Amlp_5Fweights_3C_20W_2C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Amlp_5Fweights_3C_20W_2C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1mlp__weights.html">snicholls::ml::mlp_weights&lt; W, T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weights of an MLP: views the caller fills.  <a href="structsnicholls_1_1ml_1_1mlp__weights.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Amlp_5Factivations_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Amlp_5Factivations_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">snicholls::ml::mlp_activations&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What an MLP's forward pass saves for its backward: views the caller owns, each <span class="tt">d_ff</span>.  <a href="structsnicholls_1_1ml_1_1mlp__activations.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Amlp_5Fgradients_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Amlp_5Fgradients_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1mlp__gradients.html">snicholls::ml::mlp_gradients&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gradients of an MLP's weights: views the caller owns, each added into.  <a href="structsnicholls_1_1ml_1_1mlp__gradients.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Amoe_5Froute_3C_20T_2C_20K_20_3E" id="r_snicholls_3A_3Aml_3A_3Amoe_5Froute_3C_20T_2C_20K_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1moe__route.html">snicholls::ml::moe_route&lt; T, K &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The experts a token is routed to and their weights.  <a href="structsnicholls_1_1ml_1_1moe__route.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Amuon_5Fconfig_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Amuon_5Fconfig_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1muon__config.html">snicholls::ml::muon_config&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muon's settings for one matrix.  <a href="structsnicholls_1_1ml_1_1muon__config.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Anorm_5Fstats_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Anorm_5Fstats_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1norm__stats.html">snicholls::ml::norm_stats&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="norm_8hpp.html#a684b655909542f238737ea8d7c229b39" title="LayerNorm of one row: out = (x - mean) · rstd · weight + bias.">layer_norm</a></span> returns for its backward pass: the row's mean and <span class="tt">1 / sqrt(var + eps)</span>.  <a href="structsnicholls_1_1ml_1_1norm__stats.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aadamw_5Fconfig_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aadamw_5Fconfig_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1adamw__config.html">snicholls::ml::adamw_config&lt; T &gt;</a></td></tr>
@@ -635,16 +665,28 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ggml's Q4_0: a <span class="tt"><a class="el" href="minifloat_8hpp.html#afd5e1ae8f11fa94843002e72782a7963" title="IEEE 754 binary16.">float16</a></span> scale and 32 four-bit numbers, <span class="tt">x ≈ <a class="el" href="structsnicholls_1_1ml_1_1block__q4__0.html#ae1d35d8e8781328f973841dbb7808741" title="The scale: the signed value of largest magnitude / -8.">d</a> · (q - 8)</span>.  <a href="structsnicholls_1_1ml_1_1block__q4__0.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Fmxfp4" id="r_snicholls_3A_3Aml_3A_3Ablock_5Fmxfp4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__mxfp4.html">snicholls::ml::block_mxfp4</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The OCP MXFP4 block as ggml stores it: an E8M0 exponent and 32 FP4 (E2M1) numbers, <span class="tt">x ≈ 2^(<a class="el" href="structsnicholls_1_1ml_1_1block__mxfp4.html#a3f562d18f790c895878bb969bf2670e5" title="The shared exponent, biased by 127.">e</a> - 127) · v</span>.  <a href="structsnicholls_1_1ml_1_1block__mxfp4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ano_5Frope_5Ft" id="r_snicholls_3A_3Aml_3A_3Ano_5Frope_5Ft"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1no__rope__t.html">snicholls::ml::no_rope_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The rope source of a model without RoPE.  <a href="structsnicholls_1_1ml_1_1no__rope__t.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Arope_5Ftable_3C_20T_2C_20Positions_2C_20HeadDim_20_3E" id="r_snicholls_3A_3Aml_3A_3Arope_5Ftable_3C_20T_2C_20Positions_2C_20HeadDim_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1rope__table.html">snicholls::ml::rope_table&lt; T, Positions, HeadDim &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every position's cosines and sines, <span class="tt">Positions</span> rows of <span class="tt">HeadDim / 2</span>.  <a href="structsnicholls_1_1ml_1_1rope__table.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Atop_5Fk_5Fresult_3C_20T_2C_20K_20_3E" id="r_snicholls_3A_3Aml_3A_3Atop_5Fk_5Fresult_3C_20T_2C_20K_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1top__k__result.html">snicholls::ml::top_k_result&lt; T, K &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <span class="tt">K</span> largest values of a row and their indices, largest first.  <a href="structsnicholls_1_1ml_1_1top__k__result.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Alogit_5Fpenalties_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Alogit_5Fpenalties_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1logit__penalties.html">snicholls::ml::logit_penalties&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The penalties of <span class="tt"><a class="el" href="sampling_8hpp.html#a0d9df7a10531ee8be8f5c2f02b356e6b" title="Applies the repetition, presence and frequency penalties to the logits of the tokens in history,...">apply_penalties</a></span>; the defaults change nothing.  <a href="structsnicholls_1_1ml_1_1logit__penalties.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aself_5Fattention_5Fweights_3C_20W_2C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aself_5Fattention_5Fweights_3C_20W_2C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1self__attention__weights.html">snicholls::ml::self_attention_weights&lt; W, T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weights of one head: views the caller fills.  <a href="structsnicholls_1_1ml_1_1self__attention__weights.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aself_5Fattention_5Factivations_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aself_5Fattention_5Factivations_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1self__attention__activations.html">snicholls::ml::self_attention_activations&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What one head writes besides its output, and a backward pass reads: views the caller owns.  <a href="structsnicholls_1_1ml_1_1self__attention__activations.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Aself_5Fattention_5Fgradients_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aself_5Fattention_5Fgradients_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1self__attention__gradients.html">snicholls::ml::self_attention_gradients&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gradients of one head: views the caller owns.  <a href="structsnicholls_1_1ml_1_1self__attention__gradients.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aonline_5Fsoftmax_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aonline_5Fsoftmax_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html">snicholls::ml::online_softmax&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A running softmax: the maximum and <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html#a9016ad2bcccd86d2e81cf092b3b4bdfc" title="sum e^(x - max) over the values seen.">sum</a> e^(x - <a class="el" href="structsnicholls_1_1ml_1_1online__softmax.html#a359c089d3c76ddd0c180b4803f818c8c" title="The largest value seen; -infinity before any.">max</a>)</span> of the values seen, updated one at a time and merged across workers.  <a href="structsnicholls_1_1ml_1_1online__softmax.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Fweights_3C_20W_2C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Ablock_5Fweights_3C_20W_2C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__weights.html">snicholls::ml::block_weights&lt; W, T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weights of a block: views the caller fills.  <a href="structsnicholls_1_1ml_1_1block__weights.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Factivations_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Ablock_5Factivations_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">snicholls::ml::block_activations&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="transformer__block_8hpp.html#aa11636c5099d651f10efec04867ac5d9" title="A block over a whole sequence, in place, saving what block_backward needs: each token&#39;s result is blo...">block_forward_sequence</a></span> saves for <span class="tt"><a class="el" href="transformer__block_8hpp.html#a3160dd32dacf707126292915f205709a" title="The backward pass of block_forward_sequence, in place: the gradient in the block&#39;s output becomes the...">block_backward</a></span>: views the caller owns.  <a href="structsnicholls_1_1ml_1_1block__activations.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ablock_5Fgradients_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Ablock_5Fgradients_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1block__gradients.html">snicholls::ml::block_gradients&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gradients of a block: views the caller owns.  <a href="structsnicholls_1_1ml_1_1block__gradients.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Atransformer_5Fconfig" id="r_snicholls_3A_3Aml_3A_3Atransformer_5Fconfig"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">snicholls::ml::transformer_config</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The architecture of a transformer layer: a structural aggregate, passed as a template parameter.  <a href="structsnicholls_1_1ml_1_1transformer__config.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Afn_5Fptr_3C_20P_20_3E" id="r_snicholls_3A_3Afn_5Fptr_3C_20P_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1fn__ptr.html">snicholls::fn_ptr&lt; P &gt;</a></td></tr>
@@ -727,6 +769,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Halton sequence in <span class="tt">Dims</span> dimensions: dimension <span class="tt">d</span> is the radical inverse in the d-th prime.  <a href="classsnicholls_1_1stats_1_1halton.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Asobol_3C_20Dims_20_3E" id="r_snicholls_3A_3Astats_3A_3Asobol_3C_20Dims_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1stats_1_1sobol.html">snicholls::stats::sobol&lt; Dims &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Sobol sequence in <span class="tt">Dims</span> dimensions (Joe and Kuo), in Gray-code order, optionally digitally shifted.  <a href="classsnicholls_1_1stats_1_1sobol.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Astats_3A_3Anormal_5Finverse_5Fcdf" id="r_snicholls_3A_3Astats_3A_3Anormal_5Finverse_5Fcdf"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1stats_1_1normal__inverse__cdf.html">snicholls::stats::normal_inverse_cdf</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard normal draws by the inverse CDF: <span class="tt"><a class="el" href="constexpr__math_8hpp.html#aec59385c97f09be32d2b7d82f2f93208" title="The standard normal quantile, the inverse of normal_cdf: Acklam&#39;s approximation, then one Halley step...">math::normal_quantile</a></span> of one uniform in <span class="tt">(0, 1)</span>.  <a href="structsnicholls_1_1stats_1_1normal__inverse__cdf.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Astats_3A_3Anormal_5Fbox_5Fmuller" id="r_snicholls_3A_3Astats_3A_3Anormal_5Fbox_5Fmuller"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1stats_1_1normal__box__muller.html">snicholls::stats::normal_box_muller</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard normal draws by Box-Muller: two uniforms give two normals, the second kept for the next call.  <a href="structsnicholls_1_1stats_1_1normal__box__muller.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Aby_5Ftype_3C_20T_20_3E" id="r_snicholls_3A_3Astats_3A_3Aby_5Ftype_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1stats_1_1by__type.html">snicholls::stats::by_type&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A getter that reads the element of type <span class="tt">T</span> from a row: <span class="tt">std::get&lt;T&gt;(row)</span>, or a <span class="tt">get&lt;T&gt;</span> found by argument-dependent lookup.  <a href="structsnicholls_1_1stats_1_1by__type.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Aby_5Fname_3C_20Name_20_3E" id="r_snicholls_3A_3Astats_3A_3Aby_5Fname_3C_20Name_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1stats_1_1by__name.html">snicholls::stats::by_name&lt; Name &gt;</a></td></tr>
@@ -822,7 +868,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaa1583aa0ec8823339a420408e653e40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable <span class="tt">?</span> as a statement, discarding the value: returns the error of <span class="tt">expr</span> if there is one.  <br /></td></tr>
 <tr class="memitem:ga4402bc98a6b5059cc7188522bf2c869a" id="r_ga4402bc98a6b5059cc7188522bf2c869a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;8</td></tr>
+<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;9</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
@@ -1663,6 +1709,10 @@ requires (RB == 2 || RB == 3)</td></tr>
 requires (RB == 2 || RB == 3)</td></tr>
 <tr class="memitem:ga57ddec08d2c5e66ef345f664a610dc7a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="#ga5022bc05054efff84b4729afa44d90a0">error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga57ddec08d2c5e66ef345f664a610dc7a">snicholls::linalg::ldlt_solve_batched</a> (const B &amp;b, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 3, LA &gt; &amp;a, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, RB, LB &gt; &amp;rhs, std::span&lt; <a class="el" href="#gaf6d5e4acbd97a55c224ced751a3bb151">status</a> &gt; <a class="el" href="#gaf6d5e4acbd97a55c224ced751a3bb151">status</a>, E ex={})</td></tr>
 <tr class="memdesc:ga57ddec08d2c5e66ef345f664a610dc7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factorise <span class="tt">n</span> symmetric, possibly indefinite, systems by LDLT and solve them, in place; one status per system.  <br /></td></tr>
+<tr class="memitem:gaa4d57c5fcbb59e9944725d10d16d0157" id="r_gaa4d57c5fcbb59e9944725d10d16d0157"><td class="memTemplParams" colspan="2">template&lt;typename B, typename EA, typename LA, scalar T, typename LU, typename LV, typename S = gaussian_sketch&lt;&gt;&gt; <br />
+requires (std::same_as&lt;detail::value_t&lt;EA&gt;, T&gt; &amp;&amp; blas_backend&lt;B, T&gt; &amp;&amp; factorisation_backend&lt;B, T&gt; &amp;&amp; decomposition_backend&lt;B, T&gt; &amp;&amp; sketch&lt;S, T&gt;)</td></tr>
+<tr class="memitem:gaa4d57c5fcbb59e9944725d10d16d0157 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5022bc05054efff84b4729afa44d90a0">error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaa4d57c5fcbb59e9944725d10d16d0157">snicholls::linalg::truncated_svd</a> (const B &amp;b, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; EA, 2, LA &gt; &amp;a, std::span&lt; T &gt; s, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LU &gt; &amp;u, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LV &gt; &amp;v, std::span&lt; T &gt; work, const <a class="el" href="structsnicholls_1_1linalg_1_1truncated__svd__options.html">truncated_svd_options</a> &amp;options={}, const S &amp;sk=S{})</td></tr>
+<tr class="memdesc:gaa4d57c5fcbb59e9944725d10d16d0157"><td class="mdescLeft">&#160;</td><td class="mdescRight">The leading <span class="tt">k</span> singular values and vectors of <span class="tt">A</span>, <span class="tt">A ≈ U diag(s) Vᵀ</span>, by randomised range finding.  <br /></td></tr>
 <tr class="memitem:ga6b0f6b1926f86138e053d45c09e56c67" id="r_ga6b0f6b1926f86138e053d45c09e56c67"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#gaf6d5e4acbd97a55c224ced751a3bb151">status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6b0f6b1926f86138e053d45c09e56c67">snicholls::linalg::to_status</a> (<a class="el" href="#ga5022bc05054efff84b4729afa44d90a0">error</a> e) noexcept</td></tr>
 <tr class="memdesc:ga6b0f6b1926f86138e053d45c09e56c67"><td class="mdescLeft">&#160;</td><td class="mdescRight">The status that reports this error.  <br /></td></tr>
 <tr class="memitem:gac523ae3ebb34fc316ad2069364c9ee46" id="r_gac523ae3ebb34fc316ad2069364c9ee46"><td class="memTemplParams" colspan="2">template&lt;scalar T&gt; </td></tr>
@@ -2242,7 +2292,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;8</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;9</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4258,7 +4308,7 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00068">68</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00070">70</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
 
 </div>
 </div>
@@ -7057,7 +7107,7 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00718">718</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00719">719</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -7261,7 +7311,7 @@ template&lt;class... A&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00479">479</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00480">480</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -8723,7 +8773,7 @@ template&lt;typename List, typename F&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00639">639</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00640">640</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -10149,7 +10199,7 @@ requires ordered_game_value&lt;<a class="el" href="#gabd6664222ea7bc155428b52198
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if reserved. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00702">702</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00703">703</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -11418,7 +11468,7 @@ template&lt;class E&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00591">591</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00592">592</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -16146,7 +16196,7 @@ template&lt;std::size_t States, std::size_t Horizon, typename Payoff&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the text. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00617">617</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00618">618</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -17505,7 +17555,7 @@ template&lt;class E&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00744">744</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00745">745</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -17797,7 +17847,7 @@ template&lt;class E&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#ga8d76a562dc7f8e33e85297d6ea8406f2" title="Rust&#39;s Err(e): an error tag holding e (decayed, moved or copied).">snicholls::err</a>(<a class="el" href="classsnicholls_1_1traced.html" title="An error E with the source_location where it was created, a chain of context frames,...">snicholls::traced</a>&lt;E&gt;(e, where))</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00465">465</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00466">466</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
 
 </div>
 </div>
@@ -18004,6 +18054,92 @@ requires (std::same_as&lt;detail::value_t&lt;ET&gt;, T&gt; &amp;&amp; (RB == 1 |
 <dl class="section return"><dt>Returns</dt><dd>Nothing, <span class="tt"><a class="el" href="#gga5022bc05054efff84b4729afa44d90a0afa5a1299c298ea39fb893169e211ceda" title="The views&#39; extents do not fit together.">error::dimension_mismatch</a></span>, or <span class="tt"><a class="el" href="#gga5022bc05054efff84b4729afa44d90a0a6558000adbdbb1f87a94fe236eeae5e8" title="A pivot (LU, LDLT, a triangular diagonal, R&#39;s diagonal) is zero or below the tolerance.">error::singular</a></span> when an explicit diagonal holds a zero. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="backend_8hpp_source.html#l00375">375</a> of file <a class="el" href="backend_8hpp_source.html">backend.hpp</a>.</p>
+
+</div>
+</div>
+<a id="gaa4d57c5fcbb59e9944725d10d16d0157" name="gaa4d57c5fcbb59e9944725d10d16d0157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa4d57c5fcbb59e9944725d10d16d0157">&#9670;&#160;</a></span>truncated_svd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename B, typename EA, typename LA, scalar T, typename LU, typename LV, typename S = gaussian_sketch&lt;&gt;&gt; <br />
+requires (std::same_as&lt;detail::value_t&lt;EA&gt;, T&gt; &amp;&amp; blas_backend&lt;B, T&gt; &amp;&amp; factorisation_backend&lt;B, T&gt; &amp;&amp; decomposition_backend&lt;B, T&gt; &amp;&amp; sketch&lt;S, T&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5022bc05054efff84b4729afa44d90a0">error</a> &gt; snicholls::linalg::truncated_svd </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; EA, 2, LA &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LU &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>u</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LV &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>v</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1linalg_1_1truncated__svd__options.html">truncated_svd_options</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const S &amp;</td>          <td class="paramname"><span class="paramname"><em>sk</em></span><span class="paramdefsep"> = </span><span class="paramdefval">S{}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The leading <span class="tt">k</span> singular values and vectors of <span class="tt">A</span>, <span class="tt">A ≈ U diag(s) Vᵀ</span>, by randomised range finding. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">B</td><td>The backend: a <span class="tt"><a class="el" href="conceptsnicholls_1_1linalg_1_1blas__backend.html" title="A backend with the BLAS operations for T: dot, axpy, gemv, gemm, syrk, triangular_solve.">blas_backend</a></span>, <span class="tt"><a class="el" href="conceptsnicholls_1_1linalg_1_1factorisation__backend.html" title="A backend with the factorisations for T: LU, Cholesky, LDLT and QR, each with its solve.">factorisation_backend</a></span> and <span class="tt"><a class="el" href="conceptsnicholls_1_1linalg_1_1decomposition__backend.html" title="A backend with the decompositions for T: the symmetric eigenproblem and the SVD.">decomposition_backend</a></span> for <span class="tt">T</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>The backend. </td></tr>
+    <tr><td class="paramname">a</td><td><span class="tt">m x n</span>, any layout; not changed. </td></tr>
+    <tr><td class="paramname">s</td><td>Receives the <span class="tt">k</span> singular values, descending. </td></tr>
+    <tr><td class="paramname">u</td><td>Receives the <span class="tt">k</span> left singular vectors, <span class="tt">m x k</span>. </td></tr>
+    <tr><td class="paramname">v</td><td>Receives the <span class="tt">k</span> right singular vectors, <span class="tt">n x k</span>. </td></tr>
+    <tr><td class="paramname">work</td><td>At least <span class="tt">truncated_svd_work_size(m, n, k, options)</span> elements. </td></tr>
+    <tr><td class="paramname">options</td><td>The oversampling and the power iterations. </td></tr>
+    <tr><td class="paramname">sk</td><td>The source of the random test matrix: <span class="tt"><a class="el" href="structsnicholls_1_1linalg_1_1gaussian__sketch.html" title="Gaussian test matrices, in row-major order, from a stats::normal_sampler over stats::wyrand.">gaussian_sketch</a>&lt;&gt;{}</span> by default. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Nothing, or <span class="tt"><a class="el" href="#gga5022bc05054efff84b4729afa44d90a0afa5a1299c298ea39fb893169e211ceda" title="The views&#39; extents do not fit together.">error::dimension_mismatch</a></span>, or the QR's or the small SVD's error for a non-finite <span class="tt">A</span>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="randomized__svd_8hpp_source.html#l00194">194</a> of file <a class="el" href="randomized__svd_8hpp_source.html">randomized_svd.hpp</a>.</p>
 
 </div>
 </div>

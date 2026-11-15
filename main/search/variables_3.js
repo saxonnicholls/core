@@ -15,6 +15,6 @@ var searchData=
   ['digits_12',['digits',['../structsnicholls_1_1minor__units.html#af38b458916a5ec46b74bf5e85eba27ab',1,'snicholls::minor_units']]],
   ['distinct_5fstatic_5fnames_5fv_13',['distinct_static_names_v',['../group__core.html#gade004a919886e243a3cb941a3bbeeeb3',1,'snicholls']]],
   ['dns_14',['dns',['../uuid_8hpp.html#acc5b6da40736c649c0abf3fe87f56ec6',1,'snicholls::uuid_namespace']]],
-  ['down_15',['down',['../structsnicholls_1_1ml_1_1mlp__weights.html#aed552575da3dfad7f0d7132f2dce5715',1,'snicholls::ml::mlp_weights']]],
-  ['down_5fbias_16',['down_bias',['../structsnicholls_1_1ml_1_1mlp__weights.html#a688443fef16bd785692f3f2e02641ffb',1,'snicholls::ml::mlp_weights']]]
+  ['down_15',['down',['../structsnicholls_1_1ml_1_1mlp__weights.html#aed552575da3dfad7f0d7132f2dce5715',1,'snicholls::ml::mlp_weights::down'],['../structsnicholls_1_1ml_1_1mlp__gradients.html#ac4647abc5a5ac68bc4193b448f70e4ea',1,'snicholls::ml::mlp_gradients::down']]],
+  ['down_5fbias_16',['down_bias',['../structsnicholls_1_1ml_1_1mlp__weights.html#a688443fef16bd785692f3f2e02641ffb',1,'snicholls::ml::mlp_weights::down_bias'],['../structsnicholls_1_1ml_1_1mlp__gradients.html#a38ec242411d056e93c78f7b32b73b1b6',1,'snicholls::ml::mlp_gradients::down_bias']]]
 ];

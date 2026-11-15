@@ -32,8 +32,16 @@ var searchData=
   ['min_5fp_5fthreshold_29',['min_p_threshold',['../sampling_8hpp.html#abe14b97531294ed858a17c7cd11c277f',1,'snicholls::ml']]],
   ['minifloat_5fmax_30',['minifloat_max',['../minifloat_8hpp.html#a4a8c944e9a8db4e97637f98d579ec336',1,'snicholls::ml']]],
   ['mlp_5factivation_31',['mlp_activation',['../mlp_8hpp.html#a684c03d0cc64d002a5d9c4817e37eb90',1,'snicholls::ml']]],
-  ['mlp_5fforward_32',['mlp_forward',['../mlp_8hpp.html#ae14cf64ec8f41fa7075c0980689408ac',1,'snicholls::ml']]],
-  ['model_5fflops_5futilisation_33',['model_flops_utilisation',['../optim_8hpp.html#ad7513f64aa70c0426fa9a29ba8585ae8',1,'snicholls::ml']]],
-  ['moe_5fgate_34',['moe_gate',['../mlp_8hpp.html#a06eabdd7cfc85df0f49938694242c8ff',1,'snicholls::ml']]],
-  ['moments_5fof_35',['moments_of',['../group__core.html#gaaf495d3b8f8cd5ff3615cba6b61f86b0',1,'snicholls::stats']]]
+  ['mlp_5factivation_5fderivative_32',['mlp_activation_derivative',['../mlp_8hpp.html#a617d1a84e687da81a8295764b33a43da',1,'snicholls::ml']]],
+  ['mlp_5fbackward_33',['mlp_backward',['../mlp_8hpp.html#a9b934c3c740a6a148cab2703459671fb',1,'snicholls::ml']]],
+  ['mlp_5fbackward_5fsequence_34',['mlp_backward_sequence',['../mlp_8hpp.html#af502bab2b39463daa0fba8c3dda5cd6c',1,'snicholls::ml']]],
+  ['mlp_5fforward_35',['mlp_forward',['../mlp_8hpp.html#ae14cf64ec8f41fa7075c0980689408ac',1,'snicholls::ml::mlp_forward(const mlp_weights&lt; W, T &gt; &amp;w, const X &amp;x, Y &amp;&amp;y)'],['../mlp_8hpp.html#a360f15da0144ca4e4a26337e1c50cd77',1,'snicholls::ml::mlp_forward(const mlp_weights&lt; W, T &gt; &amp;w, const X &amp;x, Y &amp;&amp;y, const mlp_activations&lt; T &gt; &amp;save)']]],
+  ['mlp_5fforward_5fsequence_36',['mlp_forward_sequence',['../mlp_8hpp.html#aa309a01a46ba8b646e2a93ead928a359',1,'snicholls::ml']]],
+  ['model_5fflops_5futilisation_37',['model_flops_utilisation',['../optim_8hpp.html#ad7513f64aa70c0426fa9a29ba8585ae8',1,'snicholls::ml']]],
+  ['moe_5fgate_38',['moe_gate',['../mlp_8hpp.html#a06eabdd7cfc85df0f49938694242c8ff',1,'snicholls::ml']]],
+  ['moe_5fgate_5fbackward_39',['moe_gate_backward',['../mlp_8hpp.html#afda9860e15607ea0984404a42260d5ad',1,'snicholls::ml']]],
+  ['moments_5fof_40',['moments_of',['../group__core.html#gaaf495d3b8f8cd5ff3615cba6b61f86b0',1,'snicholls::stats']]],
+  ['muon_5forthogonalise_41',['muon_orthogonalise',['../muon_8hpp.html#a4f65fef5ca8ece4fe45d48dfa42c27ec',1,'snicholls::ml']]],
+  ['muon_5fstep_42',['muon_step',['../muon_8hpp.html#a39c35ad6306b93e921aadfa32b537670',1,'snicholls::ml']]],
+  ['muon_5fwork_5fsize_43',['muon_work_size',['../muon_8hpp.html#ac7af0f9c1fba601f265546030c1797fb',1,'snicholls::ml']]]
 ];

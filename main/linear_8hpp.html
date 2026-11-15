@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -95,7 +95,8 @@ $(function(){initNavTree('linear_8hpp.html','',''); });
 
 <p><span class="tt"><a class="el" href="#a7f753dcb3fe22677ab0d494d93c058bd" title="y = W x + b with dense weights: each output starts at its bias and adds w_ij · x_j for j in order.">snicholls::ml::linear</a></span>: <span class="tt">y = W x + b</span> over any weight storage: dense rows of float, double or bfloat16, or ggml's quantised blocks.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="minifloat_8hpp_source.html">snicholls/core/ml/minifloat.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="backend_8hpp_source.html">snicholls/core/linalg/backend.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="minifloat_8hpp_source.html">snicholls/core/ml/minifloat.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="quantize_8hpp_source.html">snicholls/core/ml/quantize.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="row_8hpp_source.html">snicholls/core/ml/row.hpp</a>&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
@@ -103,6 +104,7 @@ $(function(){initNavTree('linear_8hpp.html','',''); });
 <code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div>
 <p><a href="linear_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -136,10 +138,22 @@ requires (std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;Y&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;B&gt;&gt;</td></tr>
 <tr class="memitem:a7f753dcb3fe22677ab0d494d93c058bd template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f753dcb3fe22677ab0d494d93c058bd">snicholls::ml::linear</a> (const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt; &amp;w, const X &amp;x, Y &amp;&amp;y, const B &amp;bias=B{})</td></tr>
 <tr class="memdesc:a7f753dcb3fe22677ab0d494d93c058bd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">y = W x + b</span> with dense weights: each output starts at its bias and adds <span class="tt">w_ij · x_j</span> for <span class="tt">j</span> in order.  <br /></td></tr>
+<tr class="memitem:af240477ec707f3540f6d4a4aa3064e33" id="r_af240477ec707f3540f6d4a4aa3064e33"><td class="memTemplParams" colspan="2">template&lt;typename S, row X, row DY, mutable_row DX, mutable_row DW, mutable_row DB = std::span&lt;row_value_t&lt;X&gt;&gt;&gt; <br />
+requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DY&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DX&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DW&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DB&gt;&gt;</td></tr>
+<tr class="memitem:af240477ec707f3540f6d4a4aa3064e33 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af240477ec707f3540f6d4a4aa3064e33">snicholls::ml::linear_backward</a> (const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt; &amp;w, const X &amp;x, const DY &amp;dy, DX &amp;&amp;dx, DW &amp;&amp;dw, DB &amp;&amp;db=DB{})</td></tr>
+<tr class="memdesc:af240477ec707f3540f6d4a4aa3064e33"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of a dense <span class="tt"><a class="el" href="#a7f753dcb3fe22677ab0d494d93c058bd" title="y = W x + b with dense weights: each output starts at its bias and adds w_ij · x_j for j in order.">linear</a></span>: adds <span class="tt">Wᵀ dy</span> into <span class="tt">dx</span>, <span class="tt">dy xᵀ</span> into <span class="tt">dw</span> and <span class="tt">dy</span> into <span class="tt">db</span>.  <br /></td></tr>
 <tr class="memitem:af57e232e27e2704131f83a03ff97a3cc" id="r_af57e232e27e2704131f83a03ff97a3cc"><td class="memTemplParams" colspan="2">template&lt;quant_block Block, std::size_t M, mutable_row Y, row B = std::span&lt;const float&gt;&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;Y&gt;, float&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;B&gt;, float&gt;</td></tr>
 <tr class="memitem:af57e232e27e2704131f83a03ff97a3cc template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af57e232e27e2704131f83a03ff97a3cc">snicholls::ml::linear</a> (const <a class="el" href="structsnicholls_1_1ml_1_1quantized__weights.html">quantized_weights</a>&lt; Block &gt; &amp;w, const std::array&lt; <a class="el" href="structsnicholls_1_1ml_1_1block__q8__0.html">block_q8_0</a>, M &gt; &amp;x, Y &amp;&amp;y, const B &amp;bias=B{})</td></tr>
 <tr class="memdesc:af57e232e27e2704131f83a03ff97a3cc"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">y = W x + b</span> with quantised weights: each output is the block dot product of its row with the Q8_0 input, plus its bias.  <br /></td></tr>
+<tr class="memitem:a54313b137003f9e5964efa70ce6acb13" id="r_a54313b137003f9e5964efa70ce6acb13"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
+requires linalg::blas_backend&lt;B, T&gt;</td></tr>
+<tr class="memitem:a54313b137003f9e5964efa70ce6acb13 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54313b137003f9e5964efa70ce6acb13">snicholls::ml::linear_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; ys, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; bias={})</td></tr>
+<tr class="memdesc:a54313b137003f9e5964efa70ce6acb13"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">Y = X Wᵀ + b</span> for a sequence of <span class="tt">n</span> rows, as one matrix product through a <span class="tt">linalg</span> backend.  <br /></td></tr>
+<tr class="memitem:a9663889afdcb2b9be2c65e89d149550a" id="r_a9663889afdcb2b9be2c65e89d149550a"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
+requires linalg::blas_backend&lt;B, T&gt;</td></tr>
+<tr class="memitem:a9663889afdcb2b9be2c65e89d149550a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9663889afdcb2b9be2c65e89d149550a">snicholls::ml::linear_sequence_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dys, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dw, std::type_identity_t&lt; std::span&lt; T &gt; &gt; db={})</td></tr>
+<tr class="memdesc:a9663889afdcb2b9be2c65e89d149550a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a54313b137003f9e5964efa70ce6acb13" title="Y = X Wᵀ + b for a sequence of n rows, as one matrix product through a linalg backend.">linear_sequence</a></span>: <span class="tt">dX += dY W</span>, <span class="tt">dW += dYᵀ X</span>, <span class="tt">db += Σ dY</span>, as two matrix products through the backend.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt"><a class="el" href="#a7f753dcb3fe22677ab0d494d93c058bd" title="y = W x + b with dense weights: each output starts at its bias and adds w_ij · x_j for j in order.">snicholls::ml::linear</a></span>: <span class="tt">y = W x + b</span> over any weight storage: dense rows of float, double or bfloat16, or ggml's quantised blocks. </p>
@@ -147,6 +161,8 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <ul>
 <li><span class="tt">prepare_input&lt;N&gt;(w, x)</span>: the input as that storage reads it. A dense matrix reads <span class="tt">x</span> as it is; a quantised one reads it quantised to Q8_0, once, as ggml does. Projections sharing an input (Q, K and V) share one prepared input.</li>
 <li><span class="tt">linear(w, input, y, bias)</span>: each output starts at its bias (or 0) and adds the products in input order, as llm.c's <span class="tt">matmul_forward</span> does, so a dense float product is llm.c's to the bit.</li>
+<li><span class="tt">linear_backward(w, x, dy, dx, dw, db)</span>: for dense (trainable) storage, adds <span class="tt">Wᵀ dy</span>, <span class="tt">dy xᵀ</span> and <span class="tt">dy</span> into the gradients, as llm.c's <span class="tt">matmul_backward</span>.</li>
+<li><span class="tt">linear_sequence(backend, w, xs, ys, bias)</span> and <span class="tt">linear_sequence_backward(backend, w, xs, dys, dxs, dw, db)</span>: the same over a sequence of <span class="tt">n</span> rows, as one matrix product (and two for the backward) through a <span class="tt">linalg</span> backend: core's reference, or a BLAS or a GPU backend from another library, the same call. Dense weights in the sequence's type. The result is the backend's: the reference sums each output in input order and adds the bias after, so it can differ from <span class="tt">linear</span> in the last bit.</li>
 </ul>
 <p>A storage of the caller's own joins by overloading <span class="tt">prepare_input</span> and <span class="tt">linear</span> in its namespace (found by ADL); that is the seam for a BLAS or device backend.</p>
 <div class="fragment"><div class="line">    <span class="comment">// 2 outputs from 32 inputs, laid out as nn.Linear.weight: row i is output i&#39;s weights</span></div>
@@ -174,13 +190,45 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    std::array&lt;float, 2&gt; yb{}, yq{};</div>
 <div class="line">    ml::linear(half, ml::prepare_input&lt;32&gt;(half, x), yb, bias);</div>
 <div class="line">    ml::linear(q4, ml::prepare_input&lt;32&gt;(q4, x), yq, bias);</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span> (the blocks and their dot products), <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span> (<span class="tt">bfloat16</span>), <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward: a transformer&#39;s attention for one token at one position: the Q,...">ml/attention_layer.hpp</a></span> and <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward: a transformer&#39;s MLP for one token, down(act(up x)) or SwiGLU&#39;s down(silu(...">ml/mlp.hpp</a></span> (the users). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Training: the backward pass of the float product adds W^T dy, dy x^T and dy into the gradients</span></div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;float, 2&gt; dy{1.0f, 0.0f};   <span class="comment">// the gradient in output 0 only</span></div>
+<div class="line">    std::array&lt;float, 32&gt; dx{};</div>
+<div class="line">    std::array&lt;float, 2 * 32&gt; dw{};</div>
+<div class="line">    std::array&lt;float, 2&gt; db{};</div>
+<div class="line">    ml::linear_backward(dense, x, dy, dx, dw, db);</div>
+</div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Training and prefill: a sequence of rows at once, Y = X Wᵀ + b, as one matrix product through a linalg backend</span></div>
+<div class="line">    <span class="comment">// (core&#39;s reference here; a BLAS or a GPU backend from another library the same way)</span></div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;float, 6&gt; m{1, 2, 3, 4, 5, 6};        <span class="comment">// 2 x 3</span></div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;float, 6&gt; rows{1, 0, -1, 0, 1, 0};   <span class="comment">// two inputs</span></div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;float, 2&gt; row_bias{10, 20};</div>
+<div class="line">    std::array&lt;float, 4&gt; outs{};</div>
+<div class="line">    ml::linear_sequence(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, ml::dense_weights&lt;float&gt;{m, 2, 3}, rows, outs, row_bias);</div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; douts{1, 0, 0, 1};          <span class="comment">// the gradient in output 0 of row 0 and output 1 of row 1</span></div>
+<div class="line">    std::array&lt;float, 6&gt; drows{}, dm{};</div>
+<div class="line">    std::array&lt;float, 2&gt; dbias{};</div>
+<div class="line">    ml::linear_sequence_backward(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, ml::dense_weights&lt;float&gt;{m, 2, 3}, rows, douts, drows, dm, dbias);</div>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span> (the blocks and their dot products), <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span> (<span class="tt">bfloat16</span>), <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span> and <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span> (the users). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> Dense: one multiply and one add per weight, in the input's type. Quantised: one block dot product per output row against the Q8_0 input (<span class="tt">ml::dot</span>), plus the bias.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation (a prepared quantised input is a <span class="tt">std::array</span> of <span class="tt">N / 32</span> blocks), linear in <span class="tt">rows · cols</span>. Each multiply and add is its own statement, so no compiler fuses them under its default contraction; GCC needs <span class="tt">-ffp-contract=off</span> (see <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span>).</p>
 <p><b>Errors.</b> Preconditions, asserted: the input has <span class="tt">cols</span> elements, <span class="tt">y</span> has <span class="tt">rows</span>, a bias is empty or has <span class="tt">rows</span>, a quantised matrix has <span class="tt">cols</span> a multiple of 32 and <span class="tt">rows · cols / 32</span> blocks.</p>
-<p><b>Performance.</b> Benchmarked through <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>'s decode step (see there).</p>
+<p><b>Performance.</b> Benchmarked through <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>'s decode step and training passes (see there), and <span class="tt">linear_backward</span> through <span class="tt"><a class="el" href="self__attention_8hpp.html" title="snicholls::ml::self_attention_head and its backward pass: one causal self-attention head over a seque...">ml/self_attention.hpp</a></span>'s backward; level with llm.c's <span class="tt">matmul_backward</span> loops.</p>
+<p><span class="tt">linear_sequence</span> through <span class="tt">linalg::reference</span> against the same products as loops over raw pointers, after a bit-for-bit check: 64 tokens of 256 inputs (<span class="tt">benchmarks/ml/linear_benchmark.cpp</span>; Release, Apple clang 17, Xeon W-3245, macOS 26, 2026-11-16, medians of five, load average about 16):</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Product  </th><th class="markdownTableHeadNone">Core  </th><th class="markdownTableHeadNone">By hand  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">forward, 256 outputs  </td><td class="markdownTableBodyNone">3.96 ms  </td><td class="markdownTableBodyNone">3.98 ms  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">forward, 1024 outputs  </td><td class="markdownTableBodyNone">15.9 ms  </td><td class="markdownTableBodyNone">16.1 ms  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">backward, 256 outputs  </td><td class="markdownTableBodyNone">8.43 ms  </td><td class="markdownTableBodyNone">8.58 ms  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">backward, 1024 outputs  </td><td class="markdownTableBodyNone">42.9 ms  </td><td class="markdownTableBodyNone">43.9 ms  </td></tr>
+</table>
+<p>Level: the views, the extent checks and the backend's dispatch cost nothing measurable. The reference backend is no faster than <span class="tt">linear</span> token by token (3.96 ms and 16.1 ms the same rows); the batched path is for a backend that is (a BLAS, a device).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/linear_test.cpp</span>, <span class="tt">demos/ml/linear_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span>, <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span>, <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
 <p><b>Known issues.</b> A quantised product is in <span class="tt">float</span> only, as ggml's are.</p>
 <p><b>Status.</b> Experimental, new in 0.8.0. </p>
 
@@ -237,7 +285,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;Y&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00158">158</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00185">185</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -292,7 +340,208 @@ requires std::same_as&lt;row_value_t&lt;Y&gt;, float&gt; &amp;&amp; std::same_as
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00183">183</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00252">252</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af240477ec707f3540f6d4a4aa3064e33" name="af240477ec707f3540f6d4a4aa3064e33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af240477ec707f3540f6d4a4aa3064e33">&#9670;&#160;</a></span>linear_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename S, row X, row DY, mutable_row DX, mutable_row DW, mutable_row DB = std::span&lt;row_value_t&lt;X&gt;&gt;&gt; <br />
+requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;DY&gt;&gt; &amp;&amp; std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;DX&gt;&gt; &amp;&amp; std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;DW&gt;&gt; &amp;&amp; std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;DB&gt;&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::linear_backward </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const X &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DY &amp;</td>          <td class="paramname"><span class="paramname"><em>dy</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DX &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>dx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DW &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>dw</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DB &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>db</em></span><span class="paramdefsep"> = </span><span class="paramdefval">DB{}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The backward pass of a dense <span class="tt">linear</span>: adds <span class="tt">Wᵀ dy</span> into <span class="tt">dx</span>, <span class="tt">dy xᵀ</span> into <span class="tt">dw</span> and <span class="tt">dy</span> into <span class="tt">db</span>. </p>
+<p>Every gradient is accumulated, so an input shared by several products (Q, K and V) and the positions of a sequence add into one buffer; zero them first. The loops are llm.c's <span class="tt">matmul_backward</span>: for each output <span class="tt">i</span>, <span class="tt">dx_j += w_ij · dy_i</span> and <span class="tt">dw_ij += dy_i · x_j</span> for <span class="tt">j</span> in order, then <span class="tt">db_i += dy_i</span>. Only dense storage has a backward: training quantised weights is a compile error. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>The matrix, <span class="tt">rows x cols</span>. </td></tr>
+    <tr><td class="paramname">x</td><td>The input the forward pass read, <span class="tt">cols</span>. </td></tr>
+    <tr><td class="paramname">dy</td><td>The gradient in the output, <span class="tt">rows</span>. </td></tr>
+    <tr><td class="paramname">dx</td><td>Added into, <span class="tt">cols</span>; or empty to skip it (a first layer's input). </td></tr>
+    <tr><td class="paramname">dw</td><td>Added into, <span class="tt">rows · cols</span>, row by row as <span class="tt">w</span>. </td></tr>
+    <tr><td class="paramname">db</td><td>Added into, <span class="tt">rows</span>; or empty for a matrix without a bias. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00218">218</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a54313b137003f9e5964efa70ce6acb13" name="a54313b137003f9e5964efa70ce6acb13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54313b137003f9e5964efa70ce6acb13">&#9670;&#160;</a></span>linear_sequence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_number T, typename B&gt; <br />
+requires linalg::blas_backend&lt;B, T&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::linear_sequence </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em>backend</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>xs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>ys</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>bias</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">Y = X Wᵀ + b</span> for a sequence of <span class="tt">n</span> rows, as one matrix product through a <span class="tt">linalg</span> backend. </p>
+<p>The batched form of <span class="tt">linear</span>, for training and prefill: the backend does the work (core's reference, a BLAS, a device), so its result is the backend's: core's reference backend sums each output in input order and then adds the bias, which can differ from <span class="tt">linear</span>'s bias-first sum in the last bit. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>. </td></tr>
+    <tr><td class="paramname">w</td><td>The matrix, <span class="tt">rows x cols</span>, dense in the sequence's own type. </td></tr>
+    <tr><td class="paramname">xs</td><td><span class="tt">n</span> inputs of <span class="tt">cols</span>, end to end. </td></tr>
+    <tr><td class="paramname">ys</td><td>Receives <span class="tt">n</span> outputs of <span class="tt">rows</span>; may not alias <span class="tt">xs</span>. </td></tr>
+    <tr><td class="paramname">bias</td><td><span class="tt">rows</span> biases, or empty for none. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00299">299</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a9663889afdcb2b9be2c65e89d149550a" name="a9663889afdcb2b9be2c65e89d149550a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9663889afdcb2b9be2c65e89d149550a">&#9670;&#160;</a></span>linear_sequence_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_number T, typename B&gt; <br />
+requires linalg::blas_backend&lt;B, T&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::linear_sequence_backward </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em>backend</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>xs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>dys</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>dxs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>dw</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>db</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The backward pass of <span class="tt">linear_sequence</span>: <span class="tt">dX += dY W</span>, <span class="tt">dW += dYᵀ X</span>, <span class="tt">db += Σ dY</span>, as two matrix products through the backend. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>. </td></tr>
+    <tr><td class="paramname">w</td><td>The matrix the forward pass used. </td></tr>
+    <tr><td class="paramname">xs</td><td>Its <span class="tt">n</span> inputs. </td></tr>
+    <tr><td class="paramname">dys</td><td>The gradients in its <span class="tt">n</span> outputs. </td></tr>
+    <tr><td class="paramname">dxs</td><td>Added into, <span class="tt">n · cols</span>; or empty to skip it. </td></tr>
+    <tr><td class="paramname">dw</td><td>Added into, <span class="tt">rows · cols</span>. </td></tr>
+    <tr><td class="paramname">db</td><td>Added into, <span class="tt">rows</span>; or empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00327">327</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -340,7 +589,7 @@ template&lt;std::size_t N, typename S, row X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A view of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00132">132</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00159">159</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -389,7 +638,7 @@ requires (std::same_as&lt;row_value_t&lt;X&gt;, float&gt; &amp;&amp; N % quant_b
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">N / 32</span> blocks. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00144">144</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00171">171</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>

@@ -24,9 +24,13 @@ var searchData=
   ['message_21',['message',['../structsnicholls_1_1context__frame.html#aa3db51c7da55412c8c2bfe9dab57ab8e',1,'snicholls::context_frame::message'],['../structsnicholls_1_1error__report.html#ac682dc7581def8e07bbbd7a72a2356af',1,'snicholls::error_report::message']]],
   ['min_22',['min',['../structsnicholls_1_1backoff__policy.html#a8d25de1d99848cc6f033a863dc8b4d34',1,'snicholls::backoff_policy::min'],['../structsnicholls_1_1enum__range.html#a18677adbf64fdf78b8a3a860e6e34a50',1,'snicholls::enum_range::min']]],
   ['min_5fexponent_23',['min_exponent',['../classsnicholls_1_1decimal.html#a293cde729f0de75bd6d436c984952a8d',1,'snicholls::decimal']]],
-  ['mlp_24',['mlp',['../structsnicholls_1_1ml_1_1block__weights.html#a99f0ce8d8f6c62e75b6dcdafb60b63b5',1,'snicholls::ml::block_weights::mlp'],['../structsnicholls_1_1ml_1_1transformer__config.html#aad96c6f86f0ac80ac72aa93a048a6fe2',1,'snicholls::ml::transformer_config::mlp']]],
-  ['month_25',['month',['../structsnicholls_1_1civil__date.html#a346adfc041800c3daa2ae604d6dd7eee',1,'snicholls::civil_date']]],
-  ['mutable_5fcode_5funits_26',['mutable_code_units',['../structsnicholls_1_1string__traits.html#a808e74c976953a69d837dabff675f53d',1,'snicholls::string_traits']]],
-  ['mx_27',['mx',['../structsnicholls_1_1stats_1_1covariance.html#a48c1bfa1ad05bb95101b56e7fbef037b',1,'snicholls::stats::covariance']]],
-  ['my_28',['my',['../structsnicholls_1_1stats_1_1covariance.html#aba88369de477f416a08d7e138eacb3c5',1,'snicholls::stats::covariance']]]
+  ['mlp_24',['mlp',['../structsnicholls_1_1ml_1_1block__weights.html#a99f0ce8d8f6c62e75b6dcdafb60b63b5',1,'snicholls::ml::block_weights::mlp'],['../structsnicholls_1_1ml_1_1block__gradients.html#aef55db9146637f3c89c6bf6dd1fadeb2',1,'snicholls::ml::block_gradients::mlp'],['../structsnicholls_1_1ml_1_1transformer__config.html#aad96c6f86f0ac80ac72aa93a048a6fe2',1,'snicholls::ml::transformer_config::mlp']]],
+  ['mlp_5fgate_25',['mlp_gate',['../structsnicholls_1_1ml_1_1block__activations.html#ab2cc70d79cf55a33d2750a42e36162aa',1,'snicholls::ml::block_activations']]],
+  ['mlp_5fhidden_26',['mlp_hidden',['../structsnicholls_1_1ml_1_1block__activations.html#a2b402f0c8a036645cff125a070c29d13',1,'snicholls::ml::block_activations']]],
+  ['mlp_5fup_27',['mlp_up',['../structsnicholls_1_1ml_1_1block__activations.html#a469b3e11d728b0d968f65f9a1f8538c5',1,'snicholls::ml::block_activations']]],
+  ['momentum_28',['momentum',['../structsnicholls_1_1ml_1_1muon__config.html#a258a85906f8041071c1d25d12ecb8aba',1,'snicholls::ml::muon_config']]],
+  ['month_29',['month',['../structsnicholls_1_1civil__date.html#a346adfc041800c3daa2ae604d6dd7eee',1,'snicholls::civil_date']]],
+  ['mutable_5fcode_5funits_30',['mutable_code_units',['../structsnicholls_1_1string__traits.html#a808e74c976953a69d837dabff675f53d',1,'snicholls::string_traits']]],
+  ['mx_31',['mx',['../structsnicholls_1_1stats_1_1covariance.html#a48c1bfa1ad05bb95101b56e7fbef037b',1,'snicholls::stats::covariance']]],
+  ['my_32',['my',['../structsnicholls_1_1stats_1_1covariance.html#aba88369de477f416a08d7e138eacb3c5',1,'snicholls::stats::covariance']]]
 ];

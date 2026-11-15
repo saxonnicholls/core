@@ -50,8 +50,10 @@ var searchData=
   ['tree_47',['tree',['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a1901824447bed1f95291fa02ece6f872',1,'snicholls::containers::intrusive_avl_tree::basic_iterator']]],
   ['triangular_5fsolve_48',['triangular_solve',['../structsnicholls_1_1linalg_1_1reference__backend.html#a6d1fff3becee0d352f8fd66774ba9c3f',1,'snicholls::linalg::reference_backend::triangular_solve()'],['../group__core.html#ga3743c1a8727bbd17eae3d3977b0fb889',1,'snicholls::linalg::triangular_solve()']]],
   ['trunc_49',['trunc',['../constexpr__math_8hpp.html#a80cd739ec50e631357756b10ffbb2026',1,'snicholls::math']]],
-  ['try_5finvoke_50',['try_invoke',['../group__core.html#gac024103da53d559155ac418013ddd41c',1,'snicholls::result_throws']]],
-  ['try_5fpush_5fback_51',['try_push_back',['../classsnicholls_1_1containers_1_1inplace__vector.html#a4bcb330a3fc4fea7ef106559e71fc06a',1,'snicholls::containers::inplace_vector']]],
-  ['tuples_52',['tuples',['../group__core.html#ga58876fa4aed8c556d5ece13cd9725bde',1,'snicholls']]],
-  ['type_5fname_53',['type_name',['../group__core.html#ga415e6ad88baf1bb6438b965dfff7b18a',1,'snicholls::type_name() noexcept'],['../group__core.html#ga7d1bea7f03272b469398b04279ae831b',1,'snicholls::type_name(const T &amp;value) noexcept']]]
+  ['truncated_5fsvd_50',['truncated_svd',['../group__core.html#gaa4d57c5fcbb59e9944725d10d16d0157',1,'snicholls::linalg']]],
+  ['truncated_5fsvd_5fwork_5fsize_51',['truncated_svd_work_size',['../randomized__svd_8hpp.html#a734d0f27ba1b942050ddc69c97731894',1,'snicholls::linalg']]],
+  ['try_5finvoke_52',['try_invoke',['../group__core.html#gac024103da53d559155ac418013ddd41c',1,'snicholls::result_throws']]],
+  ['try_5fpush_5fback_53',['try_push_back',['../classsnicholls_1_1containers_1_1inplace__vector.html#a4bcb330a3fc4fea7ef106559e71fc06a',1,'snicholls::containers::inplace_vector']]],
+  ['tuples_54',['tuples',['../group__core.html#ga58876fa4aed8c556d5ece13cd9725bde',1,'snicholls']]],
+  ['type_5fname_55',['type_name',['../group__core.html#ga415e6ad88baf1bb6438b965dfff7b18a',1,'snicholls::type_name() noexcept'],['../group__core.html#ga7d1bea7f03272b469398b04279ae831b',1,'snicholls::type_name(const T &amp;value) noexcept']]]
 ];

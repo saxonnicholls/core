@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -107,6 +107,8 @@ $(function(){initNavTree('rope_8hpp.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Ano_5Frope_5Ft" id="r_snicholls_3A_3Aml_3A_3Ano_5Frope_5Ft"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1no__rope__t.html">snicholls::ml::no_rope_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The rope source of a model without RoPE.  <a href="structsnicholls_1_1ml_1_1no__rope__t.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Arope_5Ftable_3C_20T_2C_20Positions_2C_20HeadDim_20_3E" id="r_snicholls_3A_3Aml_3A_3Arope_5Ftable_3C_20T_2C_20Positions_2C_20HeadDim_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1rope__table.html">snicholls::ml::rope_table&lt; T, Positions, HeadDim &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every position's cosines and sines, <span class="tt">Positions</span> rows of <span class="tt">HeadDim / 2</span>.  <a href="structsnicholls_1_1ml_1_1rope__table.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -114,6 +116,11 @@ Classes</h2></td></tr>
 Namespaces</h2></td></tr>
 <tr class="memitem:snicholls" id="r_snicholls"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html">snicholls</a></td></tr>
 <tr class="memdesc:namespacesnicholls"><td class="mdescLeft">&#160;</td><td class="mdescRight">Everything the snicholls libraries share, at the bottom of the stack. <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-concepts" class="groupheader"><a id="concepts" name="concepts"></a>
+Concepts</h2></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Arope_5Fsource" id="r_snicholls_3A_3Aml_3A_3Arope_5Fsource"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1ml_1_1rope__source.html">snicholls::ml::rope_source</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A source of RoPE's cosines and sines by position, such as <span class="tt">rope_table</span>. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -139,6 +146,11 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;C&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;S&gt;&gt;</td></tr>
 <tr class="memitem:a0633694a27439dac45c468aface30d9d template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0633694a27439dac45c468aface30d9d">snicholls::ml::rope_inverse</a> (X &amp;&amp;x, const C &amp;cos, const S &amp;sin, <a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a> layout=<a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a>)</td></tr>
 <tr class="memdesc:a0633694a27439dac45c468aface30d9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotates a head by <span class="tt">-θ</span>, in place: the inverse of <span class="tt"><a class="el" href="#a259404fa5d176778ce040fad45125e13" title="Rotates a head by +θ, in place: (x1, x2) -&gt; (x1 cos - x2 sin, x1 sin + x2 cos) per pair.">rope</a></span>, and its backward pass.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a187edf76f809bc5ffefe2b9b4ad4119a" id="r_a187edf76f809bc5ffefe2b9b4ad4119a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1no__rope__t.html">no_rope_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a187edf76f809bc5ffefe2b9b4ad4119a">snicholls::ml::no_rope</a> {}</td></tr>
+<tr class="memdesc:a187edf76f809bc5ffefe2b9b4ad4119a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pass where a model has no RoPE.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">snicholls::ml</span> rotary position embedding: the frequencies, a table of cosines and sines the compiler can build, and the rotation of a head, forward and inverse. </p>
@@ -148,6 +160,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <li><span class="tt">rope_angles(pos, cos, sin, base)</span>: one position's row of <span class="tt">d/2</span> cosines and sines.</li>
 <li><span class="tt">rope_table&lt;T, Positions, HeadDim&gt;</span>: every position's rows, built by a <span class="tt">constexpr</span> constructor: in a <span class="tt">constexpr</span> variable for a table the compiler holds (a fixed context on an FPGA, a <span class="tt">float</span> table a GPU kernel reads), or at start-up for a long context, which would exceed the compiler's evaluation limits.</li>
 <li><span class="tt">rope(x, cos, sin, layout)</span> rotates a head by <span class="tt">+θ</span>; <span class="tt">rope_inverse</span> by <span class="tt">-θ</span>. The rotation is orthogonal, so the backward pass of <span class="tt">rope</span> is <span class="tt">rope_inverse</span> applied to the gradient, and the other way round.</li>
+<li><span class="tt">rope_source&lt;R&gt;</span>: anything with <span class="tt">cos_at(pos)</span> and <span class="tt">sin_at(pos)</span>, such as <span class="tt">rope_table</span>; <span class="tt">no_rope</span> stands in where a model has no RoPE (<span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="self__attention_8hpp.html" title="snicholls::ml::self_attention_head and its backward pass: one causal self-attention head over a seque...">ml/self_attention.hpp</a></span>).</li>
 <li><span class="tt">rope_layout::half</span> pairs channel <span class="tt">i</span> with <span class="tt">i + d/2</span> (GPT-NeoX, Hugging Face LLaMA, nanochat); <span class="tt">rope_layout::interleaved</span> pairs <span class="tt">2i</span> with <span class="tt">2i + 1</span> (Meta's LLaMA, GPT-J).</li>
 </ul>
 <div class="fragment"><div class="line"><span class="comment">// A context of 16 positions and heads of 8 channels: the compiler builds the whole table, in float as a kernel reads it</span></div>
@@ -226,7 +239,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;C&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00160">160</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00178">178</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
 
 </div>
 </div>
@@ -281,7 +294,7 @@ requires std::same_as&lt;row_value_t&lt;C&gt;, row_value_t&lt;S&gt;&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00093">93</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00111">111</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
 
 </div>
 </div>
@@ -336,7 +349,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The frequency, in radians per position. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00081">81</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00099">99</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
 
 </div>
 </div>
@@ -391,7 +404,34 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;C&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00172">172</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00190">190</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a187edf76f809bc5ffefe2b9b4ad4119a" name="a187edf76f809bc5ffefe2b9b4ad4119a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a187edf76f809bc5ffefe2b9b4ad4119a">&#9670;&#160;</a></span>no_rope</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">no_rope_t snicholls::ml::no_rope {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pass where a model has no RoPE. </p>
+
+<p class="definition">Definition at line <a class="el" href="rope_8hpp_source.html#l00090">90</a> of file <a class="el" href="rope_8hpp_source.html">rope.hpp</a>.</p>
 
 </div>
 </div>

@@ -27,9 +27,12 @@ var searchData=
   ['minifloat_3c_208_2c_207_20_3e_24',['minifloat&lt; 8, 7 &gt;',['../structsnicholls_1_1ml_1_1minifloat.html',1,'snicholls::ml']]],
   ['minimum_25',['minimum',['../structsnicholls_1_1stats_1_1minimum.html',1,'snicholls::stats']]],
   ['minor_5funits_26',['minor_units',['../structsnicholls_1_1minor__units.html',1,'snicholls']]],
-  ['mlp_5fweights_27',['mlp_weights',['../structsnicholls_1_1ml_1_1mlp__weights.html',1,'snicholls::ml']]],
-  ['mlp_5fweights_3c_20w_2c_20float_20_3e_28',['mlp_weights&lt; W, float &gt;',['../structsnicholls_1_1ml_1_1mlp__weights.html',1,'snicholls::ml']]],
-  ['moe_5froute_29',['moe_route',['../structsnicholls_1_1ml_1_1moe__route.html',1,'snicholls::ml']]],
-  ['monotonicity_5fviolation_30',['monotonicity_violation',['../structsnicholls_1_1game_1_1monotonicity__violation.html',1,'snicholls::game']]],
-  ['muon_5fnewton_5fschulz_31',['muon_newton_schulz',['../structsnicholls_1_1ml_1_1muon__newton__schulz.html',1,'snicholls::ml']]]
+  ['mlp_5factivations_27',['mlp_activations',['../structsnicholls_1_1ml_1_1mlp__activations.html',1,'snicholls::ml']]],
+  ['mlp_5fgradients_28',['mlp_gradients',['../structsnicholls_1_1ml_1_1mlp__gradients.html',1,'snicholls::ml']]],
+  ['mlp_5fweights_29',['mlp_weights',['../structsnicholls_1_1ml_1_1mlp__weights.html',1,'snicholls::ml']]],
+  ['mlp_5fweights_3c_20w_2c_20float_20_3e_30',['mlp_weights&lt; W, float &gt;',['../structsnicholls_1_1ml_1_1mlp__weights.html',1,'snicholls::ml']]],
+  ['moe_5froute_31',['moe_route',['../structsnicholls_1_1ml_1_1moe__route.html',1,'snicholls::ml']]],
+  ['monotonicity_5fviolation_32',['monotonicity_violation',['../structsnicholls_1_1game_1_1monotonicity__violation.html',1,'snicholls::game']]],
+  ['muon_5fconfig_33',['muon_config',['../structsnicholls_1_1ml_1_1muon__config.html',1,'snicholls::ml']]],
+  ['muon_5fnewton_5fschulz_34',['muon_newton_schulz',['../structsnicholls_1_1ml_1_1muon__newton__schulz.html',1,'snicholls::ml']]]
 ];

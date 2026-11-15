@@ -12,7 +12,8 @@ var searchData=
   ['pio2_5f4_9',['pio2_4',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a16b32ee517a80ce91d00fbc54330f44a',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['player_10',['player',['../structsnicholls_1_1game_1_1monotonicity__violation.html#a5de3951faf26f31855fb7b83070e44e9',1,'snicholls::game::monotonicity_violation']]],
   ['positive_11',['positive',['../structsnicholls_1_1sign__colours.html#a318bb77963d8d936d6b3b0e576185642',1,'snicholls::sign_colours']]],
-  ['precision_12',['precision',['../structsnicholls_1_1parse__options.html#ab8d7ad51b7477a37a88a101880f1c65a',1,'snicholls::parse_options']]],
-  ['pred_13',['pred',['../structsnicholls_1_1pipeline_1_1filter__stage.html#ac9db1f5ff4e63f681694a223050d426b',1,'snicholls::pipeline::filter_stage::pred'],['../structsnicholls_1_1pipeline_1_1filter__spec.html#a2fd195c63f1d156533dff6aff2caab25',1,'snicholls::pipeline::filter_spec::pred']]],
-  ['presence_14',['presence',['../structsnicholls_1_1ml_1_1logit__penalties.html#a68030d4156db58cb6ecd4b4b150eb668',1,'snicholls::ml::logit_penalties']]]
+  ['power_5fiterations_12',['power_iterations',['../structsnicholls_1_1linalg_1_1truncated__svd__options.html#a8195bf95dfd0872dfbcd985d090b0505',1,'snicholls::linalg::truncated_svd_options']]],
+  ['precision_13',['precision',['../structsnicholls_1_1parse__options.html#ab8d7ad51b7477a37a88a101880f1c65a',1,'snicholls::parse_options']]],
+  ['pred_14',['pred',['../structsnicholls_1_1pipeline_1_1filter__stage.html#ac9db1f5ff4e63f681694a223050d426b',1,'snicholls::pipeline::filter_stage::pred'],['../structsnicholls_1_1pipeline_1_1filter__spec.html#a2fd195c63f1d156533dff6aff2caab25',1,'snicholls::pipeline::filter_spec::pred']]],
+  ['presence_15',['presence',['../structsnicholls_1_1ml_1_1logit__penalties.html#a68030d4156db58cb6ecd4b4b150eb668',1,'snicholls::ml::logit_penalties']]]
 ];

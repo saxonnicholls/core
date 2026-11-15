@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.8.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -166,7 +166,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="comment">// The same cache owning its storage, for a model small enough to hold</span></div>
 <div class="line">    <span class="keyword">static</span> ml::kv_cache&lt;c, float, 1, 3&gt; owned;</div>
 <div class="line">    owned.view().append(0, 0, std::array&lt;float, 2&gt;{7, 7}, std::array&lt;float, 2&gt;{8, 8});</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="transformer__config_8hpp.html" title="snicholls::ml::transformer_config: the architecture of a transformer layer as one compile-time value,...">ml/transformer_config.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">ml/attention.hpp</a></span> (<span class="tt">key_range</span>, <span class="tt">attention_window</span>), <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward: a transformer&#39;s attention for one token at one position: the Q,...">ml/attention_layer.hpp</a></span> (the user). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="transformer__config_8hpp.html" title="snicholls::ml::transformer_config: the architecture of a transformer layer as one compile-time value,...">ml/transformer_config.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">ml/attention.hpp</a></span> (<span class="tt">key_range</span>, <span class="tt">attention_window</span>), <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span> (the user). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> The flat or ring layout, over the caller's memory or owned; the paged layout over the caller's pool.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, O(<span class="tt">kv_size</span>) per append, O(1) to find the visible runs. A view does not own its spans and copying it shares them; the owning form builds its view per call, so a copy of it is a cache of its own. The cache records no length: the caller says which positions it appends and reads.</p>
 <p><b>Errors.</b> Preconditions, asserted: the spans have <span class="tt">required_size(layers, capacity)</span> elements; a layer is below <span class="tt">layers</span>; a visible range is at most <span class="tt">capacity</span> long and ends at or before the last appended position plus one.</p>
