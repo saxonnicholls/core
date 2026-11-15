@@ -254,7 +254,8 @@ template <class T>
 ///
 /// \testing
 /// - Tests: tests/traced_test.cpp (chain, fields, masking, stack hook, formatter, sinks with GoogleMock),
-///   tests/support/error_sink_contract.hpp (the sink contract suite).
+///   tests/support/snicholls/core/conformance/error_sink.hpp (the sink conformance suite, for a sink in any
+///   library: `SNICHOLLS_ERROR_SINK_CONFORMANCE`).
 /// - Demo: demos/traced_demo.cpp.
 ///
 /// \deps
@@ -778,7 +779,7 @@ template <class E>
 /// Not benchmarked (error path only).
 ///
 /// \testing
-/// - Tests: tests/traced_test.cpp (GoogleMock sink, `text_error_sink`), tests/support/error_sink_contract.hpp.
+/// - Tests: tests/traced_test.cpp (GoogleMock sink, `text_error_sink`), tests/support/snicholls/core/conformance/error_sink.hpp.
 /// - Demo: demos/traced_demo.cpp.
 ///
 /// \deps

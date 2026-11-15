@@ -1,20 +1,31 @@
 //
-//  error_sink_contract.hpp
+//  error_sink.hpp
 //  snicholls-core
 //
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
-//  Tests for <snicholls/core/traced.hpp>.
+//  The conformance suite of snicholls::error_sink (include/snicholls/core/traced.hpp): a typed GoogleTest suite that
+//  every sink registers in, core's text_error_sink and a sink from another library (super-log's) alike. Test-only:
+//  it is not part of the library, includes GoogleTest, and is exported by CMake as the INTERFACE target
+//  snicholls::core_conformance (include directory tests/support), never installed.
+//
+//  A probe P is default constructible and has:
+//      snicholls::error_sink& sink();              the sink under test
+//      std::vector<std::string> written() const;   one entry per report written, in the sink's own format
+//
+//  Use, in exactly one translation unit of a test binary that links GTest, at namespace scope:
+//
+//      #include <snicholls/core/conformance/error_sink.hpp>
+//
+//      SNICHOLLS_ERROR_SINK_CONFORMANCE(SuperLog, my_probe);
+//
+//  The checks: a traced error is written once with its whole message (context included); a plain error with its
+//  text; a success writes nothing; a field that hides behind reveal() is never written; concurrent writers are all
+//  written.
 //
 
-// The snicholls::error_sink contract (include/snicholls/core/traced.hpp): every implementation registers here with a probe.
-//
-// A probe P is default constructible and has:
-//   snicholls::error_sink& sink();                  the sink under test
-//   std::vector<std::string> written() const;  one entry per report written, in the sink's own format
-//
-// Register:  using my_probes = testing::Types<my_probe>;
-//            INSTANTIATE_TYPED_TEST_SUITE_P(MySink, ErrorSinkContract, my_probes);
+#ifndef snicholls_core_conformance_error_sink_hpp
+#define snicholls_core_conformance_error_sink_hpp
 
 #include <snicholls/core/traced.hpp>
 
@@ -25,7 +36,7 @@
 #include <thread>
 #include <vector>
 
-namespace snicholls_test {
+namespace snicholls::conformance {
 
 /// A value that hides itself behind reveal(), like a credential type.
 struct contract_secret
@@ -108,4 +119,14 @@ REGISTER_TYPED_TEST_SUITE_P(ErrorSinkContract, ATracedErrorIsWrittenOnceWithItsW
                             APlainErrorIsWrittenWithItsText, ASuccessWritesNothing, ASecretFieldIsNeverWritten,
                             ConcurrentWritersAreAllWritten);
 
-} // namespace snicholls_test
+} // namespace snicholls::conformance
+
+/// Register the suite: `SNICHOLLS_ERROR_SINK_CONFORMANCE(Prefix, probes...)`, at namespace scope.
+#define SNICHOLLS_ERROR_SINK_CONFORMANCE(prefix, ...)                                                                  \
+    namespace snicholls::conformance {                                                                                 \
+        using prefix##_ErrorSinkProbes = ::testing::Types<__VA_ARGS__>;                                                \
+        INSTANTIATE_TYPED_TEST_SUITE_P(prefix, ErrorSinkContract, prefix##_ErrorSinkProbes);                           \
+    }                                                                                                                  \
+    static_assert(true, "")
+
+#endif /* snicholls_core_conformance_error_sink_hpp */

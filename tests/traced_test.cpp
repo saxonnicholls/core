@@ -25,7 +25,7 @@
 #include <vector>
 
 
-#include "support/error_sink_contract.hpp"
+#include <snicholls/core/conformance/error_sink.hpp>
 
 namespace {
 
@@ -432,7 +432,4 @@ struct text_sink_probe
 
 } // namespace
 
-namespace snicholls_test {
-using text_probes = testing::Types<text_sink_probe>;
-INSTANTIATE_TYPED_TEST_SUITE_P(TextErrorSink, ErrorSinkContract, text_probes);
-} // namespace snicholls_test
+SNICHOLLS_ERROR_SINK_CONFORMANCE(TextErrorSink, text_sink_probe);

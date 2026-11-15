@@ -7,6 +7,11 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Added
 
+- **The error-sink conformance suite is exported** (`snicholls::core_conformance`): `#include
+  <snicholls/core/conformance/error_sink.hpp>` and `SNICHOLLS_ERROR_SINK_CONFORMANCE(Prefix, probes...)` register a
+  sink from another library (super-log's) in the same typed suite as core's `text_error_sink`; it was
+  `tests/support/error_sink_contract.hpp`, reachable only from core's own tests. The suite moved word for word, into
+  `namespace snicholls::conformance` beside linalg's.
 - **`ml/self_attention.hpp`: one causal self-attention head on its own.** `self_attention_head<DModel, DHead>` takes
   `Wq`, `Wk`, `Wv` (any `weight_matrix`: dense float, double, bfloat16 or quantised) and a sequence of tokens and
   writes each position's `softmax(q · K / sqrt(DHead)) · V`, causal or within a sliding window, with optional RoPE.
