@@ -27,6 +27,14 @@
 ///
 /// \snippet ml/transformer_block_demo.cpp block_batched
 ///
+/// Every step of the batched passes that is not a matrix product is a call made with the backend (TRAINING.md T9):
+/// `copy_rows`, `fill_rows`, `add_rows`, `add_bias_rows`, `sum_rows` (`ml/linear.hpp`), `mlp_activate_rows` and its
+/// backward (`ml/mlp.hpp`), the four attention steps (`ml/attention_layer.hpp`), `block_norm_rows` and
+/// `block_norm_rows_backward_add` (here). Each has an overload for any backend that runs on the host; a device library
+/// overloads them for its own backend type, in its own namespace, and the whole pass runs where its data lives:
+///
+/// \snippet ml/transformer_block_demo.cpp own_backend
+///
 /// \snippet ml/transformer_block_demo.cpp block_backward
 ///
 /// \snippet ml/transformer_block_demo.cpp transformer_block
@@ -300,6 +308,43 @@ constexpr void block_backward(const block_weights<dense_weights<S>, T>& w, const
     }
 }
 
+/// \name The norm steps of the batched block, on the backend (TRAINING.md T9)
+/// The overloads here take any backend and run on the host, row by row, with the per-token path's own code; a device
+/// library overloads them for its own backend type.
+/// @{
+
+/// \brief `block_norm` of every row: `out_t = norm(x_t)`. \tparam C The configuration. \param x The rows.
+/// \param weight The scale, or empty. \param bias The shift (layer norm), or empty. \param out The normalised rows.
+template <transformer_config C, typename B, math::math_number T>
+constexpr void block_norm_rows(const B&, std::type_identity_t<std::span<const T>> x, std::type_identity_t<std::span<const T>> weight,
+                               std::type_identity_t<std::span<const T>> bias, std::span<T> out)
+{
+    constexpr std::size_t d = C.d_model;
+    for (std::size_t t = 0; t < x.size() / d; ++t)
+        block_norm<C>(x.subspan(t * d, d), weight, bias, out.subspan(t * d, d));
+}
+
+/// \brief The backward pass of `block_norm_rows`, added into the residual's gradient: `dxs_t += norm'(x_t)ᵀ dh_t`, and
+/// the weight's and bias's gradients added into. \tparam C The configuration. \param dh The gradient in the norm's
+/// output. \param x The norm's input. \param weight The scale. \param bias The shift. \param dxs Added into.
+/// \param dweight Added into, or empty. \param dbias Added into, or empty.
+template <transformer_config C, typename B, math::math_number T>
+constexpr void block_norm_rows_backward_add(const B&, std::type_identity_t<std::span<const T>> dh, std::type_identity_t<std::span<const T>> x,
+                                            std::type_identity_t<std::span<const T>> weight, std::type_identity_t<std::span<const T>> bias,
+                                            std::span<T> dxs, std::type_identity_t<std::span<T>> dweight,
+                                            std::type_identity_t<std::span<T>> dbias)
+{
+    constexpr std::size_t d = C.d_model;
+    std::array<T, d> dn{};
+    for (std::size_t t = 0; t < x.size() / d; ++t) {
+        detail::block::norm_backward<C, T>(dh.subspan(t * d, d), x.subspan(t * d, d), weight, bias, dn, dweight, dbias);
+        for (std::size_t i = 0; i < d; ++i)
+            dxs[t * d + i] += dn[i];
+    }
+}
+
+/// @}
+
 /// \brief A block over a whole sequence with every projection a matrix product through a `linalg` backend, in
 /// place, saving what the batched `block_backward` needs.
 ///
@@ -317,20 +362,16 @@ constexpr void block_forward_sequence(const B& backend, const block_weights<dens
                                       const R& rope_src, const block_activations<T>& act)
 {
     constexpr std::size_t d = C.d_model;
-    const std::size_t n = xs.size() / d;
+    [[maybe_unused]] const std::size_t n = xs.size() / d;
     assert(xs.size() == n * d && act.x0.size() == n * d && act.h1.size() == n * d && act.x1.size() == n * d && act.h2.size() == n * d);
-    std::copy(xs.begin(), xs.end(), act.x0.begin());
-    for (std::size_t t = 0; t < n; ++t)
-        block_norm<C>(xs.subspan(t * d, d), w.norm1_weight, w.norm1_bias, act.h1.subspan(t * d, d));
+    copy_rows(backend, std::span<const T>(xs), act.x0);
+    block_norm_rows<C>(backend, std::span<const T>(xs), w.norm1_weight, w.norm1_bias, act.h1);
     attention_forward_sequence<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, xs);
-    for (std::size_t i = 0; i < n * d; ++i)
-        xs[i] = act.x0[i] + xs[i];
-    std::copy(xs.begin(), xs.end(), act.x1.begin());
-    for (std::size_t t = 0; t < n; ++t)
-        block_norm<C>(xs.subspan(t * d, d), w.norm2_weight, w.norm2_bias, act.h2.subspan(t * d, d));
+    add_rows(backend, std::span<const T>(act.x0), xs);
+    copy_rows(backend, std::span<const T>(xs), act.x1);
+    block_norm_rows<C>(backend, std::span<const T>(xs), w.norm2_weight, w.norm2_bias, act.h2);
     mlp_forward_sequence<C>(backend, w.mlp, std::span<const T>(act.h2), xs, mlp_activations<T>{act.mlp_up, act.mlp_gate, act.mlp_hidden});
-    for (std::size_t i = 0; i < n * d; ++i)
-        xs[i] = act.x1[i] + xs[i];
+    add_rows(backend, std::span<const T>(act.x1), xs);
 }
 
 /// \brief The backward pass of the batched `block_forward_sequence`, in place, its products through the backend.
@@ -352,27 +393,18 @@ constexpr void block_backward(const B& backend, const block_weights<dense_weight
                               const block_activations<T>& act, std::type_identity_t<std::span<T>> dxs, const block_gradients<T>& grads)
 {
     constexpr std::size_t d = C.d_model;
-    const std::size_t n = dxs.size() / d;
+    [[maybe_unused]] const std::size_t n = dxs.size() / d;
     assert(dxs.size() == n * d && act.x0.size() == n * d && grads.scratch.size() == n * d);
-    std::array<T, d> dn{};
-    std::fill(grads.scratch.begin(), grads.scratch.end(), T(0));
+    fill_rows(backend, grads.scratch, T(0));
     mlp_backward_sequence<C>(backend, w.mlp, std::span<const T>(act.h2), mlp_activations<T>{act.mlp_up, act.mlp_gate, act.mlp_hidden},
                              std::span<const T>(dxs), grads.scratch, grads.mlp);
-    for (std::size_t t = 0; t < n; ++t) {
-        detail::block::norm_backward<C, T>(std::span<const T>(grads.scratch).subspan(t * d, d), std::span<const T>(act.x1).subspan(t * d, d),
-                                           w.norm2_weight, w.norm2_bias, dn, grads.norm2_weight, grads.norm2_bias);
-        for (std::size_t i = 0; i < d; ++i)
-            dxs[t * d + i] += dn[i];
-    }
-    std::fill(grads.scratch.begin(), grads.scratch.end(), T(0));
+    block_norm_rows_backward_add<C>(backend, std::span<const T>(grads.scratch), std::span<const T>(act.x1), w.norm2_weight, w.norm2_bias,
+                                    dxs, grads.norm2_weight, grads.norm2_bias);
+    fill_rows(backend, grads.scratch, T(0));
     attention_backward<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, std::span<const T>(dxs),
                           grads.scratch, grads.attention);
-    for (std::size_t t = 0; t < n; ++t) {
-        detail::block::norm_backward<C, T>(std::span<const T>(grads.scratch).subspan(t * d, d), std::span<const T>(act.x0).subspan(t * d, d),
-                                           w.norm1_weight, w.norm1_bias, dn, grads.norm1_weight, grads.norm1_bias);
-        for (std::size_t i = 0; i < d; ++i)
-            dxs[t * d + i] += dn[i];
-    }
+    block_norm_rows_backward_add<C>(backend, std::span<const T>(grads.scratch), std::span<const T>(act.x0), w.norm1_weight, w.norm1_bias,
+                                    dxs, grads.norm1_weight, grads.norm1_bias);
 }
 
 } // namespace snicholls::ml

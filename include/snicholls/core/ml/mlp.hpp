@@ -247,6 +247,45 @@ constexpr void mlp_backward(const mlp_weights<dense_weights<S>, T>& w, const X& 
     linear_backward(w.up, x, dh, dx, grads.up, grads.up_bias);
 }
 
+/// \brief The MLP's activation over a sequence, on the backend (TRAINING.md T9): `hidden = act(up)`, or SwiGLU's
+/// `silu(gate) · up`. The overload for any backend runs on the host; a device library overloads it for its own.
+/// \tparam C The configuration.
+/// \param saved `up` (and `gate` for SwiGLU) read, `hidden` written, `n · d_ff` each.
+template <transformer_config C, typename B, math::math_number T>
+constexpr void mlp_activate_rows(const B&, const mlp_activations<T>& saved)
+{
+    const std::size_t m = saved.up.size();
+    if constexpr (C.mlp == mlp_kind::swiglu) {
+        for (std::size_t i = 0; i < m; ++i)
+            saved.hidden[i] = silu(saved.gate[i]) * saved.up[i];
+    } else {
+        for (std::size_t i = 0; i < m; ++i)
+            saved.hidden[i] = mlp_activation<C.mlp>(saved.up[i]);
+    }
+}
+
+/// \brief The backward pass of `mlp_activate_rows`, on the backend: the gradient in `hidden` (`dh`) becomes the
+/// gradient in `up`, in place, and for SwiGLU also writes the gradient in `gate`.
+/// \tparam C The configuration.
+/// \param saved What the forward pass saved.
+/// \param dh The gradient in the hidden rows, replaced by the gradient in `up`.
+/// \param dgate Receives the gradient in `gate`, SwiGLU only (else empty).
+template <transformer_config C, typename B, math::math_number T>
+constexpr void mlp_activate_rows_backward(const B&, const mlp_activations<T>& saved, std::span<T> dh, std::span<T> dgate)
+{
+    const std::size_t m = dh.size();
+    if constexpr (C.mlp == mlp_kind::swiglu) {
+        for (std::size_t i = 0; i < m; ++i) {
+            dgate[i] = dh[i] * saved.up[i] * silu_derivative(saved.gate[i]);
+            dh[i] = dh[i] * silu(saved.gate[i]);
+        }
+    } else {
+        for (std::size_t i = 0; i < m; ++i)
+            dh[i] = dh[i] * mlp_activation_derivative<C.mlp>(saved.up[i]);
+        (void)dgate;
+    }
+}
+
 /// \brief The MLP over a sequence of `n` tokens, its products through a `linalg` backend, saving what
 /// `mlp_backward_sequence` needs.
 ///
@@ -266,18 +305,14 @@ constexpr void mlp_forward_sequence(const B& backend, const mlp_weights<dense_we
 {
     static_assert(valid(C), "snicholls::ml::mlp_forward_sequence: the transformer_config is not valid");
     constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
-    const std::size_t n = xs.size() / C.d_model, m = n * C.d_ff;
+    const std::size_t n = xs.size() / C.d_model;
+    [[maybe_unused]] const std::size_t m = n * C.d_ff;
     assert(xs.size() == n * C.d_model && ys.size() == xs.size() && save.up.size() == m && save.hidden.size() == m
            && (!swiglu || save.gate.size() == m));
     linear_sequence(backend, w.up, xs, save.up, w.up_bias);
-    if constexpr (swiglu) {
+    if constexpr (swiglu)
         linear_sequence(backend, w.gate, xs, save.gate, w.gate_bias);
-        for (std::size_t i = 0; i < m; ++i)
-            save.hidden[i] = silu(save.gate[i]) * save.up[i];
-    } else {
-        for (std::size_t i = 0; i < m; ++i)
-            save.hidden[i] = mlp_activation<C.mlp>(save.up[i]);
-    }
+    mlp_activate_rows<C>(backend, save);
     linear_sequence(backend, w.down, std::span<const T>(save.hidden), ys, w.down_bias);
 }
 
@@ -303,19 +338,12 @@ constexpr void mlp_backward_sequence(const B& backend, const mlp_weights<dense_w
     assert(dys.size() == xs.size() && saved.up.size() == m && saved.hidden.size() == m && (!swiglu || saved.gate.size() == m)
            && grads.scratch.size() >= (swiglu ? 2 : 1) * m);
     const auto dh = grads.scratch.first(m);
-    std::fill(dh.begin(), dh.end(), T(0));
+    const auto dgate = swiglu ? grads.scratch.subspan(m, m) : std::span<T>{};
+    fill_rows(backend, dh, T(0));
     linear_sequence_backward(backend, w.down, std::span<const T>(saved.hidden), dys, dh, grads.down, grads.down_bias);
-    if constexpr (swiglu) {
-        const auto dgate = grads.scratch.subspan(m, m);
-        for (std::size_t i = 0; i < m; ++i) {
-            dgate[i] = dh[i] * saved.up[i] * silu_derivative(saved.gate[i]);
-            dh[i] = dh[i] * silu(saved.gate[i]);
-        }
+    mlp_activate_rows_backward<C>(backend, saved, dh, dgate);
+    if constexpr (swiglu)
         linear_sequence_backward(backend, w.gate, xs, std::span<const T>(dgate), dxs, grads.gate, grads.gate_bias);
-    } else {
-        for (std::size_t i = 0; i < m; ++i)
-            dh[i] = dh[i] * mlp_activation_derivative<C.mlp>(saved.up[i]);
-    }
     linear_sequence_backward(backend, w.up, xs, std::span<const T>(dh), dxs, grads.up, grads.up_bias);
 }
 

@@ -3,6 +3,18 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **The batched passes run on an operations backend** (TRAINING.md T9): every step of `block_forward_sequence`,
+  `block_backward`, the batched attention and MLP passes and `linear_sequence` that is not a matrix product is a call
+  made with the backend: `copy_rows`, `fill_rows`, `add_rows`, `add_bias_rows`, `sum_rows`, `mlp_activate_rows` and
+  its backward, `attention_position_rows`, `attention_attend_rows` and their backward passes, `block_norm_rows`,
+  `block_norm_rows_backward_add`. Each has an overload for any backend that runs on the host, as before (the same
+  bits); a device library overloads them for its own backend type, found by argument-dependent lookup, so a training
+  step can stay on the device. A test and the block demo override two of them from another namespace.
+
 ## 0.9.0 - 2026-11-16
 
 ### Added

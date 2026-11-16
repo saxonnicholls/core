@@ -23,8 +23,34 @@
 #include <span>
 #include <sstream>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
+
+
+// A device library's backend, in its own namespace: it overloads two of the batched passes' operations (found by
+// argument-dependent lookup, more specialised than core's), here counting calls and doing the same work
+namespace device_like {
+struct backend : snicholls::linalg::reference_backend {
+    inline static int fills = 0, norms = 0;
+};
+
+template <typename T>
+constexpr void fill_rows(const backend&, std::span<T> x, std::type_identity_t<T> value)
+{
+    ++backend::fills;
+    for (T& e : x)
+        e = value;
+}
+
+template <snicholls::ml::transformer_config C, typename T>
+constexpr void block_norm_rows(const backend& b, std::type_identity_t<std::span<const T>> x, std::type_identity_t<std::span<const T>> weight,
+                               std::type_identity_t<std::span<const T>> bias, std::span<T> out)
+{
+    ++backend::norms;
+    snicholls::ml::block_norm_rows<C>(static_cast<const snicholls::linalg::reference_backend&>(b), x, weight, bias, out);
+}
+} // namespace device_like
 
 namespace {
 
@@ -487,6 +513,38 @@ void batched_is_per_token()
     near(one.buf.lse, many.buf.lse, "log-sum-exps");
     for (std::size_t i = 0; i < b.p.size(); ++i)
         near(one.gp[i], many.gp[i], "a weight gradient");
+}
+
+// The seam of TRAINING.md T9: a backend's own overloads of the operations are the ones the batched passes call
+TEST(MlTransformerBlockTraining, ABackendsOwnOperationsAreCalledAndGiveTheSameBits)
+{
+    const train_block<b_gpt2> b;
+    constexpr std::size_t n = train_block<b_gpt2>::n, d = b_gpt2.d_model;
+    auto run = [&](const auto& backend, std::vector<double>& xs, std::vector<double>& dx) {
+        train_block_buffers<b_gpt2> buf;
+        std::vector<double> hidden(n * b_gpt2.d_ff), scratch(n * d), mlp_scratch(2 * n * b_gpt2.d_ff), dq(n * d), dk(n * d), dv(n * d), dy(n * d);
+        std::vector<std::vector<double>> gp(b.p.size());
+        for (std::size_t i = 0; i < b.p.size(); ++i)
+            gp[i].assign(b.p[i].size(), 0.0);
+        using B = train_block<b_gpt2>;
+        auto act = buf.act();
+        act.mlp_hidden = hidden;
+        const ml::block_gradients<double> grads{
+            gp[B::n1w], gp[B::n1b], gp[B::n2w], gp[B::n2b],
+            {dq, dk, dv, gp[B::wq], gp[B::wk], gp[B::wv], gp[B::wo], gp[B::bq], gp[B::bk], gp[B::bv], gp[B::bo], gp[B::nq], gp[B::nk], dy},
+            {gp[B::up], gp[B::gate], gp[B::down], gp[B::bup], gp[B::bgate], gp[B::bdown], mlp_scratch},
+            scratch};
+        ml::block_forward_sequence<b_gpt2>(backend, b.weights(), xs, brope_for<b_gpt2>(), act);
+        ml::block_backward<b_gpt2>(backend, b.weights(), brope_for<b_gpt2>(), act, dx, grads);
+    };
+    auto xs1 = bwave(n * d, 1.1, 0.2), dx1 = bwave(n * d, 0.9, 1.4), xs2 = xs1, dx2 = dx1;
+    run(snicholls::linalg::reference, xs1, dx1);
+    device_like::backend::fills = device_like::backend::norms = 0;
+    run(device_like::backend{}, xs2, dx2);
+    EXPECT_EQ(device_like::backend::norms, 2);    // the block's two norms
+    EXPECT_GE(device_like::backend::fills, 5);    // the block's, the MLP's and the attention's fills
+    EXPECT_EQ(xs1, xs2);                          // the same work: the same bits
+    EXPECT_EQ(dx1, dx2);
 }
 
 TEST(MlTransformerBlockTraining, BatchedThroughABackendIsThePerTokenPathWithinRounding)

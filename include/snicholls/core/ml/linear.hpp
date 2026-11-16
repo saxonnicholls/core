@@ -82,6 +82,7 @@
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/row.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <concepts>
@@ -284,6 +285,61 @@ namespace detail::linear
     }
 } // namespace detail::linear
 
+/// \name The elementwise steps of the batched passes, on the backend (TRAINING.md T9)
+/// Every step of a batched training pass that is not a matrix product is one of these calls, made with the pass's
+/// backend, so a device library runs it where the backend keeps its data. The overloads here take any backend and run
+/// on the host; a device library adds an overload for its own backend type (found by argument-dependent lookup, and
+/// more specialised, so it is chosen) that runs on the device.
+/// @{
+
+/// \brief `x = value` everywhere. \param x The rows, end to end. \param value The value.
+template <typename B, math::math_number T>
+constexpr void fill_rows(const B&, std::span<T> x, std::type_identity_t<T> value)
+{
+    std::fill(x.begin(), x.end(), value);
+}
+
+/// \brief `to = from`. \param from The source. \param to The destination, the same size; may not overlap `from`.
+template <typename B, math::math_number T>
+constexpr void copy_rows(const B&, std::type_identity_t<std::span<const T>> from, std::span<T> to)
+{
+    assert(from.size() == to.size());
+    std::copy(from.begin(), from.end(), to.begin());
+}
+
+/// \brief `x = a + x`, elementwise: a residual connection. \param a The other summand. \param x Updated in place.
+template <typename B, math::math_number T>
+constexpr void add_rows(const B&, std::type_identity_t<std::span<const T>> a, std::span<T> x)
+{
+    assert(a.size() == x.size());
+    for (std::size_t i = 0; i < x.size(); ++i)
+        x[i] = a[i] + x[i];
+}
+
+/// \brief `y_t += bias` for every row `t` of `bias.size()` elements. \param ys The rows. \param bias The bias.
+template <typename B, math::math_number T>
+constexpr void add_bias_rows(const B&, std::span<T> ys, std::type_identity_t<std::span<const T>> bias)
+{
+    const std::size_t r = bias.size();
+    assert(r > 0 && ys.size() % r == 0);
+    for (std::size_t t = 0; t < ys.size() / r; ++t)
+        for (std::size_t i = 0; i < r; ++i)
+            ys[t * r + i] += bias[i];
+}
+
+/// \brief `into += Σ_t ys_t`, the rows summed in order: a bias's gradient. \param ys The rows. \param into Added into.
+template <typename B, math::math_number T>
+constexpr void sum_rows(const B&, std::type_identity_t<std::span<const T>> ys, std::span<T> into)
+{
+    const std::size_t r = into.size();
+    assert(r > 0 && ys.size() % r == 0);
+    for (std::size_t t = 0; t < ys.size() / r; ++t)
+        for (std::size_t i = 0; i < r; ++i)
+            into[i] += ys[t * r + i];
+}
+
+/// @}
+
 /// \brief `Y = X Wᵀ + b` for a sequence of `n` rows, as one matrix product through a `linalg` backend.
 ///
 /// The batched form of `linear`, for training and prefill: the backend does the work (core's reference, a BLAS, a
@@ -308,9 +364,7 @@ constexpr void linear_sequence(const B& backend, const dense_weights<T>& w, std:
     detail::linear::product(backend, T(1), view(xs, n, w.cols), linalg::transposed(view(w.data, w.rows, w.cols)), T(0),
                             view(ys, n, w.rows));
     if (!bias.empty())
-        for (std::size_t t = 0; t < n; ++t)
-            for (std::size_t i = 0; i < w.rows; ++i)
-                ys[t * w.rows + i] += bias[i];
+        add_bias_rows(backend, ys, bias);
 }
 
 /// \brief The backward pass of `linear_sequence`: `dX += dY W`, `dW += dYᵀ X`, `db += Σ dY`, as two matrix
@@ -340,9 +394,7 @@ constexpr void linear_sequence_backward(const B& backend, const dense_weights<T>
         detail::linear::product(backend, T(1), dy, view(w.data, w.rows, w.cols), T(1), view(dxs, n, w.cols));
     detail::linear::product(backend, T(1), linalg::transposed(dy), view(xs, n, w.cols), T(1), view(dw, w.rows, w.cols));
     if (!db.empty())
-        for (std::size_t t = 0; t < n; ++t)
-            for (std::size_t i = 0; i < w.rows; ++i)
-                db[i] += dys[t * w.rows + i];
+        sum_rows(backend, dys, db);
 }
 
 } // namespace snicholls::ml

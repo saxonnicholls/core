@@ -405,6 +405,57 @@ namespace detail::attention_layer
     }
 } // namespace detail::attention_layer
 
+/// \name The attention steps of the batched passes, on the backend (TRAINING.md T9)
+/// The steps of `attention_forward_sequence` and `attention_backward` (batched) that are not matrix products, each over
+/// the whole sequence. The overloads here take any backend and run on the host, token by token, with the per-token
+/// path's own code; a device library overloads them for its own backend type.
+/// @{
+
+/// \brief QK norm and RoPE of every token's heads, in place, after the raw copies: `act.q`, `act.k`, `act.q_raw`,
+/// `act.k_raw`. \tparam C The configuration. \param w The weights (the norms'). \param act The activations.
+/// \param n The tokens. \param rope_src The rope source, or `no_rope`.
+template <transformer_config C, typename B, typename W, math::math_number T, typename R>
+constexpr void attention_position_rows(const B&, const attention_weights<W, T>& w, const attention_activations<T>& act, std::size_t n,
+                                       const R& rope_src)
+{
+    for (std::size_t t = 0; t < n; ++t)
+        detail::attention_layer::position_token<C>(w, act, n, t, rope_src);
+}
+
+/// \brief Every token's heads over its visible keys: `act.y` and `act.lse`. \tparam C The configuration.
+/// \param act The activations. \param n The tokens.
+template <transformer_config C, typename B, math::math_number T>
+constexpr void attention_attend_rows(const B&, const attention_activations<T>& act, std::size_t n)
+{
+    for (std::size_t t = 0; t < n; ++t)
+        detail::attention_layer::attend_token<C>(act, n, t);
+}
+
+/// \brief The backward pass of `attention_attend_rows`: from the heads' output gradients `dy` (`n · q_size`), the
+/// queries' gradients written into `grads.q` and the keys' and values' added into `grads.k`, `grads.v`.
+/// \tparam C The configuration. \param act The activations. \param dy The gradients in the heads' outputs.
+/// \param grads The gradients. \param n The tokens.
+template <transformer_config C, typename B, math::math_number T>
+constexpr void attention_attend_rows_backward(const B&, const attention_activations<T>& act, std::type_identity_t<std::span<const T>> dy,
+                                              const attention_gradients<T>& grads, std::size_t n)
+{
+    for (std::size_t t = 0; t < n; ++t)
+        detail::attention_layer::heads_backward_token<C>(act, dy.subspan(t * C.q_size(), C.q_size()), grads, n, t);
+}
+
+/// \brief The backward pass of `attention_position_rows`, in place on `grads.q` and `grads.k`, the norms' gradients added
+/// into. \tparam C The configuration. \param w The weights. \param act The activations. \param grads The gradients.
+/// \param n The tokens. \param rope_src The rope source.
+template <transformer_config C, typename B, typename W, math::math_number T, typename R>
+constexpr void attention_position_rows_backward(const B&, const attention_weights<W, T>& w, const attention_activations<T>& act,
+                                                const attention_gradients<T>& grads, std::size_t n, const R& rope_src)
+{
+    for (std::size_t t = 0; t < n; ++t)
+        detail::attention_layer::position_backward_token<C>(w, act, grads, n, t, rope_src);
+}
+
+/// @}
+
 /// \brief Attention over a whole sequence, saving what `attention_backward` needs: each token's output is
 /// `attention_forward`'s, to the bit.
 /// \tparam C The configuration.
@@ -473,10 +524,8 @@ constexpr void attention_forward_sequence(const B& backend, const attention_weig
         linear_sequence(backend, head_rows(w.k, h, d), xs, act.k.subspan(h * n * d, n * d), head_slice(w.k_bias, h, d));
         linear_sequence(backend, head_rows(w.v, h, d), xs, act.v.subspan(h * n * d, n * d), head_slice(w.v_bias, h, d));
     }
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::position_token<C>(w, act, n, t, rope_src);
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::attend_token<C>(act, n, t);
+    attention_position_rows<C>(backend, w, act, n, rope_src);
+    attention_attend_rows<C>(backend, act, n);
     linear_sequence(backend, w.o, std::span<const T>(act.y), out, w.o_bias);
 }
 
@@ -557,20 +606,18 @@ constexpr void attention_backward(const B& backend, const attention_weights<dens
                                   const attention_gradients<T>& grads)
 {
     static_assert(valid(C), "snicholls::ml::attention_backward: the transformer_config is not valid");
-    constexpr std::size_t d = C.head_dim, qn = C.q_size();
-    [[maybe_unused]] constexpr std::size_t kn = C.kv_size();
+    constexpr std::size_t d = C.head_dim;
+    [[maybe_unused]] constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
     const std::size_t n = xs.size() / C.d_model;
     assert(dout.size() == xs.size() && (dxs.empty() || dxs.size() == xs.size()));
     assert(grads.q.size() == n * qn && grads.k.size() == n * kn && grads.v.size() == n * kn && grads.y.size() == n * qn);
     using detail::attention_layer::head_rows, detail::attention_layer::head_slice;
-    std::fill(grads.k.begin(), grads.k.end(), T(0));
-    std::fill(grads.v.begin(), grads.v.end(), T(0));
-    std::fill(grads.y.begin(), grads.y.end(), T(0));
+    fill_rows(backend, grads.k, T(0));
+    fill_rows(backend, grads.v, T(0));
+    fill_rows(backend, grads.y, T(0));
     linear_sequence_backward(backend, w.o, std::span<const T>(act.y), dout, grads.y, grads.wo, grads.o_bias);
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::heads_backward_token<C>(act, std::span<const T>(grads.y).subspan(t * qn, qn), grads, n, t);
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::position_backward_token<C>(w, act, grads, n, t, rope_src);
+    attention_attend_rows_backward<C>(backend, act, std::span<const T>(grads.y), grads, n);
+    attention_position_rows_backward<C>(backend, w, act, grads, n, rope_src);
     linear_sequence_backward(backend, w.q, xs, std::span<const T>(grads.q), dxs, grads.wq, grads.q_bias);
     for (std::size_t h = 0; h < C.n_kv_heads; ++h) {
         const std::size_t rows = d * C.d_model;

@@ -21,7 +21,27 @@
 #include <cstddef>
 #include <cstdio>
 #include <span>
+#include <type_traits>
 #include <vector>
+
+
+//! [own_backend]
+// A device library's backend runs the batched passes' steps itself: it overloads core's operations for its type, in
+// its namespace, and the passes call those (argument-dependent lookup). Here one step, counted, on the host.
+namespace my_device {
+struct backend : snicholls::linalg::reference_backend {
+    inline static int norms = 0;
+};
+
+template <snicholls::ml::transformer_config C, typename T>
+void block_norm_rows(const backend& b, std::type_identity_t<std::span<const T>> x, std::type_identity_t<std::span<const T>> weight,
+                     std::type_identity_t<std::span<const T>> bias, std::span<T> out)
+{
+    ++backend::norms;   // a device would launch its kernel here, on data it already holds
+    snicholls::ml::block_norm_rows<C>(static_cast<const snicholls::linalg::reference_backend&>(b), x, weight, bias, out);
+}
+} // namespace my_device
+//! [own_backend]
 
 namespace {
 
@@ -185,6 +205,15 @@ int main()
         worst = std::max(worst, std::abs(gq_p[i] - gq_b[i]));
     std::printf("  batched through the reference backend: within %.2g of the per-token path\n", static_cast<double>(worst));
     ok &= worst < 1e-5f;
+
+    // The batched block through my_device::backend: its own norm step runs, twice, and the result is the reference's
+    std::vector<float> out_mine = x;
+    ml::block_forward_sequence<c>(my_device::backend{}, t.weights(), out_mine, rope, bact);
+    std::vector<float> out_ref = x;
+    ml::block_forward_sequence<c>(snicholls::linalg::reference, t.weights(), out_ref, rope, bact);
+    std::printf("  a backend of its own: its norm step called %d times, the reference's result %s\n", my_device::backend::norms,
+                out_mine == out_ref ? "to the bit" : "DIFFERS");
+    ok &= my_device::backend::norms == 2 && out_mine == out_ref;
 
     std::printf(ok ? "transformer_block demo: ok\n" : "transformer_block demo: FAILED\n");
     return ok ? 0 : 1;
