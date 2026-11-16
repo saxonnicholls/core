@@ -53,3 +53,30 @@ than changing them.
 3. **The fixed-order gradient sum** across workers (T5).
 4. nanochat's logit soft cap in `lm_head_loss`; Muon in `bfloat16`.
 5. An MoE block in `block_forward_sequence` / `block_backward`; post-norm and sandwich norms.
+
+## Towards large-scale training
+
+The objective beyond this file: training transformer language models from scratch at scale, on GPUs across several
+machines. Core's part is the arithmetic and the interfaces, each with its reference on the CPU; devices, files,
+networks and the model type live in the libraries that pin core (a GPU backend:
+[snicholls-gpu](https://github.com/saxonnicholls/gpu), whose `ROADMAP.md` is the device side). In the order the work
+needs them:
+
+1. **Device memory in the linalg interface.** A notion of where a view's data lives, so a backend can be handed views
+   of device memory and the batched passes run with no copies; the reference treats every view as host memory. The
+   first step, because a training step on a GPU today is mostly transfers.
+2. **A reference for every training kernel a device runs**: the passes here already are; added as a device needs them
+   (fused forms, recomputation of a block in its backward pass for memory).
+3. **bfloat16 training** tested end to end (T4): bfloat16 products, float master weights and optimiser state,
+   stochastic rounding.
+4. **The fixed-order gradient sum** (T5): partial gradients from any number of workers summed in an order that does not
+   depend on timing, so results do not depend on scheduling.
+5. **Training that communicates rarely**: the outer optimiser of DiLoCo (Douillard et al., 2023), in which workers take
+   hundreds of local steps between exchanges of their weights' change, for clusters whose network is too slow for an
+   exchange every step; and the compression of what is exchanged (bfloat16, 8-bit with error feedback). The arithmetic
+   only: the transport is a library's above core.
+6. **Sharding arithmetic** for models too large for one device: the partition of optimiser state and weights (ZeRO),
+   and the split of a model's blocks across stages.
+
+Each is checked as everything here is: against a reference implementation, central differences, or to the bit.
+
