@@ -3,7 +3,7 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.10.0 - 2026-11-16
 
 ### Added
 
@@ -13,7 +13,9 @@ A version is released when its tag is on a commit where every blocking CI leg is
   its backward, `attention_position_rows`, `attention_attend_rows` and their backward passes, `block_norm_rows`,
   `block_norm_rows_backward_add`. Each has an overload for any backend that runs on the host, as before (the same
   bits); a device library overloads them for its own backend type, found by argument-dependent lookup, so a training
-  step can stay on the device. A test and the block demo override two of them from another namespace.
+  step can stay on the device. A test and the block demo override two of them from another namespace. Proven by snicholls-gpu's
+  CUDA backend, whose overloads run a whole training step of GPT-2-, Llama-, nanochat- and multi-query blocks on the
+  GPU against this reference.
 
 ## 0.9.0 - 2026-11-16
 
