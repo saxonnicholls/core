@@ -3,6 +3,20 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.11.0 - 2026-11-17
+
+### Added
+
+- **`linear_heads` and `linear_heads_backward`** (`ml/linear.hpp`): `linear_sequence` with the outputs laid out head
+  by head, as attention keeps its keys and values. On the host each head is its own `linear_sequence`, so results are
+  unchanged to the bit; a device library overloads them for its backend to make one product for every head (with
+  snicholls-gpu's CUDA backend, one product and a permutation instead of a product per head).
+
+### Changed
+
+- The batched attention (`attention_forward_sequence`, `attention_backward` with a backend) projects its keys and
+  values through `linear_heads` instead of a loop of per-head products; the same results on every existing backend.
+
 ## 0.10.0 - 2026-11-16
 
 ### Added

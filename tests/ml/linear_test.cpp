@@ -288,6 +288,65 @@ TEST(MlLinear, SequenceSkipsEmptyGradientsAndAnEmptySequence)
     EXPECT_EQ(dw, (std::vector<float>{1, 1, 1, 1, 1, 1}));
 }
 
+// The outputs head by head: head h's n rows are linear_sequence on W's h-th block of rows, to the bit
+constexpr bool heads_compile_time()
+{
+    const std::array<double, 8> w{1, 0, 0, 1, 2, 0, 0, 2};   // 4 x 2: two heads of two outputs
+    const std::array<double, 4> xs{1, 2, 3, 4};               // two rows
+    const std::array<double, 4> b{0, 0, 10, 20};
+    std::array<double, 8> out{};
+    ml::linear_heads(la::reference, ml::dense_weights<double>{w, 4, 2}, xs, out, b, 2);
+    // head 0 (the identity): rows (1, 2), (3, 4); head 1 (2 I plus the bias): rows (12, 24), (16, 28)
+    return out == std::array<double, 8>{1, 2, 3, 4, 12, 24, 16, 28};
+}
+static_assert(heads_compile_time());
+
+TEST(MlLinear, HeadsAreEachHeadsSequenceToTheBit)
+{
+    constexpr std::size_t heads = 3, d = 8, rows = heads * d, cols = 40, n = 7;
+    const auto w = pattern(rows * cols, 0.3f, 1), xs = pattern(n * cols, 1.0f, 2), b = pattern(rows, 0.1f, 3);
+    const ml::dense_weights<float> m{w, rows, cols};
+    std::vector<float> out(n * rows), nobias(n * rows), want(n * rows), want_nobias(n * rows);
+    ml::linear_heads(la::reference, m, xs, out, b, heads);
+    ml::linear_heads(la::reference, m, xs, nobias, {}, heads);
+    for (std::size_t h = 0; h < heads; ++h) {
+        const ml::dense_weights<float> wh{std::span<const float>(w).subspan(h * d * cols, d * cols), d, cols};
+        ml::linear_sequence(la::reference, wh, xs, std::span<float>(want).subspan(h * n * d, n * d), std::span<const float>(b).subspan(h * d, d));
+        ml::linear_sequence(la::reference, wh, xs, std::span<float>(want_nobias).subspan(h * n * d, n * d));
+    }
+    EXPECT_EQ(out, want);
+    EXPECT_EQ(nobias, want_nobias);
+    std::vector<float> one(n * rows);   // one head is linear_sequence itself
+    ml::linear_heads(la::reference, m, xs, one, b, 1);
+    std::vector<float> seq(n * rows);
+    ml::linear_sequence(la::reference, m, xs, seq, b);
+    EXPECT_EQ(one, seq);
+}
+
+TEST(MlLinear, HeadsBackwardIsEachHeadsSequenceBackwardInOrder)
+{
+    constexpr std::size_t heads = 3, d = 8, rows = heads * d, cols = 40, n = 7;
+    const auto w = pattern(rows * cols, 0.3f, 1), xs = pattern(n * cols, 1.0f, 2), douts = pattern(n * rows, 0.5f, 4);
+    const ml::dense_weights<float> m{w, rows, cols};
+    std::vector<float> dxs(n * cols, 0.25f), dw(rows * cols, 0.5f), db(rows, 1.0f);   // accumulated into
+    auto dxs_r = dxs, dw_r = dw, db_r = db;
+    ml::linear_heads_backward(la::reference, m, xs, douts, dxs, dw, db, heads);
+    for (std::size_t h = 0; h < heads; ++h)
+        ml::linear_sequence_backward(la::reference, ml::dense_weights<float>{std::span<const float>(w).subspan(h * d * cols, d * cols), d, cols}, xs,
+                                     std::span<const float>(douts).subspan(h * n * d, n * d), dxs_r,
+                                     std::span<float>(dw_r).subspan(h * d * cols, d * cols), std::span<float>(db_r).subspan(h * d, d));
+    EXPECT_EQ(dxs, dxs_r);
+    EXPECT_EQ(dw, dw_r);
+    EXPECT_EQ(db, db_r);
+    std::vector<float> dw2(rows * cols);   // no input gradient, no bias gradient
+    ml::linear_heads_backward(la::reference, m, xs, douts, {}, dw2, {}, heads);
+    std::vector<float> dw2_r(rows * cols);
+    for (std::size_t h = 0; h < heads; ++h)
+        ml::linear_sequence_backward(la::reference, ml::dense_weights<float>{std::span<const float>(w).subspan(h * d * cols, d * cols), d, cols}, xs,
+                                     std::span<const float>(douts).subspan(h * n * d, n * d), {}, std::span<float>(dw2_r).subspan(h * d * cols, d * cols));
+    EXPECT_EQ(dw2, dw2_r);
+}
+
 // The reductions and the rescale of the batched passes, on a backend: the plain loops, in order
 TEST(MlLinear, SumValuesSumSquaresAndScaleRowsAreThePlainLoops)
 {

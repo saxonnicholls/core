@@ -92,6 +92,21 @@ int main()
     ok &= drows == std::array<float, 6>{1, 2, 3, 4, 5, 6};                // row t of dY picks row t of W
     ok &= dm == std::array<float, 6>{1, 0, -1, 0, 1, 0} && dbias == std::array<float, 2>{1, 1};
 
+    //! [linear_heads]
+    // Attention's keys and values, head by head: two heads of two outputs from one matrix, each head's rows end to end
+    const std::array<float, 8> kv{1, 0, 0, 1, 2, 0, 0, 2};     // 4 x 2: head 0 the identity, head 1 twice it
+    const std::array<float, 4> tokens{1, 2, 3, 4};             // two tokens of two
+    std::array<float, 8> by_head{};
+    ml::linear_heads(snicholls::linalg::reference, ml::dense_weights<float>{kv, 4, 2}, tokens, by_head, {}, 2);
+    std::array<float, 8> dkv{};
+    ml::linear_heads_backward(snicholls::linalg::reference, ml::dense_weights<float>{kv, 4, 2}, tokens, by_head, {}, dkv, {}, 2);
+    //! [linear_heads]
+    std::printf("  heads: [%.0f %.0f %.0f %.0f | %.0f %.0f %.0f %.0f]\n", double(by_head[0]), double(by_head[1]), double(by_head[2]), double(by_head[3]),
+                double(by_head[4]), double(by_head[5]), double(by_head[6]), double(by_head[7]));
+    ok &= by_head == std::array<float, 8>{1, 2, 3, 4, 2, 4, 6, 8};   // head 0: the tokens; head 1: twice them
+    // dW_h = Σ_t out_t,h ⊗ x_t: head 0 gets (1,2)⊗(1,2) + (3,4)⊗(3,4) = [10 14; 14 20], head 1 twice that
+    ok &= dkv == std::array<float, 8>{10, 14, 14, 20, 20, 28, 28, 40};
+
     //! [reductions]
     // The batched passes' reductions on a backend: a loss summed over rows, a gradient's squared norm, its rescale
     std::array<float, 3> g{3.0f, 4.0f, 0.0f};

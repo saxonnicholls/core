@@ -26,6 +26,10 @@
 ///   core's reference, or a BLAS or a GPU backend from another library, the same call. Dense weights in the sequence's type. The result is the backend's:
 ///   the reference sums each output in input order and adds the bias after, so it can differ from `linear` in the
 ///   last bit.
+/// - `linear_heads(backend, w, xs, out, bias, heads)` and `linear_heads_backward(...)`: the same with the outputs laid
+///   out head by head (`heads` blocks of `rows / heads` outputs, each block's `n` rows end to end), as attention keeps
+///   its keys and values. Here each head is its own `linear_sequence`; a device library overloads them for its backend
+///   to make one product for all the heads.
 ///
 /// A storage of the caller's own joins by overloading `prepare_input` and `linear` in its namespace (found by ADL);
 /// that is the seam for a BLAS or device backend.
@@ -33,6 +37,8 @@
 /// \snippet ml/linear_demo.cpp linear
 ///
 /// \snippet ml/linear_demo.cpp linear_sequence
+///
+/// \snippet ml/linear_demo.cpp linear_heads
 ///
 /// `sum_values`, `sum_squares` and `scale_rows` are the batched passes' reductions and gradient clipping's rescale, on
 /// the backend like the other steps:
@@ -430,6 +436,44 @@ constexpr void linear_sequence_backward(const B& backend, const dense_weights<T>
     detail::linear::product(backend, T(1), linalg::transposed(dy), view(xs, n, w.cols), T(1), view(dw, w.rows, w.cols));
     if (!db.empty())
         sum_rows(backend, dys, db);
+}
+
+/// \brief `linear_sequence` with the outputs head by head: for each of `heads` blocks of `W`'s rows, `Y_h = X W_hᵀ +
+/// b_h`, written to `out[h · n · d ...]` (`d = rows / heads`).
+///
+/// On the host, each head is `linear_sequence` on its block of rows, so the result is those calls' to the bit; a device
+/// library overloads it for its own backend type (one product, then a permutation).
+/// \param backend A `linalg::blas_backend`. \param w The matrix, `rows x cols`. \param xs `n` inputs of `cols`.
+/// \param out Receives `heads · n · d`, head by head. \param bias `rows` biases, or empty. \param heads The heads.
+template <math::math_number T, typename B>
+    requires linalg::blas_backend<B, T>
+constexpr void linear_heads(const B& backend, const dense_weights<T>& w, std::type_identity_t<std::span<const T>> xs,
+                            std::type_identity_t<std::span<T>> out, std::type_identity_t<std::span<const T>> bias, std::size_t heads)
+{
+    assert(heads > 0 && w.rows % heads == 0 && w.cols > 0 && xs.size() % w.cols == 0);
+    const std::size_t d = w.rows / heads, n = xs.size() / w.cols;
+    assert(out.size() == n * w.rows);
+    for (std::size_t h = 0; h < heads; ++h)
+        linear_sequence(backend, dense_weights<T>{w.data.subspan(h * d * w.cols, d * w.cols), d, w.cols}, xs, out.subspan(h * n * d, n * d),
+                        bias.empty() ? bias : bias.subspan(h * d, d));
+}
+
+/// \brief The backward pass of `linear_heads`: for each head, `linear_sequence_backward` on its block of rows, in head
+/// order. \param backend A `linalg::blas_backend`. \param w The matrix. \param xs The `n` inputs.
+/// \param douts The gradients in the outputs, head by head. \param dxs Added into, or empty. \param dw Added into,
+/// `rows · cols`. \param db Added into, `rows`, or empty. \param heads The heads.
+template <math::math_number T, typename B>
+    requires linalg::blas_backend<B, T>
+constexpr void linear_heads_backward(const B& backend, const dense_weights<T>& w, std::type_identity_t<std::span<const T>> xs,
+                                     std::type_identity_t<std::span<const T>> douts, std::type_identity_t<std::span<T>> dxs,
+                                     std::type_identity_t<std::span<T>> dw, std::type_identity_t<std::span<T>> db, std::size_t heads)
+{
+    assert(heads > 0 && w.rows % heads == 0 && w.cols > 0 && xs.size() % w.cols == 0);
+    const std::size_t d = w.rows / heads, n = xs.size() / w.cols, rows = d * w.cols;
+    assert(douts.size() == n * w.rows && dw.size() == w.rows * w.cols);
+    for (std::size_t h = 0; h < heads; ++h)
+        linear_sequence_backward(backend, dense_weights<T>{w.data.subspan(h * rows, rows), d, w.cols}, xs, douts.subspan(h * n * d, n * d), dxs,
+                                 dw.subspan(h * rows, rows), db.empty() ? db : db.subspan(h * d, d));
 }
 
 } // namespace snicholls::ml

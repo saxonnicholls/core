@@ -384,18 +384,6 @@ namespace detail::attention_layer
 
     // One key-value head's rows of a K or V matrix (and of its bias, if any), as a matrix of its own
     template <typename T>
-    constexpr dense_weights<T> head_rows(const dense_weights<T>& w, std::size_t h, std::size_t d)
-    {
-        return {w.data.subspan(h * d * w.cols, d * w.cols), d, w.cols};
-    }
-
-    template <typename S>
-    constexpr S head_slice(S s, std::size_t h, std::size_t d)
-    {
-        return s.empty() ? s : s.subspan(h * d, d);
-    }
-
-    template <typename T>
     constexpr void check_activations(const attention_activations<T>& act, std::size_t n, std::size_t qn, std::size_t kn,
                                      std::size_t heads, bool raw)
     {
@@ -514,16 +502,13 @@ constexpr void attention_forward_sequence(const B& backend, const attention_weig
                                           const attention_activations<T>& act, std::type_identity_t<std::span<T>> out)
 {
     static_assert(valid(C), "snicholls::ml::attention_forward_sequence: the transformer_config is not valid");
-    constexpr std::size_t d = C.head_dim, qn = C.q_size(), kn = C.kv_size();
+    constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
     const std::size_t n = xs.size() / C.d_model;
     assert(xs.size() == n * C.d_model && out.size() == n * C.d_model);
     detail::attention_layer::check_activations(act, n, qn, kn, C.n_heads, C.qk_norm != qk_norm_kind::none);
-    using detail::attention_layer::head_rows, detail::attention_layer::head_slice;
     linear_sequence(backend, w.q, xs, act.q, w.q_bias);
-    for (std::size_t h = 0; h < C.n_kv_heads; ++h) {
-        linear_sequence(backend, head_rows(w.k, h, d), xs, act.k.subspan(h * n * d, n * d), head_slice(w.k_bias, h, d));
-        linear_sequence(backend, head_rows(w.v, h, d), xs, act.v.subspan(h * n * d, n * d), head_slice(w.v_bias, h, d));
-    }
+    linear_heads(backend, w.k, xs, act.k, w.k_bias, C.n_kv_heads);   // the keys and values head by head
+    linear_heads(backend, w.v, xs, act.v, w.v_bias, C.n_kv_heads);
     attention_position_rows<C>(backend, w, act, n, rope_src);
     attention_attend_rows<C>(backend, act, n);
     linear_sequence(backend, w.o, std::span<const T>(act.y), out, w.o_bias);
@@ -606,13 +591,11 @@ constexpr void attention_backward(const B& backend, const attention_weights<dens
                                   const attention_gradients<T>& grads)
 {
     static_assert(valid(C), "snicholls::ml::attention_backward: the transformer_config is not valid");
-    constexpr std::size_t d = C.head_dim;
     [[maybe_unused]] constexpr std::size_t qn = C.q_size();   // each its own declaration: MSVC applies the attribute
     [[maybe_unused]] constexpr std::size_t kn = C.kv_size();  // to the first declarator only (C4189)
     const std::size_t n = xs.size() / C.d_model;
     assert(dout.size() == xs.size() && (dxs.empty() || dxs.size() == xs.size()));
     assert(grads.q.size() == n * qn && grads.k.size() == n * kn && grads.v.size() == n * kn && grads.y.size() == n * qn);
-    using detail::attention_layer::head_rows, detail::attention_layer::head_slice;
     fill_rows(backend, grads.k, T(0));
     fill_rows(backend, grads.v, T(0));
     fill_rows(backend, grads.y, T(0));
@@ -620,13 +603,8 @@ constexpr void attention_backward(const B& backend, const attention_weights<dens
     attention_attend_rows_backward<C>(backend, act, std::span<const T>(grads.y), grads, n);
     attention_position_rows_backward<C>(backend, w, act, grads, n, rope_src);
     linear_sequence_backward(backend, w.q, xs, std::span<const T>(grads.q), dxs, grads.wq, grads.q_bias);
-    for (std::size_t h = 0; h < C.n_kv_heads; ++h) {
-        const std::size_t rows = d * C.d_model;
-        linear_sequence_backward(backend, head_rows(w.k, h, d), xs, std::span<const T>(grads.k).subspan(h * n * d, n * d), dxs,
-                                 grads.wk.subspan(h * rows, rows), head_slice(grads.k_bias, h, d));
-        linear_sequence_backward(backend, head_rows(w.v, h, d), xs, std::span<const T>(grads.v).subspan(h * n * d, n * d), dxs,
-                                 grads.wv.subspan(h * rows, rows), head_slice(grads.v_bias, h, d));
-    }
+    linear_heads_backward(backend, w.k, xs, std::span<const T>(grads.k), dxs, grads.wk, grads.k_bias, C.n_kv_heads);
+    linear_heads_backward(backend, w.v, xs, std::span<const T>(grads.v), dxs, grads.wv, grads.v_bias, C.n_kv_heads);
 }
 
 } // namespace snicholls::ml
