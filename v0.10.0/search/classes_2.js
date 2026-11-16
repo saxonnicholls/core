@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['callable_5ftraits_0',['callable_traits',['../structsnicholls_1_1callable__traits.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20decltype_28_26f_3a_3aoperator_28_29_29_3e_1',['callable_traits&lt; decltype(&amp;F::operator())&gt;',['../structsnicholls_1_1callable__traits.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20f_20_3e_2',['callable_traits&lt; F &gt;',['../structsnicholls_1_1callable__traits_3_01F_01_4.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20r_28_2a_29_28args_2e_2e_2e_29_20noexcept_20_3e_3',['callable_traits&lt; R(*)(Args...) noexcept &gt;',['../structsnicholls_1_1callable__traits_3_01R_07_5_08_07Args_8_8_8_08_01noexcept_01_4.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20r_28_2a_29_28args_2e_2e_2e_29_3e_4',['callable_traits&lt; R(*)(Args...)&gt;',['../structsnicholls_1_1callable__traits_3_01R_07_5_08_07Args_8_8_8_08_4.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20r_28args_2e_2e_2e_29_20noexcept_20_3e_5',['callable_traits&lt; R(Args...) noexcept &gt;',['../structsnicholls_1_1callable__traits_3_01R_07Args_8_8_8_08_01noexcept_01_4.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20r_28args_2e_2e_2e_29_3e_6',['callable_traits&lt; R(Args...)&gt;',['../structsnicholls_1_1callable__traits_3_01R_07Args_8_8_8_08_4.html',1,'snicholls']]],
+  ['callable_5ftraits_3c_20std_3a_3aremove_5fcvref_5ft_3c_20f_20_3e_20_3e_7',['callable_traits&lt; std::remove_cvref_t&lt; F &gt; &gt;',['../structsnicholls_1_1callable__traits.html',1,'snicholls']]],
+  ['chain_5fspec_8',['chain_spec',['../structsnicholls_1_1pipeline_1_1chain__spec.html',1,'snicholls::pipeline']]],
+  ['change_5fgame_9',['change_game',['../classsnicholls_1_1game_1_1change__game.html',1,'snicholls::game']]],
+  ['civil_5fdate_10',['civil_date',['../structsnicholls_1_1civil__date.html',1,'snicholls']]],
+  ['code_5funit_11',['code_unit',['../structsnicholls_1_1code__unit.html',1,'snicholls']]],
+  ['code_5funit_3c_20s_20_3e_12',['code_unit&lt; S &gt;',['../structsnicholls_1_1code__unit_3_01S_01_4.html',1,'snicholls']]],
+  ['collect_13',['collect',['../structsnicholls_1_1stats_1_1collect.html',1,'snicholls::stats']]],
+  ['colour_14',['colour',['../structsnicholls_1_1colour.html',1,'snicholls']]],
+  ['colour_5freset_5ft_15',['colour_reset_t',['../structsnicholls_1_1colour__reset__t.html',1,'snicholls']]],
+  ['colour_5ftext_16',['colour_text',['../structsnicholls_1_1colour__text.html',1,'snicholls']]],
+  ['compensated_5fsum_17',['compensated_sum',['../structsnicholls_1_1stats_1_1compensated__sum.html',1,'snicholls::stats']]],
+  ['constant_18',['constant',['../structsnicholls_1_1meta_1_1constant.html',1,'snicholls::meta']]],
+  ['constexpr_5fmap_19',['constexpr_map',['../structsnicholls_1_1constexpr__map.html',1,'snicholls']]],
+  ['context_5fframe_20',['context_frame',['../structsnicholls_1_1context__frame.html',1,'snicholls']]],
+  ['core_5fviolation_21',['core_violation',['../structsnicholls_1_1game_1_1core__violation.html',1,'snicholls::game']]],
+  ['count_22',['count',['../structsnicholls_1_1stats_1_1count.html',1,'snicholls::stats']]],
+  ['covariance_23',['covariance',['../structsnicholls_1_1stats_1_1covariance.html',1,'snicholls::stats']]],
+  ['covariance_5fmatrix_24',['covariance_matrix',['../structsnicholls_1_1stats_1_1covariance__matrix.html',1,'snicholls::stats']]]
+];
