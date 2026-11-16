@@ -24,6 +24,7 @@ than changing them.
 | T6 | **A sequence's loss is the fused LM-head cross-entropy** over its positions, from the per-row `cross_entropy` with its fused gradient. A tied LM head reuses `embedding_backward`. |
 | T7 | **References: llm.c's backward, and finite differences.** The generator of `INFERENCE.md` I10 also writes llm.c's `matmul_backward`, `attention_backward`, `layernorm_backward`, `gelu_backward` for the same tiny GPT-2. The features llm.c lacks (GQA, QK norm, ReLU², SwiGLU, RoPE, soft cap) are checked by central differences in double. |
 | T8 | **Muon runs through the linear algebra backend.** `muon_orthogonalise` and `muon_step` (`ml/muon.hpp`) run the iteration `X <- a X + (b A + c A^2) X`, `A = X X^T`, on any `linalg::blas_backend`, on the transpose of a tall matrix. Done. |
+| T9 | **Training runs on an operations backend; core's is the reference.** The batched passes are written against a backend of training operations (the products of `linear_sequence`; the norms and their backward passes; attention over a sequence and its backward; activations; residual adds, fills and copies), each over views whose data lives where the backend says. Core's backend is today's functions on the host, so the per-token and batched passes stay the single source of truth and every device result is checked against it; a device library (snicholls-gpu) implements the same operations as kernels over device memory, and a whole training step stays on the device. Planned: the concept in `ml/`, the reference first, the passes moved onto it with their bits unchanged (checked by the existing tests and the benchmarks' fairness checks). |
 
 ## Headers
 
@@ -62,9 +63,12 @@ networks and the model type live in the libraries that pin core (a GPU backend:
 [snicholls-gpu](https://github.com/saxonnicholls/gpu), whose `ROADMAP.md` is the device side). In the order the work
 needs them:
 
-1. **Device memory in the linalg interface.** A notion of where a view's data lives, so a backend can be handed views
-   of device memory and the batched passes run with no copies; the reference treats every view as host memory. The
-   first step, because a training step on a GPU today is mostly transfers.
+1. **A training-operations backend** (decision T9 below): every step of the batched passes, not only the products,
+   becomes a call on a backend, so a device runs the whole step without the data leaving it. Measured on an RTX PRO
+   4000 Blackwell, one GPT-2-small layer's training step over 128 tokens through the GPU's matrix products takes 56
+   ms: 38 ms in its 84 products (about 4 ms of arithmetic, the rest moving operands to and from the device) and 18 ms
+   in the steps still run on the host (norms, the attention loop, residuals, copies). Device memory for the views
+   alone would leave the second half on the host.
 2. **A reference for every training kernel a device runs**: the passes here already are; added as a device needs them
    (fused forms, recomputation of a block in its backward pass for memory).
 3. **bfloat16 training** tested end to end (T4): bfloat16 products, float master weights and optimiser state,
