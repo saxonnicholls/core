@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.10.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -102,6 +102,8 @@ $(function(){initNavTree('optim_8hpp.html','',''); });
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;numbers&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div>
 <p><a href="optim_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -142,6 +144,9 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <tr class="memdesc:a079cfb810f5852360d0ab56e220101f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The training FLOPs per token of a transformer: <span class="tt">6N + 12·L·H·Q·T</span>.  <br /></td></tr>
 <tr class="memitem:ad7513f64aa70c0426fa9a29ba8585ae8" id="r_ad7513f64aa70c0426fa9a29ba8585ae8"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7513f64aa70c0426fa9a29ba8585ae8">snicholls::ml::model_flops_utilisation</a> (double flops_per_token, double tokens_per_second, double peak_flops) noexcept</td></tr>
 <tr class="memdesc:ad7513f64aa70c0426fa9a29ba8585ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The model FLOPs utilisation of a run: the fraction of the hardware's peak it achieves.  <br /></td></tr>
+<tr class="memitem:ad741767a8a3f1e95f27809dbe341c31d" id="r_ad741767a8a3f1e95f27809dbe341c31d"><td class="memTemplParams" colspan="2">template&lt;typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:ad741767a8a3f1e95f27809dbe341c31d template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad741767a8a3f1e95f27809dbe341c31d">snicholls::ml::adamw_rows</a> (const B &amp;, std::span&lt; T &gt; p, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; g, std::type_identity_t&lt; std::span&lt; T &gt; &gt; m, std::type_identity_t&lt; std::span&lt; T &gt; &gt; v, std::uint64_t step, const <a class="el" href="structsnicholls_1_1ml_1_1adamw__config.html">adamw_config</a>&lt; T &gt; &amp;config)</td></tr>
+<tr class="memdesc:ad741767a8a3f1e95f27809dbe341c31d"><td class="mdescLeft">&#160;</td><td class="mdescRight">One AdamW step over a tensor on the backend (TRAINING.md T9): <span class="tt"><a class="el" href="#a6e75e65574fa58e3b6105dfe5257734c" title="One AdamW step over a row of parameters: updates params, m and v in place.">adamw_step</a></span>, on the host for any backend; a device library overloads it for its own.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">snicholls::ml</span> training arithmetic: the AdamW step, learning-rate schedules, clipping by the global norm, Muon's Newton-Schulz polynomial, and the FLOPs and utilisation of a transformer. </p>
@@ -172,6 +177,11 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">        <span class="keyword">const</span> <span class="keywordtype">float</span> lr = ml::warmup_cosine&lt;float&gt;(t, warmup, steps, 0.05f, 0.0f);</div>
 <div class="line">        ml::adamw_step(w, grad, m, v, t + 1, {.learning_rate = lr, .beta2 = 0.95f});</div>
 <div class="line">    }</div>
+</div><!-- fragment --><p><span class="tt">adamw_rows</span> is <span class="tt">adamw_step</span> over a tensor on a backend (TRAINING.md T9), for a device library to overload.</p>
+<div class="fragment"><div class="line">    <span class="comment">// AdamW over a whole tensor on a backend (core&#39;s reference here; a GPU backend&#39;s overload runs it on the device)</span></div>
+<div class="line">    std::vector&lt;float&gt; wp{1.0f, -1.0f}, wg{0.5f, -0.5f}, wm(2), wv(2);</div>
+<div class="line">    ml::adamw_rows(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, std::span&lt;float&gt;(wp), std::span&lt;const float&gt;(wg), std::span&lt;float&gt;(wm), std::span&lt;float&gt;(wv), 1,</div>
+<div class="line">                   ml::adamw_config&lt;float&gt;{.learning_rate = 0.1f});</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span> (<span class="tt">to_minifloat_stochastic</span>, for bfloat16 master weights), <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, linear in the rows. <span class="tt">adamw_config</span> is trivially copyable.</p>
@@ -184,6 +194,77 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 
 <p class="definition">Definition in file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="ad741767a8a3f1e95f27809dbe341c31d" name="ad741767a8a3f1e95f27809dbe341c31d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad741767a8a3f1e95f27809dbe341c31d">&#9670;&#160;</a></span>adamw_rows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename B, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::adamw_rows </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>v</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>step</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1adamw__config.html">adamw_config</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>One AdamW step over a tensor on the backend (TRAINING.md T9): <span class="tt">adamw_step</span>, on the host for any backend; a device library overloads it for its own. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>The parameters, updated.</td></tr>
+    <tr><td class="paramname">g</td><td>Their gradients.</td></tr>
+    <tr><td class="paramname">m</td><td>The first moments, updated. </td></tr>
+    <tr><td class="paramname">v</td><td>The second moments, updated.</td></tr>
+    <tr><td class="paramname">step</td><td>The step, from 1.</td></tr>
+    <tr><td class="paramname">config</td><td>The settings. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00242">242</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a6e75e65574fa58e3b6105dfe5257734c" name="a6e75e65574fa58e3b6105dfe5257734c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e75e65574fa58e3b6105dfe5257734c">&#9670;&#160;</a></span>adamw_step()</h2>
 
@@ -247,7 +328,7 @@ requires std::same_as&lt;row_value_t&lt;P&gt;, row_value_t&lt;G&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00098">98</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00104">104</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -290,7 +371,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The factor to multiply every gradient by. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00173">173</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00179">179</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +418,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The utilisation, 0 to 1. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00226">226</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00232">232</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -375,7 +456,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The next. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00198">198</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00204">204</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +494,7 @@ template&lt;row R&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum r_i²</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00160">160</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00166">166</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +553,7 @@ template&lt;row R&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>FLOPs per token. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00215">215</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00221">221</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -533,7 +614,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The learning rate. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00125">125</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00131">131</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -594,7 +675,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The multiplier, in <span class="tt">[final_fraction, 1]</span> after warm-up. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00145">145</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00151">151</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>

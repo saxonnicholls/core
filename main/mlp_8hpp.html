@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.10.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -145,6 +145,12 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DY&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DX&gt;, T&gt;</td></tr>
 <tr class="memitem:a9b934c3c740a6a148cab2703459671fb template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b934c3c740a6a148cab2703459671fb">snicholls::ml::mlp_backward</a> (const <a class="el" href="structsnicholls_1_1ml_1_1mlp__weights.html">mlp_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt;, T &gt; &amp;w, const X &amp;x, const <a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">mlp_activations</a>&lt; T &gt; &amp;saved, const DY &amp;dy, DX &amp;&amp;dx, const <a class="el" href="structsnicholls_1_1ml_1_1mlp__gradients.html">mlp_gradients</a>&lt; T &gt; &amp;grads)</td></tr>
 <tr class="memdesc:a9b934c3c740a6a148cab2703459671fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#ae14cf64ec8f41fa7075c0980689408ac" title="The MLP for one token: y = down(act(up x + b) ) + b, or SwiGLU&#39;s down(silu(gate x) · up x).">mlp_forward</a></span>, from its saved pre-activations.  <br /></td></tr>
+<tr class="memitem:aa273237e5d048d78f0ef5513874ce8dd" id="r_aa273237e5d048d78f0ef5513874ce8dd"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:aa273237e5d048d78f0ef5513874ce8dd template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa273237e5d048d78f0ef5513874ce8dd">snicholls::ml::mlp_activate_rows</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">mlp_activations</a>&lt; T &gt; &amp;saved)</td></tr>
+<tr class="memdesc:aa273237e5d048d78f0ef5513874ce8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The MLP's activation over a sequence, on the backend (TRAINING.md T9): <span class="tt">hidden = act(up)</span>, or SwiGLU's <span class="tt">silu(gate) · up</span>. The overload for any backend runs on the host; a device library overloads it for its own.  <br /></td></tr>
+<tr class="memitem:a8746a0d5c0ca4202cc3f0b500705426a" id="r_a8746a0d5c0ca4202cc3f0b500705426a"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:a8746a0d5c0ca4202cc3f0b500705426a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8746a0d5c0ca4202cc3f0b500705426a">snicholls::ml::mlp_activate_rows_backward</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">mlp_activations</a>&lt; T &gt; &amp;saved, std::span&lt; T &gt; dh, std::span&lt; T &gt; dgate)</td></tr>
+<tr class="memdesc:a8746a0d5c0ca4202cc3f0b500705426a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#aa273237e5d048d78f0ef5513874ce8dd" title="The MLP&#39;s activation over a sequence, on the backend (TRAINING.md T9): hidden = act(up),...">mlp_activate_rows</a></span>, on the backend: the gradient in <span class="tt">hidden</span> (<span class="tt">dh</span>) becomes the gradient in <span class="tt">up</span>, in place, and for SwiGLU also writes the gradient in <span class="tt">gate</span>.  <br /></td></tr>
 <tr class="memitem:aa309a01a46ba8b646e2a93ead928a359" id="r_aa309a01a46ba8b646e2a93ead928a359"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <tr class="memitem:aa309a01a46ba8b646e2a93ead928a359 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa309a01a46ba8b646e2a93ead928a359">snicholls::ml::mlp_forward_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1mlp__weights.html">mlp_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; ys, const <a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">mlp_activations</a>&lt; T &gt; &amp;save)</td></tr>
@@ -209,6 +215,112 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 
 <p class="definition">Definition in file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="aa273237e5d048d78f0ef5513874ce8dd" name="aa273237e5d048d78f0ef5513874ce8dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa273237e5d048d78f0ef5513874ce8dd">&#9670;&#160;</a></span>mlp_activate_rows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::mlp_activate_rows </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">mlp_activations</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>saved</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The MLP's activation over a sequence, on the backend (TRAINING.md T9): <span class="tt">hidden = act(up)</span>, or SwiGLU's <span class="tt">silu(gate) · up</span>. The overload for any backend runs on the host; a device library overloads it for its own. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">C</td><td>The configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">saved</td><td><span class="tt">up</span> (and <span class="tt">gate</span> for SwiGLU) read, <span class="tt">hidden</span> written, <span class="tt">n · d_ff</span> each. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00255">255</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8746a0d5c0ca4202cc3f0b500705426a" name="a8746a0d5c0ca4202cc3f0b500705426a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8746a0d5c0ca4202cc3f0b500705426a">&#9670;&#160;</a></span>mlp_activate_rows_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::mlp_activate_rows_backward </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1mlp__activations.html">mlp_activations</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>saved</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>dh</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>dgate</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The backward pass of <span class="tt">mlp_activate_rows</span>, on the backend: the gradient in <span class="tt">hidden</span> (<span class="tt">dh</span>) becomes the gradient in <span class="tt">up</span>, in place, and for SwiGLU also writes the gradient in <span class="tt">gate</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">C</td><td>The configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">saved</td><td>What the forward pass saved. </td></tr>
+    <tr><td class="paramname">dh</td><td>The gradient in the hidden rows, replaced by the gradient in <span class="tt">up</span>. </td></tr>
+    <tr><td class="paramname">dgate</td><td>Receives the gradient in <span class="tt">gate</span>, SwiGLU only (else empty). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00274">274</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a684c03d0cc64d002a5d9c4817e37eb90" name="a684c03d0cc64d002a5d9c4817e37eb90"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a684c03d0cc64d002a5d9c4817e37eb90">&#9670;&#160;</a></span>mlp_activation()</h2>
 
@@ -445,7 +557,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00295">295</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00330">330</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -628,7 +740,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00264">264</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00303">303</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -673,7 +785,7 @@ requires (K &gt; 0)</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The experts and their weights. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00340">340</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00368">368</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -722,7 +834,7 @@ requires std::same_as&lt;row_value_t&lt;DW&gt;, T&gt; &amp;&amp; std::same_as&lt
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00367">367</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00395">395</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.9.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.10.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -99,7 +99,9 @@ $(function(){initNavTree('embedding_8hpp.html','',''); });
 <code>#include &lt;cassert&gt;</code><br />
 <code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div>
 <p><a href="embedding_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -125,6 +127,12 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;D&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DTable&gt;&gt;</td></tr>
 <tr class="memitem:a9fdaed41efad40b30cff449b777fb74d template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fdaed41efad40b30cff449b777fb74d">snicholls::ml::embedding_backward</a> (const D &amp;dout, std::size_t id, DTable &amp;&amp;dtable)</td></tr>
 <tr class="memdesc:a9fdaed41efad40b30cff449b777fb74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of an embedding: adds <span class="tt">dout</span> into row <span class="tt">id</span> of <span class="tt">dtable</span>.  <br /></td></tr>
+<tr class="memitem:a6c1fb3712c535cf2966bdd300e91fdca" id="r_a6c1fb3712c535cf2966bdd300e91fdca"><td class="memTemplParams" colspan="2">template&lt;typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:a6c1fb3712c535cf2966bdd300e91fdca template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c1fb3712c535cf2966bdd300e91fdca">snicholls::ml::embed_rows</a> (const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; <a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63">table</a>, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; positions, std::span&lt; const std::uint32_t &gt; ids, std::span&lt; T &gt; out)</td></tr>
+<tr class="memdesc:a6c1fb3712c535cf2966bdd300e91fdca"><td class="mdescLeft">&#160;</td><td class="mdescRight">A sequence's embeddings on the backend (TRAINING.md T9): <span class="tt">out_t = <a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[ids_t] + positions_t</span>.  <br /></td></tr>
+<tr class="memitem:a8143e0ddbc1a587b4d273854c1050f7b" id="r_a8143e0ddbc1a587b4d273854c1050f7b"><td class="memTemplParams" colspan="2">template&lt;typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:a8143e0ddbc1a587b4d273854c1050f7b template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8143e0ddbc1a587b4d273854c1050f7b">snicholls::ml::embed_rows_backward</a> (const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dout, std::span&lt; const std::uint32_t &gt; ids, std::span&lt; T &gt; dtable, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dpositions)</td></tr>
+<tr class="memdesc:a8143e0ddbc1a587b4d273854c1050f7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a6c1fb3712c535cf2966bdd300e91fdca" title="A sequence&#39;s embeddings on the backend (TRAINING.md T9): out_t = table[ids_t] + positions_t.">embed_rows</a></span>, on the backend: each row of <span class="tt">dout</span> added into its token's row of <span class="tt">dtable</span>, in token order (as <span class="tt"><a class="el" href="#a9fdaed41efad40b30cff449b777fb74d" title="The backward pass of an embedding: adds dout into row id of dtable.">embedding_backward</a></span>), and into its position's row of <span class="tt">dpositions</span>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">snicholls::ml</span> embeddings: a token's row of a table, GPT-2's token plus position, and the backward pass that adds a gradient into the token's row. </p>
@@ -155,6 +163,21 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, channels&gt; dx{1.0f, -1.0f};</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> std::size_t <span class="keywordtype">id</span> : sequence)</div>
 <div class="line">        ml::embedding_backward(dx, <span class="keywordtype">id</span>, dwte);</div>
+</div><!-- fragment --><p><span class="tt">embed_rows</span> and <span class="tt">embed_rows_backward</span> are a whole sequence's embeddings and their gradients on a backend (TRAINING.md T9), 32-bit token ids, the backward adding in token order; a device library overloads them.</p>
+<div class="fragment"><div class="line">    <span class="comment">// A whole sequence at once on a backend (core&#39;s reference here; a GPU backend the same call): rows, and the</span></div>
+<div class="line">    <span class="comment">// backward adding each row into its token&#39;s, in token order</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">constexpr</span> std::size_t vocab = 3, d = 2;</div>
+<div class="line">        <span class="keyword">const</span> std::vector&lt;float&gt; table{1, 2, 3, 4, 5, 6}, positions{0.5f, 0.5f, 0.25f, 0.25f};</div>
+<div class="line">        <span class="keyword">const</span> std::vector&lt;std::uint32_t&gt; ids{2, 2};</div>
+<div class="line">        std::vector&lt;float&gt; rows(4), dtable(vocab * d), dpos(4);</div>
+<div class="line">        ml::embed_rows(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, std::span&lt;const float&gt;(table), std::span&lt;const float&gt;(positions), ids, std::span&lt;float&gt;(rows));</div>
+<div class="line">        ml::embed_rows_backward(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, std::span&lt;const float&gt;(rows), ids, std::span&lt;float&gt;(dtable), std::span&lt;float&gt;(dpos));</div>
+<div class="line">        std::printf(<span class="stringliteral">&quot;  embed_rows: [%.2f %.2f] [%.2f %.2f]; token 2&#39;s gradient [%.2f %.2f]\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rows[0]),</div>
+<div class="line">                    <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rows[1]), <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rows[2]), <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(rows[3]), <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(dtable[4]),</div>
+<div class="line">                    <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(dtable[5]));</div>
+<div class="line">        <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= rows[0] == 5.5f &amp;&amp; rows[3] == 6.25f &amp;&amp; dtable[4] == rows[0] + rows[2] &amp;&amp; dtable[0] == 0.0f;</div>
+<div class="line">    }</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>; <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, forward and backward,...">ml/norm.hpp</a></span> and <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span> come next in the model. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, linear in <span class="tt">C</span>. <span class="tt">embedding_row</span> refers to the caller's table and lives as long as it does.</p>
@@ -212,7 +235,125 @@ requires std::same_as&lt;row_value_t&lt;Table&gt;, row_value_t&lt;Out&gt;&gt;</d
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00078">78</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00085">85</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6c1fb3712c535cf2966bdd300e91fdca" name="a6c1fb3712c535cf2966bdd300e91fdca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c1fb3712c535cf2966bdd300e91fdca">&#9670;&#160;</a></span>embed_rows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename B, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::embed_rows </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>table</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>positions</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; const std::uint32_t &gt;</td>          <td class="paramname"><span class="paramname"><em>ids</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A sequence's embeddings on the backend (TRAINING.md T9): <span class="tt">out_t = table[ids_t] + positions_t</span>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>The token table, <span class="tt">V</span> rows of <span class="tt">d</span>. </td></tr>
+    <tr><td class="paramname">positions</td><td>The position rows, one per token (<span class="tt">n · d</span>), or empty. </td></tr>
+    <tr><td class="paramname">ids</td><td><span class="tt">n</span> token ids. </td></tr>
+    <tr><td class="paramname">out</td><td>Receives <span class="tt">n</span> rows of <span class="tt">d</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00131">131</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8143e0ddbc1a587b4d273854c1050f7b" name="a8143e0ddbc1a587b4d273854c1050f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8143e0ddbc1a587b4d273854c1050f7b">&#9670;&#160;</a></span>embed_rows_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename B, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::ml::embed_rows_backward </td>
+          <td>(</td>
+          <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; const T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>dout</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; const std::uint32_t &gt;</td>          <td class="paramname"><span class="paramname"><em>ids</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>dtable</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>dpositions</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The backward pass of <span class="tt">embed_rows</span>, on the backend: each row of <span class="tt">dout</span> added into its token's row of <span class="tt">dtable</span>, in token order (as <span class="tt">embedding_backward</span>), and into its position's row of <span class="tt">dpositions</span>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dout</td><td><span class="tt">n</span> rows of <span class="tt">d</span>.</td></tr>
+    <tr><td class="paramname">ids</td><td><span class="tt">n</span> token ids.</td></tr>
+    <tr><td class="paramname">dtable</td><td>Added into.</td></tr>
+    <tr><td class="paramname">dpositions</td><td>Added into, or empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00146">146</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
 
 </div>
 </div>
@@ -273,7 +414,7 @@ requires std::same_as&lt;row_value_t&lt;Tokens&gt;, row_value_t&lt;Out&gt;&gt; &
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00094">94</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00101">101</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,7 +463,7 @@ requires std::same_as&lt;row_value_t&lt;D&gt;, row_value_t&lt;DTable&gt;&gt;</di
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00109">109</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00116">116</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
 
 </div>
 </div>
@@ -371,7 +512,7 @@ template&lt;row Table&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A span of <span class="tt">channels</span> elements. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00065">65</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="embedding_8hpp_source.html#l00072">72</a> of file <a class="el" href="embedding_8hpp_source.html">embedding.hpp</a>.</p>
 
 </div>
 </div>
