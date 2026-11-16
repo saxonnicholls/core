@@ -288,4 +288,14 @@ TEST(MlLinear, SequenceSkipsEmptyGradientsAndAnEmptySequence)
     EXPECT_EQ(dw, (std::vector<float>{1, 1, 1, 1, 1, 1}));
 }
 
+// The reductions and the rescale of the batched passes, on a backend: the plain loops, in order
+TEST(MlLinear, SumValuesSumSquaresAndScaleRowsAreThePlainLoops)
+{
+    std::vector<double> g{0.3, -0.1, 2};
+    EXPECT_EQ(ml::sum_squares(la::reference, std::span<const double>(g)), 0.3 * 0.3 + 0.1 * 0.1 + 2.0 * 2.0);
+    EXPECT_EQ(ml::sum_values(la::reference, std::span<const double>(g)), 0.3 - 0.1 + 2.0);
+    ml::scale_rows(la::reference, std::span<double>(g), 0.5);
+    EXPECT_EQ(g, (std::vector<double>{0.15, -0.05, 1.0}));
+}
+
 } // namespace

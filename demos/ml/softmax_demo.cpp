@@ -11,9 +11,12 @@
 
 #include <snicholls/core/ml/softmax.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <vector>
 
@@ -75,6 +78,16 @@ int main()
 
     std::printf("  bits per byte %.4f\n", bpb);
     ok &= std::abs(bpb - 2.1 * 1000 / (std::log(2.0) * 4200)) < 1e-15 && ml::cross_entropy(logits, 2) == loss;
+
+    //! [cross_entropy_rows]
+    // A whole sequence's rows at once on a backend: each row's loss, and the row replaced by its gradient
+    std::vector<float> rows{2.0f, -1.0f, 3.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}, row_losses(2);
+    const std::vector<std::uint32_t> row_targets{2, 4};
+    ml::cross_entropy_rows(snicholls::linalg::reference, std::span<float>(rows), row_targets, std::span<float>(row_losses), 0.5f);
+    //! [cross_entropy_rows]
+    std::printf("  cross_entropy_rows: losses %.4f and %.4f (log 5 = %.4f)\n", static_cast<double>(row_losses[0]), static_cast<double>(row_losses[1]),
+                std::log(5.0));
+    ok &= std::fabs(row_losses[0] - loss) < 1e-6f && std::fabs(row_losses[1] - std::log(5.0f)) < 1e-6f;
 
     std::printf(ok ? "softmax demo: ok\n" : "softmax demo: FAILED\n");
     return ok ? 0 : 1;

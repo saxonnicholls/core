@@ -607,7 +607,8 @@ constexpr void attention_backward(const B& backend, const attention_weights<dens
 {
     static_assert(valid(C), "snicholls::ml::attention_backward: the transformer_config is not valid");
     constexpr std::size_t d = C.head_dim;
-    [[maybe_unused]] constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
+    [[maybe_unused]] constexpr std::size_t qn = C.q_size();   // each its own declaration: MSVC applies the attribute
+    [[maybe_unused]] constexpr std::size_t kn = C.kv_size();  // to the first declarator only (C4189)
     const std::size_t n = xs.size() / C.d_model;
     assert(dout.size() == xs.size() && (dxs.empty() || dxs.size() == xs.size()));
     assert(grads.q.size() == n * qn && grads.k.size() == n * kn && grads.v.size() == n * kn && grads.y.size() == n * qn);

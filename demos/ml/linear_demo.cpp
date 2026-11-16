@@ -15,6 +15,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 
 int main()
@@ -90,6 +91,17 @@ int main()
     ok &= outs == std::array<float, 4>{8, 18, 12, 25};                    // W x + b for each row
     ok &= drows == std::array<float, 6>{1, 2, 3, 4, 5, 6};                // row t of dY picks row t of W
     ok &= dm == std::array<float, 6>{1, 0, -1, 0, 1, 0} && dbias == std::array<float, 2>{1, 1};
+
+    //! [reductions]
+    // The batched passes' reductions on a backend: a loss summed over rows, a gradient's squared norm, its rescale
+    std::array<float, 3> g{3.0f, 4.0f, 0.0f};
+    const float total = ml::sum_values(snicholls::linalg::reference, std::span<const float>(g));
+    const float norm2 = ml::sum_squares(snicholls::linalg::reference, std::span<const float>(g));
+    ml::scale_rows(snicholls::linalg::reference, std::span<float>(g), 1.0f / std::sqrt(norm2));   // clipped to norm 1
+    //! [reductions]
+    std::printf("  sum %.0f, squared norm %.0f, clipped [%.2f %.2f %.2f]\n", static_cast<double>(total), static_cast<double>(norm2),
+                static_cast<double>(g[0]), static_cast<double>(g[1]), static_cast<double>(g[2]));
+    ok &= total == 7.0f && norm2 == 25.0f && g[0] == 0.6f && g[1] == 0.8f;
 
     std::printf(ok ? "linear demo: ok\n" : "linear demo: FAILED\n");
     return ok ? 0 : 1;

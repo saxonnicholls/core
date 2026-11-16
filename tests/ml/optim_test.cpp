@@ -12,6 +12,8 @@
 
 #include <snicholls/core/ml/optim.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <array>
@@ -128,6 +130,18 @@ TEST(MlOptim, FlopsOfGpt2Small)
     const double f = ml::transformer_flops_per_token(85'000'000, 12, 12, 64, 1024);
     EXPECT_DOUBLE_EQ(f, 6.0 * 85e6 + 12.0 * 12 * 12 * 64 * 1024);
     EXPECT_NEAR(ml::model_flops_utilisation(f, 1e6, 989e12), f * 1e6 / 989e12, 1e-18);
+}
+
+// AdamW on a backend is adamw_step
+TEST(MlOptim, AdamwRowsIsAdamwStep)
+{
+    std::vector<double> p{1, -2, 0.5}, g{0.3, -0.1, 2}, m(3), v(3), p2 = p, m2(3), v2(3);
+    const ml::adamw_config<double> c{.learning_rate = 0.01, .weight_decay = 0.1};
+    ml::adamw_rows(snicholls::linalg::reference, std::span<double>(p), std::span<const double>(g), std::span<double>(m), std::span<double>(v), 1, c);
+    ml::adamw_step(p2, g, m2, v2, 1, c);
+    EXPECT_EQ(p, p2);
+    EXPECT_EQ(m, m2);
+    EXPECT_EQ(v, v2);
 }
 
 } // namespace

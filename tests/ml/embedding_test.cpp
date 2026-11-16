@@ -11,10 +11,13 @@
 
 #include <snicholls/core/ml/embedding.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
 namespace {
@@ -68,6 +71,35 @@ TEST(MlEmbedding, BackwardAddsIntoTheTokensRowOverABatch)
     for (std::size_t b = 0; b < 3; ++b)
         ml::embedding_backward(douts[b], ids[b], grad);
     EXPECT_EQ(grad, (std::vector<double>{3, 4, 0, 0, 1.5, 0}));
+}
+
+// A sequence's embeddings on a backend: embed_with_position per token, and the backward adding in token order
+TEST(MlEmbedding, EmbedRowsIsEmbedWithPositionPerTokenAndItsBackwardAddsInOrder)
+{
+    constexpr std::size_t vocab = 4, d = 3, n = 4;
+    std::vector<float> table(vocab * d), positions(n * d);
+    for (std::size_t i = 0; i < table.size(); ++i)
+        table[i] = 0.5f * float(i) - 2;
+    for (std::size_t i = 0; i < positions.size(); ++i)
+        positions[i] = 0.1f * float(i);
+    const std::vector<std::uint32_t> ids{2, 0, 2, 3};   // token 2 twice: its gradient row gets both
+    std::vector<float> out(n * d), want(n * d);
+    ml::embed_rows(snicholls::linalg::reference, std::span<const float>(table), std::span<const float>(positions), ids, std::span<float>(out));
+    for (std::size_t t = 0; t < n; ++t)
+        ml::embed_with_position(table, ids[t], positions, t, std::span<float>(want).subspan(t * d, d));
+    EXPECT_EQ(out, want);
+    std::vector<float> dout(n * d), dtable(vocab * d), dpos(n * d), dtable_want(vocab * d);
+    for (std::size_t i = 0; i < dout.size(); ++i)
+        dout[i] = float(i) + 1;
+    ml::embed_rows_backward(snicholls::linalg::reference, std::span<const float>(dout), ids, std::span<float>(dtable), std::span<float>(dpos));
+    for (std::size_t t = 0; t < n; ++t)
+        ml::embedding_backward(std::span<const float>(dout).subspan(t * d, d), ids[t], dtable_want);
+    EXPECT_EQ(dtable, dtable_want);
+    EXPECT_EQ(dpos, dout);
+    EXPECT_EQ(dtable[2 * d], dout[0] + dout[2 * d]);   // both uses of token 2
+    std::vector<float> no_positions(n * d);
+    ml::embed_rows(snicholls::linalg::reference, std::span<const float>(table), std::span<const float>(), ids, std::span<float>(no_positions));
+    EXPECT_EQ(no_positions[0], table[2 * d]);
 }
 
 } // namespace

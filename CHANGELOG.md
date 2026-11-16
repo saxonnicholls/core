@@ -7,6 +7,11 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Added
 
+- **The model's other steps on the backend** (TRAINING.md T9): `embed_rows` and `embed_rows_backward` (32-bit ids,
+  the backward in token order), `cross_entropy_rows` (the fused classifier over a sequence), `lm_head_loss_sequence`
+  (the whole sequence's logits as one product, the same loss as `lm_head_loss` to the bit through the reference),
+  `adamw_rows`, and the reductions `sum_values`, `sum_squares` and `scale_rows` (gradient clipping). With them a whole
+  model's training step can be written against a backend.
 - **The batched passes run on an operations backend** (TRAINING.md T9): every step of `block_forward_sequence`,
   `block_backward`, the batched attention and MLP passes and `linear_sequence` that is not a matrix product is a call
   made with the backend: `copy_rows`, `fill_rows`, `add_rows`, `add_bias_rows`, `sum_rows`, `mlp_activate_rows` and

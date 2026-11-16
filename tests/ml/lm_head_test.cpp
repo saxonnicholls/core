@@ -13,11 +13,14 @@
 
 #include <snicholls/core/ml/embedding.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <span>
 #include <vector>
 
@@ -140,6 +143,33 @@ TEST(MlLmHead, NoTargetsIsZeroAndAddsNothing)
     EXPECT_EQ(ml::lm_head_loss(head, std::span<const double>{}, {}, logits, std::span<double>{}, dw), 0.0);
     for (double g : dw)
         EXPECT_EQ(g, 0.0);
+}
+
+// The sequence's loss with the logits as one product through a backend: lm_head_loss's loss to the bit (the same
+// products in the same order, the rows summed in order), and its gradients to rounding
+TEST(MlLmHead, TheBatchedLossIsLmHeadLossAndItsGradientsAgree)
+{
+    constexpr std::size_t vocab = 7, d = 5, n = 4;
+    std::vector<double> head(vocab * d), hs(n * d);
+    for (std::size_t i = 0; i < head.size(); ++i)
+        head[i] = 0.3 * std::sin(0.7 * double(i));
+    for (std::size_t i = 0; i < hs.size(); ++i)
+        hs[i] = std::cos(0.4 * double(i));
+    const std::vector<std::uint32_t> t32{1, 6, 0, 3};
+    const std::vector<std::size_t> t64(t32.begin(), t32.end());
+    const ml::dense_weights<double> w{head, vocab, d};
+    std::vector<double> logits(n * vocab), losses(n), dhs(n * d), dhead(vocab * d), row(vocab), dhs1(n * d), dhead1(vocab * d);
+    const double batched = ml::lm_head_loss_sequence(snicholls::linalg::reference, w, std::span<const double>(hs), t32, std::span<double>(logits),
+                                                     std::span<double>(losses), std::span<double>(dhs), std::span<double>(dhead));
+    const double per_row = ml::lm_head_loss(w, hs, t64, row, dhs1, dhead1);
+    EXPECT_EQ(batched, per_row);
+    for (std::size_t i = 0; i < dhs.size(); ++i)
+        EXPECT_NEAR(dhs[i], dhs1[i], 1e-14);
+    for (std::size_t i = 0; i < dhead.size(); ++i)
+        EXPECT_NEAR(dhead[i], dhead1[i], 1e-14);
+    EXPECT_EQ(ml::lm_head_loss_sequence(snicholls::linalg::reference, w, std::span<const double>(), std::span<const std::uint32_t>(),
+                                        std::span<double>(), std::span<double>(), std::span<double>(), std::span<double>(dhead)),
+              0.0);
 }
 
 } // namespace

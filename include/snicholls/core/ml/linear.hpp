@@ -34,6 +34,11 @@
 ///
 /// \snippet ml/linear_demo.cpp linear_sequence
 ///
+/// `sum_values`, `sum_squares` and `scale_rows` are the batched passes' reductions and gradient clipping's rescale, on
+/// the backend like the other steps:
+///
+/// \snippet ml/linear_demo.cpp reductions
+///
 /// **Relationships.** `ml/quantize.hpp` (the blocks and their dot products), `ml/minifloat.hpp` (`bfloat16`),
 /// `ml/attention_layer.hpp` and `ml/mlp.hpp` (the users). Group: \ref core.
 ///
@@ -336,6 +341,36 @@ constexpr void sum_rows(const B&, std::type_identity_t<std::span<const T>> ys, s
     for (std::size_t t = 0; t < ys.size() / r; ++t)
         for (std::size_t i = 0; i < r; ++i)
             into[i] += ys[t * r + i];
+}
+
+/// \brief `Σ x`, in order: a loss summed over its rows. \param x The values. \return The sum.
+template <typename B, typename E>
+    requires math::math_number<std::remove_const_t<E>>
+constexpr std::remove_const_t<E> sum_values(const B&, std::span<E> x)
+{
+    std::remove_const_t<E> s(0);
+    for (const auto v : x)
+        s += v;
+    return s;
+}
+
+/// \brief `Σ x²`, in order: one tensor's part of a global gradient norm. \param x The values. \return The sum.
+template <typename B, typename E>
+    requires math::math_number<std::remove_const_t<E>>
+constexpr std::remove_const_t<E> sum_squares(const B&, std::span<E> x)
+{
+    std::remove_const_t<E> s(0);
+    for (const auto v : x)
+        s += v * v;
+    return s;
+}
+
+/// \brief `x *= alpha`: gradient clipping's rescale. \param x Updated in place. \param alpha The factor.
+template <typename B, math::math_number T>
+constexpr void scale_rows(const B&, std::span<T> x, std::type_identity_t<T> alpha)
+{
+    for (T& v : x)
+        v *= alpha;
 }
 
 /// @}

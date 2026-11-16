@@ -12,6 +12,8 @@
 
 #include <snicholls/core/ml/optim.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -66,6 +68,15 @@ int main()
     const double mfu = ml::model_flops_utilisation(f, 400e3, 989e12);
     std::printf("  GPT-2 small: %.3g FLOPs per token, MFU %.1f%% at 400k tokens/s\n", f, 100 * mfu);
     ok &= mfu > 0.2 && mfu < 0.3;
+
+    //! [adamw_rows]
+    // AdamW over a whole tensor on a backend (core's reference here; a GPU backend's overload runs it on the device)
+    std::vector<float> wp{1.0f, -1.0f}, wg{0.5f, -0.5f}, wm(2), wv(2);
+    ml::adamw_rows(snicholls::linalg::reference, std::span<float>(wp), std::span<const float>(wg), std::span<float>(wm), std::span<float>(wv), 1,
+                   ml::adamw_config<float>{.learning_rate = 0.1f});
+    //! [adamw_rows]
+    std::printf("  adamw_rows: [%.3f %.3f] after one step\n", static_cast<double>(wp[0]), static_cast<double>(wp[1]));
+    ok &= std::fabs(wp[0] - 0.9f) < 1e-5f && std::fabs(wp[1] + 0.9f) < 1e-5f;   // the first step moves by lr against the sign
 
     std::printf(ok ? "optim demo: ok\n" : "optim demo: FAILED\n");
     return ok ? 0 : 1;

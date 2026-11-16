@@ -11,11 +11,14 @@
 
 #include <snicholls/core/ml/softmax.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <gtest/gtest.h>
 
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <type_traits>
 #include <vector>
@@ -271,5 +274,20 @@ constexpr bool log_softmax_backward_compile_time()
     return snicholls::math::near(g[0], 0.5, 1e-15) && snicholls::math::near(g[1], -0.5, 1e-15);
 }
 static_assert(log_softmax_backward_compile_time());
+
+// The fused classifier over a sequence on a backend: each row is cross_entropy_with_gradient's, to the bit
+TEST(MlSoftmax, CrossEntropyRowsIsTheFusedClassifierRowByRow)
+{
+    constexpr std::size_t n = 3, v = 5;
+    std::vector<double> logits{0.1, -2, 3, 0.5, 1, 4, 4, -1, 0, 2, -0.3, 0.2, 0.7, 1.1, -5}, expect = logits, losses(n), want(n);
+    const std::vector<std::uint32_t> targets{2, 0, 4};
+    ml::cross_entropy_rows(snicholls::linalg::reference, std::span<double>(logits), targets, std::span<double>(losses), 0.25);
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto row = std::span<double>(expect).subspan(t * v, v);
+        want[t] = ml::cross_entropy_with_gradient(row, targets[t], row, 0.25);
+    }
+    EXPECT_EQ(losses, want);
+    EXPECT_EQ(logits, expect);
+}
 
 } // namespace

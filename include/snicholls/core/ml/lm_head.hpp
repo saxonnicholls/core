@@ -24,6 +24,12 @@
 ///
 /// \snippet ml/lm_head_demo.cpp lm_head
 ///
+/// `lm_head_loss_sequence(backend, head, hs, targets, logits, losses, dhs, dhead)` is the batched form for training on a
+/// device: the whole sequence's logits (`n x V`, the caller's) as one product through a `linalg` backend, then
+/// `cross_entropy_rows`, then the gradients; the same loss to the bit through core's reference (TRAINING.md T9).
+///
+/// \snippet ml/lm_head_demo.cpp lm_head_sequence
+///
 /// **Relationships.** `ml/linear.hpp` (`linear`, `linear_backward`), `ml/softmax.hpp`
 /// (`cross_entropy_with_gradient`), `ml/embedding.hpp` (a tied table), `ml/transformer_block.hpp` (what produces the
 /// hidden states). Group: \ref core.
@@ -50,13 +56,16 @@
 #ifndef snicholls_core_ml_lm_head_hpp
 #define snicholls_core_ml_lm_head_hpp
 
+#include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/softmax.hpp>
 
 #include <cassert>
 #include <cstddef>
+#include <cstdint>
 #include <span>
+#include <type_traits>
 
 namespace snicholls::ml
 {
@@ -115,6 +124,36 @@ constexpr row_value_t<H> lm_head_loss(const dense_weights<S>& head, const H& hs,
         linear_backward(head, ht, std::span<const T>(z), gh.subspan(t * d, d), dhead);
     }
     return n == 0 ? T(0) : sum / T(n);
+}
+
+/// \brief The mean cross-entropy of a sequence through the head, and its gradients, with the logits of the whole
+/// sequence one matrix product through the backend (TRAINING.md T9): `Z = H Wᵀ`, `cross_entropy_rows` (the losses,
+/// `Z` replaced by its gradient scaled by `1 / n`), then `linear_sequence_backward` into the hidden states' and the
+/// head's gradients. Needs the `n x V` logits as working space, where `lm_head_loss` needs one row.
+/// \param backend A `linalg::blas_backend`.
+/// \param head `V x d_model`, dense in the sequence's type, or a tied table viewed as one.
+/// \param hs `n` hidden states of `d_model`.
+/// \param targets `n` next tokens.
+/// \param logits Working space, `n · V`: left holding the gradient in the logits.
+/// \param losses Receives each position's loss, `n`.
+/// \param dhs Added into, `n · d_model`.
+/// \param dhead Added into, `V · d_model`.
+/// \return The mean loss, in nats; 0 with no targets.
+template <math::math_number T, typename B>
+    requires linalg::blas_backend<B, T>
+constexpr T lm_head_loss_sequence(const B& backend, const dense_weights<T>& head, std::type_identity_t<std::span<const T>> hs,
+                                  std::span<const std::uint32_t> targets, std::type_identity_t<std::span<T>> logits,
+                                  std::type_identity_t<std::span<T>> losses, std::type_identity_t<std::span<T>> dhs,
+                                  std::type_identity_t<std::span<T>> dhead)
+{
+    const std::size_t n = targets.size();
+    assert(hs.size() == n * head.cols && logits.size() == n * head.rows && losses.size() == n && dhs.size() == hs.size());
+    if (n == 0)
+        return T(0);
+    linear_sequence(backend, head, hs, logits);
+    cross_entropy_rows(backend, logits, targets, losses, T(1) / T(n));
+    linear_sequence_backward(backend, head, hs, std::span<const T>(logits), dhs, dhead);
+    return sum_values(backend, std::span<const T>(losses)) / T(n);
 }
 
 } // namespace snicholls::ml

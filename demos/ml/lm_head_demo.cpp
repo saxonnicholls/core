@@ -10,11 +10,14 @@
 
 #include <snicholls/core/ml/lm_head.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <snicholls/core/ml/embedding.hpp>
 
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <span>
 #include <vector>
@@ -57,6 +60,18 @@ int main()
     std::printf("  loss: %.4f at step 0, %.4f at step 49, %.4f after the last step\n", static_cast<double>(first),
                 static_cast<double>(last), static_cast<double>(eval));
     ok &= last < 0.7f * first && eval < last;   // descent lowers the loss, and the last step lowered it again
+    //! [lm_head_sequence]
+    // For training on a device: the whole sequence's logits as one product through a linalg backend (here core's
+    // reference), then the fused classifier on every row, then the gradients; the same loss as lm_head_loss
+    std::vector<float> all_logits(tokens.size() * vocab), losses(tokens.size()), dhs2(hs.size()), dtable2(table.size());
+    const std::vector<std::uint32_t> next32(next.begin(), next.end());
+    const float seq_loss = ml::lm_head_loss_sequence(snicholls::linalg::reference, ml::dense_weights<float>{table, vocab, d}, std::span<const float>(hs),
+                                                     next32, std::span<float>(all_logits), std::span<float>(losses), std::span<float>(dhs2),
+                                                     std::span<float>(dtable2));
+    //! [lm_head_sequence]
+    std::printf("  the batched loss: %.4f (the per-row %.4f)\n", static_cast<double>(seq_loss), static_cast<double>(eval));
+    ok &= std::fabs(seq_loss - eval) < 1e-6f;
+
     std::printf(ok ? "lm_head demo: ok\n" : "lm_head demo: FAILED\n");
     return ok ? 0 : 1;
 }

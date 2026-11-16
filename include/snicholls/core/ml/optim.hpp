@@ -30,6 +30,10 @@
 ///
 /// \snippet ml/optim_demo.cpp optim
 ///
+/// `adamw_rows` is `adamw_step` over a tensor on a backend (TRAINING.md T9), for a device library to overload.
+///
+/// \snippet ml/optim_demo.cpp adamw_rows
+///
 /// **Relationships.** `ml/minifloat.hpp` (`to_minifloat_stochastic`, for bfloat16 master weights),
 /// `ml/row.hpp`. Group: \ref core.
 ///
@@ -65,6 +69,8 @@
 #include <cstddef>
 #include <cstdint>
 #include <numbers>
+#include <span>
+#include <type_traits>
 
 namespace snicholls::ml
 {
@@ -226,6 +232,17 @@ constexpr double transformer_flops_per_token(std::uint64_t parameters, std::uint
 constexpr double model_flops_utilisation(double flops_per_token, double tokens_per_second, double peak_flops) noexcept
 {
     return flops_per_token * tokens_per_second / peak_flops;
+}
+
+/// \brief One AdamW step over a tensor on the backend (TRAINING.md T9): `adamw_step`, on the host for any backend; a
+/// device library overloads it for its own.
+/// \param p The parameters, updated. \param g Their gradients. \param m The first moments, updated.
+/// \param v The second moments, updated. \param step The step, from 1. \param config The settings.
+template <typename B, math::math_number T>
+constexpr void adamw_rows(const B&, std::span<T> p, std::type_identity_t<std::span<const T>> g, std::type_identity_t<std::span<T>> m,
+                          std::type_identity_t<std::span<T>> v, std::uint64_t step, const adamw_config<T>& config)
+{
+    adamw_step(p, g, m, v, step, config);
 }
 
 } // namespace snicholls::ml

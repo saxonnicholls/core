@@ -29,6 +29,11 @@
 ///
 /// \snippet ml/softmax_demo.cpp softmax
 ///
+/// `cross_entropy_rows` is the fused classifier over a sequence on a backend (TRAINING.md T9): each row's loss, the row
+/// replaced by its scaled gradient.
+///
+/// \snippet ml/softmax_demo.cpp cross_entropy_rows
+///
 /// **Relationships.** `ml/activations.hpp`; `ml/attention.hpp` extends `online_softmax` with the weighted sum of the
 /// values. Group: \ref core.
 ///
@@ -63,6 +68,7 @@
 #include <cassert>
 #include <concepts>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <span>
 #include <type_traits>
@@ -297,6 +303,26 @@ constexpr double bits_per_byte(double total_nats, std::size_t total_bytes)
     if (total_bytes == 0)
         return std::numeric_limits<double>::infinity();
     return total_nats / (0.693147180559945309417232121458176568 * static_cast<double>(total_bytes));
+}
+
+/// \brief Each row's cross-entropy against its target, the row replaced by its gradient: the fused classifier over a
+/// sequence, on the backend (TRAINING.md T9). The overload for any backend runs `cross_entropy_with_gradient` on each
+/// row in place, on the host; a device library overloads it for its own backend.
+/// \param logits `n` rows of `V`, end to end: replaced by `scale · (softmax - onehot)`.
+/// \param targets `n` targets, each below `V`.
+/// \param losses Receives each row's loss, `n`.
+/// \param scale The gradient's factor: `1 / n` for a mean.
+template <typename B, math::math_number T>
+constexpr void cross_entropy_rows(const B&, std::span<T> logits, std::type_identity_t<std::span<const std::uint32_t>> targets,
+                                  std::span<T> losses, std::type_identity_t<T> scale)
+{
+    const std::size_t n = targets.size();
+    assert(n > 0 && logits.size() % n == 0 && losses.size() == n);
+    const std::size_t v = logits.size() / n;
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto row = logits.subspan(t * v, v);
+        losses[t] = cross_entropy_with_gradient(row, targets[t], row, scale);
+    }
 }
 
 } // namespace snicholls::ml

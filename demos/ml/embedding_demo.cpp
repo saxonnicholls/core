@@ -11,8 +11,11 @@
 
 #include <snicholls/core/ml/embedding.hpp>
 
+#include <snicholls/core/linalg/reference.hpp>
+
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 
 int main()
@@ -51,6 +54,23 @@ int main()
     std::printf("  gradient of token 3's row: [%.1f %.1f]\n", static_cast<double>(dwte[6]), static_cast<double>(dwte[7]));
     ok &= x[2][0] == 3.0f + 0.03f && x[1][1] == 1.1f + 0.02f && token1[0] == 1.0f && view[1] == 2.1f;
     ok &= dwte[6] == 2.0f && dwte[7] == -2.0f && dwte[2] == 1.0f && dwte[4] == 0.0f;
+
+    //! [embedding_rows]
+    // A whole sequence at once on a backend (core's reference here; a GPU backend the same call): rows, and the
+    // backward adding each row into its token's, in token order
+    {
+        constexpr std::size_t vocab = 3, d = 2;
+        const std::vector<float> table{1, 2, 3, 4, 5, 6}, positions{0.5f, 0.5f, 0.25f, 0.25f};
+        const std::vector<std::uint32_t> ids{2, 2};
+        std::vector<float> rows(4), dtable(vocab * d), dpos(4);
+        ml::embed_rows(snicholls::linalg::reference, std::span<const float>(table), std::span<const float>(positions), ids, std::span<float>(rows));
+        ml::embed_rows_backward(snicholls::linalg::reference, std::span<const float>(rows), ids, std::span<float>(dtable), std::span<float>(dpos));
+        std::printf("  embed_rows: [%.2f %.2f] [%.2f %.2f]; token 2's gradient [%.2f %.2f]\n", static_cast<double>(rows[0]),
+                    static_cast<double>(rows[1]), static_cast<double>(rows[2]), static_cast<double>(rows[3]), static_cast<double>(dtable[4]),
+                    static_cast<double>(dtable[5]));
+        ok &= rows[0] == 5.5f && rows[3] == 6.25f && dtable[4] == rows[0] + rows[2] && dtable[0] == 0.0f;
+    }
+    //! [embedding_rows]
 
     std::printf(ok ? "embedding demo: ok\n" : "embedding demo: FAILED\n");
     return ok ? 0 : 1;
