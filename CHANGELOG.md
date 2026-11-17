@@ -18,6 +18,15 @@ A version is released when its tag is on a commit where every blocking CI leg is
   and `Wk`'s and `Wv`'s gradients); the gradients of `Wq`, `Wo` and the MLP's matrices, each one product over every
   row, agree within rounding. One sequence is the existing call, unchanged to the bit.
 
+### Changed
+
+- **Muon on the backend** (`ml/muon.hpp`, TRAINING.md T9): every step of `muon_step` and `muon_orthogonalise` that
+  is not a product is now a call on the backend (`copy_rows`, `scale_rows`, `add_rows`, `sum_squares`), and a tall
+  matrix is iterated with `A = Xᵀ X` instead of being transposed, so a device library's overloads run a whole Muon
+  step over device memory (snicholls-gpu's `cuda_training_backend`), as `adamw_rows` does. The API and the working
+  space are unchanged, and through the reference backend the results are 0.12.0's to the bit (tested against its loops,
+  float and double, wide, tall and square, with and without Nesterov).
+
 ## 0.12.0 - 2026-11-17
 
 ### Added
