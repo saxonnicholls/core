@@ -184,6 +184,21 @@ int main()
     ok &= x[0] > 0.6f && x[0] < 1.25f && x[4] > 0.6f && x[4] < 1.25f;   // both singular values near 1
     ok &= after < 0.25f * before;
 
+    //! [muon_backend]
+    // Every step of muon_step is a call on its backend: the products (gemm) and the elementwise steps (copy_rows,
+    // scale_rows, add_rows, sum_squares). Core's reference runs them on the host; with snicholls-gpu's
+    // cuda_training_backend and the four spans in device memory, the same call runs on the GPU, as adamw_rows does
+    const std::size_t rows = 4, cols = 2;   // tall: scaled by sqrt(rows / cols)
+    std::vector<float> wt(rows * cols, 1.0f), gt{1, 0, 0, 1, 1, 0, 0, 1}, mt(rows * cols, 0.0f), wk(ml::muon_work_size(rows, cols));
+    ml::muon_step(la::reference, std::span<float>(wt), std::span<const float>(gt), std::span<float>(mt), rows, cols,
+                  ml::muon_config<float>{.lr = 0.02f, .momentum = 0.95f, .nesterov = true}, std::span<float>(wk));
+    //! [muon_backend]
+    // The first step's momentum is the gradient; g has two equal singular values, so X is about g / sqrt(2) and every
+    // weight where g is 1 moves by about 0.02 * sqrt(2) / sqrt(2) = 0.02
+    std::printf("  a tall 4 x 2 step: momentum %s the gradient, w[0] 1 -> %.4f, w[1] stays %.4f\n", mt == gt ? "is" : "IS NOT",
+                static_cast<double>(wt[0]), static_cast<double>(wt[1]));
+    ok &= mt == gt && wt[1] == 1.0f && std::abs(wt[0] - 0.98f) < 0.005f;
+
     // The tiny GPT-2 learns a sequence of 17 tokens by heart: next-token prediction at each of 16 positions
     std::vector<std::size_t> text(n + 1);
     snicholls::stats::wyrand pick(7);

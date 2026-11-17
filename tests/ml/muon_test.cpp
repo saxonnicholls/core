@@ -6,7 +6,8 @@
 //
 //  Tests for <snicholls/core/ml/muon.hpp>: the iteration against the same arithmetic as plain loops, its singular
 //  values in Muon's band, a tall matrix as the transpose of a wide one, the step's momentum, Nesterov and scaling,
-//  a zero gradient, the working-space size, and compile-time use.
+//  a zero gradient, the working-space size, compile-time use, every step on the backend, and the bits of the loops
+//  0.12.0 ran on the host.
 //
 
 #include <snicholls/core/ml/muon.hpp>
@@ -22,6 +23,7 @@
 #include <cstdint>
 #include <utility>
 #include <span>
+#include <string>
 #include <vector>
 
 namespace {
@@ -199,6 +201,142 @@ TEST(MlMuon, AZeroGradientIsAZeroUpdate)
     ml::muon_step(la::reference, std::span<double>(w), std::span<const double>(g), std::span<double>(m), 2, 3,
                   ml::muon_config<double>{}, std::span<double>(work));
     EXPECT_EQ(w, w0);
+}
+
+
+// muon_step as 0.12.0 wrote it, its elementwise steps loops on the host: the backend's form must give its bits
+template <typename T>
+void step_0_12(std::span<T> w, std::span<const T> g, std::span<T> momentum, std::size_t rows, std::size_t cols,
+               const ml::muon_config<T>& config)
+{
+    using right = la::layout_right;
+    const std::size_t n = rows * cols;
+    std::vector<T> update(n), out(n);
+    for (std::size_t i = 0; i < n; ++i) {
+        momentum[i] = config.momentum * momentum[i] + g[i];
+        update[i] = config.nesterov ? g[i] + config.momentum * momentum[i] : momentum[i];
+    }
+    const bool tall = rows > cols;
+    const std::size_t r = tall ? cols : rows, s = tall ? rows : cols;
+    std::vector<T> x(r * s), x2(r * s), a(r * r), bm(r * r);
+    T norm2 = T(0);
+    for (const T v : update)
+        norm2 += v * v;
+    const T scale = T(1) / (snicholls::math::sqrt(norm2) + T(1e-7));
+    for (std::size_t i = 0; i < rows; ++i)
+        for (std::size_t j = 0; j < cols; ++j)
+            (tall ? x[j * s + i] : x[i * s + j]) = update[i * cols + j] * scale;
+    using ns = ml::muon_newton_schulz<T>;
+    const la::matrix_view<T, right> x2v(x2.data(), {r, s}), av(a.data(), {r, r}), bv(bm.data(), {r, r});
+    const la::matrix_view<const T, right> xc(x.data(), {r, s}), ac(a.data(), {r, r}), bc(bm.data(), {r, r});
+    for (int step = 0; step < ns::steps; ++step) {
+        ASSERT_TRUE(la::gemm(la::reference, T(1), xc, la::transposed(xc), T(0), av).is_ok());
+        for (std::size_t i = 0; i < r * r; ++i)
+            bm[i] = ns::b * a[i];
+        ASSERT_TRUE(la::gemm(la::reference, ns::c, ac, ac, T(1), bv).is_ok());
+        for (std::size_t i = 0; i < r * s; ++i)
+            x2[i] = ns::a * x[i];
+        ASSERT_TRUE(la::gemm(la::reference, T(1), bc, xc, T(1), x2v).is_ok());
+        std::copy(x2.begin(), x2.end(), x.begin());
+    }
+    for (std::size_t i = 0; i < rows; ++i)
+        for (std::size_t j = 0; j < cols; ++j)
+            out[i * cols + j] = tall ? x[j * s + i] : x[i * s + j];
+    const T step = config.lr * snicholls::math::sqrt(std::max(T(1), T(rows) / T(cols)));
+    for (std::size_t i = 0; i < n; ++i)
+        w[i] -= step * out[i];
+}
+
+template <typename T>
+void expect_the_bits_of_0_12()
+{
+    for (auto [rows, cols] : {std::pair{5u, 9u}, std::pair{9u, 5u}, std::pair{7u, 7u}, std::pair{1u, 6u}, std::pair{6u, 1u}})
+        for (const bool nesterov : {true, false}) {
+            const std::size_t n = rows * cols;
+            std::vector<T> w(n), m(n), w0(n), m0(n), work(ml::muon_work_size(rows, cols));
+            const auto init = noise(n, 3 + rows);
+            for (std::size_t i = 0; i < n; ++i)
+                w[i] = w0[i] = T(init[i]);
+            const ml::muon_config<T> config{.lr = T(0.02), .momentum = T(0.95), .nesterov = nesterov};
+            for (std::uint64_t t = 0; t < 4; ++t) {   // momentum carried over steps
+                const auto gd = noise(n, 100 + t + cols);
+                std::vector<T> g(n);
+                for (std::size_t i = 0; i < n; ++i)
+                    g[i] = T(gd[i]);
+                ml::muon_step(la::reference, std::span<T>(w), std::span<const T>(g), std::span<T>(m), rows, cols, config, std::span<T>(work));
+                step_0_12(std::span<T>(w0), std::span<const T>(g), std::span<T>(m0), rows, cols, config);
+            }
+            EXPECT_EQ(w, w0) << rows << "x" << cols << (nesterov ? " nesterov" : "");
+            EXPECT_EQ(m, m0) << rows << "x" << cols << (nesterov ? " nesterov" : "");
+        }
+}
+
+TEST(MlMuon, TheStepOnTheBackendGivesTheBitsOfTheHostLoops)
+{
+    expect_the_bits_of_0_12<float>();
+    expect_the_bits_of_0_12<double>();
+}
+
+} // namespace
+
+// A backend that runs every elementwise step itself, as a device library does (found by argument-dependent lookup),
+// counting the calls and touching the data only through them
+namespace muon_test_device {
+
+struct backend : snicholls::linalg::reference_backend {
+    mutable int calls = 0, products = 0;
+    template <snicholls::linalg::scalar T>
+    void gemm(T alpha, snicholls::linalg::matrix_view<const T> a, snicholls::linalg::matrix_view<const T> b, T beta,
+              snicholls::linalg::matrix_view<T> c) const
+    {
+        ++products;
+        snicholls::linalg::reference_backend::gemm(alpha, a, b, beta, c);
+    }
+};
+
+inline void copy_rows(const backend& b, std::span<const double> from, std::span<double> to)
+{
+    ++b.calls;
+    snicholls::ml::copy_rows(snicholls::linalg::reference, from, to);
+}
+inline void scale_rows(const backend& b, std::span<double> x, double alpha)
+{
+    ++b.calls;
+    snicholls::ml::scale_rows(snicholls::linalg::reference, x, alpha);
+}
+inline void add_rows(const backend& b, std::span<const double> a, std::span<double> x)
+{
+    ++b.calls;
+    snicholls::ml::add_rows(snicholls::linalg::reference, a, x);
+}
+template <typename E>
+double sum_squares(const backend& b, std::span<E> x)
+{
+    ++b.calls;
+    return snicholls::ml::sum_squares(snicholls::linalg::reference, x);
+}
+
+} // namespace muon_test_device
+
+static_assert(snicholls::linalg::blas_backend<muon_test_device::backend, double>);
+
+namespace {
+
+TEST(MlMuon, EveryStepIsACallOnTheBackend)
+{
+    const std::size_t rows = 4, cols = 6, n = rows * cols;
+    std::vector<double> w(n, 0.5), m(n), w0(n, 0.5), m0(n), work(ml::muon_work_size(rows, cols));
+    const auto g = noise(n, 11);
+    const muon_test_device::backend device;
+    ml::muon_step(device, std::span<double>(w), std::span<const double>(g), std::span<double>(m), rows, cols, ml::muon_config<double>{},
+                  std::span<double>(work));
+    ml::muon_step(la::reference, std::span<double>(w0), std::span<const double>(g), std::span<double>(m0), rows, cols,
+                  ml::muon_config<double>{}, std::span<double>(work));
+    // The momentum (3), Nesterov (2), the norm, X = g / |g| (2), two copies per iteration (10), the result (1) and w (2)
+    EXPECT_EQ(device.calls, 3 + 2 + 1 + 2 + 2 * ml::muon_newton_schulz<double>::steps + 1 + 2);
+    EXPECT_EQ(device.products, 3 * ml::muon_newton_schulz<double>::steps);
+    EXPECT_EQ(w, w0);
+    EXPECT_EQ(m, m0);
 }
 
 } // namespace
