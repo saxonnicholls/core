@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -144,14 +144,14 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DX&gt;, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
 <tr class="memitem:a3160dd32dacf707126292915f205709a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3160dd32dacf707126292915f205709a">snicholls::ml::block_backward</a> (const <a class="el" href="structsnicholls_1_1ml_1_1block__weights.html">block_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt;, T &gt; &amp;w, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;act, DX &amp;&amp;dxs, const <a class="el" href="structsnicholls_1_1ml_1_1block__gradients.html">block_gradients</a>&lt; T &gt; &amp;grads)</td></tr>
 <tr class="memdesc:a3160dd32dacf707126292915f205709a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#aa11636c5099d651f10efec04867ac5d9" title="A block over a whole sequence, in place, saving what block_backward needs: each token&#39;s result is blo...">block_forward_sequence</a></span>, in place: the gradient in the block's output becomes the gradient in its input.  <br /></td></tr>
-<tr class="memitem:aa42f37133d38017ccc153b47338cb8d5" id="r_aa42f37133d38017ccc153b47338cb8d5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
+<tr class="memitem:ad9fc75fd5e860f417aa1d7ae96d75c30" id="r_ad9fc75fd5e860f417aa1d7ae96d75c30"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
-<tr class="memitem:aa42f37133d38017ccc153b47338cb8d5 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa42f37133d38017ccc153b47338cb8d5">snicholls::ml::block_forward_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1block__weights.html">block_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; T &gt; &gt; xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;act)</td></tr>
-<tr class="memdesc:aa42f37133d38017ccc153b47338cb8d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A block over a whole sequence with every projection a matrix product through a <span class="tt">linalg</span> backend, in place, saving what the batched <span class="tt"><a class="el" href="#a3160dd32dacf707126292915f205709a" title="The backward pass of block_forward_sequence, in place: the gradient in the block&#39;s output becomes the...">block_backward</a></span> needs.  <br /></td></tr>
-<tr class="memitem:a269f1b4381ee1e5c524e22c536dcedc7" id="r_a269f1b4381ee1e5c524e22c536dcedc7"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
+<tr class="memitem:ad9fc75fd5e860f417aa1d7ae96d75c30 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9fc75fd5e860f417aa1d7ae96d75c30">snicholls::ml::block_forward_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1block__weights.html">block_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; T &gt; &gt; xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;act, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:ad9fc75fd5e860f417aa1d7ae96d75c30"><td class="mdescLeft">&#160;</td><td class="mdescRight">A block over a whole sequence with every projection a matrix product through a <span class="tt">linalg</span> backend, in place, saving what the batched <span class="tt"><a class="el" href="#a3160dd32dacf707126292915f205709a" title="The backward pass of block_forward_sequence, in place: the gradient in the block&#39;s output becomes the...">block_backward</a></span> needs.  <br /></td></tr>
+<tr class="memitem:ae038294d9278144260a278d096d31cd9" id="r_ae038294d9278144260a278d096d31cd9"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
-<tr class="memitem:a269f1b4381ee1e5c524e22c536dcedc7 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a269f1b4381ee1e5c524e22c536dcedc7">snicholls::ml::block_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1block__weights.html">block_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, const <a class="el" href="structsnicholls_1_1ml_1_1block__gradients.html">block_gradients</a>&lt; T &gt; &amp;grads)</td></tr>
-<tr class="memdesc:a269f1b4381ee1e5c524e22c536dcedc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of the batched <span class="tt"><a class="el" href="#aa11636c5099d651f10efec04867ac5d9" title="A block over a whole sequence, in place, saving what block_backward needs: each token&#39;s result is blo...">block_forward_sequence</a></span>, in place, its products through the backend.  <br /></td></tr>
+<tr class="memitem:ae038294d9278144260a278d096d31cd9 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae038294d9278144260a278d096d31cd9">snicholls::ml::block_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1block__weights.html">block_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, const <a class="el" href="structsnicholls_1_1ml_1_1block__gradients.html">block_gradients</a>&lt; T &gt; &amp;grads, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:ae038294d9278144260a278d096d31cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of the batched <span class="tt"><a class="el" href="#aa11636c5099d651f10efec04867ac5d9" title="A block over a whole sequence, in place, saving what block_backward needs: each token&#39;s result is blo...">block_forward_sequence</a></span>, in place, its products through the backend.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">The norm steps of the batched block, on the backend (TRAINING.md T9)</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>The overloads here take any backend and run on the host, row by row, with the per-token path's own code; a device library overloads them for its own backend type. </p>
 </div></td></tr>
@@ -189,6 +189,17 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" hr
 <div class="line">    std::vector&lt;float&gt; out_p = x, out_b = x, dout_p = target, dout_b = target, gq_p(t.q.size()), gq_b(t.q.size());</div>
 <div class="line">    one_step(<span class="keyword">false</span>, out_p, dout_p, gq_p);</div>
 <div class="line">    one_step(<span class="keyword">true</span>, out_b, dout_b, gq_b);</div>
+</div><!-- fragment --><p><b>A batch of sequences.</b> Both batched passes take a number of sequences (default one): <span class="tt">xs</span> is that many sequences of <span class="tt">n</span> tokens end to end, every row-wise step (the norms, each projection, the MLP, the residual adds, the bias sums) runs once over all their rows, and attention runs within each sequence, positions restarting at 0. The activations are the sequences' own side by side (<span class="tt">attention_activations</span>), so one call per layer replaces one per sequence per layer and the products are <span class="tt">sequences</span> times taller. On core's reference backend the result is the per-sequence calls': the outputs, the input's gradient, every bias's and norm's gradient and <span class="tt">Wk</span>'s and <span class="tt">Wv</span>'s to the bit; the gradients of <span class="tt">Wq</span>, <span class="tt">Wo</span> and the MLP's matrices are each one product over all the rows, where per-sequence calls add one sequence's sum at a time, so they agree within rounding.</p>
+<div class="fragment"><div class="line">    <span class="comment">// A batch: two sequences of 3 tokens end to end, one call per layer instead of one per sequence. The activations and</span></div>
+<div class="line">    <span class="comment">// the working spaces cover all six rows; attention stays within each sequence, positions restarting at 0</span></div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="stages_8hpp.html#a0a81668d16797714b7733c77bf1705e9">batch</a> = 2, rows = <a class="code hl_function" href="stages_8hpp.html#a0a81668d16797714b7733c77bf1705e9">batch</a> * 3;</div>
+<div class="line">    std::vector&lt;float&gt; xb = x;</div>
+<div class="line">    xb.insert(xb.end(), target.begin(), target.end());   <span class="comment">// sequence 0 is x, sequence 1 is target</span></div>
+<div class="line">    std::vector&lt;float&gt; bx0(rows * 8), bh1(rows * 8), bx1(rows * 8), bh2(rows * 8), bq(rows * 8), bk(rows * 4), bv(rows * 4), by(rows * 8),</div>
+<div class="line">        blse(rows * 2), bup(rows * 16), bgate(rows * 16), bhidden(rows * 16);</div>
+<div class="line">    <span class="keyword">const</span> ml::block_activations&lt;float&gt; batch_act{bx0, bh1, bx1, bh2, {bq, bk, bv, {}, {}, by, blse}, bup, bgate, bhidden};</div>
+<div class="line">    ml::block_forward_sequence&lt;c&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, t.weights(), xb, rope, batch_act, batch);</div>
+<div class="line">    <span class="comment">// ... and its backward: ml::block_backward&lt;c&gt;(backend, weights, rope, batch_act, dxb, grads, batch)</span></div>
 </div><!-- fragment --><p>Every step of the batched passes that is not a matrix product is a call made with the backend (TRAINING.md T9): <span class="tt">copy_rows</span>, <span class="tt">fill_rows</span>, <span class="tt">add_rows</span>, <span class="tt">add_bias_rows</span>, <span class="tt">sum_rows</span> (<span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>), <span class="tt">mlp_activate_rows</span> and its backward (<span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span>), the four attention steps (<span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>), <span class="tt">block_norm_rows</span> and <span class="tt">block_norm_rows_backward_add</span> (here). Each has an overload for any backend that runs on the host; a device library overloads them for its own backend type, in its own namespace, and the whole pass runs where its data lives:</p>
 <div class="fragment"><div class="line"><span class="comment">// A device library&#39;s backend runs the batched passes&#39; steps itself: it overloads core&#39;s operations for its type, in</span></div>
 <div class="line"><span class="comment">// its namespace, and the passes call those (argument-dependent lookup). Here one step, counted, on the host.</span></div>
@@ -280,8 +291,8 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" hr
 
 <p class="definition">Definition in file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a269f1b4381ee1e5c524e22c536dcedc7" name="a269f1b4381ee1e5c524e22c536dcedc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a269f1b4381ee1e5c524e22c536dcedc7">&#9670;&#160;</a></span>block_backward() <span class="overload">[1/2]</span></h2>
+<a id="ae038294d9278144260a278d096d31cd9" name="ae038294d9278144260a278d096d31cd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae038294d9278144260a278d096d31cd9">&#9670;&#160;</a></span>block_backward() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,7 +331,12 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1block__gradients.html">block_gradients</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>grads</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1block__gradients.html">block_gradients</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>grads</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -343,13 +359,14 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
     <tr><td class="paramname">w</td><td>The weights the forward pass used. </td></tr>
     <tr><td class="paramname">rope_src</td><td>Its rope source. </td></tr>
     <tr><td class="paramname">act</td><td>What it saved. </td></tr>
-    <tr><td class="paramname">dxs</td><td>The gradient in its output, <span class="tt">n · d_model</span>: replaced by the gradient in its input. </td></tr>
-    <tr><td class="paramname">grads</td><td>Receives the gradients. </td></tr>
+    <tr><td class="paramname">dxs</td><td>The gradient in its output, <span class="tt">sequences · n · d_model</span>: replaced by the gradient in its input. </td></tr>
+    <tr><td class="paramname">grads</td><td>Receives the gradients; the working spaces cover all the rows. </td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences the forward pass took. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00392">392</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00405">405</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -416,7 +433,7 @@ requires std::same_as&lt;row_value_t&lt;DX&gt;, T&gt; &amp;&amp; (C.rope == rope
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00280">280</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00291">291</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -489,12 +506,12 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00148">148</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00159">159</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aa42f37133d38017ccc153b47338cb8d5" name="aa42f37133d38017ccc153b47338cb8d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa42f37133d38017ccc153b47338cb8d5">&#9670;&#160;</a></span>block_forward_sequence() <span class="overload">[1/2]</span></h2>
+<a id="ad9fc75fd5e860f417aa1d7ae96d75c30" name="ad9fc75fd5e860f417aa1d7ae96d75c30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9fc75fd5e860f417aa1d7ae96d75c30">&#9670;&#160;</a></span>block_forward_sequence() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -528,7 +545,12 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>act</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1block__activations.html">block_activations</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>act</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -549,14 +571,15 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
   <table class="params">
     <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>. </td></tr>
     <tr><td class="paramname">w</td><td>The weights. </td></tr>
-    <tr><td class="paramname">xs</td><td><span class="tt">n</span> residual rows of <span class="tt">d_model</span>, end to end: updated in place. </td></tr>
-    <tr><td class="paramname">rope_src</td><td>The cosines and sines by position, or <span class="tt">no_rope</span>. </td></tr>
-    <tr><td class="paramname">act</td><td>Receives the activations, <span class="tt">mlp_hidden</span> included. </td></tr>
+    <tr><td class="paramname">xs</td><td><span class="tt">sequences · n</span> residual rows of <span class="tt">d_model</span>, end to end: updated in place. </td></tr>
+    <tr><td class="paramname">rope_src</td><td>The cosines and sines by position, covering <span class="tt">n - 1</span>, or <span class="tt">no_rope</span>. </td></tr>
+    <tr><td class="paramname">act</td><td>Receives the activations, <span class="tt">mlp_hidden</span> included; every field covers all the rows. </td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences in <span class="tt">xs</span>, at least one, each of <span class="tt">n</span> tokens; attention stays within each. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00361">361</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00373">373</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -617,7 +640,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; (C.rope == rope_
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00241">241</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00252">252</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -678,7 +701,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;Out&gt;&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00129">129</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00140">140</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -743,7 +766,7 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00319">319</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00330">330</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -826,7 +849,7 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00332">332</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00343">343</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -899,7 +922,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00174">174</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__block_8hpp_source.html#l00185">185</a> of file <a class="el" href="transformer__block_8hpp_source.html">transformer_block.hpp</a>.</p>
 
 </div>
 </div>

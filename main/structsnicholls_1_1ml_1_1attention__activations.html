@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -118,6 +118,8 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;math::math_number T&gt;<br />
 struct snicholls::ml::attention_activations&lt; T &gt;</div><p>What <span class="tt"><a class="el" href="attention__layer_8hpp.html#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span> saves for <span class="tt"><a class="el" href="attention__layer_8hpp.html#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span>: views the caller owns. </p>
+<p>For a batch of <span class="tt">sequences</span> sequences of <span class="tt">n</span> tokens (the batched passes' <span class="tt">sequences</span>), every field is the sequences' own laid end to end, sequence-major: <span class="tt"><a class="el" href="#ad4ebad1ced16af1f790c9c76ca115b49" title="n · q_size, token by token: the queries after QK norm and RoPE.">q</a></span> is <span class="tt">sequences · n · q_size</span>, and <span class="tt"><a class="el" href="#a69a4446effb8d4a708428dfc76b02423" title="n_kv_heads · n · head_dim, head by head: the keys after QK norm and RoPE.">k</a></span> is <span class="tt">sequences</span> blocks of <span class="tt">n_kv_heads ·
+n · head_dim</span>, each block one sequence's keys head by head. So a batch's activations are its sequences' activations side by side, and a view of one sequence is a slice.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The number type. </td></tr>
@@ -125,7 +127,7 @@ struct snicholls::ml::attention_activations&lt; T &gt;</div><p>What <span class=
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00252">252</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00261">261</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a69a4446effb8d4a708428dfc76b02423" name="a69a4446effb8d4a708428dfc76b02423"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a69a4446effb8d4a708428dfc76b02423">&#9670;&#160;</a></span>k</h2>
@@ -143,7 +145,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n_kv_heads · n · head_dim</span>, head by head: the keys after QK norm and RoPE. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00255">255</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00264">264</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -163,7 +165,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · kv_size</span>: the projected keys before QK norm; with QK norm only, else empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00258">258</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00267">267</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -183,7 +185,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · n_heads</span>, token by token: each head's log-sum-exp. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00260">260</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00269">269</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -203,7 +205,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · q_size</span>, token by token: the queries after QK norm and RoPE. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00254">254</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00263">263</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -223,7 +225,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · q_size</span>: the projected queries before QK norm; with QK norm only, else empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00257">257</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00266">266</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -243,7 +245,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n_kv_heads · n · head_dim</span>, head by head: the values. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00256">256</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00265">265</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -263,7 +265,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · q_size</span>, token by token: the heads' outputs, the input of <span class="tt">Wo</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00259">259</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00268">268</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>

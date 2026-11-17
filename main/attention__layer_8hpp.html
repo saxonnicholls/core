@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -123,7 +123,7 @@ Classes</h2></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aattention_5Factivations_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aattention_5Factivations_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">snicholls::ml::attention_activations&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What <span class="tt"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span> saves for <span class="tt"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span>: views the caller owns.  <a href="structsnicholls_1_1ml_1_1attention__activations.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aml_3A_3Aattention_5Fgradients_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Aattention_5Fgradients_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">snicholls::ml::attention_gradients&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gradients of an attention layer: views the caller owns.  <a href="structsnicholls_1_1ml_1_1attention__gradients.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gradients of an attention layer: views the caller owns. <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html#a11784efa704669aba0774ee1eada0969" title="n · q_size: written, the gradients in the projected queries.">q</a></span>, <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html#a9d46073204cef766e8848df76e70ab9b" title="n_kv_heads · n · head_dim: written, in the projected keys, laid out as the activations.">k</a></span>, <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html#a65b40f6d22956e999341c8b1859296a9" title="n_kv_heads · n · head_dim: written, in the values.">v</a></span> and <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html#a412bf38dbe49a777843218a8919ff5fb" title="n · q_size: the batched backward&#39;s working space (the heads&#39; output gradients); else empty.">y</a></span> are laid out per sequence as <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html" title="What attention_forward_sequence saves for attention_backward: views the caller owns.">attention_activations</a></span> is.  <a href="structsnicholls_1_1ml_1_1attention__gradients.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -148,33 +148,34 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;Out&gt;, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
 <tr class="memitem:a6b687ceeebbf499bc6979140c16deb9a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a">snicholls::ml::attention_forward_sequence</a> (const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; W, T &gt; &amp;w, const X &amp;xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, Out &amp;&amp;out)</td></tr>
 <tr class="memdesc:a6b687ceeebbf499bc6979140c16deb9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attention over a whole sequence, saving what <span class="tt"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span> needs: each token's output is <span class="tt"><a class="el" href="#a05dbf58ac6804a349884e68a84dd92bd" title="Attention for one token at position pos: projects, rotates, caches, attends and projects back.">attention_forward</a></span>'s, to the bit.  <br /></td></tr>
-<tr class="memitem:ae46c13c12c77144d5f7fab4b4ede8e3b" id="r_ae46c13c12c77144d5f7fab4b4ede8e3b"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
+<tr class="memitem:a91494f9b3a27626cd6b2401a42490667" id="r_a91494f9b3a27626cd6b2401a42490667"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
-<tr class="memitem:ae46c13c12c77144d5f7fab4b4ede8e3b template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae46c13c12c77144d5f7fab4b4ede8e3b">snicholls::ml::attention_forward_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; T &gt; &gt; out)</td></tr>
-<tr class="memdesc:ae46c13c12c77144d5f7fab4b4ede8e3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attention over a whole sequence with its projections as matrix products through a <span class="tt">linalg</span> backend, saving what <span class="tt"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span> needs.  <br /></td></tr>
+<tr class="memitem:a91494f9b3a27626cd6b2401a42490667 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91494f9b3a27626cd6b2401a42490667">snicholls::ml::attention_forward_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; T &gt; &gt; out, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:a91494f9b3a27626cd6b2401a42490667"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attention over a whole sequence with its projections as matrix products through a <span class="tt">linalg</span> backend, saving what <span class="tt"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span> needs.  <br /></td></tr>
 <tr class="memitem:a01dbd026429b9ace619ceb6caf19e05c" id="r_a01dbd026429b9ace619ceb6caf19e05c"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename S, math::math_number T, row X, typename R, row DO, mutable_row DX&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DO&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DX&gt;, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
 <tr class="memitem:a01dbd026429b9ace619ceb6caf19e05c template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c">snicholls::ml::attention_backward</a> (const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt;, T &gt; &amp;w, const X &amp;xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, const DO &amp;dout, DX &amp;&amp;dxs, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads)</td></tr>
 <tr class="memdesc:a01dbd026429b9ace619ceb6caf19e05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span>, from what it saved.  <br /></td></tr>
-<tr class="memitem:a87a219d1b2b6813fd80f8f883e292b69" id="r_a87a219d1b2b6813fd80f8f883e292b69"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
+<tr class="memitem:af929ef92eadc8a68a4839c48601e474f" id="r_af929ef92eadc8a68a4839c48601e474f"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T, typename R&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" href="transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">rope_kind::none</a> || rope_source&lt;R&gt;)</td></tr>
-<tr class="memitem:a87a219d1b2b6813fd80f8f883e292b69 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87a219d1b2b6813fd80f8f883e292b69">snicholls::ml::attention_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dout, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads)</td></tr>
-<tr class="memdesc:a87a219d1b2b6813fd80f8f883e292b69"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of the batched <span class="tt"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span>, its products through the backend.  <br /></td></tr>
+<tr class="memitem:af929ef92eadc8a68a4839c48601e474f template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af929ef92eadc8a68a4839c48601e474f">snicholls::ml::attention_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt;, T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, const R &amp;rope_src, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dout, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:af929ef92eadc8a68a4839c48601e474f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of the batched <span class="tt"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span>, its products through the backend.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">The attention steps of the batched passes, on the backend (TRAINING.md T9)</div></td></tr>
-<tr><td colspan="2" class="ititle"><div class="groupText"><p>The steps of <span class="tt"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span> and <span class="tt"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span> (batched) that are not matrix products, each over the whole sequence. The overloads here take any backend and run on the host, token by token, with the per-token path's own code; a device library overloads them for its own backend type. </p>
+<tr><td colspan="2" class="ititle"><div class="groupText"><p>The steps of <span class="tt"><a class="el" href="#a6b687ceeebbf499bc6979140c16deb9a" title="Attention over a whole sequence, saving what attention_backward needs: each token&#39;s output is attenti...">attention_forward_sequence</a></span> and <span class="tt"><a class="el" href="#a01dbd026429b9ace619ceb6caf19e05c" title="The backward pass of attention_forward_sequence, from what it saved.">attention_backward</a></span> (batched) that are not matrix products, each over a batch of <span class="tt">sequences</span> sequences of <span class="tt">n</span> tokens, laid out as <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html" title="What attention_forward_sequence saves for attention_backward: views the caller owns.">attention_activations</a></span> says. Attention stays within a sequence: positions restart at 0 in each. The overloads here take any backend and run on the host, sequence by sequence and token by token, with the per-token path's own code, so a batch gives each sequence's own call's bits; a device library overloads them for its own backend type. </p>
 </div></td></tr>
-<tr class="memitem:ae741e7bcd709ff3fb0e9903a94ecb729" id="r_ae741e7bcd709ff3fb0e9903a94ecb729"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, typename W, math::math_number T, typename R&gt; </td></tr>
-<tr class="memitem:ae741e7bcd709ff3fb0e9903a94ecb729 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae741e7bcd709ff3fb0e9903a94ecb729">snicholls::ml::attention_position_rows</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; W, T &gt; &amp;w, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::size_t n, const R &amp;rope_src)</td></tr>
-<tr class="memdesc:ae741e7bcd709ff3fb0e9903a94ecb729"><td class="mdescLeft">&#160;</td><td class="mdescRight">QK norm and RoPE of every token's heads, in place, after the raw copies: <span class="tt">act.q</span>, <span class="tt">act.k</span>, <span class="tt">act.q_raw</span>, <span class="tt">act.k_raw</span>.  <br /></td></tr>
-<tr class="memitem:a1c87b031ef9718e6f678437bda1db1a4" id="r_a1c87b031ef9718e6f678437bda1db1a4"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; </td></tr>
-<tr class="memitem:a1c87b031ef9718e6f678437bda1db1a4 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c87b031ef9718e6f678437bda1db1a4">snicholls::ml::attention_attend_rows</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::size_t n)</td></tr>
-<tr class="memdesc:a1c87b031ef9718e6f678437bda1db1a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every token's heads over its visible keys: <span class="tt">act.y</span> and <span class="tt">act.lse</span>.  <br /></td></tr>
-<tr class="memitem:ad0b3b50568bdc0ecff275adf60c3a02e" id="r_ad0b3b50568bdc0ecff275adf60c3a02e"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; </td></tr>
-<tr class="memitem:ad0b3b50568bdc0ecff275adf60c3a02e template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0b3b50568bdc0ecff275adf60c3a02e">snicholls::ml::attention_attend_rows_backward</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dy, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t n)</td></tr>
-<tr class="memdesc:ad0b3b50568bdc0ecff275adf60c3a02e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a1c87b031ef9718e6f678437bda1db1a4" title="Every token&#39;s heads over its visible keys: act.y and act.lse.">attention_attend_rows</a></span>: from the heads' output gradients <span class="tt">dy</span> (<span class="tt">n · q_size</span>), the queries' gradients written into <span class="tt">grads.q</span> and the keys' and values' added into <span class="tt">grads.k</span>, <span class="tt">grads.v</span>.  <br /></td></tr>
-<tr class="memitem:a55b98d7646c504bda6afb3eba6486b4b" id="r_a55b98d7646c504bda6afb3eba6486b4b"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, typename W, math::math_number T, typename R&gt; </td></tr>
-<tr class="memitem:a55b98d7646c504bda6afb3eba6486b4b template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55b98d7646c504bda6afb3eba6486b4b">snicholls::ml::attention_position_rows_backward</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; W, T &gt; &amp;w, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t n, const R &amp;rope_src)</td></tr>
-<tr class="memdesc:a55b98d7646c504bda6afb3eba6486b4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#ae741e7bcd709ff3fb0e9903a94ecb729" title="QK norm and RoPE of every token&#39;s heads, in place, after the raw copies: act.q, act....">attention_position_rows</a></span>, in place on <span class="tt">grads.q</span> and <span class="tt">grads.k</span>, the norms' gradients added into.  <br /></td></tr>
+<tr class="memitem:af29d2c8d215b14373e363e201b1bfdd1" id="r_af29d2c8d215b14373e363e201b1bfdd1"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, typename W, math::math_number T, typename R&gt; </td></tr>
+<tr class="memitem:af29d2c8d215b14373e363e201b1bfdd1 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af29d2c8d215b14373e363e201b1bfdd1">snicholls::ml::attention_position_rows</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; W, T &gt; &amp;w, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::size_t n, const R &amp;rope_src, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:af29d2c8d215b14373e363e201b1bfdd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">QK norm and RoPE of every token's heads, in place, after the raw copies: <span class="tt">act.q</span>, <span class="tt">act.k</span>, <span class="tt">act.q_raw</span>, <span class="tt">act.k_raw</span>.  <br /></td></tr>
+<tr class="memitem:a0ae1ce9b8a4c1002ab5ef8b0d6ddece6" id="r_a0ae1ce9b8a4c1002ab5ef8b0d6ddece6"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:a0ae1ce9b8a4c1002ab5ef8b0d6ddece6 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ae1ce9b8a4c1002ab5ef8b0d6ddece6">snicholls::ml::attention_attend_rows</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::size_t n, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:a0ae1ce9b8a4c1002ab5ef8b0d6ddece6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every token's heads over its visible keys, those of its own sequence: <span class="tt">act.y</span> and <span class="tt">act.lse</span>.  <br /></td></tr>
+<tr class="memitem:a2936c658dfecd1170c24fbb2b44aa3d1" id="r_a2936c658dfecd1170c24fbb2b44aa3d1"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; </td></tr>
+<tr class="memitem:a2936c658dfecd1170c24fbb2b44aa3d1 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2936c658dfecd1170c24fbb2b44aa3d1">snicholls::ml::attention_attend_rows_backward</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dy, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t n, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:a2936c658dfecd1170c24fbb2b44aa3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a0ae1ce9b8a4c1002ab5ef8b0d6ddece6" title="Every token&#39;s heads over its visible keys, those of its own sequence: act.y and act....">attention_attend_rows</a></span>: from the heads' output gradients <span class="tt">dy</span> (<span class="tt">sequences · n ·
+q_size</span>), the queries' gradients written into <span class="tt">grads.q</span> and the keys' and values' added into <span class="tt">grads.k</span>, <span class="tt">grads.v</span>.  <br /></td></tr>
+<tr class="memitem:a84a7a2b58341cd6880d5847d50208e58" id="r_a84a7a2b58341cd6880d5847d50208e58"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, typename W, math::math_number T, typename R&gt; </td></tr>
+<tr class="memitem:a84a7a2b58341cd6880d5847d50208e58 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84a7a2b58341cd6880d5847d50208e58">snicholls::ml::attention_position_rows_backward</a> (const B &amp;, const <a class="el" href="structsnicholls_1_1ml_1_1attention__weights.html">attention_weights</a>&lt; W, T &gt; &amp;w, const <a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html">attention_activations</a>&lt; T &gt; &amp;act, const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t n, const R &amp;rope_src, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:a84a7a2b58341cd6880d5847d50208e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#af29d2c8d215b14373e363e201b1bfdd1" title="QK norm and RoPE of every token&#39;s heads, in place, after the raw copies: act.q, act....">attention_position_rows</a></span>, in place on <span class="tt">grads.q</span> and <span class="tt">grads.k</span>, the norms' gradients added into.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt"><a class="el" href="#a05dbf58ac6804a349884e68a84dd92bd" title="Attention for one token at position pos: projects, rotates, caches, attends and projects back.">snicholls::ml::attention_forward</a></span>, <span class="tt">attention_forward_sequence</span> and <span class="tt">attention_backward</span>: a transformer's attention for one token at one position, or over a sequence for training, and its backward pass: the Q, K and V projections, QK norm, RoPE, the KV cache, grouped-query attention, the soft cap and the output projection, as the configuration says. </p>
@@ -189,8 +190,18 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" hr
 <p>Prefill is this for each token of a run in order, so a prompt and a decode step are one code path. Attention never forms the scores of a sequence: each head folds its keys in one pass (<span class="tt">attention_accumulator</span>), and a sliding window's two runs are folded in position order, so a ring cache gives the flat cache's bits.</p>
 <p><span class="tt">attention_head</span> is one head on its own: the unit to run on threads or devices.</p>
 <p>For training, <span class="tt">attention_forward_sequence</span> runs a whole sequence and saves <span class="tt">attention_activations</span> (each token's output is <span class="tt">attention_forward</span>'s, to the bit), and <span class="tt">attention_backward</span> takes the gradient in the outputs back to every weight, bias, QK-norm weight and input (<span class="tt">attention_gradients</span>): <span class="tt">Wo</span>'s backward, each head's (<span class="tt">attention_head_backward</span>, the soft cap included; grouped-query heads add into the key-value head they share), then QK norm and RoPE undone in the configuration's order, then the projections'. No <span class="tt">n x n</span> probabilities are formed. Only dense weights train.</p>
-<p>Both have a batched overload taking a <span class="tt">linalg</span> backend first: the projections are matrix products over the whole sequence (<span class="tt">Q</span>, each key-value head's <span class="tt">K</span> and <span class="tt">V</span>, <span class="tt">Wo</span>; a BLAS or a GPU backend from another library, the same call), and QK norm, RoPE and the heads are the per-token path's own code. Its backward needs <span class="tt">attention_gradients::y</span>, the heads' output gradients.</p>
-<div class="fragment"><div class="line">    <span class="comment">// Two query heads share one key-value head of 4 channels; RoPE in the half layout</span></div>
+<p>Both have a batched overload taking a <span class="tt">linalg</span> backend first: the projections are matrix products over the whole sequence (<span class="tt">Q</span>, each key-value head's <span class="tt">K</span> and <span class="tt">V</span>, <span class="tt">Wo</span>; a BLAS or a GPU backend from another library, the same call), and QK norm, RoPE and the heads are the per-token path's own code. Its backward needs <span class="tt">attention_gradients::y</span>, the heads' output gradients. Both take a number of sequences (default one): a batch of sequences laid end to end, every projection one product over all their rows, attention within each sequence, the activations each sequence's own side by side (<span class="tt">attention_activations</span>).</p>
+<div class="fragment"><div class="line">    <span class="comment">// A batch of two sequences in one call: the three tokens, then the same three again, end to end. Every projection</span></div>
+<div class="line">    <span class="comment">// is one product over all six rows; attention stays within each sequence (positions restart at 0), and the</span></div>
+<div class="line">    <span class="comment">// activations are each sequence&#39;s own side by side</span></div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="stages_8hpp.html#a0a81668d16797714b7733c77bf1705e9">batch</a> = 2;</div>
+<div class="line">    std::vector&lt;float&gt; xs2(xs);</div>
+<div class="line">    xs2.insert(xs2.end(), xs.begin(), xs.end());</div>
+<div class="line">    std::vector&lt;float&gt; q2(batch * sq.size()), k2(batch * sk.size()), v2(batch * sv.size()), y2(batch * sy.size()),</div>
+<div class="line">        lse2(batch * slse.size()), out2(batch * seq.size());</div>
+<div class="line">    <span class="keyword">const</span> ml::attention_activations&lt;float&gt; act2{q2, k2, v2, {}, {}, y2, lse2};</div>
+<div class="line">    ml::attention_forward_sequence&lt;c&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, w, xs2, rope, act2, out2, batch);</div>
+</div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Two query heads share one key-value head of 4 channels; RoPE in the half layout</span></div>
 <div class="line">    <span class="keyword">constexpr</span> ml::transformer_config c{.d_model = 8, .n_heads = 2, .n_kv_heads = 1, .head_dim = 4, .d_ff = 8, .rope = ml::rope_kind::half};</div>
 <div class="line">    std::vector&lt;float&gt; wq(8 * 8), wkv(4 * 8), wo(8 * 8);</div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; 8; ++i)</div>
@@ -257,8 +268,8 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == <a class="el" hr
 
 <p class="definition">Definition in file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a1c87b031ef9718e6f678437bda1db1a4" name="a1c87b031ef9718e6f678437bda1db1a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c87b031ef9718e6f678437bda1db1a4">&#9670;&#160;</a></span>attention_attend_rows()</h2>
+<a id="a0ae1ce9b8a4c1002ab5ef8b0d6ddece6" name="a0ae1ce9b8a4c1002ab5ef8b0d6ddece6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ae1ce9b8a4c1002ab5ef8b0d6ddece6">&#9670;&#160;</a></span>attention_attend_rows()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -281,7 +292,12 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -291,27 +307,28 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Every token's heads over its visible keys: <span class="tt">act.y</span> and <span class="tt">act.lse</span>. </p>
+<p>Every token's heads over its visible keys, those of its own sequence: <span class="tt">act.y</span> and <span class="tt">act.lse</span>. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">C</td><td>The configuration. </td></tr>
+    <tr><td class="paramname">C</td><td>The configuration.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">act</td><td>The activations.</td></tr>
-    <tr><td class="paramname">n</td><td>The tokens. </td></tr>
+    <tr><td class="paramname">n</td><td>The tokens of each sequence. </td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00416">416</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00457">457</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad0b3b50568bdc0ecff275adf60c3a02e" name="ad0b3b50568bdc0ecff275adf60c3a02e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0b3b50568bdc0ecff275adf60c3a02e">&#9670;&#160;</a></span>attention_attend_rows_backward()</h2>
+<a id="a2936c658dfecd1170c24fbb2b44aa3d1" name="a2936c658dfecd1170c24fbb2b44aa3d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2936c658dfecd1170c24fbb2b44aa3d1">&#9670;&#160;</a></span>attention_attend_rows_backward()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -344,7 +361,12 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -354,7 +376,8 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The backward pass of <span class="tt">attention_attend_rows</span>: from the heads' output gradients <span class="tt">dy</span> (<span class="tt">n · q_size</span>), the queries' gradients written into <span class="tt">grads.q</span> and the keys' and values' added into <span class="tt">grads.k</span>, <span class="tt">grads.v</span>. </p>
+<p>The backward pass of <span class="tt">attention_attend_rows</span>: from the heads' output gradients <span class="tt">dy</span> (<span class="tt">sequences · n ·
+q_size</span>), the queries' gradients written into <span class="tt">grads.q</span> and the keys' and values' added into <span class="tt">grads.k</span>, <span class="tt">grads.v</span>. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">C</td><td>The configuration.</td></tr>
@@ -366,12 +389,13 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
     <tr><td class="paramname">act</td><td>The activations.</td></tr>
     <tr><td class="paramname">dy</td><td>The gradients in the heads' outputs. </td></tr>
     <tr><td class="paramname">grads</td><td>The gradients.</td></tr>
-    <tr><td class="paramname">n</td><td>The tokens. </td></tr>
+    <tr><td class="paramname">n</td><td>The tokens of each sequence.</td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00427">427</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00471">471</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -450,12 +474,12 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00535">535</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00595">595</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a87a219d1b2b6813fd80f8f883e292b69" name="a87a219d1b2b6813fd80f8f883e292b69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87a219d1b2b6813fd80f8f883e292b69">&#9670;&#160;</a></span>attention_backward() <span class="overload">[2/2]</span></h2>
+<a id="af929ef92eadc8a68a4839c48601e474f" name="af929ef92eadc8a68a4839c48601e474f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af929ef92eadc8a68a4839c48601e474f">&#9670;&#160;</a></span>attention_backward() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -504,7 +528,12 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>grads</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1attention__gradients.html">attention_gradients</a>&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>grads</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -515,7 +544,8 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
 </div><div class="memdoc">
 
 <p>The backward pass of the batched <span class="tt">attention_forward_sequence</span>, its products through the backend. </p>
-<p><span class="tt">Wo</span>'s backward over the whole sequence (into <span class="tt">grads.y</span>, the heads' output gradients), the heads' backward and the undoing of QK norm and RoPE token by token (the per-token path's code), then <span class="tt">Wq</span>'s, each key-value head's <span class="tt">Wk</span> and <span class="tt">Wv</span>'s, each one pair of <span class="tt">gemm</span>s (<span class="tt">linear_sequence_backward</span>). </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p><span class="tt">Wo</span>'s backward over the whole sequence (into <span class="tt">grads.y</span>, the heads' output gradients), the heads' backward and the undoing of QK norm and RoPE token by token (the per-token path's code), then <span class="tt">Wq</span>'s, each key-value head's <span class="tt">Wk</span> and <span class="tt">Wv</span>'s, each one pair of <span class="tt">gemm</span>s (<span class="tt">linear_sequence_backward</span>).</p>
+<p>Over a batch of <span class="tt">sequences</span> (as the forward): the input's gradient, the biases', the QK norms' and <span class="tt">Wk</span>'s and <span class="tt">Wv</span>'s (made sequence by sequence on the host) are those of calling this once per sequence into the same gradients, to the bit; <span class="tt">Wq</span>'s and <span class="tt">Wo</span>'s are one product over every row, so their sums run in one pass where the per-sequence calls add one sequence's sum at a time: equal within rounding. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">C</td><td>The configuration. </td></tr>
   </table>
@@ -531,11 +561,12 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
     <tr><td class="paramname">dout</td><td>The gradient in its output, <span class="tt">n · d_model</span>. </td></tr>
     <tr><td class="paramname">dxs</td><td>Added into, <span class="tt">n · d_model</span>; or empty to skip it. </td></tr>
     <tr><td class="paramname">grads</td><td>Receives the gradients: <span class="tt">q</span>, <span class="tt">k</span>, <span class="tt">v</span> and the working space <span class="tt">y</span> (<span class="tt">n · q_size</span>) written, the rest added into. </td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences the forward pass took. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00588">588</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00654">654</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -614,7 +645,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00170">170</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00174">174</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -681,12 +712,12 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00458">458</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00511">511</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ae46c13c12c77144d5f7fab4b4ede8e3b" name="ae46c13c12c77144d5f7fab4b4ede8e3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae46c13c12c77144d5f7fab4b4ede8e3b">&#9670;&#160;</a></span>attention_forward_sequence() <span class="overload">[2/2]</span></h2>
+<a id="a91494f9b3a27626cd6b2401a42490667" name="a91494f9b3a27626cd6b2401a42490667"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91494f9b3a27626cd6b2401a42490667">&#9670;&#160;</a></span>attention_forward_sequence() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -725,7 +756,12 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+          <td class="paramtype">std::type_identity_t&lt; std::span&lt; T &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -736,7 +772,8 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
 </div><div class="memdoc">
 
 <p>Attention over a whole sequence with its projections as matrix products through a <span class="tt">linalg</span> backend, saving what <span class="tt">attention_backward</span> needs. </p>
-<p>The batched form of the overload above, for dense weights in the sequence's type: <span class="tt">Q = X Wqᵀ</span>, each key-value head's <span class="tt">K</span> and <span class="tt">V</span> straight into the activations' layout, and <span class="tt">X_out = Y Woᵀ</span>, each one <span class="tt">gemm</span> (a BLAS or a device does them); QK norm, RoPE and the heads are the same code as the per-token path. The projections are the backend's (<span class="tt">linear_sequence</span>), so a result can differ from the per-token path's in the last bits. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>The batched form of the overload above, for dense weights in the sequence's type: <span class="tt">Q = X Wqᵀ</span>, each key-value head's <span class="tt">K</span> and <span class="tt">V</span> straight into the activations' layout, and <span class="tt">X_out = Y Woᵀ</span>, each one <span class="tt">gemm</span> (a BLAS or a device does them); QK norm, RoPE and the heads are the same code as the per-token path. The projections are the backend's (<span class="tt">linear_sequence</span>), so a result can differ from the per-token path's in the last bits.</p>
+<p><b>A batch of sequences.</b> With <span class="tt">sequences</span> &gt; 1, <span class="tt">xs</span> holds that many sequences of <span class="tt">n</span> tokens end to end, and attention stays within each: positions restart at 0 and no token sees another sequence's. Every projection is one product over all <span class="tt">sequences · n</span> rows; the activations are each sequence's own laid end to end (see <span class="tt">attention_activations</span>). The result is that of calling this once per sequence, to the bit. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">C</td><td>The configuration. </td></tr>
   </table>
@@ -746,15 +783,16 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
   <table class="params">
     <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>. </td></tr>
     <tr><td class="paramname">w</td><td>The weights. </td></tr>
-    <tr><td class="paramname">xs</td><td><span class="tt">n</span> tokens of <span class="tt">d_model</span>, end to end (normalised inputs). </td></tr>
+    <tr><td class="paramname">xs</td><td><span class="tt">sequences · n</span> tokens of <span class="tt">d_model</span>, end to end (normalised inputs). </td></tr>
     <tr><td class="paramname">rope_src</td><td>The cosines and sines by position, covering <span class="tt">n - 1</span>, or <span class="tt">no_rope</span>. </td></tr>
     <tr><td class="paramname">act</td><td>Receives the activations. </td></tr>
-    <tr><td class="paramname">out</td><td>Receives <span class="tt">n</span> outputs of <span class="tt">d_model</span>; may not alias <span class="tt">xs</span>. </td></tr>
+    <tr><td class="paramname">out</td><td>Receives <span class="tt">sequences · n</span> outputs of <span class="tt">d_model</span>; may not alias <span class="tt">xs</span>. </td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences, at least one; <span class="tt">xs</span>'s rows divide evenly among them. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00500">500</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00559">559</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -810,7 +848,7 @@ requires std::same_as&lt;row_value_t&lt;Q&gt;, T&gt; &amp;&amp; std::same_as&lt;
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">logsumexp</span> of the scores, for a backward pass; -infinity with no keys. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00124">124</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00128">128</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -901,12 +939,12 @@ requires std::same_as&lt;row_value_t&lt;Q&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00216">216</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00220">220</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ae741e7bcd709ff3fb0e9903a94ecb729" name="ae741e7bcd709ff3fb0e9903a94ecb729"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae741e7bcd709ff3fb0e9903a94ecb729">&#9670;&#160;</a></span>attention_position_rows()</h2>
+<a id="af29d2c8d215b14373e363e201b1bfdd1" name="af29d2c8d215b14373e363e201b1bfdd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af29d2c8d215b14373e363e201b1bfdd1">&#9670;&#160;</a></span>attention_position_rows()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -939,7 +977,12 @@ template&lt;transformer_config C, typename B, typename W, math::math_number T, t
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const R &amp;</td>          <td class="paramname"><span class="paramname"><em>rope_src</em></span>&#160;)</td>
+          <td class="paramtype">const R &amp;</td>          <td class="paramname"><span class="paramname"><em>rope_src</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -960,18 +1003,19 @@ template&lt;transformer_config C, typename B, typename W, math::math_number T, t
   <table class="params">
     <tr><td class="paramname">w</td><td>The weights (the norms').</td></tr>
     <tr><td class="paramname">act</td><td>The activations. </td></tr>
-    <tr><td class="paramname">n</td><td>The tokens.</td></tr>
-    <tr><td class="paramname">rope_src</td><td>The rope source, or <span class="tt">no_rope</span>. </td></tr>
+    <tr><td class="paramname">n</td><td>The tokens of each sequence.</td></tr>
+    <tr><td class="paramname">rope_src</td><td>The rope source, or <span class="tt">no_rope</span>.</td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00406">406</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00443">443</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a55b98d7646c504bda6afb3eba6486b4b" name="a55b98d7646c504bda6afb3eba6486b4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55b98d7646c504bda6afb3eba6486b4b">&#9670;&#160;</a></span>attention_position_rows_backward()</h2>
+<a id="a84a7a2b58341cd6880d5847d50208e58" name="a84a7a2b58341cd6880d5847d50208e58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84a7a2b58341cd6880d5847d50208e58">&#9670;&#160;</a></span>attention_position_rows_backward()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1009,7 +1053,12 @@ template&lt;transformer_config C, typename B, typename W, math::math_number T, t
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const R &amp;</td>          <td class="paramname"><span class="paramname"><em>rope_src</em></span>&#160;)</td>
+          <td class="paramtype">const R &amp;</td>          <td class="paramname"><span class="paramname"><em>rope_src</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1031,13 +1080,14 @@ template&lt;transformer_config C, typename B, typename W, math::math_number T, t
     <tr><td class="paramname">w</td><td>The weights.</td></tr>
     <tr><td class="paramname">act</td><td>The activations.</td></tr>
     <tr><td class="paramname">grads</td><td>The gradients. </td></tr>
-    <tr><td class="paramname">n</td><td>The tokens.</td></tr>
-    <tr><td class="paramname">rope_src</td><td>The rope source. </td></tr>
+    <tr><td class="paramname">n</td><td>The tokens of each sequence.</td></tr>
+    <tr><td class="paramname">rope_src</td><td>The rope source.</td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00438">438</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00486">486</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>

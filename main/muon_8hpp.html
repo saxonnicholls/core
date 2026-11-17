@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,15 +93,17 @@ $(function(){initNavTree('muon_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend.  
+<p><span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix, every step on the backend.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="backend_8hpp_source.html">snicholls/core/linalg/backend.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="linear_8hpp_source.html">snicholls/core/ml/linear.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="optim_8hpp_source.html">snicholls/core/ml/optim.hpp</a>&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cassert&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
 </div>
 <p><a href="muon_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -118,7 +120,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac7af0f9c1fba601f265546030c1797fb" id="r_ac7af0f9c1fba601f265546030c1797fb"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7af0f9c1fba601f265546030c1797fb">snicholls::ml::muon_work_size</a> (std::size_t rows, std::size_t cols) noexcept</td></tr>
-<tr class="memdesc:ac7af0f9c1fba601f265546030c1797fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The working space <span class="tt"><a class="el" href="#a4f65fef5ca8ece4fe45d48dfa42c27ec" title="Muon&#39;s approximate orthogonalisation of a matrix: steps Newton-Schulz iterations from g / |g|_F.">muon_orthogonalise</a></span> and <span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix.">muon_step</a></span> need, in elements.  <br /></td></tr>
+<tr class="memdesc:ac7af0f9c1fba601f265546030c1797fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The working space <span class="tt"><a class="el" href="#a4f65fef5ca8ece4fe45d48dfa42c27ec" title="Muon&#39;s approximate orthogonalisation of a matrix: steps Newton-Schulz iterations from g / |g|_F.">muon_orthogonalise</a></span> and <span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix, every step on the backend.">muon_step</a></span> need, in elements.  <br /></td></tr>
 <tr class="memitem:a4f65fef5ca8ece4fe45d48dfa42c27ec" id="r_a4f65fef5ca8ece4fe45d48dfa42c27ec"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <tr class="memitem:a4f65fef5ca8ece4fe45d48dfa42c27ec template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f65fef5ca8ece4fe45d48dfa42c27ec">snicholls::ml::muon_orthogonalise</a> (const B &amp;backend, std::span&lt; const T &gt; g, std::size_t rows, std::size_t cols, std::span&lt; T &gt; out, std::span&lt; T &gt; work)</td></tr>
@@ -126,17 +128,25 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <tr class="memitem:a39c35ad6306b93e921aadfa32b537670" id="r_a39c35ad6306b93e921aadfa32b537670"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <tr class="memitem:a39c35ad6306b93e921aadfa32b537670 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670">snicholls::ml::muon_step</a> (const B &amp;backend, std::span&lt; T &gt; w, std::span&lt; const T &gt; g, std::span&lt; T &gt; momentum, std::size_t rows, std::size_t cols, const <a class="el" href="structsnicholls_1_1ml_1_1muon__config.html">muon_config</a>&lt; T &gt; &amp;config, std::span&lt; T &gt; work)</td></tr>
-<tr class="memdesc:a39c35ad6306b93e921aadfa32b537670"><td class="mdescLeft">&#160;</td><td class="mdescRight">One Muon update of a weight matrix.  <br /></td></tr>
+<tr class="memdesc:a39c35ad6306b93e921aadfa32b537670"><td class="mdescLeft">&#160;</td><td class="mdescRight">One Muon update of a weight matrix, every step on the backend.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend. </p>
+<div class="textblock"><p><span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix, every step on the backend.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend. </p>
 <p><b>Overview.</b> Muon (Jordan et al., 2024; nanochat's optimiser for the matrices of its blocks) replaces a matrix parameter's update by its nearest semi-orthogonal matrix, approximately: the momentum <span class="tt">M</span> is divided by its Frobenius norm and iterated <span class="tt">X ← a X + (b A + c A²) X</span> with <span class="tt">A = X Xᵀ</span>, the quintic of <span class="tt">muon_newton_schulz</span> (<span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>), which moves every singular value toward 1 (into roughly <span class="tt">[0.7, 1.2]</span>). The products run on any <span class="tt">linalg::blas_backend</span>: <span class="tt">linalg::reference</span> here and in tests, a BLAS or device backend for speed.</p>
 <ul>
 <li><span class="tt">muon_orthogonalise(backend, g, rows, cols, out, work)</span>: the iteration on an <span class="tt">rows x cols</span> matrix, on its transpose when it has more rows than columns, so <span class="tt">A</span> is the smaller square.</li>
 <li><span class="tt">muon_step(backend, w, g, momentum, rows, cols, config, work)</span>: one update. <span class="tt">momentum ← μ momentum + g</span>, then <span class="tt">g + μ momentum</span> (Nesterov) or <span class="tt">momentum</span> is orthogonalised and <span class="tt">w ← w − lr · sqrt(max(1, rows / cols)) · X</span>, nanochat's scaling.</li>
 <li><span class="tt">muon_work_size(rows, cols)</span>: the working space both need, so nothing is allocated.</li>
 </ul>
-<p>Muon is for the 2-D weights inside the blocks; embeddings, the head, norms and biases use <span class="tt">adamw_step</span>.</p>
+<p>Every step is a call on the backend (TRAINING.md T9): the products are its <span class="tt">gemm</span>, and the rest are <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>'s elementwise steps (<span class="tt">copy_rows</span>, <span class="tt">scale_rows</span>, <span class="tt">add_rows</span>, and <span class="tt">sum_squares</span> for the norm), whose host overloads take any backend. A device library overloads them for its own backend (snicholls-gpu's <span class="tt">cuda_training_backend</span>), so a Muon step runs on the device over device memory, as <span class="tt">adamw_rows</span> does; through core's reference backend the result is the elementwise loops' to the bit.</p>
+<div class="fragment"><div class="line">    <span class="comment">// Every step of muon_step is a call on its backend: the products (gemm) and the elementwise steps (copy_rows,</span></div>
+<div class="line">    <span class="comment">// scale_rows, add_rows, sum_squares). Core&#39;s reference runs them on the host; with snicholls-gpu&#39;s</span></div>
+<div class="line">    <span class="comment">// cuda_training_backend and the four spans in device memory, the same call runs on the GPU, as adamw_rows does</span></div>
+<div class="line">    <span class="keyword">const</span> std::size_t rows = 4, cols = 2;   <span class="comment">// tall: scaled by sqrt(rows / cols)</span></div>
+<div class="line">    std::vector&lt;float&gt; wt(rows * cols, 1.0f), gt{1, 0, 0, 1, 1, 0, 0, 1}, mt(rows * cols, 0.0f), wk(ml::muon_work_size(rows, cols));</div>
+<div class="line">    ml::muon_step(la::reference, std::span&lt;float&gt;(wt), std::span&lt;const float&gt;(gt), std::span&lt;float&gt;(mt), rows, cols,</div>
+<div class="line">                  ml::muon_config&lt;float&gt;{.lr = 0.02f, .momentum = 0.95f, .nesterov = <span class="keyword">true</span>}, std::span&lt;float&gt;(wk));</div>
+</div><!-- fragment --><p>Muon is for the 2-D weights inside the blocks; embeddings, the head, norms and biases use <span class="tt">adamw_step</span>.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A 2 x 3 gradient whose rows differ in size by 100: plain SGD would move almost only along the first</span></div>
 <div class="line">    <span class="keyword">const</span> std::vector&lt;float&gt; g{10.0f, 0.0f, 0.0f, 0.0f, 0.1f, 0.0f};</div>
 <div class="line">    std::vector&lt;float&gt; x(g.size()), work(ml::muon_work_size(2, 3));</div>
@@ -271,14 +281,14 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">        losses.push_back(m.step(text, <span class="keyword">static_cast&lt;</span>std::uint64_t<span class="keyword">&gt;</span>(t)));</div>
 <div class="line">    <span class="keywordflow">return</span> losses;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span> (<span class="tt">muon_newton_schulz</span>, <span class="tt">adamw_step</span>), <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span> (the backend concept), <span class="tt"><a class="el" href="reference_8hpp.html" title="linalg::reference_backend: the standard-library-only backend, naive and correct, that every other bac...">linalg/reference.hpp</a></span> (the reference backend). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Implementations.</b> One, over the backend's <span class="tt">gemm</span>.</p>
-<p><b>Guarantees.</b> <span class="tt">constexpr</span> with a <span class="tt">constexpr</span> backend, no allocation (the caller's <span class="tt">muon_work_size</span> elements), <span class="tt">steps · (2 r² s + r³)</span> multiply-adds for <span class="tt">r = min(rows, cols)</span>, <span class="tt">s = max(rows, cols)</span>. A zero gradient gives a zero update.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span> (<span class="tt">muon_newton_schulz</span>, <span class="tt">adamw_step</span>, <span class="tt">adamw_rows</span>), <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span> (the elementwise steps on the backend), <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span> (the backend concept), <span class="tt"><a class="el" href="reference_8hpp.html" title="linalg::reference_backend: the standard-library-only backend, naive and correct, that every other bac...">linalg/reference.hpp</a></span> (the reference backend). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<p><b>Implementations.</b> One, over the backend's <span class="tt">gemm</span> and elementwise steps. A tall matrix is iterated with <span class="tt">A = Xᵀ X</span> and <span class="tt">X ← a X + X B</span> rather than transposed, the same arithmetic term for term.</p>
+<p><b>Guarantees.</b> <span class="tt">constexpr</span> with a <span class="tt">constexpr</span> backend, no allocation (the caller's <span class="tt">muon_work_size</span> elements), <span class="tt">steps · (2 r² s + r³)</span> multiply-adds for <span class="tt">r = min(rows, cols)</span>, <span class="tt">s = max(rows, cols)</span>. A zero gradient gives a zero update. The norm is one <span class="tt">sum_squares</span>, so on a device the norm's value comes back to the host once per orthogonalisation (a synchronisation).</p>
 <p><b>Errors.</b> Preconditions, asserted: <span class="tt">g</span>, <span class="tt">out</span>, <span class="tt">w</span> and <span class="tt">momentum</span> have <span class="tt">rows · cols</span>; <span class="tt">work</span> has <span class="tt">muon_work_size(rows, cols)</span>.</p>
-<p><b>Performance.</b> Not benchmarked: three <span class="tt">gemm</span>s per step, the backend's.</p>
+<p><b>Performance.</b> Not benchmarked here: three <span class="tt">gemm</span>s and two copies per iteration, the backend's. On a GPU see snicholls-gpu's <span class="tt">cuda_ops_benchmark.cpp</span> (a GPT-2-small Muon step against AdamW on the same matrices).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/muon_test.cpp</span>, <span class="tt">demos/ml/muon_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>.</p>
-<p><b>Known issues.</b> nanochat runs the iteration in bfloat16; here it runs in <span class="tt">T</span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>.</p>
+<p><b>Known issues.</b> nanochat runs the iteration in bfloat16; here it runs in <span class="tt">T</span>, or in whatever the backend's products use (snicholls-gpu's <span class="tt">cuda_math::bf16</span> rounds their operands to bfloat16).</p>
 <p><b>Status.</b> Experimental, new in 0.9.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
@@ -334,7 +344,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </div><div class="memdoc">
 
 <p>Muon's approximate orthogonalisation of a matrix: <span class="tt">steps</span> Newton-Schulz iterations from <span class="tt">g / |g|_F</span>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Every step is a call on the backend (TRAINING.md T9): <span class="tt">sum_squares</span> for the norm, <span class="tt">copy_rows</span> and <span class="tt">scale_rows</span> for <span class="tt">X = g / |g|</span>, three <span class="tt">gemm</span>s per iteration with the <span class="tt">b A</span> and <span class="tt">a X</span> terms as the products' <span class="tt">beta</span>, and <span class="tt">copy_rows</span> for the result, so a device library's overloads keep the matrix on the device. A tall matrix is iterated as it is, with <span class="tt">A = Xᵀ X</span> and <span class="tt">X ← a X + X B</span>, which is the transpose's iteration term for term (<span class="tt">A</span> and <span class="tt">B</span> are symmetric to the bit), so nothing is transposed. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>. </td></tr>
     <tr><td class="paramname">g</td><td>The matrix, <span class="tt">rows x cols</span>, row-major. </td></tr>
@@ -346,7 +356,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00105">105</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00125">125</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
 
 </div>
 </div>
@@ -410,8 +420,8 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </table>
 </div><div class="memdoc">
 
-<p>One Muon update of a weight matrix. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>One Muon update of a weight matrix, every step on the backend. </p>
+<p><span class="tt">momentum ← μ momentum + g</span> and Nesterov's <span class="tt">g + μ momentum</span> are <span class="tt">scale_rows</span>, <span class="tt">add_rows</span> and <span class="tt">copy_rows</span>; the orthogonalisation is <span class="tt">muon_orthogonalise</span>; <span class="tt">w ← w − lr · sqrt(max(1, rows / cols)) · X</span> is <span class="tt">scale_rows</span> and <span class="tt">add_rows</span>. With core's reference backend the result is the elementwise loops' to the bit; with a device library's overloads (snicholls-gpu's <span class="tt">cuda_training_backend</span>) <span class="tt">w</span>, <span class="tt">g</span>, <span class="tt">momentum</span> and <span class="tt">work</span> stay in device memory. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>. </td></tr>
     <tr><td class="paramname">w</td><td>The weights, <span class="tt">rows x cols</span>, row-major: updated. </td></tr>
@@ -425,7 +435,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00155">155</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00182">182</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
 
 </div>
 </div>
@@ -466,7 +476,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">4 · rows · cols + 2 · min(rows, cols)²</span>: the iteration's two copies of <span class="tt">X</span> and its two squares, and <span class="tt">muon_step</span>'s update and result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00090">90</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00104">104</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
 
 </div>
 </div>

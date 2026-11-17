@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -155,15 +155,15 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <tr class="memitem:a9663889afdcb2b9be2c65e89d149550a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9663889afdcb2b9be2c65e89d149550a">snicholls::ml::linear_sequence_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dys, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dw, std::type_identity_t&lt; std::span&lt; T &gt; &gt; db={})</td></tr>
 <tr class="memdesc:a9663889afdcb2b9be2c65e89d149550a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a54313b137003f9e5964efa70ce6acb13" title="Y = X Wᵀ + b for a sequence of n rows, as one matrix product through a linalg backend.">linear_sequence</a></span>: <span class="tt">dX += dY W</span>, <span class="tt">dW += dYᵀ X</span>, <span class="tt">db += Σ dY</span>, as two matrix products through the backend.  <br /></td></tr>
-<tr class="memitem:a16e1d8184e3a32aff3f3bec2a779d7fb" id="r_a16e1d8184e3a32aff3f3bec2a779d7fb"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
+<tr class="memitem:abfc08df9871f4c7d57634bef95e8b8b1" id="r_abfc08df9871f4c7d57634bef95e8b8b1"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
-<tr class="memitem:a16e1d8184e3a32aff3f3bec2a779d7fb template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16e1d8184e3a32aff3f3bec2a779d7fb">snicholls::ml::linear_heads</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; out, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; bias, std::size_t heads)</td></tr>
-<tr class="memdesc:a16e1d8184e3a32aff3f3bec2a779d7fb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#a54313b137003f9e5964efa70ce6acb13" title="Y = X Wᵀ + b for a sequence of n rows, as one matrix product through a linalg backend.">linear_sequence</a></span> with the outputs head by head: for each of <span class="tt">heads</span> blocks of <span class="tt">W</span>'s rows, <span class="tt">Y_h = X W_hᵀ +
-b_h</span>, written to <span class="tt">out[h · n · d ...]</span> (<span class="tt">d = rows / heads</span>).  <br /></td></tr>
-<tr class="memitem:a9ce2c63be3de7d17563c47f9c2508951" id="r_a9ce2c63be3de7d17563c47f9c2508951"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
+<tr class="memitem:abfc08df9871f4c7d57634bef95e8b8b1 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfc08df9871f4c7d57634bef95e8b8b1">snicholls::ml::linear_heads</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; out, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; bias, std::size_t heads, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:abfc08df9871f4c7d57634bef95e8b8b1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#a54313b137003f9e5964efa70ce6acb13" title="Y = X Wᵀ + b for a sequence of n rows, as one matrix product through a linalg backend.">linear_sequence</a></span> with the outputs head by head: for each of <span class="tt">heads</span> blocks of <span class="tt">W</span>'s rows, <span class="tt">Y_h = X W_hᵀ +
+b_h</span>, written to <span class="tt">out[h · n · d ...]</span> (<span class="tt">d = rows / heads</span>); over <span class="tt">sequences</span> sequences laid end to end, each sequence's block of <span class="tt">heads · n · d</span> after the one before (sequence-major, as attention keeps a batch's keys).  <br /></td></tr>
+<tr class="memitem:a8b089e741a73cf24864b3958cead08fa" id="r_a8b089e741a73cf24864b3958cead08fa"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
-<tr class="memitem:a9ce2c63be3de7d17563c47f9c2508951 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ce2c63be3de7d17563c47f9c2508951">snicholls::ml::linear_heads_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; douts, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dw, std::type_identity_t&lt; std::span&lt; T &gt; &gt; db, std::size_t heads)</td></tr>
-<tr class="memdesc:a9ce2c63be3de7d17563c47f9c2508951"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a16e1d8184e3a32aff3f3bec2a779d7fb" title="linear_sequence with the outputs head by head: for each of heads blocks of W&#39;s rows,...">linear_heads</a></span>: for each head, <span class="tt"><a class="el" href="#a9663889afdcb2b9be2c65e89d149550a" title="The backward pass of linear_sequence: dX += dY W, dW += dYᵀ X, db += Σ dY, as two matrix products thr...">linear_sequence_backward</a></span> on its block of rows, in head order.  <br /></td></tr>
+<tr class="memitem:a8b089e741a73cf24864b3958cead08fa template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b089e741a73cf24864b3958cead08fa">snicholls::ml::linear_heads_backward</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;w, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; douts, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dxs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dw, std::type_identity_t&lt; std::span&lt; T &gt; &gt; db, std::size_t heads, std::size_t sequences=1)</td></tr>
+<tr class="memdesc:a8b089e741a73cf24864b3958cead08fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#abfc08df9871f4c7d57634bef95e8b8b1" title="linear_sequence with the outputs head by head: for each of heads blocks of W&#39;s rows,...">linear_heads</a></span>: for each sequence, for each head, <span class="tt"><a class="el" href="#a9663889afdcb2b9be2c65e89d149550a" title="The backward pass of linear_sequence: dX += dY W, dW += dYᵀ X, db += Σ dY, as two matrix products thr...">linear_sequence_backward</a></span> on its block of rows, in that order, so the gradients are the per-sequence calls' to the bit.  <br /></td></tr>
 <tr id="func-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">The elementwise steps of the batched passes, on the backend (TRAINING.md T9)</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Every step of a batched training pass that is not a matrix product is one of these calls, made with the pass's backend, so a device library runs it where the backend keeps its data. The overloads here take any backend and run on the host; a device library adds an overload for its own backend type (found by argument-dependent lookup, and more specialised, so it is chosen) that runs on the device. </p>
 </div></td></tr>
@@ -202,7 +202,7 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</td></tr>
 <li><span class="tt">linear(w, input, y, bias)</span>: each output starts at its bias (or 0) and adds the products in input order, as llm.c's <span class="tt">matmul_forward</span> does, so a dense float product is llm.c's to the bit.</li>
 <li><span class="tt">linear_backward(w, x, dy, dx, dw, db)</span>: for dense (trainable) storage, adds <span class="tt">Wᵀ dy</span>, <span class="tt">dy xᵀ</span> and <span class="tt">dy</span> into the gradients, as llm.c's <span class="tt">matmul_backward</span>.</li>
 <li><span class="tt">linear_sequence(backend, w, xs, ys, bias)</span> and <span class="tt">linear_sequence_backward(backend, w, xs, dys, dxs, dw, db)</span>: the same over a sequence of <span class="tt">n</span> rows, as one matrix product (and two for the backward) through a <span class="tt">linalg</span> backend: core's reference, or a BLAS or a GPU backend from another library, the same call. Dense weights in the sequence's type. The result is the backend's: the reference sums each output in input order and adds the bias after, so it can differ from <span class="tt">linear</span> in the last bit.</li>
-<li><span class="tt">linear_heads(backend, w, xs, out, bias, heads)</span> and <span class="tt">linear_heads_backward(...)</span>: the same with the outputs laid out head by head (<span class="tt">heads</span> blocks of <span class="tt">rows / heads</span> outputs, each block's <span class="tt">n</span> rows end to end), as attention keeps its keys and values. Here each head is its own <span class="tt">linear_sequence</span>; a device library overloads them for its backend to make one product for all the heads.</li>
+<li><span class="tt">linear_heads(backend, w, xs, out, bias, heads, sequences)</span> and <span class="tt">linear_heads_backward(...)</span>: the same with the outputs laid out head by head (<span class="tt">heads</span> blocks of <span class="tt">rows / heads</span> outputs, each block's <span class="tt">n</span> rows end to end), as attention keeps its keys and values; over a batch of <span class="tt">sequences</span> sequences end to end (default one), each sequence's heads after the previous sequence's. Here each (sequence, head) is its own <span class="tt">linear_sequence</span>; a device library overloads them for its backend to make one product for all of them.</li>
 </ul>
 <p>A storage of the caller's own joins by overloading <span class="tt">prepare_input</span> and <span class="tt">linear</span> in its namespace (found by ADL); that is the seam for a BLAS or device backend.</p>
 <div class="fragment"><div class="line">    <span class="comment">// 2 outputs from 32 inputs, laid out as nn.Linear.weight: row i is output i&#39;s weights</span></div>
@@ -255,6 +255,9 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</td></tr>
 <div class="line">    ml::linear_heads(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, ml::dense_weights&lt;float&gt;{kv, 4, 2}, tokens, by_head, {}, 2);</div>
 <div class="line">    std::array&lt;float, 8&gt; dkv{};</div>
 <div class="line">    ml::linear_heads_backward(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, ml::dense_weights&lt;float&gt;{kv, 4, 2}, tokens, by_head, {}, dkv, {}, 2);</div>
+<div class="line">    <span class="comment">// A batch of two sequences of one token each: each sequence&#39;s heads after the previous sequence&#39;s</span></div>
+<div class="line">    std::array&lt;float, 8&gt; <a class="code hl_function" href="stages_8hpp.html#a0a81668d16797714b7733c77bf1705e9">batch</a>{};</div>
+<div class="line">    ml::linear_heads(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, ml::dense_weights&lt;float&gt;{kv, 4, 2}, tokens, <a class="code hl_function" href="stages_8hpp.html#a0a81668d16797714b7733c77bf1705e9">batch</a>, {}, 2, 2);</div>
 </div><!-- fragment --><p><span class="tt">sum_values</span>, <span class="tt">sum_squares</span> and <span class="tt">scale_rows</span> are the batched passes' reductions and gradient clipping's rescale, on the backend like the other steps:</p>
 <div class="fragment"><div class="line">    <span class="comment">// The batched passes&#39; reductions on a backend: a loss summed over rows, a gradient&#39;s squared norm, its rescale</span></div>
 <div class="line">    std::array&lt;float, 3&gt; g{3.0f, 4.0f, 0.0f};</div>
@@ -330,7 +333,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00332">332</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00333">333</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -377,7 +380,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00323">323</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00324">324</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -424,7 +427,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00315">315</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00316">316</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -471,7 +474,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00308">308</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00309">309</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -526,7 +529,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;Y&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00197">197</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00198">198</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -581,7 +584,7 @@ requires std::same_as&lt;row_value_t&lt;Y&gt;, float&gt; &amp;&amp; std::same_as
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00264">264</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00265">265</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -648,12 +651,12 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;DY&gt;&gt; &amp;&a
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00230">230</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00231">231</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a16e1d8184e3a32aff3f3bec2a779d7fb" name="a16e1d8184e3a32aff3f3bec2a779d7fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16e1d8184e3a32aff3f3bec2a779d7fb">&#9670;&#160;</a></span>linear_heads()</h2>
+<a id="abfc08df9871f4c7d57634bef95e8b8b1" name="abfc08df9871f4c7d57634bef95e8b8b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfc08df9871f4c7d57634bef95e8b8b1">&#9670;&#160;</a></span>linear_heads()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -692,7 +695,12 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>heads</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>heads</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -703,25 +711,26 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </div><div class="memdoc">
 
 <p><span class="tt">linear_sequence</span> with the outputs head by head: for each of <span class="tt">heads</span> blocks of <span class="tt">W</span>'s rows, <span class="tt">Y_h = X W_hᵀ +
-b_h</span>, written to <span class="tt">out[h · n · d ...]</span> (<span class="tt">d = rows / heads</span>). </p>
-<p>On the host, each head is <span class="tt">linear_sequence</span> on its block of rows, so the result is those calls' to the bit; a device library overloads it for its own backend type (one product, then a permutation). </p><dl class="params"><dt>Parameters</dt><dd>
+b_h</span>, written to <span class="tt">out[h · n · d ...]</span> (<span class="tt">d = rows / heads</span>); over <span class="tt">sequences</span> sequences laid end to end, each sequence's block of <span class="tt">heads · n · d</span> after the one before (sequence-major, as attention keeps a batch's keys). </p>
+<p>On the host, each (sequence, head) is <span class="tt">linear_sequence</span> on its rows, sequence by sequence, so the result is those calls' to the bit, and calling it once per sequence gives the same bits; a device library overloads it for its own backend type (one product, then a permutation). </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>.</td></tr>
     <tr><td class="paramname">w</td><td>The matrix, <span class="tt">rows x cols</span>.</td></tr>
-    <tr><td class="paramname">xs</td><td><span class="tt">n</span> inputs of <span class="tt">cols</span>. </td></tr>
-    <tr><td class="paramname">out</td><td>Receives <span class="tt">heads · n · d</span>, head by head.</td></tr>
+    <tr><td class="paramname">xs</td><td><span class="tt">sequences · n</span> inputs of <span class="tt">cols</span>.</td></tr>
+    <tr><td class="paramname">out</td><td>Receives <span class="tt">sequences · heads · n · d</span>, head by head within each sequence.</td></tr>
     <tr><td class="paramname">bias</td><td><span class="tt">rows</span> biases, or empty.</td></tr>
-    <tr><td class="paramname">heads</td><td>The heads. </td></tr>
+    <tr><td class="paramname">heads</td><td>The heads.</td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences, at least one; <span class="tt">xs</span>'s rows divide evenly. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00450">450</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00454">454</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a9ce2c63be3de7d17563c47f9c2508951" name="a9ce2c63be3de7d17563c47f9c2508951"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ce2c63be3de7d17563c47f9c2508951">&#9670;&#160;</a></span>linear_heads_backward()</h2>
+<a id="a8b089e741a73cf24864b3958cead08fa" name="a8b089e741a73cf24864b3958cead08fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b089e741a73cf24864b3958cead08fa">&#9670;&#160;</a></span>linear_heads_backward()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -770,7 +779,12 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>heads</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>heads</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>sequences</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -780,22 +794,23 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </table>
 </div><div class="memdoc">
 
-<p>The backward pass of <span class="tt">linear_heads</span>: for each head, <span class="tt">linear_sequence_backward</span> on its block of rows, in head order. </p>
+<p>The backward pass of <span class="tt">linear_heads</span>: for each sequence, for each head, <span class="tt">linear_sequence_backward</span> on its block of rows, in that order, so the gradients are the per-sequence calls' to the bit. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">backend</td><td>A <span class="tt">linalg::blas_backend</span>.</td></tr>
     <tr><td class="paramname">w</td><td>The matrix.</td></tr>
-    <tr><td class="paramname">xs</td><td>The <span class="tt">n</span> inputs. </td></tr>
-    <tr><td class="paramname">douts</td><td>The gradients in the outputs, head by head.</td></tr>
+    <tr><td class="paramname">xs</td><td>The <span class="tt">sequences · n</span> inputs.</td></tr>
+    <tr><td class="paramname">douts</td><td>The gradients in the outputs, laid out as <span class="tt">linear_heads</span> writes them.</td></tr>
     <tr><td class="paramname">dxs</td><td>Added into, or empty.</td></tr>
     <tr><td class="paramname">dw</td><td>Added into, <span class="tt">rows · cols</span>.</td></tr>
     <tr><td class="paramname">db</td><td>Added into, <span class="tt">rows</span>, or empty.</td></tr>
-    <tr><td class="paramname">heads</td><td>The heads. </td></tr>
+    <tr><td class="paramname">heads</td><td>The heads.</td></tr>
+    <tr><td class="paramname">sequences</td><td>The sequences. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00467">467</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00474">474</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -856,7 +871,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00396">396</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00397">397</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -929,7 +944,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00422">422</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00423">423</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -977,7 +992,7 @@ template&lt;std::size_t N, typename S, row X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A view of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00171">171</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00172">172</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1026,7 +1041,7 @@ requires (std::same_as&lt;row_value_t&lt;X&gt;, float&gt; &amp;&amp; N % quant_b
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">N / 32</span> blocks. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00183">183</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00184">184</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1073,7 +1088,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00376">376</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00377">377</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1120,7 +1135,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00343">343</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00344">344</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1163,7 +1178,7 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The sum. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00366">366</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00367">367</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1206,7 +1221,7 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The sum. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00355">355</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00356">356</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>

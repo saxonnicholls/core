@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -116,7 +116,7 @@ Files</h2></td></tr>
 <tr class="memitem:mlp_2Ehpp" id="r_mlp_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="mlp_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mlp_8hpp.html">mlp.hpp</a></td></tr>
 <tr class="memdesc:mlp_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="mlp_8hpp.html#ae14cf64ec8f41fa7075c0980689408ac" title="The MLP for one token: y = down(act(up x + b) ) + b, or SwiGLU&#39;s down(silu(gate x) · up x).">snicholls::ml::mlp_forward</a></span> and <span class="tt">mlp_backward</span>: a transformer's MLP for one token, <span class="tt">down(act(up x))</span> or SwiGLU's <span class="tt">down(silu(gate x) · up x)</span>, as the configuration says, and its backward pass; <span class="tt">moe_gate</span> and its backward. <br /></td></tr>
 <tr class="memitem:muon_2Ehpp" id="r_muon_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="muon_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="muon_8hpp.html">muon.hpp</a></td></tr>
-<tr class="memdesc:muon_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="muon_8hpp.html#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend. <br /></td></tr>
+<tr class="memdesc:muon_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="muon_8hpp.html#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix, every step on the backend.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend. <br /></td></tr>
 <tr class="memitem:norm_2Ehpp" id="r_norm_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="norm_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="norm_8hpp.html">norm.hpp</a></td></tr>
 <tr class="memdesc:norm_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> normalisation: <span class="tt">layer_norm</span> and <span class="tt">rms_norm</span> over one row, forward and backward, with or without learned parameters. <br /></td></tr>
 <tr class="memitem:optim_2Ehpp" id="r_optim_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="optim_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="optim_8hpp.html">optim.hpp</a></td></tr>

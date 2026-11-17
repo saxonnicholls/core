@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.12.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('structsnicholls_1_1ml_1_1attention__gradients.html',''
 </div><!--header-->
 <div class="contents">
 
-<p>The gradients of an attention layer: views the caller owns.  
+<p>The gradients of an attention layer: views the caller owns. <span class="tt"><a class="el" href="#a11784efa704669aba0774ee1eada0969" title="n · q_size: written, the gradients in the projected queries.">q</a></span>, <span class="tt"><a class="el" href="#a9d46073204cef766e8848df76e70ab9b" title="n_kv_heads · n · head_dim: written, in the projected keys, laid out as the activations.">k</a></span>, <span class="tt"><a class="el" href="#a65b40f6d22956e999341c8b1859296a9" title="n_kv_heads · n · head_dim: written, in the values.">v</a></span> and <span class="tt"><a class="el" href="#a412bf38dbe49a777843218a8919ff5fb" title="n · q_size: the batched backward&#39;s working space (the heads&#39; output gradients); else empty.">y</a></span> are laid out per sequence as <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html" title="What attention_forward_sequence saves for attention_backward: views the caller owns.">attention_activations</a></span> is.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="attention__layer_8hpp_source.html">snicholls/core/ml/attention_layer.hpp</a>&gt;</code></p>
@@ -131,7 +131,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;math::math_number T&gt;<br />
-struct snicholls::ml::attention_gradients&lt; T &gt;</div><p>The gradients of an attention layer: views the caller owns. </p>
+struct snicholls::ml::attention_gradients&lt; T &gt;</div><p>The gradients of an attention layer: views the caller owns. <span class="tt"><a class="el" href="#a11784efa704669aba0774ee1eada0969" title="n · q_size: written, the gradients in the projected queries.">q</a></span>, <span class="tt"><a class="el" href="#a9d46073204cef766e8848df76e70ab9b" title="n_kv_heads · n · head_dim: written, in the projected keys, laid out as the activations.">k</a></span>, <span class="tt"><a class="el" href="#a65b40f6d22956e999341c8b1859296a9" title="n_kv_heads · n · head_dim: written, in the values.">v</a></span> and <span class="tt"><a class="el" href="#a412bf38dbe49a777843218a8919ff5fb" title="n · q_size: the batched backward&#39;s working space (the heads&#39; output gradients); else empty.">y</a></span> are laid out per sequence as <span class="tt"><a class="el" href="structsnicholls_1_1ml_1_1attention__activations.html" title="What attention_forward_sequence saves for attention_backward: views the caller owns.">attention_activations</a></span> is. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The number type. </td></tr>
@@ -139,7 +139,7 @@ struct snicholls::ml::attention_gradients&lt; T &gt;</div><p>The gradients of an
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00267">267</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00277">277</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a9d46073204cef766e8848df76e70ab9b" name="a9d46073204cef766e8848df76e70ab9b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d46073204cef766e8848df76e70ab9b">&#9670;&#160;</a></span>k</h2>
@@ -157,7 +157,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n_kv_heads · n · head_dim</span>: written, in the projected keys, laid out as the activations. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00270">270</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00280">280</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -177,7 +177,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">kv_size</span>: added into; or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00277">277</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00287">287</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -197,7 +197,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">head_dim</span>: added into; or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00281">281</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00291">291</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -217,7 +217,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">d_model</span>: added into; or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00279">279</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00289">289</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -237,7 +237,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · q_size</span>: written, the gradients in the projected queries. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00269">269</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00279">279</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -257,7 +257,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">q_size</span>: added into; or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00276">276</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00286">286</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -277,7 +277,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">head_dim</span>: added into; or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00280">280</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00290">290</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -297,7 +297,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n_kv_heads · n · head_dim</span>: written, in the values. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00271">271</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00281">281</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">kv_size</span>: added into; or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00278">278</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00288">288</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +337,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">kv_size · d_model</span>: added into. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00273">273</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00283">283</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -357,7 +357,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">d_model · q_size</span>: added into. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00275">275</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00285">285</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -377,7 +377,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">q_size · d_model</span>: added into. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00272">272</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00282">282</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -397,7 +397,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">kv_size · d_model</span>: added into. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00274">274</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00284">284</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -417,7 +417,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt">n · q_size</span>: the batched backward's working space (the heads' output gradients); else empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00282">282</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00292">292</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
