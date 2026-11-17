@@ -3,6 +3,16 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.12.0 - 2026-11-17
+
+### Added
+
+- **A padded head** (`ml/lm_head.hpp`, `ml/softmax.hpp`): `lm_head_loss_sequence(..., classes)` and
+  `cross_entropy_rows(..., classes)` take logits rows wider than the classes, the padding not a class and its gradient
+  0, as llm.c lays out GPT-2's 50,257 tokens in 50,304 rows so that the head's product suits the tensor cores. With
+  every row a class, the results are the unpadded ones to the bit; a padded head gives the unpadded head's loss and
+  gradients to the bit, and nothing to the padding's rows.
+
 ## 0.11.0 - 2026-11-17
 
 ### Added

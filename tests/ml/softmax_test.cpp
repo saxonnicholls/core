@@ -15,6 +15,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -288,6 +289,22 @@ TEST(MlSoftmax, CrossEntropyRowsIsTheFusedClassifierRowByRow)
     }
     EXPECT_EQ(losses, want);
     EXPECT_EQ(logits, expect);
+}
+
+// Rows wider than the classes (a padded vocabulary): the classes as an unpadded row's, to the bit; the padding 0
+TEST(MlSoftmax, CrossEntropyRowsOverTheFirstClassesZeroesThePadding)
+{
+    constexpr std::size_t n = 3, classes = 5, v = 8;
+    std::vector<double> narrow{0.1, -2, 3, 0.5, 1, 4, 4, -1, 0, 2, -0.3, 0.2, 0.7, 1.1, -5}, wide(n * v, 9.0), losses(n), want(n);
+    for (std::size_t t = 0; t < n; ++t)
+        std::copy_n(narrow.begin() + std::ptrdiff_t(t * classes), classes, wide.begin() + std::ptrdiff_t(t * v));
+    const std::vector<std::uint32_t> targets{2, 0, 4};
+    ml::cross_entropy_rows(snicholls::linalg::reference, std::span<double>(narrow), targets, std::span<double>(want), 0.25);
+    ml::cross_entropy_rows(snicholls::linalg::reference, std::span<double>(wide), targets, std::span<double>(losses), 0.25, classes);
+    EXPECT_EQ(losses, want);
+    for (std::size_t t = 0; t < n; ++t)
+        for (std::size_t c = 0; c < v; ++c)
+            EXPECT_EQ(wide[t * v + c], c < classes ? narrow[t * classes + c] : 0.0) << t << " " << c;
 }
 
 } // namespace

@@ -65,6 +65,7 @@
 #include <snicholls/core/math/constexpr_math.hpp>
 #include <snicholls/core/ml/row.hpp>
 
+#include <algorithm>
 #include <cassert>
 #include <concepts>
 #include <cstddef>
@@ -322,6 +323,26 @@ constexpr void cross_entropy_rows(const B&, std::span<T> logits, std::type_ident
     for (std::size_t t = 0; t < n; ++t) {
         const auto row = logits.subspan(t * v, v);
         losses[t] = cross_entropy_with_gradient(row, targets[t], row, scale);
+    }
+}
+
+/// \brief `cross_entropy_rows` over the first `classes` columns of each row, for logits laid out wider than the
+/// classes (a vocabulary padded to a multiple the hardware wants, as llm.c pads GPT-2's 50,257 to 50,304): the padding
+/// is not a class, and its gradient is 0. With `classes` the row's width, `cross_entropy_rows` to the bit.
+/// \param logits `n` rows of `V >= classes`, end to end: the classes replaced by `scale · (softmax - onehot)`, the
+/// padding by 0. \param targets `n` targets, each below `classes`. \param losses Receives each row's loss, `n`.
+/// \param scale The gradient's factor. \param classes The classes, at the start of each row.
+template <typename B, math::math_number T>
+constexpr void cross_entropy_rows(const B&, std::span<T> logits, std::type_identity_t<std::span<const std::uint32_t>> targets,
+                                  std::span<T> losses, std::type_identity_t<T> scale, std::size_t classes)
+{
+    const std::size_t n = targets.size();
+    assert(n > 0 && logits.size() % n == 0 && losses.size() == n && classes > 0 && classes <= logits.size() / n);
+    const std::size_t v = logits.size() / n;
+    for (std::size_t t = 0; t < n; ++t) {
+        const auto row = logits.subspan(t * v, classes);
+        losses[t] = cross_entropy_with_gradient(row, targets[t], row, scale);
+        std::fill(logits.begin() + std::ptrdiff_t(t * v + classes), logits.begin() + std::ptrdiff_t((t + 1) * v), T(0));
     }
 }
 

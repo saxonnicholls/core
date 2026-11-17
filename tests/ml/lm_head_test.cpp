@@ -17,6 +17,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -170,6 +171,30 @@ TEST(MlLmHead, TheBatchedLossIsLmHeadLossAndItsGradientsAgree)
     EXPECT_EQ(ml::lm_head_loss_sequence(snicholls::linalg::reference, w, std::span<const double>(), std::span<const std::uint32_t>(),
                                         std::span<double>(), std::span<double>(), std::span<double>(), std::span<double>(dhead)),
               0.0);
+}
+
+// A head padded past its classes (GPT-2's 50,257 in 50,304 rows): the unpadded head's loss and gradients to the bit,
+// nothing added to the padding's rows
+TEST(MlLmHead, APaddedHeadIsTheUnpaddedHeadAndItsPaddingGetsNothing)
+{
+    constexpr std::size_t vocab = 7, padded = 10, d = 5, n = 4;
+    std::vector<double> head(padded * d), hs(n * d);
+    for (std::size_t i = 0; i < head.size(); ++i)
+        head[i] = 0.3 * std::sin(0.7 * double(i));
+    for (std::size_t i = 0; i < hs.size(); ++i)
+        hs[i] = std::cos(0.4 * double(i));
+    const std::vector<std::uint32_t> targets{1, 6, 0, 3};
+    const ml::dense_weights<double> wide{head, padded, d}, narrow{std::span<const double>(head).first(vocab * d), vocab, d};
+    std::vector<double> lw(n * padded), ln(n * vocab), losses_w(n), losses_n(n), dhs_w(n * d), dhs_n(n * d), dhead_w(padded * d), dhead_n(vocab * d);
+    const double padded_loss = ml::lm_head_loss_sequence(snicholls::linalg::reference, wide, std::span<const double>(hs), targets, std::span<double>(lw),
+                                                         std::span<double>(losses_w), std::span<double>(dhs_w), std::span<double>(dhead_w), vocab);
+    const double loss = ml::lm_head_loss_sequence(snicholls::linalg::reference, narrow, std::span<const double>(hs), targets, std::span<double>(ln),
+                                                  std::span<double>(losses_n), std::span<double>(dhs_n), std::span<double>(dhead_n));
+    EXPECT_EQ(padded_loss, loss);
+    EXPECT_EQ(losses_w, losses_n);
+    EXPECT_EQ(dhs_w, dhs_n);
+    EXPECT_EQ(std::vector<double>(dhead_w.begin(), dhead_w.begin() + std::ptrdiff_t(vocab * d)), dhead_n);
+    EXPECT_TRUE(std::all_of(dhead_w.begin() + std::ptrdiff_t(vocab * d), dhead_w.end(), [](double e) { return e == 0; }));
 }
 
 } // namespace

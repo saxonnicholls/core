@@ -68,9 +68,18 @@ int main()
     const float seq_loss = ml::lm_head_loss_sequence(snicholls::linalg::reference, ml::dense_weights<float>{table, vocab, d}, std::span<const float>(hs),
                                                      next32, std::span<float>(all_logits), std::span<float>(losses), std::span<float>(dhs2),
                                                      std::span<float>(dtable2));
+    // A head padded past its classes, as GPT-2's 50,257 tokens are laid out in 50,304 rows: the logits rows as wide as
+    // the padding, the loss over the classes only
+    std::vector<float> padded(table.size() + 3 * d, 0.0f);
+    std::copy(table.begin(), table.end(), padded.begin());
+    std::vector<float> wide_logits(tokens.size() * (vocab + 3)), dhs3(hs.size()), dpadded(padded.size());
+    const float padded_loss = ml::lm_head_loss_sequence(snicholls::linalg::reference, ml::dense_weights<float>{padded, vocab + 3, d},
+                                                        std::span<const float>(hs), next32, std::span<float>(wide_logits), std::span<float>(losses),
+                                                        std::span<float>(dhs3), std::span<float>(dpadded), vocab);
     //! [lm_head_sequence]
-    std::printf("  the batched loss: %.4f (the per-row %.4f)\n", static_cast<double>(seq_loss), static_cast<double>(eval));
-    ok &= std::fabs(seq_loss - eval) < 1e-6f;
+    std::printf("  the batched loss: %.4f (the per-row %.4f); padded %.4f\n", static_cast<double>(seq_loss), static_cast<double>(eval),
+                static_cast<double>(padded_loss));
+    ok &= std::fabs(seq_loss - eval) < 1e-6f && padded_loss == seq_loss;
 
     std::printf(ok ? "lm_head demo: ok\n" : "lm_head demo: FAILED\n");
     return ok ? 0 : 1;
