@@ -493,9 +493,11 @@ void batch_is_each_sequence()
         other[i] = -other[i];
     run_t changed(l);
     ml::attention_forward_sequence<C>(backend, l.weights(), other, rope_for<C>(), changed.act(0, seqs), changed.out, seqs);
-    for (std::size_t i = 0; i < rows * d; ++i)
-        if (i < n * d || i >= 2 * n * d)
+    for (std::size_t i = 0; i < rows * d; ++i) {
+        if (i < n * d || i >= 2 * n * d) {
             EXPECT_EQ(changed.out[i], all.out[i]) << i;
+        }
+    }
 }
 
 TEST(MlAttentionLayer, ABatchOfSequencesIsEachSequencesCall)
