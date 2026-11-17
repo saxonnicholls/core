@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['rank_0',['rank',['../classsnicholls_1_1containers_1_1md__array.html#a32687b14a4ed239ae9d37481728df2be',1,'snicholls::containers::md_array::rank'],['../structsnicholls_1_1ml_1_1bpe__part.html#ade2c89abc0ff7139ba296ee327c79cec',1,'snicholls::ml::bpe_part::rank']]],
+  ['rate_1',['rate',['../structsnicholls_1_1finance_1_1market__move.html#a0c3b3cd2df34361731b4c094e2c87043',1,'snicholls::finance::market_move']]],
+  ['rates_2',['rates',['../structsnicholls_1_1finance_1_1greeks__explain.html#a42a182a8257d4224acb65b93c4fd6c41',1,'snicholls::finance::greeks_explain']]],
+  ['red_3',['red',['../colour_8hpp.html#ac779f729f2a58824d34a3eca99661a69',1,'snicholls::colours']]],
+  ['reference_4',['reference',['../group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9',1,'snicholls::linalg']]],
+  ['region_5falignment_5',['region_alignment',['../classsnicholls_1_1containers_1_1index__pool.html#a845a7eebd158909b93ecaf35432dd8c8',1,'snicholls::containers::index_pool']]],
+  ['relative_5ftolerance_6',['relative_tolerance',['../structsnicholls_1_1linalg_1_1reference__backend.html#a2b0f15807d0bab36960e8d82fc3e8313',1,'snicholls::linalg::reference_backend']]],
+  ['repetition_7',['repetition',['../structsnicholls_1_1ml_1_1logit__penalties.html#ab5e07c0fffc29bc2ae681fbf7ec64c23',1,'snicholls::ml::logit_penalties']]],
+  ['replicates_8',['replicates',['../structsnicholls_1_1stats_1_1bootstrapped.html#a834b90d337224ec7ec752126a42d31e0',1,'snicholls::stats::bootstrapped::replicates'],['../structsnicholls_1_1stats_1_1bootstrap__distribution.html#ac6e58d53d8ad7b0280ef462948c6eb88',1,'snicholls::stats::bootstrap_distribution::replicates']]],
+  ['require_5foffset_9',['require_offset',['../structsnicholls_1_1parse__options.html#a11ca3fea08ae11b3eecc56df4e5f4f8a',1,'snicholls::parse_options']]],
+  ['rfc3339_5fmax_5fchars_10',['rfc3339_max_chars',['../group__core.html#ga89675ef9d40c6c4b694fa401d4bc4b45',1,'snicholls']]],
+  ['rgb_11',['rgb',['../structsnicholls_1_1colour.html#a0b5d9092bbf0a19a1d600267107b6642',1,'snicholls::colour']]],
+  ['rho_12',['rho',['../structsnicholls_1_1finance_1_1greeks.html#a8f15f31aff8ba06d738f5a90b44f9885',1,'snicholls::finance::greeks::rho'],['../structsnicholls_1_1finance_1_1greeks__explain.html#ad7cee4bb546e3b004055e368c8091720',1,'snicholls::finance::greeks_explain::rho']]],
+  ['right_13',['right',['../structsnicholls_1_1containers_1_1avl__hook.html#af4115760a3fe13c9b264aba9f350548f',1,'snicholls::containers::avl_hook']]],
+  ['rng_14',['rng',['../structsnicholls_1_1stats_1_1bootstrapped.html#ace6a171ec7461630e3cb4fa75e01d7ca',1,'snicholls::stats::bootstrapped']]],
+  ['rope_15',['rope',['../structsnicholls_1_1ml_1_1transformer__config.html#ab6aed4c00dca183dd1f012a68de48274',1,'snicholls::ml::transformer_config']]],
+  ['rope_5fbase_16',['rope_base',['../structsnicholls_1_1ml_1_1transformer__config.html#a36753b1adcc5f5e58da06c3e84509909',1,'snicholls::ml::transformer_config']]],
+  ['rope_5fbase_5fv_17',['rope_base_v',['../transformer__config_8hpp.html#a3887a22ad4e1c13248dd533d987f9f82',1,'snicholls::ml']]],
+  ['rows_18',['rows',['../structsnicholls_1_1ml_1_1dense__weights.html#a30bdb1a443414f5d3f468d53826578ec',1,'snicholls::ml::dense_weights::rows'],['../structsnicholls_1_1ml_1_1quantized__weights.html#aa3c26841a24fb8577f2953523e8ad7ab',1,'snicholls::ml::quantized_weights::rows']]],
+  ['rstd_19',['rstd',['../structsnicholls_1_1ml_1_1norm__stats.html#a79c74f443aa0cdca2038bff67c14be1f',1,'snicholls::ml::norm_stats']]]
+];
