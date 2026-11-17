@@ -55,7 +55,7 @@ var searchData=
   ['llama3_5f8b_52',['llama3_8b',['../transformer__config_8hpp.html#ab3d39d7ad38a072e1341cc8362fa607e',1,'snicholls::ml']]],
   ['lm_5fhead_2ehpp_53',['lm_head.hpp',['../lm__head_8hpp.html',1,'']]],
   ['lm_5fhead_5floss_54',['lm_head_loss',['../lm__head_8hpp.html#aa734859414255d795b62a8dfc8186b25',1,'snicholls::ml::lm_head_loss(const dense_weights&lt; S &gt; &amp;head, const H &amp;hs, std::span&lt; const std::size_t &gt; targets, L &amp;&amp;logits)'],['../lm__head_8hpp.html#aa072c6875cfb593db8b53dcd2f3b1330',1,'snicholls::ml::lm_head_loss(const dense_weights&lt; S &gt; &amp;head, const H &amp;hs, std::span&lt; const std::size_t &gt; targets, L &amp;&amp;logits, DH &amp;&amp;dhs, DW &amp;&amp;dhead)']]],
-  ['lm_5fhead_5floss_5fsequence_55',['lm_head_loss_sequence',['../lm__head_8hpp.html#a255512a87e7a402011d48769fd514b69',1,'snicholls::ml']]],
+  ['lm_5fhead_5floss_5fsequence_55',['lm_head_loss_sequence',['../lm__head_8hpp.html#ac3d6d0d5dad8c493a6fae60c79ee73d7',1,'snicholls::ml']]],
   ['ln2_5fhi_56',['ln2_hi',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#acd0d30f59ff0d8cc0552e7d9acae14d8',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['ln2_5flo_57',['ln2_lo',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a0abd33eff48fe19d72ddbc7a28432076',1,'snicholls::math::math_limits&lt; double &gt;']]],
   ['ln2_5flo2_58',['ln2_lo2',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a0237dcb352b83153dfc85a00cf6fb76a',1,'snicholls::math::math_limits&lt; double &gt;']]],

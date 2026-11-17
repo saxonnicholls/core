@@ -31,7 +31,7 @@ var searchData=
   ['live_28',['live',['../classsnicholls_1_1containers_1_1index__pool.html#ad70adfa77a5d23bb84a287ec5f330ff7',1,'snicholls::containers::index_pool::live()'],['../classsnicholls_1_1containers_1_1object__pool.html#aa833c7e4fb49800f8f46aaeba7fc80b7',1,'snicholls::containers::object_pool::live()']]],
   ['ljung_5fbox_29',['ljung_box',['../group__core.html#ga1a8796ffd5bd8dd716d8121912324f1c',1,'snicholls::stochastic']]],
   ['lm_5fhead_5floss_30',['lm_head_loss',['../lm__head_8hpp.html#aa734859414255d795b62a8dfc8186b25',1,'snicholls::ml::lm_head_loss(const dense_weights&lt; S &gt; &amp;head, const H &amp;hs, std::span&lt; const std::size_t &gt; targets, L &amp;&amp;logits)'],['../lm__head_8hpp.html#aa072c6875cfb593db8b53dcd2f3b1330',1,'snicholls::ml::lm_head_loss(const dense_weights&lt; S &gt; &amp;head, const H &amp;hs, std::span&lt; const std::size_t &gt; targets, L &amp;&amp;logits, DH &amp;&amp;dhs, DW &amp;&amp;dhead)']]],
-  ['lm_5fhead_5floss_5fsequence_31',['lm_head_loss_sequence',['../lm__head_8hpp.html#a255512a87e7a402011d48769fd514b69',1,'snicholls::ml']]],
+  ['lm_5fhead_5floss_5fsequence_31',['lm_head_loss_sequence',['../lm__head_8hpp.html#ac3d6d0d5dad8c493a6fae60c79ee73d7',1,'snicholls::ml']]],
   ['load_5fbe_32',['load_be',['../namespacesnicholls.html#a68a95855897749702a60893102bfadd9',1,'snicholls']]],
   ['load_5fle_33',['load_le',['../namespacesnicholls.html#a0819935e1dbfe54039bf1be05f372c0c',1,'snicholls']]],
   ['log_34',['log',['../constexpr__math_8hpp.html#ac4e139fa17377290ae3a108f550d2b29',1,'snicholls::math']]],
