@@ -347,6 +347,31 @@ TEST(MlLinear, HeadsBackwardIsEachHeadsSequenceBackwardInOrder)
     EXPECT_EQ(dw2, dw2_r);
 }
 
+// A batch of sequences end to end: each sequence's heads after the previous sequence's, and the backward the
+// per-sequence calls' to the bit, the weights' and biases' gradients added sequence by sequence
+TEST(MlLinear, HeadsOverSequencesAreEachSequencesHeadsToTheBit)
+{
+    constexpr std::size_t heads = 2, d = 4, rows = heads * d, cols = 16, n = 5, seqs = 3;
+    const auto w = pattern(rows * cols, 0.3f, 1), xs = pattern(seqs * n * cols, 1.0f, 2), b = pattern(rows, 0.1f, 3),
+               douts = pattern(seqs * n * rows, 0.5f, 4);
+    const ml::dense_weights<float> m{w, rows, cols};
+    std::vector<float> out(seqs * n * rows), want(out.size());
+    ml::linear_heads(la::reference, m, xs, out, b, heads, seqs);
+    std::vector<float> dxs(xs.size(), 0.25f), dw(rows * cols, 0.5f), db(rows, 1.0f);
+    auto dxs_r = dxs, dw_r = dw, db_r = db;
+    ml::linear_heads_backward(la::reference, m, xs, douts, dxs, dw, db, heads, seqs);
+    for (std::size_t s = 0; s < seqs; ++s) {
+        const auto x = std::span<const float>(xs).subspan(s * n * cols, n * cols);
+        ml::linear_heads(la::reference, m, x, std::span<float>(want).subspan(s * n * rows, n * rows), b, heads);
+        ml::linear_heads_backward(la::reference, m, x, std::span<const float>(douts).subspan(s * n * rows, n * rows),
+                                  std::span<float>(dxs_r).subspan(s * n * cols, n * cols), dw_r, db_r, heads);
+    }
+    EXPECT_EQ(out, want);
+    EXPECT_EQ(dxs, dxs_r);
+    EXPECT_EQ(dw, dw_r);
+    EXPECT_EQ(db, db_r);
+}
+
 // The reductions and the rescale of the batched passes, on a backend: the plain loops, in order
 TEST(MlLinear, SumValuesSumSquaresAndScaleRowsAreThePlainLoops)
 {

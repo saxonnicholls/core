@@ -3,6 +3,21 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **A batch of sequences in one call** (`ml/transformer_block.hpp`, `ml/attention_layer.hpp`, `ml/linear.hpp`): the
+  batched `block_forward_sequence` and `block_backward`, `attention_forward_sequence` and `attention_backward`, the four
+  attention steps (`attention_position_rows`, `attention_attend_rows` and their backward passes) and `linear_heads` /
+  `linear_heads_backward` take a trailing `sequences` (default 1). The rows are that many sequences of `n` tokens end
+  to end: every row-wise step and every product runs once over all of them, and attention stays within each sequence,
+  positions restarting at 0. The activations are the sequences' own side by side, sequence-major (the keys and values
+  `sequences` blocks of `n_kv_heads · n · head_dim`), so one sequence's are a slice. On the reference backend a batch
+  gives the per-sequence calls' results to the bit (outputs, activations, the input's gradient, the biases', norms'
+  and `Wk`'s and `Wv`'s gradients); the gradients of `Wq`, `Wo` and the MLP's matrices, each one product over every
+  row, agree within rounding. One sequence is the existing call, unchanged to the bit.
+
 ## 0.12.0 - 2026-11-17
 
 ### Added

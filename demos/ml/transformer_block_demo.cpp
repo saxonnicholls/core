@@ -215,6 +215,25 @@ int main()
                 out_mine == out_ref ? "to the bit" : "DIFFERS");
     ok &= my_device::backend::norms == 2 && out_mine == out_ref;
 
+    //! [block_sequences]
+    // A batch: two sequences of 3 tokens end to end, one call per layer instead of one per sequence. The activations and
+    // the working spaces cover all six rows; attention stays within each sequence, positions restarting at 0
+    constexpr std::size_t batch = 2, rows = batch * 3;
+    std::vector<float> xb = x;
+    xb.insert(xb.end(), target.begin(), target.end());   // sequence 0 is x, sequence 1 is target
+    std::vector<float> bx0(rows * 8), bh1(rows * 8), bx1(rows * 8), bh2(rows * 8), bq(rows * 8), bk(rows * 4), bv(rows * 4), by(rows * 8),
+        blse(rows * 2), bup(rows * 16), bgate(rows * 16), bhidden(rows * 16);
+    const ml::block_activations<float> batch_act{bx0, bh1, bx1, bh2, {bq, bk, bv, {}, {}, by, blse}, bup, bgate, bhidden};
+    ml::block_forward_sequence<c>(snicholls::linalg::reference, t.weights(), xb, rope, batch_act, batch);
+    // ... and its backward: ml::block_backward<c>(backend, weights, rope, batch_act, dxb, grads, batch)
+    //! [block_sequences]
+    std::vector<float> s0 = x, s1 = target;   // each sequence on its own
+    ml::block_forward_sequence<c>(snicholls::linalg::reference, t.weights(), s0, rope, bact);
+    ml::block_forward_sequence<c>(snicholls::linalg::reference, t.weights(), s1, rope, bact);
+    const bool same_bits = std::equal(s0.begin(), s0.end(), xb.begin()) && std::equal(s1.begin(), s1.end(), xb.begin() + 24);
+    std::printf("  a batch of two sequences in one call: each sequence's own call's bits %s\n", same_bits ? "yes" : "NO");
+    ok &= same_bits;
+
     std::printf(ok ? "transformer_block demo: ok\n" : "transformer_block demo: FAILED\n");
     return ok ? 0 : 1;
 }

@@ -27,6 +27,17 @@
 ///
 /// \snippet ml/transformer_block_demo.cpp block_batched
 ///
+/// **A batch of sequences.** Both batched passes take a number of sequences (default one): `xs` is that many sequences of
+/// `n` tokens end to end, every row-wise step (the norms, each projection, the MLP, the residual adds, the bias sums)
+/// runs once over all their rows, and attention runs within each sequence, positions restarting at 0. The activations
+/// are the sequences' own side by side (`attention_activations`), so one call per layer replaces one per sequence per
+/// layer and the products are `sequences` times taller. On core's reference backend the result is the per-sequence
+/// calls': the outputs, the input's gradient, every bias's and norm's gradient and `Wk`'s and `Wv`'s to the bit; the
+/// gradients of `Wq`, `Wo` and the MLP's matrices are each one product over all the rows, where per-sequence calls add
+/// one sequence's sum at a time, so they agree within rounding.
+///
+/// \snippet ml/transformer_block_demo.cpp block_sequences
+///
 /// Every step of the batched passes that is not a matrix product is a call made with the backend (TRAINING.md T9):
 /// `copy_rows`, `fill_rows`, `add_rows`, `add_bias_rows`, `sum_rows` (`ml/linear.hpp`), `mlp_activate_rows` and its
 /// backward (`ml/mlp.hpp`), the four attention steps (`ml/attention_layer.hpp`), `block_norm_rows` and
@@ -353,20 +364,21 @@ constexpr void block_norm_rows_backward_add(const B&, std::type_identity_t<std::
 /// \tparam C The configuration.
 /// \param backend A `linalg::blas_backend`.
 /// \param w The weights.
-/// \param xs `n` residual rows of `d_model`, end to end: updated in place.
-/// \param rope_src The cosines and sines by position, or `no_rope`.
-/// \param act Receives the activations, `mlp_hidden` included.
+/// \param xs `sequences · n` residual rows of `d_model`, end to end: updated in place.
+/// \param rope_src The cosines and sines by position, covering `n - 1`, or `no_rope`.
+/// \param act Receives the activations, `mlp_hidden` included; every field covers all the rows.
+/// \param sequences The sequences in `xs`, at least one, each of `n` tokens; attention stays within each.
 template <transformer_config C, typename B, math::math_number T, typename R>
     requires linalg::blas_backend<B, T> && (C.rope == rope_kind::none || rope_source<R>)
 constexpr void block_forward_sequence(const B& backend, const block_weights<dense_weights<T>, T>& w, std::type_identity_t<std::span<T>> xs,
-                                      const R& rope_src, const block_activations<T>& act)
+                                      const R& rope_src, const block_activations<T>& act, std::size_t sequences = 1)
 {
     constexpr std::size_t d = C.d_model;
     [[maybe_unused]] const std::size_t n = xs.size() / d;
     assert(xs.size() == n * d && act.x0.size() == n * d && act.h1.size() == n * d && act.x1.size() == n * d && act.h2.size() == n * d);
     copy_rows(backend, std::span<const T>(xs), act.x0);
     block_norm_rows<C>(backend, std::span<const T>(xs), w.norm1_weight, w.norm1_bias, act.h1);
-    attention_forward_sequence<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, xs);
+    attention_forward_sequence<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, xs, sequences);
     add_rows(backend, std::span<const T>(act.x0), xs);
     copy_rows(backend, std::span<const T>(xs), act.x1);
     block_norm_rows<C>(backend, std::span<const T>(xs), w.norm2_weight, w.norm2_bias, act.h2);
@@ -385,12 +397,14 @@ constexpr void block_forward_sequence(const B& backend, const block_weights<dens
 /// \param w The weights the forward pass used.
 /// \param rope_src Its rope source.
 /// \param act What it saved.
-/// \param dxs The gradient in its output, `n · d_model`: replaced by the gradient in its input.
-/// \param grads Receives the gradients.
+/// \param dxs The gradient in its output, `sequences · n · d_model`: replaced by the gradient in its input.
+/// \param grads Receives the gradients; the working spaces cover all the rows.
+/// \param sequences The sequences the forward pass took.
 template <transformer_config C, typename B, math::math_number T, typename R>
     requires linalg::blas_backend<B, T> && (C.rope == rope_kind::none || rope_source<R>)
 constexpr void block_backward(const B& backend, const block_weights<dense_weights<T>, T>& w, const R& rope_src,
-                              const block_activations<T>& act, std::type_identity_t<std::span<T>> dxs, const block_gradients<T>& grads)
+                              const block_activations<T>& act, std::type_identity_t<std::span<T>> dxs, const block_gradients<T>& grads,
+                              std::size_t sequences = 1)
 {
     constexpr std::size_t d = C.d_model;
     [[maybe_unused]] const std::size_t n = dxs.size() / d;
@@ -402,7 +416,7 @@ constexpr void block_backward(const B& backend, const block_weights<dense_weight
                                     dxs, grads.norm2_weight, grads.norm2_bias);
     fill_rows(backend, grads.scratch, T(0));
     attention_backward<C>(backend, w.attention, std::span<const T>(act.h1), rope_src, act.attention, std::span<const T>(dxs),
-                          grads.scratch, grads.attention);
+                          grads.scratch, grads.attention, sequences);
     block_norm_rows_backward_add<C>(backend, std::span<const T>(grads.scratch), std::span<const T>(act.x0), w.norm1_weight, w.norm1_bias,
                                     dxs, grads.norm1_weight, grads.norm1_bias);
 }

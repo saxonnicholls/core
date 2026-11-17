@@ -121,6 +121,24 @@ int main()
     std::printf("  batched through the reference backend: within %.2g of the per-token path\n", static_cast<double>(worst));
     ok &= worst < 1e-6f;
 
+    //! [attention_sequences]
+    // A batch of two sequences in one call: the three tokens, then the same three again, end to end. Every projection
+    // is one product over all six rows; attention stays within each sequence (positions restart at 0), and the
+    // activations are each sequence's own side by side
+    constexpr std::size_t batch = 2;
+    std::vector<float> xs2(xs);
+    xs2.insert(xs2.end(), xs.begin(), xs.end());
+    std::vector<float> q2(batch * sq.size()), k2(batch * sk.size()), v2(batch * sv.size()), y2(batch * sy.size()),
+        lse2(batch * slse.size()), out2(batch * seq.size());
+    const ml::attention_activations<float> act2{q2, k2, v2, {}, {}, y2, lse2};
+    ml::attention_forward_sequence<c>(snicholls::linalg::reference, w, xs2, rope, act2, out2, batch);
+    //! [attention_sequences]
+    // Each sequence's result is the one-sequence call's, to the bit
+    const bool both = std::equal(bout.begin(), bout.end(), out2.begin()) && std::equal(bout.begin(), bout.end(), out2.begin() + std::ptrdiff_t(bout.size()))
+                      && std::equal(bk.begin(), bk.end(), k2.begin() + std::ptrdiff_t(bk.size()));
+    std::printf("  a batch of two sequences: each the one-sequence call's bits: %s\n", both ? "yes" : "no");
+    ok &= both;
+
     std::printf(ok ? "attention_layer demo: ok\n" : "attention_layer demo: FAILED\n");
     return ok ? 0 : 1;
 }

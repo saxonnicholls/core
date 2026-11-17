@@ -100,10 +100,14 @@ int main()
     ml::linear_heads(snicholls::linalg::reference, ml::dense_weights<float>{kv, 4, 2}, tokens, by_head, {}, 2);
     std::array<float, 8> dkv{};
     ml::linear_heads_backward(snicholls::linalg::reference, ml::dense_weights<float>{kv, 4, 2}, tokens, by_head, {}, dkv, {}, 2);
+    // A batch of two sequences of one token each: each sequence's heads after the previous sequence's
+    std::array<float, 8> batch{};
+    ml::linear_heads(snicholls::linalg::reference, ml::dense_weights<float>{kv, 4, 2}, tokens, batch, {}, 2, 2);
     //! [linear_heads]
     std::printf("  heads: [%.0f %.0f %.0f %.0f | %.0f %.0f %.0f %.0f]\n", double(by_head[0]), double(by_head[1]), double(by_head[2]), double(by_head[3]),
                 double(by_head[4]), double(by_head[5]), double(by_head[6]), double(by_head[7]));
     ok &= by_head == std::array<float, 8>{1, 2, 3, 4, 2, 4, 6, 8};   // head 0: the tokens; head 1: twice them
+    ok &= batch == std::array<float, 8>{1, 2, 2, 4, 3, 4, 6, 8};     // sequence 0's two heads, then sequence 1's
     // dW_h = Σ_t out_t,h ⊗ x_t: head 0 gets (1,2)⊗(1,2) + (3,4)⊗(3,4) = [10 14; 14 20], head 1 twice that
     ok &= dkv == std::array<float, 8>{10, 14, 14, 20, 20, 28, 28, 40};
 

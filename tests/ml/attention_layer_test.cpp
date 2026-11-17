@@ -435,6 +435,78 @@ TEST(MlAttentionLayer, BatchedThroughABackendIsThePerTokenPathWithinRounding)
     batched_is_per_token<t_qk_after>();
 }
 
+// A batch of sequences in one call against one call per sequence, the weights' gradients added into the same
+// tensors: the activations, the input's gradient, the biases', the QK norms' and Wk's and Wv's to the bit; Wq's and Wo's
+// (one product over every row) within rounding. Attention never crosses a sequence: changing one sequence's input
+// leaves the others' outputs as they were
+template <ml::transformer_config C>
+void batch_is_each_sequence()
+{
+    const train_layer<C> l;
+    constexpr std::size_t n = train_layer<C>::n, seqs = 3, rows = seqs * n, d = C.d_model, qn = C.q_size(), kn = C.kv_size();
+    constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
+    const auto& backend = snicholls::linalg::reference;
+    struct run_t {
+        std::vector<double> q = std::vector<double>(rows * qn), k = std::vector<double>(rows * kn), v = k,
+                            qr = std::vector<double>(raw ? q.size() : 0), kr = std::vector<double>(raw ? k.size() : 0), y = q,
+                            lse = std::vector<double>(rows * C.n_heads), out = std::vector<double>(rows * d), dq = q, dk = k, dv = k, dy = q,
+                            dx = out;
+        std::vector<double> dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk;
+        explicit run_t(const train_layer<C>& l)
+            : dwq(l.wq.size()), dwk(l.wk.size()), dwv(l.wv.size()), dwo(l.wo.size()), dbq(l.bq.size()), dbk(l.bk.size()), dbv(l.bv.size()),
+              dbo(l.bo.size()), dnq(l.nq.size()), dnk(l.nk.size())
+        {
+        }
+        static std::span<double> cut(std::vector<double>& v, std::size_t s, std::size_t count)
+        {
+            return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / seqs, count * v.size() / seqs);
+        }
+        ml::attention_activations<double> act(std::size_t s, std::size_t c)
+        {
+            return {cut(q, s, c), cut(k, s, c), cut(v, s, c), cut(qr, s, c), cut(kr, s, c), cut(y, s, c), cut(lse, s, c)};
+        }
+        ml::attention_gradients<double> grads(std::size_t s, std::size_t c)
+        {
+            return {cut(dq, s, c), cut(dk, s, c), cut(dv, s, c), dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, cut(dy, s, c)};
+        }
+    };
+    const auto xs = wave(rows * d, 1.2, 0.5), gout = wave(rows * d, 0.9, 1.7);
+    run_t each(l), all(l);
+    for (std::size_t s = 0; s < seqs; ++s) {
+        const auto x = std::span<const double>(xs).subspan(s * n * d, n * d);
+        ml::attention_forward_sequence<C>(backend, l.weights(), x, rope_for<C>(), each.act(s, 1), run_t::cut(each.out, s, 1));
+        ml::attention_backward<C>(backend, l.weights(), x, rope_for<C>(), each.act(s, 1), std::span<const double>(gout).subspan(s * n * d, n * d),
+                                  run_t::cut(each.dx, s, 1), each.grads(s, 1));
+    }
+    ml::attention_forward_sequence<C>(backend, l.weights(), xs, rope_for<C>(), all.act(0, seqs), all.out, seqs);
+    ml::attention_backward<C>(backend, l.weights(), xs, rope_for<C>(), all.act(0, seqs), gout, all.dx, all.grads(0, seqs), seqs);
+    for (const auto m : {&run_t::q, &run_t::k, &run_t::v, &run_t::qr, &run_t::kr, &run_t::y, &run_t::lse, &run_t::out, &run_t::dq, &run_t::dk,
+                         &run_t::dv, &run_t::dy, &run_t::dx, &run_t::dwk, &run_t::dwv, &run_t::dbq, &run_t::dbk, &run_t::dbv, &run_t::dbo,
+                         &run_t::dnq, &run_t::dnk})
+        EXPECT_EQ(each.*m, all.*m);
+    for (const auto m : {&run_t::dwq, &run_t::dwo})
+        for (std::size_t i = 0; i < (each.*m).size(); ++i)
+            EXPECT_NEAR((each.*m)[i], (all.*m)[i], 1e-13 * std::max(1.0, std::abs((each.*m)[i])));
+    // No attention across sequences: a different middle sequence leaves the first and last as they were
+    auto other = xs;
+    for (std::size_t i = n * d; i < 2 * n * d; ++i)
+        other[i] = -other[i];
+    run_t changed(l);
+    ml::attention_forward_sequence<C>(backend, l.weights(), other, rope_for<C>(), changed.act(0, seqs), changed.out, seqs);
+    for (std::size_t i = 0; i < rows * d; ++i)
+        if (i < n * d || i >= 2 * n * d)
+            EXPECT_EQ(changed.out[i], all.out[i]) << i;
+}
+
+TEST(MlAttentionLayer, ABatchOfSequencesIsEachSequencesCall)
+{
+    batch_is_each_sequence<t_plain>();
+    batch_is_each_sequence<t_gqa_rope>();
+    batch_is_each_sequence<t_cap>();
+    batch_is_each_sequence<t_qk_before>();
+    batch_is_each_sequence<t_qk_after>();
+}
+
 TEST(MlAttentionLayer, HeadBackwardWithoutACapIsAttendBackwardToTheBit)
 {
     const auto q = pattern(8, 2.0f), k = pattern(40, 1.5f, 1), v = pattern(40, 1.0f, 2), dout = pattern(8, 1.0f, 3);

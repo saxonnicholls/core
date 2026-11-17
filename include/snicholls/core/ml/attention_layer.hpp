@@ -34,7 +34,11 @@
 /// Both have a batched overload taking a `linalg` backend first: the projections are matrix products over the whole
 /// sequence (`Q`, each key-value head's `K` and `V`, `Wo`; a BLAS or a GPU backend from another library, the same call), and QK
 /// norm, RoPE and the heads are the per-token path's own code. Its backward needs `attention_gradients::y`, the heads'
-/// output gradients.
+/// output gradients. Both take a number of sequences (default one): a batch of sequences laid end to end, every
+/// projection one product over all their rows, attention within each sequence, the activations each sequence's own
+/// side by side (`attention_activations`).
+///
+/// \snippet ml/attention_layer_demo.cpp attention_sequences
 ///
 /// \snippet ml/attention_layer_demo.cpp attention_layer
 ///
@@ -246,6 +250,11 @@ constexpr void attention_head_backward(const Q& q, const K& keys, const V& value
 }
 
 /// \brief What `attention_forward_sequence` saves for `attention_backward`: views the caller owns.
+///
+/// For a batch of `sequences` sequences of `n` tokens (the batched passes' `sequences`), every field is the sequences'
+/// own laid end to end, sequence-major: `q` is `sequences · n · q_size`, and `k` is `sequences` blocks of `n_kv_heads ·
+/// n · head_dim`, each block one sequence's keys head by head. So a batch's activations are its sequences' activations
+/// side by side, and a view of one sequence is a slice.
 /// \ingroup core
 /// \tparam T The number type.
 template <math::math_number T>
@@ -260,7 +269,8 @@ struct attention_activations
     std::span<T> lse{};     ///< `n · n_heads`, token by token: each head's log-sum-exp.
 };
 
-/// \brief The gradients of an attention layer: views the caller owns.
+/// \brief The gradients of an attention layer: views the caller owns. `q`, `k`, `v` and `y` are laid out per sequence
+/// as `attention_activations` is.
 /// \ingroup core
 /// \tparam T The number type.
 template <math::math_number T>
@@ -382,7 +392,32 @@ namespace detail::attention_layer
         }
     }
 
-    // One key-value head's rows of a K or V matrix (and of its bias, if any), as a matrix of its own
+    // Sequence s of a batch of sequences of n tokens: every per-sequence view is a slice, the batch's being the
+    // sequences' own laid end to end
+    template <typename T>
+    constexpr std::span<T> part(std::span<T> x, std::size_t s, std::size_t size)
+    {
+        return x.empty() ? x : x.subspan(s * size, size);
+    }
+    template <transformer_config C, typename T>
+    constexpr attention_activations<T> sequence(const attention_activations<T>& a, std::size_t n, std::size_t s)
+    {
+        constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
+        return {part(a.q, s, n * qn), part(a.k, s, n * kn), part(a.v, s, n * kn), part(a.q_raw, s, n * qn),
+                part(a.k_raw, s, n * kn), part(a.y, s, n * qn), part(a.lse, s, n * C.n_heads)};
+    }
+    template <transformer_config C, typename T>
+    constexpr attention_gradients<T> sequence(const attention_gradients<T>& g, std::size_t n, std::size_t s)
+    {
+        constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
+        attention_gradients<T> r = g;
+        r.q = part(g.q, s, n * qn);
+        r.k = part(g.k, s, n * kn);
+        r.v = part(g.v, s, n * kn);
+        r.y = part(g.y, s, n * qn);
+        return r;
+    }
+
     template <typename T>
     constexpr void check_activations(const attention_activations<T>& act, std::size_t n, std::size_t qn, std::size_t kn,
                                      std::size_t heads, bool raw)
@@ -395,51 +430,69 @@ namespace detail::attention_layer
 
 /// \name The attention steps of the batched passes, on the backend (TRAINING.md T9)
 /// The steps of `attention_forward_sequence` and `attention_backward` (batched) that are not matrix products, each over
-/// the whole sequence. The overloads here take any backend and run on the host, token by token, with the per-token
-/// path's own code; a device library overloads them for its own backend type.
+/// a batch of `sequences` sequences of `n` tokens, laid out as `attention_activations` says. Attention stays within a
+/// sequence: positions restart at 0 in each. The overloads here take any backend and run on the host, sequence by
+/// sequence and token by token, with the per-token path's own code, so a batch gives each sequence's own call's bits; a
+/// device library overloads them for its own backend type.
 /// @{
 
 /// \brief QK norm and RoPE of every token's heads, in place, after the raw copies: `act.q`, `act.k`, `act.q_raw`,
 /// `act.k_raw`. \tparam C The configuration. \param w The weights (the norms'). \param act The activations.
-/// \param n The tokens. \param rope_src The rope source, or `no_rope`.
+/// \param n The tokens of each sequence. \param rope_src The rope source, or `no_rope`. \param sequences The sequences.
 template <transformer_config C, typename B, typename W, math::math_number T, typename R>
 constexpr void attention_position_rows(const B&, const attention_weights<W, T>& w, const attention_activations<T>& act, std::size_t n,
-                                       const R& rope_src)
+                                       const R& rope_src, std::size_t sequences = 1)
 {
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::position_token<C>(w, act, n, t, rope_src);
+    for (std::size_t s = 0; s < sequences; ++s) {
+        const auto a = detail::attention_layer::sequence<C>(act, n, s);
+        for (std::size_t t = 0; t < n; ++t)
+            detail::attention_layer::position_token<C>(w, a, n, t, rope_src);
+    }
 }
 
-/// \brief Every token's heads over its visible keys: `act.y` and `act.lse`. \tparam C The configuration.
-/// \param act The activations. \param n The tokens.
+/// \brief Every token's heads over its visible keys, those of its own sequence: `act.y` and `act.lse`.
+/// \tparam C The configuration. \param act The activations. \param n The tokens of each sequence.
+/// \param sequences The sequences.
 template <transformer_config C, typename B, math::math_number T>
-constexpr void attention_attend_rows(const B&, const attention_activations<T>& act, std::size_t n)
+constexpr void attention_attend_rows(const B&, const attention_activations<T>& act, std::size_t n, std::size_t sequences = 1)
 {
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::attend_token<C>(act, n, t);
+    for (std::size_t s = 0; s < sequences; ++s) {
+        const auto a = detail::attention_layer::sequence<C>(act, n, s);
+        for (std::size_t t = 0; t < n; ++t)
+            detail::attention_layer::attend_token<C>(a, n, t);
+    }
 }
 
-/// \brief The backward pass of `attention_attend_rows`: from the heads' output gradients `dy` (`n · q_size`), the
-/// queries' gradients written into `grads.q` and the keys' and values' added into `grads.k`, `grads.v`.
+/// \brief The backward pass of `attention_attend_rows`: from the heads' output gradients `dy` (`sequences · n ·
+/// q_size`), the queries' gradients written into `grads.q` and the keys' and values' added into `grads.k`, `grads.v`.
 /// \tparam C The configuration. \param act The activations. \param dy The gradients in the heads' outputs.
-/// \param grads The gradients. \param n The tokens.
+/// \param grads The gradients. \param n The tokens of each sequence. \param sequences The sequences.
 template <transformer_config C, typename B, math::math_number T>
 constexpr void attention_attend_rows_backward(const B&, const attention_activations<T>& act, std::type_identity_t<std::span<const T>> dy,
-                                              const attention_gradients<T>& grads, std::size_t n)
+                                              const attention_gradients<T>& grads, std::size_t n, std::size_t sequences = 1)
 {
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::heads_backward_token<C>(act, dy.subspan(t * C.q_size(), C.q_size()), grads, n, t);
+    for (std::size_t s = 0; s < sequences; ++s) {
+        const auto a = detail::attention_layer::sequence<C>(act, n, s);
+        const auto g = detail::attention_layer::sequence<C>(grads, n, s);
+        for (std::size_t t = 0; t < n; ++t)
+            detail::attention_layer::heads_backward_token<C>(a, dy.subspan((s * n + t) * C.q_size(), C.q_size()), g, n, t);
+    }
 }
 
 /// \brief The backward pass of `attention_position_rows`, in place on `grads.q` and `grads.k`, the norms' gradients added
 /// into. \tparam C The configuration. \param w The weights. \param act The activations. \param grads The gradients.
-/// \param n The tokens. \param rope_src The rope source.
+/// \param n The tokens of each sequence. \param rope_src The rope source. \param sequences The sequences.
 template <transformer_config C, typename B, typename W, math::math_number T, typename R>
 constexpr void attention_position_rows_backward(const B&, const attention_weights<W, T>& w, const attention_activations<T>& act,
-                                                const attention_gradients<T>& grads, std::size_t n, const R& rope_src)
+                                                const attention_gradients<T>& grads, std::size_t n, const R& rope_src,
+                                                std::size_t sequences = 1)
 {
-    for (std::size_t t = 0; t < n; ++t)
-        detail::attention_layer::position_backward_token<C>(w, act, grads, n, t, rope_src);
+    for (std::size_t s = 0; s < sequences; ++s) {
+        const auto a = detail::attention_layer::sequence<C>(act, n, s);
+        const auto g = detail::attention_layer::sequence<C>(grads, n, s);
+        for (std::size_t t = 0; t < n; ++t)
+            detail::attention_layer::position_backward_token<C>(w, a, g, n, t, rope_src);
+    }
 }
 
 /// @}
@@ -488,29 +541,36 @@ constexpr void attention_forward_sequence(const attention_weights<W, T>& w, cons
 /// head's `K` and `V` straight into the activations' layout, and `X_out = Y Woᵀ`, each one `gemm` (a BLAS or a
 /// device does them); QK norm, RoPE and the heads are the same code as the per-token path. The projections are the
 /// backend's (`linear_sequence`), so a result can differ from the per-token path's in the last bits.
+///
+/// **A batch of sequences.** With `sequences` > 1, `xs` holds that many sequences of `n` tokens end to end, and
+/// attention stays within each: positions restart at 0 and no token sees another sequence's. Every projection is one
+/// product over all `sequences · n` rows; the activations are each sequence's own laid end to end (see
+/// `attention_activations`). The result is that of calling this once per sequence, to the bit.
 /// \tparam C The configuration.
 /// \param backend A `linalg::blas_backend`.
 /// \param w The weights.
-/// \param xs `n` tokens of `d_model`, end to end (normalised inputs).
+/// \param xs `sequences · n` tokens of `d_model`, end to end (normalised inputs).
 /// \param rope_src The cosines and sines by position, covering `n - 1`, or `no_rope`.
 /// \param act Receives the activations.
-/// \param out Receives `n` outputs of `d_model`; may not alias `xs`.
+/// \param out Receives `sequences · n` outputs of `d_model`; may not alias `xs`.
+/// \param sequences The sequences, at least one; `xs`'s rows divide evenly among them.
 template <transformer_config C, typename B, math::math_number T, typename R>
     requires linalg::blas_backend<B, T> && (C.rope == rope_kind::none || rope_source<R>)
 constexpr void attention_forward_sequence(const B& backend, const attention_weights<dense_weights<T>, T>& w,
                                           std::type_identity_t<std::span<const T>> xs, const R& rope_src,
-                                          const attention_activations<T>& act, std::type_identity_t<std::span<T>> out)
+                                          const attention_activations<T>& act, std::type_identity_t<std::span<T>> out,
+                                          std::size_t sequences = 1)
 {
     static_assert(valid(C), "snicholls::ml::attention_forward_sequence: the transformer_config is not valid");
     constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
-    const std::size_t n = xs.size() / C.d_model;
-    assert(xs.size() == n * C.d_model && out.size() == n * C.d_model);
-    detail::attention_layer::check_activations(act, n, qn, kn, C.n_heads, C.qk_norm != qk_norm_kind::none);
+    const std::size_t rows = xs.size() / C.d_model, n = rows / sequences;
+    assert(sequences > 0 && xs.size() == n * sequences * C.d_model && out.size() == xs.size());
+    detail::attention_layer::check_activations(act, rows, qn, kn, C.n_heads, C.qk_norm != qk_norm_kind::none);
     linear_sequence(backend, w.q, xs, act.q, w.q_bias);
-    linear_heads(backend, w.k, xs, act.k, w.k_bias, C.n_kv_heads);   // the keys and values head by head
-    linear_heads(backend, w.v, xs, act.v, w.v_bias, C.n_kv_heads);
-    attention_position_rows<C>(backend, w, act, n, rope_src);
-    attention_attend_rows<C>(backend, act, n);
+    linear_heads(backend, w.k, xs, act.k, w.k_bias, C.n_kv_heads, sequences);   // the keys and values head by head
+    linear_heads(backend, w.v, xs, act.v, w.v_bias, C.n_kv_heads, sequences);
+    attention_position_rows<C>(backend, w, act, n, rope_src, sequences);
+    attention_attend_rows<C>(backend, act, n, sequences);
     linear_sequence(backend, w.o, std::span<const T>(act.y), out, w.o_bias);
 }
 
@@ -573,6 +633,11 @@ constexpr void attention_backward(const attention_weights<dense_weights<S>, T>& 
 /// `Wo`'s backward over the whole sequence (into `grads.y`, the heads' output gradients), the heads' backward and
 /// the undoing of QK norm and RoPE token by token (the per-token path's code), then `Wq`'s, each key-value head's
 /// `Wk` and `Wv`'s, each one pair of `gemm`s (`linear_sequence_backward`).
+///
+/// Over a batch of `sequences` (as the forward): the input's gradient, the biases', the QK norms' and `Wk`'s and `Wv`'s
+/// (made sequence by sequence on the host) are those of calling this once per sequence into the same gradients, to the
+/// bit; `Wq`'s and `Wo`'s are one product over every row, so their sums run in one pass where the per-sequence calls add
+/// one sequence's sum at a time: equal within rounding.
 /// \tparam C The configuration.
 /// \param backend A `linalg::blas_backend`.
 /// \param w The weights the forward pass used.
@@ -583,28 +648,29 @@ constexpr void attention_backward(const attention_weights<dense_weights<S>, T>& 
 /// \param dxs Added into, `n · d_model`; or empty to skip it.
 /// \param grads Receives the gradients: `q`, `k`, `v` and the working space `y` (`n · q_size`) written, the rest
 /// added into.
+/// \param sequences The sequences the forward pass took.
 template <transformer_config C, typename B, math::math_number T, typename R>
     requires linalg::blas_backend<B, T> && (C.rope == rope_kind::none || rope_source<R>)
 constexpr void attention_backward(const B& backend, const attention_weights<dense_weights<T>, T>& w,
                                   std::type_identity_t<std::span<const T>> xs, const R& rope_src, const attention_activations<T>& act,
                                   std::type_identity_t<std::span<const T>> dout, std::type_identity_t<std::span<T>> dxs,
-                                  const attention_gradients<T>& grads)
+                                  const attention_gradients<T>& grads, std::size_t sequences = 1)
 {
     static_assert(valid(C), "snicholls::ml::attention_backward: the transformer_config is not valid");
     [[maybe_unused]] constexpr std::size_t qn = C.q_size();   // each its own declaration: MSVC applies the attribute
     [[maybe_unused]] constexpr std::size_t kn = C.kv_size();  // to the first declarator only (C4189)
-    const std::size_t n = xs.size() / C.d_model;
-    assert(dout.size() == xs.size() && (dxs.empty() || dxs.size() == xs.size()));
-    assert(grads.q.size() == n * qn && grads.k.size() == n * kn && grads.v.size() == n * kn && grads.y.size() == n * qn);
+    const std::size_t rows = xs.size() / C.d_model, n = rows / sequences;
+    assert(sequences > 0 && rows == n * sequences && dout.size() == xs.size() && (dxs.empty() || dxs.size() == xs.size()));
+    assert(grads.q.size() == rows * qn && grads.k.size() == rows * kn && grads.v.size() == rows * kn && grads.y.size() == rows * qn);
     fill_rows(backend, grads.k, T(0));
     fill_rows(backend, grads.v, T(0));
     fill_rows(backend, grads.y, T(0));
     linear_sequence_backward(backend, w.o, std::span<const T>(act.y), dout, grads.y, grads.wo, grads.o_bias);
-    attention_attend_rows_backward<C>(backend, act, std::span<const T>(grads.y), grads, n);
-    attention_position_rows_backward<C>(backend, w, act, grads, n, rope_src);
+    attention_attend_rows_backward<C>(backend, act, std::span<const T>(grads.y), grads, n, sequences);
+    attention_position_rows_backward<C>(backend, w, act, grads, n, rope_src, sequences);
     linear_sequence_backward(backend, w.q, xs, std::span<const T>(grads.q), dxs, grads.wq, grads.q_bias);
-    linear_heads_backward(backend, w.k, xs, std::span<const T>(grads.k), dxs, grads.wk, grads.k_bias, C.n_kv_heads);
-    linear_heads_backward(backend, w.v, xs, std::span<const T>(grads.v), dxs, grads.wv, grads.v_bias, C.n_kv_heads);
+    linear_heads_backward(backend, w.k, xs, std::span<const T>(grads.k), dxs, grads.wk, grads.k_bias, C.n_kv_heads, sequences);
+    linear_heads_backward(backend, w.v, xs, std::span<const T>(grads.v), dxs, grads.wv, grads.v_bias, C.n_kv_heads, sequences);
 }
 
 } // namespace snicholls::ml

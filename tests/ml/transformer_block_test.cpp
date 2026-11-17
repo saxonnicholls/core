@@ -554,6 +554,84 @@ TEST(MlTransformerBlockTraining, BatchedThroughABackendIsThePerTokenPathWithinRo
     batched_is_per_token<b_nanochat>();
 }
 
+// A batch of sequences in one call against one call per sequence through the same backend, the gradients added into
+// the same tensors sequence by sequence: the outputs, every activation, the input's gradient and every gradient to the
+// bit, except the weight gradients of the products made over all the rows at once (Wq, Wo, the MLP's), within rounding
+template <ml::transformer_config C>
+void batch_is_each_sequence()
+{
+    using B = train_block<C>;
+    const B b;
+    constexpr std::size_t n = B::n, d = C.d_model, seqs = 3, rows = seqs * n, f = C.d_ff, qn = C.q_size(), kn = C.kv_size();
+    constexpr bool qk = C.qk_norm != ml::qk_norm_kind::none, swiglu = C.mlp == ml::mlp_kind::swiglu;
+    struct run_t {
+        std::vector<double> x0 = std::vector<double>(rows * d), h1 = x0, x1 = x0, h2 = x0, q = std::vector<double>(rows * qn),
+                            k = std::vector<double>(rows * kn), v = k, qr = std::vector<double>(qk ? q.size() : 0),
+                            kr = std::vector<double>(qk ? k.size() : 0), y = q, lse = std::vector<double>(rows * C.n_heads),
+                            up = std::vector<double>(rows * f), gate = std::vector<double>(swiglu ? up.size() : 0), hidden = up,
+                            dq = q, dk = k, dv = k, dy = q, scratch = x0, mlp_scratch = std::vector<double>(2 * rows * f),
+                            xs = bwave(rows * d, 1.1, 0.2), dx = bwave(rows * d, 0.9, 1.4);
+        std::vector<std::vector<double>> gp;
+        // Sequence s of `count` (all of them for s = 0, count = seqs): every view a slice
+        ml::block_activations<double> act(std::size_t s, std::size_t count)
+        {
+            auto cut = [&](std::vector<double>& v) { return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / seqs, count * v.size() / seqs); };
+            return {cut(x0), cut(h1), cut(x1), cut(h2), {cut(q), cut(k), cut(v), cut(qr), cut(kr), cut(y), cut(lse)}, cut(up), cut(gate), cut(hidden)};
+        }
+        ml::block_gradients<double> grads(std::size_t s, std::size_t count)
+        {
+            auto cut = [&](std::vector<double>& v) { return std::span<double>(v).subspan(s * v.size() / seqs, count * v.size() / seqs); };
+            return {gp[B::n1w], gp[B::n1b], gp[B::n2w], gp[B::n2b],
+                    {cut(dq), cut(dk), cut(dv), gp[B::wq], gp[B::wk], gp[B::wv], gp[B::wo], gp[B::bq], gp[B::bk], gp[B::bv], gp[B::bo], gp[B::nq],
+                     gp[B::nk], cut(dy)},
+                    {gp[B::up], gp[B::gate], gp[B::down], gp[B::bup], gp[B::bgate], gp[B::bdown], cut(mlp_scratch)},
+                    cut(scratch)};
+        }
+    };
+    run_t each, all;
+    for (run_t* r : {&each, &all}) {
+        r->gp.resize(b.p.size());
+        for (std::size_t i = 0; i < b.p.size(); ++i)
+            r->gp[i].assign(b.p[i].size(), 0.0);
+    }
+    const auto& backend = snicholls::linalg::reference;
+    for (std::size_t s = 0; s < seqs; ++s)
+        ml::block_forward_sequence<C>(backend, b.weights(), std::span<double>(each.xs).subspan(s * n * d, n * d), brope_for<C>(), each.act(s, 1));
+    for (std::size_t s = 0; s < seqs; ++s)
+        ml::block_backward<C>(backend, b.weights(), brope_for<C>(), each.act(s, 1), std::span<double>(each.dx).subspan(s * n * d, n * d),
+                              each.grads(s, 1));
+    ml::block_forward_sequence<C>(backend, b.weights(), all.xs, brope_for<C>(), all.act(0, seqs), seqs);
+    ml::block_backward<C>(backend, b.weights(), brope_for<C>(), all.act(0, seqs), all.dx, all.grads(0, seqs), seqs);
+    EXPECT_EQ(each.xs, all.xs);
+    EXPECT_EQ(each.dx, all.dx);
+    for (const auto m : {&run_t::x0, &run_t::h1, &run_t::x1, &run_t::h2, &run_t::q, &run_t::k, &run_t::v, &run_t::qr, &run_t::kr, &run_t::y,
+                         &run_t::lse, &run_t::up, &run_t::gate, &run_t::hidden, &run_t::dq, &run_t::dk, &run_t::dv})
+        EXPECT_EQ(each.*m, all.*m);
+    for (std::size_t i = 0; i < b.p.size(); ++i) {
+        const bool one_product = i == B::wq || i == B::wo || i == B::up || i == B::gate || i == B::down;
+        if (!one_product) {
+            EXPECT_EQ(each.gp[i], all.gp[i]) << "tensor " << i;
+            continue;
+        }
+        for (std::size_t j = 0; j < each.gp[i].size(); ++j)
+            EXPECT_NEAR(each.gp[i][j], all.gp[i][j], 1e-13 * std::max(1.0, std::abs(each.gp[i][j]))) << "tensor " << i << " at " << j;
+    }
+    // One sequence is the default
+    run_t one;
+    one.gp = all.gp;
+    auto xs1 = std::vector<double>(all.xs.begin(), all.xs.begin() + std::ptrdiff_t(n * d)), xs2 = xs1;
+    ml::block_forward_sequence<C>(backend, b.weights(), xs1, brope_for<C>(), one.act(0, 1));
+    ml::block_forward_sequence<C>(backend, b.weights(), xs2, brope_for<C>(), one.act(0, 1), 1);
+    EXPECT_EQ(xs1, xs2);
+}
+
+TEST(MlTransformerBlockTraining, ABatchOfSequencesIsEachSequencesCall)
+{
+    batch_is_each_sequence<b_gpt2>();
+    batch_is_each_sequence<b_llama>();
+    batch_is_each_sequence<b_nanochat>();
+}
+
 TEST(MlTransformerBlockTraining, BackwardMatchesCentralDifferencesForALlamaBlock)
 {
     block_backward_is_central_differences<b_llama>();
