@@ -12,7 +12,9 @@
 /// **Overview.** The normalisation at the end of every language model and inside every attention head. Each
 /// function subtracts the maximum before exponentiating, so no logit overflows `exp`, and the losses are computed
 /// from `logsumexp` rather than from a probability, so an improbable target gives a large finite loss instead of
-/// `log(0)`.
+/// `log(0)`. Where a result is a difference from `logsumexp` (`log_softmax`, the losses, the fused gradient), the
+/// maximum and `log sum e^(x - max)` are kept apart and the difference is taken as `(x_i - max) - log(sum)`, so a
+/// result of order 1 does not carry the rounding of a logit of order 1e4 (before 0.14.0 it lost about `eps · |max| / 2`).
 ///
 /// - `softmax(in, out)`, `log_softmax(in, out)`, `logsumexp(in)` over one row of logits (any `row`: a vector, an array,
 ///   a span). `out` may be `in`.
@@ -146,15 +148,31 @@ namespace detail::softmax
         return m;
     }
 
+    // The maximum and sum e^(x - max), kept apart: x_i - lse is computed as (x_i - max) - log(sum), so it is not
+    // rounded at the magnitude of the largest logit.
     template <typename T>
-    constexpr T logsumexp(std::span<const T> in)
+    struct shifted_sum
+    {
+        T max;
+        T sum;
+    };
+
+    template <typename T>
+    constexpr shifted_sum<T> shifted_sum_of(std::span<const T> in)
     {
         const T m = max_of(in);
         if (m == -std::numeric_limits<T>::infinity() || m != m)
-            return m;
+            return {m, T(1)};
         T s = T(0);
         for (const T x : in)
             s += math::exp(x - m);
+        return {m, s};
+    }
+
+    template <typename T>
+    constexpr T logsumexp(std::span<const T> in)
+    {
+        const auto [m, s] = shifted_sum_of(in);
         return m + math::log(s);
     }
 } // namespace detail::softmax
@@ -194,6 +212,9 @@ constexpr void softmax(const In& in, Out&& out)
 }
 
 /// \brief The log-softmax of a row: `out_i = in_i - logsumexp(in)`, exact where `log(softmax)` would underflow.
+///
+/// Computed as `(in_i - max) - log(sum e^(in_j - max))`, so the rounding is that of the result, not of the largest
+/// logit: the difference is a constant only up to rounding at `|max|`, which `in_i - logsumexp(in)` would lose.
 /// \tparam In A `row`.
 /// \tparam Out A `mutable_row` of the same number type.
 /// \param in The logits.
@@ -205,9 +226,10 @@ constexpr void log_softmax(const In& in, Out&& out)
     const auto x = as_row(in);
     const auto y = as_mutable_row(out);
     assert(x.size() == y.size());
-    const auto lse = detail::softmax::logsumexp(x);
+    const auto [m, s] = detail::softmax::shifted_sum_of(x);
+    const auto log_s = math::log(s);
     for (std::size_t i = 0; i < x.size(); ++i)
-        y[i] = x[i] - lse;
+        y[i] = (x[i] - m) - log_s;
 }
 
 /// \brief The backward pass of `log_softmax`: `dlogits_i = d_i - softmax_i · sum_j d_j`, with `softmax_i = e^(logp_i)`.
@@ -257,6 +279,9 @@ constexpr void softmax_backward(const P& probs, const D& dprobs, Out&& dlogits)
 }
 
 /// \brief The cross-entropy of one row against a target class: `logsumexp(logits) - logits[target]`, in nats.
+///
+/// Computed as `(max - logits[target]) + log(sum e^(logits_j - max))`, which keeps its digits when the logits are
+/// large: `logsumexp` itself is rounded at the magnitude of the largest logit.
 /// \tparam In A `row`.
 /// \param logits The logits.
 /// \param target The index of the correct class: less than the row's size.
@@ -266,12 +291,14 @@ constexpr row_value_t<In> cross_entropy(const In& logits, std::size_t target)
 {
     const auto x = as_row(logits);
     assert(target < x.size());
-    return detail::softmax::logsumexp(x) - x[target];
+    const auto [m, s] = detail::softmax::shifted_sum_of(x);
+    return (m - x[target]) + math::log(s);
 }
 
 /// \brief The cross-entropy of one row and its gradient in one pass: `dlogits = scale · (softmax(logits) - one_hot(target))`.
 ///
-/// `scale` is the gradient of the total loss in this row's loss: `1 / (B T)` for a mean over a batch.
+/// `scale` is the gradient of the total loss in this row's loss: `1 / (B T)` for a mean over a batch. The loss is
+/// `cross_entropy`'s, and the softmax is `softmax`'s, `e^(logits_i - max) · (1 / sum)`, to the bit.
 /// \tparam In A `row`.
 /// \tparam Out A `mutable_row` of the same number type.
 /// \param logits The logits.
@@ -288,10 +315,11 @@ constexpr row_value_t<In> cross_entropy_with_gradient(const In& logits, std::siz
     const auto x = as_row(logits);
     const auto g = as_mutable_row(dlogits);
     assert(target < x.size() && x.size() == g.size());
-    const T lse = detail::softmax::logsumexp(x);
-    const T loss = lse - x[target];
+    const auto [m, s] = detail::softmax::shifted_sum_of(x);
+    const T loss = (m - x[target]) + math::log(s);
+    const T inv = T(1) / s;
     for (std::size_t i = 0; i < x.size(); ++i)
-        g[i] = scale * (math::exp(x[i] - lse) - (i == target ? T(1) : T(0)));
+        g[i] = scale * (math::exp(x[i] - m) * inv - (i == target ? T(1) : T(0)));
     return loss;
 }
 

@@ -69,10 +69,10 @@ float cross_entropy_by_hand(const std::vector<float>& in, std::size_t t, std::ve
     float s = 0.0f;
     for (const float x : in)
         s += std::exp(x - m);
-    const float lse = m + std::log(s);
+    const float inv = 1.0f / s;
     for (std::size_t i = 0; i < in.size(); ++i)
-        g[i] = scale * (std::exp(in[i] - lse) - (i == t ? 1.0f : 0.0f));
-    return lse - in[t];
+        g[i] = scale * (std::exp(in[i] - m) * inv - (i == t ? 1.0f : 0.0f));
+    return (m - in[t]) + std::log(s);
 }
 
 void BM_Softmax_Core(benchmark::State& state)

@@ -5,7 +5,7 @@
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
 //  Tests for <snicholls/core/ml/softmax.hpp>: softmax, log_softmax and logsumexp against long double,
-//  logits that overflow exp, the gradients against central differences, the fused cross-entropy in
+//  logits that overflow exp, logits near 1e4 against the shifted closed forms, the gradients against central differences, the fused cross-entropy in
 //  place, online_softmax split and merged in every order, the edge cases, and compile-time use.
 //
 
@@ -81,6 +81,44 @@ TEST(MlSoftmax, LogitsThatOverflowExpStayFinite)
     EXPECT_NEAR(lp[3], -2001 - std::log(1 + std::exp(-1.0) + std::exp(-2.0)), 1e-12);   // log(softmax) would be -inf
     EXPECT_NEAR(ml::logsumexp(x), 1001 + std::log(1 + std::exp(-1.0) + std::exp(-2.0)), 1e-12);
     EXPECT_NEAR(ml::cross_entropy(x, 3), 2001 + std::log(1 + std::exp(-1.0) + std::exp(-2.0)), 1e-12);   // large, finite
+}
+
+// Logits near 1e4 with differences of order 1, as a language model's are late in training: each result is a number of
+// order 1, so it must not carry the rounding of 1e4. Before 0.14.0 x_i - logsumexp lost about eps 1e4 / 2 (3000 units
+// in the last place in float, 2600 in double).
+template <typename T>
+void expect_large_logits_keep_their_digits()
+{
+    const T base = T(10000);
+    const std::array<T, 4> x{base, base, base - T(1), base - T(3)};
+    const double s = 2 + std::exp(-1.0) + std::exp(-3.0);
+    const std::array<double, 4> shifted{0, 0, -1, -3};
+    const double eps = std::numeric_limits<T>::epsilon();
+    std::array<T, 4> lp{}, g{};
+    ml::log_softmax(x, lp);
+    const T loss = ml::cross_entropy_with_gradient(x, 2, g, T(1));
+    EXPECT_LE(std::abs(ml::cross_entropy(x, 0) - std::log(s)) / std::log(s), 4 * eps);
+    EXPECT_LE(std::abs(loss - (1 + std::log(s))) / (1 + std::log(s)), 4 * eps);
+    for (std::size_t i = 0; i < 4; ++i) {
+        const double want_lp = shifted[i] - std::log(s);
+        const double want_g = std::exp(shifted[i]) / s - (i == 2 ? 1.0 : 0.0);
+        EXPECT_LE(std::abs(lp[i] - want_lp) / std::abs(want_lp), 4 * eps) << i;
+        EXPECT_LE(std::abs(g[i] - want_g) / std::abs(want_g), 4 * eps) << i;
+    }
+}
+
+TEST(MlSoftmax, LargeLogitsKeepTheDigitsOfTheLoss)
+{
+    expect_large_logits_keep_their_digits<float>();
+    expect_large_logits_keep_their_digits<double>();
+    // The gradient's softmax is softmax's, to the bit
+    const std::vector<float> x{9999.5f, 10000.25f, 9998.0f};
+    std::vector<float> p(3), g(3);
+    ml::softmax(x, p);
+    (void)ml::cross_entropy_with_gradient(x, 0, g, 1.0f);
+    EXPECT_EQ(g[0], p[0] - 1.0f);
+    EXPECT_EQ(g[1], p[1]);
+    EXPECT_EQ(g[2], p[2]);
 }
 
 TEST(MlSoftmax, EdgeCases)
