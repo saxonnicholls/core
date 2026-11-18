@@ -75,6 +75,17 @@
 namespace snicholls::ml
 {
 
+namespace detail::optim
+{
+    // Adam's bias correction 1 - beta^t as -expm1(t log1p(-(1 - beta))): 1 - pow(beta, t) cancels for beta near 1
+    // and small t (beta2 = 0.9999 at t = 2 lost 420 units in the last place in float).
+    template <typename T>
+    constexpr T bias_correction(T beta, std::uint64_t step)
+    {
+        return -math::expm1(T(step) * math::log1p(-(T(1) - beta)));
+    }
+} // namespace detail::optim
+
 /// \brief The hyperparameters of AdamW.
 /// \ingroup core
 /// \tparam T The number type.
@@ -91,7 +102,8 @@ struct adamw_config
 /// \brief One AdamW step over a row of parameters: updates `params`, `m` and `v` in place.
 ///
 /// `m = β1 m + (1 - β1) g`, `v = β2 v + (1 - β2) g²`, then
-/// `p -= lr · (m / (1 - β1^t) / (sqrt(v / (1 - β2^t)) + eps) + wd · p)`.
+/// `p -= lr · (m / (1 - β1^t) / (sqrt(v / (1 - β2^t)) + eps) + wd · p)`, with each `1 - β^t` computed as
+/// `-expm1(t · log1p(-(1 - β)))`, which does not cancel for `β` near 1 in the first steps.
 /// \param params The parameters.
 /// \param grads Their gradients.
 /// \param m The first moments, zero before the first step.
@@ -109,8 +121,8 @@ constexpr void adamw_step(P&& params, const G& grads, M&& m, V&& v, std::uint64_
     const auto mm = as_mutable_row(m);
     const auto vv = as_mutable_row(v);
     assert(step >= 1 && g.size() == p.size() && mm.size() == p.size() && vv.size() == p.size());
-    const T c1 = T(1) - math::pow(config.beta1, T(step));
-    const T c2 = T(1) - math::pow(config.beta2, T(step));
+    const T c1 = detail::optim::bias_correction(config.beta1, step);
+    const T c2 = detail::optim::bias_correction(config.beta2, step);
     for (std::size_t i = 0; i < p.size(); ++i) {
         mm[i] = config.beta1 * mm[i] + (T(1) - config.beta1) * g[i];
         vv[i] = config.beta2 * vv[i] + (T(1) - config.beta2) * g[i] * g[i];

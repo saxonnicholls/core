@@ -41,12 +41,12 @@ struct state_t {
     }
 };
 
-// By hand: llm.c's adamw_update
+// By hand: llm.c's adamw_update, with the bias correction 1 - beta^t as -expm1(t log1p(-(1 - beta))), as core computes it
 void adamw_by_hand(float* p, const float* g, float* m, float* v, std::size_t count, std::uint64_t t, float lr, float b1, float b2,
                    float eps, float wd)
 {
-    const float c1 = 1.0f - snicholls::math::pow(b1, static_cast<float>(t));
-    const float c2 = 1.0f - snicholls::math::pow(b2, static_cast<float>(t));
+    const float c1 = -std::expm1(static_cast<float>(t) * std::log1p(-(1.0f - b1)));
+    const float c2 = -std::expm1(static_cast<float>(t) * std::log1p(-(1.0f - b2)));
     for (std::size_t i = 0; i < count; ++i) {
         m[i] = b1 * m[i] + (1.0f - b1) * g[i];
         v[i] = b2 * v[i] + (1.0f - b2) * g[i] * g[i];

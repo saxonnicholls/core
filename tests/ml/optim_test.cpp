@@ -4,10 +4,11 @@
 //
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
-//  Tests for <snicholls/core/ml/optim.hpp>: AdamW against the formula in long double over several steps, its
-//  first step's size, weight decay alone, AdamW minimising a quadratic; both schedules at their corners; the
-//  global norm over shards and the clip coefficient; Newton-Schulz carrying singular values near 1; the FLOPs of
-//  GPT-2 small; and compile-time use.
+//  Tests for <snicholls/core/ml/optim.hpp>: AdamW against the formula in long double over several steps, its bias
+//  correction near beta = 1 in the first steps against exact references, its first step's size, weight decay alone,
+//  AdamW minimising a quadratic; both schedules at their corners; the global norm over shards and the clip
+//  coefficient; Newton-Schulz carrying singular values near 1; the FLOPs of GPT-2 small;
+//  and compile-time use.
 //
 
 #include <snicholls/core/ml/optim.hpp>
@@ -16,6 +17,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -61,6 +63,40 @@ TEST(MlOptim, AdamWMatchesTheFormulaOverSeveralSteps)
     }
     for (std::size_t i = 0; i < 3; ++i)
         EXPECT_NEAR(p[i], static_cast<double>(rp[i]), 1e-14);
+}
+
+TEST(MlOptim, BiasCorrectionDoesNotCancelInTheFirstSteps)
+{
+    // 1 - beta^t for beta near 1 and small t: 1 - pow(beta, t) loses the digits pow rounds away near 1 (before 0.14.0,
+    // 56 and 420 units in the last place in float at t = 2 for beta = 0.999 and 0.9999). The float beta's powers up to
+    // the third are exact in double, so double is an exact reference here.
+    namespace d = snicholls::ml::detail::optim;
+    for (const float beta : {0.9f, 0.95f, 0.999f, 0.9999f})
+        for (const std::uint64_t t : {1u, 2u, 3u}) {
+            const double b = beta, want = 1 - std::pow(b, double(t));
+            EXPECT_LE(std::abs(d::bias_correction(beta, t) - want) / want, 2 * std::numeric_limits<float>::epsilon()) << beta << " " << t;
+        }
+    // double at t = 2: 1 - b^2 = fma(-b, b, 1), rounded once
+    for (const double b : {0.999, 0.9999, 0.99999}) {
+        const double want = std::fma(-b, b, 1.0);
+        EXPECT_LE(std::abs(d::bias_correction(b, 2) - want) / want, 2 * std::numeric_limits<double>::epsilon()) << b;
+    }
+    EXPECT_EQ(d::bias_correction(0.0, 1), 1.0);
+    EXPECT_NEAR(d::bias_correction(0.999, 100000), 1.0, 1e-15);
+    static_assert(snicholls::math::near(d::bias_correction(0.999, 2), 1.999e-3, 1e-15));
+
+    // Through adamw_step in float: the update at t = 2 with beta2 = 0.999 and 0.9999, against double
+    for (const float beta2 : {0.999f, 0.9999f})
+        for (const std::uint64_t t : {1u, 2u, 3u}) {
+            const ml::adamw_config<float> c{.learning_rate = 1.0f, .beta1 = 0.9f, .beta2 = beta2, .eps = 0.0f, .weight_decay = 0.0f};
+            std::array<float, 1> p{0.0f}, mm{-0.0620489f}, vv{0.555658f};
+            const float g = -1.23339f;
+            const double m1 = 0.9 * double(mm[0]) + double(1.0f - 0.9f) * g;
+            const double v1 = double(beta2) * double(vv[0]) + double(1.0f - beta2) * double(g) * g;
+            const double want = -(m1 / (1 - std::pow(double(0.9f), double(t)))) / std::sqrt(v1 / (1 - std::pow(double(beta2), double(t))));
+            ml::adamw_step(p, std::array<float, 1>{g}, mm, vv, t, c);
+            EXPECT_LE(std::abs(p[0] - want) / std::abs(want), 8 * std::numeric_limits<float>::epsilon()) << beta2 << " " << t;
+        }
 }
 
 TEST(MlOptim, WeightDecayAloneShrinksTowardZero)
@@ -123,6 +159,7 @@ TEST(MlOptim, NewtonSchulzCarriesSingularValuesNearOne)
     }
     EXPECT_NEAR(ml::newton_schulz_polynomial(1.0), 3.4445 - 4.7750 + 2.0315, 1e-15);
 }
+
 
 TEST(MlOptim, FlopsOfGpt2Small)
 {
