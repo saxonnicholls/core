@@ -79,6 +79,7 @@ add_executable(snicholls_core_tests
     ml/attention_layer_test.cpp
     ml/attention_test.cpp
     ml/bpe_test.cpp
+    ml/diloco_test.cpp
     ml/embedding_test.cpp
     ml/kv_cache_test.cpp
     ml/linear_test.cpp

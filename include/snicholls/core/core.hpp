@@ -99,6 +99,7 @@
 #include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/bpe.hpp>
+#include <snicholls/core/ml/diloco.hpp>
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/kv_cache.hpp>
 #include <snicholls/core/ml/linear.hpp>
