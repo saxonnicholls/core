@@ -13,12 +13,13 @@ and commit the result. The "relative" column is each row's time over the fastest
 
 | | |
 | --- | --- |
-| date | 2026-11-16 |
+| date | 2026-11-19 |
 | machine | Intel(R) Xeon(R) W-3245 CPU @ 3.20GHz, 32 CPUs |
 | OS | Darwin 25.6.0 |
 | compiler | AppleClang 17.0.0.17000309 |
-| build | Release, `build-bench` |
+| build | Release, `build-werror` |
 | min time per benchmark | 0.5 s |
+| this run | only `diloco`; other sections are from earlier runs |
 
 ## accumulators_benchmark
 
@@ -138,6 +139,17 @@ and commit the result. The "relative" column is each row's time over the fastest
 | --- | ---: | ---: | ---: |
 | `dense_id_map` | 636.77 us | 1.00x | 103.10 M/s |
 | `std_unordered_map` | 5.97 ms | 9.37x | 11.51 M/s |
+
+## diloco_benchmark
+
+`benchmarks/ml/diloco_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_OrderedSum_Core` | 2.22 ms | 2.66x | 474.98 M/s |
+| `BM_OrderedSum_HandWritten` | 2.07 ms | 2.48x | 511.93 M/s |
+| `BM_OuterStep_Core` | 929.41 us | 1.11x | 1.14 G/s |
+| `BM_OuterStep_HandWritten` | 834.46 us | 1.00x | 1.27 G/s |
 
 ## flat_id_map_benchmark
 
