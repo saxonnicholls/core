@@ -120,7 +120,7 @@ double ulps(T got, R ref)
 TEST(MlActivations, DerivativesDoNotCancelForLargePositiveArguments)
 {
     // 1 - sigmoid(z) cancels for large z and SiLU' and GELU-tanh' multiply it by x: before 0.14.0, 7.2 and 16.5
-    // units in the last place in float (near x = 15.5 and 5.0), 11.5 and 43.7 in double (SXT certification).
+    // units in the last place in float (near x = 15.5 and 5.0), 11.5 and 43.7 in double (symbolic certification).
     double worst_silu = 0, worst_gelu = 0;
     for (int i = -160000; i <= 160000; ++i) {
         const float x = static_cast<float>(i) / 10000.0f;

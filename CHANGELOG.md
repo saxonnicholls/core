@@ -13,7 +13,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Fixed
 
-- **Accuracy of the ML formulas** (found by certifying them against SXT's symbolic derivatives; no formula was
+- **Accuracy of the ML formulas** (found by certifying them against symbolic derivatives; no formula was
   wrong, each lost digits to rounding):
   - `silu_derivative`, `gelu_tanh_derivative` and `sigmoid_derivative` (`ml/activations.hpp`) take `1 - sigmoid(z)`
     as `sigmoid(-z)`, from the same `e^-|z|`, instead of subtracting a sigmoid near 1 from 1. The worst error of
