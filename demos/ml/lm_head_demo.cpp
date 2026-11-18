@@ -64,7 +64,8 @@ int main()
     // For training on a device: the whole sequence's logits as one product through a linalg backend (here core's
     // reference), then the fused classifier on every row, then the gradients; the same loss as lm_head_loss
     std::vector<float> all_logits(tokens.size() * vocab), losses(tokens.size()), dhs2(hs.size()), dtable2(table.size());
-    const std::vector<std::uint32_t> next32(next.begin(), next.end());
+    std::vector<std::uint32_t> next32(next.size());
+    std::transform(next.begin(), next.end(), next32.begin(), [](std::size_t c) { return static_cast<std::uint32_t>(c); });
     const float seq_loss = ml::lm_head_loss_sequence(snicholls::linalg::reference, ml::dense_weights<float>{table, vocab, d}, std::span<const float>(hs),
                                                      next32, std::span<float>(all_logits), std::span<float>(losses), std::span<float>(dhs2),
                                                      std::span<float>(dtable2));
