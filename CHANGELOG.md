@@ -3,6 +3,30 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased (0.14.0)
+
+### Fixed
+
+- **Accuracy of the ML formulas** (found by certifying them against SXT's symbolic derivatives; no formula was
+  wrong, each lost digits to rounding):
+  - `silu_derivative`, `gelu_tanh_derivative` and `sigmoid_derivative` (`ml/activations.hpp`) take `1 - sigmoid(z)`
+    as `sigmoid(-z)`, from the same `e^-|z|`, instead of subtracting a sigmoid near 1 from 1. The worst error of
+    SiLU' and GELU-tanh' over `|x| <= 16` falls from 7.2 and 16.5 units in the last place to under 2 in float (11.5 and
+    43.7 in double before); `sigmoid_derivative(20.0f)` is no longer 0.
+  - `log_softmax`, `cross_entropy` and `cross_entropy_with_gradient` (`ml/softmax.hpp`) take each difference from
+    `logsumexp` as `(x_i - max) - log(sum)`, so a result of order 1 does not carry the rounding of a logit of order
+    1e4: with logits near 1e4, the loss, the log-probabilities and the gradient are within 4 units in the last place,
+    where they lost about 90 in float and 600 in double. The fused gradient's softmax is now `softmax`'s to the bit.
+    `logsumexp` itself is unchanged.
+  - `adamw_step` and `adamw_rows` (`ml/optim.hpp`) compute the bias correction `1 - β^t` as
+    `-expm1(t · log1p(-(1 - β)))`: `1 - pow(β, t)` cancelled for `β` near 1 in the first steps (at `β2 = 0.9999`,
+    t = 3, 830 units in the last place in float, and the update off by 415; t = 1 was exact and still is to rounding).
+  - The documented range of Muon's five Newton-Schulz steps (`ml/optim.hpp`, `ml/muon.hpp`) is about
+    `[0.682, 1.2024]` from a singular value of at least `1.55e-3`, not `[0.7, 1.2]`; below that a value `x` reaches
+    only about `a⁵ x`. Documentation only.
+
+  Results change in the last bits; the hand-written equivalents in the benchmarks compute the same new forms.
+
 ## 0.13.0 - 2026-11-17
 
 ### Added
