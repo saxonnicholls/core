@@ -6,13 +6,15 @@
 //
 //  Tests for <snicholls/core/ml/activations.hpp>: each activation against its textbook formula in long
 //  double where the formula is safe, each derivative against a central difference, the tails where the
-//  textbook formula overflows or cancels, NaN, float, and compile-time evaluation.
+//  textbook formula overflows or cancels, the derivatives near the cancellation of 1 - sigmoid against closed
+//  forms, NaN, float, and compile-time evaluation.
 //
 
 #include <snicholls/core/ml/activations.hpp>
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -92,6 +94,54 @@ TEST(MlActivations, DerivativesMatchACentralDifference)
         EXPECT_NEAR(ml::sigmoid(-xd), static_cast<double>(central([](ld v) { return ml::log_sigmoid(v); }, x)), 1e-9) << xd;
         EXPECT_NEAR(ml::sigmoid(xd), static_cast<double>(central([](ld v) { return ml::softplus(v); }, x)), 1e-9) << xd;
     }
+}
+
+// The derivatives in R, from closed forms with 1 - sigmoid(z) as e^-z / (1 + e^-z): an independent reference.
+template <typename R>
+R sigmoid_ref(R z) { return z >= 0 ? 1 / (1 + std::exp(-z)) : std::exp(z) / (1 + std::exp(z)); }
+
+template <typename R>
+R silu_derivative_ref(R x) { return sigmoid_ref(x) * (1 + x * sigmoid_ref(-x)); }
+
+template <typename R>
+R gelu_tanh_derivative_ref(R x)
+{
+    const R k = std::sqrt(R(2) / R(3.14159265358979323846264338327950288L));
+    const R z = 2 * k * (x + R(0.044715) * x * x * x);
+    return sigmoid_ref(z) + 2 * x * sigmoid_ref(z) * sigmoid_ref(-z) * k * (1 + 3 * R(0.044715) * x * x);
+}
+
+template <typename T, typename R>
+double ulps(T got, R ref)
+{
+    return static_cast<double>(std::abs(static_cast<R>(got) - ref) / (std::numeric_limits<T>::epsilon() * std::max<R>(1, std::abs(ref))));
+}
+
+TEST(MlActivations, DerivativesDoNotCancelForLargePositiveArguments)
+{
+    // 1 - sigmoid(z) cancels for large z and SiLU' and GELU-tanh' multiply it by x: before 0.14.0, 7.2 and 16.5
+    // units in the last place in float (near x = 15.5 and 5.0), 11.5 and 43.7 in double (SXT certification).
+    double worst_silu = 0, worst_gelu = 0;
+    for (int i = -160000; i <= 160000; ++i) {
+        const float x = static_cast<float>(i) / 10000.0f;
+        worst_silu = std::max(worst_silu, ulps(ml::silu_derivative(x), silu_derivative_ref<double>(x)));
+        worst_gelu = std::max(worst_gelu, ulps(ml::gelu_tanh_derivative(x), gelu_tanh_derivative_ref<double>(x)));
+    }
+    EXPECT_LE(worst_silu, 2.5);
+    EXPECT_LE(worst_gelu, 2.5);
+    EXPECT_LE(ulps(ml::silu_derivative(15.5369f), silu_derivative_ref<double>(15.5369f)), 2.5);
+    EXPECT_LE(ulps(ml::gelu_tanh_derivative(4.96208f), gelu_tanh_derivative_ref<double>(4.96208f)), 2.5);
+    EXPECT_EQ(ml::silu_derivative(20.0f), 1.0f);   // 1 + 4e-8, correctly rounded
+    EXPECT_EQ(ml::silu_derivative(40.0f), 1.0f);
+    // The tails in double, where the old forms lost the most: against long double (double itself where it is the same)
+    for (const double x : {15.5987, 15.0, 12.0, 30.0, 7.08933, 6.0, 5.0}) {
+        EXPECT_LE(ulps(ml::silu_derivative(x), silu_derivative_ref<ld>(x)), 4.0) << x;
+        EXPECT_LE(ulps(ml::gelu_tanh_derivative(x), gelu_tanh_derivative_ref<ld>(x)), 4.0) << x;
+    }
+    // sigmoid' = s (1 - s) is relative to a tiny value: at 20 in float, 1 - s rounded to 0 before 0.14.0
+    EXPECT_NEAR(ml::sigmoid_derivative(20.0f) / static_cast<float>(sigmoid_ref(20.0) * sigmoid_ref(-20.0)), 1.0f, 1e-6f);
+    EXPECT_NEAR(ml::sigmoid_derivative(40.0) / (sigmoid_ref(40.0) * sigmoid_ref(-40.0)), 1.0, 1e-14);
+    EXPECT_EQ(ml::sigmoid_derivative(-40.0), ml::sigmoid_derivative(40.0));
 }
 
 TEST(MlActivations, TailsStayFiniteWhereTheNaiveFormulasFail)

@@ -18,6 +18,9 @@
 /// - `sigmoid(x)` is `1 / (1 + e^-x)` for `x >= 0` and `e^x / (1 + e^x)` below, so neither form overflows.
 /// - `softplus(x) = max(x, 0) + log1p(e^-|x|)` and `log_sigmoid(x) = -softplus(-x)`, so a loss built on them never
 ///   takes the log of an underflowed probability.
+/// - The derivatives of sigmoid, SiLU and GELU-tanh take `1 - sigmoid(z)` as `sigmoid(-z)`, from the same `e^-|z|`, rather
+///   than subtracting a sigmoid near 1 from 1, which cancels for large `z` (and is then scaled by `x` in SiLU and
+///   GELU-tanh: 11.5 and 43.7 units in the last place in double, 7.2 and 16.5 in float, before 0.14.0; under 2 in float since).
 /// - `gelu(x) = x Φ(x)` uses `erfc` for the normal CDF, accurate in the left tail; `gelu_tanh` (GPT-2's
 ///   approximation) is computed as `x · sigmoid(2u)`, which is identical to `0.5 x (1 + tanh u)` and does not
 ///   cancel for large negative `x`.
@@ -56,6 +59,27 @@
 namespace snicholls::ml
 {
 
+namespace detail::activations
+{
+    // sigmoid(v) and sigmoid(-v) = 1 - sigmoid(v), both from one e^-|v|, so neither cancels.
+    template <typename T>
+    struct sigmoid_pair
+    {
+        T s;
+        T one_minus_s;
+    };
+
+    template <typename T>
+    constexpr sigmoid_pair<T> sigmoid_both(T v)
+    {
+        const T e = math::exp(-math::abs(v));
+        const T r = T(1) / (T(1) + e);
+        if (v >= T(0))
+            return {r, e * r};
+        return {e * r, r};
+    }
+} // namespace detail::activations
+
 /// \brief The logistic function `1 / (1 + e^-x)`, computed so that it never overflows.
 /// \tparam X An integer or a `math::math_number`.
 /// \param x The argument.
@@ -81,14 +105,16 @@ constexpr T sigmoid_derivative_from_output(T s)
     return s * (T(1) - s);
 }
 
-/// \brief The derivative of `sigmoid` at `x`.
+/// \brief The derivative of `sigmoid` at `x`: `sigmoid(x) sigmoid(-x)`, which keeps its digits in both tails.
 /// \tparam X An integer or a `math::math_number`.
 /// \param x The argument.
 /// \return `d sigmoid / dx`.
 template <math::math_argument X>
 constexpr math::real_t<X> sigmoid_derivative(X x)
 {
-    return sigmoid_derivative_from_output(sigmoid(x));
+    using T = math::real_t<X>;
+    const auto [s, one_minus_s] = detail::activations::sigmoid_both(static_cast<T>(x));
+    return s * one_minus_s;
 }
 
 /// \brief `log(1 + e^x)`, a smooth ReLU, computed as `max(x, 0) + log1p(e^-|x|)`.
@@ -197,7 +223,7 @@ constexpr math::real_t<X> silu(X x)
     return static_cast<T>(x) * sigmoid(x);
 }
 
-/// \brief The derivative of `silu`: `s (1 + x (1 - s))` with `s = sigmoid(x)`.
+/// \brief The derivative of `silu`: `s (1 + x (1 - s))` with `s = sigmoid(x)` and `1 - s` taken as `sigmoid(-x)`.
 /// \tparam X An integer or a `math::math_number`.
 /// \param x The argument.
 /// \return The result.
@@ -206,8 +232,8 @@ constexpr math::real_t<X> silu_derivative(X x)
 {
     using T = math::real_t<X>;
     const T v = static_cast<T>(x);
-    const T s = sigmoid(v);
-    return s * (T(1) + v * (T(1) - s));
+    const auto [s, one_minus_s] = detail::activations::sigmoid_both(v);
+    return s * (T(1) + v * one_minus_s);
 }
 
 /// \brief GELU as defined, `x Φ(x)`, with the normal CDF from `erfc` so the left tail keeps its digits.
@@ -262,7 +288,7 @@ constexpr math::real_t<X> gelu_tanh(X x)
     return v * sigmoid(detail::activations::gelu_tanh_2u(v));
 }
 
-/// \brief The derivative of `gelu_tanh`: `s + 2 x s (1 - s) √(2/π) (1 + 3 · 0.044715 x²)` with `s = sigmoid(2u)`.
+/// \brief The derivative of `gelu_tanh`: `s + 2 x s (1 - s) √(2/π) (1 + 3 · 0.044715 x²)` with `s = sigmoid(2u)` and `1 - s` taken as `sigmoid(-2u)`.
 /// \tparam X An integer or a `math::math_number`.
 /// \param x The argument.
 /// \return The result.
@@ -272,9 +298,9 @@ constexpr math::real_t<X> gelu_tanh_derivative(X x)
     using T = math::real_t<X>;
     using L = math::detail::limits<T>;
     const T v = static_cast<T>(x);
-    const T s = sigmoid(detail::activations::gelu_tanh_2u(v));
+    const auto [s, one_minus_s] = detail::activations::sigmoid_both(detail::activations::gelu_tanh_2u(v));
     const T du = T(2) / T(L::sqrt_2pi) * (T(1) + T(3) * T(0.044715) * v * v);
-    return s + T(2) * v * s * (T(1) - s) * du;
+    return s + T(2) * v * s * one_minus_s * du;
 }
 
 /// \brief The logit soft cap, `cap · tanh(x / cap)` (Gemma 2, nanochat): smooth, near `x` for small `x`, never beyond `cap`.
