@@ -1,0 +1,25 @@
+var backend_8hpp =
+[
+    [ "snicholls::linalg::axpy", "group__core.html#ga6aa8caf51128063083b46ab1127bdef6", null ],
+    [ "snicholls::linalg::cholesky_factor", "group__core.html#gab50cfb3a7a3a115d85e492110ca90740", null ],
+    [ "snicholls::linalg::cholesky_log_det", "group__core.html#ga696435a10dfcb9b89802df24dd41cf96", null ],
+    [ "snicholls::linalg::cholesky_solve", "group__core.html#gab081cfb35f760ad5759e4493aa6df6f9", null ],
+    [ "snicholls::linalg::dot", "group__core.html#gaadbc16e6e7853c802ba1f818a4ba36f2", null ],
+    [ "snicholls::linalg::gemm", "group__core.html#ga76f7bbdead26969eb45a1066a1c656bf", null ],
+    [ "snicholls::linalg::gemv", "group__core.html#ga5e4abf66c3cb87809190ee17905ee070", null ],
+    [ "snicholls::linalg::ldlt_factor", "group__core.html#ga7329865458cab0d39d6e373741298560", null ],
+    [ "snicholls::linalg::ldlt_log_det", "group__core.html#ga278d7dcabbed6c534087cda917acea00", null ],
+    [ "snicholls::linalg::ldlt_solve", "group__core.html#ga7041954b5522fc06a740288f2f1ddcb6", null ],
+    [ "snicholls::linalg::least_squares", "group__core.html#ga856338f26ed54ec4e18e966930f55d7e", null ],
+    [ "snicholls::linalg::lu_factor", "group__core.html#ga9dc54424d1d635ecdd07f0ad5d26b2bc", null ],
+    [ "snicholls::linalg::lu_inverse", "group__core.html#ga7d8176c853cb478eb3fb09ea0aa4db29", null ],
+    [ "snicholls::linalg::lu_log_det", "group__core.html#ga12b1543e501a04cc918730cc5df8f2fd", null ],
+    [ "snicholls::linalg::lu_solve", "group__core.html#ga7a7014ddb7bec26a66a2bd39bd47f28e", null ],
+    [ "snicholls::linalg::qr_factor", "group__core.html#ga68bc7c71bc151ac00263022b1dd90f5e", null ],
+    [ "snicholls::linalg::qr_q", "group__core.html#ga13d803b241e00daa0d7c054bf0e0734d", null ],
+    [ "snicholls::linalg::qr_solve", "group__core.html#ga8eb2604538d13cf7e9ac8a31d936c80f", null ],
+    [ "snicholls::linalg::svd", "group__core.html#gaa4186a1a9381060f610702a2c3d19164", null ],
+    [ "snicholls::linalg::symmetric_eigen", "group__core.html#ga11b35a3a7ed3186a355b12d04ecb9740", null ],
+    [ "snicholls::linalg::syrk", "group__core.html#ga3bb2b904c33c49683ad21d8a6b1cad6a", null ],
+    [ "snicholls::linalg::triangular_solve", "group__core.html#ga3743c1a8727bbd17eae3d3977b0fb889", null ]
+];
