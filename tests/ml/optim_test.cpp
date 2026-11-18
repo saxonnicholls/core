@@ -7,7 +7,7 @@
 //  Tests for <snicholls/core/ml/optim.hpp>: AdamW against the formula in long double over several steps, its bias
 //  correction near beta = 1 in the first steps against exact references, its first step's size, weight decay alone,
 //  AdamW minimising a quadratic; both schedules at their corners; the global norm over shards and the clip
-//  coefficient; Newton-Schulz carrying singular values near 1; the FLOPs of GPT-2 small;
+//  coefficient; Newton-Schulz carrying singular values near 1 and its documented range; the FLOPs of GPT-2 small;
 //  and compile-time use.
 //
 
@@ -160,6 +160,29 @@ TEST(MlOptim, NewtonSchulzCarriesSingularValuesNearOne)
     EXPECT_NEAR(ml::newton_schulz_polynomial(1.0), 3.4445 - 4.7750 + 2.0315, 1e-15);
 }
 
+TEST(MlOptim, NewtonSchulzRangeIsTheDocumentedOne)
+{
+    // Five steps from [1.55e-3, 1] land in about [0.682, 1.2024]: a little outside [0.7, 1.2] on both sides, which
+    // the documentation stated before 0.14.0. Below 1.55e-3 a value x reaches only about a^5 x.
+    auto five = [](double s) {
+        for (int k = 0; k < ml::muon_newton_schulz<double>::steps; ++k)
+            s = ml::newton_schulz_polynomial(s);
+        return s;
+    };
+    double lo = 2, hi = 0;
+    for (int i = 0; i <= 200000; ++i) {
+        const double s = five(1.55e-3 + (1 - 1.55e-3) * i / 200000.0);
+        lo = std::min(lo, s);
+        hi = std::max(hi, s);
+    }
+    EXPECT_GT(lo, 0.6818);
+    EXPECT_LT(lo, 0.6819);
+    EXPECT_GT(hi, 1.2023);
+    EXPECT_LT(hi, 1.2025);
+    EXPECT_LT(five(1.5e-3), 0.68);
+    const double a5 = std::pow(ml::muon_newton_schulz<double>::a, 5);
+    EXPECT_NEAR(five(1e-6) / 1e-6, a5, 1e-3 * a5);
+}
 
 TEST(MlOptim, FlopsOfGpt2Small)
 {

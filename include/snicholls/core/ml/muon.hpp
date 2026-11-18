@@ -12,7 +12,8 @@
 /// **Overview.** Muon (Jordan et al., 2024; nanochat's optimiser for the matrices of its blocks) replaces a matrix
 /// parameter's update by its nearest semi-orthogonal matrix, approximately: the momentum `M` is divided by its
 /// Frobenius norm and iterated `X ← a X + (b A + c A²) X` with `A = X Xᵀ`, the quintic of `muon_newton_schulz`
-/// (`ml/optim.hpp`), which moves every singular value toward 1 (into roughly `[0.7, 1.2]`). The products run on any
+/// (`ml/optim.hpp`), which moves every singular value toward 1: five steps carry any singular value of at least `1.55e-3` (of the
+/// normalised matrix) into about `[0.682, 1.2024]`, and a smaller one `s` only to about `a⁵ s ≈ 488 s`, below 0.7. The products run on any
 /// `linalg::blas_backend`: `linalg::reference` here and in tests, a BLAS or device backend for speed.
 ///
 /// - `muon_orthogonalise(backend, g, rows, cols, out, work)`: the iteration on an `rows x cols` matrix, on its

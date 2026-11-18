@@ -209,7 +209,9 @@ struct muon_newton_schulz
 /// \brief One Newton-Schulz step on a singular value: `a x + b x³ + c x⁵`.
 ///
 /// Iterated `steps` times from a singular value in `(0, 1]` (the matrix is first divided by its norm), it lands
-/// near 1, roughly in `[0.7, 1.2]`: Muon's approximate orthogonalisation, traded for speed against exactness.
+/// near 1: in about `[0.682, 1.2024]` from any value of at least `1.55e-3`, while a smaller value `x` reaches only
+/// about `a⁵ x ≈ 488 x`, below 0.7 (SXT certification, 2026-11-17). Muon's approximate orthogonalisation, traded for
+/// speed against exactness.
 /// \param x A singular value.
 /// \return The next.
 template <math::math_number T>
