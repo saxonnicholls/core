@@ -21,7 +21,7 @@
 /// **Relationships.** `ml/linear.hpp`, `ml/mlp.hpp`, `ml/kv_cache.hpp`, `ml/attention_layer.hpp`,
 /// `ml/transformer_block.hpp`; the plan is `INFERENCE.md`. Group: \ref core.
 ///
-/// **Implementations.** One. The presets (`gpt2_small`, `llama3_8b`, `nanochat_d20`) are the shapes of those models.
+/// **Implementations.** One. The presets (`gpt2_small`, `gpt2_medium`, `gpt2_large`, `llama3_8b`, `nanochat_d20`) are the shapes of those models.
 ///
 /// **Guarantees.** `constexpr`, trivially copyable, structural (usable as a template argument). `valid(c)` checks the
 /// invariants below; every class and function templated on a configuration rejects an invalid one at compile time.
@@ -134,6 +134,15 @@ struct transformer_config
 inline constexpr transformer_config gpt2_small{.d_model = 768, .n_heads = 12, .n_kv_heads = 12, .head_dim = 64, .d_ff = 3072,
                                                .norm = norm_kind::layer, .norm_eps = 1e-5, .mlp = mlp_kind::gelu_tanh, .bias = true};
 
+/// \brief The shape of GPT-2 medium (350M): 16 heads of 64, 1024 wide, otherwise as `gpt2_small` (24 blocks, which the
+/// configuration does not carry).
+inline constexpr transformer_config gpt2_medium{.d_model = 1024, .n_heads = 16, .n_kv_heads = 16, .head_dim = 64, .d_ff = 4096,
+                                                .norm = norm_kind::layer, .norm_eps = 1e-5, .mlp = mlp_kind::gelu_tanh, .bias = true};
+
+/// \brief The shape of GPT-2 large (774M): 20 heads of 64, 1280 wide, otherwise as `gpt2_small` (36 blocks).
+inline constexpr transformer_config gpt2_large{.d_model = 1280, .n_heads = 20, .n_kv_heads = 20, .head_dim = 64, .d_ff = 5120,
+                                               .norm = norm_kind::layer, .norm_eps = 1e-5, .mlp = mlp_kind::gelu_tanh, .bias = true};
+
 /// \brief The shape of Llama 3 8B: 32 query heads sharing 8 key-value heads, RMS norm, SwiGLU, RoPE with base 500,000.
 inline constexpr transformer_config llama3_8b{.d_model = 4096, .n_heads = 32, .n_kv_heads = 8, .head_dim = 128, .d_ff = 14336,
                                               .norm = norm_kind::rms, .norm_eps = 1e-5, .mlp = mlp_kind::swiglu,
@@ -158,7 +167,7 @@ inline constexpr T rope_base_v = static_cast<T>(C.rope_base);
 template <transformer_config C, math::math_number T>
 inline constexpr T attention_softcap_v = static_cast<T>(C.attention_softcap);
 
-static_assert(valid(gpt2_small) && valid(llama3_8b) && valid(nanochat_d20));
+static_assert(valid(gpt2_small) && valid(gpt2_medium) && valid(gpt2_large) && valid(llama3_8b) && valid(nanochat_d20));
 
 } // namespace snicholls::ml
 

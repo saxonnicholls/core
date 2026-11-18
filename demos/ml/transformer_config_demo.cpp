@@ -32,6 +32,9 @@ int main()
     bool ok = true;
     std::printf("  mine: q %zu, kv %zu, %zu query heads per kv head, layout %s, eps %g\n", mine.q_size(), mine.kv_size(), mine.group(),
                 mine.layout() == ml::rope_layout::half ? "half" : "interleaved", static_cast<double>(eps));
+    std::printf("  gpt2_small %zu, gpt2_medium %zu, gpt2_large %zu wide\n", ml::gpt2_small.d_model, ml::gpt2_medium.d_model,
+                ml::gpt2_large.d_model);
+    ok &= ml::gpt2_medium.n_heads == 16 && ml::gpt2_large.n_heads == 20;
     std::printf("  gpt2_small %zu wide, llama3_8b %zu/%zu heads, nanochat_d20 qk norm %s\n", ml::gpt2_small.d_model, ml::llama3_8b.n_heads,
                 ml::llama3_8b.n_kv_heads, ml::nanochat_d20.qk_norm == ml::qk_norm_kind::after_rope ? "after RoPE" : "other");
     constexpr ml::transformer_config broken{.d_model = 512, .n_heads = 8, .n_kv_heads = 3, .head_dim = 64, .d_ff = 1536};

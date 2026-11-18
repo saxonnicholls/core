@@ -20,6 +20,8 @@ namespace ml = snicholls::ml;
 static_assert(std::is_trivially_copyable_v<ml::transformer_config>);
 
 static_assert(ml::gpt2_small.q_size() == 768 && ml::gpt2_small.kv_size() == 768 && ml::gpt2_small.group() == 1);
+static_assert(ml::gpt2_medium.q_size() == 1024 && ml::gpt2_medium.d_ff == 4 * ml::gpt2_medium.d_model && ml::gpt2_medium.group() == 1);
+static_assert(ml::gpt2_large.q_size() == 1280 && ml::gpt2_large.d_ff == 4 * ml::gpt2_large.d_model && ml::gpt2_large.group() == 1);
 static_assert(ml::llama3_8b.q_size() == 4096 && ml::llama3_8b.kv_size() == 1024 && ml::llama3_8b.group() == 4);
 static_assert(ml::nanochat_d20.layout() == ml::rope_layout::half);
 
