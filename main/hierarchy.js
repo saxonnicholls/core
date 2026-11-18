@@ -89,6 +89,7 @@ var hierarchy =
     [ "snicholls::decimal_text", "structsnicholls_1_1decimal__text.html", null ],
     [ "snicholls::containers::dense_id_map&lt; Value &gt;", "classsnicholls_1_1containers_1_1dense__id__map.html", null ],
     [ "snicholls::ml::dense_weights&lt; S &gt;", "structsnicholls_1_1ml_1_1dense__weights.html", null ],
+    [ "snicholls::ml::diloco_config", "structsnicholls_1_1ml_1_1diloco__config.html", null ],
     [ "snicholls::stochastic::doob_parts", "structsnicholls_1_1stochastic_1_1doob__parts.html", null ],
     [ "snicholls::enum_range&lt; E &gt;", "structsnicholls_1_1enum__range.html", null ],
     [ "snicholls::err_in_place_t", "structsnicholls_1_1err__in__place__t.html", null ],

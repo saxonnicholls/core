@@ -94,6 +94,7 @@ var annotated_dup =
         [ "attention_activations", "structsnicholls_1_1ml_1_1attention__activations.html", "structsnicholls_1_1ml_1_1attention__activations" ],
         [ "attention_gradients", "structsnicholls_1_1ml_1_1attention__gradients.html", "structsnicholls_1_1ml_1_1attention__gradients" ],
         [ "bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", "structsnicholls_1_1ml_1_1bpe__part" ],
+        [ "diloco_config", "structsnicholls_1_1ml_1_1diloco__config.html", "structsnicholls_1_1ml_1_1diloco__config" ],
         [ "kv_runs", "structsnicholls_1_1ml_1_1kv__runs.html", "structsnicholls_1_1ml_1_1kv__runs" ],
         [ "kv_cache_view", "classsnicholls_1_1ml_1_1kv__cache__view.html", "classsnicholls_1_1ml_1_1kv__cache__view" ],
         [ "kv_cache", "classsnicholls_1_1ml_1_1kv__cache.html", "classsnicholls_1_1ml_1_1kv__cache" ],

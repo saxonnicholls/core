@@ -63,6 +63,7 @@ var group__core =
     [ "attention.hpp", "attention_8hpp.html", null ],
     [ "attention_layer.hpp", "attention__layer_8hpp.html", null ],
     [ "bpe.hpp", "bpe_8hpp.html", null ],
+    [ "diloco.hpp", "diloco_8hpp.html", null ],
     [ "embedding.hpp", "embedding_8hpp.html", null ],
     [ "kv_cache.hpp", "kv__cache_8hpp.html", null ],
     [ "linear.hpp", "linear_8hpp.html", null ],
@@ -909,6 +910,11 @@ var group__core =
     [ "snicholls::ml::bpe_part", "structsnicholls_1_1ml_1_1bpe__part.html", [
       [ "rank", "structsnicholls_1_1ml_1_1bpe__part.html#ade2c89abc0ff7139ba296ee327c79cec", null ],
       [ "start", "structsnicholls_1_1ml_1_1bpe__part.html#a8419193031349ef1342c85ad8ade9e6e", null ]
+    ] ],
+    [ "snicholls::ml::diloco_config", "structsnicholls_1_1ml_1_1diloco__config.html", [
+      [ "momentum", "structsnicholls_1_1ml_1_1diloco__config.html#a4fc82a597e86e3c7d3fc096d2398973a", null ],
+      [ "nesterov", "structsnicholls_1_1ml_1_1diloco__config.html#a43df6fa568d6eb2daf84c01f1cbc6bfc", null ],
+      [ "outer_lr", "structsnicholls_1_1ml_1_1diloco__config.html#aeb9e22294d5be7209d066a2676b07c23", null ]
     ] ],
     [ "snicholls::ml::kv_cache_view&lt; C, T &gt;", "classsnicholls_1_1ml_1_1kv__cache__view.html", [
       [ "kv_cache_view", "classsnicholls_1_1ml_1_1kv__cache__view.html#a2d2892aef371db96aefa8cf033c3b71b", null ],

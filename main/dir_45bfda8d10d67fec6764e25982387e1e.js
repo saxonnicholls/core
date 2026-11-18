@@ -4,6 +4,7 @@ var dir_45bfda8d10d67fec6764e25982387e1e =
     [ "attention.hpp", "attention_8hpp.html", "attention_8hpp" ],
     [ "attention_layer.hpp", "attention__layer_8hpp.html", "attention__layer_8hpp" ],
     [ "bpe.hpp", "bpe_8hpp.html", "bpe_8hpp" ],
+    [ "diloco.hpp", "diloco_8hpp.html", "diloco_8hpp" ],
     [ "embedding.hpp", "embedding_8hpp.html", "embedding_8hpp" ],
     [ "kv_cache.hpp", "kv__cache_8hpp.html", "kv__cache_8hpp" ],
     [ "linear.hpp", "linear_8hpp.html", "linear_8hpp" ],

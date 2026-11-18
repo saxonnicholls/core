@@ -8,7 +8,7 @@ var searchData=
   ['nan_5',['nan',['../constexpr__math_8hpp.html#a29772d7c237f87ee316706083df6fea4',1,'snicholls::math']]],
   ['nanochat_5fd20_6',['nanochat_d20',['../transformer__config_8hpp.html#a07eb13843f5a69e04540c740d1e30929',1,'snicholls::ml']]],
   ['negative_7',['negative',['../structsnicholls_1_1sign__colours.html#a29a27c25987387e70c716b7c80f457c4',1,'snicholls::sign_colours']]],
-  ['nesterov_8',['nesterov',['../structsnicholls_1_1ml_1_1muon__config.html#ad346e2c9d790092746f7470be4f260c7',1,'snicholls::ml::muon_config']]],
+  ['nesterov_8',['nesterov',['../structsnicholls_1_1ml_1_1diloco__config.html#a43df6fa568d6eb2daf84c01f1cbc6bfc',1,'snicholls::ml::diloco_config::nesterov'],['../structsnicholls_1_1ml_1_1muon__config.html#ad346e2c9d790092746f7470be4f260c7',1,'snicholls::ml::muon_config::nesterov']]],
   ['next_9',['next',['../structsnicholls_1_1pipeline_1_1filter__stage.html#a3297fc9334d0f4d462902279ca80b5ef',1,'snicholls::pipeline::filter_stage::next'],['../structsnicholls_1_1pipeline_1_1transform__stage.html#a008a48c23952c8bf079d482218dd8d7f',1,'snicholls::pipeline::transform_stage::next'],['../structsnicholls_1_1pipeline_1_1tap__stage.html#aa61cfcd4aaf67f86ecdce567b0054ece',1,'snicholls::pipeline::tap_stage::next'],['../structsnicholls_1_1pipeline_1_1batch__stage.html#ab6ce3d32492fa961fc8fd34b459c4ef0',1,'snicholls::pipeline::batch_stage::next']]],
   ['no_5fplayer_10',['no_player',['../group__core.html#gaef46c88a9736ec7c58acbd2356653a90',1,'snicholls::game']]],
   ['no_5frope_11',['no_rope',['../rope_8hpp.html#a187edf76f809bc5ffefe2b9b4ad4119a',1,'snicholls::ml']]],

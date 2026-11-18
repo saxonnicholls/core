@@ -112,7 +112,7 @@ var searchData=
   ['moe_5fgate_5fbackward_109',['moe_gate_backward',['../mlp_8hpp.html#afda9860e15607ea0984404a42260d5ad',1,'snicholls::ml']]],
   ['moe_5froute_110',['moe_route',['../structsnicholls_1_1ml_1_1moe__route.html',1,'snicholls::ml']]],
   ['moments_5fof_111',['moments_of',['../group__core.html#gaaf495d3b8f8cd5ff3615cba6b61f86b0',1,'snicholls::stats']]],
-  ['momentum_112',['momentum',['../structsnicholls_1_1ml_1_1muon__config.html#a258a85906f8041071c1d25d12ecb8aba',1,'snicholls::ml::muon_config']]],
+  ['momentum_112',['momentum',['../structsnicholls_1_1ml_1_1diloco__config.html#a4fc82a597e86e3c7d3fc096d2398973a',1,'snicholls::ml::diloco_config::momentum'],['../structsnicholls_1_1ml_1_1muon__config.html#a258a85906f8041071c1d25d12ecb8aba',1,'snicholls::ml::muon_config::momentum']]],
   ['monotonicity_5fviolation_113',['monotonicity_violation',['../structsnicholls_1_1game_1_1monotonicity__violation.html',1,'snicholls::game']]],
   ['month_114',['month',['../structsnicholls_1_1civil__date.html#a346adfc041800c3daa2ae604d6dd7eee',1,'snicholls::civil_date']]],
   ['multinomial_115',['multinomial',['../group__core.html#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386',1,'snicholls::stats']]],

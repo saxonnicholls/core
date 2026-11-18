@@ -28,7 +28,7 @@ var searchData=
   ['mlp_5fgate_25',['mlp_gate',['../structsnicholls_1_1ml_1_1block__activations.html#ab2cc70d79cf55a33d2750a42e36162aa',1,'snicholls::ml::block_activations']]],
   ['mlp_5fhidden_26',['mlp_hidden',['../structsnicholls_1_1ml_1_1block__activations.html#a2b402f0c8a036645cff125a070c29d13',1,'snicholls::ml::block_activations']]],
   ['mlp_5fup_27',['mlp_up',['../structsnicholls_1_1ml_1_1block__activations.html#a469b3e11d728b0d968f65f9a1f8538c5',1,'snicholls::ml::block_activations']]],
-  ['momentum_28',['momentum',['../structsnicholls_1_1ml_1_1muon__config.html#a258a85906f8041071c1d25d12ecb8aba',1,'snicholls::ml::muon_config']]],
+  ['momentum_28',['momentum',['../structsnicholls_1_1ml_1_1diloco__config.html#a4fc82a597e86e3c7d3fc096d2398973a',1,'snicholls::ml::diloco_config::momentum'],['../structsnicholls_1_1ml_1_1muon__config.html#a258a85906f8041071c1d25d12ecb8aba',1,'snicholls::ml::muon_config::momentum']]],
   ['month_29',['month',['../structsnicholls_1_1civil__date.html#a346adfc041800c3daa2ae604d6dd7eee',1,'snicholls::civil_date']]],
   ['mutable_5fcode_5funits_30',['mutable_code_units',['../structsnicholls_1_1string__traits.html#a808e74c976953a69d837dabff675f53d',1,'snicholls::string_traits']]],
   ['mx_31',['mx',['../structsnicholls_1_1stats_1_1covariance.html#a48c1bfa1ad05bb95101b56e7fbef037b',1,'snicholls::stats::covariance']]],

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.14.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -103,6 +103,8 @@ Files</h2></td></tr>
 <tr class="memdesc:attention__layer_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="attention__layer_8hpp.html#a05dbf58ac6804a349884e68a84dd92bd" title="Attention for one token at position pos: projects, rotates, caches, attends and projects back.">snicholls::ml::attention_forward</a></span>, <span class="tt">attention_forward_sequence</span> and <span class="tt">attention_backward</span>: a transformer's attention for one token at one position, or over a sequence for training, and its backward pass: the Q, K and V projections, QK norm, RoPE, the KV cache, grouped-query attention, the soft cap and the output projection, as the configuration says. <br /></td></tr>
 <tr class="memitem:bpe_2Ehpp" id="r_bpe_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="bpe_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bpe_8hpp.html">bpe.hpp</a></td></tr>
 <tr class="memdesc:bpe_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="bpe_8hpp.html#a8c8cdb62f5d41553d4ea67f3705742ff" title="Encodes one piece (a match of the tokenizer&#39;s split pattern) into tokens, as tiktoken does.">snicholls::ml::bpe_encode_piece</a></span>, <span class="tt">bpe_encode_long_piece</span> and <span class="tt">bpe_decode</span>: byte-level BPE, token for token what tiktoken gives, with the vocabulary as the caller's lookup and no allocation. <br /></td></tr>
+<tr class="memitem:diloco_2Ehpp" id="r_diloco_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="diloco_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="diloco_8hpp.html">diloco.hpp</a></td></tr>
+<tr class="memdesc:diloco_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> arithmetic of data-parallel training across machines: the fixed-order sum of the workers' parts, DiLoCo's pseudo-gradient and its outer step. <br /></td></tr>
 <tr class="memitem:embedding_2Ehpp" id="r_embedding_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="embedding_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="embedding_8hpp.html">embedding.hpp</a></td></tr>
 <tr class="memdesc:embedding_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">snicholls::ml</span> embeddings: a token's row of a table, GPT-2's token plus position, and the backward pass that adds a gradient into the token's row. <br /></td></tr>
 <tr class="memitem:kv_5Fcache_2Ehpp" id="r_kv_5Fcache_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="kv__cache_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kv__cache_8hpp.html">kv_cache.hpp</a></td></tr>

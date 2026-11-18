@@ -84,13 +84,13 @@ var NAVTREEINDEX =
 "classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aa5bd729e3bd76ed2d6abe36525a7f75f",
 "classsnicholls_1_1result__throws_1_1result.html#a4bc853424f49cba29094a3d3b4202986",
 "colour_8hpp.html",
-"group__core.html#ga1b57d7b77ee1be0e16a21338fd4222e1",
-"group__core.html#gab385b61316b98da3628c2d1029d5c05d",
-"namespacemembers_enum.html",
-"structsnicholls_1_1constexpr__map.html",
-"structsnicholls_1_1linalg_1_1signed__log__det.html#acdc34f18d961273d0812c9162258222d",
-"structsnicholls_1_1pipeline_1_1batch__spec.html",
-"structsnicholls_1_1uuid.html#a0b0c66fc9c99d60012990b6229034b4f"
+"group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f",
+"group__core.html#gab3812a029dd9e9668e84d68ac79c8264",
+"namespacemembers_e.html",
+"structsnicholls_1_1colour__text.html#afd16569836497eb1bd6ca1b7eb1ce250",
+"structsnicholls_1_1linalg_1_1signed__log__det.html#acac8463f19972d36b6cabc344b1f1bc6",
+"structsnicholls_1_1parse__options.html#ab8d7ad51b7477a37a88a101880f1c65a",
+"structsnicholls_1_1utc__error.html#a3d3c83893132ba10c0e0b3236838e135"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
