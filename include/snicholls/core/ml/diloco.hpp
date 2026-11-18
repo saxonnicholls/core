@@ -109,14 +109,12 @@ constexpr void ordered_sum(std::span<const std::span<const T>> parts, std::span<
     assert(!parts.empty());
     for ([[maybe_unused]] const auto& part : parts)
         assert(part.size() == out.size());
-    const auto first = parts[0];
+    const auto first = parts.front();
     for (std::size_t i = 0; i < out.size(); ++i)
         out[i] = first[i];
-    for (std::size_t k = 1; k < parts.size(); ++k) {
-        const auto part = parts[k];
+    for (const auto part : parts.subspan(1))   // no index into parts: GCC 15's -Warray-bounds misreads one
         for (std::size_t i = 0; i < out.size(); ++i)
             out[i] = out[i] + part[i];
-    }
 }
 
 /// \brief The elementwise mean of the parts: `ordered_sum`, then each element divided by the number of parts.
