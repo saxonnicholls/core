@@ -20,7 +20,7 @@ than changing them.
 | T2 | **Attention saves the log-sum-exp, never the T x T probabilities.** `attend_backward` rebuilds each probability from q, k and the lse, so memory is O(T x heads), as flash attention's backward. |
 | T3 | **Gradients are views the caller owns, one per weight, and accumulate.** Planned as `block_weights` over mutable storage. Built instead: `block_gradients`, `attention_gradients`, `mlp_gradients`, `self_attention_gradients`, one span per tensor with the weight's size (asserted), plus the backward's working buffers (`scratch`, the Q, K, V gradients). Why: a weight is often a view of storage that cannot hold a gradient (a quantised or bfloat16 matrix, a tied embedding), and the gradients need buffers the weights do not have. Weight gradients are added into (`+=`), so micro-batches accumulate without a copy; the Q, K, V gradients are written. |
 | T4 | **The weight storage decides what is trainable.** Float and `bfloat16` weights are; quantised blocks are inference only, and `linear_backward` (`dx = W^T dy`, `dW += dy x^T`) accepts only trainable storage, so training a Q4_0 model is a compile error. Master weights are float, rounded to `bfloat16` stochastically (`ml/minifloat.hpp`). Status: the backward passes accept `bfloat16` storage; no test or demo trains that way yet (after 0.9.0). |
-| T5 | **Gradients merge.** Each data-parallel worker's gradients sum in a fixed order (reproducible); `squared_norm` and `clip_coefficient` already merge across shards. The all-reduce across machines is ts-moveables'. Status: after 0.9.0; the fixed-order sum has no helper or test yet. |
+| T5 | **Gradients merge.** Each data-parallel worker's gradients sum in a fixed order (reproducible); `squared_norm` and `clip_coefficient` already merge across shards. The all-reduce across machines is ts-moveables'. Status: the fixed-order sum exists (0.15.0): `ordered_sum` (`ml/diloco.hpp`) adds the workers' parts left to right in rank order in the value's own arithmetic, tested to the bit against a loop by hand, and is the reference an all-reduce reproduces; `ordered_mean` divides it by the worker count. |
 | T6 | **A sequence's loss is the fused LM-head cross-entropy** over its positions, from the per-row `cross_entropy` with its fused gradient. A tied LM head reuses `embedding_backward`. |
 | T7 | **References: llm.c's backward, and finite differences.** The generator of `INFERENCE.md` I10 also writes llm.c's `matmul_backward`, `attention_backward`, `layernorm_backward`, `gelu_backward` for the same tiny GPT-2. The features llm.c lacks (GQA, QK norm, ReLU², SwiGLU, RoPE, soft cap) are checked by central differences in double. |
 | T8 | **Muon runs through the linear algebra backend.** `muon_orthogonalise` and `muon_step` (`ml/muon.hpp`) run the iteration `X <- a X + (b A + c A^2) X`, `A = X X^T`, on any `linalg::blas_backend`, on the transpose of a tall matrix. Done. |
@@ -51,7 +51,7 @@ than changing them.
 1. **Batched products.** Training multiplies one token at a time, matrix by vector; a sequence path through
    `linalg::gemm` (any backend: the reference, a BLAS, a device) for the projections, forward and backward. Done (0.9.0): `linear_sequence` and the backend-first overloads of the layer, MLP and block passes.
 2. **bfloat16 training**, tested end to end (T4).
-3. **The fixed-order gradient sum** across workers (T5).
+3. **The fixed-order gradient sum** across workers (T5). Done (0.15.0): `ml::ordered_sum`, `ml::ordered_mean`.
 4. nanochat's logit soft cap in `lm_head_loss`; Muon in `bfloat16`.
 5. An MoE block in `block_forward_sequence` / `block_backward`; post-norm and sandwich norms.
 
@@ -74,11 +74,13 @@ needs them:
 3. **bfloat16 training** tested end to end (T4): bfloat16 products, float master weights and optimiser state,
    stochastic rounding.
 4. **The fixed-order gradient sum** (T5): partial gradients from any number of workers summed in an order that does not
-   depend on timing, so results do not depend on scheduling.
+   depend on timing, so results do not depend on scheduling. Done (0.15.0): `ordered_sum` (`ml/diloco.hpp`).
 5. **Training that communicates rarely**: the outer optimiser of DiLoCo (Douillard et al., 2023), in which workers take
    hundreds of local steps between exchanges of their weights' change, for clusters whose network is too slow for an
    exchange every step; and the compression of what is exchanged (bfloat16, 8-bit with error feedback). The arithmetic
-   only: the transport is a library's above core.
+   only: the transport is a library's above core. The outer optimiser is done (0.15.0): `pseudo_gradient` and
+   `diloco_outer_step` (`ml/diloco.hpp`), with four workers on a least-squares problem reaching one worker's loss;
+   the compression is not.
 6. **Sharding arithmetic** for models too large for one device: the partition of optimiser state and weights (ZeRO),
    and the split of a model's blocks across stages.
 

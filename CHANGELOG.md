@@ -3,6 +3,19 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased (0.15.0)
+
+### Added
+
+- `ml/diloco.hpp`, the arithmetic of data-parallel training across machines (TRAINING.md T5):
+  - `ml::ordered_sum(parts, out)`: the workers' parts summed left to right in rank order, in the value's own
+    arithmetic, so a run does not depend on which part arrives first or on the cluster's topology; the reference any
+    all-reduce reproduces to the bit. `ml::ordered_mean` divides it by the worker count.
+  - `ml::pseudo_gradient(global, local, out)` and `ml::diloco_outer_step(global, mean_delta, momentum, config)`:
+    DiLoCo's outer optimiser (Douillard et al., 2023), SGD with Nesterov momentum on the mean of the workers'
+    weight changes after their local steps; `ml::diloco_config` defaults to the paper's outer learning rate 0.7 and
+    momentum 0.9. The transport belongs to ts-moveables, the device kernels to snicholls-gpu.
+
 ## 0.14.0 - 2026-11-18
 
 ### Added
