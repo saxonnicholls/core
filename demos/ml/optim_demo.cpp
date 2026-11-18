@@ -6,7 +6,7 @@
 //
 //  Demo for <snicholls/core/ml/optim.hpp>: a small least-squares fit trained with AdamW under a warm-up and
 //  cosine schedule and gradient clipping, nanochat's trapezoid schedule, Muon's Newton-Schulz polynomial on a
-//  singular value, and the FLOPs and utilisation of GPT-2 small. Exits non-zero if a result is not what it
+//  singular value, Adam's bias correction, and the FLOPs and utilisation of GPT-2 small. Exits non-zero if a result is not what it
 //  documents.
 //
 
@@ -68,6 +68,14 @@ int main()
     const double mfu = ml::model_flops_utilisation(f, 400e3, 989e12);
     std::printf("  GPT-2 small: %.3g FLOPs per token, MFU %.1f%% at 400k tokens/s\n", f, 100 * mfu);
     ok &= mfu > 0.2 && mfu < 0.3;
+
+    //! [bias_correction]
+    // Adam's 1 - beta^t at beta2 = 0.9999, step 2, without the cancellation of 1 - pow(beta, t): a device kernel's
+    // host side computes its two factors once per step with this, so its update is adamw_step's
+    const float c2 = ml::adam_bias_correction(0.9999f, 2);
+    //! [bias_correction]
+    std::printf("  bias correction 1 - 0.9999^2 = %.7g\n", static_cast<double>(c2));
+    ok &= std::fabs(static_cast<double>(c2) - (1 - double(0.9999f) * double(0.9999f))) < 1e-10;
 
     //! [adamw_rows]
     // AdamW over a whole tensor on a backend (core's reference here; a GPU backend's overload runs it on the device)

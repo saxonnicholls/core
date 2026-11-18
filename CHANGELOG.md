@@ -5,6 +5,12 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ## Unreleased (0.14.0)
 
+### Added
+
+- `ml::adam_bias_correction(beta, step)` (`ml/optim.hpp`): Adam's `1 - β^t` as `-expm1(t · log1p(-(1 - β)))`, the
+  factor `adamw_step` and `adamw_rows` divide by, public so that a device library's AdamW kernel computes the same
+  two factors on its host side.
+
 ### Fixed
 
 - **Accuracy of the ML formulas** (found by certifying them against SXT's symbolic derivatives; no formula was

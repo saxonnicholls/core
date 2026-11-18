@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <concepts>
 #include <cstddef>
 #include <limits>
 #include <numbers>
@@ -70,20 +71,34 @@ TEST(MlOptim, BiasCorrectionDoesNotCancelInTheFirstSteps)
     // 1 - beta^t for beta near 1 and small t: 1 - pow(beta, t) loses the digits pow rounds away near 1 (before 0.14.0,
     // 56 and 420 units in the last place in float at t = 2 for beta = 0.999 and 0.9999). The float beta's powers up to
     // the third are exact in double, so double is an exact reference here.
-    namespace d = snicholls::ml::detail::optim;
     for (const float beta : {0.9f, 0.95f, 0.999f, 0.9999f})
         for (const std::uint64_t t : {1u, 2u, 3u}) {
             const double b = beta, want = 1 - std::pow(b, double(t));
-            EXPECT_LE(std::abs(d::bias_correction(beta, t) - want) / want, 2 * std::numeric_limits<float>::epsilon()) << beta << " " << t;
+            EXPECT_LE(std::abs(ml::adam_bias_correction(beta, t) - want) / want, 2 * std::numeric_limits<float>::epsilon()) << beta << " " << t;
         }
     // double at t = 2: 1 - b^2 = fma(-b, b, 1), rounded once
     for (const double b : {0.999, 0.9999, 0.99999}) {
         const double want = std::fma(-b, b, 1.0);
-        EXPECT_LE(std::abs(d::bias_correction(b, 2) - want) / want, 2 * std::numeric_limits<double>::epsilon()) << b;
+        EXPECT_LE(std::abs(ml::adam_bias_correction(b, 2) - want) / want, 2 * std::numeric_limits<double>::epsilon()) << b;
     }
-    EXPECT_EQ(d::bias_correction(0.0, 1), 1.0);
-    EXPECT_NEAR(d::bias_correction(0.999, 100000), 1.0, 1e-15);
-    static_assert(snicholls::math::near(d::bias_correction(0.999, 2), 1.999e-3, 1e-15));
+    EXPECT_EQ(ml::adam_bias_correction(0.0, 1), 1.0);
+    EXPECT_NEAR(ml::adam_bias_correction(0.999, 100000), 1.0, 1e-15);
+    static_assert(snicholls::math::near(ml::adam_bias_correction(0.999, 2), 1.999e-3, 1e-15));
+    static_assert(ml::adam_bias_correction(0.5, 1) == 0.5);
+    static_assert(ml::adam_bias_correction(0.0f, 1) == 1.0f);
+    static_assert(noexcept(ml::adam_bias_correction(0.9f, 1)) && noexcept(ml::adam_bias_correction(0.9, 1)));
+    static_assert(std::same_as<decltype(ml::adam_bias_correction(0.9f, 1)), float>);
+    // long double, against (1 - b)(1 + b + ... + b^(t-1)): 1 - b is exact and the sum has no cancellation
+    for (const std::uint64_t t : {1u, 2u, 3u, 10u}) {
+        const long double b = 0.9999L;
+        long double sum = 0, power = 1;
+        for (std::uint64_t k = 0; k < t; ++k, power *= b)
+            sum += power;
+        const long double want = (1 - b) * sum;
+        EXPECT_LE(std::abs(ml::adam_bias_correction(b, t) - want) / want, 16 * std::numeric_limits<long double>::epsilon()) << t;
+    }
+    // step 0: no correction, 0
+    EXPECT_EQ(ml::adam_bias_correction(0.9, 0), 0.0);
 
     // Through adamw_step in float: the update at t = 2 with beta2 = 0.999 and 0.9999, against double
     for (const float beta2 : {0.999f, 0.9999f})

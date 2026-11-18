@@ -15,6 +15,8 @@
 ///
 /// - `adamw_step(params, grads, m, v, step, config)`: one AdamW update (Loshchilov and Hutter), with bias
 ///   correction and decoupled weight decay, exactly llm.c's `adamw_update`. `step` counts from 1.
+/// - `adam_bias_correction(beta, step)`: Adam's `1 - β^t`, as `-expm1(t · log1p(-(1 - β)))`, which does not cancel
+///   for `β` near 1 in the first steps; what `adamw_step` divides by, for a device kernel's host side to share.
 /// - `warmup_cosine(step, warmup, total, max_lr, min_lr)`: linear warm-up then cosine decay (llm.c, GPT-2).
 /// - `warmup_warmdown(step, total, warmup, warmdown, final_fraction)`: the multiplier of nanochat: linear warm-up, a
 ///   constant, then linear decay to `final_fraction` (the "trapezoid" schedule).
@@ -75,16 +77,39 @@
 namespace snicholls::ml
 {
 
-namespace detail::optim
+/// \brief Adam's bias correction `1 - β^t`, computed as `-expm1(t · log1p(-(1 - β)))` so that it does not cancel.
+///
+/// **Overview.** Adam divides each moment by `1 - β^t` to undo its zero start. Written as `1 - pow(β, t)` it
+/// subtracts a power near 1 from 1 for `β` near 1 and small `t`, and loses the digits `pow` rounded away:
+/// at `β = 0.9999`, t = 2, 420 units in the last place in float. Through `log1p` and `expm1` it is within a couple of
+/// units in the last place for every `β` and `t`. It is what `adamw_step` and `adamw_rows` divide by; a device
+/// library that runs AdamW in a kernel computes the two factors once per step on the host with this, so its update
+/// is core's.
+///
+/// **Relationships.** `adamw_step`, `adamw_rows`, `math::expm1` and `math::log1p` (`math/constexpr_math.hpp`).
+///
+/// **Guarantees.** `constexpr`; `noexcept` for the standard floating-point types (a number type of the caller's
+/// own throws what its arithmetic throws); no allocation, a few operations. In `(0, 1]` for `β` in `[0, 1)` and
+/// `t >= 1`; 1 at `β = 0`; tends to 1 as `t` grows.
+///
+/// **Errors.** None. `step` 0 gives 0 (no correction is defined there; `adamw_step` asserts `step >= 1`).
+///
+/// **Example.** \snippet ml/optim_demo.cpp bias_correction
+///
+/// **Performance.** Not benchmarked: once per step, not per parameter.
+///
+/// **Tests and demos.** `tests/ml/optim_test.cpp`, `demos/ml/optim_demo.cpp`.
+///
+/// **Status.** Experimental, new in 0.14.0.
+/// \tparam T The number type.
+/// \param beta The decay of the moment, `β1` or `β2`, in `[0, 1)`.
+/// \param step The step, from 1.
+/// \return `1 - beta^step`.
+template <math::math_number T>
+constexpr T adam_bias_correction(T beta, std::uint64_t step) noexcept(std::is_floating_point_v<T>)
 {
-    // Adam's bias correction 1 - beta^t as -expm1(t log1p(-(1 - beta))): 1 - pow(beta, t) cancels for beta near 1
-    // and small t (beta2 = 0.9999 at t = 2 lost 420 units in the last place in float).
-    template <typename T>
-    constexpr T bias_correction(T beta, std::uint64_t step)
-    {
-        return -math::expm1(T(step) * math::log1p(-(T(1) - beta)));
-    }
-} // namespace detail::optim
+    return -math::expm1(T(step) * math::log1p(-(T(1) - beta)));
+}
 
 /// \brief The hyperparameters of AdamW.
 /// \ingroup core
@@ -121,8 +146,8 @@ constexpr void adamw_step(P&& params, const G& grads, M&& m, V&& v, std::uint64_
     const auto mm = as_mutable_row(m);
     const auto vv = as_mutable_row(v);
     assert(step >= 1 && g.size() == p.size() && mm.size() == p.size() && vv.size() == p.size());
-    const T c1 = detail::optim::bias_correction(config.beta1, step);
-    const T c2 = detail::optim::bias_correction(config.beta2, step);
+    const T c1 = adam_bias_correction(config.beta1, step);
+    const T c2 = adam_bias_correction(config.beta2, step);
     for (std::size_t i = 0; i < p.size(); ++i) {
         mm[i] = config.beta1 * mm[i] + (T(1) - config.beta1) * g[i];
         vv[i] = config.beta2 * vv[i] + (T(1) - config.beta2) * g[i] * g[i];
