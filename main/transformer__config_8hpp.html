@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.14.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -143,6 +143,10 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a53269ed412b3760f555ca6cffe778411" id="r_a53269ed412b3760f555ca6cffe778411"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53269ed412b3760f555ca6cffe778411">snicholls::ml::gpt2_small</a></td></tr>
 <tr class="memdesc:a53269ed412b3760f555ca6cffe778411"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.  <br /></td></tr>
+<tr class="memitem:ae11d3f0826aae29275e664febb41f895" id="r_ae11d3f0826aae29275e664febb41f895"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae11d3f0826aae29275e664febb41f895">snicholls::ml::gpt2_medium</a></td></tr>
+<tr class="memdesc:ae11d3f0826aae29275e664febb41f895"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shape of GPT-2 medium (350M): 16 heads of 64, 1024 wide, otherwise as <span class="tt"><a class="el" href="#a53269ed412b3760f555ca6cffe778411" title="The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.">gpt2_small</a></span> (24 blocks, which the configuration does not carry).  <br /></td></tr>
+<tr class="memitem:af43c431ff10420c6d1184113e86a4a2f" id="r_af43c431ff10420c6d1184113e86a4a2f"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af43c431ff10420c6d1184113e86a4a2f">snicholls::ml::gpt2_large</a></td></tr>
+<tr class="memdesc:af43c431ff10420c6d1184113e86a4a2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shape of GPT-2 large (774M): 20 heads of 64, 1280 wide, otherwise as <span class="tt"><a class="el" href="#a53269ed412b3760f555ca6cffe778411" title="The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.">gpt2_small</a></span> (36 blocks).  <br /></td></tr>
 <tr class="memitem:ab3d39d7ad38a072e1341cc8362fa607e" id="r_ab3d39d7ad38a072e1341cc8362fa607e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3d39d7ad38a072e1341cc8362fa607e">snicholls::ml::llama3_8b</a></td></tr>
 <tr class="memdesc:ab3d39d7ad38a072e1341cc8362fa607e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shape of Llama 3 8B: 32 query heads sharing 8 key-value heads, RMS norm, SwiGLU, RoPE with base 500,000.  <br /></td></tr>
 <tr class="memitem:a07eb13843f5a69e04540c740d1e30929" id="r_a07eb13843f5a69e04540c740d1e30929"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07eb13843f5a69e04540c740d1e30929">snicholls::ml::nanochat_d20</a></td></tr>
@@ -169,7 +173,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="comment">// Read a floating-point member through its reader, which evaluates it at compile time</span></div>
 <div class="line"><span class="keyword">constexpr</span> <span class="keywordtype">float</span> eps = ml::norm_eps_v&lt;mine, float&gt;;</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="kv__cache_8hpp.html" title="snicholls::ml::kv_cache_view and kv_cache: the keys and values of every layer and key-value head,...">ml/kv_cache.hpp</a></span>, <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>; the plan is <span class="tt">INFERENCE.md</span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Implementations.</b> One. The presets (<span class="tt">gpt2_small</span>, <span class="tt">llama3_8b</span>, <span class="tt">nanochat_d20</span>) are the shapes of those models.</p>
+<p><b>Implementations.</b> One. The presets (<span class="tt">gpt2_small</span>, <span class="tt">gpt2_medium</span>, <span class="tt">gpt2_large</span>, <span class="tt">llama3_8b</span>, <span class="tt">nanochat_d20</span>) are the shapes of those models.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, trivially copyable, structural (usable as a template argument). <span class="tt">valid(c)</span> checks the invariants below; every class and function templated on a configuration rejects an invalid one at compile time.</p>
 <p><b>Errors.</b> None at run time. A configuration whose <span class="tt">n_heads</span> is not a multiple of <span class="tt">n_kv_heads</span>, with an odd <span class="tt">head_dim</span> under RoPE, or with a zero width is a compile error (<span class="tt">static_assert</span> with a <span class="tt">snicholls::ml::</span> message).</p>
 <p><b>Performance.</b> Not applicable: a value read by the compiler.</p>
@@ -378,7 +382,65 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.attention_softcap</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00159">159</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00168">168</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af43c431ff10420c6d1184113e86a4a2f" name="af43c431ff10420c6d1184113e86a4a2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af43c431ff10420c6d1184113e86a4a2f">&#9670;&#160;</a></span>gpt2_large</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">transformer_config snicholls::ml::gpt2_large</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 1280, .n_heads = 20, .n_kv_heads = 20, .head_dim = 64, .d_ff = 5120,</div>
+<div class="line">                                               .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">norm_kind::layer</a>, .norm_eps = 1e-5, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">mlp_kind::gelu_tanh</a>, .bias = <span class="keyword">true</span>}</div>
+<div class="ttc" id="atransformer__config_8hpp_html_a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b"><div class="ttname"><a href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">snicholls::ml::norm_kind::layer</a></div><div class="ttdeci">@ layer</div><div class="ttdoc">layer_norm: GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00060">transformer_config.hpp:60</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">snicholls::ml::mlp_kind::gelu_tanh</a></div><div class="ttdeci">@ gelu_tanh</div><div class="ttdoc">down(gelu_tanh(up x)): GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00068">transformer_config.hpp:68</a></div></div>
+</div><!-- fragment -->
+<p>The shape of GPT-2 large (774M): 20 heads of 64, 1280 wide, otherwise as <span class="tt">gpt2_small</span> (36 blocks). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00143">143</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae11d3f0826aae29275e664febb41f895" name="ae11d3f0826aae29275e664febb41f895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae11d3f0826aae29275e664febb41f895">&#9670;&#160;</a></span>gpt2_medium</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">transformer_config snicholls::ml::gpt2_medium</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 1024, .n_heads = 16, .n_kv_heads = 16, .head_dim = 64, .d_ff = 4096,</div>
+<div class="line">                                                .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">norm_kind::layer</a>, .norm_eps = 1e-5, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">mlp_kind::gelu_tanh</a>, .bias = <span class="keyword">true</span>}</div>
+</div><!-- fragment -->
+<p>The shape of GPT-2 medium (350M): 16 heads of 64, 1024 wide, otherwise as <span class="tt">gpt2_small</span> (24 blocks, which the configuration does not carry). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00139">139</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -403,8 +465,6 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 768, .n_heads = 12, .n_kv_heads = 12, .head_dim = 64, .d_ff = 3072,</div>
 <div class="line">                                               .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">norm_kind::layer</a>, .norm_eps = 1e-5, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">mlp_kind::gelu_tanh</a>, .bias = <span class="keyword">true</span>}</div>
-<div class="ttc" id="atransformer__config_8hpp_html_a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b"><div class="ttname"><a href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">snicholls::ml::norm_kind::layer</a></div><div class="ttdeci">@ layer</div><div class="ttdoc">layer_norm: GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00060">transformer_config.hpp:60</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">snicholls::ml::mlp_kind::gelu_tanh</a></div><div class="ttdeci">@ gelu_tanh</div><div class="ttdoc">down(gelu_tanh(up x)): GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00068">transformer_config.hpp:68</a></div></div>
 </div><!-- fragment -->
 <p>The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions. </p>
 
@@ -440,7 +500,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>The shape of Llama 3 8B: 32 query heads sharing 8 key-value heads, RMS norm, SwiGLU, RoPE with base 500,000. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00138">138</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00147">147</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +532,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>The shape of nanochat at depth 20: 10 heads of 128, parameter-free RMS norm (float's epsilon), QK norm after RoPE, ReLU², no biases. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00144">144</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00153">153</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -500,7 +560,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.norm_eps</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00151">151</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00160">160</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -528,7 +588,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.rope_base</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00155">155</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00164">164</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>

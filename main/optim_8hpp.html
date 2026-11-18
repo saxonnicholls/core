@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.14.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -121,6 +121,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a0579fd29421ce3aa64f4335466c3e65e" id="r_a0579fd29421ce3aa64f4335466c3e65e"><td class="memTemplParams" colspan="2">template&lt;math::math_number T&gt; </td></tr>
+<tr class="memitem:a0579fd29421ce3aa64f4335466c3e65e template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0579fd29421ce3aa64f4335466c3e65e">snicholls::ml::adam_bias_correction</a> (T beta, std::uint64_t step) noexcept(std::is_floating_point_v&lt; T &gt;)</td></tr>
+<tr class="memdesc:a0579fd29421ce3aa64f4335466c3e65e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adam's bias correction <span class="tt">1 - β^t</span>, computed as <span class="tt">-expm1(t · log1p(-(1 - β)))</span> so that it does not cancel.  <br /></td></tr>
 <tr class="memitem:a6e75e65574fa58e3b6105dfe5257734c" id="r_a6e75e65574fa58e3b6105dfe5257734c"><td class="memTemplParams" colspan="2">template&lt;mutable_row P, row G, mutable_row M, mutable_row V&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;P&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;G&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;P&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;M&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;P&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;V&gt;&gt;</td></tr>
 <tr class="memitem:a6e75e65574fa58e3b6105dfe5257734c template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e75e65574fa58e3b6105dfe5257734c">snicholls::ml::adamw_step</a> (P &amp;&amp;params, const G &amp;grads, M &amp;&amp;m, V &amp;&amp;v, std::uint64_t step, const <a class="el" href="structsnicholls_1_1ml_1_1adamw__config.html">adamw_config</a>&lt; <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt; P &gt; &gt; &amp;config)</td></tr>
@@ -153,6 +156,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <p><b>Overview.</b> The per-element and per-step arithmetic of training, as llm.c and nanochat do it. Each is a pure function or an elementwise loop over the caller's rows, so a tensor is updated in shards by as many workers as it has, and a step is the same wherever it runs.</p>
 <ul>
 <li><span class="tt">adamw_step(params, grads, m, v, step, config)</span>: one AdamW update (Loshchilov and Hutter), with bias correction and decoupled weight decay, exactly llm.c's <span class="tt">adamw_update</span>. <span class="tt">step</span> counts from 1.</li>
+<li><span class="tt">adam_bias_correction(beta, step)</span>: Adam's <span class="tt">1 - β^t</span>, as <span class="tt">-expm1(t · log1p(-(1 - β)))</span>, which does not cancel for <span class="tt">β</span> near 1 in the first steps; what <span class="tt">adamw_step</span> divides by, for a device kernel's host side to share.</li>
 <li><span class="tt">warmup_cosine(step, warmup, total, max_lr, min_lr)</span>: linear warm-up then cosine decay (llm.c, GPT-2).</li>
 <li><span class="tt">warmup_warmdown(step, total, warmup, warmdown, final_fraction)</span>: the multiplier of nanochat: linear warm-up, a constant, then linear decay to <span class="tt">final_fraction</span> (the "trapezoid" schedule).</li>
 <li><span class="tt">squared_norm(row)</span> and <span class="tt">clip_coefficient(norm, max_norm)</span>: clipping by the global norm, as PyTorch's <span class="tt">clip_grad_norm_</span>. Each worker sums the squares of its shard, the sums add (the merge), and every gradient is multiplied by the coefficient.</li>
@@ -194,6 +198,64 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 
 <p class="definition">Definition in file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a0579fd29421ce3aa64f4335466c3e65e" name="a0579fd29421ce3aa64f4335466c3e65e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0579fd29421ce3aa64f4335466c3e65e">&#9670;&#160;</a></span>adam_bias_correction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T snicholls::ml::adam_bias_correction </td>
+          <td>(</td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>step</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adam's bias correction <span class="tt">1 - β^t</span>, computed as <span class="tt">-expm1(t · log1p(-(1 - β)))</span> so that it does not cancel. </p>
+<p><b>Overview.</b> Adam divides each moment by <span class="tt">1 - β^t</span> to undo its zero start. Written as <span class="tt">1 - pow(β, t)</span> it subtracts a power near 1 from 1 for <span class="tt">β</span> near 1 and small <span class="tt">t</span>, and loses the digits <span class="tt">pow</span> rounded away: at <span class="tt">β = 0.9999</span>, t = 2, 420 units in the last place in float. Through <span class="tt">log1p</span> and <span class="tt">expm1</span> it is within a couple of units in the last place for every <span class="tt">β</span> and <span class="tt">t</span>. It is what <span class="tt">adamw_step</span> and <span class="tt">adamw_rows</span> divide by; a device library that runs AdamW in a kernel computes the two factors once per step on the host with this, so its update is core's.</p>
+<p><b>Relationships.</b> <span class="tt">adamw_step</span>, <span class="tt">adamw_rows</span>, <span class="tt">math::expm1</span> and <span class="tt">math::log1p</span> (<span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span>).</p>
+<p><b>Guarantees.</b> <span class="tt">constexpr</span>; <span class="tt">noexcept</span> for the standard floating-point types (a number type of the caller's own throws what its arithmetic throws); no allocation, a few operations. In <span class="tt">(0, 1]</span> for <span class="tt">β</span> in <span class="tt">[0, 1)</span> and <span class="tt">t &gt;= 1</span>; 1 at <span class="tt">β = 0</span>; tends to 1 as <span class="tt">t</span> grows.</p>
+<p><b>Errors.</b> None. <span class="tt">step</span> 0 gives 0 (no correction is defined there; <span class="tt">adamw_step</span> asserts <span class="tt">step &gt;= 1</span>).</p>
+<p><b>Example.</b> </p><div class="fragment"><div class="line">    <span class="comment">// Adam&#39;s 1 - beta^t at beta2 = 0.9999, step 2, without the cancellation of 1 - pow(beta, t): a device kernel&#39;s</span></div>
+<div class="line">    <span class="comment">// host side computes its two factors once per step with this, so its update is adamw_step&#39;s</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> c2 = ml::adam_bias_correction(0.9999f, 2);</div>
+</div><!-- fragment --><p><b>Performance.</b> Not benchmarked: once per step, not per parameter.</p>
+<p><b>Tests and demos.</b> <span class="tt">tests/ml/optim_test.cpp</span>, <span class="tt">demos/ml/optim_demo.cpp</span>.</p>
+<p><b>Status.</b> Experimental, new in 0.14.0. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The number type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">beta</td><td>The decay of the moment, <span class="tt">β1</span> or <span class="tt">β2</span>, in <span class="tt">[0, 1)</span>. </td></tr>
+    <tr><td class="paramname">step</td><td>The step, from 1. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">1 - beta^step</span>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00109">109</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ad741767a8a3f1e95f27809dbe341c31d" name="ad741767a8a3f1e95f27809dbe341c31d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad741767a8a3f1e95f27809dbe341c31d">&#9670;&#160;</a></span>adamw_rows()</h2>
 
@@ -261,7 +323,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00242">242</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00281">281</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -316,7 +378,7 @@ requires std::same_as&lt;row_value_t&lt;P&gt;, row_value_t&lt;G&gt;&gt; &amp;&am
 </div><div class="memdoc">
 
 <p>One AdamW step over a row of parameters: updates <span class="tt">params</span>, <span class="tt">m</span> and <span class="tt">v</span> in place. </p>
-<p><span class="tt">m = β1 m + (1 - β1) g</span>, <span class="tt">v = β2 v + (1 - β2) g²</span>, then <span class="tt">p -= lr · (m / (1 - β1^t) / (sqrt(v / (1 - β2^t)) + eps) + wd · p)</span>. </p><dl class="params"><dt>Parameters</dt><dd>
+<p><span class="tt">m = β1 m + (1 - β1) g</span>, <span class="tt">v = β2 v + (1 - β2) g²</span>, then <span class="tt">p -= lr · (m / (1 - β1^t) / (sqrt(v / (1 - β2^t)) + eps) + wd · p)</span>, with each <span class="tt">1 - β^t</span> computed as <span class="tt">-expm1(t · log1p(-(1 - β)))</span>, which does not cancel for <span class="tt">β</span> near 1 in the first steps. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">params</td><td>The parameters. </td></tr>
     <tr><td class="paramname">grads</td><td>Their gradients. </td></tr>
@@ -328,7 +390,7 @@ requires std::same_as&lt;row_value_t&lt;P&gt;, row_value_t&lt;G&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00104">104</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00141">141</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -371,7 +433,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The factor to multiply every gradient by. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00179">179</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00216">216</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -418,7 +480,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The utilisation, 0 to 1. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00232">232</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00271">271</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -448,7 +510,7 @@ template&lt;math::math_number T&gt; </div>
 </div><div class="memdoc">
 
 <p>One Newton-Schulz step on a singular value: <span class="tt">a x + b x³ + c x⁵</span>. </p>
-<p>Iterated <span class="tt">steps</span> times from a singular value in <span class="tt">(0, 1]</span> (the matrix is first divided by its norm), it lands near 1, roughly in <span class="tt">[0.7, 1.2]</span>: Muon's approximate orthogonalisation, traded for speed against exactness. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Iterated <span class="tt">steps</span> times from a singular value in <span class="tt">(0, 1]</span> (the matrix is first divided by its norm), it lands near 1: in about <span class="tt">[0.682, 1.2024]</span> from any value of at least <span class="tt">1.55e-3</span>, while a smaller value <span class="tt">x</span> reaches only about <span class="tt">a⁵ x ≈ 488 x</span>, below 0.7 (symbolic certification, 2026-11-17). Muon's approximate orthogonalisation, traded for speed against exactness. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>A singular value. </td></tr>
   </table>
@@ -456,7 +518,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The next. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00204">204</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00243">243</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -494,7 +556,7 @@ template&lt;row R&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sum r_i²</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00166">166</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00203">203</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -553,7 +615,7 @@ template&lt;row R&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>FLOPs per token. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00221">221</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00260">260</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -614,7 +676,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The learning rate. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00131">131</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00168">168</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>
@@ -675,7 +737,7 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The multiplier, in <span class="tt">[final_fraction, 1]</span> after warm-up. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00151">151</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="optim_8hpp_source.html#l00188">188</a> of file <a class="el" href="optim_8hpp_source.html">optim.hpp</a>.</p>
 
 </div>
 </div>

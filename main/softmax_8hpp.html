@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.14.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -157,7 +157,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">snicholls::ml</span> softmax and losses: <span class="tt">softmax</span>, <span class="tt">log_softmax</span>, <span class="tt">logsumexp</span>, cross-entropy with its fused gradient, bits per byte, and <span class="tt">online_softmax</span>, a running softmax that merges across workers. </p>
-<p><b>Overview.</b> The normalisation at the end of every language model and inside every attention head. Each function subtracts the maximum before exponentiating, so no logit overflows <span class="tt">exp</span>, and the losses are computed from <span class="tt">logsumexp</span> rather than from a probability, so an improbable target gives a large finite loss instead of <span class="tt">log(0)</span>.</p>
+<p><b>Overview.</b> The normalisation at the end of every language model and inside every attention head. Each function subtracts the maximum before exponentiating, so no logit overflows <span class="tt">exp</span>, and the losses are computed from <span class="tt">logsumexp</span> rather than from a probability, so an improbable target gives a large finite loss instead of <span class="tt">log(0)</span>. Where a result is a difference from <span class="tt">logsumexp</span> (<span class="tt">log_softmax</span>, the losses, the fused gradient), the maximum and <span class="tt">log sum e^(x - max)</span> are kept apart and the difference is taken as <span class="tt">(x_i - max) - log(sum)</span>, so a result of order 1 does not carry the rounding of a logit of order 1e4 (before 0.14.0 it lost about <span class="tt">eps · |max| / 2</span>).</p>
 <ul>
 <li><span class="tt">softmax(in, out)</span>, <span class="tt">log_softmax(in, out)</span>, <span class="tt">logsumexp(in)</span> over one row of logits (any <span class="tt">row</span>: a vector, an array, a span). <span class="tt">out</span> may be <span class="tt">in</span>.</li>
 <li><span class="tt">softmax_backward(probs, dprobs, dlogits)</span> and <span class="tt">log_softmax_backward(logprobs, dlogprobs, dlogits)</span>: the Jacobian-vector products of the backward passes.</li>
@@ -249,7 +249,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The bits per byte: infinity when <span class="tt">total_bytes</span> is 0. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00302">302</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00330">330</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -283,7 +283,7 @@ template&lt;row In&gt; </div>
 </div><div class="memdoc">
 
 <p>The cross-entropy of one row against a target class: <span class="tt">logsumexp(logits) - logits[target]</span>, in nats. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>Computed as <span class="tt">(max - logits[target]) + log(sum e^(logits_j - max))</span>, which keeps its digits when the logits are large: <span class="tt">logsumexp</span> itself is rounded at the magnitude of the largest logit. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">In</td><td>A <span class="tt">row</span>. </td></tr>
   </table>
@@ -298,7 +298,7 @@ template&lt;row In&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The loss, at least 0. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00265">265</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00290">290</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -357,7 +357,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00317">317</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00345">345</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -422,7 +422,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00336">336</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00364">364</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -467,7 +467,7 @@ requires std::same_as&lt;row_value_t&lt;In&gt;, row_value_t&lt;Out&gt;&gt;</div>
 </div><div class="memdoc">
 
 <p>The cross-entropy of one row and its gradient in one pass: <span class="tt">dlogits = scale · (softmax(logits) - one_hot(target))</span>. </p>
-<p><span class="tt">scale</span> is the gradient of the total loss in this row's loss: <span class="tt">1 / (B T)</span> for a mean over a batch. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p><span class="tt">scale</span> is the gradient of the total loss in this row's loss: <span class="tt">1 / (B T)</span> for a mean over a batch. The loss is <span class="tt">cross_entropy</span>'s, and the softmax is <span class="tt">softmax</span>'s, <span class="tt">e^(logits_i - max) · (1 / sum)</span>, to the bit. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">In</td><td>A <span class="tt">row</span>. </td></tr>
     <tr><td class="paramname">Out</td><td>A <span class="tt">mutable_row</span> of the same number type. </td></tr>
@@ -485,7 +485,7 @@ requires std::same_as&lt;row_value_t&lt;In&gt;, row_value_t&lt;Out&gt;&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The loss, in nats. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00284">284</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00311">311</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -520,7 +520,7 @@ requires std::same_as&lt;row_value_t&lt;In&gt;, row_value_t&lt;Out&gt;&gt;</div>
 </div><div class="memdoc">
 
 <p>The log-softmax of a row: <span class="tt">out_i = in_i - logsumexp(in)</span>, exact where <span class="tt">log(softmax)</span> would underflow. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>Computed as <span class="tt">(in_i - max) - log(sum e^(in_j - max))</span>, so the rounding is that of the result, not of the largest logit: the difference is a constant only up to rounding at <span class="tt">|max|</span>, which <span class="tt">in_i - logsumexp(in)</span> would lose. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">In</td><td>A <span class="tt">row</span>. </td></tr>
     <tr><td class="paramname">Out</td><td>A <span class="tt">mutable_row</span> of the same number type. </td></tr>
@@ -535,7 +535,7 @@ requires std::same_as&lt;row_value_t&lt;In&gt;, row_value_t&lt;Out&gt;&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00203">203</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00224">224</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -592,7 +592,7 @@ requires std::same_as&lt;row_value_t&lt;L&gt;, row_value_t&lt;D&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00222">222</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00244">244</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -636,7 +636,7 @@ template&lt;row In&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00167">167</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00185">185</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -686,7 +686,7 @@ requires std::same_as&lt;row_value_t&lt;In&gt;, row_value_t&lt;Out&gt;&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00179">179</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00197">197</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>
@@ -743,7 +743,7 @@ requires std::same_as&lt;row_value_t&lt;P&gt;, row_value_t&lt;D&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00245">245</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="softmax_8hpp_source.html#l00267">267</a> of file <a class="el" href="softmax_8hpp_source.html">softmax.hpp</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,6 @@
 var optim_8hpp =
 [
+    [ "snicholls::ml::adam_bias_correction", "optim_8hpp.html#a0579fd29421ce3aa64f4335466c3e65e", null ],
     [ "snicholls::ml::adamw_rows", "optim_8hpp.html#ad741767a8a3f1e95f27809dbe341c31d", null ],
     [ "snicholls::ml::adamw_step", "optim_8hpp.html#a6e75e65574fa58e3b6105dfe5257734c", null ],
     [ "snicholls::ml::clip_coefficient", "optim_8hpp.html#a05428b2c3eb856be27cf8ff72e86b619", null ],

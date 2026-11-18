@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.14.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -132,7 +132,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt"><a class="el" href="#a39c35ad6306b93e921aadfa32b537670" title="One Muon update of a weight matrix, every step on the backend.">snicholls::ml::muon_step</a></span>: the Muon optimiser for a weight matrix, Newton-Schulz orthogonalisation of its momentum through a <span class="tt">linalg</span> backend. </p>
-<p><b>Overview.</b> Muon (Jordan et al., 2024; nanochat's optimiser for the matrices of its blocks) replaces a matrix parameter's update by its nearest semi-orthogonal matrix, approximately: the momentum <span class="tt">M</span> is divided by its Frobenius norm and iterated <span class="tt">X ← a X + (b A + c A²) X</span> with <span class="tt">A = X Xᵀ</span>, the quintic of <span class="tt">muon_newton_schulz</span> (<span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>), which moves every singular value toward 1 (into roughly <span class="tt">[0.7, 1.2]</span>). The products run on any <span class="tt">linalg::blas_backend</span>: <span class="tt">linalg::reference</span> here and in tests, a BLAS or device backend for speed.</p>
+<p><b>Overview.</b> Muon (Jordan et al., 2024; nanochat's optimiser for the matrices of its blocks) replaces a matrix parameter's update by its nearest semi-orthogonal matrix, approximately: the momentum <span class="tt">M</span> is divided by its Frobenius norm and iterated <span class="tt">X ← a X + (b A + c A²) X</span> with <span class="tt">A = X Xᵀ</span>, the quintic of <span class="tt">muon_newton_schulz</span> (<span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>), which moves every singular value toward 1: five steps carry any singular value of at least <span class="tt">1.55e-3</span> (of the normalised matrix) into about <span class="tt">[0.682, 1.2024]</span>, and a smaller one <span class="tt">s</span> only to about <span class="tt">a⁵ s ≈ 488 s</span>, below 0.7. The products run on any <span class="tt">linalg::blas_backend</span>: <span class="tt">linalg::reference</span> here and in tests, a BLAS or device backend for speed.</p>
 <ul>
 <li><span class="tt">muon_orthogonalise(backend, g, rows, cols, out, work)</span>: the iteration on an <span class="tt">rows x cols</span> matrix, on its transpose when it has more rows than columns, so <span class="tt">A</span> is the smaller square.</li>
 <li><span class="tt">muon_step(backend, w, g, momentum, rows, cols, config, work)</span>: one update. <span class="tt">momentum ← μ momentum + g</span>, then <span class="tt">g + μ momentum</span> (Nesterov) or <span class="tt">momentum</span> is orthogonalised and <span class="tt">w ← w − lr · sqrt(max(1, rows / cols)) · X</span>, nanochat's scaling.</li>
@@ -356,7 +356,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00125">125</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00126">126</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
 
 </div>
 </div>
@@ -435,7 +435,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00182">182</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00183">183</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
 
 </div>
 </div>
@@ -476,7 +476,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">4 · rows · cols + 2 · min(rows, cols)²</span>: the iteration's two copies of <span class="tt">X</span> and its two squares, and <span class="tt">muon_step</span>'s update and result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00104">104</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="muon_8hpp_source.html#l00105">105</a> of file <a class="el" href="muon_8hpp_source.html">muon.hpp</a>.</p>
 
 </div>
 </div>

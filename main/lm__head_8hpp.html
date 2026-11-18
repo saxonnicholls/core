@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.13.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.14.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -165,7 +165,8 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="fragment"><div class="line">    <span class="comment">// For training on a device: the whole sequence&#39;s logits as one product through a linalg backend (here core&#39;s</span></div>
 <div class="line">    <span class="comment">// reference), then the fused classifier on every row, then the gradients; the same loss as lm_head_loss</span></div>
 <div class="line">    std::vector&lt;float&gt; all_logits(tokens.size() * vocab), losses(tokens.size()), dhs2(hs.size()), dtable2(table.size());</div>
-<div class="line">    <span class="keyword">const</span> std::vector&lt;std::uint32_t&gt; next32(next.begin(), next.end());</div>
+<div class="line">    std::vector&lt;std::uint32_t&gt; next32(next.size());</div>
+<div class="line">    std::transform(next.begin(), next.end(), next32.begin(), [](std::size_t c) { return static_cast&lt;std::uint32_t&gt;(c); });</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> seq_loss = ml::lm_head_loss_sequence(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, ml::dense_weights&lt;float&gt;{table, vocab, d}, std::span&lt;const float&gt;(hs),</div>
 <div class="line">                                                     next32, std::span&lt;float&gt;(all_logits), std::span&lt;float&gt;(losses), std::span&lt;float&gt;(dhs2),</div>
 <div class="line">                                                     std::span&lt;float&gt;(dtable2));</div>

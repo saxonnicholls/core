@@ -22,6 +22,8 @@ var transformer__config_8hpp =
     ] ],
     [ "snicholls::ml::valid", "transformer__config_8hpp.html#a381e1581feafff052df52f713595f04d", null ],
     [ "snicholls::ml::attention_softcap_v", "transformer__config_8hpp.html#ad1aa73dd03ffcdabf3595501ed14db8a", null ],
+    [ "snicholls::ml::gpt2_large", "transformer__config_8hpp.html#af43c431ff10420c6d1184113e86a4a2f", null ],
+    [ "snicholls::ml::gpt2_medium", "transformer__config_8hpp.html#ae11d3f0826aae29275e664febb41f895", null ],
     [ "snicholls::ml::gpt2_small", "transformer__config_8hpp.html#a53269ed412b3760f555ca6cffe778411", null ],
     [ "snicholls::ml::llama3_8b", "transformer__config_8hpp.html#ab3d39d7ad38a072e1341cc8362fa607e", null ],
     [ "snicholls::ml::nanochat_d20", "transformer__config_8hpp.html#a07eb13843f5a69e04540c740d1e30929", null ],
