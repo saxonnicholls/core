@@ -3,9 +3,12 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased (0.14.0)
+## 0.14.0 - 2026-11-18
 
 ### Added
+
+- `ml::gpt2_medium` and `ml::gpt2_large` (`ml/transformer_config.hpp`): the shapes of GPT-2 medium (1024 wide, 16
+  heads) and large (1280 wide, 20 heads), beside `gpt2_small`.
 
 - `ml::adam_bias_correction(beta, step)` (`ml/optim.hpp`): Adam's `1 - β^t` as `-expm1(t · log1p(-(1 - β)))`, the
   factor `adamw_step` and `adamw_rows` divide by, public so that a device library's AdamW kernel computes the same
@@ -32,6 +35,8 @@ A version is released when its tag is on a commit where every blocking CI leg is
     only about `a⁵ x`. Documentation only.
 
   Results change in the last bits; the hand-written equivalents in the benchmarks compute the same new forms.
+- The `lm_head` demo converts its targets to `std::uint32_t` explicitly, which MSVC's C4267 required: the Windows leg
+  builds again (it had failed since 0.10.0).
 
 ## 0.13.0 - 2026-11-17
 
