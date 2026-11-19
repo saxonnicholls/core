@@ -83,6 +83,7 @@ add_executable(snicholls_core_tests
     ml/bpe_test.cpp
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
+    ml/control_vector_test.cpp
     ml/conv_test.cpp
     ml/diloco_test.cpp
     ml/distill_test.cpp

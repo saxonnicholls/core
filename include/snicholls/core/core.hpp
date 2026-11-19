@@ -103,6 +103,7 @@
 #include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/collapse.hpp>
 #include <snicholls/core/ml/composed_block.hpp>
+#include <snicholls/core/ml/control_vector.hpp>
 #include <snicholls/core/ml/conv.hpp>
 #include <snicholls/core/ml/diloco.hpp>
 #include <snicholls/core/ml/distill.hpp>
