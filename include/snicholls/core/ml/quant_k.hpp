@@ -49,8 +49,11 @@
 /// as the row; the rows of a dot product have the same number of blocks. NaN and infinity are not representable;
 /// the result is ggml's (deterministic, not meaningful).
 ///
-/// **Performance.** Against ggml's scalar loops written out by hand (`benchmarks/ml/quant_k_benchmark.cpp`); the
-/// numbers are in BENCHMARKS.md.
+/// **Performance.** Against ggml's scalar loops written out by hand (`benchmarks/ml/quant_k_benchmark.cpp`), rows of
+/// 4,096, medians of five: Q6_K dot 2.1 against 2.2 billion weights per second; Q4_K dot 2.2 against 2.8 (core
+/// unpacks the nibbles in element order, ggml in two passes); Q4_K dequantisation 3.9 against 1.4 (Xeon W-3245,
+/// Release, Apple clang 17, 2026-11-20, one thread, scalar code). Quantisation is a conversion step, tens of
+/// operations per weight (the scale searches), not benchmarked.
 ///
 /// **Tests and demos.** `tests/ml/quant_k_test.cpp`, `demos/ml/quant_k_demo.cpp`.
 ///
@@ -302,35 +305,67 @@ namespace detail::quant_k
                 qs[j / 4 + l] = static_cast<std::uint8_t>(codes[j + l] | (codes[j + l + 32] << 2) | (codes[j + l + 64] << 4) | (codes[j + l + 96] << 6));
     }
 
-    constexpr int code2(const std::array<std::uint8_t, 64>& qs, int e)
+    // A block's codes, element by element, unpacked the way ggml's scalar dot products unpack them
+    constexpr void unpack(const block_q2_k& b, std::array<std::int8_t, 256>& a)
     {
-        return (qs[(e / 128) * 32 + e % 32] >> (2 * ((e % 128) / 32))) & 3;
+        for (std::size_t h = 0; h < 2; ++h)
+            for (std::size_t g = 0; g < 4; ++g)
+                for (std::size_t l = 0; l < 32; ++l)
+                    a[128 * h + 32 * g + l] = static_cast<std::int8_t>((b.qs[32 * h + l] >> (2 * g)) & 3);
     }
 
-    // The 4-bit packing of Q4_K and Q5_K: element 64 h + l low nibble of byte 32 h + l, 64 h + 32 + l high
-    constexpr int code4(const std::array<std::uint8_t, 128>& qs, int e)
+    constexpr void unpack(const block_q3_k& b, std::array<std::int8_t, 256>& a)
     {
-        const std::uint8_t b = qs[(e / 64) * 32 + e % 32];
-        return (e % 64) < 32 ? b & 0xf : b >> 4;
+        for (std::size_t h = 0; h < 2; ++h)
+            for (std::size_t g = 0; g < 4; ++g) {
+                const auto m = static_cast<std::uint8_t>(1u << (4 * h + g));
+                for (std::size_t l = 0; l < 32; ++l)
+                    a[128 * h + 32 * g + l] = static_cast<std::int8_t>(((b.qs[32 * h + l] >> (2 * g)) & 3) - (b.hmask[l] & m ? 0 : 4));
+            }
     }
 
-    // Q6_K's 6-bit code of element e, 0 to 63
-    constexpr int code6(const block_q6_k& b, int e)
+    constexpr void unpack(const block_q4_k& b, std::array<std::int8_t, 256>& a)
     {
-        const int n = e / 128, r = e % 128, g = r / 32, l = r % 32;
-        const std::uint8_t lo = b.ql[n * 64 + (g % 2) * 32 + l];
-        const int low = g < 2 ? lo & 0xf : lo >> 4;
-        return low | (((b.qh[n * 32 + l] >> (2 * g)) & 3) << 4);
+        for (std::size_t h = 0; h < 4; ++h)
+            for (std::size_t l = 0; l < 32; ++l) {
+                a[64 * h + l] = static_cast<std::int8_t>(b.qs[32 * h + l] & 0xf);
+                a[64 * h + 32 + l] = static_cast<std::int8_t>(b.qs[32 * h + l] >> 4);
+            }
     }
 
-    // The sum over a block's 256 products a[e] · q8[e] · scale(e) in ggml's eight lanes (lane e % 8), then
-    // sums[lane] += d · lane: the order of ggml_vec_dot_q{3,4,5,6}_K_q8_K_generic
-    template <typename Code, typename Scale>
-    constexpr void lanes(const block_q8_k& y, float d, Code code, Scale scale, std::array<float, 8>& sums)
+    constexpr void unpack(const block_q5_k& b, std::array<std::int8_t, 256>& a)
+    {
+        for (std::size_t h = 0; h < 4; ++h) {
+            const auto m1 = static_cast<std::uint8_t>(1u << (2 * h)), m2 = static_cast<std::uint8_t>(2u << (2 * h));
+            for (std::size_t l = 0; l < 32; ++l) {
+                a[64 * h + l] = static_cast<std::int8_t>((b.qs[32 * h + l] & 0xf) + (b.qh[l] & m1 ? 16 : 0));
+                a[64 * h + 32 + l] = static_cast<std::int8_t>((b.qs[32 * h + l] >> 4) + (b.qh[l] & m2 ? 16 : 0));
+            }
+        }
+    }
+
+    constexpr void unpack(const block_q6_k& b, std::array<std::int8_t, 256>& a)
+    {
+        for (std::size_t n = 0; n < 2; ++n)
+            for (std::size_t l = 0; l < 32; ++l) {
+                const std::uint8_t lo = b.ql[64 * n + l], hi = b.ql[64 * n + 32 + l], h = b.qh[32 * n + l];
+                a[128 * n + l] = static_cast<std::int8_t>(((lo & 0xf) | ((h & 3) << 4)) - 32);
+                a[128 * n + 32 + l] = static_cast<std::int8_t>(((hi & 0xf) | (((h >> 2) & 3) << 4)) - 32);
+                a[128 * n + 64 + l] = static_cast<std::int8_t>(((lo >> 4) | (((h >> 4) & 3) << 4)) - 32);
+                a[128 * n + 96 + l] = static_cast<std::int8_t>(((hi >> 4) | (((h >> 6) & 3) << 4)) - 32);
+            }
+    }
+
+    // The sum over a block's 256 products scale[e / 16] · q8[e] · a[e] in ggml's eight lanes (lane e % 8), then
+    // sums[lane] += d · lane: the order of ggml_vec_dot_q{3,4,5,6}_K_q8_K_generic (integer sums, so exact)
+    constexpr void lanes(const block_q8_k& y, float d, const std::array<std::int8_t, 256>& a, const std::array<int, 16>& scale, std::array<float, 8>& sums)
     {
         std::array<int, 8> aux32{};
-        for (int e = 0; e < 256; ++e)
-            aux32[std::size_t(e % 8)] += scale(e) * (int(y.qs[std::size_t(e)]) * code(e));
+        for (std::size_t j = 0; j < 32; ++j) {
+            const int s = scale[j / 2];
+            for (std::size_t l = 0; l < 8; ++l)
+                aux32[l] += s * (int(y.qs[8 * j + l]) * int(a[8 * j + l]));
+        }
         for (std::size_t l = 0; l < 8; ++l) {
             const float term = d * float(aux32[l]);
             sums[l] += term;
@@ -718,14 +753,18 @@ constexpr void quantize_row(std::span<const float> x, std::span<const float> imp
 constexpr void dequantize_row(std::span<const block_q2_k> x, std::span<float> y)
 {
     assert(y.size() == 256 * x.size());
+    std::array<std::int8_t, 256> a{};
     for (std::size_t i = 0; i < x.size(); ++i) {
+        detail::quant_k::unpack(x[i], a);
         const float d = to_float(x[i].d), min = to_float(x[i].dmin);
-        for (int e = 0; e < 256; ++e) {
-            const std::uint8_t sc = x[i].scales[std::size_t(e / 16)];
+        for (std::size_t j = 0; j < 16; ++j) {
+            const std::uint8_t sc = x[i].scales[j];
             const float dl = d * float(sc & 0xf);
             const float ml = min * float(sc >> 4);
-            const float v = dl * float(detail::quant_k::code2(x[i].qs, e));
-            y[256 * i + std::size_t(e)] = v - ml;
+            for (std::size_t l = 0; l < 16; ++l) {
+                const float v = dl * float(a[16 * j + l]);
+                y[256 * i + 16 * j + l] = v - ml;
+            }
         }
     }
 }
@@ -736,54 +775,81 @@ constexpr void dequantize_row(std::span<const block_q2_k> x, std::span<float> y)
 constexpr void dequantize_row(std::span<const block_q3_k> x, std::span<float> y)
 {
     assert(y.size() == 256 * x.size());
+    std::array<std::int8_t, 256> a{};
     for (std::size_t i = 0; i < x.size(); ++i) {
+        detail::quant_k::unpack(x[i], a);
         const float d_all = to_float(x[i].d);
-        for (int e = 0; e < 256; ++e) {
-            const float dl = d_all * float(detail::quant_k::q3_scale(x[i].scales, e / 16));
-            const int q = detail::quant_k::code2(x[i].qs, e) - ((x[i].hmask[std::size_t(e % 32)] >> (e / 32)) & 1 ? 0 : 4);
-            y[256 * i + std::size_t(e)] = dl * float(q);
+        for (std::size_t j = 0; j < 16; ++j) {
+            const float dl = d_all * float(detail::quant_k::q3_scale(x[i].scales, int(j)));
+            for (std::size_t l = 0; l < 16; ++l)
+                y[256 * i + 16 * j + l] = dl * float(a[16 * j + l]);
         }
     }
 }
+
+namespace detail::quant_k
+{
+    // Q4_K's and Q5_K's dequantisation: d · s · q - dmin · m per 32
+    template <typename B>
+    constexpr void dequantize_k4(std::span<const B> x, std::span<float> y)
+    {
+        assert(y.size() == 256 * x.size());
+        std::array<std::int8_t, 256> a{};
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            unpack(x[i], a);
+            const float d = to_float(x[i].d), min = to_float(x[i].dmin);
+            for (std::size_t j = 0; j < 8; ++j) {
+                std::uint8_t sc = 0, m = 0;
+                scale_min_k4(int(j), x[i].scales, sc, m);
+                const float d1 = d * float(sc);
+                const float m1 = min * float(m);
+                for (std::size_t l = 0; l < 32; ++l) {
+                    const float v = d1 * float(a[32 * j + l]);
+                    y[256 * i + 32 * j + l] = v - m1;
+                }
+            }
+        }
+    }
+
+    // Q4_K's and Q5_K's dot product: the lanes with a scale per 32, minus dmin · (mins · bsums) per block
+    template <typename B>
+    constexpr float dot_k4(std::span<const B> x, std::span<const block_q8_k> y)
+    {
+        assert(x.size() == y.size());
+        std::array<float, 8> sums{};
+        std::array<std::int8_t, 256> a{};
+        float sumf = 0;
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            const B& b = x[i];
+            unpack(b, a);
+            std::array<int, 16> sc{};
+            int sumi = 0;
+            for (std::size_t j = 0; j < 8; ++j) {
+                std::uint8_t s = 0, m = 0;
+                scale_min_k4(int(j), b.scales, s, m);
+                sc[2 * j] = sc[2 * j + 1] = s;
+                sumi += y[i].bsums[2 * j] * m;
+                sumi += y[i].bsums[2 * j + 1] * m;
+            }
+            const float d = to_float(b.d) * y[i].d;
+            lanes(y[i], d, a, sc, sums);
+            const float dmin = to_float(b.dmin) * y[i].d;
+            const float term = dmin * float(sumi);
+            sumf -= term;
+        }
+        return sum_lanes(sumf, sums);
+    }
+} // namespace detail::quant_k
 
 /// \brief Dequantises Q4_K blocks: `x = d·s·q - dmin·m`, as ggml's `dequantize_row_q4_K`.
 /// \param x The blocks.
 /// \param y Receives `256 · x.size()` floats.
-constexpr void dequantize_row(std::span<const block_q4_k> x, std::span<float> y)
-{
-    assert(y.size() == 256 * x.size());
-    for (std::size_t i = 0; i < x.size(); ++i) {
-        const float d = to_float(x[i].d), min = to_float(x[i].dmin);
-        for (int e = 0; e < 256; ++e) {
-            std::uint8_t sc = 0, m = 0;
-            detail::quant_k::scale_min_k4(e / 32, x[i].scales, sc, m);
-            const float d1 = d * float(sc);
-            const float m1 = min * float(m);
-            const float v = d1 * float(detail::quant_k::code4(x[i].qs, e));
-            y[256 * i + std::size_t(e)] = v - m1;
-        }
-    }
-}
+constexpr void dequantize_row(std::span<const block_q4_k> x, std::span<float> y) { detail::quant_k::dequantize_k4(x, y); }
 
 /// \brief Dequantises Q5_K blocks: `x = d·s·q - dmin·m`, as ggml's `dequantize_row_q5_K`.
 /// \param x The blocks.
 /// \param y Receives `256 · x.size()` floats.
-constexpr void dequantize_row(std::span<const block_q5_k> x, std::span<float> y)
-{
-    assert(y.size() == 256 * x.size());
-    for (std::size_t i = 0; i < x.size(); ++i) {
-        const float d = to_float(x[i].d), min = to_float(x[i].dmin);
-        for (int e = 0; e < 256; ++e) {
-            std::uint8_t sc = 0, m = 0;
-            detail::quant_k::scale_min_k4(e / 32, x[i].scales, sc, m);
-            const float d1 = d * float(sc);
-            const float m1 = min * float(m);
-            const int q = detail::quant_k::code4(x[i].qs, e) + ((x[i].qh[std::size_t(e % 32)] >> (e / 32)) & 1 ? 16 : 0);
-            const float v = d1 * float(q);
-            y[256 * i + std::size_t(e)] = v - m1;
-        }
-    }
-}
+constexpr void dequantize_row(std::span<const block_q5_k> x, std::span<float> y) { detail::quant_k::dequantize_k4(x, y); }
 
 /// \brief Dequantises Q6_K blocks: `x = d·s·(q - 32)`, as ggml's `dequantize_row_q6_K`.
 /// \param x The blocks.
@@ -791,11 +857,14 @@ constexpr void dequantize_row(std::span<const block_q5_k> x, std::span<float> y)
 constexpr void dequantize_row(std::span<const block_q6_k> x, std::span<float> y)
 {
     assert(y.size() == 256 * x.size());
+    std::array<std::int8_t, 256> a{};
     for (std::size_t i = 0; i < x.size(); ++i) {
+        detail::quant_k::unpack(x[i], a);
         const float d = to_float(x[i].d);
-        for (int e = 0; e < 256; ++e) {
-            const float ds = d * float(x[i].scales[std::size_t(e / 16)]);
-            y[256 * i + std::size_t(e)] = ds * float(detail::quant_k::code6(x[i], e) - 32);
+        for (std::size_t j = 0; j < 16; ++j) {
+            const float ds = d * float(x[i].scales[j]);
+            for (std::size_t l = 0; l < 16; ++l)
+                y[256 * i + 16 * j + l] = ds * float(a[16 * j + l]);
         }
     }
 }
@@ -807,23 +876,25 @@ constexpr void dequantize_row(std::span<const block_q6_k> x, std::span<float> y)
 constexpr float dot(std::span<const block_q2_k> x, std::span<const block_q8_k> y)
 {
     assert(x.size() == y.size());
+    std::array<std::int8_t, 256> a{};
     float sumf = 0;
     for (std::size_t i = 0; i < x.size(); ++i) {
+        detail::quant_k::unpack(x[i], a);
         int summs = 0;
         for (std::size_t j = 0; j < 16; ++j)
             summs += y[i].bsums[j] * (x[i].scales[j] >> 4);
         const float dall = y[i].d * to_float(x[i].d);
         const float dmin = y[i].d * to_float(x[i].dmin);
         int isum = 0;
-        for (int j = 0; j < 16; ++j) {
+        for (std::size_t j = 0; j < 16; ++j) {
             int isuml = 0;
-            for (int l = 0; l < 16; ++l)
-                isuml += int(y[i].qs[std::size_t(16 * j + l)]) * detail::quant_k::code2(x[i].qs, 16 * j + l);
-            isum += (x[i].scales[std::size_t(j)] & 0xf) * isuml;
+            for (std::size_t l = 0; l < 16; ++l)
+                isuml += int(y[i].qs[16 * j + l]) * int(a[16 * j + l]);
+            isum += (x[i].scales[j] & 0xf) * isuml;
         }
-        const float a = dall * float(isum);
-        const float b = dmin * float(summs);
-        const float term = a - b;
+        const float p = dall * float(isum);
+        const float q = dmin * float(summs);
+        const float term = p - q;
         sumf += term;
     }
     return sumf;
@@ -837,13 +908,14 @@ constexpr float dot(std::span<const block_q3_k> x, std::span<const block_q8_k> y
 {
     assert(x.size() == y.size());
     std::array<float, 8> sums{};
+    std::array<std::int8_t, 256> a{};
     for (std::size_t i = 0; i < x.size(); ++i) {
-        const block_q3_k& b = x[i];
-        const float d = to_float(b.d) * y[i].d;
-        detail::quant_k::lanes(
-            y[i], d,
-            [&b](int e) { return detail::quant_k::code2(b.qs, e) - ((b.hmask[std::size_t(e % 32)] >> (e / 32)) & 1 ? 0 : 4); },
-            [&b](int e) { return detail::quant_k::q3_scale(b.scales, e / 16); }, sums);
+        detail::quant_k::unpack(x[i], a);
+        std::array<int, 16> sc{};
+        for (std::size_t j = 0; j < 16; ++j)
+            sc[j] = detail::quant_k::q3_scale(x[i].scales, int(j));
+        const float d = to_float(x[i].d) * y[i].d;
+        detail::quant_k::lanes(y[i], d, a, sc, sums);
     }
     return detail::quant_k::sum_lanes(0.0f, sums);
 }
@@ -852,65 +924,13 @@ constexpr float dot(std::span<const block_q3_k> x, std::span<const block_q8_k> y
 /// \param x The weights.
 /// \param y The activations.
 /// \return `sum over blocks of d_x d_y (sum s · q_x · q_y) - dmin_x d_y (sum m · bsum)`.
-constexpr float dot(std::span<const block_q4_k> x, std::span<const block_q8_k> y)
-{
-    assert(x.size() == y.size());
-    std::array<float, 8> sums{};
-    float sumf = 0;
-    for (std::size_t i = 0; i < x.size(); ++i) {
-        const block_q4_k& b = x[i];
-        std::array<int, 8> sc{}, mn{};
-        for (int j = 0; j < 8; ++j) {
-            std::uint8_t s = 0, m = 0;
-            detail::quant_k::scale_min_k4(j, b.scales, s, m);
-            sc[std::size_t(j)] = s;
-            mn[std::size_t(j)] = m;
-        }
-        int sumi = 0;
-        for (std::size_t j = 0; j < 16; ++j)
-            sumi += y[i].bsums[j] * mn[j / 2];
-        const float d = to_float(b.d) * y[i].d;
-        detail::quant_k::lanes(
-            y[i], d, [&b](int e) { return detail::quant_k::code4(b.qs, e); }, [&sc](int e) { return sc[std::size_t(e / 32)]; }, sums);
-        const float dmin = to_float(b.dmin) * y[i].d;
-        const float term = dmin * float(sumi);
-        sumf -= term;
-    }
-    return detail::quant_k::sum_lanes(sumf, sums);
-}
+constexpr float dot(std::span<const block_q4_k> x, std::span<const block_q8_k> y) { return detail::quant_k::dot_k4(x, y); }
 
 /// \brief The dot product of a Q5_K row with a Q8_K row, as ggml's `ggml_vec_dot_q5_K_q8_K`, in its eight lanes.
 /// \param x The weights.
 /// \param y The activations.
 /// \return `sum over blocks of d_x d_y (sum s · q_x · q_y) - dmin_x d_y (sum m · bsum)`.
-constexpr float dot(std::span<const block_q5_k> x, std::span<const block_q8_k> y)
-{
-    assert(x.size() == y.size());
-    std::array<float, 8> sums{};
-    float sumf = 0;
-    for (std::size_t i = 0; i < x.size(); ++i) {
-        const block_q5_k& b = x[i];
-        std::array<int, 8> sc{}, mn{};
-        for (int j = 0; j < 8; ++j) {
-            std::uint8_t s = 0, m = 0;
-            detail::quant_k::scale_min_k4(j, b.scales, s, m);
-            sc[std::size_t(j)] = s;
-            mn[std::size_t(j)] = m;
-        }
-        int sumi = 0;
-        for (std::size_t j = 0; j < 16; ++j)
-            sumi += y[i].bsums[j] * mn[j / 2];
-        const float d = to_float(b.d) * y[i].d;
-        detail::quant_k::lanes(
-            y[i], d,
-            [&b](int e) { return detail::quant_k::code4(b.qs, e) + ((b.qh[std::size_t(e % 32)] >> (e / 32)) & 1 ? 16 : 0); },
-            [&sc](int e) { return sc[std::size_t(e / 32)]; }, sums);
-        const float dmin = to_float(b.dmin) * y[i].d;
-        const float term = dmin * float(sumi);
-        sumf -= term;
-    }
-    return detail::quant_k::sum_lanes(sumf, sums);
-}
+constexpr float dot(std::span<const block_q5_k> x, std::span<const block_q8_k> y) { return detail::quant_k::dot_k4(x, y); }
 
 /// \brief The dot product of a Q6_K row with a Q8_K row, as ggml's `ggml_vec_dot_q6_K_q8_K`, in its eight lanes.
 /// \param x The weights.
@@ -920,11 +940,14 @@ constexpr float dot(std::span<const block_q6_k> x, std::span<const block_q8_k> y
 {
     assert(x.size() == y.size());
     std::array<float, 8> sums{};
+    std::array<std::int8_t, 256> a{};
     for (std::size_t i = 0; i < x.size(); ++i) {
-        const block_q6_k& b = x[i];
-        const float d = to_float(b.d) * y[i].d;
-        detail::quant_k::lanes(
-            y[i], d, [&b](int e) { return detail::quant_k::code6(b, e) - 32; }, [&b](int e) { return int(b.scales[std::size_t(e / 16)]); }, sums);
+        detail::quant_k::unpack(x[i], a);
+        std::array<int, 16> sc{};
+        for (std::size_t j = 0; j < 16; ++j)
+            sc[j] = x[i].scales[j];
+        const float d = to_float(x[i].d) * y[i].d;
+        detail::quant_k::lanes(y[i], d, a, sc, sums);
     }
     return detail::quant_k::sum_lanes(0.0f, sums);
 }
