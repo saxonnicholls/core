@@ -10,7 +10,7 @@
 /// \ingroup core
 ///
 /// **Overview.** Distillation trains a student language model to match a teacher's next-token distribution at every
-/// response position (TRAINING.md T11). With temperature `T`, `p = softmax(teacher / T)` and `q = softmax(student /
+/// response position (TRAINING.md T12). With temperature `T`, `p = softmax(teacher / T)` and `q = softmax(student /
 /// T)` (Hinton et al. 2015, eq. 1):
 ///
 /// - `forward_kl{T}`: `KL(p || q) = Σ p (log p - log q)`, mean-seeking, Hinton's soft-target cross-entropy less the

@@ -70,7 +70,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
   - `ml/preference.hpp`: `preference_loss` for `dpo`, `ipo`, `simpo` and `orpo`, each with its gradient and implicit
     rewards; `preference_loss_rows`; `preference_metrics` (loss, rewards, margin, accuracy), mergeable.
   - `ml/reward_model.hpp`: the Bradley-Terry loss (`bradley_terry{margin}`), a scalar value head and its backward,
-    `last_response_positions`, `gather_rows` / `scatter_add_rows`.
+    `last_response_positions` (the index list `gather_rows` reads).
   - `ml/rl.hpp`: GRPO's `group_advantages` (or Dr. GRPO's centring), `expand_rows`, the k3 KL estimator, the clipped
     objective with DAPO's asymmetric clip and an entropy bonus, `policy_loss_rows` with the aggregation stated
     (`sequence_mean` GRPO, `token_mean` DAPO, `constant` Dr. GRPO), `policy_loss_metrics`; PPO's `gae_rows`,

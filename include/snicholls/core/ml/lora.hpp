@@ -10,7 +10,7 @@
 /// \ingroup core
 ///
 /// **Overview.** Low-rank adaptation (Hu et al. 2021) fine-tunes a model by freezing each weight `W` (`rows x cols`)
-/// and learning `ΔW = s · B A`, `A` of `r x cols`, `B` of `rows x r`, `r` small, `s = α / r` (TRAINING.md T11). Only
+/// and learning `ΔW = s · B A`, `A` of `r x cols`, `B` of `rows x r`, `r` small, `s = α / r` (TRAINING.md T12). Only
 /// `A` and `B` have gradients and optimiser state, so a model of billions of weights is tuned with a few million.
 /// QLoRA (Dettmers et al. 2023, eq. 5) stores `W` in NF4 (`ml/nf4.hpp`) and dequantises it as it is read.
 ///

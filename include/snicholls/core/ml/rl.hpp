@@ -10,7 +10,7 @@
 /// \ingroup core
 ///
 /// **Overview.** Reinforcement learning from rewards samples responses from the policy, scores them, and raises the
-/// probability of the better ones (TRAINING.md T11). A rollout is plain data, `rollout_view`: `prompts · group_size`
+/// probability of the better ones (TRAINING.md T12). A rollout is plain data, `rollout_view`: `prompts · group_size`
 /// sequences padded to one `length`, laid out group by group (the `G` samples of one prompt are consecutive rows),
 /// their targets, the response mask (1 on response tokens, 0 on the prompt and padding) and one reward a sequence.
 /// The arithmetic, in the order of a step:

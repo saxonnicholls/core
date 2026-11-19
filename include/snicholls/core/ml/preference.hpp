@@ -10,7 +10,7 @@
 /// \ingroup core
 ///
 /// **Overview.** Preference optimisation trains a policy on pairs of responses to one prompt, one preferred
-/// (`chosen`, `y_w`) and one not (`rejected`, `y_l`), without a reward model or sampling (TRAINING.md T11). Each loss
+/// (`chosen`, `y_w`) and one not (`rejected`, `y_l`), without a reward model or sampling (TRAINING.md T12). Each loss
 /// is a function of the policy's sequence log-probabilities of the two responses (`ml/logprobs.hpp`) and, for some,
 /// a frozen reference model's; its gradient in those two numbers is taken back to the logits by
 /// `sequence_logprobs_backward` and `token_logprobs_rows_backward`. The losses, each a parameter struct and an
@@ -255,7 +255,7 @@ struct preference_metrics
     [[nodiscard]] constexpr double accuracy() const noexcept { return pairs == 0 ? 0.0 : static_cast<double>(correct) / static_cast<double>(pairs); }
 };
 
-/// \brief A batch of pairs on the backend (TRAINING.md T9, T11): each pair's `preference_loss`, the gradients of the
+/// \brief A batch of pairs on the backend (TRAINING.md T9, T12): each pair's `preference_loss`, the gradients of the
 /// mean loss written per pair (each pair's derivatives divided by the number of pairs), the metrics added.
 /// \param params `dpo`, `ipo`, `simpo`, `orpo`, `bradley_terry`, or a parameter struct of the caller's with its own overload.
 /// \param chosen The policy's chosen log-probabilities (or rewards), `n`.

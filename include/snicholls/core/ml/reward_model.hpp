@@ -6,12 +6,12 @@
 //
 
 /// \file
-/// \brief `snicholls::ml` reward models: a scalar value head on hidden states, the Bradley-Terry pairwise loss on its rewards, and the gather of each sequence's last response position.
+/// \brief `snicholls::ml` reward models: a scalar value head on hidden states, the Bradley-Terry pairwise loss on its rewards, and each sequence's last response position.
 /// \ingroup core
 ///
 /// **Overview.** A reward model is a language model whose LM head is replaced by a *value head*, one linear output
 /// `r = w · h + b` on the hidden state of the last token of a response, trained on preference pairs to give the chosen
-/// response the higher reward (TRAINING.md T11). Its loss is Bradley-Terry's: the probability that `y_w` is preferred
+/// response the higher reward (TRAINING.md T12). Its loss is Bradley-Terry's: the probability that `y_w` is preferred
 /// is `σ(r_w - r_l)`, and the loss its negative logarithm, `-log σ(r_w - r_l - m)` (InstructGPT, Ouyang et al. 2022,
 /// eq. 1; Llama 2, Touvron et al. 2023, adds the margin `m` for pairs rated far apart). The same head on every
 /// position is PPO's value function (`ml/rl.hpp`).
@@ -20,13 +20,15 @@
 ///   of `ml/preference.hpp`, so `preference_loss_rows` and `preference_metrics` serve reward models unchanged.
 /// - `value_head(w, bias, h)` and `value_head_backward(w, h, dr, dh, dw, db)`: one hidden state.
 /// - `value_head_rows(backend, w, bias, hs, values)` and `value_head_rows_backward(...)`: every row, on the backend.
-/// - `last_response_positions(mask, rows, positions)` and `gather_rows` / `scatter_add_rows`: the hidden states of
-///   each sequence's last response token, and their gradient back into the sequence's.
+/// - `last_response_positions(mask, positions)`: each sequence's last response position, the index list
+///   `gather_rows(b, hs, positions, out, d, rows)` (`ml/gather.hpp`) reads the hidden states at, and its backward
+///   `scatter_add_rows` takes the gradient back into the sequence's.
 ///
 /// \snippet ml/reward_model_demo.cpp reward_model
 ///
-/// **Relationships.** `ml/preference.hpp` (`pair_loss`, `preference_loss_rows`, `preference_metrics`),
-/// `ml/transformer_block.hpp` (the hidden states), `ml/rl.hpp` (the value loss). Group: \ref core.
+/// **Relationships.** `ml/preference.hpp` (`pair_loss`, `preference_loss_rows`, `preference_metrics`), `ml/gather.hpp`
+/// (`gather_rows`, `scatter_add_rows`), `ml/transformer_block.hpp` (the hidden states), `ml/rl.hpp` (the value loss).
+/// Group: \ref core.
 ///
 /// **Implementations.** One each, on the host; the backend-first functions are the seam for a device (TRAINING.md T9).
 ///
@@ -34,7 +36,7 @@
 /// states. Gradients are added into (micro-batches accumulate); `value_head_rows` writes.
 ///
 /// **Errors.** Preconditions, asserted: sizes agree; every row of a mask has a response token for
-/// `last_response_positions`; gathered rows are in range.
+/// `last_response_positions`.
 ///
 /// **Definitions.** The Bradley-Terry loss `-log σ(r_w - r_l)` and the margin form: recalled from InstructGPT and
 /// Llama 2, not re-read; it is DPO's loss with the implicit reward replaced by the head's.
@@ -147,9 +149,10 @@ constexpr void value_head_rows_backward(const B&, std::span<const T> w, std::typ
         value_head_backward(w, hs.subspan(t * d, d), dvalues[t], dhs.empty() ? dhs : dhs.subspan(t * d, d), dw, db);
 }
 
-/// \brief The position of each row's last response token, as a row index into the batch laid end to end (`r · length + t`).
+/// \brief The position of each sequence's last response token, within the sequence (`t` in `[0, length)`): one index a
+/// sequence, as `gather_rows(b, hs, positions, out, d, rows)` reads it.
 /// \param mask `rows · length`, 1 for a response token.
-/// \param positions Receives `rows` indices.
+/// \param positions Receives `rows` positions.
 /// \pre Every row has at least one response token.
 constexpr void last_response_positions(std::span<const std::uint8_t> mask, std::span<std::uint32_t> positions) noexcept
 {
@@ -164,35 +167,7 @@ constexpr void last_response_positions(std::span<const std::uint8_t> mask, std::
             if (mask[r * len + t] != 0)
                 last = t;
         assert(last < len);
-        positions[r] = static_cast<std::uint32_t>(r * len + last);
-    }
-}
-
-/// \brief `out_i = xs[rows_i]`: rows of `width` copied out of a batch, on the backend. \param xs The rows, end to end.
-/// \param width The row's width. \param rows The rows to copy. \param out Receives `rows.size() · width`.
-template <math::math_number T, typename B>
-constexpr void gather_rows(const B&, std::span<const T> xs, std::size_t width, std::span<const std::uint32_t> rows,
-                           std::type_identity_t<std::span<T>> out) noexcept(std::is_floating_point_v<T>)
-{
-    assert(width > 0 && out.size() == rows.size() * width);
-    for (std::size_t i = 0; i < rows.size(); ++i) {
-        assert((rows[i] + std::size_t{1}) * width <= xs.size());
-        for (std::size_t j = 0; j < width; ++j)
-            out[i * width + j] = xs[rows[i] * width + j];
-    }
-}
-
-/// \brief The backward pass of `gather_rows`: `dxs[rows_i] += douts_i`, in order. \param douts The gathered rows'
-/// gradients. \param width The row's width. \param rows The rows. \param dxs Added into.
-template <math::math_number T, typename B>
-constexpr void scatter_add_rows(const B&, std::span<const T> douts, std::size_t width, std::span<const std::uint32_t> rows,
-                                std::type_identity_t<std::span<T>> dxs) noexcept(std::is_floating_point_v<T>)
-{
-    assert(width > 0 && douts.size() == rows.size() * width);
-    for (std::size_t i = 0; i < rows.size(); ++i) {
-        assert((rows[i] + std::size_t{1}) * width <= dxs.size());
-        for (std::size_t j = 0; j < width; ++j)
-            dxs[rows[i] * width + j] += douts[i * width + j];
+        positions[r] = static_cast<std::uint32_t>(last);
     }
 }
 

@@ -11,7 +11,7 @@
 ///
 /// **Overview.** QLoRA (Dettmers et al. 2023) fine-tunes a model whose frozen base weights are stored in 4 bits and
 /// read back to the compute type as they are used, with LoRA adapters trained in full precision beside them
-/// (`ml/lora.hpp`; TRAINING.md T11). Its storage, `nf4_weights`, is three levels:
+/// (`ml/lora.hpp`; TRAINING.md T12). Its storage, `nf4_weights`, is three levels:
 ///
 /// - **NormalFloat4 codes**, two a byte (the first of a pair in the high nibble). Each code indexes `nf4_values`, the
 ///   sixteen values of the paper's appendix E: the quantiles of a standard normal, asymmetric so that 0 is exact

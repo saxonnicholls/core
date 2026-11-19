@@ -13,6 +13,7 @@
 #include <snicholls/core/ml/reward_model.hpp>
 
 #include <snicholls/core/linalg/reference.hpp>
+#include <snicholls/core/ml/gather.hpp>
 
 #include <array>
 #include <cmath>
@@ -35,9 +36,9 @@ int main()
     const std::array<double, 2 * length * d> hs{0.1, 0.0, 0.9, 0.2, 0.0, 0.0, /**/ 0.3, 0.1, 0.0, 0.8, 0.5, 0.5};
     const std::array<std::uint8_t, 2 * length> mask{0, 1, 0, /**/ 0, 1, 1};
     std::array<std::uint32_t, 2> last{};
-    ml::last_response_positions(mask, last);                  // rows 1 and 5
+    ml::last_response_positions(mask, last);                  // positions 1 and 2
     std::array<double, 2 * d> h_last{};
-    ml::gather_rows<double>(backend, hs, d, last, h_last);
+    ml::gather_rows(backend, std::span<const double>(hs), last, std::span<double>(h_last), d, 2);   // ml/gather.hpp
     std::array<double, d> w{1.0, -1.0};
     double bias = 0.0;
     std::array<double, 2> rewards{};
@@ -45,7 +46,7 @@ int main()
     const ml::pair_loss<double> p = ml::preference_loss(ml::bradley_terry{}, rewards[0], rewards[1]);
     //! [reward_model]
     std::printf("  last response positions %u %u, rewards %.2f / %.2f, loss %.6f\n", last[0], last[1], rewards[0], rewards[1], p.loss);
-    ok &= last[0] == 1 && last[1] == 5 && std::fabs(rewards[0] - 0.7) < 1e-15 && rewards[1] == 0.0;
+    ok &= last[0] == 1 && last[1] == 2 && std::fabs(rewards[0] - 0.7) < 1e-15 && rewards[1] == 0.0;
     ok &= std::fabs(p.loss - std::log1p(std::exp(-0.7))) < 1e-15 && ml::value_head(w, bias, std::array<double, 2>{0.9, 0.2}) == rewards[0];
 
     // The gradient back into the hidden states
@@ -55,7 +56,7 @@ int main()
     double db = 0;
     ml::value_head_rows_backward<double>(backend, w, h_last, dr, dh_last, dw, db);
     std::array<double, 2 * length * d> dhs{};
-    ml::scatter_add_rows<double>(backend, dh_last, d, last, dhs);
+    ml::scatter_add_rows(backend, std::span<const double>(dh_last), last, std::span<double>(dhs), d, 2);
     std::printf("  d loss / d h at the chosen response's end: %.4f %.4f; db %.1f (a shared bias cancels)\n", dhs[2], dhs[3], db);
     ok &= dhs[2] < 0 && dhs[3] > 0 && dhs[0] == 0.0 && db == 0.0;
     std::array<double, d> dh_one{}, dw_one{};

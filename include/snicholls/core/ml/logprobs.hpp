@@ -11,7 +11,7 @@
 ///
 /// **Overview.** Every post-training objective (preference losses, reinforcement learning, distillation) starts from
 /// the log-probability the model gives the tokens of a response: `log π(y_t | x, y_<t)` at each position, then summed
-/// (or averaged) over the response's tokens, never the prompt's (TRAINING.md T11). This header is that first step:
+/// (or averaged) over the response's tokens, never the prompt's (TRAINING.md T12). This header is that first step:
 ///
 /// - `token_logprob(logits, target)`: `log softmax(logits)[target]`, computed as `(x_target - max) - log(sum e^(x -
 ///   max))`, as `cross_entropy` does, of which it is the negation to the bit.
@@ -164,7 +164,7 @@ constexpr row_value_t<In> token_entropy(const In& logits) noexcept(std::is_float
     return detail::logprobs::entropy(x, detail::logprobs::stats_of(x));
 }
 
-/// \brief Each row's log-probability of its target, and optionally its entropy, on the backend (TRAINING.md T9, T11).
+/// \brief Each row's log-probability of its target, and optionally its entropy, on the backend (TRAINING.md T9, T12).
 /// \param logits `n` rows of `V`, end to end.
 /// \param targets `n` targets, each below `V`.
 /// \param logps Receives `n` log-probabilities.

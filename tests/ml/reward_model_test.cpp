@@ -7,13 +7,14 @@
 //  Tests for <snicholls/core/ml/reward_model.hpp>: the Bradley-Terry loss against -log sigma(r_w - r_l - m) and its
 //  gradient against central differences, through preference_loss_rows and its metrics; the value head as a dot
 //  product plus bias, its backward against central differences, the rows as the per-row calls; the last response
-//  positions; gather and scatter-add as adjoints; a tiny reward model whose pairwise accuracy rises to 1; compile-time
+//  positions, read by gather_rows; a tiny reward model whose pairwise accuracy rises to 1; compile-time
 //  use and the noexcept claims.
 //
 
 #include <snicholls/core/ml/reward_model.hpp>
 
 #include <snicholls/core/linalg/reference.hpp>
+#include <snicholls/core/ml/gather.hpp>
 #include <snicholls/core/stats/random.hpp>
 
 #include <gtest/gtest.h>
@@ -42,7 +43,7 @@ constexpr bool at_compile_time()
     const std::array<std::uint8_t, 6> mask{0, 1, 1, 1, 1, 0};
     std::array<std::uint32_t, 2> pos{};
     ml::last_response_positions(mask, pos);
-    return ml::value_head(w, 0.25, h) == 2.25 && pos[0] == 2 && pos[1] == 4
+    return ml::value_head(w, 0.25, h) == 2.25 && pos[0] == 2 && pos[1] == 1
            && ml::preference_loss(ml::bradley_terry{}, 0.0, 0.0).d_chosen == -0.5;
 }
 static_assert(at_compile_time());
@@ -114,27 +115,21 @@ TEST(MlValueHead, IsADotProductPlusBiasAndItsBackwardIsCentralDifferences)
     EXPECT_NEAR(db, -0.5, 1e-15);
 }
 
-TEST(MlGatherRows, GatherAndScatterAddAreAdjoints)
+TEST(MlRewardModel, TheLastResponsePositionsIndexTheHiddenStatesForGatherRows)
 {
-    stats::wyrand g(9);
-    constexpr std::size_t width = 3, rows = 5;
-    std::vector<double> xs(rows * width), ys(2 * width);
-    for (auto& x : xs)
-        x = stats::uniform_real(g);
-    for (auto& y : ys)
-        y = stats::uniform_real(g);
-    const std::vector<std::uint32_t> pick{4, 1};
-    std::vector<double> gathered(2 * width), scattered(rows * width, 0.0);
-    ml::gather_rows<double>(backend, xs, width, pick, gathered);
-    EXPECT_EQ(gathered[0], xs[12]);
-    EXPECT_EQ(gathered[3], xs[3]);
-    ml::scatter_add_rows<double>(backend, ys, width, pick, scattered);
-    double lhs = 0, rhs = 0;
-    for (std::size_t i = 0; i < ys.size(); ++i)
-        lhs += gathered[i] * ys[i];
-    for (std::size_t i = 0; i < xs.size(); ++i)
-        rhs += xs[i] * scattered[i];
-    EXPECT_NEAR(lhs, rhs, 1e-15);
+    constexpr std::size_t width = 2, rows = 2, len = 3;
+    const std::vector<double> hs{0, 1, 2, 3, 4, 5, /**/ 6, 7, 8, 9, 10, 11};
+    const std::vector<std::uint8_t> mask{1, 1, 0, /**/ 0, 0, 1};
+    std::vector<std::uint32_t> pos(rows);
+    ml::last_response_positions(mask, pos);
+    EXPECT_EQ(pos, (std::vector<std::uint32_t>{1, 2}));
+    std::vector<double> last(rows * width);
+    ml::gather_rows(backend, std::span<const double>(hs), pos, std::span<double>(last), width, rows);
+    EXPECT_EQ(last, (std::vector<double>{2, 3, 10, 11}));
+    std::vector<double> dhs(rows * len * width, 0.0);
+    const std::vector<double> ones(4, 1.0);
+    ml::scatter_add_rows(backend, std::span<const double>(ones), pos, std::span<double>(dhs), width, rows);
+    EXPECT_EQ(dhs, (std::vector<double>{0, 0, 1, 1, 0, 0, /**/ 0, 0, 0, 0, 1, 1}));
 }
 
 TEST(MlRewardModel, ATinyModelLearnsToRankChosenAboveRejected)
