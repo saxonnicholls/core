@@ -28,8 +28,12 @@
 ///
 /// \snippet ml/transformer_config_demo.cpp moe_config
 ///
+/// **Attention masks.** `mask` chooses the keys a query sees (`attention_keys`, `ml/attention.hpp`): `causal` (the
+/// default, with `window`), `bidirectional` (a ViT; the encoders and predictors of a joint embedding predictive
+/// architecture, TRAINING.md T11) or `block_causal` with `mask_block` tokens per block.
+///
 /// **Implementations.** One. The presets (`gpt2_small`, `gpt2_medium`, `gpt2_large`, `llama3_8b`, `nanochat_d20`,
-/// `olmoe_1b_7b`) are the shapes of those models; `tiny_moe` is a small mixture of experts for tests.
+/// `olmoe_1b_7b`, `vit_base`) are the shapes of those models; `tiny_moe` is a small mixture of experts for tests.
 ///
 /// **Guarantees.** `constexpr`, trivially copyable, structural (usable as a template argument). `valid(c)` checks the
 /// invariants below; every class and function templated on a configuration rejects an invalid one at compile time.
@@ -41,7 +45,8 @@
 ///
 /// **Tests and demos.** `tests/ml/transformer_config_test.cpp`, `demos/ml/transformer_config_demo.cpp`.
 ///
-/// **Dependencies.** `<cstddef>`, `snicholls/core/math/constexpr_math.hpp`, `snicholls/core/ml/rope.hpp` (`rope_layout`).
+/// **Dependencies.** `<cstddef>`, `snicholls/core/math/constexpr_math.hpp`, `snicholls/core/ml/attention.hpp`
+/// (`attention_mask`), `snicholls/core/ml/rope.hpp` (`rope_layout`).
 ///
 /// **Known issues.** Clang (Apple clang 17, Clang 18) miscompiles a run-time read of a `double` member of a
 /// class-type template argument: it loads garbage (`C.norm_eps` reads as 6e-314), while the same read in a constant
@@ -50,12 +55,14 @@
 /// `balance_loss_weight_v` and `z_loss_weight_v`, which evaluate them at compile time, never as `C.norm_eps` in code that
 /// runs; every header here does. Wrapping the value in a class (its bits as an integer) is worse: Clang 18 crashes.
 ///
-/// **Status.** Experimental, new in 0.8.0; the mixture-of-experts fields new in 0.16.0.
+/// **Status.** Experimental, new in 0.8.0; the mixture-of-experts fields, `mask`, `mask_block` and `vit_base` new in
+/// 0.16.0.
 
 #ifndef snicholls_core_ml_transformer_config_hpp
 #define snicholls_core_ml_transformer_config_hpp
 
 #include <snicholls/core/math/constexpr_math.hpp>
+#include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/rope.hpp>
 
 #include <cstddef>
@@ -131,6 +138,11 @@ struct transformer_config
     double balance_loss_weight = 0;                             ///< The auxiliary balance loss's `alpha`; 0 for none.
     double z_loss_weight = 0;                                   ///< The router z-loss's `beta` (ST-MoE); 0 for none.
 
+    // Joint embedding predictive architectures (TRAINING.md T11): the attention mask. The defaults are a language
+    // model's, so no preset changes.
+    attention_mask mask = attention_mask::causal;     ///< Which keys a query sees: causal, bidirectional or block-causal.
+    std::size_t mask_block = 0;                       ///< The tokens of a block under `block_causal`; 0 otherwise.
+
     /// \brief The width of all the query heads together.
     /// \return `n_heads · head_dim`.
     [[nodiscard]] constexpr std::size_t q_size() const noexcept { return n_heads * head_dim; }
@@ -151,7 +163,7 @@ struct transformer_config
 /// \brief Whether a configuration is consistent: every width set, `n_heads` a multiple of `n_kv_heads`, `head_dim`
 /// even under RoPE, a positive `norm_eps`, a non-negative soft cap; for a mixture of experts, `top_k` from 1 to
 /// `experts`, `expert_d_ff` set, a positive `route_scale` and non-negative balance settings, and with no experts every
-/// expert field 0.
+/// expert field 0; a sliding window only under the causal mask, and a `mask_block` exactly under `block_causal`.
 /// \param c The configuration.
 /// \return Whether it is valid.
 [[nodiscard]] constexpr bool valid(const transformer_config& c) noexcept
@@ -161,7 +173,8 @@ struct transformer_config
                      && c.route_scale > 0 && c.bias_update_rate >= 0 && c.balance_loss_weight >= 0 && c.z_loss_weight >= 0;
     return c.d_model > 0 && c.n_heads > 0 && c.n_kv_heads > 0 && c.head_dim > 0 && c.d_ff > 0 && c.n_heads % c.n_kv_heads == 0
            && (c.rope == rope_kind::none || c.head_dim % 2 == 0) && c.norm_eps > 0 && c.attention_softcap >= 0
-           && (c.rope == rope_kind::none || c.rope_base > 1) && (dense || moe);
+           && (c.rope == rope_kind::none || c.rope_base > 1) && (dense || moe) && (c.mask == attention_mask::causal || c.window == 0)
+           && ((c.mask == attention_mask::block_causal) == (c.mask_block > 0));
 }
 
 /// \brief The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.
@@ -205,6 +218,13 @@ inline constexpr transformer_config olmoe_1b_7b{.d_model = 2048, .n_heads = 16, 
                                                 .expert_d_ff = 1024, .scoring = moe_scoring::softmax,
                                                 .balance_loss_weight = 0.01, .z_loss_weight = 0.001};
 
+/// \brief The shape of ViT-B/16 (Dosovitskiy et al., 2021) as I-JEPA's and V-JEPA's encoders use it: 12 heads of 64,
+/// layer norm (epsilon 1e-6, timm's), the exact GELU, biases, bidirectional attention, positions added outside the
+/// layer (`ml/patch.hpp`).
+inline constexpr transformer_config vit_base{.d_model = 768, .n_heads = 12, .n_kv_heads = 12, .head_dim = 64, .d_ff = 3072,
+                                             .norm = norm_kind::layer, .norm_eps = 1e-6, .mlp = mlp_kind::gelu, .bias = true,
+                                             .mask = attention_mask::bidirectional};
+
 /// \brief `C.norm_eps` in `T`, evaluated at compile time (see Known issues).
 template <transformer_config C, math::math_number T>
 inline constexpr T norm_eps_v = static_cast<T>(C.norm_eps);
@@ -234,7 +254,7 @@ template <transformer_config C, math::math_number T>
 inline constexpr T z_loss_weight_v = static_cast<T>(C.z_loss_weight);
 
 static_assert(valid(gpt2_small) && valid(gpt2_medium) && valid(gpt2_large) && valid(llama3_8b) && valid(nanochat_d20) && valid(tiny_moe)
-              && valid(olmoe_1b_7b));
+              && valid(olmoe_1b_7b) && valid(vit_base));
 
 } // namespace snicholls::ml
 

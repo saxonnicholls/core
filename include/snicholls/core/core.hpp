@@ -99,12 +99,16 @@
 #include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/bpe.hpp>
+#include <snicholls/core/ml/collapse.hpp>
 #include <snicholls/core/ml/diloco.hpp>
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/expert_parallel.hpp>
+#include <snicholls/core/ml/gather.hpp>
+#include <snicholls/core/ml/jepa.hpp>
 #include <snicholls/core/ml/kv_cache.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/lm_head.hpp>
+#include <snicholls/core/ml/masking.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/moe.hpp>
@@ -112,6 +116,8 @@
 #include <snicholls/core/ml/muon.hpp>
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/optim.hpp>
+#include <snicholls/core/ml/patch.hpp>
+#include <snicholls/core/ml/probe.hpp>
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/rope.hpp>
 #include <snicholls/core/ml/row.hpp>

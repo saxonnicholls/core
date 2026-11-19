@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::ml::self_attention_head` and its backward pass: one causal self-attention head over a sequence, from its own Q, K and V projections, with no configuration and no cache.
+/// \brief `snicholls::ml::self_attention_head` and its backward pass: one self-attention head over a sequence (causal, bidirectional or block-causal), from its own Q, K and V projections, with no configuration and no cache.
 /// \ingroup core
 ///
 /// **Overview.** The textbook head (Vaswani et al., 2017), on its own: for tokens `x_0 ... x_{n-1}` of `DModel`
@@ -15,7 +15,8 @@
 /// 1. `q_t = Wq x_t`, `k_t = Wk x_t`, `v_t = Wv x_t` (plus biases), from one prepared input per token;
 /// 2. optionally RoPE at position `t` on `q_t` and `k_t`;
 /// 3. `out_t = softmax(q_t · K / sqrt(DHead)) · V` over the keys `attention_window(t, window)` allows: causal, and
-///    within the last `window` positions if `window` is not 0.
+///    within the last `window` positions if `window` is not 0; or, with `mask`, over every key (bidirectional) or
+///    whole blocks of `block` (block-causal), as `attention_keys` says (TRAINING.md T11).
 ///
 /// It is the unit to study, test, train or put on a device: no `transformer_config`, no KV cache, no output
 /// projection, no other heads. The projections land in `self_attention_activations`, buffers the caller owns,
@@ -66,7 +67,7 @@
 /// **Known issues.** The projections are matrix-vector products, one token at a time, as `linear` does them; a
 /// matrix-matrix backend for long sequences is to come. The score scale is `1 / sqrt(DHead)`, rounded once to `T`.
 ///
-/// **Status.** Experimental, new in 0.9.0.
+/// **Status.** Experimental, new in 0.9.0; `mask` and `block` new in 0.16.0.
 
 #ifndef snicholls_core_ml_self_attention_hpp
 #define snicholls_core_ml_self_attention_hpp
@@ -123,13 +124,16 @@ struct self_attention_activations
 /// \param window The sliding window, counting a position's own key; 0 for fully causal.
 /// \param rope_src The cosines and sines by position (a `rope_table` of `DHead`), or `no_rope`.
 /// \param layout Which channels RoPE rotates together.
+/// \param mask Which keys a position sees (`attention_keys`): causal by default, bidirectional, or block-causal.
+/// \param block The tokens of a block under `attention_mask::block_causal`.
 template <std::size_t DModel, std::size_t DHead, weight_matrix W, math::math_number T, row X, mutable_row Out,
           typename R = no_rope_t>
     requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Out>, T>
              && (std::same_as<R, no_rope_t> || (rope_source<R> && DHead % 2 == 0))
 constexpr void self_attention_head(const self_attention_weights<W, T>& w, const X& xs,
                                    const self_attention_activations<T>& act, Out&& out, std::size_t window = 0,
-                                   const R& rope_src = no_rope, rope_layout layout = rope_layout::half)
+                                   const R& rope_src = no_rope, rope_layout layout = rope_layout::half,
+                                   attention_mask mask = attention_mask::causal, std::size_t block = 1)
 {
     static_assert(DModel > 0 && DHead > 0, "snicholls::ml::self_attention_head: a token and a head have channels");
     const auto x = as_row(xs);
@@ -153,7 +157,7 @@ constexpr void self_attention_head(const self_attention_weights<W, T>& w, const 
     }
     const T scale = T(1) / math::sqrt(T(DHead));
     for (std::size_t t = 0; t < n; ++t) {
-        const key_range r = attention_window(t, window);
+        const key_range r = attention_keys(mask, t, n, window, block);
         const T l = attend(std::span<const T>(act.q.subspan(t * DHead, DHead)),
                            std::span<const T>(act.k.subspan(r.first * DHead, r.size() * DHead)),
                            std::span<const T>(act.v.subspan(r.first * DHead, r.size() * DHead)),
@@ -197,6 +201,8 @@ struct self_attention_gradients
 /// \param window The forward pass's window.
 /// \param rope_src The forward pass's rope source, or `no_rope`.
 /// \param layout The forward pass's RoPE layout.
+/// \param mask The forward pass's mask.
+/// \param block The forward pass's block.
 template <std::size_t DModel, std::size_t DHead, typename S, math::math_number T, row X, row O, row DO, mutable_row DX,
           typename R = no_rope_t>
     requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<O>, T> && std::same_as<row_value_t<DO>, T>
@@ -204,7 +210,8 @@ template <std::size_t DModel, std::size_t DHead, typename S, math::math_number T
 constexpr void self_attention_head_backward(const self_attention_weights<dense_weights<S>, T>& w, const X& xs,
                                             const self_attention_activations<T>& act, const O& out, const DO& dout,
                                             DX&& dxs, const self_attention_gradients<T>& grads, std::size_t window = 0,
-                                            const R& rope_src = no_rope, rope_layout layout = rope_layout::half)
+                                            const R& rope_src = no_rope, rope_layout layout = rope_layout::half,
+                                            attention_mask mask = attention_mask::causal, std::size_t block = 1)
 {
     const auto x = as_row(xs);
     const auto y = as_row(out);
@@ -218,7 +225,7 @@ constexpr void self_attention_head_backward(const self_attention_weights<dense_w
     std::fill(grads.v.begin(), grads.v.end(), T(0));
     const T scale = T(1) / math::sqrt(T(DHead));
     for (std::size_t t = 0; t < n; ++t) {
-        const key_range r = attention_window(t, window);
+        const key_range r = attention_keys(mask, t, n, window, block);
         const auto keys = std::span<const T>(act.k.subspan(r.first * DHead, r.size() * DHead));
         const auto values = std::span<const T>(act.v.subspan(r.first * DHead, r.size() * DHead));
         attend_backward(std::span<const T>(act.q.subspan(t * DHead, DHead)), keys, values, y.subspan(t * DHead, DHead),

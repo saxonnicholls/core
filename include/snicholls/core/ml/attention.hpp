@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::ml` attention for one query: `attend` over a block of keys and values in one pass, its backward pass, `attention_accumulator`, the partial that merges across workers, and `attention_window` for causal and sliding-window masks.
+/// \brief `snicholls::ml` attention for one query: `attend` over a block of keys and values in one pass, its backward pass, `attention_accumulator`, the partial that merges across workers, `attention_window` for causal and sliding-window masks, and `attention_keys` for every `attention_mask`: causal, bidirectional and block-causal, with key padding.
 /// \ingroup core
 ///
 /// **Overview.** Scaled dot-product attention, `out = softmax(scale · q·K) · V`, for one query of one head: the
@@ -24,6 +24,11 @@
 ///   commutative and associative up to rounding.
 /// - `attention_window(pos, window)`: the keys a query at `pos` may see, causal and optionally limited to the last
 ///   `window` positions (nanochat's sliding window). Pass that slice of the keys and values to `attend`.
+/// - `attention_keys(mask, pos, length, window, block)`: the same for every `attention_mask`: `causal` (the above),
+///   `bidirectional` (every valid key of the sequence: a ViT, the encoders and predictors of I-JEPA and V-JEPA) and
+///   `block_causal` (whole blocks of `block` tokens, each seeing itself and the blocks before it: V-JEPA 2-AC's
+///   frame-causal predictor), within the sequence's first `length` tokens (a key-padding mask: a query at or past
+///   `length` sees nothing).
 ///
 /// Multi-head and grouped-query attention are loops over heads: each query head attends to the key and value head it
 /// shares. Rotate queries and keys with `ml/rope.hpp` first.
@@ -54,7 +59,7 @@
 ///
 /// **Known issues.** Sums accumulate in `T`, as llm.c's do in `float`.
 ///
-/// **Status.** Experimental, new in 0.7.0.
+/// **Status.** Experimental, new in 0.7.0; `attention_mask` and `attention_keys` new in 0.16.0.
 
 #ifndef snicholls_core_ml_attention_hpp
 #define snicholls_core_ml_attention_hpp
@@ -93,6 +98,43 @@ struct key_range
 constexpr key_range attention_window(std::size_t pos, std::size_t window = 0) noexcept
 {
     return {window == 0 || window > pos ? 0 : pos + 1 - window, pos + 1};
+}
+
+/// \brief Which keys of its sequence a query may attend to (TRAINING.md T11).
+enum class attention_mask
+{
+    causal,          ///< The keys up to and including the query's own, within an optional sliding window: a language model.
+    bidirectional,   ///< Every key of the sequence: a ViT, the encoders and predictors of I-JEPA and V-JEPA.
+    block_causal,    ///< The query's block of `block` tokens and every block before it: V-JEPA 2-AC's frame-causal predictor.
+};
+
+/// \brief The keys a query at `pos` may see under `mask`, among the first `length` tokens of its sequence.
+///
+/// `length` is the key-padding mask: tokens from `length` on are padding, seen by no query, and a query at or past it
+/// sees nothing (`{0, 0}`, so its attention output is zero and its log-sum-exp -infinity). Under `causal` the result is
+/// `attention_window(pos, window)`; `bidirectional` and `block_causal` take no window.
+/// \param mask The mask.
+/// \param pos The query's position in its sequence.
+/// \param length The valid tokens of the sequence.
+/// \param window The sliding window of `causal`, counting the query's own position; 0 for none.
+/// \param block The tokens of a block under `block_causal`, at least 1; otherwise unused.
+/// \return The visible positions.
+constexpr key_range attention_keys(attention_mask mask, std::size_t pos, std::size_t length, std::size_t window = 0,
+                                   std::size_t block = 1) noexcept
+{
+    if (pos >= length)
+        return {0, 0};
+    switch (mask) {
+    case attention_mask::bidirectional:
+        return {0, length};
+    case attention_mask::block_causal: {
+        const std::size_t b = block == 0 ? 1 : block, end = (pos / b + 1) * b;
+        return {0, end < length ? end : length};
+    }
+    case attention_mask::causal:
+        break;
+    }
+    return attention_window(pos, window);
 }
 
 namespace detail::attention

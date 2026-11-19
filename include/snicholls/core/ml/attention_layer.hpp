@@ -38,6 +38,13 @@
 /// projection one product over all their rows, attention within each sequence, the activations each sequence's own
 /// side by side (`attention_activations`).
 ///
+/// **Masks and padding** (TRAINING.md T11). Over a sequence, a token sees the keys `attention_keys(C.mask, t, length,
+/// C.window, C.mask_block)` allows: causal by default, bidirectional for a ViT or a JEPA encoder or predictor,
+/// block-causal for a frame-causal predictor. `attention_activations::lengths` is the key-padding mask, one count of
+/// valid tokens per sequence: the tokens from it on are seen by no query, and their own heads' outputs are zero (their
+/// log-sum-exp -infinity) and pass no gradient. A rope source with a member `sequence(s)` (`gathered_rope`,
+/// `ml/patch.hpp`) gives each sequence of a batch its own positions; any other source is shared by every sequence.
+///
 /// \snippet ml/attention_layer_demo.cpp attention_sequences
 ///
 /// \snippet ml/attention_layer_demo.cpp attention_layer
@@ -70,7 +77,7 @@
 ///
 /// **Known issues.** The score scale is `1 / sqrt(head_dim)`, rounded once to `T`.
 ///
-/// **Status.** Experimental, new in 0.8.0.
+/// **Status.** Experimental, new in 0.8.0; the masks, `lengths` and per-sequence rope sources new in 0.16.0.
 
 #ifndef snicholls_core_ml_attention_layer_hpp
 #define snicholls_core_ml_attention_layer_hpp
@@ -175,6 +182,8 @@ constexpr void attention_forward(const attention_weights<W, T>& w, const X& x, s
                                  std::size_t layer, const R& rope_src, Out&& out)
 {
     static_assert(valid(C), "snicholls::ml::attention_forward: the transformer_config is not valid");
+    static_assert(C.mask == attention_mask::causal,
+                  "snicholls::ml::attention_forward: decoding one token at a time is causal; run a bidirectional or block-causal layer over the sequence");
     assert(w.q.rows == C.q_size() && w.k.rows == C.kv_size() && w.v.rows == C.kv_size() && w.o.rows == C.d_model
            && w.q.cols == C.d_model && w.k.cols == C.d_model && w.v.cols == C.d_model && w.o.cols == C.q_size());
     constexpr std::size_t d = C.head_dim;
@@ -267,6 +276,7 @@ struct attention_activations
     std::span<T> k_raw{};   ///< `n · kv_size`: the projected keys before QK norm; with QK norm only, else empty.
     std::span<T> y{};       ///< `n · q_size`, token by token: the heads' outputs, the input of `Wo`.
     std::span<T> lse{};     ///< `n · n_heads`, token by token: each head's log-sum-exp.
+    std::span<const std::size_t> lengths{};   ///< The valid tokens of each sequence (key padding, TRAINING.md T11), one per sequence; or empty: all valid.
 };
 
 /// \brief The gradients of an attention layer: views the caller owns. `q`, `k`, `v` and `y` are laid out per sequence
@@ -338,12 +348,33 @@ namespace detail::attention_layer
             position<C>(act.k.subspan((h * n + t) * d, d), w.k_norm, t, rope_src);
     }
 
+    // The keys token t of a sequence of n sees: the configuration's mask within the sequence's valid tokens
+    template <transformer_config C, typename T>
+    constexpr key_range keys(const attention_activations<T>& act, std::size_t n, std::size_t t)
+    {
+        return attention_keys(C.mask, t, act.lengths.empty() ? n : act.lengths[0], C.window, C.mask_block);
+    }
+
+    // The rope source of sequence s of a batch: the source itself, or its sequence(s) when it has one (a source
+    // whose positions differ between sequences, such as gathered_rope)
+    template <typename R>
+    constexpr const R& rope_of(const R& r, std::size_t)
+    {
+        return r;
+    }
+    template <typename R>
+        requires requires(const R& r, std::size_t s) { r.sequence(s); }
+    constexpr auto rope_of(const R& r, std::size_t s)
+    {
+        return r.sequence(s);
+    }
+
     // Token t's heads over its visible keys: its rows of act.y and act.lse
     template <transformer_config C, typename T>
     constexpr void attend_token(const attention_activations<T>& act, std::size_t n, std::size_t t)
     {
         constexpr std::size_t d = C.head_dim, qn = C.q_size();
-        const key_range r = attention_window(t, C.window);
+        const key_range r = keys<C>(act, n, t);
         const auto yt = act.y.subspan(t * qn, qn);
         for (std::size_t h = 0; h < C.n_heads; ++h) {
             const std::size_t kvh = h / C.group();
@@ -362,7 +393,7 @@ namespace detail::attention_layer
     {
         constexpr std::size_t d = C.head_dim, qn = C.q_size();
         const auto yt = std::span<const T>(act.y).subspan(t * qn, qn);
-        const key_range r = attention_window(t, C.window);
+        const key_range r = keys<C>(act, n, t);
         for (std::size_t h = 0; h < C.n_heads; ++h) {
             const std::size_t kvh = h / C.group(), at = (kvh * n + r.first) * d;
             attention_head_backward<C, T>(std::span<const T>(act.q).subspan(t * qn + h * d, d),
@@ -404,7 +435,7 @@ namespace detail::attention_layer
     {
         constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
         return {part(a.q, s, n * qn), part(a.k, s, n * kn), part(a.v, s, n * kn), part(a.q_raw, s, n * qn),
-                part(a.k_raw, s, n * kn), part(a.y, s, n * qn), part(a.lse, s, n * C.n_heads)};
+                part(a.k_raw, s, n * kn), part(a.y, s, n * qn), part(a.lse, s, n * C.n_heads), part(a.lengths, s, 1)};
     }
     template <transformer_config C, typename T>
     constexpr attention_gradients<T> sequence(const attention_gradients<T>& g, std::size_t n, std::size_t s)
@@ -426,6 +457,15 @@ namespace detail::attention_layer
                && act.lse.size() == n * heads && (!raw || (act.q_raw.size() == n * qn && act.k_raw.size() == n * kn)));
         (void)act, (void)n, (void)qn, (void)kn, (void)heads, (void)raw;
     }
+
+    template <typename T>
+    constexpr void check_lengths(const attention_activations<T>& act, std::size_t n, std::size_t sequences)
+    {
+        assert(act.lengths.empty() || act.lengths.size() == sequences);
+        for ([[maybe_unused]] const std::size_t l : act.lengths)
+            assert(l <= n);
+        (void)n;
+    }
 } // namespace detail::attention_layer
 
 /// \name The attention steps of the batched passes, on the backend (TRAINING.md T9)
@@ -445,8 +485,9 @@ constexpr void attention_position_rows(const B&, const attention_weights<W, T>& 
 {
     for (std::size_t s = 0; s < sequences; ++s) {
         const auto a = detail::attention_layer::sequence<C>(act, n, s);
+        const auto& r = detail::attention_layer::rope_of(rope_src, s);
         for (std::size_t t = 0; t < n; ++t)
-            detail::attention_layer::position_token<C>(w, a, n, t, rope_src);
+            detail::attention_layer::position_token<C>(w, a, n, t, r);
     }
 }
 
@@ -456,6 +497,7 @@ constexpr void attention_position_rows(const B&, const attention_weights<W, T>& 
 template <transformer_config C, typename B, math::math_number T>
 constexpr void attention_attend_rows(const B&, const attention_activations<T>& act, std::size_t n, std::size_t sequences = 1)
 {
+    detail::attention_layer::check_lengths(act, n, sequences);
     for (std::size_t s = 0; s < sequences; ++s) {
         const auto a = detail::attention_layer::sequence<C>(act, n, s);
         for (std::size_t t = 0; t < n; ++t)
@@ -490,8 +532,9 @@ constexpr void attention_position_rows_backward(const B&, const attention_weight
     for (std::size_t s = 0; s < sequences; ++s) {
         const auto a = detail::attention_layer::sequence<C>(act, n, s);
         const auto g = detail::attention_layer::sequence<C>(grads, n, s);
+        const auto& r = detail::attention_layer::rope_of(rope_src, s);
         for (std::size_t t = 0; t < n; ++t)
-            detail::attention_layer::position_backward_token<C>(w, a, g, n, t, rope_src);
+            detail::attention_layer::position_backward_token<C>(w, a, g, n, t, r);
     }
 }
 
@@ -518,6 +561,7 @@ constexpr void attention_forward_sequence(const attention_weights<W, T>& w, cons
     const std::size_t n = x.size() / C.d_model;
     assert(x.size() == n * C.d_model && y.size() == n * C.d_model);
     detail::attention_layer::check_activations(act, n, qn, kn, C.n_heads, C.qk_norm != qk_norm_kind::none);
+    detail::attention_layer::check_lengths(act, n, 1);
     std::array<T, kn> k{}, v{};
     for (std::size_t t = 0; t < n; ++t) {
         const auto in = prepare_input<C.d_model>(w.q, x.subspan(t * C.d_model, C.d_model));
