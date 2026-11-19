@@ -132,7 +132,7 @@ TEST(MlPoolingRank, AbsentLayersPassTheRowThrough)
         ml::rank_head(ml::rank_head_weights<double, double>{.cls = {eye, 3, 3}, .activation = a}, x, scratch, s3);
         const double want = a == ml::rank_activation::tanh ? std::tanh(-1.0) : a == ml::rank_activation::gelu ? ml::gelu(-1.0)
                           : a == ml::rank_activation::relu ? 0.0 : -1.0;
-        EXPECT_EQ(s3[1], want) << int(a);
+        EXPECT_NEAR(s3[1], want, 1e-15) << int(a);   // math::tanh against std::tanh
     }
 }
 

@@ -115,7 +115,9 @@ constexpr void pool_rows(pooling_kind kind, std::type_identity_t<std::span<const
     const std::size_t sequences = starts.size() - 1;
     if (kind == pooling_kind::none) {
         assert(out.size() == rows.size());
-        for (std::size_t i = 0; i < rows.size(); ++i)   // a loop, not std::copy: GCC 13's -Warray-bounds misreads the memcpy
+        // bounded by both sizes, which the assert makes equal: GCC's -Warray-bounds cannot see that under NDEBUG
+        const std::size_t n = rows.size() < out.size() ? rows.size() : out.size();
+        for (std::size_t i = 0; i < n; ++i)
             out[i] = rows[i];
         return;
     }
