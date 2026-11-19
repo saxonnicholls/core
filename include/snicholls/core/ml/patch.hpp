@@ -61,8 +61,9 @@
 /// sizes; the sizes of the spans; an even share of channels per axis (`dim` a multiple of 4 in two dimensions, of 8 in
 /// three; even and at least 6 with `uniform_power`).
 ///
-/// **Performance.** `patchify_rows` against the loops by hand (`benchmarks/ml/patch_benchmark.cpp`): see
-/// `BENCHMARKS.md`. The tables are built once.
+/// **Performance.** `patchify_rows` against the loops by hand (`benchmarks/ml/patch_benchmark.cpp`), 16 RGB images
+/// of 224 x 224 in patches of 16 and 4 videos of 16 frames in tubelets of 2 x 16 x 16: within 10%, about 4 GiB/s, a copy of
+/// each patch row (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a machine at load average 60 to 80: differences within about 15% are noise). The tables are built once.
 ///
 /// **Tests and demos.** `tests/ml/patch_test.cpp`, `demos/ml/patch_demo.cpp`.
 ///
@@ -146,6 +147,27 @@ struct patch_grid
     return ((f * g.height + y) * g.width + x) * g.channels + c;
 }
 
+namespace detail::patch
+{
+    // Visits every run of a patch row (patch_width · channels contiguous values in the volume) in token order, with
+    // its offset in the volume and in the tokens: no index arithmetic beyond additions per run
+    template <typename F>
+    constexpr void runs(const patch_grid& g, std::size_t samples, F&& f)
+    {
+        const std::size_t run = g.patch_width * g.channels, row = g.width * g.channels, frame = g.height * row;
+        std::size_t at = 0;
+        for (std::size_t s = 0; s < samples; ++s)
+            for (std::size_t gt = 0; gt < g.grid_frames(); ++gt)
+                for (std::size_t gy = 0; gy < g.grid_height(); ++gy)
+                    for (std::size_t gx = 0; gx < g.grid_width(); ++gx)
+                        for (std::size_t dt = 0; dt < g.tubelet; ++dt) {
+                            std::size_t from = s * g.values() + (gt * g.tubelet + dt) * frame + gy * g.patch_height * row + gx * run;
+                            for (std::size_t dy = 0; dy < g.patch_height; ++dy, from += row, at += run)
+                                f(from, at, run);
+                        }
+    }
+} // namespace detail::patch
+
 /// \brief Every token's row of every volume: `tokens(s, t)[e] = volumes(s)[patch_source(g, t, e)]`.
 /// \param g The grid.
 /// \param volumes `samples · g.values()` values.
@@ -156,12 +178,9 @@ constexpr void patchify_rows(const B&, const patch_grid& g, std::type_identity_t
                              std::size_t samples = 1) noexcept(std::is_floating_point_v<T>)
 {
     assert(valid(g) && volumes.size() == samples * g.values() && tokens.size() == volumes.size());
-    const std::size_t row = g.token_size(), run = g.patch_width * g.channels;
-    for (std::size_t s = 0; s < samples; ++s)
-        for (std::size_t t = 0; t < g.tokens(); ++t)
-            for (std::size_t e = 0; e < row; e += run)   // a patch row's values are contiguous in the volume
-                std::copy_n(volumes.begin() + std::ptrdiff_t(s * g.values() + patch_source(g, t, e)), run,
-                            tokens.begin() + std::ptrdiff_t((s * g.tokens() + t) * row + e));
+    const T* v = volumes.data();
+    T* t = tokens.data();
+    detail::patch::runs(g, samples, [&](std::size_t from, std::size_t at, std::size_t run) { std::copy_n(v + from, run, t + at); });
 }
 
 /// \brief The inverse of `patchify_rows`, and its backward pass: every token's row written back into its volume.
@@ -174,12 +193,9 @@ constexpr void unpatchify_rows(const B&, const patch_grid& g, std::type_identity
                                std::size_t samples = 1) noexcept(std::is_floating_point_v<T>)
 {
     assert(valid(g) && volumes.size() == samples * g.values() && tokens.size() == volumes.size());
-    const std::size_t row = g.token_size(), run = g.patch_width * g.channels;
-    for (std::size_t s = 0; s < samples; ++s)
-        for (std::size_t t = 0; t < g.tokens(); ++t)
-            for (std::size_t e = 0; e < row; e += run)
-                std::copy_n(tokens.begin() + std::ptrdiff_t((s * g.tokens() + t) * row + e), run,
-                            volumes.begin() + std::ptrdiff_t(s * g.values() + patch_source(g, t, e)));
+    const T* t = tokens.data();
+    T* v = volumes.data();
+    detail::patch::runs(g, samples, [&](std::size_t from, std::size_t at, std::size_t run) { std::copy_n(t + at, run, v + from); });
 }
 
 /// \brief The order of the two halves of a 2-D sine-cosine embedding.

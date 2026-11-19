@@ -61,8 +61,9 @@
 /// returns the backend's `linalg::error` if the eigensolver fails.
 ///
 /// **Performance.** `vicreg_covariance_rows` and `sigreg_moments_rows` against the loops by hand
-/// (`benchmarks/ml/collapse_benchmark.cpp`): see `BENCHMARKS.md`. The covariance term is O(n d²); SIGReg O(n d M + n M
-/// K).
+/// (`benchmarks/ml/collapse_benchmark.cpp`), 256 embeddings of 128 floats, SIGReg over 64 directions and 17 knots: the
+/// covariance term with its gradient within 10% (4.9 ms), the SIGReg sums level (3.6 ms, its cosines and sines) (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a machine at load average 60 to 80: differences within about 15% are noise).
+/// The covariance term is O(n d²); SIGReg O(n d M + n M K).
 ///
 /// **Tests and demos.** `tests/ml/collapse_test.cpp`, `demos/ml/collapse_demo.cpp`.
 ///

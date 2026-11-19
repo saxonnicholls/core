@@ -71,7 +71,9 @@
 /// rows of one; a momentum in `[0, 1]`.
 ///
 /// **Performance.** `jepa_loss_rows` and `ema_rows` against the loops by hand (`benchmarks/ml/jepa_benchmark.cpp`):
-/// see `BENCHMARKS.md`.
+/// the L2 loss with its gradient over 64 · 49 rows of 768 floats level, about 590 million elements a second; the EMA
+/// over 1M floats within 10%, about 1.8 billion a second (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a machine at load average 60 to 80: differences within about 15% are noise). The other functions are once per step, not
+/// benchmarked.
 ///
 /// **Tests and demos.** `tests/ml/jepa_test.cpp` (with a whole I-JEPA training run on random images, its loss falling
 /// without collapse), `demos/ml/jepa_demo.cpp`.

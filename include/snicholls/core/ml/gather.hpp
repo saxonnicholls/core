@@ -50,7 +50,8 @@
 /// input.
 ///
 /// **Performance.** `gather_rows` and `scatter_add_rows` against the loops by hand
-/// (`benchmarks/ml/gather_benchmark.cpp`): see `BENCHMARKS.md`. Memory bound: a row copy each.
+/// (`benchmarks/ml/gather_benchmark.cpp`), 64 sequences gathering 49 of 196 rows of 768 floats: level, 5 to 7 GiB/s for
+/// the gather and 5.4 GiB/s for the scatter-add, memory bound (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a machine at load average 60 to 80: differences within about 15% are noise).
 ///
 /// **Tests and demos.** `tests/ml/gather_test.cpp`, `demos/ml/gather_demo.cpp`.
 ///
@@ -148,7 +149,7 @@ constexpr void scatter_rows(const B&, std::type_identity_t<std::span<const T>> r
 /// \param sequences The sequences.
 template <typename B, math::math_number T>
 constexpr void concat_rows(const B&, std::type_identity_t<std::span<const T>> first, std::type_identity_t<std::span<const T>> second,
-                           std::span<T> out, std::size_t width, std::size_t sequences = 1) noexcept(std::is_floating_point_v<T>)
+                           std::span<T> out, [[maybe_unused]] std::size_t width, std::size_t sequences = 1) noexcept(std::is_floating_point_v<T>)
 {
     assert(width > 0 && sequences > 0 && first.size() % (width * sequences) == 0 && second.size() % (width * sequences) == 0
            && out.size() == first.size() + second.size());
