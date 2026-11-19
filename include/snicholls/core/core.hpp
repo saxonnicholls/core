@@ -133,6 +133,7 @@
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/optim.hpp>
 #include <snicholls/core/ml/patch.hpp>
+#include <snicholls/core/ml/pooling.hpp>
 #include <snicholls/core/ml/preference.hpp>
 #include <snicholls/core/ml/probe.hpp>
 #include <snicholls/core/ml/quantize.hpp>

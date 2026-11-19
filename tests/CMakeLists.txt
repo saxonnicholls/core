@@ -113,6 +113,7 @@ add_executable(snicholls_core_tests
     ml/norm_test.cpp
     ml/optim_test.cpp
     ml/patch_test.cpp
+    ml/pooling_test.cpp
     ml/preference_test.cpp
     ml/probe_test.cpp
     ml/quantize_test.cpp
