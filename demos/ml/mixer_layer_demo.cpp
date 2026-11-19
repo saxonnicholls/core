@@ -49,10 +49,12 @@ bool prefill_then_decode(const char* name)
                                   ml::mixer_activations_in<C>(std::span<double>(act), prompt, 1), std::span<double>(out), 1,
                                   std::span<double>(state));
 
-    // Decode the next two tokens from that state: a fixed number of values, whatever the prompt's length
+    // Decode the next two tokens from that state: a fixed number of values, whatever the prompt's length. A stack keeps
+    // every mixer layer's state in a recurrent_cache (here a stack of one)
+    const ml::recurrent_cache<double> cache{std::span<double>(state), ml::mixer_state_values(C)};
     std::vector<double> next(d), after(d);
-    ml::mixer_forward<C>(w, std::span<const double>(tokens).subspan(prompt * d, d), std::span<double>(state), std::span<double>(next));
-    ml::mixer_forward<C>(w, std::span<const double>(tokens).subspan((prompt + 1) * d, d), std::span<double>(state), std::span<double>(after));
+    ml::mixer_forward<C>(w, std::span<const double>(tokens).subspan(prompt * d, d), cache.layer(0), std::span<double>(next));
+    ml::mixer_forward<C>(w, std::span<const double>(tokens).subspan((prompt + 1) * d, d), cache.layer(0), std::span<double>(after));
     //! [mixer_layer]
 
     // The same eight tokens as one batched pass

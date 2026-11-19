@@ -45,6 +45,8 @@ static_assert(ml::mixer_parameter_count(mamba) == 26 * 8 + 64 + 16 + 3 * 2 + 8 +
 static_assert(ml::mixer_parameter_count(delta) == 28 * 8 + 64 + 2 * 2 + 4 + 64);
 static_assert(ml::mixer_state_values(mamba) == 3 * 16 + 32 && ml::mixer_state_values(delta) == 3 * 16 + 32);
 static_assert(ml::mixer_activation_values(mamba, 0, 1) == 32 && ml::mixer_gradient_work<mamba, double>(0, 0) == 2 + ml::ssd_backward_work<mamba, double>());
+static_assert(noexcept(ml::mixer_parameter_count(mamba)) && noexcept(ml::mixer_state_values(mamba)) && noexcept(ml::mixer_activation_values(mamba, 4, 1))
+              && noexcept(ml::mixer_gradient_work<mamba, double>(4, 1)) && noexcept(ml::hybrid_attention_index(delta, 3)));
 // Qwen3-Next's stack: layers 0-2 are mixers 0-2, layer 3 is attention 0, layer 4 mixer 3
 static_assert(ml::hybrid_attention_index(ml::tiny_gated_deltanet, 3) == 0 && ml::hybrid_mixer_index(ml::tiny_gated_deltanet, 4) == 3
               && ml::hybrid_attention_index(ml::tiny_gated_deltanet, 8) == 2);

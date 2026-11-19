@@ -45,6 +45,7 @@ constexpr ml::transformer_config C = [] {
     return c;
 }();
 constexpr std::size_t H = 4, P = 3, N = 2, G = 2, S = H * N * P;
+static_assert(noexcept(ml::ssd_state_size(C)) && noexcept(ml::ssd_backward_work<C, float>()) && noexcept(ml::recurrence_checkpoints(9, 4)));
 static_assert(ml::ssd_state_size(C) == S && ml::ssd_state_size(ml::tiny_mamba2) == 2 * 4 * 4);
 
 template <typename T>
