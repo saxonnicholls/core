@@ -641,10 +641,11 @@ void padding_is_a_shorter_sequence()
             EXPECT_EQ(padded.lse[i], -std::numeric_limits<double>::infinity());
         auto same = [&](const std::vector<double>& a, const std::vector<double>& b, std::size_t count, const char* what) {
             for (std::size_t i = 0; i < count; ++i) {
-                if (batched)
+                if (batched) {
                     EXPECT_NEAR(a[i], b[i], 1e-13 * std::max(1.0, std::abs(a[i]))) << what << " " << i;
-                else
+                } else {
                     EXPECT_EQ(a[i], b[i]) << what << " " << i;
+                }
             }
         };
         same(shorter.dx, padded.dx, m * d, "dx");
