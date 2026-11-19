@@ -62,7 +62,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
     merging across workers.
   - `ml/probe.hpp`: `mean_pool_rows` and V-JEPA's attentive probe, forward and backward.
 
-### Fixed
+### Changed
 
 - `attention_forward_sequence` (the per-token path) projects every token before any attends, so a bidirectional or
   block-causal layer reads later keys; a causal layer's bits are unchanged.
