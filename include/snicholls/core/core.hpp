@@ -149,6 +149,7 @@
 #include <snicholls/core/signal/dct.hpp>
 #include <snicholls/core/signal/fft.hpp>
 #include <snicholls/core/signal/fir.hpp>
+#include <snicholls/core/signal/hilbert.hpp>
 #include <snicholls/core/signal/iir.hpp>
 #include <snicholls/core/signal/mel.hpp>
 #include <snicholls/core/signal/resample.hpp>

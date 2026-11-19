@@ -129,6 +129,7 @@ add_executable(snicholls_core_tests
     signal/dct_test.cpp
     signal/fft_test.cpp
     signal/fir_test.cpp
+    signal/hilbert_test.cpp
     signal/iir_test.cpp
     signal/mel_test.cpp
     signal/resample_test.cpp
