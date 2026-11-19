@@ -34,6 +34,9 @@ int main()
     constexpr double z95 = math::normal_quantile(0.95);
     constexpr double z99 = math::normal_quantile(0.99);
     static_assert(math::near(z99, 2.3263478740408408, 1e-14));
+    // Decibels and the Kaiser window's Bessel function, for tables of filters.
+    constexpr double db = 20 * math::log10(0.5);   // -6.02 dB
+    constexpr double i0 = math::bessel_i0(5.0);
     //! [math]
 
     //! [math_types]
@@ -45,7 +48,8 @@ int main()
     static_assert(math::near<long double>(e_wide, 2.718281828459045235360287471352662498L, 4 * std::numeric_limits<long double>::epsilon()));
     //! [math_types]
 
-    std::printf("  5-year discount %.6f, z95 %.6f, z99 %.6f\n", discount[4], z95, z99);
+    std::printf("  5-year discount %.6f, z95 %.6f, z99 %.6f, 20 log10(1/2) %.4f dB, I0(5) %.6f\n", discount[4], z95, z99, db, i0);
+    ok &= math::near(db, -6.020599913279624, 1e-13) && math::near(i0, 27.239871823604442, 1e-13);
     ok &= math::near(discount[4], 0.8187307530779818, 1e-14) && math::near(z95, 1.6448536269514722, 1e-14);
     std::printf("  float z90 %.6f, long double e %.18Lf (%d bits)\n", static_cast<double>(z_gpu[0]), e_wide, std::numeric_limits<long double>::digits);
     ok &= math::near<float>(z_gpu[0], 1.2815516f, 1e-6f);
