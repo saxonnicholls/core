@@ -34,6 +34,10 @@
 ///
 /// \snippet ml/minifloat_demo.cpp minifloat
 ///
+/// `to_bfloat16_rows` and `to_float_rows` convert whole rows, as a step on a training backend (TRAINING.md T9, T10):
+///
+/// \snippet ml/minifloat_demo.cpp rows
+///
 /// **Relationships.** `ml/quantize.hpp` stores block scales in `float16` and MX elements in these formats.
 /// Group: \ref core.
 ///
@@ -52,13 +56,13 @@
 /// **Tests and demos.** `tests/ml/minifloat_test.cpp` (every code of every 8-bit format, round trips, ties,
 /// overflow, stochastic rounding's mean), `demos/ml/minifloat_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<bit>`, `<cstddef>`, `<cstdint>`, `<limits>`, `<type_traits>`.
+/// **Dependencies.** `<array>`, `<bit>`, `<cstddef>`, `<cstdint>`, `<limits>`, `<span>`, `<type_traits>`.
 ///
 /// **Known issues.** No arithmetic: convert to `float`, compute, convert back, as hardware without native
 /// support does. C++23's `std::bfloat16_t` and `std::float16_t` are arithmetic types; these are storage formats
 /// that also work in C++20 and on a device.
 ///
-/// **Status.** Experimental, new in 0.6.0.
+/// **Status.** Experimental, new in 0.6.0; `to_bfloat16_rows` and `to_float_rows` new in 0.16.0.
 
 #ifndef snicholls_core_ml_minifloat_hpp
 #define snicholls_core_ml_minifloat_hpp
@@ -68,6 +72,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <span>
 #include <type_traits>
 
 namespace snicholls::ml
@@ -305,6 +310,29 @@ template <typename F>
         return std::bit_cast<float>(static_cast<std::uint32_t>(f.bits) << 16);
     else
         return static_cast<float>(to_double(f));
+}
+
+/// \brief Rows of `float` rounded to the nearest `bfloat16`, element by element (`to_bfloat16`): a payload sent in half
+/// the bytes, such as expert parallelism's dispatch (`ml/expert_parallel.hpp`). A step on the backend (TRAINING.md
+/// T9): this overload runs on the host for any backend.
+/// \param from The values.
+/// \param to Receives them rounded, the same size.
+template <typename B>
+constexpr void to_bfloat16_rows(const B&, std::span<const float> from, std::span<bfloat16> to) noexcept
+{
+    for (std::size_t i = 0; i < from.size() && i < to.size(); ++i)
+        to[i] = to_bfloat16(from[i]);
+}
+
+/// \brief Rows of `bfloat16` widened to `float`, exactly (`to_float`). A step on the backend; this overload runs on the
+/// host for any backend.
+/// \param from The values.
+/// \param to Receives them, the same size.
+template <typename B>
+constexpr void to_float_rows(const B&, std::span<const bfloat16> from, std::span<float> to) noexcept
+{
+    for (std::size_t i = 0; i < from.size() && i < to.size(); ++i)
+        to[i] = to_float(from[i]);
 }
 
 /// \brief The largest finite value of `F`.

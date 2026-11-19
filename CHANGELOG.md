@@ -18,6 +18,38 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - The documentation of `ml/diloco.hpp` states what a worker that leaves and rejoins needs (nothing new in the outer
   step: the mean divides by that round's parts).
 
+### Added
+
+- **Mixture of experts for training** (TRAINING.md T10), every step a backend call over rows (T9) whose reductions run
+  in a stated order, so a device library's overloads can match core's reference and the combine is deterministic:
+  - `ml/moe.hpp`: `moe_route_rows` and its backward (top-K over the router logits with a selection-only bias; scoring
+    by `moe_scoring::softmax_top_k` as Mixtral, `softmax` as Switch and OLMoE, or `sigmoid` normalised and scaled as
+    DeepSeek-V3; ties to the lower expert; `moe_gate` row by row to the bit); `moe_count_rows`, `moe_offsets` and
+    `moe_permutation` (the unique stable order by expert, row and slot, and its inverse); `moe_gather_rows`,
+    `moe_combine_rows` and their backward passes; `grouped_weights`, `grouped_linear` and `grouped_linear_backward`
+    (each expert's segment times its own matrix); `moe_experts_forward` / `moe_experts_backward` (the experts' GELU,
+    ReLU² or SwiGLU MLPs over the permuted rows, the dense MLP's activation steps); shared experts as one dense MLP
+    (`moe_shared_config`); DeepSeek-V3's bias rule `moe_update_bias` (the sign decided in integers), the auxiliary
+    balance loss `moe_balance_loss` (batch-wise or sequence-wise) and ST-MoE's router z-loss `moe_z_loss`, with
+    their gradients and a denominator for a worker holding part of a batch; `moe_load<E>`, load statistics that merge
+    across workers; and the layer, `moe_forward` / `moe_backward`, with `moe_weights`, `moe_activations`,
+    `moe_gradients` sized by `moe_parameter_count`, `moe_activation_values`, `moe_activation_indices`,
+    `moe_gradient_work` and laid out by `moe_weights_in`, `moe_activations_in`, `moe_gradients_in`.
+  - `ml/moe_block.hpp`: the batched `block_forward_sequence` and `block_backward` for a block whose MLP is a mixture of
+    experts (`moe_block_weights`, `moe_block_activations`, `moe_block_gradients`), returning the auxiliary losses;
+    with one expert it is the dense block to the bit.
+  - `ml/expert_parallel.hpp`, expert parallelism's arithmetic: contiguous placement (`experts_per_rank`,
+    `first_expert`, `expert_rank`), `moe_send_offsets`, `moe_receive_offsets`, `moe_receive_layout`,
+    `moe_permute_rows` / `moe_unpermute_rows`, and `moe_all_to_all`, a reference all-to-all over in-process ranks
+    that fixes the order of every received row. One, two and four ranks give the single-process layer's outputs,
+    input gradients and expert gradients to the bit.
+  - `transformer_config`'s expert fields (`experts`, `top_k`, `shared_experts`, `expert_d_ff`, `scoring`,
+    `route_scale`, `bias_update_rate`, `balance_loss_weight`, `z_loss_weight`, read through `route_scale_v` and the
+    other readers), `moe()`, `valid()` extended; every existing preset is unchanged. New presets: `tiny_moe` and
+    `olmoe_1b_7b`.
+  - `ml::to_bfloat16_rows` and `ml::to_float_rows` (`ml/minifloat.hpp`): rows converted on the backend, for a
+    payload sent in half the bytes.
+
 ## 0.15.0 - 2026-11-19
 
 ### Added

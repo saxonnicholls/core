@@ -81,11 +81,14 @@ add_executable(snicholls_core_tests
     ml/bpe_test.cpp
     ml/diloco_test.cpp
     ml/embedding_test.cpp
+    ml/expert_parallel_test.cpp
     ml/kv_cache_test.cpp
     ml/linear_test.cpp
     ml/lm_head_test.cpp
     ml/minifloat_test.cpp
     ml/mlp_test.cpp
+    ml/moe_block_test.cpp
+    ml/moe_test.cpp
     ml/muon_test.cpp
     ml/norm_test.cpp
     ml/optim_test.cpp

@@ -14,6 +14,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
+#include <span>
 
 int main()
 {
@@ -64,6 +65,21 @@ int main()
     std::printf("  1 + 1000 x 1e-4 in bfloat16: nearest %.4f, stochastic %.4f (exact 1.1)\n", static_cast<double>(nearest),
                 static_cast<double>(stochastic));
     ok &= nearest == 1.0f && std::abs(stochastic - 1.1f) < 0.06f;
+
+    //! [rows]
+    // Rows of float to bfloat16 and back, as a training backend's step (a payload sent in half the bytes)
+    struct host {} backend;
+    const float row[4] = {1.0f, 3.14159265f, -0.1f, 65504.0f};
+    ml::bfloat16 half[4];
+    float back[4];
+    ml::to_bfloat16_rows(backend, row, half);
+    ml::to_float_rows(backend, std::span<const ml::bfloat16>(half), back);
+    //! [rows]
+    std::printf("  rows through bfloat16: %g %g %g %g\n", static_cast<double>(back[0]), static_cast<double>(back[1]),
+                static_cast<double>(back[2]), static_cast<double>(back[3]));
+    for (int i = 0; i < 4; ++i)
+        ok &= back[i] == ml::to_float(ml::to_bfloat16(row[i]));
+    ok &= back[0] == 1.0f && back[1] == 3.140625f;
 
     std::printf(ok ? "minifloat demo: ok\n" : "minifloat demo: FAILED\n");
     return ok ? 0 : 1;
