@@ -48,8 +48,9 @@
 /// **Errors.** Preconditions, asserted: `n` (or `block`) is a power of two; the row length is a multiple of
 /// `block`; `signs` has the row's length and holds only ±1. NaN and infinity propagate as IEEE arithmetic says.
 ///
-/// **Performance.** Against the same loops written by hand (`benchmarks/ml/hadamard_benchmark.cpp`); results in
-/// BENCHMARKS.md.
+/// **Performance.** Against ggml's loop written by hand (`benchmarks/ml/hadamard_benchmark.cpp`), a row of 4,096
+/// floats: one rotation of 4,096 level, 480 million numbers per second (8.6 us); blocks of 128, 665 against 556 million
+/// (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, scalar code).
 ///
 /// **Tests and demos.** `tests/ml/hadamard_test.cpp`, `demos/ml/hadamard_demo.cpp`.
 ///
