@@ -22,10 +22,22 @@
 ///   the backward pass of `rope` is `rope_inverse` applied to the gradient, and the other way round.
 /// - `rope_source<R>`: anything with `cos_at(pos)` and `sin_at(pos)`, such as `rope_table`; `no_rope` stands in where
 ///   a model has no RoPE (`ml/attention_layer.hpp`, `ml/self_attention.hpp`).
+/// - Long context: `rope_scaling<T>` rescales the frequencies (`rope_scaled_frequency`) for a context `s` times the
+///   trained one: position interpolation (`linear`, every frequency over `s`; Chen et al., 2023), `ntk` (the base raised to
+///   `base · s^(d/(d-2))`; YaRN section 3.1), and YaRN's NTK-by-parts (Peng et al., 2023, eqs. 10 to 13): pairs that turn
+///   fewer than `α` times over the trained context are interpolated, more than `β` times kept, a ramp `yarn_ramp` between.
+///   `yarn` is the paper's ramp, linear in the rotations `r`; `yarn_index_ramp` is its published code's, which
+///   DeepSeek-V3 also uses: linear in the pair index between the correction dimensions (`yarn_correction_dim`) rounded
+///   down and up. `yarn_attention_factor(s) = 0.1 ln s + 1` is YaRN's temperature, applied squared to the scores: as the
+///   table's `amplitude` (queries and keys each scaled) or in a softmax scale. `rope_angles(pos, cos, sin, base,
+///   scaling)` and `rope_table(base, scaling)` build the scaled rows, in the table's type and at compile time in a
+///   `constexpr` variable. Every method is plain RoPE at a factor of 1.
 /// - `rope_layout::half` pairs channel `i` with `i + d/2` (GPT-NeoX, Hugging Face LLaMA, nanochat);
 ///   `rope_layout::interleaved` pairs `2i` with `2i + 1` (Meta's LLaMA, GPT-J).
 ///
 /// \snippet ml/rope_demo.cpp rope
+///
+/// \snippet ml/rope_demo.cpp rope_scaling
 ///
 /// **Relationships.** `ml/attention.hpp` takes the rotated queries and keys; `ml/row.hpp` (the rows). Group: \ref core.
 ///
@@ -45,10 +57,12 @@
 /// `snicholls/core/math/constexpr_math.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** nanochat's `apply_rotary_emb` rotates by `-θ` (`y1 = x1 cos + x2 sin`): its forward pass is
-/// `rope_inverse` here. Either direction is a valid RoPE as long as queries and keys agree. LLaMA 3's long-context
-/// rescaling of the frequencies is not built in; scale the table's angles yourself.
+/// `rope_inverse` here. Either direction is a valid RoPE as long as queries and keys agree. LLaMA 3's own long-context
+/// rescaling (a ramp over wavelengths with its own constants) is not built in. YaRN's paper and its code differ in the
+/// ramp's shape between the bounds (both are offered); gpt-oss computes the paper's form. A table with an amplitude other
+/// than 1 is not orthogonal: `rope_inverse` is still `rope`'s backward pass (the transpose), but no longer its inverse.
 ///
-/// **Status.** Experimental, new in 0.7.0.
+/// **Status.** Experimental, new in 0.7.0; the rescalings new in 0.16.0.
 
 #ifndef snicholls_core_ml_rope_hpp
 #define snicholls_core_ml_rope_hpp
