@@ -285,6 +285,25 @@ TEST(MlMoePermutation, IsConstexpr)
     }());
 }
 
+TEST(MlMoeRouting, RoutesAndCombinesAtCompileTime)
+{
+    static_assert([] {
+        std::array<double, 4> z{0.0, 1.0, 1.0, -1.0};
+        std::array<double, 2> w{};
+        std::array<u32, 2> ids{};
+        ml::moe_route_rows<mixtral>(ref, z, {}, ids, std::span<double>(w));
+        return ids[0] == 1 && ids[1] == 2 && w[0] == 0.5 && w[1] == 0.5;
+    }());
+    static_assert([] {
+        std::array<double, 12> yp{1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2};
+        std::array<double, 6> ys{};
+        std::array<double, 2> w{0.25, 0.5};
+        std::array<u32, 2> inverse{1, 0};
+        ml::moe_combine_rows<mixtral>(ref, yp, w, inverse, std::span<double>(ys));
+        return ys[0] == 0.25 * 2 + 0.5 * 1 && ys[5] == 1.0;
+    }());
+}
+
 // ---- Gather and combine
 
 TEST(MlMoeCombine, IsTheSlotOrderSumAndItsBackwardIsExact)
@@ -423,15 +442,18 @@ TEST(MlMoeLayer, ForwardIsThePerTokenPathToTheBit)
 // The layer's gradient, every input and every parameter, against central differences in double; the loss is
 // sum(dy · y) plus the auxiliary losses the configuration weights
 template <ml::transformer_config C>
-void layer_backward_is_central_differences(std::size_t rows, std::size_t sequences, bool selection_bias)
+void layer_backward_is_central_differences(std::size_t rows, std::size_t sequences, bool selection_bias, std::vector<double> forced = {})
 {
     layer<C, double> l(rows, 61, selection_bias);
+    if (!forced.empty())
+        l.bias = forced;
     const auto dy = noise<double>(rows * C.d_model, 62);
     l.forward(sequences);
     const auto chosen = std::vector<u32>(l.act().experts.begin(), l.act().experts.end());
     l.backward(dy, sequences);
     auto loss = [&] {
         layer<C, double> m(rows, 61, selection_bias);
+        m.bias = l.bias;
         m.params = l.params;
         m.xs = l.xs;
         const auto aux = m.forward(sequences);
@@ -465,6 +487,23 @@ TEST(MlMoeLayer, BackwardMatchesCentralDifferences)
     layer_backward_is_central_differences<switch_like>(6, 3, false);   // softmax over every expert, both losses
     layer_backward_is_central_differences<top1>(4, 1, true);
     layer_backward_is_central_differences<all_experts>(3, 1, false);
+}
+
+TEST(MlMoeLayer, AllRowsToOneExpertLeaveTheOthersEmpty)
+{
+    // A selection bias of 100 on expert 2 sends every row there: the other experts' segments are empty
+    const std::vector<double> forced{0, 0, 100, 0, 0};
+    layer<top1, double> l(5, 1);
+    l.bias = forced;
+    l.forward();
+    const auto a = l.act();
+    EXPECT_TRUE(std::equal(a.counts.begin(), a.counts.end(), std::vector<u32>{0, 0, 5, 0, 0}.begin()));
+    l.backward(noise<double>(5 * top1.d_model, 2));
+    const auto g = l.grad();
+    const std::size_t each = top1.expert_d_ff * top1.d_model;
+    for (std::size_t i = 0; i < g.experts.up.size(); ++i)
+        EXPECT_EQ(g.experts.up[i] != 0.0, i / each == 2) << i;
+    layer_backward_is_central_differences<top1>(5, 1, false, forced);
 }
 
 TEST(MlMoeLayer, ZeroRowsIsNothingToDo)

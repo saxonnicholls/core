@@ -195,7 +195,7 @@ TEST(MlMinifloat, DecodeTablesHoldEveryValue)
 TEST(MlMinifloat, RowsConvertElementByElementAsTheScalarFunctions)
 {
     struct host {} b;
-    std::vector<float> x{0.0f, -0.0f, 1.0f, 1.00390625f, 1.0048828125f, -3.5e38f, 1e-40f, std::numeric_limits<float>::infinity(),
+    std::vector<float> x{0.0f, -0.0f, 1.0f, 1.00390625f, 1.0048828125f, -3.4e38f, 1e-40f, std::numeric_limits<float>::infinity(),
                          std::numeric_limits<float>::quiet_NaN()};
     std::vector<ml::bfloat16> h(x.size());
     std::vector<float> back(x.size());

@@ -36,6 +36,9 @@ than changing them.
 | `attention_layer.hpp` | `attention_backward` per head and per layer, from the saved lse (done) |
 | `transformer_block.hpp` | `block_activations`, `block_gradients`, `block_backward` (done; benchmarked against the loops by hand) |
 | `softmax.hpp` | the sequence cross-entropy with its fused gradient over the LM head (done: `ml/lm_head.hpp`) |
+| `moe.hpp` | the mixture of experts' steps and layer, forward and backward (T10; done in 0.16.0) |
+| `moe_block.hpp` | the batched block with an MoE MLP (T10; done) |
+| `expert_parallel.hpp` | expert parallelism's placement, layouts and reference all-to-all (T10; done) |
 | `optim.hpp` | the Muon iteration, once a matrix product is available (done: `ml/muon.hpp`, every step on the backend, so it runs on a device as `adamw_rows` does) |
 
 ## Order of work
