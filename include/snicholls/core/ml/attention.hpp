@@ -30,6 +30,8 @@
 ///   frame-causal predictor), within the sequence's first `length` tokens (a key-padding mask: a query at or past
 ///   `length` sees nothing).
 ///
+/// \snippet ml/attention_demo.cpp masks
+///
 /// Multi-head and grouped-query attention are loops over heads: each query head attends to the key and value head it
 /// shares. Rotate queries and keys with `ml/rope.hpp` first.
 ///

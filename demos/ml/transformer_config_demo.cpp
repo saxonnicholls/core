@@ -63,6 +63,12 @@ int main()
                 experts.expert_d_ff, experts.top_k, experts.shared_experts, ml::route_scale_v<experts, double>, ml::olmoe_1b_7b.experts,
                 ml::olmoe_1b_7b.top_k);
     ok &= ml::route_scale_v<experts, double> == 2.5 && ml::olmoe_1b_7b.top_k == 8 && ml::valid(ml::tiny_moe);
+    // A ViT encoder attends both ways (TRAINING.md T11); a sliding window is a causal model's only
+    constexpr ml::transformer_config windowed_vit{.d_model = 768, .n_heads = 12, .n_kv_heads = 12, .head_dim = 64, .d_ff = 3072,
+                                                  .window = 16, .mask = ml::attention_mask::bidirectional};
+    std::printf("  vit_base %zu wide, mask %s; a windowed bidirectional layer is %s\n", ml::vit_base.d_model,
+                ml::vit_base.mask == ml::attention_mask::bidirectional ? "bidirectional" : "other", ml::valid(windowed_vit) ? "valid" : "rejected");
+    ok &= ml::vit_base.mask == ml::attention_mask::bidirectional && !ml::valid(windowed_vit) && ml::gpt2_small.mask == ml::attention_mask::causal;
     std::printf(ok ? "transformer_config demo: ok\n" : "transformer_config demo: FAILED\n");
     return ok ? 0 : 1;
 }

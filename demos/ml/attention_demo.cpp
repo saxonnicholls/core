@@ -5,7 +5,7 @@
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
 //  Demo for <snicholls/core/ml/attention.hpp>: one query over a cache of keys and values in one pass, the same
-//  split across two workers and merged, a sliding window, and the backward pass. Exits non-zero if a result is
+//  split across two workers and merged, a sliding window, the backward pass, and the keys of every mask (causal, bidirectional, block-causal, padding). Exits non-zero if a result is
 //  not what it documents.
 //
 
@@ -73,6 +73,17 @@ int main()
         weights += dvalues[j * d];
     std::printf("  backward: the weights sum to %.6f\n", static_cast<double>(weights));
     ok &= std::fabs(weights - 1.0f) < 1e-5f;
+
+    // The masks of every kind (attention_keys): a sequence of 6 valid tokens out of 8, position 2
+    //! [masks]
+    const ml::key_range causal = ml::attention_keys(ml::attention_mask::causal, 2, 6);                // [0, 3)
+    const ml::key_range all = ml::attention_keys(ml::attention_mask::bidirectional, 2, 6);            // [0, 6): every valid key
+    const ml::key_range blocks = ml::attention_keys(ml::attention_mask::block_causal, 2, 6, 0, 4);    // [0, 4): its block of 4
+    const ml::key_range padding = ml::attention_keys(ml::attention_mask::bidirectional, 7, 6);        // a padding query: none
+    //! [masks]
+    std::printf("  masks at 2 of 6: causal [%zu, %zu), bidirectional [%zu, %zu), block-causal [%zu, %zu); padding %zu keys\n", causal.first,
+                causal.last, all.first, all.last, blocks.first, blocks.last, padding.size());
+    ok &= causal.last == 3 && all.last == 6 && blocks.last == 4 && padding.size() == 0;
 
     std::printf(ok ? "attention demo: ok\n" : "attention demo: FAILED\n");
     return ok ? 0 : 1;
