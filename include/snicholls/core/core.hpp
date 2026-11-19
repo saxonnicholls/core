@@ -108,7 +108,9 @@
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/expert_parallel.hpp>
 #include <snicholls/core/ml/gather.hpp>
+#include <snicholls/core/ml/grammar.hpp>
 #include <snicholls/core/ml/jepa.hpp>
+#include <snicholls/core/ml/json_schema.hpp>
 #include <snicholls/core/ml/kv_cache.hpp>
 #include <snicholls/core/ml/latent_attention.hpp>
 #include <snicholls/core/ml/latent_block.hpp>
