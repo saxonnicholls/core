@@ -146,6 +146,7 @@
 #include <snicholls/core/reflect/struct_tuple.hpp>
 #include <snicholls/core/signal/complex.hpp>
 #include <snicholls/core/signal/fft.hpp>
+#include <snicholls/core/signal/window.hpp>
 #include <snicholls/core/stats/accumulators.hpp>
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/covariance.hpp>
