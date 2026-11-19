@@ -99,6 +99,8 @@
 #include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/attention_sink.hpp>
+#include <snicholls/core/ml/bitnet.hpp>
+#include <snicholls/core/ml/bitnet_kernels.hpp>
 #include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/collapse.hpp>
 #include <snicholls/core/ml/composed_block.hpp>
@@ -130,6 +132,7 @@
 #include <snicholls/core/ml/probe.hpp>
 #include <snicholls/core/ml/quant_iq.hpp>
 #include <snicholls/core/ml/quant_iq_grids.hpp>
+#include <snicholls/core/ml/quant_ternary.hpp>
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/reward_model.hpp>
 #include <snicholls/core/ml/rl.hpp>

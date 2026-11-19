@@ -79,6 +79,8 @@ add_executable(snicholls_core_tests
     ml/attention_layer_test.cpp
     ml/attention_sink_test.cpp
     ml/attention_test.cpp
+    ml/bitnet_kernels_test.cpp
+    ml/bitnet_test.cpp
     ml/bpe_test.cpp
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
@@ -110,6 +112,7 @@ add_executable(snicholls_core_tests
     ml/probe_test.cpp
     ml/quant_iq_grids_test.cpp
     ml/quant_iq_test.cpp
+    ml/quant_ternary_test.cpp
     ml/quantize_test.cpp
     ml/reward_model_test.cpp
     ml/rl_test.cpp
