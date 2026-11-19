@@ -102,6 +102,7 @@
 #include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/collapse.hpp>
 #include <snicholls/core/ml/composed_block.hpp>
+#include <snicholls/core/ml/conv.hpp>
 #include <snicholls/core/ml/diloco.hpp>
 #include <snicholls/core/ml/distill.hpp>
 #include <snicholls/core/ml/embedding.hpp>
@@ -137,6 +138,8 @@
 #include <snicholls/core/ml/self_attention.hpp>
 #include <snicholls/core/ml/softmax.hpp>
 #include <snicholls/core/ml/sparse_attention.hpp>
+#include <snicholls/core/ml/spatial.hpp>
+#include <snicholls/core/ml/tensor_ops.hpp>
 #include <snicholls/core/ml/transformer_block.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
 #include <snicholls/core/pipeline/stages.hpp>

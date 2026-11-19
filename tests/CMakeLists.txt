@@ -82,6 +82,7 @@ add_executable(snicholls_core_tests
     ml/bpe_test.cpp
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
+    ml/conv_test.cpp
     ml/diloco_test.cpp
     ml/distill_test.cpp
     ml/embedding_test.cpp
@@ -117,6 +118,8 @@ add_executable(snicholls_core_tests
     ml/self_attention_test.cpp
     ml/softmax_test.cpp
     ml/sparse_attention_test.cpp
+    ml/spatial_test.cpp
+    ml/tensor_ops_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp
     pipeline/stages_test.cpp
