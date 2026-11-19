@@ -438,7 +438,7 @@ TEST(MlSelfAttention, BidirectionalAndBlockCausalHeadsAreSoftmaxOverTheirKeys)
 {
     const head<double> h(true);
     const auto x = wave(n * dm, 1.0, 0.3);
-    for (const auto [mask, block] : {std::pair{ml::attention_mask::bidirectional, std::size_t(1)},
+    for (const auto& [mask, block] : {std::pair{ml::attention_mask::bidirectional, std::size_t(1)},
                                      std::pair{ml::attention_mask::block_causal, std::size_t(2)},
                                      std::pair{ml::attention_mask::block_causal, std::size_t(3)}}) {
         run<double> r(n);
