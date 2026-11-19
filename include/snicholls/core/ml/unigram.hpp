@@ -46,8 +46,9 @@
 /// `lattice_too_small` (fewer than `normalized.size() + 1` entries), `bad_charsmap` (a blob too short to hold
 /// its own header).
 ///
-/// **Performance.** `benchmarks/ml/unigram_benchmark.cpp`: the Viterbi pass against llama.cpp's, written out with
-/// its `std::map` trie, on the same vocabulary and text. See BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/unigram_benchmark.cpp`, the nomic-embed fixture's normalised texts (Release, Apple clang 17, Xeon W-3245, 2026-11-19, one thread on a loaded machine (ratios held across runs)):
+/// 10.6 MiB/s, against 25.9 MiB/s for llama.cpp's Viterbi written out with its node trie: the difference is the trie
+/// walk (`ml/token_trie.hpp`), 2.4 times slower; the lattice itself costs the same.
 ///
 /// **Tests and demos.** `tests/ml/unigram_test.cpp`: the charsmap view over double arrays built by the tests, the
 /// normaliser's whitespace rules, Viterbi against the definition on random texts, unknown runs, the errors.

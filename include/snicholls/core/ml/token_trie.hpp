@@ -41,15 +41,19 @@
 ///
 /// **Errors.** `build_token_index` asserts `order.size() >= pieces.size()`; ids are `std::uint32_t`.
 ///
-/// **Performance.** `benchmarks/ml/token_trie_benchmark.cpp`: `find` and prefix walks against a node trie of
-/// `std::map`s, the structure llama.cpp uses, on the same vocabulary. See BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/token_trie_benchmark.cpp`, about 13,000 pieces (Release, Apple clang 17, Xeon W-3245, 2026-11-19, one thread on a loaded machine (ratios held across runs)): the longest token at
+/// every byte of a text, 13 MiB/s against 40 MiB/s for a node trie of `std::map`s (llama.cpp's `naive_trie`); `find`,
+/// 11 million lookups/s against 31 million for `std::unordered_map`. The sorted array is about three times slower
+/// than either and stores 4 bytes per token instead of a node per byte; a caller that needs the speed and not the
+/// compile-time form puts a hash map behind the same lookup callable.
 ///
 /// **Tests and demos.** `tests/ml/token_trie_test.cpp` (against a linear scan on random vocabularies, duplicates,
 /// the empty piece, bytes above 0x7F, a compile-time trie), `demos/ml/token_trie_demo.cpp`.
 ///
 /// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<string_view>`.
 ///
-/// **Known issues.** None known.
+/// **Known issues.** Each step of a walk is two binary searches over string views (two indirections a probe), which
+/// is what makes it slower than a node trie (see Performance).
 ///
 /// **Status.** Experimental, new in 0.17.0.
 

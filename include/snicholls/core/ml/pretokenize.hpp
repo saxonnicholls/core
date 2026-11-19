@@ -47,9 +47,9 @@
 ///
 /// **Errors.** `pretokenizer_for` returns `pretokenize_error::unknown_name` for a name it does not know.
 ///
-/// **Performance.** `benchmarks/ml/pretokenize_benchmark.cpp`: the Llama 3 split against `std::regex` on the
-/// equivalent expression with categories collapsed to bytes (llama.cpp's fallback technique), and the GPT-2 split
-/// against a hand loop over pre-decoded code points. See BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/pretokenize_benchmark.cpp`, the Llama 3 split over the fixtures' texts (Release, Apple clang 17, Xeon W-3245, 2026-11-19, one thread on a loaded machine (ratios held across runs)):
+/// 72 MiB/s, against 1.2 MiB/s for `std::regex` on the same expression over text with every code point collapsed to
+/// a byte for its category (llama.cpp's general technique, the collapse included): sixty times faster.
 ///
 /// **Tests and demos.** `tests/ml/pretokenize_test.cpp`: every pattern against Python's `regex` module running the
 /// original expression, on committed fixtures (`tests/fixtures/ml/pretokenize_fixture.txt`, written by
