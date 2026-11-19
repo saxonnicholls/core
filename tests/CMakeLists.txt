@@ -114,6 +114,7 @@ add_executable(snicholls_core_tests
     ml/rl_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
+    ml/samplers_test.cpp
     ml/sampling_test.cpp
     ml/self_attention_test.cpp
     ml/softmax_test.cpp
