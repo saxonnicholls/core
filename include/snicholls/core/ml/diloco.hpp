@@ -52,7 +52,8 @@
 /// the global weights by broadcast. Its residual restarts at zero: its last round's pseudo-gradient was discarded with
 /// the failed round, and a residual from an older checkpoint would re-send a remainder that later rounds already
 /// carried; zero loses at most one bfloat16 rounding of one delta. Its inner optimiser state is the training
-/// library's choice (the snicholls training library uses the worker's own last checkpoint if it has one, else zeros).
+/// library's choice. Restarting it at zero is the better default: a stale first moment pushes along an old direction,
+/// while zero moments, bias-corrected at a late step, begin with short steps.
 ///
 /// **Why the order of the sum is fixed.** Floating-point addition is not associative: `(a + b) + c` and
 /// `a + (b + c)` can differ in the last bit, and over thousands of steps the differences grow into different models.
