@@ -21,6 +21,38 @@
 #include <type_traits>
 #include <vector>
 
+// A device library's seam (TRAINING.md T9, T10): its overloads for its own backend type are the ones the layer calls
+namespace device_like {
+struct backend : snicholls::linalg::reference_backend {
+    inline static int routes = 0, combines = 0, grouped = 0;
+};
+
+template <snicholls::ml::transformer_config C, typename T>
+constexpr void moe_route_rows(const backend& b, std::type_identity_t<std::span<const T>> logits, std::type_identity_t<std::span<const T>> bias,
+                              std::span<std::uint32_t> experts, std::span<T> weights)
+{
+    ++backend::routes;
+    snicholls::ml::moe_route_rows<C>(static_cast<const snicholls::linalg::reference_backend&>(b), logits, bias, experts, weights);
+}
+
+template <snicholls::ml::transformer_config C, typename T>
+constexpr void moe_combine_rows(const backend& b, std::type_identity_t<std::span<const T>> yp, std::type_identity_t<std::span<const T>> weights,
+                                std::span<const std::uint32_t> inverse, std::span<T> ys)
+{
+    ++backend::combines;
+    snicholls::ml::moe_combine_rows<C>(static_cast<const snicholls::linalg::reference_backend&>(b), yp, weights, inverse, ys);
+}
+
+template <typename T>
+constexpr void grouped_linear(const backend& b, const snicholls::ml::grouped_weights<T>& w, std::span<const std::uint32_t> offsets,
+                              std::type_identity_t<std::span<const T>> xs, std::type_identity_t<std::span<T>> ys,
+                              std::type_identity_t<std::span<const T>> bias = {})
+{
+    ++backend::grouped;
+    snicholls::ml::grouped_linear(static_cast<const snicholls::linalg::reference_backend&>(b), w, offsets, xs, ys, bias);
+}
+} // namespace device_like
+
 namespace {
 
 namespace ml = snicholls::ml;
@@ -504,6 +536,18 @@ TEST(MlMoeLayer, AllRowsToOneExpertLeaveTheOthersEmpty)
     for (std::size_t i = 0; i < g.experts.up.size(); ++i)
         EXPECT_EQ(g.experts.up[i] != 0.0, i / each == 2) << i;
     layer_backward_is_central_differences<top1>(5, 1, false, forced);
+}
+
+TEST(MlMoeLayer, ABackendsOwnOperationsAreCalledAndGiveTheSameBits)
+{
+    layer<mixtral, float> a(7, 3), b(7, 3);
+    a.forward();
+    device_like::backend::routes = device_like::backend::combines = device_like::backend::grouped = 0;
+    ml::moe_forward<mixtral>(device_like::backend{}, b.weights(), b.xs, b.ys, b.act());
+    EXPECT_EQ(device_like::backend::routes, 1);
+    EXPECT_EQ(device_like::backend::combines, 1);
+    EXPECT_EQ(device_like::backend::grouped, 3);   // up, gate and down
+    EXPECT_EQ(a.ys, b.ys);
 }
 
 TEST(MlMoeLayer, ZeroRowsIsNothingToDo)
