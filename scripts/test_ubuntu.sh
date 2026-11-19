@@ -5,11 +5,13 @@
 #
 #  Copyright 2010-2026 Saxon Herschel Nicholls
 #
-#  Run core's full test suite on Ubuntu 24.04, in Docker, from any machine with
+#  Run core's full test suite on Ubuntu in Docker, from any machine with
 #  Docker - the local half of the gate that CI runs (CLAUDE.md "Build and CI").
+#  Two images: docker/ubuntu (Ubuntu 24.04: GCC 13, Clang 18, Doxygen) and
+#  docker/ubuntu-26.04 (Ubuntu 26.04: GCC 15, the g++ of CI's x86-64 GCC leg).
 #
 #      scripts/test_ubuntu.sh            every configuration below
-#      scripts/test_ubuntu.sh --quick    GCC Release only
+#      scripts/test_ubuntu.sh --quick    GCC 13 Release and GCC 15 Release only
 #      scripts/test_ubuntu.sh -j 4       at most 4 compiles (and 4 tests) at once, on a shared machine
 #
 #  Configurations, each a fresh CMake build of everything with warnings as
@@ -21,6 +23,8 @@
 #      clang   Debug
 #      clang   ASan+UBSan
 #      gcc     ASan+UBSan
+#      gcc15   Release   + benchmarks smoke run       (Ubuntu 26.04 image)
+#      gcc15   ASan+UBSan                             (Ubuntu 26.04 image)
 #
 #  The checkout is mounted read-only and copied into the container from
 #  `git ls-files` plus the submodules, so nothing untracked is tested and
@@ -38,7 +42,7 @@ while [ $# -gt 0 ]; do
         --quick) QUICK=1 ;;
         -j) shift; JOBS="${1:-}" ;;
         -j*) JOBS="${1#-j}" ;;
-        -h|--help) sed -n '2,31p' "$0" | sed 's/^#\s\{0,1\}//'; exit 0 ;;
+        -h|--help) sed -n '2,35p' "$0" | sed 's/^#\s\{0,1\}//'; exit 0 ;;
         *) echo "test_ubuntu: unknown argument $1" >&2; exit 2 ;;
     esac
     shift
@@ -50,32 +54,36 @@ esac
 command -v docker >/dev/null || { echo "test_ubuntu: docker is not installed" >&2; exit 2; }
 docker info >/dev/null 2>&1 || { echo "test_ubuntu: docker is not running" >&2; exit 2; }
 
-# The image is tagged by a hash of its Dockerfile, so editing the Dockerfile
+# Each image is tagged by a hash of its Dockerfile, so editing a Dockerfile
 # builds a new image and an unchanged one is reused
-HASH="$(shasum -a 256 "$ROOT/docker/ubuntu/Dockerfile" 2>/dev/null || sha256sum "$ROOT/docker/ubuntu/Dockerfile")"
-IMAGE="snicholls-core-ubuntu:${HASH:0:12}"
-if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
-    echo "test_ubuntu: building $IMAGE"
-    DOCKER_BUILDKIT=1 docker build -q -t "$IMAGE" "$ROOT/docker/ubuntu" >/dev/null
-fi
+image() {   # image <docker/ directory> <repository>: builds if needed, prints the tag
+    local hash
+    hash="$(shasum -a 256 "$ROOT/docker/$1/Dockerfile" 2>/dev/null || sha256sum "$ROOT/docker/$1/Dockerfile")"
+    local tag="$2:${hash:0:12}"
+    if ! docker image inspect "$tag" >/dev/null 2>&1; then
+        echo "test_ubuntu: building $tag" >&2
+        DOCKER_BUILDKIT=1 docker build -q -t "$tag" "$ROOT/docker/$1" >/dev/null
+    fi
+    echo "$tag"
+}
+IMAGE="$(image ubuntu snicholls-core-ubuntu)"
+IMAGE_GCC15="$(image ubuntu-26.04 snicholls-core-ubuntu-gcc15)"
 
 # Tracked files only, including the submodules' tracked files
 LIST="$(mktemp)"
-trap 'rm -f "$LIST"' EXIT
+OUT="$(mktemp)"
+trap 'rm -f "$LIST" "$OUT"' EXIT
 ( cd "$ROOT" && git ls-files && git submodule foreach --quiet --recursive \
     'git ls-files | sed "s|^|$sm_path/|"' ) > "$LIST"
 
-docker run --rm -i \
-    -v "$ROOT:/src:ro" -v "$LIST:/filelist:ro" \
-    -e QUICK="$QUICK" \
-    ${JOBS:+-e CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" -e CTEST_PARALLEL_LEVEL="$JOBS"} \
-    "$IMAGE" bash -s <<'IN_CONTAINER'
+# The script each container runs; SET names which image it is in, and so
+# which configurations it runs
+in_container() {
+cat <<'IN_CONTAINER'
 set -uo pipefail
 mkdir -p /work/core && cd /src && tar -cf - -T /filelist | tar -C /work/core -xf -
 cd /work/core
 
-failed=()
-passed=()
 run() {   # run <label> <cmake args...>
     local label="$1"; shift
     local dir="/work/build-${label// /-}"
@@ -85,15 +93,24 @@ run() {   # run <label> <cmake args...>
        cmake --build "$dir" >>"$log" 2>&1 &&
        ctest --test-dir "$dir" --output-on-failure >>"$log" 2>&1; then
         echo "ok   $(grep -E '^[0-9]+% tests passed' "$log" | tail -1)"
-        passed+=("$label")
     else
         echo "FAILED"
+        grep -m 8 -E ": (error|warning): " "$log" | sed "s/^/      /"
         tail -40 "$log" | sed 's/^/      /'
-        failed+=("$label")
     fi
 }
 
 echo "snicholls-core on $(. /etc/os-release && echo "$PRETTY_NAME"), $(uname -m)"
+if [ "$SET" = gcc15 ]; then
+    echo "  $(g++-15 --version | head -1)"
+    gcc15="-DCMAKE_C_COMPILER=gcc-15 -DCMAKE_CXX_COMPILER=g++-15"
+    run "gcc15 Release"      $gcc15 -DCMAKE_BUILD_TYPE=Release -DSNICHOLLS_CORE_BUILD_BENCHMARKS=ON
+    if [ "$QUICK" != 1 ]; then
+        run "gcc15 ASan+UBSan"   $gcc15 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSNICHOLLS_CORE_SANITIZE=address,undefined
+    fi
+    exit 0
+fi
+
 echo "  $(g++ --version | head -1)"
 echo "  $(clang++ --version | head -1)"
 echo "  doxygen $(doxygen --version)"
@@ -112,12 +129,28 @@ if [ "$QUICK" != 1 ]; then
     run "clang ASan+UBSan"   -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSNICHOLLS_CORE_SANITIZE=address,undefined
     run "gcc ASan+UBSan"     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSNICHOLLS_CORE_SANITIZE=address,undefined
 fi
+IN_CONTAINER
+}
 
+in_image() {   # in_image <image> <set>: runs in_container there, its report shown and kept in OUT
+    in_container | docker run --rm -i \
+        -v "$ROOT:/src:ro" -v "$LIST:/filelist:ro" \
+        -e QUICK="$QUICK" -e SET="$2" \
+        ${JOBS:+-e CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" -e CTEST_PARALLEL_LEVEL="$JOBS"} \
+        "$1" bash -s | tee -a "$OUT" || echo "  $2 image                  FAILED" | tee -a "$OUT"
+}
+in_image "$IMAGE" gcc13-clang18
 echo
-if [ ${#failed[@]} -eq 0 ]; then
-    echo "test_ubuntu: all ${#passed[@]} configurations passed"
+in_image "$IMAGE_GCC15" gcc15
+
+# Each configuration reported one line, "  <label> ok ..." or "  <label> FAILED"
+passed="$(grep -cE '^  [^ ].* ok   ' "$OUT" || true)"
+failed="$(grep -E '^  [^ ].* FAILED$' "$OUT" | sed -E 's/^  (.*[^ ]) +FAILED$/\1/' | paste -sd, - || true)"
+echo
+if [ -z "$failed" ] && [ "$passed" -gt 0 ]; then
+    echo "test_ubuntu: all $passed configurations passed"
     exit 0
 fi
-echo "test_ubuntu: ${#failed[@]} of $(( ${#passed[@]} + ${#failed[@]} )) configurations FAILED: ${failed[*]}"
+nfailed="$(grep -cE '^  [^ ].* FAILED$' "$OUT")"
+echo "test_ubuntu: $nfailed of $(( passed + nfailed )) configurations FAILED: $failed"
 exit 1
-IN_CONTAINER
