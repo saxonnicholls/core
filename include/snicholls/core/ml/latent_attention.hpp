@@ -74,8 +74,20 @@
 /// the visible range; the cache's capacity covers the visible range. An invalid configuration, or one that is not
 /// latent, is a compile error.
 ///
-/// **Performance.** Against `attention_forward_sequence` with the same heads and widths through the reference backend
-/// (`benchmarks/ml/latent_attention_benchmark.cpp`), after checking each against its loops by hand: see there.
+/// **Performance.** The training forward over 256 channels, 4 heads of 32 plain and 16 rotary query-key channels
+/// (values of 32, latents of 96 and 64), against `attention_forward_sequence` with the same heads and query-key widths,
+/// both through the reference backend, each after a bit-for-bit check against its loops by hand
+/// (`benchmarks/ml/latent_attention_benchmark.cpp`; Release, Apple clang 17, Xeon W-3245, macOS 26, 2026-11-19, medians
+/// of three on a shared machine, load average over 100):
+///
+/// | Tokens | MLA, core | MLA, by hand | MHA, core | MHA, by hand |
+/// |---|---|---|---|---|
+/// | 128 | 16.3 ms | 14.8 ms | 25.7 ms | 25.7 ms |
+/// | 512 | 101 ms | 100 ms | 131 ms | 129 ms |
+///
+/// Level with the loops by hand within that machine's noise (10% at 128 tokens, 1% at 512). MLA's latents make its
+/// projections smaller than MHA's three full ones, so its forward is the faster at these widths; its cache is
+/// `d_c + d_h^R` = 80 numbers a token against MHA's 384.
 ///
 /// **Tests and demos.** `tests/ml/latent_attention_test.cpp`, `demos/ml/latent_attention_demo.cpp`.
 ///

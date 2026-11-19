@@ -42,7 +42,7 @@
 ///
 /// **Tests and demos.** `tests/ml/latent_block_test.cpp`, `demos/ml/latent_block_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cassert>`, `<cstddef>`, `<span>`, `<type_traits>`, `linalg/backend.hpp`,
+/// **Dependencies.** `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<span>`, `<type_traits>`, `linalg/backend.hpp`,
 /// `ml/latent_attention.hpp`, `ml/mlp.hpp`, `ml/transformer_block.hpp`.
 ///
 /// **Known issues.** None beyond the latent attention's.
@@ -59,6 +59,7 @@
 
 #include <array>
 #include <cassert>
+#include <concepts>
 #include <cstddef>
 #include <span>
 #include <type_traits>
@@ -153,8 +154,7 @@ constexpr void block_forward_sequence(const B& backend, const latent_block_weigh
                                       std::type_identity_t<std::span<T>> xs, const R& rope_src, const latent_block_activations<T>& act,
                                       std::size_t sequences = 1)
 {
-    constexpr std::size_t d = C.d_model;
-    assert(xs.size() % d == 0 && act.x0.size() == xs.size() && act.h1.size() == xs.size() && act.x1.size() == xs.size()
+    assert(xs.size() % C.d_model == 0 && act.x0.size() == xs.size() && act.h1.size() == xs.size() && act.x1.size() == xs.size()
            && act.h2.size() == xs.size());
     copy_rows(backend, std::span<const T>(xs), act.x0);
     block_norm_rows<C>(backend, std::span<const T>(xs), w.norm1_weight, w.norm1_bias, act.h1);
