@@ -269,13 +269,13 @@ constexpr float dot(std::span<const block_tq1_0> x, std::span<const block_q8_k> 
         int s = 0;
         for (std::size_t l = 0; l < 5; ++l)
             for (std::size_t m = 0; m < 32; ++m)
-                s += (ternary_trits[x[i].qs[m]][l] - 1) * int(y[i].qs[l * 32 + m]);
+                s += (detail::ternary::trit_of(x[i].qs[m], l) - 1) * int(y[i].qs[l * 32 + m]);
         for (std::size_t l = 0; l < 5; ++l)
             for (std::size_t m = 0; m < 16; ++m)
-                s += (ternary_trits[x[i].qs[32 + m]][l] - 1) * int(y[i].qs[160 + l * 16 + m]);
+                s += (detail::ternary::trit_of(x[i].qs[32 + m], l) - 1) * int(y[i].qs[160 + l * 16 + m]);
         for (std::size_t l = 0; l < 4; ++l)
             for (std::size_t j = 0; j < 4; ++j)
-                s += (ternary_trits[x[i].qh[j]][l] - 1) * int(y[i].qs[240 + l * 4 + j]);
+                s += (detail::ternary::trit_of(x[i].qh[j], l) - 1) * int(y[i].qs[240 + l * 4 + j]);
         const float scale = to_float(x[i].d) * y[i].d;
         const float term = float(s) * scale;
         sum += term;

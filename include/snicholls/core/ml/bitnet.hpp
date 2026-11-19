@@ -54,7 +54,7 @@
 ///
 /// **Tests and demos.** `tests/ml/bitnet_test.cpp`, `demos/ml/bitnet_demo.cpp`.
 ///
-/// **Dependencies.** `<cassert>`, `<cmath>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`, `ml/norm.hpp`,
+/// **Dependencies.** `<bit>`, `<cassert>`, `<cmath>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`, `ml/norm.hpp`,
 /// `ml/quantize.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** The weights' mean |W| is summed in `double` and rounded once; PyTorch sums `float`s pairwise,
@@ -71,6 +71,7 @@
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/row.hpp>
 
+#include <bit>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -86,17 +87,18 @@ inline constexpr float bitnet_eps = 1e-5f;
 
 namespace detail::bitnet
 {
-    // round half to even (PyTorch's round), then clamp to [lo, hi]; NaN to 0
+    // clamp to [lo, hi], then round half to even (PyTorch's round, which commutes with an integer clamp); a NaN
+    // passes the clamp and nearest_int's bit trick makes it 0
+    // |x| by clearing the sign bit: no branch on the sign of random data
+    constexpr float fabs(float x)
+    {
+        return std::bit_cast<float>(std::bit_cast<std::uint32_t>(x) & 0x7fffffffu);
+    }
+
     constexpr int round_clamp(float v, int lo, int hi)
     {
-        if (v != v)
-            return 0;
-        if (v <= float(lo))
-            return lo;
-        if (v >= float(hi))
-            return hi;
-        const int r = quantize::nearest_int(v);   // exact for |v| below 2^22
-        return r < lo ? lo : r > hi ? hi : r;
+        const float c = v < float(lo) ? float(lo) : v > float(hi) ? float(hi) : v;
+        return quantize::nearest_int(c);
     }
 } // namespace detail::bitnet
 
@@ -113,7 +115,7 @@ constexpr float absmean_quantize(const W& w, std::span<std::int8_t> q, float eps
     assert(q.size() == in.size());
     double sum = 0;
     for (const float v : in)
-        sum += v < 0 ? -double(v) : double(v);
+        sum += double(detail::bitnet::fabs(v));
     const float mean = in.empty() ? 0.0f : float(sum / double(in.size()));
     const float gamma = mean > eps ? mean : eps;
     const float s = 1.0f / gamma;
@@ -138,7 +140,7 @@ constexpr float absmean_fake_quantize(const W& w, Out&& out, float eps = bitnet_
     assert(o.size() == in.size());
     double sum = 0;
     for (const float v : in)
-        sum += v < 0 ? -double(v) : double(v);
+        sum += double(detail::bitnet::fabs(v));
     const float mean = in.empty() ? 0.0f : float(sum / double(in.size()));
     const float gamma = mean > eps ? mean : eps;
     const float s = 1.0f / gamma;
