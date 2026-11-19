@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['p_5fvalue_0',['p_value',['../structsnicholls_1_1stochastic_1_1test__result.html#a603591f6bcb2cfb293e81e82686219fd',1,'snicholls::stochastic::test_result']]],
+  ['pairs_1',['pairs',['../structsnicholls_1_1ml_1_1preference__metrics.html#ae56c2f99768dec79fd54d4fab7c59e14',1,'snicholls::ml::preference_metrics']]],
+  ['parent_2',['parent',['../structsnicholls_1_1containers_1_1avl__hook.html#a1defc629f3bbc9a1a04247821a0e225e',1,'snicholls::containers::avl_hook']]],
+  ['patch_5fheight_3',['patch_height',['../structsnicholls_1_1ml_1_1patch__grid.html#a8aef4d5e7e223d149dd0b577f3507dcf',1,'snicholls::ml::patch_grid']]],
+  ['patch_5fwidth_4',['patch_width',['../structsnicholls_1_1ml_1_1patch__grid.html#a7c87ce639c0cbcbdab7d02a10d29f297',1,'snicholls::ml::patch_grid']]],
+  ['payoff_5',['payoff',['../structsnicholls_1_1stochastic_1_1fixed__snell.html#a486e0290f4e319a99f3a22a37ce5f846',1,'snicholls::stochastic::fixed_snell::payoff'],['../structsnicholls_1_1stochastic_1_1snell.html#aa3d8e560f8942a1bb927ef82e74aefb7',1,'snicholls::stochastic::snell::payoff']]],
+  ['permutation_5fcount_5fv_6',['permutation_count_v',['../group__core.html#ga30d70b18ea848f03c245f2232b347b96',1,'snicholls']]],
+  ['permutations_7',['permutations',['../structsnicholls_1_1game_1_1permutation__sampling.html#ab182bcd8267874666f37ab920fc59d91',1,'snicholls::game::permutation_sampling']]],
+  ['phi_8',['phi',['../structsnicholls_1_1ml_1_1sigreg__quadrature.html#a37e03f3d706dbe32a156398e48272026',1,'snicholls::ml::sigreg_quadrature']]],
+  ['pi_9',['pi',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#afcac629497b119df0bdf0c92b20da25f',1,'snicholls::math::math_limits&lt; double &gt;::pi'],['../constexpr__math_8hpp.html#af5d65b402a4a8dd83cf05e43064129f1',1,'snicholls::math::pi']]],
+  ['pio2_5f1_10',['pio2_1',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#ac327256c9eb4c9a4cae63dcc7a394402',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['pio2_5f2_11',['pio2_2',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#aeb45a90bc7e2b1a6fa297a42354bac49',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['pio2_5f3_12',['pio2_3',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#af3894242e7253d030a6b1177e5178546',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['pio2_5f4_13',['pio2_4',['../structsnicholls_1_1math_1_1math__limits_3_01double_01_4.html#a16b32ee517a80ce91d00fbc54330f44a',1,'snicholls::math::math_limits&lt; double &gt;']]],
+  ['player_14',['player',['../structsnicholls_1_1game_1_1monotonicity__violation.html#a5de3951faf26f31855fb7b83070e44e9',1,'snicholls::game::monotonicity_violation']]],
+  ['positions_15',['positions',['../structsnicholls_1_1ml_1_1gathered__rope.html#ac90508706c78c3e740b6e949c94ff86e',1,'snicholls::ml::gathered_rope']]],
+  ['positive_16',['positive',['../structsnicholls_1_1sign__colours.html#a318bb77963d8d936d6b3b0e576185642',1,'snicholls::sign_colours']]],
+  ['power_5fiterations_17',['power_iterations',['../structsnicholls_1_1linalg_1_1truncated__svd__options.html#a8195bf95dfd0872dfbcd985d090b0505',1,'snicholls::linalg::truncated_svd_options']]],
+  ['precision_18',['precision',['../structsnicholls_1_1parse__options.html#ab8d7ad51b7477a37a88a101880f1c65a',1,'snicholls::parse_options']]],
+  ['pred_19',['pred',['../structsnicholls_1_1pipeline_1_1filter__stage.html#ac9db1f5ff4e63f681694a223050d426b',1,'snicholls::pipeline::filter_stage::pred'],['../structsnicholls_1_1pipeline_1_1filter__spec.html#a2fd195c63f1d156533dff6aff2caab25',1,'snicholls::pipeline::filter_spec::pred']]],
+  ['presence_20',['presence',['../structsnicholls_1_1ml_1_1logit__penalties.html#a68030d4156db58cb6ecd4b4b150eb668',1,'snicholls::ml::logit_penalties']]],
+  ['projection_21',['projection',['../structsnicholls_1_1ml_1_1mtp__weights.html#a1aa2748bd0c9313f0b17314a4d2de493',1,'snicholls::ml::mtp_weights::projection'],['../structsnicholls_1_1ml_1_1mtp__gradients.html#a87b6e4eeeefe25a14e6ac543cf53a2a7',1,'snicholls::ml::mtp_gradients::projection']]],
+  ['prompts_22',['prompts',['../structsnicholls_1_1ml_1_1rollout__view.html#a5984d8a188e178f41a5bd6cb365ac51f',1,'snicholls::ml::rollout_view']]]
+];

@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['gae_5frows_0',['gae_rows',['../rl_8hpp.html#ade9f78d605cf9ff15bdfb8d747cb0b76',1,'snicholls::ml']]],
+  ['gamma_5fp_1',['gamma_p',['../constexpr__math_8hpp.html#a621220d1ccf89f40177f820ddf68ddc1',1,'snicholls::math']]],
+  ['gather_5frows_2',['gather_rows',['../gather_8hpp.html#a3a1a827d19128c846f15d4d326fbbfe3',1,'snicholls::ml']]],
+  ['gelu_3',['gelu',['../activations_8hpp.html#a5fd1a816be6fb78408cd1887063cec54',1,'snicholls::ml']]],
+  ['gelu_5fderivative_4',['gelu_derivative',['../activations_8hpp.html#ab447ab1e14f9205777b52438fe5da84f',1,'snicholls::ml']]],
+  ['gelu_5ftanh_5',['gelu_tanh',['../activations_8hpp.html#a431e240659761f492dd0007819faee08',1,'snicholls::ml']]],
+  ['gelu_5ftanh_5fderivative_6',['gelu_tanh_derivative',['../activations_8hpp.html#a61c887ddca3327084647ba8007849649',1,'snicholls::ml']]],
+  ['gemm_7',['gemm',['../structsnicholls_1_1linalg_1_1reference__backend.html#a193ad8f5e5039778d684924e6edbead3',1,'snicholls::linalg::reference_backend::gemm()'],['../group__core.html#ga76f7bbdead26969eb45a1066a1c656bf',1,'snicholls::linalg::gemm()']]],
+  ['gemv_8',['gemv',['../structsnicholls_1_1linalg_1_1reference__backend.html#a458ed5224e1a166e45114f7502007b84',1,'snicholls::linalg::reference_backend::gemv()'],['../group__core.html#ga5e4abf66c3cb87809190ee17905ee070',1,'snicholls::linalg::gemv()']]],
+  ['get_9',['get',['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a8b055f3fb6314d7ec2f121fd6bd05b62',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::get()'],['../classsnicholls_1_1containers_1_1offset__ptr.html#a4d253c76a804882805d3dc2aefaffd5f',1,'snicholls::containers::offset_ptr::get()'],['../structsnicholls_1_1any__source.html#a40e8677a08d98b63bb9a2dd657005238',1,'snicholls::any_source::get()'],['../structsnicholls_1_1attribute__set.html#a0a275e484c8bbdd8aab3b8e62840a807',1,'snicholls::attribute_set::get()']]],
+  ['gradients_10',['gradients',['../structsnicholls_1_1ml_1_1lora__parameters.html#aa498fd508f5465ec29f36b2c51c596f9',1,'snicholls::ml::lora_parameters']]],
+  ['grand_5fcoalition_11',['grand_coalition',['../group__core.html#ga36a6731b4a94100d1615f3a864450fb5',1,'snicholls::game']]],
+  ['grid_5fframes_12',['grid_frames',['../structsnicholls_1_1ml_1_1patch__grid.html#ae731dbeaa025fe428777e13fda59ce36',1,'snicholls::ml::patch_grid']]],
+  ['grid_5fheight_13',['grid_height',['../structsnicholls_1_1ml_1_1patch__grid.html#a31799b74f62cca5f67aefe151a910955',1,'snicholls::ml::patch_grid']]],
+  ['grid_5fwidth_14',['grid_width',['../structsnicholls_1_1ml_1_1patch__grid.html#aee0452b795591877287c636acfd947c8',1,'snicholls::ml::patch_grid']]],
+  ['group_15',['group',['../structsnicholls_1_1ml_1_1transformer__config.html#aec01774d0494cb03415b3c63aa391038',1,'snicholls::ml::transformer_config']]],
+  ['group_5fadvantages_16',['group_advantages',['../rl_8hpp.html#a3c0209a3e40128cc3a743cece7290f3b',1,'snicholls::ml']]],
+  ['group_5fof_17',['group_of',['../structsnicholls_1_1ml_1_1rollout__view.html#ab6f6a1aff2c31c8034b15913e23f40d4',1,'snicholls::ml::rollout_view']]],
+  ['grouped_5flinear_18',['grouped_linear',['../moe_8hpp.html#a44af7f8f2992abfea4eb7ff5fe8c3b05',1,'snicholls::ml']]],
+  ['grouped_5flinear_5fbackward_19',['grouped_linear_backward',['../moe_8hpp.html#abd25238beb1e9a68ca5d5e8e0fc5d08e',1,'snicholls::ml']]]
+];
