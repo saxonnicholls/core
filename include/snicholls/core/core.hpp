@@ -133,6 +133,7 @@
 #include <snicholls/core/ml/probe.hpp>
 #include <snicholls/core/ml/quant_iq.hpp>
 #include <snicholls/core/ml/quant_iq_grids.hpp>
+#include <snicholls/core/ml/quant_k.hpp>
 #include <snicholls/core/ml/quant_ternary.hpp>
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/reward_model.hpp>

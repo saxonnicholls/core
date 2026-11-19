@@ -43,6 +43,10 @@
 ///
 /// \snippet ml/quantize_demo.cpp quantize
 ///
+/// The type table, importance weighting and the newer formats:
+///
+/// \snippet ml/quantize_demo.cpp formats
+///
 /// `quantize_int8(x, q)` and `dequantize_int8(q, scale, x)` give one symmetric scale for a whole row (per-channel or
 /// per-tensor int8), the same rounding as Q8_0.
 ///
@@ -1663,16 +1667,34 @@ constexpr void dequantize_row(std::span<const float8_e4m3> x, std::span<float> y
         y[i] = (x[i].bits & 0x7f) == 0x7f ? std::numeric_limits<float>::quiet_NaN() : to_float(x[i]);
 }
 
-/// \brief The dot product of an FP8 E4M3 row with a `float` row, as the scalar loop of ggml's `ggml_vec_dot_f8_e4m3_f32`.
+/// \brief The dot product of an FP8 E4M3 row with a `float` row, in the order of ggml's `ggml_vec_dot_f8_e4m3_f32` on x86 (SSE3).
+///
+/// ggml's loop is SIMD: per 32 numbers, eight accumulators of four lanes each add their products; the 32 lanes then
+/// reduce pairwise (accumulators `i` and `i + 4`, then `i + 2`, then `i + 1`, then the four lanes as `(0 + 1) +
+/// (2 + 3)`), and the numbers past the last 32 add one by one. That order is the reference here; ggml's order on
+/// another SIMD target (NEON, AVX) differs in the last bits.
 /// \param x The weights.
 /// \param y The activations.
-/// \return `sum x_i · y_i`, in order.
+/// \return `sum x_i · y_i`.
 constexpr float dot(std::span<const float8_e4m3> x, std::span<const float> y)
 {
     assert(x.size() == y.size());
-    float sum = 0.0f;
-    for (std::size_t i = 0; i < x.size(); ++i) {
-        const float term = to_float(x[i]) * y[i];
+    const auto value = [&x](std::size_t i) { return (x[i].bits & 0x7f) == 0x7f ? std::numeric_limits<float>::quiet_NaN() : to_float(x[i]); };
+    const std::size_t np = x.size() - x.size() % 32;
+    std::array<float, 32> acc{};   // accumulator j, lane l at 4 j + l
+    for (std::size_t pos = 0; pos < np; pos += 32)
+        for (std::size_t k = 0; k < 32; ++k) {
+            const float term = value(pos + k) * y[pos + k];
+            acc[k] += term;
+        }
+    for (std::size_t step : {16u, 8u, 4u})
+        for (std::size_t k = 0; k < step; ++k)
+            acc[k] += acc[k + step];
+    const float low = acc[0] + acc[1];
+    const float high = acc[2] + acc[3];
+    float sum = np == 0 ? 0.0f : low + high;
+    for (std::size_t i = np; i < x.size(); ++i) {
+        const float term = value(i) * y[i];
         sum += term;
     }
     return sum;

@@ -113,6 +113,7 @@ add_executable(snicholls_core_tests
     ml/probe_test.cpp
     ml/quant_iq_grids_test.cpp
     ml/quant_iq_test.cpp
+    ml/quant_k_test.cpp
     ml/quant_ternary_test.cpp
     ml/quantize_test.cpp
     ml/reward_model_test.cpp

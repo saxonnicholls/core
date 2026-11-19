@@ -7,10 +7,15 @@
 //  Tests for <snicholls/core/ml/quantize.hpp>: on every case of the committed fixture (written by ggml itself,
 //  scripts/generate_quant_fixture.cpp), the Q8_0, Q4_0 and MXFP4 bytes equal ggml's quantize_row_*_ref and the
 //  three dot products equal ggml's scalar ggml_vec_dot_*_generic bit for bit; dequantisation is d · q and lies
-//  within half a step; the layouts; zero blocks; symmetric int8 rows; and compile-time use.
+//  within half a step; the layouts; zero blocks; symmetric int8 rows; and compile-time use. On every row kind of
+//  the second fixture (scripts/generate_quant_formats_fixture.cpp), Q4_0, Q4_1, Q5_0, Q5_1, Q8_0, MXFP4, NVFP4,
+//  Q1_0, Q2_0 and F8_E4M3 bytes (reference and importance-weighted), dequantised floats, activations and dot
+//  products equal ggml's; the type table and block traits; the importance path's weighted error.
 //
 
 #include <snicholls/core/ml/quantize.hpp>
+
+#include "quant_rows.hpp"
 
 #include <gtest/gtest.h>
 
@@ -21,6 +26,7 @@
 #include <cstdint>
 #include <cstring>
 #include <fstream>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -221,5 +227,190 @@ TEST(MlQuantize, Int8RowsUseOneScale)
     EXPECT_EQ(ml::quantize_int8(std::vector<float>(3, 0.0f), zq), 0.0f);
     EXPECT_EQ(zq[0], 0);
 }
+
+
+// ggml's type table, as ggml.c's type_traits has it: names, block sizes and bytes
+static_assert(ml::ggml_type_traits(ml::ggml_type::q4_k).name == "q4_K" && ml::ggml_type_traits(ml::ggml_type::q4_k).block_bytes == 144);
+static_assert(ml::ggml_type_traits(ml::ggml_type::iq2_xxs).block_elements == 256 && ml::ggml_type_traits(ml::ggml_type::bf16).block_bytes == 2);
+static_assert(ml::ggml_type_traits(ml::ggml_type::nvfp4).block_elements == 64 && !ml::ggml_type_traits(ml::ggml_type::f32).quantized);
+static_assert(ml::ggml_type_traits(static_cast<ml::ggml_type>(4)).name.empty() && ml::ggml_type_traits(static_cast<ml::ggml_type>(99)).block_bytes == 0);
+static_assert(ml::ggml_row_bytes(ml::ggml_type::q4_0, 4096) == 128 * 18 && ml::ggml_row_bytes(ml::ggml_type::f16, 10) == 20);
+static_assert(ml::ggml_row_bytes(static_cast<ml::ggml_type>(31), 64) == 0);
+static_assert(sizeof(ml::block_q4_1) == 20 && sizeof(ml::block_q5_0) == 22 && sizeof(ml::block_q5_1) == 24 && sizeof(ml::block_q8_1) == 36);
+static_assert(sizeof(ml::block_nvfp4) == 36 && sizeof(ml::block_q1_0) == 18 && sizeof(ml::block_q2_0) == 18 && sizeof(ml::block_q8_k) == 292);
+static_assert(ml::block_traits<ml::block_q4_1>::bits_per_weight == 5.0 && ml::block_traits<ml::block_q1_0>::bits_per_weight == 1.125);
+static_assert(std::same_as<ml::block_traits<ml::block_q5_1>::dot_block, ml::block_q8_1> && ml::block_traits<ml::block_q8_k>::name == "q8_K");
+static_assert(ml::quant_block<ml::block_q5_0> && ml::quant_block<ml::block_mxfp4> && !ml::quant_block<ml::block_q4_1> && !ml::quant_block<ml::block_nvfp4>);
+static_assert(!ml::quantized_block<float> && !ml::quantized_block<ml::float8_e4m3>);
+
+// The helpers the scale searches share are ggml's to the bit, and correct at compile time as at run time
+static_assert(ml::detail::quantize::nearest_int(2.5f) == 2 && ml::detail::quantize::nearest_int(3.5f) == 4 && ml::detail::quantize::nearest_int(-2.5f) == -2);
+static_assert(ml::detail::quantize::to_int(3e9f) == std::numeric_limits<int>::min() && ml::detail::quantize::to_int(-7.9f) == -7);
+static_assert(ml::detail::quantize::round_to_int(-2.5f) == -3 && ml::detail::quantize::round_to_int(1e10f) == std::numeric_limits<int>::min());
+static_assert(ml::detail::quantize::fp32_to_ue4m3(1.0f) == 0x38 && ml::detail::quantize::ue4m3_half(0x38) == 0.5f);
+static_assert(ml::detail::quantize::fp32_to_ue4m3(1000.0f) == 0x7e && ml::detail::quantize::fp32_to_ue4m3(-1.0f) == 0);
+
+TEST(MlQuantize, CompileTimeSqrtIsRunTimeSqrt)
+{
+    std::uint32_t bits = 0x00000001u;
+    for (int i = 0; i < 200000; ++i, bits = bits * 2654435761u + 12345u) {
+        const float x = std::bit_cast<float>(bits & 0x7fffffffu);
+        if (!std::isfinite(x))
+            continue;
+        EXPECT_EQ(std::bit_cast<std::uint32_t>(static_cast<float>(snicholls::math::detail::sqrt_ct(static_cast<double>(x)))), std::bit_cast<std::uint32_t>(std::sqrt(x))) << x;   // the compile-time path
+    }
+}
+
+// The fixture of the formats new in 0.17.0: hashes of ggml's outputs on the rows of tests/ml/quant_rows.hpp
+std::vector<quant_rows::line> formats_fixture(const std::string& format)
+{
+    std::vector<quant_rows::line> out;
+    std::ifstream in(std::string(SNICHOLLS_CORE_FIXTURE_DIR) + "/ml/quant_formats_fixture.txt");
+    EXPECT_TRUE(in.good()) << "missing tests/fixtures/ml/quant_formats_fixture.txt";
+    std::string text;
+    quant_rows::line l;
+    while (std::getline(in, text))
+        if (quant_rows::parse(text, l) && l.format == format)
+            out.push_back(l);
+    return out;
+}
+
+template <typename B>
+std::vector<B> quantized_with(const std::vector<float>& x, const std::vector<float>& importance)
+{
+    std::vector<B> b(x.size() / B::elements);
+    ml::quantize(x, importance, std::span<B>(b));
+    return b;
+}
+
+template <typename B>
+void matches_ggml(const char* format)
+{
+    using A = typename B::dot_block;
+    const auto lines = formats_fixture(format);
+    ASSERT_EQ(lines.size(), std::size_t(quant_rows::kinds)) << format;
+    for (const auto& l : lines) {
+        const auto x = quant_rows::row(l.kind, 512, 1);
+        const auto y = quant_rows::row((l.kind + 1) % 15, 512, 2);
+        const auto w = quant_rows::importance(512, 3);
+        ASSERT_EQ(quant_rows::fnv_floats(x), l.values.at("x")) << "the rows of tests/ml/quant_rows.hpp changed";
+        const auto ref = quantized_with<B>(x, {});
+        const auto imat = quantized_with<B>(x, w);
+        const auto act = quantized_with<A>(y, {});
+        std::vector<float> deq(512);
+        ml::dequantize(std::span<const B>(ref), deq);
+        const float d = ml::dot(std::span<const B>(ref), std::span<const A>(act));
+        const char* kind = quant_rows::name(l.kind);
+        EXPECT_EQ(quant_rows::fnv(ref), l.values.at("ref")) << format << " " << kind;
+        EXPECT_EQ(quant_rows::fnv(imat), l.values.at("imat")) << format << " " << kind;
+        EXPECT_EQ(quant_rows::fnv_floats(deq), l.values.at("deq")) << format << " " << kind;
+        EXPECT_EQ(quant_rows::fnv(act), l.values.at("act")) << format << " " << kind;
+        EXPECT_EQ(quant_rows::float_bits(d), l.values.at("dot")) << format << " " << kind;
+    }
+}
+
+TEST(MlQuantizeFormats, Q4_0IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q4_0>("q4_0"); }
+TEST(MlQuantizeFormats, Q4_1IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q4_1>("q4_1"); }
+TEST(MlQuantizeFormats, Q5_0IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q5_0>("q5_0"); }
+TEST(MlQuantizeFormats, Q5_1IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q5_1>("q5_1"); }
+TEST(MlQuantizeFormats, Q8_0IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q8_0>("q8_0"); }
+TEST(MlQuantizeFormats, Mxfp4IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_mxfp4>("mxfp4"); }
+TEST(MlQuantizeFormats, Nvfp4IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_nvfp4>("nvfp4"); }
+TEST(MlQuantizeFormats, Q1_0IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q1_0>("q1_0"); }
+TEST(MlQuantizeFormats, Q2_0IsGgmlsOnEveryRowKind) { matches_ggml<ml::block_q2_0>("q2_0"); }
+
+TEST(MlQuantizeFormats, F8E4m3RowsAreGgmlsOnEveryRowKind)
+{
+    const auto lines = formats_fixture("f8_e4m3");
+    ASSERT_EQ(lines.size(), std::size_t(quant_rows::kinds));
+    for (const auto& l : lines) {
+        const auto x = quant_rows::row(l.kind, 512, 1);
+        const auto y = quant_rows::row((l.kind + 1) % 15, 512, 2);
+        std::vector<ml::float8_e4m3> q(512);
+        ml::quantize_row(x, q);
+        std::vector<float> deq(512);
+        ml::dequantize_row(q, deq);
+        const char* kind = quant_rows::name(l.kind);
+        EXPECT_EQ(quant_rows::fnv(q), l.values.at("ref")) << kind;
+        EXPECT_EQ(quant_rows::fnv_floats(deq), l.values.at("deq")) << kind;
+        EXPECT_EQ(quant_rows::float_bits(ml::dot(std::span<const ml::float8_e4m3>(q), std::span<const float>(y))), l.values.at("dot")) << kind;
+    }
+}
+
+TEST(MlQuantizeFormats, TheImportanceRowLowersTheWeightedError)
+{
+    const auto x = quant_rows::row(quant_rows::weights, 4096, 11);
+    std::vector<float> w(x.size());
+    for (std::size_t i = 0; i < w.size(); ++i)
+        w[i] = i % 7 == 0 ? 50.0f : 0.1f;
+    const auto error = [&](auto block, bool weighted) {
+        using B = decltype(block);
+        const auto q = quantized_with<B>(x, weighted ? w : std::vector<float>{});
+        std::vector<float> back(x.size());
+        ml::dequantize(std::span<const B>(q), back);
+        double e = 0;
+        for (std::size_t i = 0; i < x.size(); ++i)
+            e += double(w[i]) * double(back[i] - x[i]) * double(back[i] - x[i]);
+        return e;
+    };
+    EXPECT_LT(error(ml::block_q4_0{}, true), error(ml::block_q4_0{}, false));
+    EXPECT_LT(error(ml::block_q4_1{}, true), error(ml::block_q4_1{}, false));
+    EXPECT_LT(error(ml::block_q5_0{}, true), error(ml::block_q5_0{}, false));
+    EXPECT_LT(error(ml::block_q5_1{}, true), error(ml::block_q5_1{}, false));
+    EXPECT_EQ(error(ml::block_q8_0{}, true), error(ml::block_q8_0{}, false));   // Q8_0 has no weighted path
+}
+
+TEST(MlQuantizeFormats, Q8_1SumsAndQ8KBlockSumsAreTheCodes)
+{
+    const auto x = quant_rows::row(quant_rows::uniform, 512, 5);
+    const auto q1 = quantized_with<ml::block_q8_1>(x, {});
+    for (const auto& b : q1) {
+        int s = 0;
+        for (const auto q : b.qs)
+            s += q;
+        EXPECT_NEAR(ml::to_float(b.s), float(s) * ml::to_float(b.d), 1e-3f * std::fabs(float(s) * ml::to_float(b.d)) + 1e-6f);   // s is d · sum before d rounds to float16
+    }
+    const auto qk = quantized_with<ml::block_q8_k>(x, {});
+    for (const auto& b : qk)
+        for (std::size_t j = 0; j < 16; ++j) {
+            int s = 0;
+            for (std::size_t k = 0; k < 16; ++k)
+                s += b.qs[16 * j + k];
+            EXPECT_EQ(b.bsums[j], s);
+        }
+    // a zero block: ggml leaves bsums unset there; core writes zeros
+    const auto zero = quantized_with<ml::block_q8_k>(std::vector<float>(256, 0.0f), {});
+    EXPECT_EQ(zero[0].d, 0.0f);
+    EXPECT_EQ(zero[0].bsums[3], 0);
+}
+
+constexpr bool formats_at_compile_time()
+{
+    // 64 values k - 32: every small format quantises, dequantises and dots with its activations at compile time
+    std::array<float, 128> x{};
+    for (std::size_t k = 0; k < 128; ++k)
+        x[k] = float(int(k % 64) - 32) / 8.0f;
+    std::array<ml::block_q4_1, 4> q41{};
+    std::array<ml::block_q8_1, 4> a81{};
+    std::array<ml::block_q5_0, 4> q50{};
+    std::array<ml::block_q8_0, 4> a80{};
+    std::array<ml::block_nvfp4, 2> nv{};
+    std::array<ml::block_q1_0, 1> q10{};
+    ml::quantize(x, std::span(q41));
+    ml::quantize(x, std::span(a81));
+    ml::quantize(x, std::span(q50));
+    ml::quantize(x, std::span(a80));
+    ml::quantize(x, std::span(nv));
+    ml::quantize(x, std::span(q10));
+    const float d41 = ml::dot(std::span<const ml::block_q4_1>(q41), std::span<const ml::block_q8_1>(a81));
+    const float d50 = ml::dot(std::span<const ml::block_q5_0>(q50), std::span<const ml::block_q8_0>(a80));
+    const float dnv = ml::dot(std::span<const ml::block_nvfp4>(nv), std::span<const ml::block_q8_0>(a80));
+    const float d10 = ml::dot(std::span<const ml::block_q1_0>(q10), std::span<const ml::block_q8_0>(a80));
+    std::array<float, 128> back{};
+    ml::dequantize(std::span<const ml::block_q5_0>(q50), back);
+    // sum x^2 = 2 · sum_{k=-32}^{31} (k/8)^2 = 2 · 21856 / 64 = 683
+    return back[0] == -4.0f && d41 > 670.0f && d41 < 695.0f && d50 > 660.0f && d50 < 695.0f && dnv > 650.0f && dnv < 710.0f && d10 > 400.0f;
+}
+static_assert(formats_at_compile_time());
 
 } // namespace
