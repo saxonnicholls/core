@@ -119,6 +119,7 @@
 #include <snicholls/core/ml/lora.hpp>
 #include <snicholls/core/ml/masking.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
+#include <snicholls/core/ml/mixer_layer.hpp>
 #include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/moe.hpp>
 #include <snicholls/core/ml/moe_block.hpp>

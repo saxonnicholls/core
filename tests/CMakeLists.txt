@@ -81,6 +81,7 @@ add_executable(snicholls_core_tests
     ml/attention_test.cpp
     ml/bpe_test.cpp
     ml/collapse_test.cpp
+    ml/composed_block_hybrid_test.cpp
     ml/composed_block_test.cpp
     ml/delta_rule_test.cpp
     ml/diloco_test.cpp
@@ -99,6 +100,7 @@ add_executable(snicholls_core_tests
     ml/lora_test.cpp
     ml/masking_test.cpp
     ml/minifloat_test.cpp
+    ml/mixer_layer_test.cpp
     ml/mlp_test.cpp
     ml/moe_block_test.cpp
     ml/moe_test.cpp

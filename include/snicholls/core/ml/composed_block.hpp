@@ -17,6 +17,13 @@
 /// chosen by their weights' types (an overload set, not a chain of type tests), so four kinds of block are one template
 /// rather than four headers. A new kind of attention or MLP is one overload of each part's step, not a new block.
 ///
+/// A linear-time mixer is a third kind of attention part (TRAINING.md T14): `mamba2_weights` or
+/// `gated_deltanet_weights` (`ml/mixer_layer.hpp`), with `mixer_activations` and `mixer_gradients`. A hybrid stack is
+/// composed blocks of both kinds, layer `i` attention exactly when `layer_is_attention(C, i)` (Qwen3-Next's three
+/// gated-delta-rule layers then one attention layer; Jamba's one attention layer in eight); decoding goes through a
+/// `hybrid_cache`, its KV cache holding the attention layers alone (`hybrid_attention_index`) and its `recurrent_cache`
+/// the mixer layers' states (`hybrid_mixer_index`), or through a `recurrent_cache` for a stack of mixers alone.
+///
 /// - `block_forward_sequence<C>(backend, w, xs, rope_src, act, sequences) -> moe_losses<T>`: the batched training pass,
 ///   every step a backend call (TRAINING.md T9). It returns the mixture of experts' auxiliary losses (zero for a dense
 ///   MLP), the sequences being the sequence-wise balance loss's groups.
@@ -45,7 +52,8 @@
 /// `ml/attention_layer.hpp`, `ml/latent_attention.hpp`, `ml/mlp.hpp`, `ml/moe.hpp`, `ml/multi_token_prediction.hpp`
 /// (a user). Group: \ref core.
 ///
-/// **Implementations.** One skeleton; the parts are standard or latent attention and a dense or mixture-of-experts MLP.
+/// **Implementations.** One skeleton; the parts are standard or latent attention or a mixer, and a dense or
+/// mixture-of-experts MLP.
 ///
 /// **Guarantees.** `constexpr`, each step in a fixed order, so the bits do not depend on scheduling; no allocation
 /// (decoding keeps two rows of `d_model` and the parts' own fixed-size scratch). The batched passes are the existing
@@ -62,17 +70,19 @@
 /// **Performance.** Not benchmarked as a whole: its parts are (`ml/latent_attention.hpp`, `ml/moe.hpp`,
 /// `ml/transformer_block.hpp`), and the skeleton adds the norms and residuals the other blocks have.
 ///
-/// **Tests and demos.** `tests/ml/composed_block_test.cpp`, `demos/ml/composed_block_demo.cpp`.
+/// **Tests and demos.** `tests/ml/composed_block_test.cpp`, `tests/ml/composed_block_hybrid_test.cpp` (mixer blocks
+/// against central differences, hybrid stacks decoded against their batched passes, a hybrid stack trained),
+/// `demos/ml/composed_block_demo.cpp`, `demos/ml/mixer_layer_demo.cpp`.
 ///
 /// **Dependencies.** `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`,
-/// `linalg/backend.hpp`, `ml/attention_layer.hpp`, `ml/latent_attention.hpp`, `ml/linear.hpp`, `ml/mlp.hpp`,
+/// `linalg/backend.hpp`, `ml/attention_layer.hpp`, `ml/latent_attention.hpp`, `ml/linear.hpp`, `ml/mixer_layer.hpp`, `ml/mlp.hpp`,
 /// `ml/moe.hpp`, `ml/row.hpp`, `ml/transformer_block.hpp`, `ml/transformer_config.hpp`. It pulls in both attentions
 /// and both MLPs.
 ///
 /// **Known issues.** The decoding MoE runs one token's experts one after another (`mlp_forward`'s overload for
 /// `moe_weights`): a batch of tokens decoding together is the batched layer's job, through the backend.
 ///
-/// **Status.** Experimental, new in 0.16.0.
+/// **Status.** Experimental, new in 0.16.0; mixers as the attention part and hybrid caches new in 0.17.0.
 
 #ifndef snicholls_core_ml_composed_block_hpp
 #define snicholls_core_ml_composed_block_hpp
@@ -81,6 +91,7 @@
 #include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/latent_attention.hpp>
 #include <snicholls/core/ml/linear.hpp>
+#include <snicholls/core/ml/mixer_layer.hpp>
 #include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/moe.hpp>
 #include <snicholls/core/ml/row.hpp>
@@ -206,6 +217,51 @@ namespace detail::composed_block
                                    const Cache& cache, std::size_t layer, const R& rope_src, std::span<T> out)
     {
         ::snicholls::ml::latent_attention_forward<C>(w, h, pos, cache, layer, rope_src, out);
+    }
+
+    // A linear-time mixer as the attention part (TRAINING.md T14): Mamba-2 or the gated delta rule, no positions
+    template <typename W, typename T>
+    concept mixer_part = std::same_as<W, mamba2_weights<T>> || std::same_as<W, gated_deltanet_weights<T>>;
+
+    template <transformer_config C, typename B, typename T, typename W, typename R>
+        requires mixer_part<W, T>
+    constexpr void attention_pass(const B& b, const W& w, std::span<const T> h, const R&, const mixer_activations<T>& act, std::span<T> out,
+                                  std::size_t sequences)
+    {
+        ::snicholls::ml::mixer_forward_sequence<C>(b, w, h, act, out, sequences);
+    }
+
+    template <transformer_config C, typename B, typename T, typename W, typename R>
+        requires mixer_part<W, T>
+    constexpr void attention_pass_backward(const B& b, const W& w, std::span<const T> h, const R&, const mixer_activations<T>& act,
+                                           std::span<const T> dout, std::span<T> dh, const mixer_gradients<T>& grads, std::size_t sequences)
+    {
+        ::snicholls::ml::mixer_backward<C>(b, w, h, act, dout, dh, grads, sequences);
+    }
+
+    // One token of a mixer through its layer's state: a stack of mixers' cache, or a hybrid stack's
+    template <transformer_config C, typename W, typename T, typename R>
+        requires mixer_part<W, T>
+    constexpr void attention_token(const W& w, std::span<const T> h, std::size_t, const recurrent_cache<T>& cache, std::size_t layer, const R&,
+                                   std::span<T> out)
+    {
+        ::snicholls::ml::mixer_forward<C>(w, h, cache.layer(layer), out);
+    }
+
+    template <transformer_config C, typename W, typename T, typename KV, typename R>
+        requires mixer_part<W, T>
+    constexpr void attention_token(const W& w, std::span<const T> h, std::size_t, const hybrid_cache<KV, T>& cache, std::size_t layer, const R&,
+                                   std::span<T> out)
+    {
+        ::snicholls::ml::mixer_forward<C>(w, h, cache.recurrent.layer(hybrid_mixer_index(C, layer)), out);
+    }
+
+    // Standard attention in a hybrid stack: its slot among the attention layers
+    template <transformer_config C, typename W, typename T, typename KV, typename R>
+    constexpr void attention_token(const attention_weights<W, T>& w, std::span<const T> h, std::size_t pos, const hybrid_cache<KV, T>& cache,
+                                   std::size_t layer, const R& rope_src, std::span<T> out)
+    {
+        ::snicholls::ml::attention_forward<C>(w, h, pos, cache.kv, hybrid_attention_index(C, layer), rope_src, out);
     }
 
     // The MLP part's passes: a dense MLP has no auxiliary losses
