@@ -87,6 +87,18 @@ enum class token_kind : std::uint8_t
     byte = 6,           ///< A byte-fallback token, `<0xNN>`.
 };
 
+namespace detail::vocab_index
+{
+    // Heap sort, O(n log n) and constexpr: std::sort's final insertion pass trips GCC's -Warray-bounds on a fixed
+    // array shorter than its threshold of 16
+    template <typename Less>
+    constexpr void sort(std::span<std::uint32_t> v, Less& less)
+    {
+        std::make_heap(v.begin(), v.end(), less);
+        std::sort_heap(v.begin(), v.end(), less);
+    }
+} // namespace detail::vocab_index
+
 /// \brief Fills `order` with the ids that `keep` accepts, sorted by piece (bytes compared unsigned), ties by id
 /// descending.
 /// \tparam Keep A callable `keep(std::uint32_t id) -> bool`.
@@ -102,9 +114,8 @@ constexpr std::size_t build_token_index(std::span<const std::string_view> pieces
     for (std::size_t id = 0; id < pieces.size(); ++id)
         if (keep(static_cast<std::uint32_t>(id)))
             order[n++] = static_cast<std::uint32_t>(id);
-    std::sort(order.begin(), order.begin() + static_cast<std::ptrdiff_t>(n), [&](std::uint32_t a, std::uint32_t b) {
-        return pieces[a] < pieces[b] || (pieces[a] == pieces[b] && a > b);
-    });
+    const auto before = [&](std::uint32_t a, std::uint32_t b) { return pieces[a] < pieces[b] || (pieces[a] == pieces[b] && a > b); };
+    detail::vocab_index::sort(order.first(n), before);
     return n;
 }
 

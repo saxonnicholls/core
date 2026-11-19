@@ -91,10 +91,11 @@ constexpr result<std::size_t, bpe_error> sentencepiece_escape(std::string_view t
 {
     std::size_t at = 0;
     const auto put_space = [&]() {
-        if (out.size() - at < escaped_space.size())
-            return false;
-        for (const char c : escaped_space)
+        for (const char c : escaped_space) {   // checked byte by byte, which GCC's -Warray-bounds can follow
+            if (at == out.size())
+                return false;
             out[at++] = c;
+        }
         return true;
     };
     if (text.empty())

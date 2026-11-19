@@ -42,7 +42,7 @@ constexpr auto encode(std::string_view raw)
     std::array<std::uint32_t, 16> out{};
     std::array<ml::merge_entry<std::uint32_t>, ml::merge_scratch_size(32)> scratch{};
     const auto bytes = [&](unsigned char b) {   // each byte's own token, by its spelling in the alphabet
-        char s[2]{};
+        char s[4]{};
         return vocab.find(std::string_view(s, ml::encode_utf8(ml::byte_to_unicode[b], s)));
     };
     const std::size_t n = ml::merge_encode(std::string_view(mapped.data(), m), table, vocab, bytes, out, scratch,

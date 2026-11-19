@@ -359,8 +359,8 @@ constexpr void build_merge_index(std::span<const std::pair<std::string_view, std
 {
     for (std::size_t i = 0; i < merges.size(); ++i)
         order[i] = static_cast<std::uint32_t>(i);
-    std::sort(order.begin(), order.begin() + static_cast<std::ptrdiff_t>(merges.size()),
-              [&](std::uint32_t x, std::uint32_t y) { return merges[x] < merges[y] || (merges[x] == merges[y] && x < y); });
+    const auto before = [&](std::uint32_t x, std::uint32_t y) { return merges[x] < merges[y] || (merges[x] == merges[y] && x < y); };
+    detail::vocab_index::sort(order.first(merges.size()), before);
 }
 
 /// \brief Splits a merge as GGUF and `tokenizer.json` (`"left right"`) write it, at the first space after the
