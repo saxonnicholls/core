@@ -252,7 +252,8 @@ struct block_traits
     static constexpr std::size_t bytes = sizeof(B);                                   ///< Bytes per block.
     static constexpr std::string_view name = ggml_type_traits(B::type).name;          ///< ggml's name.
     static constexpr double bits_per_weight = 8.0 * double(bytes) / double(elements); ///< Storage per number.
-    using dot_block = typename B::dot_block;                                          ///< The activations `dot` pairs it with.
+    /// \brief The activations `dot` pairs it with.
+    using dot_block = typename B::dot_block;
 };
 
 /// \brief The numbers in one block of the 32-element formats.
@@ -266,7 +267,8 @@ struct block_q8_0
 {
     static constexpr ggml_type type = ggml_type::q8_0;   ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type`.
+    /// \brief ggml's `vec_dot_type`.
+    using dot_block = block_q8_0;
 
     float16 d;                                     ///< The scale, amax / 127.
     std::array<std::int8_t, quant_block_size> qs;  ///< The quantised numbers.
@@ -278,7 +280,8 @@ struct block_q8_1
 {
     static constexpr ggml_type type = ggml_type::q8_1;   ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_1;                        ///< Itself: it is an activation format.
+    /// \brief Itself: it is an activation format.
+    using dot_block = block_q8_1;
 
     float16 d;                                     ///< The scale, amax / 127.
     float16 s;                                     ///< `d` times the sum of `qs`.
@@ -291,7 +294,8 @@ struct block_q4_0
 {
     static constexpr ggml_type type = ggml_type::q4_0;   ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type`.
+    /// \brief ggml's `vec_dot_type`.
+    using dot_block = block_q8_0;
 
     float16 d;                                          ///< The scale: the signed value of largest magnitude / -8.
     std::array<std::uint8_t, quant_block_size / 2> qs;  ///< Element `j` in the low nibble of byte `j`, `j + 16` in the high.
@@ -303,7 +307,8 @@ struct block_q4_1
 {
     static constexpr ggml_type type = ggml_type::q4_1;   ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_1;                        ///< ggml's `vec_dot_type`.
+    /// \brief ggml's `vec_dot_type`.
+    using dot_block = block_q8_1;
 
     float16 d;                                          ///< The scale, (max - min) / 15.
     float16 m;                                          ///< The minimum.
@@ -316,7 +321,8 @@ struct block_q5_0
 {
     static constexpr ggml_type type = ggml_type::q5_0;   ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type`.
+    /// \brief ggml's `vec_dot_type`.
+    using dot_block = block_q8_0;
 
     float16 d;                                          ///< The scale: the signed value of largest magnitude / -16.
     std::array<std::uint8_t, 4> qh;                     ///< The fifth bits: bit `j` of the little-endian word is element `j`'s.
@@ -329,7 +335,8 @@ struct block_q5_1
 {
     static constexpr ggml_type type = ggml_type::q5_1;   ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_1;                        ///< ggml's `vec_dot_type`.
+    /// \brief ggml's `vec_dot_type`.
+    using dot_block = block_q8_1;
 
     float16 d;                                          ///< The scale, (max - min) / 31.
     float16 m;                                          ///< The minimum.
@@ -343,7 +350,8 @@ struct block_mxfp4
 {
     static constexpr ggml_type type = ggml_type::mxfp4;  ///< The ggml id.
     static constexpr std::size_t elements = 32;          ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type`.
+    /// \brief ggml's `vec_dot_type`.
+    using dot_block = block_q8_0;
 
     std::uint8_t e;                                     ///< The shared exponent, biased by 127.
     std::array<std::uint8_t, quant_block_size / 2> qs;  ///< E2M1 codes, packed as Q4_0's.
@@ -359,7 +367,8 @@ struct block_nvfp4
 {
     static constexpr ggml_type type = ggml_type::nvfp4;  ///< The ggml id.
     static constexpr std::size_t elements = 64;          ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type` (two Q8_0 blocks per NVFP4 block).
+    /// \brief ggml's `vec_dot_type` (two Q8_0 blocks per NVFP4 block).
+    using dot_block = block_q8_0;
 
     std::array<std::uint8_t, 4> d;    ///< UE4M3 scales, one per 16 numbers.
     std::array<std::uint8_t, 32> qs;  ///< E2M1 codes.
@@ -371,7 +380,8 @@ struct block_q1_0
 {
     static constexpr ggml_type type = ggml_type::q1_0;   ///< The ggml id.
     static constexpr std::size_t elements = 128;         ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type` (four Q8_0 blocks per Q1_0 block).
+    /// \brief ggml's `vec_dot_type` (four Q8_0 blocks per Q1_0 block).
+    using dot_block = block_q8_0;
 
     float16 d;                         ///< The mean absolute value.
     std::array<std::uint8_t, 16> qs;   ///< Bit `j % 8` of byte `j / 8` set when element `j` is at least 0.
@@ -383,7 +393,8 @@ struct block_q2_0
 {
     static constexpr ggml_type type = ggml_type::q2_0;   ///< The ggml id.
     static constexpr std::size_t elements = 64;          ///< Numbers per block.
-    using dot_block = block_q8_0;                        ///< ggml's `vec_dot_type` (two Q8_0 blocks per Q2_0 block).
+    /// \brief ggml's `vec_dot_type` (two Q8_0 blocks per Q2_0 block).
+    using dot_block = block_q8_0;
 
     float16 d;                         ///< The largest magnitude.
     std::array<std::uint8_t, 16> qs;   ///< Element `j` in bits `2 (j % 4)` of byte `j / 4`.
@@ -395,7 +406,8 @@ struct block_q8_k
 {
     static constexpr ggml_type type = ggml_type::q8_k;   ///< The ggml id.
     static constexpr std::size_t elements = 256;         ///< Numbers per block.
-    using dot_block = block_q8_k;                        ///< Itself: it is an activation format.
+    /// \brief Itself: it is an activation format.
+    using dot_block = block_q8_k;
 
     float d;                                  ///< The scale: the signed value of largest magnitude / -127.
     std::array<std::int8_t, 256> qs;          ///< The quantised numbers.
