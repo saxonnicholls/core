@@ -35,7 +35,9 @@
 /// **Errors.** Preconditions, asserted: `w.data` `channels · width`, the bias empty or `channels`, the rows a multiple of
 /// `channels · sequences`, the states empty or `sequences · short_conv_state_size`.
 ///
-/// **Performance.** `benchmarks/ml/short_conv_benchmark.cpp`, against the loop by hand; the results are in BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/short_conv_benchmark.cpp`, 512 tokens of 2,560 channels and 4 taps (Release, AppleClang 17, Intel Xeon W-3245, macOS, 2026-11-19):
+/// 1.08 ms, the loop by hand 1.11 ms (checked to the bit). The widths 2, 3 and 4 run with the tap count known to the
+/// compiler. BENCHMARKS.md has the current numbers.
 ///
 /// **Tests and demos.** `tests/ml/short_conv_test.cpp`, `demos/ml/short_conv_demo.cpp`.
 ///
@@ -58,6 +60,54 @@
 
 namespace snicholls::ml
 {
+
+template <math::math_number T>
+struct short_conv_weights;
+
+namespace detail::short_conv
+{
+    // The tokens past the first K - 1 read only the inputs: the same sums as the general loop, without its branch, with
+    // the common widths' tap counts known to the compiler (fully unrolled)
+    template <std::size_t Taps, bool Bias, typename T>
+    constexpr void body(const T* taps, const T* bias, std::size_t ch, std::size_t width, const T* x, T* y, std::size_t first, std::size_t n)
+    {
+        const std::size_t K = Taps == 0 ? width : Taps;
+        for (std::size_t i = first; i < n; ++i) {
+            const T* window = x + (i + 1 - K) * ch;
+            T* out = y + i * ch;
+            for (std::size_t c = 0; c < ch; ++c) {
+                T sum = T(0);
+                for (std::size_t j = 0; j < K; ++j)
+                    sum += taps[c * K + j] * window[j * ch + c];
+                if constexpr (Bias)
+                    out[c] = sum + bias[c];
+                else
+                    out[c] = sum;
+            }
+        }
+    }
+
+    template <typename W, typename T>
+    constexpr void body_for_width(const W& w, const T* x, T* y, std::size_t first, std::size_t n)
+    {
+        const T* bias = w.bias.empty() ? nullptr : w.bias.data();
+        const auto run = [&](auto taps, auto with_bias) {
+            body<decltype(taps)::value, decltype(with_bias)::value>(w.data.data(), bias, w.channels, w.width, x, y, first, n);
+        };
+        const auto by_width = [&](auto with_bias) {
+            switch (w.width) {
+            case 2: run(std::integral_constant<std::size_t, 2>{}, with_bias); break;
+            case 3: run(std::integral_constant<std::size_t, 3>{}, with_bias); break;
+            case 4: run(std::integral_constant<std::size_t, 4>{}, with_bias); break;
+            default: run(std::integral_constant<std::size_t, 0>{}, with_bias); break;
+            }
+        };
+        if (bias == nullptr)
+            by_width(std::false_type{});
+        else
+            by_width(std::true_type{});
+    }
+} // namespace detail::short_conv
 
 /// \brief A depthwise convolution's taps over the caller's memory: `channels` rows of `width` taps, oldest first, and an
 /// optional bias.
@@ -100,7 +150,8 @@ constexpr void short_conv_forward(const B&, const short_conv_weights<T>& w, std:
         const auto x = xs.subspan(s * n * ch, n * ch);
         const auto y = ys.subspan(s * n * ch, n * ch);
         const auto st = states.empty() ? std::span<T>{} : states.subspan(s * sk, sk);
-        for (std::size_t i = 0; i < n; ++i)
+        const std::size_t head = n < K - 1 ? n : K - 1;   // the tokens that read the state
+        for (std::size_t i = 0; i < head; ++i)
             for (std::size_t c = 0; c < ch; ++c) {
                 T sum = T(0);
                 for (std::size_t j = 0; j < K; ++j) {
@@ -110,6 +161,7 @@ constexpr void short_conv_forward(const B&, const short_conv_weights<T>& w, std:
                 }
                 y[i * ch + c] = w.bias.empty() ? sum : sum + w.bias[c];
             }
+        detail::short_conv::body_for_width(w, x.data(), y.data(), head, n);
         for (std::size_t r = 0; r + 1 < K && !st.empty(); ++r) {   // the last K - 1 inputs, oldest first
             const std::size_t from = r + n;                          // in the old state's rows, then x's
             for (std::size_t c = 0; c < ch; ++c)

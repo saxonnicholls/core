@@ -43,7 +43,9 @@
 ///
 /// **Errors.** Preconditions, asserted: `q` and `k` `rows · G · N`, `v` and `o` `rows · H · P`, `gk` `rows · H · N`.
 ///
-/// **Performance.** `benchmarks/ml/gla_benchmark.cpp`, the recurrent form against the loop by hand; BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/gla_benchmark.cpp`, 256 tokens of 8 heads of 64 by 64 (Release, AppleClang 17, Intel Xeon W-3245, macOS, 2026-11-19): the recurrent form
+/// 4.18 ms, the loop by hand 4.04 ms (checked to the bit); the chunked form 76.2 ms, a reference for a device's
+/// kernel. BENCHMARKS.md has the current numbers.
 ///
 /// **Tests and demos.** `tests/ml/gla_test.cpp`, `demos/ml/gla_demo.cpp`.
 ///

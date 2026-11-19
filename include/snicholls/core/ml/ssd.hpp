@@ -52,8 +52,10 @@
 /// **Errors.** Preconditions, asserted, as `ml/recurrence.hpp`'s and the views' sizes (`rows · H · P` for `x` and `y`,
 /// `rows · H` for `dt`, `H` for `a`, `rows · G · N` for `b` and `c`).
 ///
-/// **Performance.** `benchmarks/ml/ssd_benchmark.cpp`: the scan against the loop by hand (the same arithmetic in the same
-/// order, checked to the bit), and the chunked form beside it; the results are in BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/ssd_benchmark.cpp`, 256 tokens of 8 heads of 64 by 64 (Release, AppleClang 17, Intel Xeon W-3245, macOS, 2026-11-19): the scan 1.96 ms,
+/// the loop by hand 1.96 ms (the same arithmetic in the same order, checked to the bit); the chunked form 56.7 ms, a
+/// reference written for clarity (every decay an `exp` of its own), whose worth is its parallel shape on a device.
+/// BENCHMARKS.md has the current numbers.
 ///
 /// **Tests and demos.** `tests/ml/ssd_test.cpp`, `demos/ml/ssd_demo.cpp`.
 ///

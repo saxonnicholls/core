@@ -52,7 +52,9 @@
 /// **Errors.** Preconditions, asserted: `q` and `k` `rows · G · N`, `v` and `o` `rows · H · P`, `g` `rows · H` or
 /// `rows · H · N`, `beta` `rows · H`; `work` `delta_rule_chunk_work(C)`. The unit lower-triangular solve cannot fail.
 ///
-/// **Performance.** `benchmarks/ml/delta_rule_benchmark.cpp`, the recurrent form against the loop by hand; BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/delta_rule_benchmark.cpp`, 256 tokens of 8 value heads of 64 sharing 4 key heads
+/// (Release, AppleClang 17, Intel Xeon W-3245, macOS, 2026-11-19): the recurrent form 4.27 ms, the loop by hand 4.20 ms (checked to the bit); the chunked WY form 109 ms, a
+/// reference for a device's kernel. BENCHMARKS.md has the current numbers.
 ///
 /// **Tests and demos.** `tests/ml/delta_rule_test.cpp`, `demos/ml/delta_rule_demo.cpp`.
 ///

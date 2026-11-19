@@ -17,9 +17,9 @@ and commit the result. The "relative" column is each row's time over the fastest
 | machine | Intel(R) Xeon(R) W-3245 CPU @ 3.20GHz, 32 CPUs |
 | OS | Darwin 25.6.0 |
 | compiler | AppleClang 17.0.0.17000309 |
-| build | Release, `build-werror` |
+| build | Release, `build-bench` |
 | min time per benchmark | 0.5 s |
-| this run | only `diloco`; other sections are from earlier runs |
+| this run | only `ssd_benchmark`, `gla_benchmark`, `delta_rule_benchmark`, `rwkv_benchmark`, `short_conv_benchmark`; other sections are from earlier runs |
 
 ## accumulators_benchmark
 
@@ -131,6 +131,16 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Lookup100K_OpenAddressingByHand` | 2.19 ms | 2.29x | 29.99 M/s |
 | `BM_Lookup100K_StdUnorderedMap` | 10.80 ms | 11.29x | 6.91 M/s |
 
+## delta_rule_benchmark
+
+`benchmarks/ml/delta_rule_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_DeltaRuleRecurrent_Core` | 4.27 ms | 1.02x | 60.04 k/s |
+| `BM_DeltaRuleRecurrent_HandWritten` | 4.20 ms | 1.00x | 61.02 k/s |
+| `BM_DeltaRuleChunked_Core` | 109.02 ms | 25.98x | 2.35 k/s |
+
 ## dense_id_map_benchmark
 
 `benchmarks/containers/dense_id_map_benchmark.cpp`
@@ -159,6 +169,16 @@ and commit the result. The "relative" column is each row's time over the fastest
 | --- | ---: | ---: | ---: |
 | `flat_id_map` | 111.26 us | 1.00x | 36.95 M/s |
 | `std_unordered_map` | 643.04 us | 5.78x | 6.43 M/s |
+
+## gla_benchmark
+
+`benchmarks/ml/gla_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_GlaRecurrent_Core` | 4.18 ms | 1.03x | 61.32 k/s |
+| `BM_GlaRecurrent_HandWritten` | 4.04 ms | 1.00x | 63.34 k/s |
+| `BM_GlaChunked_Core` | 76.20 ms | 18.85x | 3.39 k/s |
 
 ## hash_combine_benchmark
 
@@ -458,6 +478,17 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `result_hand_propagate/50` | 20.22 us | 3.91x | 202.56 M/s |
 | `result_hand_propagate/100` | 12.41 us | 2.40x | 330.13 M/s |
 
+## rwkv_benchmark
+
+`benchmarks/ml/rwkv_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Wkv6_Core` | 4.15 ms | 1.00x | 61.68 k/s |
+| `BM_Wkv6_HandWritten` | 4.30 ms | 1.04x | 59.51 k/s |
+| `BM_Wkv7_Core` | 5.61 ms | 1.35x | 45.85 k/s |
+| `BM_Wkv7_HandWritten` | 5.56 ms | 1.34x | 46.08 k/s |
+
 ## self_attention_benchmark
 
 `benchmarks/ml/self_attention_benchmark.cpp`
@@ -482,6 +513,15 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Shapley_Core` | 486.77 us | 1.00x |  |
 | `BM_Shapley_Formula3ByHand` | 1.50 ms | 3.08x |  |
 
+## short_conv_benchmark
+
+`benchmarks/ml/short_conv_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_ShortConv_Core` | 1.08 ms | 1.00x | 1.22 G/s |
+| `BM_ShortConv_HandWritten` | 1.11 ms | 1.03x | 1.19 G/s |
+
 ## softmax_benchmark
 
 `benchmarks/ml/softmax_benchmark.cpp`
@@ -492,6 +532,16 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Softmax_HandWritten` | 323.35 us | 1.04x | 159.11 M/s |
 | `BM_CrossEntropyWithGradient_Core` | 524.51 us | 1.69x | 95.98 M/s |
 | `BM_CrossEntropyWithGradient_HandWritten` | 511.22 us | 1.65x | 98.42 M/s |
+
+## ssd_benchmark
+
+`benchmarks/ml/ssd_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_SsdScan_Core` | 1.96 ms | 1.00x | 130.84 k/s |
+| `BM_SsdScan_HandWritten` | 1.96 ms | 1.00x | 130.62 k/s |
+| `BM_SsdChunked_Core` | 56.70 ms | 28.97x | 4.51 k/s |
 
 ## stages_benchmark
 

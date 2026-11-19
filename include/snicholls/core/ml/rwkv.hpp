@@ -47,7 +47,9 @@
 /// **Errors.** Preconditions, asserted: a configuration with one key head per head and square heads (`valid_mixer`), the
 /// views `rows · H · N`, `u` and `μ` of their widths.
 ///
-/// **Performance.** `benchmarks/ml/rwkv_benchmark.cpp`, both recurrences against the loops by hand; BENCHMARKS.md.
+/// **Performance.** `benchmarks/ml/rwkv_benchmark.cpp`, 256 tokens of 8 heads of 64 (Release, AppleClang 17, Intel Xeon W-3245, macOS, 2026-11-19): RWKV-6 4.15 ms against
+/// 4.30 ms by hand, RWKV-7 5.61 ms against 5.56 ms (each pair checked to the bit). BENCHMARKS.md has the current
+/// numbers.
 ///
 /// **Tests and demos.** `tests/ml/rwkv_test.cpp`, `demos/ml/rwkv_demo.cpp`.
 ///

@@ -45,7 +45,8 @@
 /// `recurrence_backward_work<R>(chunk)`.
 ///
 /// **Performance.** The driver adds a copy of the state per chunk forward and per token backward to the steps' own work;
-/// the mixers' benchmarks measure it (`benchmarks/ml/ssd_benchmark.cpp`).
+/// the mixers' benchmarks measure it against loops by hand: `benchmarks/ml/ssd_benchmark.cpp` (1.96 ms against 1.96 ms,
+/// (Release, AppleClang 17, Intel Xeon W-3245, macOS, 2026-11-19)) and the others in BENCHMARKS.md.
 ///
 /// **Tests and demos.** `tests/ml/recurrence_test.cpp`, `demos/ml/recurrence_demo.cpp`.
 ///
