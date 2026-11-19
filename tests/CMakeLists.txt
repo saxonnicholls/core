@@ -82,11 +82,13 @@ add_executable(snicholls_core_tests
     ml/bpe_test.cpp
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
+    ml/delta_rule_test.cpp
     ml/diloco_test.cpp
     ml/distill_test.cpp
     ml/embedding_test.cpp
     ml/expert_parallel_test.cpp
     ml/gather_test.cpp
+    ml/gla_test.cpp
     ml/jepa_test.cpp
     ml/kv_cache_test.cpp
     ml/latent_attention_test.cpp
@@ -109,14 +111,18 @@ add_executable(snicholls_core_tests
     ml/preference_test.cpp
     ml/probe_test.cpp
     ml/quantize_test.cpp
+    ml/recurrence_test.cpp
     ml/reward_model_test.cpp
     ml/rl_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
+    ml/rwkv_test.cpp
     ml/sampling_test.cpp
     ml/self_attention_test.cpp
+    ml/short_conv_test.cpp
     ml/softmax_test.cpp
     ml/sparse_attention_test.cpp
+    ml/ssd_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp
     pipeline/stages_test.cpp
