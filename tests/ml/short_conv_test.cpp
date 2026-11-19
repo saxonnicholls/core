@@ -90,7 +90,7 @@ TEST(MlShortConv, ASequenceInPiecesIsTheWholeSequence)
     std::vector<double> whole(n * ch), state((K - 1) * ch, 0.0);
     ml::short_conv_forward(ref, cw, std::span<const double>(x), std::span<double>(whole));
     std::vector<double> pieces(n * ch);
-    for (const auto [from, to] : {std::pair<std::size_t, std::size_t>{0, 2}, {2, 3}, {3, 9}})   // shorter and longer than K - 1
+    for (const auto& [from, to] : {std::pair<std::size_t, std::size_t>{0, 2}, {2, 3}, {3, 9}})   // shorter and longer than K - 1
         ml::short_conv_forward(ref, cw, std::span<const double>(x).subspan(from * ch, (to - from) * ch),
                                std::span<double>(pieces).subspan(from * ch, (to - from) * ch), 1, std::span<double>(state));
     EXPECT_EQ(pieces, whole);

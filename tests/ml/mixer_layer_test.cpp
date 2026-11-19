@@ -138,7 +138,7 @@ void prefill_in_pieces()
     const auto xs = uniform<double>(n * C.d_model, 5);
     const auto whole = forward<C>(l, xs, 1);
     std::vector<double> state(ml::mixer_state_values(C), 0.0), pieces;
-    for (const auto [from, to] : {std::pair<std::size_t, std::size_t>{0, 3}, {3, 4}, {4, 10}}) {
+    for (const auto& [from, to] : {std::pair<std::size_t, std::size_t>{0, 3}, {3, 4}, {4, 10}}) {
         const std::vector<double> part(xs.begin() + static_cast<std::ptrdiff_t>(from * C.d_model), xs.begin() + static_cast<std::ptrdiff_t>(to * C.d_model));
         const auto out = forward<C>(l, part, 1, nullptr, std::span<double>(state));
         pieces.insert(pieces.end(), out.begin(), out.end());
