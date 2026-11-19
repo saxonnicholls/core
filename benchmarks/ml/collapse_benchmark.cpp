@@ -89,8 +89,9 @@ void moments_by_hand(const float* x, const float* dirs, float* sums)
             for (std::size_t c = 0; c < d; ++c)
                 z += x[r * d + c] * dirs[a * d + c];
             for (std::size_t k = 0; k < knots; ++k) {
-                sums[(a * knots + k) * 2] += math::cos(quad.t[k] * z);
-                sums[(a * knots + k) * 2 + 1] += math::sin(quad.t[k] * z);
+                const float arg = quad.t[k] * z;
+                sums[(a * knots + k) * 2] += math::cos(arg);
+                sums[(a * knots + k) * 2 + 1] += math::sin(arg);
             }
         }
 }

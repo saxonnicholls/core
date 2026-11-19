@@ -402,8 +402,11 @@ constexpr void sigreg_moments_rows(const B&, std::type_identity_t<std::span<cons
             for (std::size_t c = 0; c < width; ++c)
                 z += x[r * width + c] * directions[a * width + c];
             for (std::size_t k = 0; k < K; ++k) {
-                sums[(a * K + k) * 2] += math::cos(q.t[k] * z);
-                sums[(a * K + k) * 2 + 1] += math::sin(q.t[k] * z);
+                // One argument for both, so that a compiler pairing them into one sincos call (Apple's libm, whose
+                // sincos can differ from sin and cos in the last bit) pairs them wherever this loop is compiled
+                const T arg = q.t[k] * z;
+                sums[(a * K + k) * 2] += math::cos(arg);
+                sums[(a * K + k) * 2 + 1] += math::sin(arg);
             }
         }
 }

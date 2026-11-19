@@ -167,7 +167,14 @@ TEST(MlRopeScaling, AFactorOfOneIsPlainRopeUnderEveryMethod)
         for (std::size_t i = 0; i < 32; ++i)
             EXPECT_EQ(ml::rope_scaled_frequency(i, 64, 10000.0, s), ml::rope_frequency<double>(i, 64, 10000.0));
     }
-    const ml::rope_table<float, 16, 8> plain{500000.0f}, scaled{500000.0f, ml::rope_scaling<float>{}};
+    // At compile time, and at run time with a base the compiler cannot see: with a constant base it may fold one
+    // table's std::pow and call the platform's for the other (Apple's ARM64 powf differs from the folded value in the
+    // last bit), which would compare the compiler's arithmetic with the library's, not the two tables
+    static constexpr ml::rope_table<float, 16, 8> plain_ct{500000.0f}, scaled_ct{500000.0f, ml::rope_scaling<float>{}};
+    static_assert(plain_ct.cos == scaled_ct.cos && plain_ct.sin == scaled_ct.sin);
+    volatile float opaque = 500000.0f;
+    const float base = opaque;
+    const ml::rope_table<float, 16, 8> plain{base}, scaled{base, ml::rope_scaling<float>{}};
     EXPECT_EQ(plain.cos, scaled.cos);
     EXPECT_EQ(plain.sin, scaled.sin);
 }

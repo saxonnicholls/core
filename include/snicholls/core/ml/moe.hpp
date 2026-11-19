@@ -701,7 +701,8 @@ constexpr void moe_experts_forward(const B& backend, const mlp_weights<grouped_w
 {
     static_assert(valid(C), "snicholls::ml::moe_experts_forward: the transformer_config is not valid");
     constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
-    [[maybe_unused]] const std::size_t n = xp.size() / C.d_model, m = n * C.expert_d_ff;
+    const std::size_t n = xp.size() / C.d_model;
+    [[maybe_unused]] const std::size_t m = n * C.expert_d_ff; // read by the assertion only
     assert(w.up.experts <= C.experts && offsets.size() == w.up.experts + 1 && w.up.rows == C.expert_d_ff && w.up.cols == C.d_model && w.down.rows == C.d_model
            && w.down.cols == C.expert_d_ff && yp.size() == xp.size() && save.up.size() == m && save.hidden.size() == m
            && (!swiglu || save.gate.size() == m));

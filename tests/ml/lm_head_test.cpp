@@ -43,7 +43,9 @@ std::vector<double> wave(std::size_t size, double a, double b)
 std::vector<float> fwave(std::size_t size, double a, double b)
 {
     const auto w = wave(size, a, b);
-    return {w.begin(), w.end()};
+    std::vector<float> v(w.size());
+    std::transform(w.begin(), w.end(), v.begin(), [](double x) { return static_cast<float>(x); });   // explicitly, for MSVC's C4244
+    return v;
 }
 
 const std::vector<std::size_t> targets{3, 0, 6, 3, 1};
