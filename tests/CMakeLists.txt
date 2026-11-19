@@ -124,6 +124,8 @@ add_executable(snicholls_core_tests
     reflect/string_access_test.cpp
     reflect/string_traits_test.cpp
     reflect/struct_tuple_test.cpp
+    signal/complex_test.cpp
+    signal/fft_test.cpp
     stats/accumulators_test.cpp
     stats/bootstrap_test.cpp
     stats/covariance_test.cpp

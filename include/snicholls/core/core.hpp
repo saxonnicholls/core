@@ -144,6 +144,8 @@
 #include <snicholls/core/reflect/string_access.hpp>
 #include <snicholls/core/reflect/string_traits.hpp>
 #include <snicholls/core/reflect/struct_tuple.hpp>
+#include <snicholls/core/signal/complex.hpp>
+#include <snicholls/core/signal/fft.hpp>
 #include <snicholls/core/stats/accumulators.hpp>
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/covariance.hpp>
