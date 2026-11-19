@@ -313,8 +313,9 @@ TEST(FftIdentities, RoundTripsAndParsevalHoldForEveryNormalisation)
         for (const auto norm : {s::fft_norm::backward, s::fft_norm::forward, s::fft_norm::ortho}) {
             auto y = x;
             s::fft(p.plan, std::span<cd>(y), std::span<cd>(p.work), norm);
-            if (norm == s::fft_norm::ortho)
+            if (norm == s::fft_norm::ortho) {
                 EXPECT_NEAR(static_cast<double>(l2(y)), static_cast<double>(l2(x)), 1e-13 * static_cast<double>(l2(x))) << n;
+            }
             s::ifft(p.plan, std::span<cd>(y), std::span<cd>(p.work), norm);
             for (std::size_t i = 0; i < n; ++i)
                 ASSERT_LE(s::abs(y[i] - x[i]), static_cast<double>(bound(p.plan, l2(x)))) << n;
@@ -396,8 +397,9 @@ TEST(RealFft, HalfSpectrumIsNumpysAndTheComplexTransformsFirstHalf)
         for (std::size_t k = 1; k < n; ++k)
             EXPECT_LE(s::abs(full[k] - s::conj(full[n - k])), 1e-13) << n;
         EXPECT_EQ(half[0].im, 0.0);
-        if (n % 2 == 0)
+        if (n % 2 == 0) {
             EXPECT_EQ(half[n / 2].im, 0.0);
+        }
     }
 }
 

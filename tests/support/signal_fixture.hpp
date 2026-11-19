@@ -19,6 +19,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #ifndef SNICHOLLS_CORE_FIXTURE_DIR
@@ -55,19 +56,20 @@ inline const std::map<std::string, std::vector<double>>& signal_records()
     return records;
 }
 
-/// One record's numbers; throws if it is absent.
-inline const std::vector<double>& signal_record(const std::string& name)
+/// One record's numbers; throws if it is absent. The name is a view taken by value, so GCC's -Wdangling-reference does
+/// not mistake the result for a reference into a temporary argument.
+inline const std::vector<double>& signal_record(std::string_view name)
 {
     const auto& r = signal_records();
-    const auto it = r.find(name);
+    const auto it = r.find(std::string(name));
     if (it == r.end())
-        throw std::runtime_error("signal fixture has no record " + name);
+        throw std::runtime_error("signal fixture has no record " + std::string(name));
     return it->second;
 }
 
 /// A record of interleaved real and imaginary parts, as complex numbers.
 template <typename T = double>
-std::vector<signal::complex<T>> signal_complex(const std::string& name)
+std::vector<signal::complex<T>> signal_complex(std::string_view name)
 {
     const auto& v = signal_record(name);
     std::vector<signal::complex<T>> out(v.size() / 2);
@@ -77,7 +79,7 @@ std::vector<signal::complex<T>> signal_complex(const std::string& name)
 }
 
 /// A sparse record (rows, columns, then row, column, value triples) as a dense row-major matrix.
-inline std::vector<double> signal_dense(const std::string& name, std::size_t& rows, std::size_t& cols)
+inline std::vector<double> signal_dense(std::string_view name, std::size_t& rows, std::size_t& cols)
 {
     const auto& v = signal_record(name);
     rows = static_cast<std::size_t>(v.at(0));

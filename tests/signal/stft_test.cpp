@@ -125,8 +125,9 @@ TEST(Stft, EveryFrameIsTheDirectTransformOfItsPaddedWindowedSamples)
                     s::dft<double>(frame, ref, false, normalized ? s::fft_norm::ortho : s::fft_norm::backward);
                     for (std::size_t k = 0; k < 16; ++k) {
                         EXPECT_LE(s::abs(two[t * 16 + k] - ref[k]), 1e-14);
-                        if (k < 9)
+                        if (k < 9) {
                             EXPECT_LE(s::abs(one[t * 9 + k] - ref[k]), 1e-14);
+                        }
                     }
                 }
             }
