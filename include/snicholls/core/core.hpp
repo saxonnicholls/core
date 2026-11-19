@@ -128,6 +128,8 @@
 #include <snicholls/core/ml/patch.hpp>
 #include <snicholls/core/ml/preference.hpp>
 #include <snicholls/core/ml/probe.hpp>
+#include <snicholls/core/ml/quant_iq.hpp>
+#include <snicholls/core/ml/quant_iq_grids.hpp>
 #include <snicholls/core/ml/quantize.hpp>
 #include <snicholls/core/ml/reward_model.hpp>
 #include <snicholls/core/ml/rl.hpp>
