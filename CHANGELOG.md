@@ -103,6 +103,27 @@ A version is released when its tag is on a commit where every blocking CI leg is
   - `ml::mlp_forward` overload for `moe_weights`: the mixture of experts for one token, for decoding.
   - `ml::mtp_forward_sequence` returns its block's auxiliary losses when the block is a mixture of experts
     (`moe_block_weights`, `latent_moe_block_weights`); `ml::mtp_backward` includes their gradients.
+- **Post-training** (TRAINING.md T13): every objective a function of per-token log-probabilities, each batch a
+  backend call over rows (T9), masks and rollouts plain data, losses a parameter struct and an overload set.
+  - `ml/logprobs.hpp`: `token_logprob` (`-cross_entropy` to the bit), `token_logprob_with_gradient`,
+    `token_entropy`, `token_logprobs_rows` and its fused backward (log-probability and entropy gradients, the logits
+    their own buffer), `sequence_logprobs` / `sequence_logprobs_backward` (masked sum or mean over the response).
+  - `ml/preference.hpp`: `preference_loss` for `dpo`, `ipo`, `simpo` and `orpo`, each with its gradient and implicit
+    rewards; `preference_loss_rows`; `preference_metrics` (loss, rewards, margin, accuracy), mergeable.
+  - `ml/reward_model.hpp`: the Bradley-Terry loss (`bradley_terry{margin}`), a scalar value head and its backward,
+    `last_response_positions` (the index list `gather_rows` reads).
+  - `ml/rl.hpp`: GRPO's `group_advantages` (or Dr. GRPO's centring), `expand_rows`, the k3 KL estimator, the clipped
+    objective with DAPO's asymmetric clip and an entropy bonus, `policy_loss_rows` with the aggregation stated
+    (`sequence_mean` GRPO, `token_mean` DAPO, `constant` Dr. GRPO), `policy_loss_metrics`; PPO's `gae_rows`,
+    `value_loss_rows`, `masked_whiten`; `rollout_view`.
+  - `ml/distill.hpp`: forward and reverse KL at a temperature with the student's gradient (`distill_loss`,
+    `distill_rows`), and the top-k teacher form (`teacher_topk`, `distill_loss_topk`, `distill_topk_rows`).
+  - `ml/nf4.hpp`: QLoRA's NormalFloat4 with double-quantised scales (E4M3 in groups of 256 after the mean),
+    `nf4_quantize` / `nf4_dequantize`, and products dequantising on the fly equal to the dense product of the
+    dequantised matrix to the bit.
+  - `ml/lora.hpp`: `lora_weights` over a dense, bfloat16 or NF4 base; `lora_linear`, `lora_sequence` and `lora_heads`
+    with their backward passes (gradients to A and B only); `lora_initialise` (B zero, A Kaiming-uniform or Gaussian
+    from `stats::wyrand`); `lora_merge` / `lora_unmerge`; `lora_parameters`, the optimiser's view of the adapter.
 
 ### Changed
 

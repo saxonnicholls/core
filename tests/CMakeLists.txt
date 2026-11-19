@@ -83,6 +83,7 @@ add_executable(snicholls_core_tests
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
     ml/diloco_test.cpp
+    ml/distill_test.cpp
     ml/embedding_test.cpp
     ml/expert_parallel_test.cpp
     ml/gather_test.cpp
@@ -92,6 +93,8 @@ add_executable(snicholls_core_tests
     ml/latent_block_test.cpp
     ml/linear_test.cpp
     ml/lm_head_test.cpp
+    ml/logprobs_test.cpp
+    ml/lora_test.cpp
     ml/masking_test.cpp
     ml/minifloat_test.cpp
     ml/mlp_test.cpp
@@ -99,11 +102,15 @@ add_executable(snicholls_core_tests
     ml/moe_test.cpp
     ml/multi_token_prediction_test.cpp
     ml/muon_test.cpp
+    ml/nf4_test.cpp
     ml/norm_test.cpp
     ml/optim_test.cpp
     ml/patch_test.cpp
+    ml/preference_test.cpp
     ml/probe_test.cpp
     ml/quantize_test.cpp
+    ml/reward_model_test.cpp
+    ml/rl_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
     ml/sampling_test.cpp

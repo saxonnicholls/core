@@ -103,6 +103,7 @@
 #include <snicholls/core/ml/collapse.hpp>
 #include <snicholls/core/ml/composed_block.hpp>
 #include <snicholls/core/ml/diloco.hpp>
+#include <snicholls/core/ml/distill.hpp>
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/expert_parallel.hpp>
 #include <snicholls/core/ml/gather.hpp>
@@ -112,6 +113,8 @@
 #include <snicholls/core/ml/latent_block.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/lm_head.hpp>
+#include <snicholls/core/ml/logprobs.hpp>
+#include <snicholls/core/ml/lora.hpp>
 #include <snicholls/core/ml/masking.hpp>
 #include <snicholls/core/ml/minifloat.hpp>
 #include <snicholls/core/ml/mlp.hpp>
@@ -119,11 +122,15 @@
 #include <snicholls/core/ml/moe_block.hpp>
 #include <snicholls/core/ml/multi_token_prediction.hpp>
 #include <snicholls/core/ml/muon.hpp>
+#include <snicholls/core/ml/nf4.hpp>
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/optim.hpp>
 #include <snicholls/core/ml/patch.hpp>
+#include <snicholls/core/ml/preference.hpp>
 #include <snicholls/core/ml/probe.hpp>
 #include <snicholls/core/ml/quantize.hpp>
+#include <snicholls/core/ml/reward_model.hpp>
+#include <snicholls/core/ml/rl.hpp>
 #include <snicholls/core/ml/rope.hpp>
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/sampling.hpp>
