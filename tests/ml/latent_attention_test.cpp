@@ -66,6 +66,7 @@ static_assert(!ml::valid([] { auto c = ml::llama3_8b; c.attention_sinks = true; 
 static_assert(!ml::valid([] { auto c = ml::llama3_8b; c.v_head_dim = 64; return c; }()));
 static_assert(!ml::valid([] { auto c = ml::tiny_mla; c.rope_scaling = ml::rope_scaling_kind::yarn; c.rope_factor = 4; return c; }()));
 static_assert(!ml::valid([] { auto c = ml::tiny_mla; c.mtp_loss_weight = 0.3; return c; }()));
+static_assert(!ml::valid([] { auto c = ml::tiny_mla; c.mask = ml::attention_mask::bidirectional; return c; }()));   // causal only
 
 // The variants under test
 constexpr ml::transformer_config direct = [] {

@@ -194,7 +194,8 @@ struct transformer_config
 };
 
 /// \brief Whether the fields of TRAINING.md T12 are consistent: with no latent rank every MLA field 0; for MLA a rotary
-/// part that is even, set and smaller than `head_dim`, a value head, RoPE on, and one key-value head per query head; a
+/// part that is even, set and smaller than `head_dim`, a value head, RoPE on, one key-value head per query head and the
+/// causal mask (the latent attention's only); a
 /// rescaling factor of at least 1, YaRN's trained context and `β > α > 0`; a non-negative MTP weight, 0 without modules;
 /// sinks and sparse attention only with MLA, the attention that implements them.
 /// \param c The configuration.
@@ -203,7 +204,7 @@ struct transformer_config
 {
     const bool standard = c.q_lora_rank == 0 && c.qk_rope_dim == 0 && c.v_head_dim == 0;
     const bool latent = c.qk_rope_dim > 0 && c.qk_rope_dim % 2 == 0 && c.qk_rope_dim < c.head_dim && c.v_head_dim > 0
-                        && c.rope != rope_kind::none && c.n_kv_heads == c.n_heads;
+                        && c.rope != rope_kind::none && c.n_kv_heads == c.n_heads && c.mask == attention_mask::causal;
     const bool yarn = c.rope_scaling == rope_scaling_kind::yarn || c.rope_scaling == rope_scaling_kind::yarn_index_ramp;
     const bool scaling = c.rope_factor >= 1 && c.yarn_mscale >= 0
                          && (!yarn || (c.rope_original_context > 0 && c.yarn_beta_fast > c.yarn_beta_slow && c.yarn_beta_slow > 0));

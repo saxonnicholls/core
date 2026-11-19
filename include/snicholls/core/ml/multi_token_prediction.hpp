@@ -40,7 +40,7 @@
 /// **At inference** the modules can be dropped: the main model does not read them (V3 section 2.2). Or they draft:
 /// module 1 on the main model's last hidden state and the token just sampled proposes the token after it, which the
 /// main model verifies in its next step (speculative decoding; V3 reports 85 to 90% acceptance of the second token,
-/// section 5.4.3, recalled). Decoding a module one token at a time is its block's `block_forward` on `h'^k`, with a
+/// section 5.4.3). Decoding a module one token at a time is its block's `block_forward` on `h'^k`, with a
 /// cache of its own.
 ///
 /// **Relationships.** `ml/lm_head.hpp` (the shared head), `ml/embedding.hpp` (`embed_rows`, `embed_rows_backward`),
