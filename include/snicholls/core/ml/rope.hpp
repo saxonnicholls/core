@@ -121,6 +121,139 @@ constexpr void rope_angles(std::size_t pos, C&& cos, S&& sin, std::type_identity
     }
 }
 
+/// \brief How RoPE's frequencies are rescaled to reach past the context a model was trained on.
+/// \ingroup core
+enum class rope_scaling_kind
+{
+    none,              ///< The frequencies as trained.
+    linear,            ///< Position interpolation (Chen et al., 2023): every frequency divided by the factor.
+    ntk,               ///< NTK-aware: the base raised to `base · s^(d / (d - 2))` (YaRN, Peng et al., 2023, section 3.1).
+    yarn,              ///< YaRN's "NTK-by-parts" as the paper writes it (eqs. 10 to 13): the ramp linear in `r = L / λ`.
+    yarn_index_ramp,   ///< YaRN as its published code, Hugging Face and DeepSeek-V3 compute it: the ramp linear in the
+                       ///< pair index between the rounded correction dimensions.
+};
+
+/// \brief The rescaling of RoPE's frequencies for a long context, and the amplitude of the table's cosines and sines.
+/// \ingroup core
+/// \tparam T A `math::math_number`.
+template <math::math_number T>
+struct rope_scaling
+{
+    rope_scaling_kind kind = rope_scaling_kind::none;   ///< The method.
+    T factor = T(1);                                    ///< `s = L' / L`, the new context over the trained one.
+    std::size_t original_context = 0;                   ///< `L`, the trained context: YaRN only.
+    T beta_fast = T(32);                                ///< YaRN's `β`: pairs turning more than `β` times in `L` keep their frequency.
+    T beta_slow = T(1);                                 ///< YaRN's `α`: pairs turning fewer than `α` times are interpolated.
+    T amplitude = T(1);                                 ///< Multiplies every cosine and sine: YaRN's `sqrt(1/t)` when the
+                                                        ///< temperature is applied through the table (see `yarn_attention_factor`).
+};
+
+/// \brief YaRN's ramp `γ(r)`: 0 below `alpha`, 1 above `beta`, linear between (YaRN, eq. 11).
+/// \tparam T A `math::math_number`.
+/// \param r The rotations of a pair over the trained context, `L / λ`.
+/// \param alpha The lower bound (`beta_slow`).
+/// \param beta The upper bound (`beta_fast`), above `alpha`.
+/// \return `γ` in [0, 1].
+template <math::math_number T>
+constexpr T yarn_ramp(T r, T alpha, T beta) noexcept
+{
+    return r < alpha ? T(0) : r > beta ? T(1) : (r - alpha) / (beta - alpha);
+}
+
+/// \brief The pair index at which a pair turns `rotations` times over `context` positions, as YaRN's code finds it:
+/// `head_dim · ln(context / (rotations · 2π)) / (2 ln base)`.
+/// \tparam T A `math::math_number`.
+/// \param rotations The rotations.
+/// \param head_dim The channels the rotation covers.
+/// \param base The base of the frequencies.
+/// \param context The trained context `L`.
+/// \return The (fractional) pair index.
+template <math::math_number T>
+constexpr T yarn_correction_dim(T rotations, std::size_t head_dim, T base, std::size_t context)
+{
+    return T(head_dim) * math::log(T(context) / (rotations * T(2) * T(math::pi))) / (T(2) * math::log(base));
+}
+
+/// \brief YaRN's attention temperature as a factor on the scores' square root: `sqrt(1/t) = 0.1 · mscale · ln s + 1`,
+/// 1 for `s <= 1` (YaRN, definition 2; DeepSeek-V3, section 4.3, with `mscale` 1).
+///
+/// The scores are multiplied by its square: through the table (`rope_scaling::amplitude`, which scales queries and
+/// keys alike, as YaRN and gpt-oss do), or through the softmax scale (DeepSeek-V3, whose rotation covers part of a head
+/// only: `latent_attention_scale`).
+/// \tparam T A `math::math_number`.
+/// \param factor `s`.
+/// \param mscale The coefficient's multiplier (DeepSeek's `mscale_all_dim`), 1 for YaRN's.
+/// \return The factor.
+template <math::math_number T>
+constexpr T yarn_attention_factor(T factor, T mscale = T(1))
+{
+    return factor <= T(1) ? T(1) : T(0.1) * mscale * math::log(factor) + T(1);
+}
+
+/// \brief The angular frequency of pair `i`, rescaled as `scaling` says; `rope_frequency` itself with `none`, or with
+/// a factor of 1 under any method.
+/// \tparam T A `math::math_number`.
+/// \param i The pair, below `head_dim / 2`.
+/// \param head_dim The channels the rotation covers (more than 2 for `ntk`).
+/// \param base The base.
+/// \param scaling The method and its parameters.
+/// \return The frequency, in radians per position.
+template <math::math_number T>
+constexpr T rope_scaled_frequency(std::size_t i, std::size_t head_dim, T base, const rope_scaling<T>& scaling)
+{
+    const T f = rope_frequency<T>(i, head_dim, base), s = scaling.factor;
+    if (scaling.kind == rope_scaling_kind::none || s == T(1))
+        return f;
+    switch (scaling.kind) {
+    case rope_scaling_kind::linear:
+        return f / s;
+    case rope_scaling_kind::ntk:
+        assert(head_dim > 2);
+        return rope_frequency<T>(i, head_dim, base * math::pow(s, T(head_dim) / T(head_dim - 2)));
+    case rope_scaling_kind::yarn: {
+        assert(scaling.original_context > 0 && scaling.beta_fast > scaling.beta_slow);
+        const T r = T(scaling.original_context) * f / (T(2) * T(math::pi));   // L / λ, λ = 2π / θ
+        const T g = yarn_ramp(r, scaling.beta_slow, scaling.beta_fast);
+        return (T(1) - g) * f / s + g * f;
+    }
+    default: {   // yarn_index_ramp
+        assert(scaling.original_context > 0 && scaling.beta_fast > scaling.beta_slow);
+        const T lo_dim = math::floor(yarn_correction_dim(scaling.beta_fast, head_dim, base, scaling.original_context));
+        const T hi_dim = -math::floor(-yarn_correction_dim(scaling.beta_slow, head_dim, base, scaling.original_context));
+        const T lo = lo_dim < T(0) ? T(0) : lo_dim;
+        T hi = hi_dim > T(head_dim - 1) ? T(head_dim - 1) : hi_dim;
+        if (hi == lo)
+            hi += T(0.001);
+        const T ramp = yarn_ramp(T(i), lo, hi);   // clamp((i - lo) / (hi - lo), 0, 1)
+        const T smooth = T(1) - ramp;
+        return f / s * (T(1) - smooth) + f * smooth;
+    }
+    }
+}
+
+/// \brief One position's cosines and sines under a rescaling: `cos[i] = a · cos(pos · f'_i)`, `sin[i] = a · sin(pos · f'_i)`,
+/// with `f'` from `rope_scaled_frequency` and `a` the scaling's amplitude.
+/// \param pos The position.
+/// \param cos Receives `d/2` cosines.
+/// \param sin Receives `d/2` sines, `cos`'s size.
+/// \param base The base of the frequencies.
+/// \param scaling The rescaling.
+template <mutable_row C, mutable_row S>
+    requires std::same_as<row_value_t<C>, row_value_t<S>>
+constexpr void rope_angles(std::size_t pos, C&& cos, S&& sin, std::type_identity_t<row_value_t<C>> base,
+                           const rope_scaling<row_value_t<C>>& scaling)
+{
+    using T = row_value_t<C>;
+    const auto c = as_mutable_row(cos);
+    const auto s = as_mutable_row(sin);
+    assert(c.size() == s.size());
+    for (std::size_t i = 0; i < c.size(); ++i) {
+        const T angle = T(pos) * rope_scaled_frequency<T>(i, 2 * c.size(), base, scaling);
+        c[i] = scaling.amplitude * math::cos(angle);
+        s[i] = scaling.amplitude * math::sin(angle);
+    }
+}
+
 /// \brief Every position's cosines and sines, `Positions` rows of `HeadDim / 2`.
 /// \ingroup core
 /// \tparam T A `math::math_number`: `float` for a table a GPU kernel reads.
@@ -139,6 +272,15 @@ struct rope_table
     {
         for (std::size_t p = 0; p < Positions; ++p)
             rope_angles(p, cos[p], sin[p], base);
+    }
+
+    /// \brief Builds the table with rescaled frequencies (`rope_scaling`): at compile time in a `constexpr` variable.
+    /// \param base The base of the frequencies.
+    /// \param scaling The rescaling; with `none` and amplitude 1 the table is the plain one to the bit.
+    constexpr rope_table(T base, const rope_scaling<T>& scaling)
+    {
+        for (std::size_t p = 0; p < Positions; ++p)
+            rope_angles(p, cos[p], sin[p], base, scaling);
     }
 
     /// \brief One position's cosines.

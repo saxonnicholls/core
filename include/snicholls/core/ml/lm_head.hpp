@@ -26,7 +26,9 @@
 ///
 /// `lm_head_loss_sequence(backend, head, hs, targets, logits, losses, dhs, dhead, classes)` is the batched form for training on a
 /// device: the whole sequence's logits (`n x V`, the caller's) as one product through a `linalg` backend, then
-/// `cross_entropy_rows`, then the gradients; the same loss to the bit through core's reference (TRAINING.md T9).
+/// `cross_entropy_rows`, then the gradients; the same loss to the bit through core's reference (TRAINING.md T9). Its
+/// `weight` and `denominator` (defaults 1 and the targets' count, the mean) let a multi-token prediction depth share the
+/// head (TRAINING.md T12).
 ///
 /// \snippet ml/lm_head_demo.cpp lm_head_sequence
 ///
@@ -142,26 +144,32 @@ constexpr row_value_t<H> lm_head_loss(const dense_weights<S>& head, const H& hs,
 /// the hardware wants (GPT-2's 50,257 tokens in 50,304 rows, as llm.c lays them out): the padding's logits are not
 /// classes, their gradient is 0, and the padding rows of `dhead` gain nothing. With every row a class, the result
 /// is the unpadded one to the bit.
-/// \return The mean loss, in nats; 0 with no targets.
+/// \param weight A factor on the loss and its gradients: multi-token prediction's `λ / D` (`ml/multi_token_prediction.hpp`).
+/// \param denominator What the summed losses are divided by; 0 for `n`. A part of a larger batch (a depth of multi-token
+/// prediction, whose loss DeepSeek-V3 divides by the whole sequence's length) passes the whole's.
+/// \return `weight` times the summed loss over `denominator`: the mean loss, in nats, by default; 0 with no targets.
 template <math::math_number T, typename B>
     requires linalg::blas_backend<B, T>
 constexpr T lm_head_loss_sequence(const B& backend, const dense_weights<T>& head, std::type_identity_t<std::span<const T>> hs,
                                   std::span<const std::uint32_t> targets, std::type_identity_t<std::span<T>> logits,
                                   std::type_identity_t<std::span<T>> losses, std::type_identity_t<std::span<T>> dhs,
-                                  std::type_identity_t<std::span<T>> dhead, std::size_t classes = 0)
+                                  std::type_identity_t<std::span<T>> dhead, std::size_t classes = 0, std::type_identity_t<T> weight = T(1),
+                                  std::size_t denominator = 0)
 {
-    const std::size_t n = targets.size();
+    const std::size_t n = targets.size(), m = denominator == 0 ? n : denominator;
     assert(hs.size() == n * head.cols && logits.size() == n * head.rows && losses.size() == n && dhs.size() == hs.size()
            && classes <= head.rows);
     if (n == 0)
         return T(0);
     linear_sequence(backend, head, hs, logits);
+    const T scale = weight == T(1) ? T(1) / T(m) : weight / T(m);
     if (classes == 0 || classes == head.rows)
-        cross_entropy_rows(backend, logits, targets, losses, T(1) / T(n));
+        cross_entropy_rows(backend, logits, targets, losses, scale);
     else
-        cross_entropy_rows(backend, logits, targets, losses, T(1) / T(n), classes);
+        cross_entropy_rows(backend, logits, targets, losses, scale, classes);
     linear_sequence_backward(backend, head, hs, std::span<const T>(logits), dhs, dhead);
-    return sum_values(backend, std::span<const T>(losses)) / T(n);
+    const T mean = sum_values(backend, std::span<const T>(losses)) / T(m);
+    return weight == T(1) ? mean : weight * mean;
 }
 
 } // namespace snicholls::ml

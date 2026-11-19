@@ -143,6 +143,22 @@ struct transformer_config
     attention_mask mask = attention_mask::causal;     ///< Which keys a query sees: causal, bidirectional or block-causal.
     std::size_t mask_block = 0;                       ///< The tokens of a block under `block_causal`; 0 otherwise.
 
+    // Latent attention, multi-token prediction and long context (TRAINING.md T12): every default leaves a model as it was
+    std::size_t q_lora_rank = 0;                      ///< MLA: the query latent's rank `d_c'`; 0 projects the query directly.
+    std::size_t kv_lora_rank = 0;                     ///< MLA: the key-value latent's rank `d_c`; 0 for standard attention.
+    std::size_t qk_rope_dim = 0;                      ///< MLA: the decoupled rotary channels `d_h^R` at the end of each query and key head.
+    std::size_t v_head_dim = 0;                       ///< MLA: the channels of a value head.
+    rope_scaling_kind rope_scaling = rope_scaling_kind::none;   ///< RoPE's rescaling for a long context.
+    double rope_factor = 1;                                     ///< The rescaling's factor `s`.
+    std::size_t rope_original_context = 0;            ///< YaRN's trained context `L`.
+    double yarn_beta_fast = 32;                                 ///< YaRN's `β`.
+    double yarn_beta_slow = 1;                                  ///< YaRN's `α`.
+    double yarn_mscale = 1;                                     ///< YaRN's temperature coefficient (DeepSeek's `mscale_all_dim`).
+    bool attention_sinks = false;                     ///< A learnable sink logit per query head (gpt-oss).
+    std::size_t sparse_top_k = 0;                     ///< Keys each query attends to, chosen by an indexer (DeepSeek Sparse Attention); 0 for all.
+    std::size_t mtp_depth = 0;                        ///< Multi-token prediction modules `D` (DeepSeek-V3); 0 for none.
+    double mtp_loss_weight = 0;                                 ///< MTP's `λ`.
+
     /// \brief The width of all the query heads together.
     /// \return `n_heads · head_dim`.
     [[nodiscard]] constexpr std::size_t q_size() const noexcept { return n_heads * head_dim; }
@@ -158,7 +174,32 @@ struct transformer_config
     /// \brief Whether the MLP is a mixture of experts.
     /// \return `experts > 0`.
     [[nodiscard]] constexpr bool moe() const noexcept { return experts > 0; }
+    /// \brief Whether the attention is multi-head latent attention.
+    /// \return `kv_lora_rank > 0`.
+    [[nodiscard]] constexpr bool latent() const noexcept { return kv_lora_rank > 0; }
+    /// \brief MLA: the non-rotary channels of a query or key head, `d_h`.
+    /// \return `head_dim - qk_rope_dim`.
+    [[nodiscard]] constexpr std::size_t qk_nope_dim() const noexcept { return head_dim - qk_rope_dim; }
 };
+
+/// \brief Whether the fields of TRAINING.md T12 are consistent: with no latent rank every MLA field 0; for MLA a rotary
+/// part that is even, set and smaller than `head_dim`, a value head, RoPE on, and one key-value head per query head; a
+/// rescaling factor of at least 1, YaRN's trained context and `β > α > 0`; a non-negative MTP weight, 0 without modules;
+/// sinks and sparse attention only with MLA, the attention that implements them.
+/// \param c The configuration.
+/// \return Whether those fields are valid.
+[[nodiscard]] constexpr bool valid_long_context(const transformer_config& c) noexcept
+{
+    const bool standard = c.q_lora_rank == 0 && c.qk_rope_dim == 0 && c.v_head_dim == 0;
+    const bool latent = c.qk_rope_dim > 0 && c.qk_rope_dim % 2 == 0 && c.qk_rope_dim < c.head_dim && c.v_head_dim > 0
+                        && c.rope != rope_kind::none && c.n_kv_heads == c.n_heads;
+    const bool yarn = c.rope_scaling == rope_scaling_kind::yarn || c.rope_scaling == rope_scaling_kind::yarn_index_ramp;
+    const bool scaling = c.rope_factor >= 1 && c.yarn_mscale >= 0
+                         && (!yarn || (c.rope_original_context > 0 && c.yarn_beta_fast > c.yarn_beta_slow && c.yarn_beta_slow > 0));
+    const bool mtp = c.mtp_loss_weight >= 0 && (c.mtp_depth > 0 || c.mtp_loss_weight == 0);
+    const bool options = c.kv_lora_rank > 0 || (!c.attention_sinks && c.sparse_top_k == 0);   // the latent attention's options
+    return (c.kv_lora_rank == 0 ? standard : latent) && scaling && mtp && options;
+}
 
 /// \brief Whether a configuration is consistent: every width set, `n_heads` a multiple of `n_kv_heads`, `head_dim`
 /// even under RoPE, a positive `norm_eps`, a non-negative soft cap; for a mixture of experts, `top_k` from 1 to
@@ -174,7 +215,7 @@ struct transformer_config
     return c.d_model > 0 && c.n_heads > 0 && c.n_kv_heads > 0 && c.head_dim > 0 && c.d_ff > 0 && c.n_heads % c.n_kv_heads == 0
            && (c.rope == rope_kind::none || c.head_dim % 2 == 0) && c.norm_eps > 0 && c.attention_softcap >= 0
            && (c.rope == rope_kind::none || c.rope_base > 1) && (dense || moe) && (c.mask == attention_mask::causal || c.window == 0)
-           && ((c.mask == attention_mask::block_causal) == (c.mask_block > 0));
+           && ((c.mask == attention_mask::block_causal) == (c.mask_block > 0)) && valid_long_context(c);
 }
 
 /// \brief The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.
@@ -225,6 +266,32 @@ inline constexpr transformer_config vit_base{.d_model = 768, .n_heads = 12, .n_k
                                              .norm = norm_kind::layer, .norm_eps = 1e-6, .mlp = mlp_kind::gelu, .bias = true,
                                              .mask = attention_mask::bidirectional};
 
+/// \brief A small MLA model for tests and demos: 16 wide, 2 heads of 6 query-key channels (4 plain, 2 rotary) and 4
+/// value channels, a query latent of 6 and a key-value latent of 8, RMS norm, SwiGLU, interleaved RoPE.
+inline constexpr transformer_config tiny_mla{.d_model = 16, .n_heads = 2, .n_kv_heads = 2, .head_dim = 6, .d_ff = 24,
+                                             .norm = norm_kind::rms, .norm_eps = 1e-6, .mlp = mlp_kind::swiglu,
+                                             .rope = rope_kind::interleaved, .rope_base = 10000, .q_lora_rank = 6,
+                                             .kv_lora_rank = 8, .qk_rope_dim = 2, .v_head_dim = 4};
+
+/// \brief The attention shape of DeepSeek-V3 (DeepSeek-AI, 2024, section 4.2; its `config.json`): 7168 wide, 128 heads
+/// of 128 plain and 64 rotary query-key channels and 128 value channels, a query latent of 1536 and a key-value latent of
+/// 512, RMS norm (1e-6), interleaved RoPE with base 10,000 under YaRN (factor 40 from 4,096, β 32, α 1), one MTP module
+/// with `λ` 0.1 (0.3 for the first 10T tokens); its mixture of experts (section 2.1.2, `config.json`): 256 routed
+/// experts of 2048 (top 8) and one shared, sigmoid affinities normalised over the chosen and scaled by 2.5, the
+/// selection bias's step 0.001 and the sequence-wise balance loss at 0.0001 (section 4.2). `d_ff` is the dense MLP of
+/// its first three blocks (61 blocks, which the configuration does not carry; the other 58 are mixtures of experts);
+/// its node-limited routing (8 groups, 4 chosen) is not modelled.
+inline constexpr transformer_config deepseek_v3{.d_model = 7168, .n_heads = 128, .n_kv_heads = 128, .head_dim = 192, .d_ff = 18432,
+                                                .norm = norm_kind::rms, .norm_eps = 1e-6, .mlp = mlp_kind::swiglu,
+                                                .rope = rope_kind::interleaved, .rope_base = 10000, .experts = 256, .top_k = 8,
+                                                .shared_experts = 1, .expert_d_ff = 2048, .scoring = moe_scoring::sigmoid,
+                                                .route_scale = 2.5, .bias_update_rate = 0.001, .balance_loss_weight = 0.0001,
+                                                .q_lora_rank = 1536,
+                                                .kv_lora_rank = 512, .qk_rope_dim = 64, .v_head_dim = 128,
+                                                .rope_scaling = rope_scaling_kind::yarn_index_ramp, .rope_factor = 40,
+                                                .rope_original_context = 4096, .yarn_beta_fast = 32, .yarn_beta_slow = 1,
+                                                .yarn_mscale = 1, .mtp_depth = 1, .mtp_loss_weight = 0.1};
+
 /// \brief `C.norm_eps` in `T`, evaluated at compile time (see Known issues).
 template <transformer_config C, math::math_number T>
 inline constexpr T norm_eps_v = static_cast<T>(C.norm_eps);
@@ -253,8 +320,29 @@ inline constexpr T balance_loss_weight_v = static_cast<T>(C.balance_loss_weight)
 template <transformer_config C, math::math_number T>
 inline constexpr T z_loss_weight_v = static_cast<T>(C.z_loss_weight);
 
+/// \brief `C.rope_factor` in `T`, evaluated at compile time (see Known issues).
+template <transformer_config C, math::math_number T>
+inline constexpr T rope_factor_v = static_cast<T>(C.rope_factor);
+
+/// \brief `C.mtp_loss_weight` in `T`, evaluated at compile time (see Known issues).
+template <transformer_config C, math::math_number T>
+inline constexpr T mtp_loss_weight_v = static_cast<T>(C.mtp_loss_weight);
+
+/// \brief The configuration's RoPE rescaling in `T`, for `rope_table(base, scaling)`, every field evaluated at compile
+/// time; the amplitude is 1 (a latent attention takes YaRN's temperature in its score scale).
+template <transformer_config C, math::math_number T>
+inline constexpr rope_scaling<T> rope_scaling_v{C.rope_scaling, static_cast<T>(C.rope_factor), C.rope_original_context,
+                                                static_cast<T>(C.yarn_beta_fast), static_cast<T>(C.yarn_beta_slow), T(1)};
+
+/// \brief `yarn_attention_factor` of the configuration in `T`: 1 unless it rescales RoPE with YaRN.
+template <transformer_config C, math::math_number T>
+inline constexpr T yarn_attention_factor_v
+    = C.rope_scaling == rope_scaling_kind::yarn || C.rope_scaling == rope_scaling_kind::yarn_index_ramp
+          ? yarn_attention_factor(static_cast<T>(C.rope_factor), static_cast<T>(C.yarn_mscale))
+          : T(1);
+
 static_assert(valid(gpt2_small) && valid(gpt2_medium) && valid(gpt2_large) && valid(llama3_8b) && valid(nanochat_d20) && valid(tiny_moe)
-              && valid(olmoe_1b_7b) && valid(vit_base));
+              && valid(olmoe_1b_7b) && valid(vit_base) && valid(tiny_mla) && valid(deepseek_v3));
 
 } // namespace snicholls::ml
 
