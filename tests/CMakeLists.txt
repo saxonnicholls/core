@@ -120,6 +120,7 @@ add_executable(snicholls_core_tests
     ml/softmax_test.cpp
     ml/sparse_attention_test.cpp
     ml/spatial_test.cpp
+    ml/speculative_test.cpp
     ml/tensor_ops_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp

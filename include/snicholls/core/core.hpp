@@ -140,6 +140,7 @@
 #include <snicholls/core/ml/softmax.hpp>
 #include <snicholls/core/ml/sparse_attention.hpp>
 #include <snicholls/core/ml/spatial.hpp>
+#include <snicholls/core/ml/speculative.hpp>
 #include <snicholls/core/ml/tensor_ops.hpp>
 #include <snicholls/core/ml/transformer_block.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
