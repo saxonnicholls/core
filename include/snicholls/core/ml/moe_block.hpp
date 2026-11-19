@@ -19,9 +19,11 @@
 /// \snippet ml/moe_block_demo.cpp moe_block
 ///
 /// **Relationships.** `ml/moe.hpp` (the MLP), `ml/transformer_block.hpp` (the dense block, whose norm steps these
-/// reuse), `ml/attention_layer.hpp`. Group: \ref core.
+/// reuse), `ml/attention_layer.hpp`, `ml/composed_block.hpp` (the same steps with either attention; DeepSeek-V3's block
+/// of latent attention and a mixture of experts). Group: \ref core.
 ///
-/// **Implementations.** One: the batched path, products through a `linalg` backend. There is no per-token MoE block.
+/// **Implementations.** One: the batched path, products through a `linalg` backend. Decoding one token is
+/// `ml/composed_block.hpp`'s `block_forward` with these parts (`mlp_forward`'s overload for `moe_weights`).
 ///
 /// **Guarantees.** As the batched dense block's: `constexpr`, no allocation, each step in a fixed order, so the bits do
 /// not depend on scheduling. The forward pass's output is the dense block's steps with `moe_forward` in place of

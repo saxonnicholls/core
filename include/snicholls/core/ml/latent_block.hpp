@@ -21,13 +21,15 @@
 ///   act, dxs, grads, sequences)`: the batched training passes, every step a backend call (TRAINING.md T9), as the
 ///   standard block's.
 ///
-/// A DeepSeek-V3 block puts a mixture of experts where this block has its dense MLP (`ml/moe.hpp`'s layer); a block of
-/// both is the composition of this file's attention half with that MLP and is not built here (TRAINING.md T12).
+/// A DeepSeek-V3 block puts a mixture of experts where this block has its dense MLP (`ml/moe.hpp`'s layer): that block
+/// is `ml/composed_block.hpp`'s `latent_moe_block_weights`, whose skeleton composes either attention with either MLP
+/// (with latent attention and a dense MLP it is this block to the bit).
 ///
 /// \snippet ml/latent_block_demo.cpp latent_block
 ///
 /// **Relationships.** `ml/latent_attention.hpp`, `ml/transformer_block.hpp` (`block_norm`, `block_norm_rows` and their
-/// backward passes), `ml/mlp.hpp`, `ml/multi_token_prediction.hpp` (a user). Group: \ref core.
+/// backward passes), `ml/mlp.hpp`, `ml/composed_block.hpp` (the block with a mixture of experts),
+/// `ml/multi_token_prediction.hpp` (a user). Group: \ref core.
 ///
 /// **Implementations.** One, configured at compile time.
 ///

@@ -57,8 +57,16 @@
 /// `selected` argument). `window`: a sliding window, as for standard attention. KV-cache sizes are constant expressions:
 /// `kv_cache_elements_per_token(c)`, `kv_cache_elements(c, layers, positions)`.
 ///
+/// **Buffers.** `latent_attention_parameter_count`, `latent_attention_activation_values` and
+/// `latent_attention_gradient_work` size a layer's buffers, and `latent_attention_weights_in`,
+/// `latent_attention_activations_in` and `latent_attention_gradients_in` lay them out (the norms' weights and, with
+/// `attention_sinks`, the sinks included), as `ml/moe.hpp` does for a mixture of experts.
+///
+/// \snippet ml/latent_attention_demo.cpp latent_buffers
+///
 /// **Relationships.** `ml/transformer_config.hpp` (the MLA fields, `deepseek_v3`, `tiny_mla`), `ml/linear.hpp`,
-/// `ml/norm.hpp`, `ml/rope.hpp` (YaRN), `ml/attention_sink.hpp` (the recurrence), `ml/latent_block.hpp` (the block).
+/// `ml/norm.hpp`, `ml/rope.hpp` (YaRN), `ml/attention_sink.hpp` (the recurrence), `ml/latent_block.hpp` (the block),
+/// `ml/composed_block.hpp` (the block with a mixture of experts).
 /// Group: \ref core.
 ///
 /// **Implementations.** One, configured at compile time.
@@ -263,6 +271,130 @@ namespace detail::latent_attention
         }
     }
 } // namespace detail::latent_attention
+
+/// \name Sizes and layouts of a latent attention's buffers
+/// The parameters, the activations a training pass saves and its gradients' working spaces, each as one count and one
+/// layout over a buffer the caller owns, as `moe_parameter_count` / `moe_weights_in` lay out a mixture of experts.
+/// @{
+
+/// \brief The parameters of a latent attention, in `latent_attention_weights_in`'s order: `q_down`, `q_norm`, `q_up`,
+/// `kv_down`, `kv_norm`, `kv_up`, `o`, and the sinks with `attention_sinks`.
+/// \param c A latent configuration.
+/// \return The number of values: the norms' weights included (DeepSeek-V3's latents are normalised with weights).
+[[nodiscard]] constexpr std::size_t latent_attention_parameter_count(const transformer_config& c) noexcept
+{
+    const std::size_t h = c.n_heads, dq = c.q_lora_rank, d = c.d_model, dc = c.kv_lora_rank;
+    return dq * d + dq + h * c.head_dim * (dq > 0 ? dq : d) + (dc + c.qk_rope_dim) * d + dc + h * (c.qk_nope_dim() + c.v_head_dim) * dc
+           + d * h * c.v_head_dim + (c.attention_sinks ? h : 0);
+}
+
+/// \brief The numbers `latent_attention_forward_sequence` saves for `rows` rows (`latent_attention_activations_in`).
+/// \param c A latent configuration. \param rows The rows.
+/// \return The number of values.
+[[nodiscard]] constexpr std::size_t latent_attention_activation_values(const transformer_config& c, std::size_t rows) noexcept
+{
+    const std::size_t h = c.n_heads, dc = c.kv_lora_rank, dr = c.qk_rope_dim;
+    return rows * (2 * c.q_lora_rank + h * c.head_dim + (dc + dr) + dc + dr + h * (c.qk_nope_dim() + c.v_head_dim) + h * c.v_head_dim + h);
+}
+
+/// \brief The working space `latent_attention_backward` needs for `rows` rows (`latent_attention_gradients_in`).
+/// \param c A latent configuration. \param rows The rows.
+/// \return The number of values.
+[[nodiscard]] constexpr std::size_t latent_attention_gradient_work(const transformer_config& c, std::size_t rows) noexcept
+{
+    const std::size_t h = c.n_heads, dc = c.kv_lora_rank, dr = c.qk_rope_dim;
+    return rows * (h * c.v_head_dim + h * c.head_dim + h * (c.qk_nope_dim() + c.v_head_dim) + dr + dc + (dc + dr) + 2 * c.q_lora_rank);
+}
+
+/// \brief The weights of a latent attention laid out in one buffer, in `latent_attention_parameter_count`'s order, each
+/// matrix row by row as DeepSeek-V3 stores it.
+/// \tparam C A latent configuration.
+/// \param params `latent_attention_parameter_count(C)` values.
+/// \return The views (dense).
+template <transformer_config C, math::math_number T>
+    requires(C.latent())
+constexpr latent_attention_weights<dense_weights<T>, T> latent_attention_weights_in(std::span<const T> params)
+{
+    using D = detail::latent_attention::dims<C>;
+    assert(params.size() == latent_attention_parameter_count(C));
+    constexpr std::size_t qin = D::dq > 0 ? D::dq : D::d;
+    detail::cutter<const T> c{params};
+    latent_attention_weights<dense_weights<T>, T> w{};
+    w.q_down = {c.take(D::dq * D::d), D::dq, D::dq > 0 ? D::d : 0};
+    w.q_norm = c.take(D::dq);
+    w.q_up = {c.take(D::qw * qin), D::qw, qin};
+    w.kv_down = {c.take(D::cw * D::d), D::cw, D::d};
+    w.kv_norm = c.take(D::dc);
+    w.kv_up = {c.take(D::kvn * D::dc), D::kvn, D::dc};
+    w.o = {c.take(D::d * D::yw), D::d, D::yw};
+    w.sinks = c.take(C.attention_sinks ? D::h : 0);
+    return w;
+}
+
+/// \brief What `latent_attention_forward_sequence` saves for `rows` rows, laid out in one buffer.
+/// \tparam C A latent configuration.
+/// \param values `latent_attention_activation_values(C, rows)` values.
+/// \param rows The rows.
+/// \param selected With `sparse_top_k`, `rows · sparse_top_k` key positions (read only), or empty.
+/// \return The views.
+template <transformer_config C, math::math_number T>
+    requires(C.latent())
+constexpr latent_attention_activations<T> latent_attention_activations_in(std::span<T> values, std::size_t rows,
+                                                                          std::span<const std::uint32_t> selected = {})
+{
+    using D = detail::latent_attention::dims<C>;
+    assert(values.size() == latent_attention_activation_values(C, rows));
+    detail::cutter<T> v{values};
+    latent_attention_activations<T> a{};
+    a.cq_raw = v.take(rows * D::dq);
+    a.cq = v.take(rows * D::dq);
+    a.q = v.take(rows * D::qw);
+    a.ckv_raw = v.take(rows * D::cw);
+    a.ckv = v.take(rows * D::dc);
+    a.k_rope = v.take(rows * D::dr);
+    a.kv = v.take(rows * D::kvn);
+    a.y = v.take(rows * D::yw);
+    a.lse = v.take(rows * D::h);
+    a.selected = selected;
+    return a;
+}
+
+/// \brief The gradients of a latent attention in `latent_attention_weights_in`'s layout, and its backward pass's working
+/// spaces for `rows` rows.
+/// \tparam C A latent configuration.
+/// \param grads `latent_attention_parameter_count(C)` values, added into.
+/// \param work `latent_attention_gradient_work(C, rows)` values.
+/// \param rows The rows.
+/// \return The views.
+template <transformer_config C, math::math_number T>
+    requires(C.latent())
+constexpr latent_attention_gradients<T> latent_attention_gradients_in(std::span<T> grads, std::span<T> work, std::size_t rows)
+{
+    using D = detail::latent_attention::dims<C>;
+    assert(grads.size() == latent_attention_parameter_count(C) && work.size() == latent_attention_gradient_work(C, rows));
+    constexpr std::size_t qin = D::dq > 0 ? D::dq : D::d;
+    detail::cutter<T> c{grads}, w{work};
+    latent_attention_gradients<T> g{};
+    g.q_down = c.take(D::dq * D::d);
+    g.q_norm = c.take(D::dq);
+    g.q_up = c.take(D::qw * qin);
+    g.kv_down = c.take(D::cw * D::d);
+    g.kv_norm = c.take(D::dc);
+    g.kv_up = c.take(D::kvn * D::dc);
+    g.o = c.take(D::d * D::yw);
+    g.sinks = c.take(C.attention_sinks ? D::h : 0);
+    g.y = w.take(rows * D::yw);
+    g.q = w.take(rows * D::qw);
+    g.kv = w.take(rows * D::kvn);
+    g.k_rope = w.take(rows * D::dr);
+    g.ckv = w.take(rows * D::dc);
+    g.ckv_raw = w.take(rows * D::cw);
+    g.cq = w.take(rows * D::dq);
+    g.cq_raw = w.take(rows * D::dq);
+    return g;
+}
+
+/// @}
 
 /// \name The steps of the latent attention's batched passes, on the backend (TRAINING.md T9)
 /// Each runs on the host for any backend, sequence by sequence and token by token; a device library overloads them for

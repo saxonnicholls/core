@@ -82,6 +82,25 @@ int main()
     constexpr std::size_t mla = ml::kv_cache_elements_per_token(ml::deepseek_v3), mha = 2 * ml::deepseek_v3.n_heads * 128;
     //! [latent_decode]
 
+    //! [latent_buffers]
+    // The same layer from one buffer of parameters, one of activations and one of working space, sized by constant
+    // expressions and cut into views (the norms' weights included: here 1, the parameter-free norm's values)
+    std::vector<float> params;
+    for (const auto* t : {&q_down, &q_up, &kv_down, &kv_up, &o})
+        params.insert(params.end(), t->begin(), t->end());
+    params.insert(params.begin() + std::ptrdiff_t(dq * d), dq, 1.0f);                            // q_norm after q_down
+    params.insert(params.begin() + std::ptrdiff_t(dq * d + dq + q_up.size() + kv_down.size()), dc, 1.0f);   // kv_norm after kv_down
+    std::vector<float> values(ml::latent_attention_activation_values(C, rows)), pgrads(params.size()),
+        work(ml::latent_attention_gradient_work(C, rows)), out2(rows * d), dxs2(rows * d);
+    const auto w2 = ml::latent_attention_weights_in<C>(std::span<const float>(params));
+    const auto act2 = ml::latent_attention_activations_in<C>(std::span<float>(values), rows);
+    ml::latent_attention_forward_sequence<C>(snicholls::linalg::reference, w2, xs, rope, act2, out2, sequences);
+    ml::latent_attention_backward<C>(snicholls::linalg::reference, w2, xs, rope, act2, dout, dxs2,
+                                     ml::latent_attention_gradients_in<C>(std::span<float>(pgrads), std::span<float>(work), rows), sequences);
+    //! [latent_buffers]
+    std::printf("  one buffer of %zu parameters: the same outputs %s\n", params.size(), out2 == out ? "to the bit" : "NOT");
+    ok &= params.size() == ml::latent_attention_parameter_count(C) && out2 == out && dxs2 == dxs;
+
     double grad_norm = 0;
     for (const float g : g_kv_up)
         grad_norm += static_cast<double>(g) * static_cast<double>(g);

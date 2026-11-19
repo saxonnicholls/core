@@ -101,6 +101,7 @@
 #include <snicholls/core/ml/attention_sink.hpp>
 #include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/collapse.hpp>
+#include <snicholls/core/ml/composed_block.hpp>
 #include <snicholls/core/ml/diloco.hpp>
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/expert_parallel.hpp>

@@ -259,4 +259,48 @@ TEST(MlLatentAttention, TheLatentCacheIsARing)
     EXPECT_EQ(cache.row(0, 0)[0], 0.0f);
 }
 
+// The buffers laid out by the *_in helpers: the problem's tensors copied into one buffer in their order give the same
+// bits forward and backward
+template <ml::transformer_config C>
+void layout_is_the_separate_tensors()
+{
+    using P = latent_problem<C, double>;
+    P a(4, 2);
+    a.forward();
+    a.backward();
+    std::vector<double> params;
+    for (const auto* t : {&a.q_down, &a.q_norm, &a.q_up, &a.kv_down, &a.kv_norm, &a.kv_up, &a.o})
+        params.insert(params.end(), t->begin(), t->end());
+    if (C.attention_sinks)
+        params.insert(params.end(), a.sink.begin(), a.sink.end());
+    ASSERT_EQ(params.size(), ml::latent_attention_parameter_count(C));
+    const std::size_t rows = a.rows;
+    std::vector<double> values(ml::latent_attention_activation_values(C, rows)), grads(params.size()), work(ml::latent_attention_gradient_work(C, rows)),
+        out(a.out.size()), dxs(a.dxs.size());
+    const auto w = ml::latent_attention_weights_in<C>(std::span<const double>(params));
+    const auto act = ml::latent_attention_activations_in<C>(std::span<double>(values), rows, std::span<const std::uint32_t>(a.selected));
+    EXPECT_EQ(act.lse.data() + act.lse.size(), values.data() + values.size());
+    ml::latent_attention_forward_sequence<C>(reference, w, a.xs, table<C, double>(), act, std::span<double>(out), a.sequences);
+    ml::latent_attention_backward<C>(reference, w, a.xs, table<C, double>(), act, a.dout, std::span<double>(dxs),
+                                     ml::latent_attention_gradients_in<C>(std::span<double>(grads), std::span<double>(work), rows), a.sequences);
+    EXPECT_EQ(out, a.out);
+    EXPECT_EQ(dxs, a.dxs);
+    std::vector<double> want;
+    for (const auto* t : {&a.g_q_down, &a.g_q_norm, &a.g_q_up, &a.g_kv_down, &a.g_kv_norm, &a.g_kv_up, &a.g_o})
+        want.insert(want.end(), t->begin(), t->end());
+    if (C.attention_sinks)
+        want.insert(want.end(), a.g_sink.begin(), a.g_sink.end());
+    EXPECT_EQ(grads, want);
+}
+
+TEST(MlLatentAttention, TheBufferLayoutsAreTheSeparateTensorsToTheBit)
+{
+    layout_is_the_separate_tensors<ml::tiny_mla>();
+    layout_is_the_separate_tensors<direct>();
+    layout_is_the_separate_tensors<sparse>();
+}
+
+static_assert(ml::latent_attention_parameter_count(sinks) == ml::latent_attention_parameter_count(ml::tiny_mla) + 2);
+static_assert(noexcept(ml::latent_attention_parameter_count(ml::tiny_mla)) && noexcept(ml::latent_attention_gradient_work(ml::tiny_mla, 2)));
+
 } // namespace
