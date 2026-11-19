@@ -96,6 +96,7 @@
 #include <snicholls/core/meta/type_name.hpp>
 #include <snicholls/core/meta/values.hpp>
 #include <snicholls/core/ml/activations.hpp>
+#include <snicholls/core/ml/alibi.hpp>
 #include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/attention_layer.hpp>
 #include <snicholls/core/ml/attention_sink.hpp>

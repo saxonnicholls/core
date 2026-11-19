@@ -76,6 +76,7 @@ add_executable(snicholls_core_tests
     meta/type_name_test.cpp
     meta/values_test.cpp
     ml/activations_test.cpp
+    ml/alibi_test.cpp
     ml/attention_layer_test.cpp
     ml/attention_sink_test.cpp
     ml/attention_test.cpp
