@@ -145,7 +145,9 @@
 #include <snicholls/core/reflect/string_traits.hpp>
 #include <snicholls/core/reflect/struct_tuple.hpp>
 #include <snicholls/core/signal/complex.hpp>
+#include <snicholls/core/signal/dct.hpp>
 #include <snicholls/core/signal/fft.hpp>
+#include <snicholls/core/signal/mel.hpp>
 #include <snicholls/core/signal/stft.hpp>
 #include <snicholls/core/signal/window.hpp>
 #include <snicholls/core/stats/accumulators.hpp>
