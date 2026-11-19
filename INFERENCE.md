@@ -23,9 +23,10 @@ hand. This plan adds that wiring once, generic over the architecture, with the a
 | I6 | **Attention never materialises the T x T scores.** Each query attends with the one-pass recurrence (`attend`), keeping one log-sum-exp per query and head. The GQA mapping is query head `h` reads KV head `h / (n_heads / n_kv_heads)`. |
 | I7 | **The heads are the unit of parallelism.** A per-head entry point (`attention_head`) lets the caller run heads on threads or devices; a split over keys merges partials. Core runs them serially; ts-moveables or a device runs them in parallel. |
 | I8 | **Weights are non-owning views.** `attention_weights<Config, W>`, `mlp_weights<Config, W>`, `block_weights<Config, W>`: spans and weight-matrix adapters the caller fills from wherever the weights live. Gradients (training) are the same templates over mutable float storage. |
-| I9 | **Core stops at the block.** A whole model (the stack of blocks, the embedding, the LM head), weight files (GGUF, safetensors), the tokenizer pipeline and the generate loop belong in a machine-learning library above core, which pins core and ts-moveables. |
+| I9 | **Core stops at the block.** A whole model (the stack of blocks, the embedding, the LM head), weight files (GGUF, safetensors), reading tokenizer files and the generate loop belong in a machine-learning library above core, which pins core and ts-moveables. (Revised in 0.17.0 by I12: the tokenizers' algorithms are core.) |
 | I10 | **References, never core's own output.** A generator links llm.c's forward functions for a tiny random GPT-2 and writes a committed fixture; a second, written in Python with float32 arithmetic, covers what llm.c lacks (GQA, QK norm, ReLU², SwiGLU, RoPE, soft cap). Both are drift-checked like the time fixtures. Where the order of summation differs from the reference (llm.c's attention over a whole sequence), the tolerance is stated in ulps and justified in the test. |
 | I11 | **No fused multiply-add assumed.** Each multiply and add is its own statement, and the tests build with `-ffp-contract=off` (see `ml/quantize.hpp`), so results match across x86 and ARM. ARM64 runs of the fixture tests are checked before a push. |
+| I12 | **Tokenizers are core; tokenizer files are not.** Every algorithm between text and token ids is a standard-library-only, allocation-free building block with a compile-time form: the Unicode tables (`ml/unicode.hpp`, generated from UnicodeData.txt 16.0 and cross-checked against llama.cpp's), the split patterns of each model family as hand-written matchers over categories with no regex engine (`ml/pretokenize.hpp`), the vocabulary as a sorted-array trie (`ml/token_trie.hpp`), merge-list BPE with GPT-2's byte alphabet (`ml/bpe_merges.hpp`), SentencePiece BPE (`ml/sentencepiece.hpp`), Unigram with its precompiled charsmap read in place (`ml/unigram.hpp`), WordPiece (`ml/wordpiece.hpp`), RWKV (`ml/rwkv.hpp`), and the whole pipeline over a non-owning `tokenizer_vocab` (`ml/tokenizer.hpp`). The reference is llama.cpp's tokenizer on its own vocabulary test vectors (whose expected tokens are Hugging Face's), token for token; where core departs from llama.cpp it follows Hugging Face (BERT's Hangul, GPT-4o's case classes) or strict UTF-8 (an encoded surrogate), and the fixtures record the difference. Parsing GGUF metadata and `tokenizer.json`, and choosing the options from them, is the loaders' (a library above core); they fill `tokenizer_vocab` with views of their own memory. |
 
 ## Headers
 
@@ -37,6 +38,15 @@ hand. This plan adds that wiring once, generic over the architecture, with the a
 | `kv_cache.hpp` | `kv_cache_view<Config>`, `kv_cache<Config, Layers, Capacity>`, `append`, `keys` / `values` as one or two runs, `required_floats` |
 | `attention_layer.hpp` | `attention_weights<Config, W>`, `attention_head`, `attention_forward`: project, QK norm, RoPE, append, GQA, `attend`, output projection |
 | `transformer_block.hpp` | `block_weights<Config, W>`, `block_scratch<Config>`, `block_forward`: `x += attn(norm1(x)); x += mlp(norm2(x))` |
+| `unicode.hpp` | `decode_utf8`, `encode_utf8`, `category` (Unicode 16.0) and its groups, `is_whitespace`, `to_lower`, `decompose`, `combining_class`, `replace_invalid_utf8` |
+| `pretokenize.hpp` | the split patterns (GPT-2, Llama 3, Qwen 2 and 3.5, GPT-4o, DeepSeek V3, LLM and Coder, Falcon, StarCoder, Gemma 4), `split_isolated`, `split_sequence`, `pretokenize`, `pretokenizer_for`, `split_added_tokens` |
+| `token_trie.hpp` | `token_trie`, `build_token_index`, `static_token_trie<N>`, `token_kind` |
+| `bpe_merges.hpp` | `merge_encode`, `merge_table`, `build_merge_index`, `split_merge`, `byte_to_unicode`, `byte_level_encode` / `_decode` |
+| `sentencepiece.hpp` | `sentencepiece_escape`, `sentencepiece_bpe_encode`, `byte_fallback`, `sentencepiece_decode` |
+| `unigram.hpp` | `precompiled_charsmap`, `unigram_normalize`, `unigram_encode` |
+| `wordpiece.hpp` | `wordpiece_encode`, `wordpiece_decode` |
+| `rwkv.hpp` | `rwkv_encode`, `rwkv_unescape` |
+| `tokenizer.hpp` | `tokenizer_vocab` (the loaders' seam), `tokenize`, `detokenize`, `tokenizer_scratch_need` |
 
 Also: `attend` with a logit soft cap; logit processors in `sampling.hpp` (repetition, presence and frequency
 penalties, `min_p`); `top_k_gating<K>` for a mixture-of-experts router.

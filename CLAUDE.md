@@ -338,6 +338,11 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   `byte_map_view` (over the caller's spans) for byte strings to 32-bit values built once and read often, such as a
   BPE vocabulary: it is an `ml::bpe_vocabulary` as it stands, and `probe` a batch then `find` it once the table
   is past L2. Never `std::unordered_map<std::string, ...>` on a tokenizer's hot path.
+- Tokenizers: `ml/tokenizer.hpp` over a `tokenizer_vocab` that a loader above core fills with views of its own
+  memory. A split pattern is a hand-written matcher in `ml/pretokenize.hpp`, never `std::regex`; Unicode facts come
+  from `ml/unicode.hpp` (generated tables, `scripts/generate_unicode_tables.py`), never a locale or `<cwctype>`; a
+  vocabulary is a `token_trie` (or any lookup callable); expected tokens come from llama.cpp itself
+  (`scripts/generate_tokenizer_fixtures.cpp`), never from core's own output.
 - `uint256` for EVM amounts: never `std::uint64_t` (18 decimals overflow it at 18 tokens) and never `double`.
   Checked arithmetic and parsing return `std::optional`, the one place core prefers it to `result`, so the type
   stays light.
