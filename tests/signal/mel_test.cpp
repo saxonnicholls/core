@@ -52,10 +52,11 @@ static_assert(filterbank_at_compile_time());
 // Whisper's 80-mel filterbank, whole, at compile time.
 constexpr auto whisper80 = s::whisper_mel_filters<float, 80>();
 
-// A log-mel spectrogram at compile time, on 480 samples of a tone (three frames).
+// A log-mel spectrogram at compile time, on 250 samples of a tone (one frame; libstdc++'s checked span indexing makes
+// each frame cost several times more steps than libc++'s, so one frame keeps within Clang's default limit).
 constexpr bool log_mel_at_compile_time()
 {
-    std::array<double, 480> audio{};
+    std::array<double, 250> audio{};
     for (std::size_t i = 0; i < audio.size(); ++i)
         audio[i] = 0.5 * m::sin(2 * m::pi * 1000.0 * static_cast<double>(i) / 16000.0);
     const auto window = s::whisper_window<double>();
@@ -63,7 +64,7 @@ constexpr bool log_mel_at_compile_time()
     for (std::size_t i = 0; i < filters.size(); ++i)
         filters[i] = static_cast<double>(whisper80[i]);
     std::array<cd, s::static_rfft_plan<double, 400>::bins + s::static_rfft_plan<double, 400>::work_size> work{};
-    std::array<double, 80 * 3> out{};
+    std::array<double, 80 * 1> out{};
     s::whisper_log_mel(s::static_rfft_plan_v<double, 400>.plan(), std::span<const double>(window), std::span<const double>(filters), 80,
                        std::span<const double>(audio), 0, std::span<double>(out), std::span<cd>(work));
     double top = -1e300;
