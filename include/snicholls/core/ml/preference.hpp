@@ -73,7 +73,7 @@
 /// **Known issues.** DPO's label smoothing (conservative DPO), KTO and the other variants are not here; each would be
 /// one more overload.
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_preference_hpp
 #define snicholls_core_ml_preference_hpp

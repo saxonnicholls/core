@@ -49,7 +49,7 @@
 ///
 /// **Known issues.** A head with more than one output (a multi-objective reward) is `linear`'s job.
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_reward_model_hpp
 #define snicholls_core_ml_reward_model_hpp

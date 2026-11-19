@@ -60,7 +60,7 @@
 ///
 /// **Known issues.** A mix of forward and reverse (the generalised JSD of GKD) is two calls and a weighted sum.
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_distill_hpp
 #define snicholls_core_ml_distill_hpp

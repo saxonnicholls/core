@@ -58,7 +58,7 @@
 /// **Known issues.** A vocabulary padded to a hardware multiple (`cross_entropy_rows`' `classes`) is not handled
 /// here: pass the unpadded rows. A soft cap on the logits is the caller's, before this.
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_logprobs_hpp
 #define snicholls_core_ml_logprobs_hpp

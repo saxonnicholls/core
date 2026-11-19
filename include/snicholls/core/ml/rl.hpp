@@ -80,7 +80,7 @@
 /// **Known issues.** Groups are consecutive rows of one size; a rollout with groups of different sizes is split by
 /// the caller. Sequence-level importance ratios (GSPO) are not here.
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_rl_hpp
 #define snicholls_core_ml_rl_hpp

@@ -114,7 +114,7 @@
 /// feedback: that would need a second residual at the reducing rank, as 1-bit Adam keeps, and is not done. The
 /// residual is the worker's own state; it is not averaged.
 ///
-/// **Status.** Experimental, new in 0.15.0; the bfloat16 functions are unreleased (for 0.16.0).
+/// **Status.** Experimental, new in 0.15.0; the bfloat16 functions new in 0.16.0.
 
 #ifndef snicholls_core_ml_diloco_hpp
 #define snicholls_core_ml_diloco_hpp

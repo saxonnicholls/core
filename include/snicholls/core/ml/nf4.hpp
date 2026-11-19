@@ -60,7 +60,7 @@
 /// **Known issues.** The products are in `float`, as QLoRA computes in a 16-bit type; a `bfloat16` compute path is the
 /// caller's, after `nf4_dequantize`.
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_nf4_hpp
 #define snicholls_core_ml_nf4_hpp

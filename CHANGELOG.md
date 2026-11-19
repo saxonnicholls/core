@@ -3,20 +3,12 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.16.0 - 2026-11-19
 
-### Added
-
-- bfloat16 pseudo-gradients in `ml/diloco.hpp`, half the bytes on the wire, specified to the bit so that a transport
-  and a training library agree:
-  - `ml::compress_bf16(delta, residual, out)`: `delta + residual` rounded to bfloat16 (to nearest, ties to even), with
-    error feedback: the residual keeps exactly what the rounding dropped and is added to the next round's delta.
-  - `ml::ordered_sum_bf16(parts, out)`: the workers' bfloat16 parts decoded and summed in rank order in float, the
-    reducing rank's arithmetic.
-  - `ml::ordered_mean_bf16(parts, out)`: what a bfloat16 all-reduce and the mean leave on every worker, the float sum
-    rounded once to bfloat16 and divided by the worker count.
-- The documentation of `ml/diloco.hpp` states what a worker that leaves and rejoins needs (nothing new in the outer
-  step: the mean divides by that round's parts).
+Training primitives for mixture-of-experts models, DeepSeek-V3's attention and block, joint embedding predictive
+architectures and post-training, each a reference implementation on core's backend (TRAINING.md T9) that a device
+library can overload and is checked against; bfloat16 pseudo-gradients for DiLoCo; and GCC 15 in the local gate.
+Every new header is experimental.
 
 ### Added
 
@@ -50,7 +42,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
   - `ml::to_bfloat16_rows` and `ml::to_float_rows` (`ml/minifloat.hpp`): rows converted on the backend, for a
     payload sent in half the bytes.
 
-- Joint embedding predictive architectures (TRAINING.md T11): every primitive to train I-JEPA, V-JEPA / V-JEPA 2 and
+- **Joint embedding predictive architectures** (TRAINING.md T11): every primitive to train I-JEPA, V-JEPA / V-JEPA 2 and
   LLM-JEPA on core's reference backend, each a backend call a device library can overload.
   - Attention masks: `ml::attention_mask` (`causal`, `bidirectional`, `block_causal`) and `ml::attention_keys`
     (`ml/attention.hpp`); `transformer_config::mask` and `mask_block`, after the existing fields with defaults that
@@ -75,7 +67,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
     merging across workers.
   - `ml/probe.hpp`: `mean_pool_rows` and V-JEPA's attentive probe, forward and backward.
 
-- Latent attention, multi-token prediction and long context, DeepSeek-V3's attention side as references (TRAINING.md
+- **Latent attention, multi-token prediction and long context**, DeepSeek-V3's attention side as references (TRAINING.md
   T12):
   - `ml/latent_attention.hpp`: multi-head latent attention (DeepSeek-V2 and V3), queries and keys/values from RMS-normed
     low-rank latents with decoupled RoPE, in DeepSeek-V3's weight layout. `ml::latent_attention_forward_sequence` and
@@ -116,6 +108,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
   - `ml::mlp_forward` overload for `moe_weights`: the mixture of experts for one token, for decoding.
   - `ml::mtp_forward_sequence` returns its block's auxiliary losses when the block is a mixture of experts
     (`moe_block_weights`, `latent_moe_block_weights`); `ml::mtp_backward` includes their gradients.
+
 - **Post-training** (TRAINING.md T13): every objective a function of per-token log-probabilities, each batch a
   backend call over rows (T9), masks and rollouts plain data, losses a parameter struct and an overload set.
   - `ml/logprobs.hpp`: `token_logprob` (`-cross_entropy` to the bit), `token_logprob_with_gradient`,
@@ -138,10 +131,38 @@ A version is released when its tag is on a commit where every blocking CI leg is
     with their backward passes (gradients to A and B only); `lora_initialise` (B zero, A Kaiming-uniform or Gaussian
     from `stats::wyrand`); `lora_merge` / `lora_unmerge`; `lora_parameters`, the optimiser's view of the adapter.
 
+- **bfloat16 pseudo-gradients** in `ml/diloco.hpp` (TRAINING.md T5), half the bytes on the wire, specified to the bit so that a transport
+  and a training library agree:
+  - `ml::compress_bf16(delta, residual, out)`: `delta + residual` rounded to bfloat16 (to nearest, ties to even), with
+    error feedback: the residual keeps exactly what the rounding dropped and is added to the next round's delta.
+  - `ml::ordered_sum_bf16(parts, out)`: the workers' bfloat16 parts decoded and summed in rank order in float, the
+    reducing rank's arithmetic.
+  - `ml::ordered_mean_bf16(parts, out)`: what a bfloat16 all-reduce and the mean leave on every worker, the float sum
+    rounded once to bfloat16 and divided by the worker count.
+- The documentation of `ml/diloco.hpp` states what a worker that leaves and rejoins needs (nothing new in the outer
+  step: the mean divides by that round's parts).
+
+- **GCC 15 in the Ubuntu gate**: `scripts/test_ubuntu.sh` builds a second image, `docker/ubuntu-26.04` (GCC 15 from
+  the Ubuntu archive), and runs GCC 15 Release with benchmark smoke runs and GCC 15 ASan+UBSan beside the GCC 13 and
+  Clang 18 configurations: eight in all. GCC 15 is what CI's x86-64 GCC leg uses, and it warns where GCC 13 does not.
+  `--quick` runs GCC 13 Release and GCC 15 Release; a failed configuration shows its first diagnostics above the
+  log's tail.
+
 ### Changed
 
+- Documentation: `ml::moe_update_bias` may also be called after every micro-batch with that micro-batch's counts, on
+  one worker or within a DiLoCo round (whose end averages the biases), which undoes the early collapse of routing as
+  many times faster as there are micro-batches a step. Measured: with 16 micro-batches a step, a 64-expert model had
+  every expert within 0.5 to 2 times the mean load by step 148, where updating once a step had not settled in 300
+  steps, at no cost in loss.
 - `attention_forward_sequence` (the per-token path) projects every token before any attends, so a bidirectional or
   block-causal layer reads later keys; a causal layer's bits are unchanged.
+
+### Fixed
+
+- The Windows leg builds again: a newer MSVC on the runner reported constants that only a local struct's member
+  initialisers read in the attention layer and transformer block tests as unused (C4189); they are marked
+  `[[maybe_unused]]`. What the tests check is unchanged.
 
 ## 0.15.0 - 2026-11-19
 

@@ -784,7 +784,10 @@ constexpr mlp_gradients<T> moe_expert_range(const mlp_gradients<T>& g, std::size
 ///
 /// The sign is decided in integers, `sign(total - E · counts[e])`, so it is exact: an expert above the mean load is
 /// made less likely to be chosen, one below more, one at it is left alone. The bias enters only the choice. Call it
-/// once per step with the step's counts summed over every worker, so every worker keeps the same bias.
+/// once per step with the step's counts summed over every worker, so every worker keeps the same bias; or, on one
+/// worker (or within a DiLoCo round, whose end averages the biases), after every micro-batch with that micro-batch's
+/// counts, which undoes the early collapse of routing (every token sent to the same experts while the residual stream
+/// is one direction) as many times faster as there are micro-batches a step, in steps of the same `gamma`.
 /// \tparam C A mixture-of-experts configuration.
 /// \param counts The step's load per expert, `E`.
 /// \param bias The selection bias, `E`: updated.

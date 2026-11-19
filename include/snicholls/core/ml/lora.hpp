@@ -61,7 +61,7 @@
 /// **Known issues.** DoRA, rsLoRA's `α/√r` and other variants are not here (`scaling` is the caller's, so rsLoRA is
 /// one argument). Merging into `bfloat16` or NF4 storage is the caller's (merge in float, then round).
 ///
-/// **Status.** Experimental, new in Unreleased.
+/// **Status.** Experimental, new in 0.16.0.
 
 #ifndef snicholls_core_ml_lora_hpp
 #define snicholls_core_ml_lora_hpp
