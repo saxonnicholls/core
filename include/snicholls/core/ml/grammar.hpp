@@ -746,12 +746,22 @@ namespace detail::grammar
         std::size_t rules = 0;
     };
 
+    // The fixed strings are taken by value, so the views point into this call's own copies: GCC with sanitizers
+    // will not compare the address of a template parameter object with null in a constant expression
+    template <std::size_t N, std::size_t M>
+    constexpr shape measure_fixed(basic_fixed_string<char, N> text, basic_fixed_string<char, M> root);
+
     constexpr shape measure(std::string_view text, std::string_view root)
     {
         const auto g = parse_grammar(text, root);
         if (g.is_err())
             return {};
         return {true, (*g).elements.size(), (*g).rules.size()};
+    }
+    template <std::size_t N, std::size_t M>
+    constexpr shape measure_fixed(basic_fixed_string<char, N> text, basic_fixed_string<char, M> root)
+    {
+        return measure(text.view(), root.view());
     }
 } // namespace detail::grammar
 
@@ -764,11 +774,13 @@ template <basic_fixed_string Text, basic_fixed_string Root = basic_fixed_string(
     requires std::same_as<typename decltype(Text)::value_type, char> && std::same_as<typename decltype(Root)::value_type, char>
 consteval auto compile_grammar()
 {
-    constexpr auto s = detail::grammar::measure(Text.view(), Root.view());
+    constexpr auto s = detail::grammar::measure_fixed(Text, Root);
     static_assert(s.ok, "snicholls::ml::compile_grammar: the grammar does not parse; parse_grammar gives the position and the reason");
     fixed_grammar<s.elements, s.rules> out{};
     if (s.ok) {
-        const auto parsed = parse_grammar(Text.view(), Root.view());
+        const auto text = Text;   // local copies (see measure_fixed)
+        const auto root = Root;
+        const auto parsed = parse_grammar(text.view(), root.view());
         const auto& g = *parsed;
         for (std::size_t i = 0; i < s.elements; ++i)
             out.elements[i] = g.elements[i];

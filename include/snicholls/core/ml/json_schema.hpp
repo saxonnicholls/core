@@ -1584,6 +1584,13 @@ namespace detail::json_schema
             return {};
         return {true, (*g).elements.size(), (*g).rules.size()};
     }
+
+    // By value, so the view points into this call's copy (see detail::grammar::measure_fixed)
+    template <std::size_t N>
+    constexpr detail::grammar::shape measure_fixed(basic_fixed_string<char, N> schema)
+    {
+        return measure(schema.view());
+    }
 } // namespace detail::json_schema
 
 /// \brief Compiles a JSON schema written in the program into a grammar's fixed-size tables, at compile time: a schema
@@ -1594,11 +1601,12 @@ template <basic_fixed_string Schema>
     requires std::same_as<typename decltype(Schema)::value_type, char>
 consteval auto compile_json_schema()
 {
-    constexpr auto s = detail::json_schema::measure(Schema.view());
+    constexpr auto s = detail::json_schema::measure_fixed(Schema);
     static_assert(s.ok, "snicholls::ml::compile_json_schema: the schema does not convert; json_schema_to_gbnf gives the keyword and path");
     fixed_grammar<s.elements, s.rules> out{};
     if (s.ok) {
-        const auto parsed = json_schema_grammar(Schema.view());
+        const auto schema = Schema;   // a local copy (see measure_fixed)
+        const auto parsed = json_schema_grammar(schema.view());
         const auto& g = *parsed;
         for (std::size_t i = 0; i < s.elements; ++i)
             out.elements[i] = g.elements[i];
