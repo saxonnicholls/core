@@ -49,8 +49,9 @@
 /// **Definitions.** The update, `s = α / r`, zero `B`: from the LoRA paper (recalled, not re-read) and QLoRA's eq. 5
 /// (checked). The initialisations are PEFT's, recalled.
 ///
-/// **Performance.** `lora_sequence` on the reference backend against the same products by hand
-/// (`benchmarks/ml/lora_benchmark.cpp`): see `BENCHMARKS.md`.
+/// **Performance.** `lora_linear` and `lora_linear_backward` (rank 16 on a 1024 x 1024 base, 8 rows) against the same
+/// loops by hand, after a bit-for-bit check (`benchmarks/ml/lora_benchmark.cpp`): 10.4 ms against 10.2 ms, medians of
+/// three, level (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure). The adapter adds `2r / rows` of the base's work forward and about as much backward.
 ///
 /// **Tests and demos.** `tests/ml/lora_test.cpp`, `demos/ml/lora_demo.cpp`.
 ///

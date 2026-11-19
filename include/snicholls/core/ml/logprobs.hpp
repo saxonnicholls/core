@@ -46,8 +46,9 @@
 /// **Errors.** Preconditions, asserted: the targets are below the row's width; the spans' sizes agree (`logits` is
 /// `n · V` for `n` targets; the token log-probabilities and the mask are `rows · length`). A mask is 0 or 1.
 ///
-/// **Performance.** `token_logprobs_rows` and its backward against the same loops by hand
-/// (`benchmarks/ml/logprobs_benchmark.cpp`): see `BENCHMARKS.md`; level within noise.
+/// **Performance.** `token_logprobs_rows` (with entropies) and its backward against the same loops by hand, after a
+/// bit-for-bit check (`benchmarks/ml/logprobs_benchmark.cpp`), 16 rows of 50,304 float logits: forward 8.3 ms against
+/// 7.5 ms, backward 23.8 ms against 22.9 ms, level within the noise (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure).
 ///
 /// **Tests and demos.** `tests/ml/logprobs_test.cpp`, `demos/ml/logprobs_demo.cpp`.
 ///

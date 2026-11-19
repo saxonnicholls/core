@@ -48,8 +48,10 @@
 /// subtracting the mean: checked against the paper. Not checked, and not bitsandbytes' bytes: bitsandbytes stores the
 /// second level in its own dynamic 8-bit code, where core uses E4M3, and its nibble order is recalled.
 ///
-/// **Performance.** `linear` through NF4 against the same loop by hand (`benchmarks/ml/nf4_benchmark.cpp`): see
-/// `BENCHMARKS.md`.
+/// **Performance.** `linear` through NF4 against the same loop by hand over the same bytes, after a bit-for-bit check
+/// (`benchmarks/ml/nf4_benchmark.cpp`), 1024 x 1024, one row: 2.5 ms against 2.7 ms, level; the dense product of the
+/// dequantised matrix takes 1.2 ms, so dequantising on the fly costs about twice the product on the host
+/// (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure). It saves memory, not time; a device dequantises in registers.
 ///
 /// **Tests and demos.** `tests/ml/nf4_test.cpp`, `demos/ml/nf4_demo.cpp`.
 ///

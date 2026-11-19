@@ -69,8 +69,9 @@
 /// edge) the derivative is the unclipped one, `-r_t Â_t`; strictly outside, on the side the clip binds, it is 0. The
 /// same convention for the value loss.
 ///
-/// **Performance.** `policy_loss_rows` against the same loop by hand (`benchmarks/ml/rl_benchmark.cpp`): see
-/// `BENCHMARKS.md`. Negligible next to the forward and backward passes that produce its inputs.
+/// **Performance.** `policy_loss_rows` (GRPO's settings, with the metrics) against the same loop by hand, after a
+/// bit-for-bit check (`benchmarks/ml/rl_benchmark.cpp`), 64 sequences of 1024 tokens: 1.9 ms against 2.1 ms, level
+/// (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure). Negligible next to the passes that produce its inputs.
 ///
 /// **Tests and demos.** `tests/ml/rl_test.cpp`, `demos/ml/rl_demo.cpp`.
 ///

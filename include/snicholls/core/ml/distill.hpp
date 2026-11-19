@@ -49,8 +49,9 @@
 /// 2015 (arXiv 1503.02531, eqs. 1-2, §2). The reverse KL and its gradient are derived here and checked by central
 /// differences; the top-k renormalisation is the usual sparse-logit form, recalled.
 ///
-/// **Performance.** `distill_rows` with the forward KL against the same loop by hand
-/// (`benchmarks/ml/distill_benchmark.cpp`): see `BENCHMARKS.md`.
+/// **Performance.** `distill_rows` with the forward KL against the same loops by hand, after a bit-for-bit check
+/// (`benchmarks/ml/distill_benchmark.cpp`), 16 rows of 50,304 float logits: 31.1 ms against 30.1 ms, level
+/// (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure).
 ///
 /// **Tests and demos.** `tests/ml/distill_test.cpp`, `demos/ml/distill_demo.cpp`.
 ///
