@@ -229,8 +229,9 @@ TEST(MlPreferenceLossRows, TheGradientThroughTheLogProbabilitiesIsCentralDiffere
         const double up = b.loss(x);
         x[i] -= 2 * h;
         EXPECT_NEAR(grad[i], (up - b.loss(x)) / (2 * h), 1e-8) << i;
-        if (b.mask[i / dpo_batch::v] == 0)
+        if (b.mask[i / dpo_batch::v] == 0) {
             EXPECT_EQ(grad[i], 0.0);
+        }
     }
 }
 

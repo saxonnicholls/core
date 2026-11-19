@@ -190,8 +190,9 @@ TEST(MlPolicyLossRows, IsTheDirectComputationUnderEachAggregationAndItsGradientI
                 const double eu = direct_loss(b, lp, e, c);
                 e[i] -= 2 * h;
                 EXPECT_NEAR(dent[i], (eu - direct_loss(b, lp, e, c)) / (2 * h), 1e-8) << i;
-                if (!b.mask[i])
+                if (!b.mask[i]) {
                     EXPECT_EQ(dlp[i], 0.0);
+                }
             }
         }
 }

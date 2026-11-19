@@ -207,8 +207,9 @@ TEST(MlSequenceLogprobs, TheBackwardToTheLogitsLeavesThePromptUntouchedAndIsCent
     auto grad = logits;
     ml::token_logprobs_rows_backward<double>(backend, grad, targets, dtok);
     for (std::size_t i = 0; i < logits.size(); ++i) {
-        if (mask[i / v] == 0)
+        if (mask[i / v] == 0) {
             EXPECT_EQ(grad[i], 0.0) << i;
+        }
         auto x = logits;
         const double h = 1e-6;
         x[i] += h;
