@@ -86,6 +86,23 @@ A version is released when its tag is on a commit where every blocking CI leg is
     `rope_factor_v`, `mtp_loss_weight_v`, `rope_scaling_v`, `yarn_attention_factor_v`.
   - `ml::lm_head_loss_sequence` takes a `weight` and a `denominator` (defaults: the mean, to the bit), for a loss that
     is a part of a larger one.
+  - `ml/composed_block.hpp`: `ml::composed_block_weights`, `composed_block_activations` and `composed_block_gradients`,
+    one pre-norm block whose attention (standard or latent) and MLP (dense or a mixture of experts) are chosen by their
+    types, with batched `block_forward_sequence` (returning `moe_losses`, the sequences the balance loss's groups),
+    `block_backward` and decoding `block_forward`. DeepSeek-V3's block as `ml::latent_moe_block_weights`,
+    `_activations` and `_gradients`, sized by `latent_moe_block_parameter_count`, `_activation_values`,
+    `_activation_indices` and `_gradient_work`, laid out by `latent_moe_block_weights_in`, `_activations_in` and
+    `_gradients_in`. With one expert of weight 1 it is the latent block to the bit; `deepseek_v3` with V3's 61 blocks
+    and vocabulary gives the paper's 671B parameters and 37B active (`static_assert`s).
+  - `ml/latent_attention.hpp`: `ml::latent_attention_parameter_count`, `latent_attention_activation_values`,
+    `latent_attention_gradient_work` and the layouts `latent_attention_weights_in`, `_activations_in`,
+    `_gradients_in`.
+  - DeepSeek-V3's node-limited routing: `transformer_config::expert_groups` and `group_top_k` (0 and 0 by default, so
+    no other preset changes; `deepseek_v3` now 8 groups, 4 kept), honoured by `ml::moe_route_rows` and everything
+    above it; one group, or every group kept, is the plain choice to the bit.
+  - `ml::mlp_forward` overload for `moe_weights`: the mixture of experts for one token, for decoding.
+  - `ml::mtp_forward_sequence` returns its block's auxiliary losses when the block is a mixture of experts
+    (`moe_block_weights`, `latent_moe_block_weights`); `ml::mtp_backward` includes their gradients.
 
 ### Changed
 
