@@ -1687,7 +1687,7 @@ constexpr float dot(std::span<const float8_e4m3> x, std::span<const float> y)
             const float term = value(pos + k) * y[pos + k];
             acc[k] += term;
         }
-    for (std::size_t step : {16u, 8u, 4u})
+    for (std::size_t step = 16; step >= 4; step /= 2)
         for (std::size_t k = 0; k < step; ++k)
             acc[k] += acc[k + step];
     const float low = acc[0] + acc[1];

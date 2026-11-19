@@ -170,8 +170,9 @@ void matches_ggml(const char* name, bool needs_importance, const exclusions& ski
         ml::dequantize(std::span<const Block>(ref), deq);
         const float d = ml::dot(std::span<const Block>(ref), std::span<const A>(act));
         const auto expect = [&](const char* key, std::uint64_t got) {
-            if (!skip.skips(key, l.kind))
+            if (!skip.skips(key, l.kind)) {
                 EXPECT_EQ(got, l.values.at(key)) << name << " " << key << " on " << quant_rows::name(l.kind);
+            }
         };
         expect("x", quant_rows::fnv_floats(x));
         expect("w", quant_rows::fnv(w));
@@ -242,8 +243,9 @@ void dot_is_dequantised_product(double max_rms)
         }
         const float d = ml::dot(std::span<const Block>(b), std::span<const A>(a));
         EXPECT_NEAR(d, exact, 1e-6 * magnitude + 1e-12) << quant_rows::name(kind);
-        if (kind == quant_rows::uniform || kind == quant_rows::weights)
+        if (kind == quant_rows::uniform || kind == quant_rows::weights) {
             EXPECT_LT(std::sqrt(e2 / s2), max_rms) << quant_rows::name(kind);
+        }
     }
 }
 
