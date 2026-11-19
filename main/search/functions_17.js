@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['zip_0',['zip',['../group__core.html#ga4f0c348fc046b790cc07d4a693472533',1,'snicholls']]],
-  ['zip_5fview_1',['zip_view',['../classsnicholls_1_1zip__view.html#aa973a6f5e0fb2e380b1c3b0f82ce3bb2',1,'snicholls::zip_view::zip_view()=default'],['../classsnicholls_1_1zip__view.html#a29dd03ea24715263730e51ffe8f1e365',1,'snicholls::zip_view::zip_view(Views... views)']]]
+  ['yarn_5fattention_5ffactor_0',['yarn_attention_factor',['../rope_8hpp.html#ae6b7ec6551045d731642c88764abc484',1,'snicholls::ml']]],
+  ['yarn_5fcorrection_5fdim_1',['yarn_correction_dim',['../rope_8hpp.html#ab43a1bc392c15a5c3690ae04d4c07367',1,'snicholls::ml']]],
+  ['yarn_5framp_2',['yarn_ramp',['../rope_8hpp.html#a4f2a480e2b03741114ddebd767897c58',1,'snicholls::ml']]]
 ];

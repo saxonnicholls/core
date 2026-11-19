@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -268,7 +268,7 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</td></tr>
 <p><b>Implementations.</b> Dense: one multiply and one add per weight, in the input's type. Quantised: one block dot product per output row against the Q8_0 input (<span class="tt">ml::dot</span>), plus the bias.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation (a prepared quantised input is a <span class="tt">std::array</span> of <span class="tt">N / 32</span> blocks), linear in <span class="tt">rows · cols</span>. Each multiply and add is its own statement, so no compiler fuses them under its default contraction; GCC needs <span class="tt">-ffp-contract=off</span> (see <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span>).</p>
 <p><b>Errors.</b> Preconditions, asserted: the input has <span class="tt">cols</span> elements, <span class="tt">y</span> has <span class="tt">rows</span>, a bias is empty or has <span class="tt">rows</span>, a quantised matrix has <span class="tt">cols</span> a multiple of 32 and <span class="tt">rows · cols / 32</span> blocks.</p>
-<p><b>Performance.</b> Benchmarked through <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>'s decode step and training passes (see there), and <span class="tt">linear_backward</span> through <span class="tt"><a class="el" href="self__attention_8hpp.html" title="snicholls::ml::self_attention_head and its backward pass: one causal self-attention head over a seque...">ml/self_attention.hpp</a></span>'s backward; level with llm.c's <span class="tt">matmul_backward</span> loops.</p>
+<p><b>Performance.</b> Benchmarked through <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>'s decode step and training passes (see there), and <span class="tt">linear_backward</span> through <span class="tt"><a class="el" href="self__attention_8hpp.html" title="snicholls::ml::self_attention_head and its backward pass: one self-attention head over a sequence (ca...">ml/self_attention.hpp</a></span>'s backward; level with llm.c's <span class="tt">matmul_backward</span> loops.</p>
 <p><span class="tt">linear_sequence</span> through <span class="tt">linalg::reference</span> against the same products as loops over raw pointers, after a bit-for-bit check: 64 tokens of 256 inputs (<span class="tt">benchmarks/ml/linear_benchmark.cpp</span>; Release, Apple clang 17, Xeon W-3245, macOS 26, 2026-11-16, medians of five, load average about 16):</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -333,7 +333,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00333">333</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00349">349</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,7 +380,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00324">324</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00340">340</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -427,7 +427,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00316">316</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00332">332</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -474,7 +474,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00309">309</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00325">325</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -529,7 +529,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;Y&gt;&gt; &amp;&am
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00198">198</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00214">214</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -584,7 +584,7 @@ requires std::same_as&lt;row_value_t&lt;Y&gt;, float&gt; &amp;&amp; std::same_as
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00265">265</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00281">281</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -651,7 +651,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, row_value_t&lt;DY&gt;&gt; &amp;&a
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00231">231</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00247">247</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -725,7 +725,7 @@ b_h</span>, written to <span class="tt">out[h · n · d ...]</span> (<span class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00454">454</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00470">470</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -810,7 +810,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00474">474</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00490">490</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -871,7 +871,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00397">397</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00413">413</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -944,7 +944,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00423">423</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00439">439</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -992,7 +992,7 @@ template&lt;std::size_t N, typename S, row X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A view of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00172">172</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00188">188</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1041,7 +1041,7 @@ requires (std::same_as&lt;row_value_t&lt;X&gt;, float&gt; &amp;&amp; N % quant_b
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">N / 32</span> blocks. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00184">184</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00200">200</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1088,7 +1088,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00377">377</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00393">393</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1135,7 +1135,7 @@ template&lt;typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00344">344</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00360">360</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1178,7 +1178,7 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The sum. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00367">367</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00383">383</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>
@@ -1221,7 +1221,7 @@ requires math::math_number&lt;std::remove_const_t&lt;E&gt;&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The sum. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00356">356</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linear_8hpp_source.html#l00372">372</a> of file <a class="el" href="linear_8hpp_source.html">linear.hpp</a>.</p>
 
 </div>
 </div>

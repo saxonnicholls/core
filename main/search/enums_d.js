@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qk_5fnorm_5fkind_0',['qk_norm_kind',['../transformer__config_8hpp.html#adeaf53e2021a1addc2b68ff4fd427824',1,'snicholls::ml']]]
+  ['precision_5fpolicy_0',['precision_policy',['../group__core.html#ga3f99d4e0402ac25c5fea1a11976abe6a',1,'snicholls']]]
 ];

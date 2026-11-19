@@ -43,9 +43,11 @@ var searchData=
   ['or_5f_40',['or_',['../classsnicholls_1_1result__throws_1_1result.html#a097952396cceeeec69f5072b3021a0c2',1,'snicholls::result_throws::result::or_(result&lt; V, G &gt; other) const &amp;noexcept(std::is_nothrow_move_constructible_v&lt; result&lt; V, G &gt; &gt; &amp;&amp;nothrow_ok_like&lt; const result &amp; &gt;)'],['../classsnicholls_1_1result__throws_1_1result.html#a6883677c561af3fbad314dc74b7b4513',1,'snicholls::result_throws::result::or_(result&lt; V, G &gt; other) &amp;&amp;noexcept(std::is_nothrow_move_constructible_v&lt; result&lt; V, G &gt; &gt; &amp;&amp;nothrow_ok_like&lt; result &amp;&amp; &gt;)']]],
   ['or_5felse_41',['or_else',['../classsnicholls_1_1result__throws_1_1result.html#a3ab644007c2e36542db703a5b60dd47b',1,'snicholls::result_throws::result::or_else(F &amp;&amp;f) &amp;noexcept(or_else_noexcept&lt; result &amp;, F &gt;())'],['../classsnicholls_1_1result__throws_1_1result.html#a56e5de414dda55e4ea3da047ee1c4bbc',1,'snicholls::result_throws::result::or_else(F &amp;&amp;f) const &amp;noexcept(or_else_noexcept&lt; const result &amp;, F &gt;())'],['../classsnicholls_1_1result__throws_1_1result.html#ac2e1989eb53ae341a0d9df0184ab7e15',1,'snicholls::result_throws::result::or_else(F &amp;&amp;f) &amp;&amp;noexcept(or_else_noexcept&lt; result &amp;&amp;, F &gt;())']]],
   ['ordered_5fmean_42',['ordered_mean',['../diloco_8hpp.html#a8f160ab9997c0d2d72396bbab42c6f6b',1,'snicholls::ml']]],
-  ['ordered_5fsum_43',['ordered_sum',['../diloco_8hpp.html#a6d592d1b83d7b53820e02f65c04eb99f',1,'snicholls::ml']]],
-  ['outer_44',['outer',['../group__core.html#gaeb8bc080001002e2fe15c122bf8986a4',1,'snicholls']]],
-  ['outliers_45',['outliers',['../classsnicholls_1_1containers_1_1dense__id__map.html#a9890884b6f19dd38390de3c0a5ce2a93',1,'snicholls::containers::dense_id_map']]],
-  ['overloaded_46',['overloaded',['../namespacesnicholls.html#a1934e4cfb6d92785547ece03ec4674ee',1,'snicholls']]],
-  ['owen_47',['owen',['../group__core.html#gaeda81433945c5f240f0cbead72aac0d5',1,'snicholls::game::owen(const V &amp;v, std::span&lt; const coalition &gt; groups)'],['../group__core.html#ga7c3a713f5d7318444fe5ebbfdd28bb2c',1,'snicholls::game::owen(std::size_t n, const V &amp;v, std::span&lt; const coalition &gt; groups)']]]
+  ['ordered_5fmean_5fbf16_43',['ordered_mean_bf16',['../diloco_8hpp.html#a87081c433f14777eb734f02144107832',1,'snicholls::ml']]],
+  ['ordered_5fsum_44',['ordered_sum',['../diloco_8hpp.html#a6d592d1b83d7b53820e02f65c04eb99f',1,'snicholls::ml']]],
+  ['ordered_5fsum_5fbf16_45',['ordered_sum_bf16',['../diloco_8hpp.html#a37f72860db633c3e76b7ee59beb11a3f',1,'snicholls::ml']]],
+  ['outer_46',['outer',['../group__core.html#gaeb8bc080001002e2fe15c122bf8986a4',1,'snicholls']]],
+  ['outliers_47',['outliers',['../classsnicholls_1_1containers_1_1dense__id__map.html#a9890884b6f19dd38390de3c0a5ce2a93',1,'snicholls::containers::dense_id_map']]],
+  ['overloaded_48',['overloaded',['../namespacesnicholls.html#a1934e4cfb6d92785547ece03ec4674ee',1,'snicholls']]],
+  ['owen_49',['owen',['../group__core.html#gaeda81433945c5f240f0cbead72aac0d5',1,'snicholls::game::owen(const V &amp;v, std::span&lt; const coalition &gt; groups)'],['../group__core.html#ga7c3a713f5d7318444fe5ebbfdd28bb2c',1,'snicholls::game::owen(std::size_t n, const V &amp;v, std::span&lt; const coalition &gt; groups)']]]
 ];

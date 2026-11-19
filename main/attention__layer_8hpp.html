@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -191,6 +191,8 @@ q_size</span>), the queries' gradients written into <span class="tt">grads.q</sp
 <p><span class="tt">attention_head</span> is one head on its own: the unit to run on threads or devices.</p>
 <p>For training, <span class="tt">attention_forward_sequence</span> runs a whole sequence and saves <span class="tt">attention_activations</span> (each token's output is <span class="tt">attention_forward</span>'s, to the bit), and <span class="tt">attention_backward</span> takes the gradient in the outputs back to every weight, bias, QK-norm weight and input (<span class="tt">attention_gradients</span>): <span class="tt">Wo</span>'s backward, each head's (<span class="tt">attention_head_backward</span>, the soft cap included; grouped-query heads add into the key-value head they share), then QK norm and RoPE undone in the configuration's order, then the projections'. No <span class="tt">n x n</span> probabilities are formed. Only dense weights train.</p>
 <p>Both have a batched overload taking a <span class="tt">linalg</span> backend first: the projections are matrix products over the whole sequence (<span class="tt">Q</span>, each key-value head's <span class="tt">K</span> and <span class="tt">V</span>, <span class="tt">Wo</span>; a BLAS or a GPU backend from another library, the same call), and QK norm, RoPE and the heads are the per-token path's own code. Its backward needs <span class="tt">attention_gradients::y</span>, the heads' output gradients. Both take a number of sequences (default one): a batch of sequences laid end to end, every projection one product over all their rows, attention within each sequence, the activations each sequence's own side by side (<span class="tt">attention_activations</span>).</p>
+<p><b>Masks and padding</b> (TRAINING.md T11). Over a sequence, a token sees the keys <span class="tt">attention_keys(C.mask, t, length,
+C.window, C.mask_block)</span> allows: causal by default, bidirectional for a ViT or a JEPA encoder or predictor, block-causal for a frame-causal predictor. <span class="tt">attention_activations::lengths</span> is the key-padding mask, one count of valid tokens per sequence: the tokens from it on are seen by no query, and their own heads' outputs are zero (their log-sum-exp -infinity) and pass no gradient. A rope source with a member <span class="tt">sequence(s)</span> (<span class="tt">gathered_rope</span>, <span class="tt"><a class="el" href="patch_8hpp.html" title="snicholls::ml patches and positions for vision transformers: patch_grid, patchify_rows / unpatchify_r...">ml/patch.hpp</a></span>) gives each sequence of a batch its own positions; any other source is shared by every sequence.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A batch of two sequences in one call: the three tokens, then the same three again, end to end. Every projection</span></div>
 <div class="line">    <span class="comment">// is one product over all six rows; attention stays within each sequence (positions restart at 0), and the</span></div>
 <div class="line">    <span class="comment">// activations are each sequence&#39;s own side by side</span></div>
@@ -211,7 +213,7 @@ q_size</span>), the queries' gradients written into <span class="tt">grads.q</sp
 <div class="line">    <span class="keyword">const</span> ml::attention_weights&lt;W&gt; w{W{wq, 8, 8}, W{wkv, 4, 8}, W{wkv, 4, 8}, W{wo, 8, 8}};</div>
 <div class="line"> </div>
 <div class="line">    <span class="keyword">static</span> <span class="keyword">const</span> ml::rope_table&lt;float, 16, 4&gt; <a class="code hl_function" href="rope_8hpp.html#a259404fa5d176778ce040fad45125e13">rope</a>{};   <span class="comment">// cosines and sines for positions 0 to 15</span></div>
-<div class="line">    std::vector&lt;float&gt; keys(ml::kv_cache_view&lt;c&gt;::required_size(1, 16)), values(keys.size());</div>
+<div class="line">    std::vector&lt;float&gt; keys(ml::kv_cache_view&lt;c&gt;::required_size(1, 16)), values(keys.<a class="code hl_function" href="structsnicholls_1_1ml_1_1key__range.html#a259ef3d325aab04fe695ddecbb41b6ec">size</a>());</div>
 <div class="line">    <span class="keyword">const</span> ml::kv_cache_view&lt;c&gt; cache(keys, values, 1, 16);</div>
 <div class="line"> </div>
 <div class="line">    std::array&lt;std::array&lt;float, 8&gt;, 3&gt; out{};</div>
@@ -264,7 +266,7 @@ q_size</span>), the queries' gradients written into <span class="tt">grads.q</sp
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/attention_layer_test.cpp</span>, <span class="tt">demos/ml/attention_layer_demo.cpp</span>.</p>
 <p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, and the <span class="tt">ml/</span> headers above.</p>
 <p><b>Known issues.</b> The score scale is <span class="tt">1 / sqrt(head_dim)</span>, rounded once to <span class="tt">T</span>.</p>
-<p><b>Status.</b> Experimental, new in 0.8.0. </p>
+<p><b>Status.</b> Experimental, new in 0.8.0; the masks, <span class="tt">lengths</span> and per-sequence rope sources new in 0.16.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
@@ -323,7 +325,7 @@ template&lt;transformer_config C, typename B, math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00457">457</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00498">498</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -395,7 +397,7 @@ q_size</span>), the queries' gradients written into <span class="tt">grads.q</sp
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00471">471</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00513">513</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -474,7 +476,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00595">595</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00642">642</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -566,7 +568,7 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00654">654</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00701">701</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -645,7 +647,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00174">174</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00181">181</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -712,7 +714,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00511">511</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00554">554</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -792,7 +794,7 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.rope == rope_kind::none 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00559">559</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00606">606</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -848,7 +850,7 @@ requires std::same_as&lt;row_value_t&lt;Q&gt;, T&gt; &amp;&amp; std::same_as&lt;
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">logsumexp</span> of the scores, for a backward pass; -infinity with no keys. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00128">128</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00135">135</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -939,7 +941,7 @@ requires std::same_as&lt;row_value_t&lt;Q&gt;, T&gt; &amp;&amp; std::same_as&lt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00220">220</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00229">229</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1010,7 +1012,7 @@ template&lt;transformer_config C, typename B, typename W, math::math_number T, t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00443">443</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00483">483</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>
@@ -1087,7 +1089,7 @@ template&lt;transformer_config C, typename B, typename W, math::math_number T, t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00486">486</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="attention__layer_8hpp_source.html#l00528">528</a> of file <a class="el" href="attention__layer_8hpp_source.html">attention_layer.hpp</a>.</p>
 
 </div>
 </div>

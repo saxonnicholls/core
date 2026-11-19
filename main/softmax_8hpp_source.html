@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -266,11 +266,11 @@ $(function(){initNavTree('softmax_8hpp_source.html','',''); });
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keyword">const</span> <span class="keyword">auto</span> d = <a class="code hl_function" href="row_8hpp.html#a06d4ba4fcee0cd46cc8d405bceff1414">as_row</a>(dlogprobs);</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <span class="keyword">const</span> <span class="keyword">auto</span> g = <a class="code hl_function" href="row_8hpp.html#a6c30d636b5bd442012078fe17fc8489b">as_mutable_row</a>(dlogits);</div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    assert(lp.size() == d.size() &amp;&amp; lp.size() == g.size());</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    T sum = T(0);</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    T <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> = T(0);</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; d.size(); ++i)</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        sum += d[i];</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> += d[i];</div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; lp.size(); ++i)</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        g[i] = d[i] - <a class="code hl_function" href="constexpr__math_8hpp.html#ad99fda7fb4e2e932987e71e3e3652619">math::exp</a>(lp[i]) * sum;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        g[i] = d[i] - <a class="code hl_function" href="constexpr__math_8hpp.html#ad99fda7fb4e2e932987e71e3e3652619">math::exp</a>(lp[i]) * <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a>;</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>}</div>
 </div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span></div>
@@ -370,6 +370,7 @@ $(function(){initNavTree('softmax_8hpp_source.html','',''); });
 <div class="ttc" id="aconstexpr__math_8hpp_html_ac4e139fa17377290ae3a108f550d2b29"><div class="ttname"><a href="constexpr__math_8hpp.html#ac4e139fa17377290ae3a108f550d2b29">snicholls::math::log</a></div><div class="ttdeci">constexpr real_t&lt; X &gt; log(X x)</div><div class="ttdoc">The natural logarithm.</div><div class="ttdef"><b>Definition</b> <a href="constexpr__math_8hpp_source.html#l00713">constexpr_math.hpp:713</a></div></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html_ad99fda7fb4e2e932987e71e3e3652619"><div class="ttname"><a href="constexpr__math_8hpp.html#ad99fda7fb4e2e932987e71e3e3652619">snicholls::math::exp</a></div><div class="ttdeci">constexpr real_t&lt; X &gt; exp(X x)</div><div class="ttdoc">e^x.</div><div class="ttdef"><b>Definition</b> <a href="constexpr__math_8hpp_source.html#l00703">constexpr_math.hpp:703</a></div></div>
 <div class="ttc" id="agroup__core_html_gab64702f991c1102c4f17d2651d2035dd"><div class="ttname"><a href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">snicholls::ml::row_value_t</a></div><div class="ttdeci">std::ranges::range_value_t&lt; R &gt; row_value_t</div><div class="ttdoc">The number type of a row.</div><div class="ttdef"><b>Definition</b> <a href="row_8hpp_source.html#l00063">row.hpp:63</a></div></div>
+<div class="ttc" id="agroup__core_html_gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416"><div class="ttname"><a href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">snicholls::ml::logprob_reduction::sum</a></div><div class="ttdeci">@ sum</div><div class="ttdoc">Σ_t mask_t · logp_t: the sequence&#39;s log-probability (DPO, IPO, GRPO).</div><div class="ttdef"><b>Definition</b> <a href="logprobs_8hpp_source.html#l00084">logprobs.hpp:84</a></div></div>
 <div class="ttc" id="aquantize_8hpp_html_afd828f8fd9a03a9a946b3624bd332b69"><div class="ttname"><a href="quantize_8hpp.html#afd828f8fd9a03a9a946b3624bd332b69">snicholls::ml::dot</a></div><div class="ttdeci">constexpr float dot(std::span&lt; const block_q8_0 &gt; x, std::span&lt; const block_q8_0 &gt; y)</div><div class="ttdoc">The dot product of two Q8_0 rows, as ggml&#39;s ggml_vec_dot_q8_0_q8_0.</div><div class="ttdef"><b>Definition</b> <a href="quantize_8hpp_source.html#l00274">quantize.hpp:274</a></div></div>
 <div class="ttc" id="arow_8hpp_html"><div class="ttname"><a href="row_8hpp.html">row.hpp</a></div><div class="ttdoc">snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...</div></div>
 <div class="ttc" id="arow_8hpp_html_a06d4ba4fcee0cd46cc8d405bceff1414"><div class="ttname"><a href="row_8hpp.html#a06d4ba4fcee0cd46cc8d405bceff1414">snicholls::ml::as_row</a></div><div class="ttdeci">constexpr std::span&lt; const row_value_t&lt; R &gt; &gt; as_row(const R &amp;r) noexcept</div><div class="ttdoc">A row as a span of its elements, read-only.</div><div class="ttdef"><b>Definition</b> <a href="row_8hpp_source.html#l00070">row.hpp:70</a></div></div>

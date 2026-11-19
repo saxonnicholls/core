@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -486,10 +486,10 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>                    scale = magnitude(a(i, column));</div>
 <div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>            <span class="keywordflow">if</span> (scale == T(0))</div>
 <div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>                <span class="keywordflow">return</span> T(0);</div>
-<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>            T sum = T(0);</div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>            T <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> = T(0);</div>
 <div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>            <span class="keywordflow">for</span> (std::size_t i = first; i &lt; a.extent(0); ++i) {</div>
 <div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>                <span class="keyword">const</span> T v = a(i, column) / scale;</div>
-<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>                sum += v * v;</div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>                <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> += v * v;</div>
 <div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>            }</div>
 <div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>            <span class="keywordflow">return</span> scale * math::sqrt(sum);</div>
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>        }</div>
@@ -1042,6 +1042,7 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gaf6d5e4acbd97a55c224ced751a3bb151"><div class="ttname"><a href="group__core.html#gaf6d5e4acbd97a55c224ced751a3bb151">snicholls::linalg::status</a></div><div class="ttdeci">status</div><div class="ttdoc">One system&#39;s outcome in a batch: ok, or the error it would have returned, with the same number.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00106">types.hpp:106</a></div></div>
 <div class="ttc" id="agroup__core_html_gafd1890d6e796465f8c62adeb9608334d"><div class="ttname"><a href="group__core.html#gafd1890d6e796465f8c62adeb9608334d">snicholls::linalg::pivot_index</a></div><div class="ttdeci">std::int32_t pivot_index</div><div class="ttdoc">A row interchange recorded by LU: at step k, rows k and pivots[k] were swapped (0-based,...</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00092">types.hpp:92</a></div></div>
 <div class="ttc" id="agroup__core_html_gga04587c556fd6ca8c8d13ca465bf59921a81e073b428b50247daba38531dcf412a"><div class="ttname"><a href="group__core.html#gga04587c556fd6ca8c8d13ca465bf59921a81e073b428b50247daba38531dcf412a">snicholls::linalg::triangle::lower</a></div><div class="ttdeci">@ lower</div><div class="ttdoc">On and below the diagonal.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00154">types.hpp:154</a></div></div>
+<div class="ttc" id="agroup__core_html_gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416"><div class="ttname"><a href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">snicholls::ml::logprob_reduction::sum</a></div><div class="ttdeci">@ sum</div><div class="ttdoc">Σ_t mask_t · logp_t: the sequence&#39;s log-probability (DPO, IPO, GRPO).</div><div class="ttdef"><b>Definition</b> <a href="logprobs_8hpp_source.html#l00084">logprobs.hpp:84</a></div></div>
 <div class="ttc" id="agroup__core_html_gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964"><div class="ttname"><a href="group__core.html#gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964">snicholls::linalg::error::not_positive_definite</a></div><div class="ttdeci">@ not_positive_definite</div><div class="ttdoc">Cholesky met a diagonal at or below the tolerance: the matrix is not (numerically) positive definite.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00098">types.hpp:98</a></div></div>
 <div class="ttc" id="agroup__core_html_gga5022bc05054efff84b4729afa44d90a0a6558000adbdbb1f87a94fe236eeae5e8"><div class="ttname"><a href="group__core.html#gga5022bc05054efff84b4729afa44d90a0a6558000adbdbb1f87a94fe236eeae5e8">snicholls::linalg::error::singular</a></div><div class="ttdeci">@ singular</div><div class="ttdoc">A pivot (LU, LDLT, a triangular diagonal, R&#39;s diagonal) is zero or below the tolerance.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00097">types.hpp:97</a></div></div>
 <div class="ttc" id="agroup__core_html_gga5022bc05054efff84b4729afa44d90a0aacda4b4490ccb13a5db5192c72bb6d68"><div class="ttname"><a href="group__core.html#gga5022bc05054efff84b4729afa44d90a0aacda4b4490ccb13a5db5192c72bb6d68">snicholls::linalg::error::did_not_converge</a></div><div class="ttdeci">@ did_not_converge</div><div class="ttdoc">An iterative decomposition (eigen, SVD) used its sweeps without converging.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00099">types.hpp:99</a></div></div>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['overflow_5fpolicy_0',['overflow_policy',['../group__core.html#ga60477dd069f3cda9d37a9c3df1bf3508',1,'snicholls::ml']]],
-  ['overload_5fmismatch_1',['overload_mismatch',['../group__core.html#gad3b4684d99ddf23675d64b35fd49071f',1,'snicholls']]]
+  ['norm_5fkind_0',['norm_kind',['../transformer__config_8hpp.html#a21b0dad5dc8807f3ffc438bf4402a444',1,'snicholls::ml']]],
+  ['null_5ftermination_1',['null_termination',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6',1,'snicholls']]]
 ];

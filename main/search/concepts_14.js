@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['weight_5fmatrix_0',['weight_matrix',['../conceptsnicholls_1_1ml_1_1weight__matrix.html',1,'snicholls::ml']]]
+  ['unscoped_5fenumeration_0',['unscoped_enumeration',['../conceptsnicholls_1_1unscoped__enumeration.html',1,'snicholls']]],
+  ['utc_5fduration_1',['utc_duration',['../conceptsnicholls_1_1utc__duration.html',1,'snicholls']]]
 ];

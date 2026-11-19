@@ -26,6 +26,7 @@ var concepts =
       [ "ml", null, [
         [ "bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],
         [ "kv_store", "conceptsnicholls_1_1ml_1_1kv__store.html", null ],
+        [ "latent_kv_store", "conceptsnicholls_1_1ml_1_1latent__kv__store.html", null ],
         [ "weight_matrix", "conceptsnicholls_1_1ml_1_1weight__matrix.html", null ],
         [ "quant_block", "conceptsnicholls_1_1ml_1_1quant__block.html", null ],
         [ "rope_source", "conceptsnicholls_1_1ml_1_1rope__source.html", null ],

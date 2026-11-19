@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -122,10 +122,10 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;H&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;L&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;H&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DH&gt;&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;H&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DW&gt;&gt;</td></tr>
 <tr class="memitem:aa072c6875cfb593db8b53dcd2f3b1330 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt; H &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa072c6875cfb593db8b53dcd2f3b1330">snicholls::ml::lm_head_loss</a> (const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt; &amp;head, const H &amp;hs, std::span&lt; const std::size_t &gt; targets, L &amp;&amp;logits, DH &amp;&amp;dhs, DW &amp;&amp;dhead)</td></tr>
 <tr class="memdesc:aa072c6875cfb593db8b53dcd2f3b1330"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mean cross-entropy, and its gradients added into the hidden states' and the head's.  <br /></td></tr>
-<tr class="memitem:ac3d6d0d5dad8c493a6fae60c79ee73d7" id="r_ac3d6d0d5dad8c493a6fae60c79ee73d7"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
+<tr class="memitem:a91f0b6443cd77408e02515741135b7f2" id="r_a91f0b6443cd77408e02515741135b7f2"><td class="memTemplParams" colspan="2">template&lt;math::math_number T, typename B&gt; <br />
 requires linalg::blas_backend&lt;B, T&gt;</td></tr>
-<tr class="memitem:ac3d6d0d5dad8c493a6fae60c79ee73d7 template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3d6d0d5dad8c493a6fae60c79ee73d7">snicholls::ml::lm_head_loss_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;head, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; hs, std::span&lt; const std::uint32_t &gt; targets, std::type_identity_t&lt; std::span&lt; T &gt; &gt; logits, std::type_identity_t&lt; std::span&lt; T &gt; &gt; losses, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dhs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dhead, std::size_t classes=0)</td></tr>
-<tr class="memdesc:ac3d6d0d5dad8c493a6fae60c79ee73d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mean cross-entropy of a sequence through the head, and its gradients, with the logits of the whole sequence one matrix product through the backend (TRAINING.md T9): <span class="tt">Z = H Wᵀ</span>, <span class="tt"><a class="el" href="softmax_8hpp.html#a65b77f2598415eb1679c887891e36f06" title="Each row&#39;s cross-entropy against its target, the row replaced by its gradient: the fused classifier o...">cross_entropy_rows</a></span> (the losses, <span class="tt">Z</span> replaced by its gradient scaled by <span class="tt">1 / n</span>), then <span class="tt"><a class="el" href="linear_8hpp.html#a9663889afdcb2b9be2c65e89d149550a" title="The backward pass of linear_sequence: dX += dY W, dW += dYᵀ X, db += Σ dY, as two matrix products thr...">linear_sequence_backward</a></span> into the hidden states' and the head's gradients. Needs the <span class="tt">n x V</span> logits as working space, where <span class="tt"><a class="el" href="#aa734859414255d795b62a8dfc8186b25" title="The mean cross-entropy of a sequence&#39;s next-token predictions through a head.">lm_head_loss</a></span> needs one row.  <br /></td></tr>
+<tr class="memitem:a91f0b6443cd77408e02515741135b7f2 template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91f0b6443cd77408e02515741135b7f2">snicholls::ml::lm_head_loss_sequence</a> (const B &amp;backend, const <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; T &gt; &amp;head, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; hs, std::span&lt; const std::uint32_t &gt; targets, std::type_identity_t&lt; std::span&lt; T &gt; &gt; logits, std::type_identity_t&lt; std::span&lt; T &gt; &gt; losses, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dhs, std::type_identity_t&lt; std::span&lt; T &gt; &gt; dhead, std::size_t classes=0, std::type_identity_t&lt; T &gt; weight=T(1), std::size_t denominator=0)</td></tr>
+<tr class="memdesc:a91f0b6443cd77408e02515741135b7f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mean cross-entropy of a sequence through the head, and its gradients, with the logits of the whole sequence one matrix product through the backend (TRAINING.md T9): <span class="tt">Z = H Wᵀ</span>, <span class="tt"><a class="el" href="softmax_8hpp.html#a65b77f2598415eb1679c887891e36f06" title="Each row&#39;s cross-entropy against its target, the row replaced by its gradient: the fused classifier o...">cross_entropy_rows</a></span> (the losses, <span class="tt">Z</span> replaced by its gradient scaled by <span class="tt">1 / n</span>), then <span class="tt"><a class="el" href="linear_8hpp.html#a9663889afdcb2b9be2c65e89d149550a" title="The backward pass of linear_sequence: dX += dY W, dW += dYᵀ X, db += Σ dY, as two matrix products thr...">linear_sequence_backward</a></span> into the hidden states' and the head's gradients. Needs the <span class="tt">n x V</span> logits as working space, where <span class="tt"><a class="el" href="#aa734859414255d795b62a8dfc8186b25" title="The mean cross-entropy of a sequence&#39;s next-token predictions through a head.">lm_head_loss</a></span> needs one row.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt"><a class="el" href="#aa734859414255d795b62a8dfc8186b25" title="The mean cross-entropy of a sequence&#39;s next-token predictions through a head.">snicholls::ml::lm_head_loss</a></span>: a language model's loss over a sequence, the head's logits and the cross-entropy fused, and its backward pass into the hidden states and the head (tied or not). </p>
@@ -161,7 +161,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t t = 0; t &lt; tokens.size(); ++t)</div>
 <div class="line">        ml::embed(table, tokens[t], std::span&lt;float&gt;(hs).subspan(t * d, d));</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> eval = ml::lm_head_loss(ml::dense_weights&lt;float&gt;{table, vocab, d}, hs, next, logits);</div>
-</div><!-- fragment --><p><span class="tt">lm_head_loss_sequence(backend, head, hs, targets, logits, losses, dhs, dhead, classes)</span> is the batched form for training on a device: the whole sequence's logits (<span class="tt">n x V</span>, the caller's) as one product through a <span class="tt">linalg</span> backend, then <span class="tt">cross_entropy_rows</span>, then the gradients; the same loss to the bit through core's reference (TRAINING.md T9).</p>
+</div><!-- fragment --><p><span class="tt">lm_head_loss_sequence(backend, head, hs, targets, logits, losses, dhs, dhead, classes)</span> is the batched form for training on a device: the whole sequence's logits (<span class="tt">n x V</span>, the caller's) as one product through a <span class="tt">linalg</span> backend, then <span class="tt">cross_entropy_rows</span>, then the gradients; the same loss to the bit through core's reference (TRAINING.md T9). Its <span class="tt">weight</span> and <span class="tt">denominator</span> (defaults 1 and the targets' count, the mean) let a multi-token prediction depth share the head (TRAINING.md T12).</p>
 <div class="fragment"><div class="line">    <span class="comment">// For training on a device: the whole sequence&#39;s logits as one product through a linalg backend (here core&#39;s</span></div>
 <div class="line">    <span class="comment">// reference), then the fused classifier on every row, then the gradients; the same loss as lm_head_loss</span></div>
 <div class="line">    std::vector&lt;float&gt; all_logits(tokens.size() * vocab), losses(tokens.size()), dhs2(hs.size()), dtable2(table.size());</div>
@@ -242,7 +242,7 @@ requires std::same_as&lt;row_value_t&lt;H&gt;, row_value_t&lt;L&gt;&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The mean loss, in nats; 0 with no targets. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="lm__head_8hpp_source.html#l00081">81</a> of file <a class="el" href="lm__head_8hpp_source.html">lm_head.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lm__head_8hpp_source.html#l00083">83</a> of file <a class="el" href="lm__head_8hpp_source.html">lm_head.hpp</a>.</p>
 
 </div>
 </div>
@@ -310,12 +310,12 @@ requires std::same_as&lt;row_value_t&lt;H&gt;, row_value_t&lt;L&gt;&gt; &amp;&am
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The mean loss, in nats; 0 with no targets. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="lm__head_8hpp_source.html#l00109">109</a> of file <a class="el" href="lm__head_8hpp_source.html">lm_head.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lm__head_8hpp_source.html#l00111">111</a> of file <a class="el" href="lm__head_8hpp_source.html">lm_head.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ac3d6d0d5dad8c493a6fae60c79ee73d7" name="ac3d6d0d5dad8c493a6fae60c79ee73d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3d6d0d5dad8c493a6fae60c79ee73d7">&#9670;&#160;</a></span>lm_head_loss_sequence()</h2>
+<a id="a91f0b6443cd77408e02515741135b7f2" name="a91f0b6443cd77408e02515741135b7f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91f0b6443cd77408e02515741135b7f2">&#9670;&#160;</a></span>lm_head_loss_sequence()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,7 +369,17 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>classes</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>classes</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; T &gt;</td>          <td class="paramname"><span class="paramname"><em>weight</em></span><span class="paramdefsep"> = </span><span class="paramdefval">T(1)</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>denominator</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -391,12 +401,14 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
     <tr><td class="paramname">dhs</td><td>Added into, <span class="tt">n · d_model</span>. </td></tr>
     <tr><td class="paramname">dhead</td><td>Added into, <span class="tt">V · d_model</span>. </td></tr>
     <tr><td class="paramname">classes</td><td>The classes, the first rows of the head; 0 for all of them. Fewer for a head padded to a multiple the hardware wants (GPT-2's 50,257 tokens in 50,304 rows, as llm.c lays them out): the padding's logits are not classes, their gradient is 0, and the padding rows of <span class="tt">dhead</span> gain nothing. With every row a class, the result is the unpadded one to the bit. </td></tr>
+    <tr><td class="paramname">weight</td><td>A factor on the loss and its gradients: multi-token prediction's <span class="tt">λ / D</span> (<span class="tt"><a class="el" href="multi__token__prediction_8hpp.html" title="snicholls::ml multi-token prediction (DeepSeek-V3): a chain of modules, each predicting one token fur...">ml/multi_token_prediction.hpp</a></span>). </td></tr>
+    <tr><td class="paramname">denominator</td><td>What the summed losses are divided by; 0 for <span class="tt">n</span>. A part of a larger batch (a depth of multi-token prediction, whose loss DeepSeek-V3 divides by the whole sequence's length) passes the whole's. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The mean loss, in nats; 0 with no targets. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">weight</span> times the summed loss over <span class="tt">denominator</span>: the mean loss, in nats, by default; 0 with no targets. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="lm__head_8hpp_source.html#l00148">148</a> of file <a class="el" href="lm__head_8hpp_source.html">lm_head.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lm__head_8hpp_source.html#l00153">153</a> of file <a class="el" href="lm__head_8hpp_source.html">lm_head.hpp</a>.</p>
 
 </div>
 </div>

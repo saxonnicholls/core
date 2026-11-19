@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('self__attention_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt"><a class="el" href="#a0ea74707c09d30a70da3faae479ac3ad" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">snicholls::ml::self_attention_head</a></span> and its backward pass: one causal self-attention head over a sequence, from its own Q, K and V projections, with no configuration and no cache.  
+<p><span class="tt"><a class="el" href="#a26779bb00887a3f34bc10d70c572bc42" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">snicholls::ml::self_attention_head</a></span> and its backward pass: one self-attention head over a sequence (causal, bidirectional or block-causal), from its own Q, K and V projections, with no configuration and no cache.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="attention_8hpp_source.html">snicholls/core/ml/attention.hpp</a>&gt;</code><br />
@@ -124,22 +124,22 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0ea74707c09d30a70da3faae479ac3ad" id="r_a0ea74707c09d30a70da3faae479ac3ad"><td class="memTemplParams" colspan="2">template&lt;std::size_t DModel, std::size_t DHead, weight_matrix W, math::math_number T, row X, mutable_row Out, typename R = no_rope_t&gt; <br />
+<tr class="memitem:a26779bb00887a3f34bc10d70c572bc42" id="r_a26779bb00887a3f34bc10d70c572bc42"><td class="memTemplParams" colspan="2">template&lt;std::size_t DModel, std::size_t DHead, weight_matrix W, math::math_number T, row X, mutable_row Out, typename R = no_rope_t&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;Out&gt;, T&gt; &amp;&amp; (std::same_as&lt;R, <a class="el" href="structsnicholls_1_1ml_1_1no__rope__t.html">no_rope_t</a>&gt; || (rope_source&lt;R&gt; &amp;&amp; DHead % 2 == 0))</td></tr>
-<tr class="memitem:a0ea74707c09d30a70da3faae479ac3ad template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ea74707c09d30a70da3faae479ac3ad">snicholls::ml::self_attention_head</a> (const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__weights.html">self_attention_weights</a>&lt; W, T &gt; &amp;w, const X &amp;xs, const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__activations.html">self_attention_activations</a>&lt; T &gt; &amp;act, Out &amp;&amp;out, std::size_t window=0, const R &amp;rope_src=<a class="el" href="rope_8hpp.html#a187edf76f809bc5ffefe2b9b4ad4119a">no_rope</a>, <a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a> layout=<a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a>)</td></tr>
-<tr class="memdesc:a0ea74707c09d30a70da3faae479ac3ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">One causal self-attention head over a sequence: projects every token, rotates, then attends each position.  <br /></td></tr>
-<tr class="memitem:a4377a38ea1ad4b9077847cda5f25a715" id="r_a4377a38ea1ad4b9077847cda5f25a715"><td class="memTemplParams" colspan="2">template&lt;std::size_t DModel, std::size_t DHead, typename S, math::math_number T, row X, row O, row DO, mutable_row DX, typename R = no_rope_t&gt; <br />
+<tr class="memitem:a26779bb00887a3f34bc10d70c572bc42 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26779bb00887a3f34bc10d70c572bc42">snicholls::ml::self_attention_head</a> (const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__weights.html">self_attention_weights</a>&lt; W, T &gt; &amp;w, const X &amp;xs, const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__activations.html">self_attention_activations</a>&lt; T &gt; &amp;act, Out &amp;&amp;out, std::size_t window=0, const R &amp;rope_src=<a class="el" href="rope_8hpp.html#a187edf76f809bc5ffefe2b9b4ad4119a">no_rope</a>, <a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a> layout=<a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a>, <a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8fe">attention_mask</a> mask=<a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8feabb19f3e14eeb058560e7a79f01b90a09">attention_mask::causal</a>, std::size_t block=1)</td></tr>
+<tr class="memdesc:a26779bb00887a3f34bc10d70c572bc42"><td class="mdescLeft">&#160;</td><td class="mdescRight">One causal self-attention head over a sequence: projects every token, rotates, then attends each position.  <br /></td></tr>
+<tr class="memitem:a206aadfbbe68a1bc4450a82f3e235f40" id="r_a206aadfbbe68a1bc4450a82f3e235f40"><td class="memTemplParams" colspan="2">template&lt;std::size_t DModel, std::size_t DHead, typename S, math::math_number T, row X, row O, row DO, mutable_row DX, typename R = no_rope_t&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;O&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DO&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;DX&gt;, T&gt; &amp;&amp; (std::same_as&lt;R, <a class="el" href="structsnicholls_1_1ml_1_1no__rope__t.html">no_rope_t</a>&gt; || (rope_source&lt;R&gt; &amp;&amp; DHead % 2 == 0))</td></tr>
-<tr class="memitem:a4377a38ea1ad4b9077847cda5f25a715 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4377a38ea1ad4b9077847cda5f25a715">snicholls::ml::self_attention_head_backward</a> (const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__weights.html">self_attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt;, T &gt; &amp;w, const X &amp;xs, const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__activations.html">self_attention_activations</a>&lt; T &gt; &amp;act, const O &amp;out, const DO &amp;dout, DX &amp;&amp;dxs, const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__gradients.html">self_attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t window=0, const R &amp;rope_src=<a class="el" href="rope_8hpp.html#a187edf76f809bc5ffefe2b9b4ad4119a">no_rope</a>, <a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a> layout=<a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a>)</td></tr>
-<tr class="memdesc:a4377a38ea1ad4b9077847cda5f25a715"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a0ea74707c09d30a70da3faae479ac3ad" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">self_attention_head</a></span>, from what its forward pass saved.  <br /></td></tr>
+<tr class="memitem:a206aadfbbe68a1bc4450a82f3e235f40 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a206aadfbbe68a1bc4450a82f3e235f40">snicholls::ml::self_attention_head_backward</a> (const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__weights.html">self_attention_weights</a>&lt; <a class="el" href="structsnicholls_1_1ml_1_1dense__weights.html">dense_weights</a>&lt; S &gt;, T &gt; &amp;w, const X &amp;xs, const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__activations.html">self_attention_activations</a>&lt; T &gt; &amp;act, const O &amp;out, const DO &amp;dout, DX &amp;&amp;dxs, const <a class="el" href="structsnicholls_1_1ml_1_1self__attention__gradients.html">self_attention_gradients</a>&lt; T &gt; &amp;grads, std::size_t window=0, const R &amp;rope_src=<a class="el" href="rope_8hpp.html#a187edf76f809bc5ffefe2b9b4ad4119a">no_rope</a>, <a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a> layout=<a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a>, <a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8fe">attention_mask</a> mask=<a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8feabb19f3e14eeb058560e7a79f01b90a09">attention_mask::causal</a>, std::size_t block=1)</td></tr>
+<tr class="memdesc:a206aadfbbe68a1bc4450a82f3e235f40"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#a26779bb00887a3f34bc10d70c572bc42" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">self_attention_head</a></span>, from what its forward pass saved.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt"><a class="el" href="#a0ea74707c09d30a70da3faae479ac3ad" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">snicholls::ml::self_attention_head</a></span> and its backward pass: one causal self-attention head over a sequence, from its own Q, K and V projections, with no configuration and no cache. </p>
+<div class="textblock"><p><span class="tt"><a class="el" href="#a26779bb00887a3f34bc10d70c572bc42" title="One causal self-attention head over a sequence: projects every token, rotates, then attends each posi...">snicholls::ml::self_attention_head</a></span> and its backward pass: one self-attention head over a sequence (causal, bidirectional or block-causal), from its own Q, K and V projections, with no configuration and no cache. </p>
 <p><b>Overview.</b> The textbook head (Vaswani et al., 2017), on its own: for tokens <span class="tt">x_0 ... x_{n-1}</span> of <span class="tt">DModel</span> channels and projections <span class="tt">Wq</span>, <span class="tt">Wk</span>, <span class="tt">Wv</span> of <span class="tt">DHead x DModel</span>,</p>
 <ol type="1">
 <li><span class="tt">q_t = Wq x_t</span>, <span class="tt">k_t = Wk x_t</span>, <span class="tt">v_t = Wv x_t</span> (plus biases), from one prepared input per token;</li>
 <li>optionally RoPE at position <span class="tt">t</span> on <span class="tt">q_t</span> and <span class="tt">k_t</span>;</li>
-<li><span class="tt">out_t = softmax(q_t · K / sqrt(DHead)) · V</span> over the keys <span class="tt">attention_window(t, window)</span> allows: causal, and within the last <span class="tt">window</span> positions if <span class="tt">window</span> is not 0.</li>
+<li><span class="tt">out_t = softmax(q_t · K / sqrt(DHead)) · V</span> over the keys <span class="tt">attention_window(t, window)</span> allows: causal, and within the last <span class="tt">window</span> positions if <span class="tt">window</span> is not 0; or, with <span class="tt">mask</span>, over every key (bidirectional) or whole blocks of <span class="tt">block</span> (block-causal), as <span class="tt">attention_keys</span> says (TRAINING.md T11).</li>
 </ol>
 <p>It is the unit to study, test, train or put on a device: no <span class="tt">transformer_config</span>, no KV cache, no output projection, no other heads. The projections land in <span class="tt">self_attention_activations</span>, buffers the caller owns, because they are what a backward pass reads (with the log-sum-exp per position, as flash attention keeps it, never the <span class="tt">n x n</span> probabilities). For a model's layer, with grouped-query heads, QK norm, a soft cap, a cache and decoding one token at a time, use <span class="tt">attention_forward</span> (<span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>).</p>
 <p>The weights are any <span class="tt">weight_matrix</span>: dense rows of float, double or bfloat16, or quantised blocks.</p>
@@ -201,12 +201,12 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/self_attention_test.cpp</span>, <span class="tt">demos/ml/self_attention_demo.cpp</span>.</p>
 <p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">ml/attention.hpp</a></span>, <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
 <p><b>Known issues.</b> The projections are matrix-vector products, one token at a time, as <span class="tt">linear</span> does them; a matrix-matrix backend for long sequences is to come. The score scale is <span class="tt">1 / sqrt(DHead)</span>, rounded once to <span class="tt">T</span>.</p>
-<p><b>Status.</b> Experimental, new in 0.9.0. </p>
+<p><b>Status.</b> Experimental, new in 0.9.0; <span class="tt">mask</span> and <span class="tt">block</span> new in 0.16.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="self__attention_8hpp_source.html">self_attention.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a0ea74707c09d30a70da3faae479ac3ad" name="a0ea74707c09d30a70da3faae479ac3ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ea74707c09d30a70da3faae479ac3ad">&#9670;&#160;</a></span>self_attention_head()</h2>
+<a id="a26779bb00887a3f34bc10d70c572bc42" name="a26779bb00887a3f34bc10d70c572bc42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26779bb00887a3f34bc10d70c572bc42">&#9670;&#160;</a></span>self_attention_head()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -250,7 +250,17 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a></td>          <td class="paramname"><span class="paramname"><em>layout</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a></td>          <td class="paramname"><span class="paramname"><em>layout</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8fe">attention_mask</a></td>          <td class="paramname"><span class="paramname"><em>mask</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8feabb19f3e14eeb058560e7a79f01b90a09">attention_mask::causal</a></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -277,16 +287,18 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
     <tr><td class="paramname">window</td><td>The sliding window, counting a position's own key; 0 for fully causal. </td></tr>
     <tr><td class="paramname">rope_src</td><td>The cosines and sines by position (a <span class="tt">rope_table</span> of <span class="tt">DHead</span>), or <span class="tt">no_rope</span>. </td></tr>
     <tr><td class="paramname">layout</td><td>Which channels RoPE rotates together. </td></tr>
+    <tr><td class="paramname">mask</td><td>Which keys a position sees (<span class="tt">attention_keys</span>): causal by default, bidirectional, or block-causal. </td></tr>
+    <tr><td class="paramname">block</td><td>The tokens of a block under <span class="tt">attention_mask::block_causal</span>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="self__attention_8hpp_source.html#l00130">130</a> of file <a class="el" href="self__attention_8hpp_source.html">self_attention.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="self__attention_8hpp_source.html#l00133">133</a> of file <a class="el" href="self__attention_8hpp_source.html">self_attention.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a4377a38ea1ad4b9077847cda5f25a715" name="a4377a38ea1ad4b9077847cda5f25a715"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4377a38ea1ad4b9077847cda5f25a715">&#9670;&#160;</a></span>self_attention_head_backward()</h2>
+<a id="a206aadfbbe68a1bc4450a82f3e235f40" name="a206aadfbbe68a1bc4450a82f3e235f40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206aadfbbe68a1bc4450a82f3e235f40">&#9670;&#160;</a></span>self_attention_head_backward()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,7 +357,17 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a></td>          <td class="paramname"><span class="paramname"><em>layout</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f">rope_layout</a></td>          <td class="paramname"><span class="paramname"><em>layout</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">rope_layout::half</a></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8fe">attention_mask</a></td>          <td class="paramname"><span class="paramname"><em>mask</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8feabb19f3e14eeb058560e7a79f01b90a09">attention_mask::causal</a></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -375,11 +397,13 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt; &amp;&amp; std::same_as&lt;
     <tr><td class="paramname">window</td><td>The forward pass's window. </td></tr>
     <tr><td class="paramname">rope_src</td><td>The forward pass's rope source, or <span class="tt">no_rope</span>. </td></tr>
     <tr><td class="paramname">layout</td><td>The forward pass's RoPE layout. </td></tr>
+    <tr><td class="paramname">mask</td><td>The forward pass's mask. </td></tr>
+    <tr><td class="paramname">block</td><td>The forward pass's block. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="self__attention_8hpp_source.html#l00204">204</a> of file <a class="el" href="self__attention_8hpp_source.html">self_attention.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="self__attention_8hpp_source.html#l00210">210</a> of file <a class="el" href="self__attention_8hpp_source.html">self_attention.hpp</a>.</p>
 
 </div>
 </div>

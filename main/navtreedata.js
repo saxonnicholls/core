@@ -81,16 +81,18 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accumulators_8hpp.html",
-"classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#aa5bd729e3bd76ed2d6abe36525a7f75f",
-"classsnicholls_1_1result__throws_1_1result.html#a4bc853424f49cba29094a3d3b4202986",
-"colour_8hpp.html",
-"group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f",
-"group__core.html#gab3812a029dd9e9668e84d68ac79c8264",
-"namespacemembers_e.html",
-"structsnicholls_1_1colour__text.html#afd16569836497eb1bd6ca1b7eb1ce250",
-"structsnicholls_1_1linalg_1_1signed__log__det.html#acac8463f19972d36b6cabc344b1f1bc6",
-"structsnicholls_1_1parse__options.html#ab8d7ad51b7477a37a88a101880f1c65a",
-"structsnicholls_1_1utc__error.html#a3d3c83893132ba10c0e0b3236838e135"
+"classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a9a7ace1256cb5c9a0d9f242a8b9f945a",
+"classsnicholls_1_1result__throws_1_1result.html#a3b3f2fc97bd68f91bd98727940cde8c7",
+"classsnicholls_1_1zip__view.html",
+"group__core.html#ga11277882bc1ab6ad99bab45c08ed4f82",
+"group__core.html#gaa773e0369a0f4256fd8e4db03d6ee61b",
+"index.html#autotoc_md2",
+"structsnicholls_1_1basic__fixed__string.html#a6c4a0a17ad81b5f242f65142a09cd022",
+"structsnicholls_1_1is__owning__sequence.html",
+"structsnicholls_1_1ml_1_1diloco__config.html#a4fc82a597e86e3c7d3fc096d2398973a",
+"structsnicholls_1_1ml_1_1nf4__weights.html#a018c00ff7406f000074b5c4860968ae1",
+"structsnicholls_1_1pipeline_1_1filter__stage.html#a3297fc9334d0f4d462902279ca80b5ef",
+"structstd_1_1hash_3_01snicholls_1_1result_3_01V_00_01E_01_4_01_4.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -132,17 +132,17 @@ Functions</h2></td></tr>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Eight randomly shifted Sobol copies: each is balanced, together they give an error bar.</span></div>
 <div class="line">    stats::wyrand g(7);</div>
-<div class="line">    <span class="keywordtype">double</span> sum = 0, sum2 = 0;</div>
+<div class="line">    <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> = 0, sum2 = 0;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> c = 0; c &lt; copies; ++c) {</div>
 <div class="line">        stats::sobol&lt;4&gt; points(g);</div>
 <div class="line">        <span class="keywordtype">double</span> estimate = 0;</div>
 <div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)</div>
 <div class="line">            estimate += payoff(points.next());</div>
 <div class="line">        estimate /= n;</div>
-<div class="line">        sum += estimate;</div>
+<div class="line">        <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> += estimate;</div>
 <div class="line">        sum2 += estimate * estimate;</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> qmc = sum / copies;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> qmc = <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> / copies;</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> qmc_error = std::sqrt((sum2 / copies - qmc * qmc) / (copies - 1));</div>
 </div><!-- fragment --><ul>
 <li><span class="tt">sobol&lt;D&gt;</span>: Joe and Kuo's construction (new-joe-kuo-6.21201), up to 1024 dimensions, 32 bits, in Gray-code order; the first 2^m points of each dimension put exactly one point in each interval of width 2^-m. Prefer <span class="tt">N = 2^m</span> points. Built with a generator, it applies a random digital shift: each shifted copy is still balanced and is uniformly distributed, so a few independent copies give an unbiased estimate with an error bar (randomised quasi-Monte Carlo).</li>

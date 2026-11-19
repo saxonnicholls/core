@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['random_2ehpp_0',['random.hpp',['../random_8hpp.html',1,'']]],
-  ['randomized_5fsvd_2ehpp_1',['randomized_svd.hpp',['../randomized__svd_8hpp.html',1,'']]],
-  ['reference_2ehpp_2',['reference.hpp',['../reference_8hpp.html',1,'']]],
-  ['result_2ehpp_3',['result.hpp',['../result_8hpp.html',1,'']]],
-  ['rfc3339_2ehpp_4',['rfc3339.hpp',['../rfc3339_8hpp.html',1,'']]],
-  ['rope_2ehpp_5',['rope.hpp',['../rope_8hpp.html',1,'']]],
-  ['row_2ehpp_6',['row.hpp',['../row_8hpp.html',1,'']]]
+  ['partition_2ehpp_0',['partition.hpp',['../partition_8hpp.html',1,'']]],
+  ['patch_2ehpp_1',['patch.hpp',['../patch_8hpp.html',1,'']]],
+  ['perfect_5fmap_2ehpp_2',['perfect_map.hpp',['../perfect__map_8hpp.html',1,'']]],
+  ['permutations_2ehpp_3',['permutations.hpp',['../permutations_8hpp.html',1,'']]],
+  ['pivot_2ehpp_4',['pivot.hpp',['../pivot_8hpp.html',1,'']]],
+  ['preference_2ehpp_5',['preference.hpp',['../preference_8hpp.html',1,'']]],
+  ['probe_2ehpp_6',['probe.hpp',['../probe_8hpp.html',1,'']]],
+  ['properties_2ehpp_7',['properties.hpp',['../properties_8hpp.html',1,'']]]
 ];

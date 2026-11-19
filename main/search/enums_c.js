@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['precision_5fpolicy_0',['precision_policy',['../group__core.html#ga3f99d4e0402ac25c5fea1a11976abe6a',1,'snicholls']]]
+  ['overflow_5fpolicy_0',['overflow_policy',['../group__core.html#ga60477dd069f3cda9d37a9c3df1bf3508',1,'snicholls::ml']]],
+  ['overload_5fmismatch_1',['overload_mismatch',['../group__core.html#gad3b4684d99ddf23675d64b35fd49071f',1,'snicholls']]]
 ];

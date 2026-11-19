@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -355,13 +355,13 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>            out.total = std::invoke(v, <a class="code hl_function" href="group__core.html#ga36a6731b4a94100d1615f3a864450fb5">grand_coalition</a>(n));</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>            out.evaluations = 2;</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            std::vector&lt;std::size_t&gt; others;</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>            T sum = T(0);</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>            T <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> = T(0);</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i) {</div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                others.clear();</div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>                <span class="keywordflow">for</span> (std::size_t j = 0; j &lt; n; ++j)</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                    <span class="keywordflow">if</span> (j != i)</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                        others.push_back(j);</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                T mean = T(0), m2 = T(0);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                T <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a> = T(0), m2 = T(0);</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                std::size_t count = 0;</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                <span class="keywordflow">for</span> (std::size_t k = 0; k &lt; options.samples_per_player; ++k) {</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                    <span class="comment">// |S| is uniform on 0 .. n-1 under the Shapley weights, then S uniform of that size</span></div>
@@ -375,19 +375,19 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                    <span class="keyword">const</span> T lift = std::invoke(v, <a class="code hl_function" href="group__core.html#ga05621a2dbab647a5b588a3eb6ae2b1be">with</a>(s, i)) - std::invoke(v, s);</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                    out.evaluations += 2;</div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                    ++count;</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                    <span class="keyword">const</span> T delta = lift - mean;</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                    mean += delta / <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(count);</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                    m2 += delta * (lift - mean);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                    <span class="keyword">const</span> T delta = lift - <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>;</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                    <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a> += delta / <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(count);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                    m2 += delta * (lift - <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>);</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                }</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                out.values[i] = mean;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                out.values[i] = <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>;</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>                out.standard_errors[i] = count &lt; 2 ? std::numeric_limits&lt;T&gt;::quiet_NaN()</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>                                                   : std::<a class="code hl_function" href="constexpr__math_8hpp.html#a0b16773df7354cfaf804d91b977b7b69">sqrt</a>(m2 / static_cast&lt;T&gt;(count - 1) / static_cast&lt;T&gt;(count));</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>                sum += mean;</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>                <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> += <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>;</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>            }</div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>            out.samples = options.samples_per_player;</div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>            <span class="keyword">const</span> T target = out.total - out.baseline;</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>            <span class="keywordflow">if</span> (options.scale_to_total &amp;&amp; sum != T(0)) {</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                <span class="keyword">const</span> T factor = target / sum;</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                <span class="keyword">const</span> T factor = target / <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a>;</div>
 <div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>                <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i) {</div>
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                    out.values[i] *= factor;</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                    out.standard_errors[i] *= std::abs(factor);</div>
@@ -649,6 +649,8 @@ $(function(){initNavTree('shapley_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gaec01b59fdc66a2033cc4d3be26bbe5f1"><div class="ttname"><a href="group__core.html#gaec01b59fdc66a2033cc4d3be26bbe5f1">snicholls::game::shapley</a></div><div class="ttdeci">constexpr fixed_attribution&lt; game_value_t&lt; V &gt;, N &gt; shapley(const V &amp;v)</div><div class="ttdoc">The exact Shapley attribution of a game of N players: 2^N evaluations, at compile time if the game is...</div><div class="ttdef"><b>Definition</b> <a href="#l00383">shapley.hpp:383</a></div></div>
 <div class="ttc" id="agroup__core_html_gaec989b86979afc1da6bbce5cc3274073"><div class="ttname"><a href="group__core.html#gaec989b86979afc1da6bbce5cc3274073">snicholls::game::banzhaf</a></div><div class="ttdeci">constexpr fixed_attribution&lt; game_value_t&lt; V &gt;, N &gt; banzhaf(const V &amp;v)</div><div class="ttdoc">The Banzhaf value: each player&#39;s average lift over all coalitions, unweighted. Fair,...</div><div class="ttdef"><b>Definition</b> <a href="#l00457">shapley.hpp:457</a></div></div>
 <div class="ttc" id="agroup__core_html_gaf6124ef0b361d0cbe71cbe6bf3a179f5"><div class="ttname"><a href="group__core.html#gaf6124ef0b361d0cbe71cbe6bf3a179f5">snicholls::game::shapley_sampled_lifts</a></div><div class="ttdeci">sampled_attribution&lt; game_value_t&lt; V &gt;, std::array&lt; game_value_t&lt; V &gt;, N &gt; &gt; shapley_sampled_lifts(const V &amp;v, G &amp;g, lift_sampling options={})</div><div class="ttdoc">The Shapley attribution estimated from random lifts, the importance sampling of Moehle,...</div><div class="ttdef"><b>Definition</b> <a href="#l00647">shapley.hpp:647</a></div></div>
+<div class="ttc" id="agroup__core_html_gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416"><div class="ttname"><a href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">snicholls::ml::logprob_reduction::sum</a></div><div class="ttdeci">@ sum</div><div class="ttdoc">Σ_t mask_t · logp_t: the sequence&#39;s log-probability (DPO, IPO, GRPO).</div><div class="ttdef"><b>Definition</b> <a href="logprobs_8hpp_source.html#l00084">logprobs.hpp:84</a></div></div>
+<div class="ttc" id="agroup__core_html_gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a"><div class="ttname"><a href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">snicholls::ml::logprob_reduction::mean</a></div><div class="ttdeci">@ mean</div><div class="ttdoc">The sum divided by the response&#39;s length (SimPO, ORPO); 0 for an empty response.</div><div class="ttdef"><b>Definition</b> <a href="logprobs_8hpp_source.html#l00085">logprobs.hpp:85</a></div></div>
 <div class="ttc" id="apermutations_8hpp_html"><div class="ttname"><a href="permutations_8hpp.html">permutations.hpp</a></div><div class="ttdoc">Compile-time permutations of positions and values: index_permutations, permutations,...</div></div>
 <div class="ttc" id="arandom_8hpp_html"><div class="ttname"><a href="random_8hpp.html">random.hpp</a></div><div class="ttdoc">wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.</div></div>
 <div class="ttc" id="asampling_8hpp_html_a53c47c801bc534104f8c2356ae9d791e"><div class="ttname"><a href="sampling_8hpp.html#a53c47c801bc534104f8c2356ae9d791e">snicholls::ml::sample</a></div><div class="ttdeci">constexpr std::size_t sample(const R &amp;probabilities, std::type_identity_t&lt; row_value_t&lt; R &gt; &gt; u)</div><div class="ttdoc">Samples an index from probabilities: the first whose cumulative sum exceeds u.</div><div class="ttdef"><b>Definition</b> <a href="sampling_8hpp_source.html#l00097">sampling.hpp:97</a></div></div>

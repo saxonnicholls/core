@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.15.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -154,7 +154,7 @@ Variables</h2></td></tr>
 <p><span class="tt">paged_kv_cache_view&lt;C, T, MaxPages&gt;</span> is the form for serving: a pool of fixed pages and a page table per sequence, so sequences that share a prefix share its pages, and <span class="tt">kv_page_hash</span> gives each page a content address (its tokens and the address of the page before), so a request can find the pages an earlier one already computed. A visible range is one run per page, still in position order, so a paged cache gives the flat cache's bits. The pool's allocation, sharing and eviction are the serving layer's, above core.</p>
 <div class="fragment"><div class="line">    <span class="comment">// One key-value head of 2 channels, a sliding window of 3: a ring of 3 slots is enough</span></div>
 <div class="line">    <span class="keyword">constexpr</span> ml::transformer_config c{.d_model = 2, .n_heads = 1, .n_kv_heads = 1, .head_dim = 2, .d_ff = 2, .window = 3};</div>
-<div class="line">    std::vector&lt;float&gt; keys(ml::kv_cache_view&lt;c&gt;::required_size(1, 3)), values(keys.size());</div>
+<div class="line">    std::vector&lt;float&gt; keys(ml::kv_cache_view&lt;c&gt;::required_size(1, 3)), values(keys.<a class="code hl_function" href="structsnicholls_1_1ml_1_1key__range.html#a259ef3d325aab04fe695ddecbb41b6ec">size</a>());</div>
 <div class="line">    <span class="keyword">const</span> ml::kv_cache_view&lt;c&gt; cache(keys, values, 1, 3);</div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t pos = 0; pos &lt; 5; ++pos) {</div>
 <div class="line">        <span class="keyword">const</span> std::array&lt;float, 2&gt; k{float(pos), float(pos)}, v{-float(pos), -float(pos)};</div>
