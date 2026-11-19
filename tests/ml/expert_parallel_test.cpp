@@ -322,13 +322,15 @@ TEST(MlExpertParallel, OneTwoAndFourRanksAreTheSingleProcessLayerToTheBit)
         std::vector<float> sum(params.size());
         ml::ordered_sum<float>(parts, sum);   // the data-parallel all-reduce
         for (std::size_t i = 0; i < sum.size(); ++i) {
-            if (i >= first && i < last)
+            if (i >= first && i < last) {
                 ASSERT_EQ(sum[i], one.grads[i]) << ranks << " ranks, expert gradient " << i;   // one rank's alone
-            else
+            } else {
                 ASSERT_NEAR(sum[i], one.grads[i], 2e-6f * std::max(1.0f, std::abs(one.grads[i]))) << ranks << " ranks, gradient " << i;
+            }
         }
-        if (ranks == 1)
+        if (ranks == 1) {
             EXPECT_EQ(sum, one.grads);   // one rank is the single process, to the bit
+        }
     }
 }
 
