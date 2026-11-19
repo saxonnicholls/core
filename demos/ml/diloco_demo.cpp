@@ -7,7 +7,8 @@
 //  Demo for <snicholls/core/ml/diloco.hpp>: the fixed-order sum of three workers' gradients and why its order is
 //  fixed; then DiLoCo on a small least-squares fit, four workers taking 25 local SGD steps a round on their own data for 40 rounds,
 //  their pseudo-gradients averaged in rank order and applied by the outer step (Nesterov momentum 0.9, outer learning
-//  rate 0.7), against one worker trained for the same number of steps. Exits non-zero if a result is not what it
+//  rate 0.7), against one worker trained for the same number of steps; then the pseudo-gradients in bfloat16 with error
+//  feedback, summed and averaged as the bfloat16 all-reduce does. Exits non-zero if a result is not what it
 //  documents.
 //
 
@@ -18,6 +19,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <span>
 
@@ -112,6 +114,24 @@ int main()
     ml::diloco_outer_step<double>(avg_global, avg_mean, avg_momentum, {.outer_lr = 1.0, .momentum = 0.0, .nesterov = false});
     std::printf("  plain averaging: 2 - mean (0.5, -0.5) = (%g, %g)\n", avg_global[0], avg_global[1]);
     ok &= avg_global[0] == 1.5 && avg_global[1] == 2.5;
+
+    //! [bf16]
+    // Two workers send their pseudo-gradients in bfloat16 (half the bytes); each keeps what the rounding dropped
+    const std::array<float, 2> delta0{1.0f + 0x1.0p-10f, 0.25f}, delta1{1.0f, -0.75f};
+    std::array<float, 2> residual0{}, residual1{};   // zero before the first round; each worker's own
+    std::array<std::uint16_t, 2> wire0{}, wire1{};
+    ml::compress_bf16(delta0, residual0, wire0);   // 1 + 2^-10 goes as 1; residual0[0] = 2^-10, sent next round
+    ml::compress_bf16(delta1, residual1, wire1);
+    const std::array<std::span<const std::uint16_t>, 2> wires{wire0, wire1};
+    std::array<float, 2> bf16_sum{}, bf16_mean{};
+    ml::ordered_sum_bf16(wires, bf16_sum);     // the reducing rank: decoded, summed in rank order in float
+    ml::ordered_mean_bf16(wires, bf16_mean);   // every worker: bf16(sum) / 2, as the bfloat16 all-reduce leaves it
+    //! [bf16]
+    std::printf("  bfloat16: sent %#06x %#06x, residual %g; sum (%g, %g), mean (%g, %g)\n", unsigned(wire0[0]), unsigned(wire1[0]),
+                static_cast<double>(residual0[0]), static_cast<double>(bf16_sum[0]), static_cast<double>(bf16_sum[1]),
+                static_cast<double>(bf16_mean[0]), static_cast<double>(bf16_mean[1]));
+    ok &= wire0[0] == 0x3f80 && residual0[0] == 0x1.0p-10f && residual1[0] == 0.0f && bf16_sum[0] == 2.0f && bf16_sum[1] == -0.5f
+          && bf16_mean[0] == 1.0f && bf16_mean[1] == -0.25f;
 
     std::printf("%s\n", ok ? "OK" : "FAILED");
     return ok ? 0 : 1;

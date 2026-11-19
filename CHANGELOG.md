@@ -3,7 +3,20 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased (0.16.0)
+## Unreleased
+
+### Added
+
+- bfloat16 pseudo-gradients in `ml/diloco.hpp`, half the bytes on the wire, specified to the bit so that a transport
+  and a training library agree:
+  - `ml::compress_bf16(delta, residual, out)`: `delta + residual` rounded to bfloat16 (to nearest, ties to even), with
+    error feedback: the residual keeps exactly what the rounding dropped and is added to the next round's delta.
+  - `ml::ordered_sum_bf16(parts, out)`: the workers' bfloat16 parts decoded and summed in rank order in float, the
+    reducing rank's arithmetic.
+  - `ml::ordered_mean_bf16(parts, out)`: what a bfloat16 all-reduce and the mean leave on every worker, the float sum
+    rounded once to bfloat16 and divided by the worker count.
+- The documentation of `ml/diloco.hpp` states what a worker that leaves and rejoins needs (nothing new in the outer
+  step: the mean divides by that round's parts).
 
 ### Added
 
