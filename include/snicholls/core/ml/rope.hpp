@@ -261,6 +261,12 @@ constexpr void rope_angles(std::size_t pos, C&& cos, S&& sin, std::type_identity
     const auto c = as_mutable_row(cos);
     const auto s = as_mutable_row(sin);
     assert(c.size() == s.size());
+    if (scaling.amplitude == T(1) && (scaling.kind == rope_scaling_kind::none || scaling.factor == T(1))) {
+        // The plain angles through the plain function, so that they are its bits however each call is optimised (a
+        // compiler may turn pow(base, 0.5) into sqrt(base) where it sees the exponent, and a platform's pow differs)
+        rope_angles(pos, c, s, base);
+        return;
+    }
     for (std::size_t i = 0; i < c.size(); ++i) {
         const T angle = T(pos) * rope_scaled_frequency<T>(i, 2 * c.size(), base, scaling);
         c[i] = scaling.amplitude * math::cos(angle);
