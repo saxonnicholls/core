@@ -573,6 +573,9 @@ constexpr void attention_forward_sequence(const attention_weights<W, T>& w, cons
             std::copy_n(v.begin() + std::ptrdiff_t(h * d), d, act.v.begin() + std::ptrdiff_t((h * n + t) * d));
         }
         detail::attention_layer::position_token<C>(w, act, n, t, rope_src);
+    }
+    // Every key is in place before any token attends: a bidirectional or block-causal token reads later keys
+    for (std::size_t t = 0; t < n; ++t) {
         detail::attention_layer::attend_token<C>(act, n, t);
         linear(w.o, prepare_input<qn>(w.o, std::span<const T>(act.y).subspan(t * qn, qn)), y.subspan(t * C.d_model, C.d_model), w.o_bias);
     }

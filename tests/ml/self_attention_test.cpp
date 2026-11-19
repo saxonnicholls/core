@@ -7,7 +7,8 @@
 //  Tests for <snicholls/core/ml/self_attention.hpp>: one head against the naive softmax(Q K^T / sqrt(d) + mask) V in
 //  double, with and without biases, a sliding window, RoPE in both layouts, the log-sum-exps, a prefix that gives
 //  the same bits as the whole sequence, float within rounding of double, quantised and bfloat16 weights, no tokens,
-//  and compile-time use; the backward pass against central differences in double (causal, windowed, with RoPE),
+//  the bidirectional and block-causal masks, and compile-time use; the backward pass against central differences in
+//  double (causal, windowed, with RoPE, bidirectional, block-causal),
 //  its accumulation, the skipped input gradient, and that only dense weights train.
 //
 
@@ -25,6 +26,7 @@
 #include <cstddef>
 #include <limits>
 #include <span>
+#include <utility>
 #include <vector>
 
 namespace {
@@ -86,7 +88,8 @@ struct expected
 
 expected reference(const head<double>& h, const std::vector<double>& x, std::size_t window,
                    const std::vector<double>* cos = nullptr, const std::vector<double>* sin = nullptr,
-                   ml::rope_layout layout = ml::rope_layout::half)
+                   ml::rope_layout layout = ml::rope_layout::half, ml::attention_mask mask = ml::attention_mask::causal,
+                   std::size_t block = 1)
 {
     const std::size_t tokens = x.size() / dm;
     auto project = [&](const std::vector<double>& w, const std::vector<double>& b, std::size_t t) {
@@ -122,8 +125,9 @@ expected reference(const head<double>& h, const std::vector<double>& x, std::siz
     for (std::size_t t = 0; t < tokens; ++t) {
         std::vector<double> s(tokens, -std::numeric_limits<double>::infinity());
         double max = s[0];
-        for (std::size_t j = 0; j <= t; ++j)
-            if (window == 0 || t - j < window) {
+        for (std::size_t j = 0; j < tokens; ++j)
+            if (mask == ml::attention_mask::bidirectional || (mask == ml::attention_mask::block_causal && j < (t / block + 1) * block)
+                || (mask == ml::attention_mask::causal && j <= t && (window == 0 || t - j < window))) {
                 s[j] = 0;
                 for (std::size_t i = 0; i < dh; ++i)
                     s[j] += q[t][i] * k[j][i] / std::sqrt(double(dh));
@@ -366,23 +370,25 @@ struct grads
 };
 
 template <typename R = ml::no_rope_t>
-void expect_backward_is_central_differences(std::size_t window, const R& rope_src = ml::no_rope)
+void expect_backward_is_central_differences(std::size_t window, const R& rope_src = ml::no_rope,
+                                            ml::attention_mask mask = ml::attention_mask::causal, std::size_t block = 1)
 {
     head<double> h(true);
     auto x = wave(n * dm, 1.0, 0.3);
     const auto gout = wave(n * dh, 0.8, 1.9);
     auto loss = [&] {
         run<double> r(n);
-        ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, window, rope_src);
+        ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, window, rope_src, ml::rope_layout::half, mask, block);
         double l = 0;
         for (std::size_t i = 0; i < r.out.size(); ++i)
             l += gout[i] * r.out[i];
         return l;
     };
     run<double> r(n);
-    ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, window, rope_src);
+    ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, window, rope_src, ml::rope_layout::half, mask, block);
     grads g(n);
-    ml::self_attention_head_backward<dm, dh>(h.weights(), x, r.act(), r.out, gout, g.x, g.view(), window, rope_src);
+    ml::self_attention_head_backward<dm, dh>(h.weights(), x, r.act(), r.out, gout, g.x, g.view(), window, rope_src, ml::rope_layout::half,
+                                             mask, block);
     auto check = [&](std::vector<double>& p, const std::vector<double>& grad, const char* what) {
         for (std::size_t i = 0; i < p.size(); ++i) {
             const double keep = p[i], e = 1e-6;
@@ -418,6 +424,37 @@ TEST(MlSelfAttention, BackwardWithRopeMatchesCentralDifferences)
 {
     static const ml::rope_table<double, 16, dh> table{};
     expect_backward_is_central_differences(0, table);
+}
+
+TEST(MlSelfAttention, BackwardWithBidirectionalAndBlockCausalMasksMatchesCentralDifferences)
+{
+    static const ml::rope_table<double, 16, dh> table{};
+    expect_backward_is_central_differences(0, ml::no_rope, ml::attention_mask::bidirectional);
+    expect_backward_is_central_differences(0, table, ml::attention_mask::bidirectional);
+    expect_backward_is_central_differences(0, ml::no_rope, ml::attention_mask::block_causal, 2);
+}
+
+TEST(MlSelfAttention, BidirectionalAndBlockCausalHeadsAreSoftmaxOverTheirKeys)
+{
+    const head<double> h(true);
+    const auto x = wave(n * dm, 1.0, 0.3);
+    for (const auto [mask, block] : {std::pair{ml::attention_mask::bidirectional, std::size_t(1)},
+                                     std::pair{ml::attention_mask::block_causal, std::size_t(2)},
+                                     std::pair{ml::attention_mask::block_causal, std::size_t(3)}}) {
+        run<double> r(n);
+        ml::self_attention_head<dm, dh>(h.weights(), x, r.act(), r.out, 0, ml::no_rope, ml::rope_layout::half, mask, block);
+        const auto want = reference(h, x, 0, nullptr, nullptr, ml::rope_layout::half, mask, block);
+        expect_near(r.out, want.out, 1e-12);
+        expect_near(r.lse, want.lse, 1e-12);
+    }
+    // One block of every token is bidirectional, to the bit; a block of one is causal, to the bit
+    run<double> a(n), b(n), c(n), d(n);
+    ml::self_attention_head<dm, dh>(h.weights(), x, a.act(), a.out, 0, ml::no_rope, ml::rope_layout::half, ml::attention_mask::block_causal, n);
+    ml::self_attention_head<dm, dh>(h.weights(), x, b.act(), b.out, 0, ml::no_rope, ml::rope_layout::half, ml::attention_mask::bidirectional);
+    ml::self_attention_head<dm, dh>(h.weights(), x, c.act(), c.out, 0, ml::no_rope, ml::rope_layout::half, ml::attention_mask::block_causal, 1);
+    ml::self_attention_head<dm, dh>(h.weights(), x, d.act(), d.out);
+    EXPECT_EQ(a.out, b.out);
+    EXPECT_EQ(c.out, d.out);
 }
 
 TEST(MlSelfAttention, BackwardAccumulatesTheWeightGradientsAndCanSkipTheInputs)

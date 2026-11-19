@@ -7,6 +7,8 @@
 
 #include <snicholls/core/ml/attention_layer.hpp>
 
+#include <snicholls/core/ml/patch.hpp>
+
 #include <snicholls/core/combinatorics/permutations.hpp>
 #include <snicholls/core/linalg/reference.hpp>
 
@@ -17,6 +19,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <span>
 #include <vector>
 
@@ -521,6 +524,192 @@ TEST(MlAttentionLayer, HeadBackwardWithoutACapIsAttendBackwardToTheBit)
     EXPECT_EQ(dq1, dq2);
     EXPECT_EQ(dk1, dk2);
     EXPECT_EQ(dv1, dv2);
+}
+
+// The masks of a joint embedding predictive architecture (TRAINING.md T11): bidirectional with RoPE and QK norm, and
+// block-causal, through the same central differences, batched and batch-of-sequences checks as the causal layer
+constexpr ml::transformer_config t_bidi{.d_model = 8, .n_heads = 2, .n_kv_heads = 1, .head_dim = 4, .d_ff = 8,
+                                        .qk_norm = ml::qk_norm_kind::after_rope, .rope = ml::rope_kind::half,
+                                        .mask = ml::attention_mask::bidirectional};
+constexpr ml::transformer_config t_block{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 8,
+                                         .mask = ml::attention_mask::block_causal, .mask_block = 4};
+constexpr ml::transformer_config t_bidi_plain{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 8,
+                                              .mask = ml::attention_mask::bidirectional};
+
+static_assert(ml::attention_keys(ml::attention_mask::causal, 3, 6).first == 0 && ml::attention_keys(ml::attention_mask::causal, 3, 6).last == 4);
+static_assert(ml::attention_keys(ml::attention_mask::causal, 3, 6, 2).first == 2);
+static_assert(ml::attention_keys(ml::attention_mask::bidirectional, 3, 6).last == 6);
+static_assert(ml::attention_keys(ml::attention_mask::bidirectional, 5, 4).size() == 0);   // a padding query sees nothing
+static_assert(ml::attention_keys(ml::attention_mask::block_causal, 5, 9, 0, 4).last == 8);
+static_assert(ml::attention_keys(ml::attention_mask::block_causal, 5, 7, 0, 4).last == 7);
+static_assert(noexcept(ml::attention_keys(ml::attention_mask::causal, 0, 1)));
+static_assert(!ml::valid(ml::transformer_config{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 8,
+                                                .window = 2, .mask = ml::attention_mask::bidirectional}));
+static_assert(!ml::valid(ml::transformer_config{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 8,
+                                                .mask = ml::attention_mask::block_causal}));
+static_assert(!ml::valid(ml::transformer_config{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 8, .mask_block = 2}));
+
+TEST(MlAttentionLayer, BackwardMatchesCentralDifferencesBidirectionalAndBlockCausal)
+{
+    backward_is_central_differences<t_bidi>();
+    backward_is_central_differences<t_block>();
+}
+
+TEST(MlAttentionLayer, BidirectionalAndBlockCausalBatchesAreThePerTokenPathAndEachSequence)
+{
+    batched_is_per_token<t_bidi>();
+    batched_is_per_token<t_block>();
+    batch_is_each_sequence<t_bidi>();
+    batch_is_each_sequence<t_block>();
+}
+
+// Bidirectional is causal on a one-token sequence, and on the last token of any sequence (both see every key), to the
+// bit; every earlier token sees later keys, so it differs
+TEST(MlAttentionLayer, BidirectionalIsCausalOnOneTokenAndOnTheLastAndDiffersBefore)
+{
+    const train_layer<t_plain> l;   // the same weights for both: t_bidi_plain differs from t_plain only in its mask
+    constexpr std::size_t n = train_layer<t_plain>::n, d = t_plain.d_model;
+    train_buffers<t_plain> c1, b1, c, b;
+    const auto x1 = std::span<const double>(l.x).first(d);
+    auto one = [](train_buffers<t_plain>& t) {
+        return ml::attention_activations<double>{std::span<double>(t.q).first(t_plain.q_size()), std::span<double>(t.k).first(t_plain.kv_size()),
+                                                 std::span<double>(t.v).first(t_plain.kv_size()), {}, {},
+                                                 std::span<double>(t.y).first(t_plain.q_size()), std::span<double>(t.lse).first(t_plain.n_heads)};
+    };
+    ml::attention_forward_sequence<t_plain>(l.weights(), x1, ml::no_rope, one(c1), std::span<double>(c1.out).first(d));
+    ml::attention_forward_sequence<t_bidi_plain>(l.weights(), x1, ml::no_rope, one(b1), std::span<double>(b1.out).first(d));
+    EXPECT_EQ(c1.out, b1.out);
+    ml::attention_forward_sequence<t_plain>(l.weights(), l.x, ml::no_rope, c.act(), c.out);
+    ml::attention_forward_sequence<t_bidi_plain>(l.weights(), l.x, ml::no_rope, b.act(), b.out);
+    for (std::size_t i = 0; i < d; ++i)
+        EXPECT_EQ(c.out[(n - 1) * d + i], b.out[(n - 1) * d + i]);
+    for (std::size_t t = 0; t + 1 < n; ++t) {
+        bool differs = false;
+        for (std::size_t i = 0; i < d; ++i)
+            differs = differs || c.out[t * d + i] != b.out[t * d + i];
+        EXPECT_TRUE(differs) << t;
+    }
+}
+
+// Key padding: a sequence of n tokens with lengths {m} gives its first m tokens the bits of a sequence of m tokens, the
+// padded tokens' heads zero with a log-sum-exp of -infinity; with no gradient in the padded outputs, every gradient is
+// the m-token run's, per token to the bit and through the backend within rounding; in a batch, each sequence its own
+template <ml::transformer_config C>
+void padding_is_a_shorter_sequence()
+{
+    const train_layer<C> l;
+    constexpr std::size_t n = train_layer<C>::n, m = 4, d = C.d_model, qn = C.q_size(), kn = C.kv_size();
+    constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
+    struct run_t {
+        std::size_t rows;
+        std::vector<double> q, k, v, qr, kr, y, lse, out, dq, dk, dv, dy, dx, dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk;
+        run_t(const train_layer<C>& l, std::size_t r)
+            : rows(r), q(r * qn), k(r * kn), v(r * kn), qr(raw ? r * qn : 0), kr(raw ? r * kn : 0), y(r * qn), lse(r * C.n_heads), out(r * d),
+              dq(r * qn), dk(r * kn), dv(r * kn), dy(r * qn), dx(r * d), dwq(l.wq.size()), dwk(l.wk.size()), dwv(l.wv.size()),
+              dwo(l.wo.size()), dbq(l.bq.size()), dbk(l.bk.size()), dbv(l.bv.size()), dbo(l.bo.size()), dnq(l.nq.size()), dnk(l.nk.size())
+        {
+        }
+        ml::attention_activations<double> act(std::span<const std::size_t> lengths = {})
+        {
+            return {q, k, v, qr, kr, y, lse, lengths};
+        }
+        ml::attention_gradients<double> grads() { return {dq, dk, dv, dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, dy}; }
+    };
+    const auto gout_short = wave(m * d, 0.9, 1.7);
+    std::vector<double> gout(n * d, 0.0);
+    std::copy(gout_short.begin(), gout_short.end(), gout.begin());
+    const std::array<std::size_t, 1> lengths{m};
+    const auto xs = std::span<const double>(l.x).first(m * d);
+    for (const bool batched : {false, true}) {
+        run_t shorter(l, m), padded(l, n);
+        if (batched) {
+            ml::attention_forward_sequence<C>(snicholls::linalg::reference, l.weights(), xs, rope_for<C>(), shorter.act(), shorter.out);
+            ml::attention_backward<C>(snicholls::linalg::reference, l.weights(), xs, rope_for<C>(), shorter.act(), gout_short, shorter.dx, shorter.grads());
+            ml::attention_forward_sequence<C>(snicholls::linalg::reference, l.weights(), l.x, rope_for<C>(), padded.act(lengths), padded.out);
+            ml::attention_backward<C>(snicholls::linalg::reference, l.weights(), l.x, rope_for<C>(), padded.act(lengths), gout, padded.dx, padded.grads());
+        } else {
+            ml::attention_forward_sequence<C>(l.weights(), xs, rope_for<C>(), shorter.act(), shorter.out);
+            ml::attention_backward<C>(l.weights(), xs, rope_for<C>(), shorter.act(), gout_short, shorter.dx, shorter.grads());
+            ml::attention_forward_sequence<C>(l.weights(), l.x, rope_for<C>(), padded.act(lengths), padded.out);
+            ml::attention_backward<C>(l.weights(), l.x, rope_for<C>(), padded.act(lengths), gout, padded.dx, padded.grads());
+        }
+        for (std::size_t i = 0; i < m * d; ++i)
+            EXPECT_EQ(shorter.out[i], padded.out[i]) << batched << " " << i;
+        for (std::size_t i = m * qn; i < n * qn; ++i)
+            EXPECT_EQ(padded.y[i], 0.0);
+        for (std::size_t i = m * C.n_heads; i < n * C.n_heads; ++i)
+            EXPECT_EQ(padded.lse[i], -std::numeric_limits<double>::infinity());
+        auto same = [&](const std::vector<double>& a, const std::vector<double>& b, std::size_t count, const char* what) {
+            for (std::size_t i = 0; i < count; ++i) {
+                if (batched)
+                    EXPECT_NEAR(a[i], b[i], 1e-13 * std::max(1.0, std::abs(a[i]))) << what << " " << i;
+                else
+                    EXPECT_EQ(a[i], b[i]) << what << " " << i;
+            }
+        };
+        same(shorter.dx, padded.dx, m * d, "dx");
+        for (std::size_t i = m * d; i < n * d; ++i)
+            EXPECT_EQ(padded.dx[i], 0.0) << i;
+        same(shorter.dwq, padded.dwq, l.wq.size(), "dwq");
+        same(shorter.dwk, padded.dwk, l.wk.size(), "dwk");
+        same(shorter.dwv, padded.dwv, l.wv.size(), "dwv");
+        same(shorter.dwo, padded.dwo, l.wo.size(), "dwo");
+        same(shorter.dnq, padded.dnq, l.nq.size(), "dnq");
+        same(shorter.dbo, padded.dbo, l.bo.size(), "dbo");
+    }
+    // A batch of two sequences of n with lengths {m, n}: each is its own call
+    {
+        const std::array<std::size_t, 2> two{m, n};
+        std::vector<double> xs2(2 * n * d);
+        std::copy(l.x.begin(), l.x.end(), xs2.begin());
+        std::copy(l.x.rbegin(), l.x.rend(), xs2.begin() + std::ptrdiff_t(n * d));
+        run_t both(l, 2 * n), first(l, n), second(l, n);
+        ml::attention_forward_sequence<C>(snicholls::linalg::reference, l.weights(), xs2, rope_for<C>(), both.act(two), both.out, 2);
+        ml::attention_forward_sequence<C>(snicholls::linalg::reference, l.weights(), std::span<const double>(xs2).first(n * d), rope_for<C>(),
+                                          first.act(lengths), first.out);
+        ml::attention_forward_sequence<C>(snicholls::linalg::reference, l.weights(), std::span<const double>(xs2).last(n * d), rope_for<C>(),
+                                          second.act(), second.out);
+        for (std::size_t i = 0; i < n * d; ++i) {
+            EXPECT_EQ(both.out[i], first.out[i]) << i;
+            EXPECT_EQ(both.out[n * d + i], second.out[i]) << i;
+        }
+    }
+}
+
+TEST(MlAttentionLayer, KeyPaddingIsAShorterSequence)
+{
+    padding_is_a_shorter_sequence<t_plain>();
+    padding_is_a_shorter_sequence<t_bidi>();
+    padding_is_a_shorter_sequence<t_block>();
+}
+
+// A rope source with sequence(s) gives each sequence of a batch its own positions: a batch over gathered_rope is each
+// sequence's call over its own gathered_rope, to the bit, and position lists that differ give outputs that differ
+TEST(MlAttentionLayer, ARopeSourceWithSequencesGivesEachSequenceItsPositions)
+{
+    const train_layer<t_bidi> l;
+    constexpr std::size_t n = train_layer<t_bidi>::n, d = t_bidi.d_model, qn = t_bidi.q_size(), kn = t_bidi.kv_size();
+    const std::vector<std::uint32_t> positions{0, 2, 3, 7, 9, 15, 1, 4, 5, 6, 11, 12};
+    const ml::gathered_rope<ml::rope_table<double, 16, 4>> all{&rope4, positions, n};
+    std::vector<double> xs2(2 * n * d);
+    std::copy(l.x.begin(), l.x.end(), xs2.begin());
+    std::copy(l.x.begin(), l.x.end(), xs2.begin() + std::ptrdiff_t(n * d));   // the same tokens at other positions
+    struct bufs {
+        std::vector<double> q, k, v, qr, kr, y, lse, out;
+        explicit bufs(std::size_t r) : q(r * qn), k(r * kn), v(r * kn), qr(r * qn), kr(r * kn), y(r * qn), lse(r * 2), out(r * d) {}
+        ml::attention_activations<double> act() { return {q, k, v, qr, kr, y, lse}; }
+    };
+    bufs both(2 * n), first(n), second(n);
+    ml::attention_forward_sequence<t_bidi>(snicholls::linalg::reference, l.weights(), xs2, all, both.act(), both.out, 2);
+    ml::attention_forward_sequence<t_bidi>(snicholls::linalg::reference, l.weights(), l.x, all.sequence(0), first.act(), first.out);
+    ml::attention_forward_sequence<t_bidi>(snicholls::linalg::reference, l.weights(), l.x, all.sequence(1), second.act(), second.out);
+    bool differs = false;
+    for (std::size_t i = 0; i < n * d; ++i) {
+        EXPECT_EQ(both.out[i], first.out[i]);
+        EXPECT_EQ(both.out[n * d + i], second.out[i]);
+        differs = differs || first.out[i] != second.out[i];
+    }
+    EXPECT_TRUE(differs);
 }
 
 template <typename Wt>
