@@ -16,9 +16,12 @@
 
 #include <bit>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <span>
 #include <type_traits>
+#include <vector>
 
 namespace {
 
@@ -187,6 +190,26 @@ TEST(MlMinifloat, DecodeTablesHoldEveryValue)
     static_assert(ml::decode_table<ml::float8_e4m3>[0x38] == 1.0f && ml::decode_table<ml::float8_e5m2>[0x7b] == 57344.0f);
     EXPECT_TRUE(std::isnan(ml::decode_table<ml::float8_e4m3>[0x7f]));
     EXPECT_EQ(ml::decode_table<ml::float8_e5m2>[0xfc], -std::numeric_limits<float>::infinity());
+}
+
+TEST(MlMinifloat, RowsConvertElementByElementAsTheScalarFunctions)
+{
+    struct host {} b;
+    std::vector<float> x{0.0f, -0.0f, 1.0f, 1.00390625f, 1.0048828125f, -3.5e38f, 1e-40f, std::numeric_limits<float>::infinity(),
+                         std::numeric_limits<float>::quiet_NaN()};
+    std::vector<ml::bfloat16> h(x.size());
+    std::vector<float> back(x.size());
+    ml::to_bfloat16_rows(b, x, h);
+    ml::to_float_rows(b, std::span<const ml::bfloat16>(h), back);
+    for (std::size_t i = 0; i < x.size(); ++i) {
+        EXPECT_EQ(h[i].bits, ml::to_bfloat16(x[i]).bits) << i;
+        EXPECT_EQ(std::bit_cast<std::uint32_t>(back[i]), std::bit_cast<std::uint32_t>(ml::to_float(h[i]))) << i;
+    }
+    EXPECT_EQ(back[3], 1.0f);        // a tie rounds to even
+    EXPECT_EQ(back[4], 1.0078125f);  // above the tie rounds up
+    static_assert(noexcept(ml::to_bfloat16_rows(b, std::span<const float>{}, std::span<ml::bfloat16>{})));
+    // Empty rows are nothing to do
+    ml::to_bfloat16_rows(b, std::span<const float>{}, std::span<ml::bfloat16>{});
 }
 
 } // namespace
