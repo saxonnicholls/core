@@ -8,10 +8,13 @@
 //  concatenation written out, and its backward pass against central differences; a module's loss against DeepSeek-V3's
 //  eq. 24 (divided by T, weighted by lambda / D) computed with lm_head_loss; the padded positions changing nothing that
 //  is scored; the whole module, its block a latent-attention block, against central differences in double for the
-//  previous depth's hidden states, the shared embedding table and head, the projection, the norms and the block.
+//  previous depth's hidden states, the shared embedding table and head, the projection, the norms and the block; a
+//  module whose block is DeepSeek-V3's (latent attention, a mixture of experts with node-limited routing) returning the
+//  block's auxiliary losses, the module against central differences with those losses in the total.
 //
 
 #include <snicholls/core/linalg/reference.hpp>
+#include <snicholls/core/ml/composed_block.hpp>
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/latent_block.hpp>
 #include <snicholls/core/ml/lm_head.hpp>
@@ -22,11 +25,13 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <span>
+#include <type_traits>
 #include <vector>
 
 namespace {
@@ -193,6 +198,139 @@ TEST(MlMultiTokenPrediction, ModuleBackwardMatchesCentralDifferences)
     check(p.block.norm1, analytic.block.g_norm1, "block norm1");
     check(p.block.attn.kv_down, analytic.block.attn.g_kv_down, "block kv_down");
     check(p.block.down, analytic.block.g_down, "block mlp down");
+}
+
+TEST(MlMultiTokenPrediction, AModuleWithADenseBlockReturnsNothing)
+{
+    mtp_problem p;
+    static_assert(std::is_void_v<decltype(ml::mtp_forward_sequence<C>(reference, p.weights(), p.hidden_prev, p.embedded, table<C, double>(), p.act(),
+                                                                       sequences))>);
+}
+
+// DeepSeek-V3's block in miniature for the module: tiny_mla's attention, 4 experts in 2 groups (1 kept), top 2, one
+// shared, sigmoid scoring, both auxiliary losses
+constexpr ml::transformer_config v3_like = [] {
+    auto c = ml::tiny_mla;
+    c.experts = 4;
+    c.top_k = 2;
+    c.shared_experts = 1;
+    c.expert_d_ff = 6;
+    c.scoring = ml::moe_scoring::sigmoid;
+    c.route_scale = 2.5;
+    c.balance_loss_weight = 0.05;
+    c.z_loss_weight = 0.02;
+    c.expert_groups = 2;
+    c.group_top_k = 1;
+    return c;
+}();
+
+// One module over two sequences of five tokens, its block DeepSeek-V3's, laid out by latent_moe_block_*_in
+struct mtp_moe_problem
+{
+    static constexpr auto M = v3_like;
+    std::vector<double> block_params = wave<double>(ml::latent_moe_block_parameter_count(M), 0.4, 0.35),
+                        block_grads = std::vector<double>(ml::latent_moe_block_parameter_count(M)),
+                        block_values = std::vector<double>(ml::latent_moe_block_activation_values(M, rows)),
+                        block_work = std::vector<double>(ml::latent_moe_block_gradient_work(M, rows));
+    std::vector<std::uint32_t> block_indices = std::vector<std::uint32_t>(ml::latent_moe_block_activation_indices(M, rows));
+    std::vector<double> hidden_prev = wave<double>(rows * d, 1.0, 0.4), table_rows = wave<double>(vocab * d, 1.0, 1.6),
+                        head = wave<double>(vocab * d, 0.6, 2.8), hnorm = wave<double>(d, 0.2, 1.1), enorm = wave<double>(d, 0.2, 0.9),
+                        onorm = wave<double>(d, 0.2, 1.7), projection = wave<double>(d * 2 * d, 0.3, 0.3);
+    std::vector<std::uint32_t> ids{3, 1, 4, 1, 5, 2, 6, 5, 3, 5}, targets{1, 4, 1, 5, 0, 6, 5, 3, 5, 2}, shifted = std::vector<std::uint32_t>(rows);
+    std::vector<double> embedded = std::vector<double>(rows * d), combined = std::vector<double>(2 * rows * d),
+                        output = std::vector<double>(rows * d), head_input = std::vector<double>(rows * d);
+    std::vector<double> logits = std::vector<double>(n * vocab), losses = std::vector<double>(rows), dhead_input = std::vector<double>(rows * d),
+                        dhead = std::vector<double>(vocab * d), dhidden = std::vector<double>(rows * d), dembedded = std::vector<double>(rows * d),
+                        dtable = std::vector<double>(vocab * d), dhnorm = std::vector<double>(d), denorm = std::vector<double>(d),
+                        donorm = std::vector<double>(d), dprojection = std::vector<double>(d * 2 * d), wcombined = std::vector<double>(2 * rows * d),
+                        woutput = std::vector<double>(rows * d);
+    ml::moe_losses<double> aux{};
+
+    mtp_moe_problem()
+    {
+        for (auto* v : {&hnorm, &enorm, &onorm})
+            for (double& x : *v)
+                x += 1;
+        const auto b = block();
+        for (const auto norm : {b.norm1_weight, b.norm2_weight, b.attention.q_norm, b.attention.kv_norm})
+            for (std::size_t i = 0; i < norm.size(); ++i)
+                block_params[std::size_t(norm.data() - block_params.data()) + i] += 1;
+    }
+    [[nodiscard]] ml::latent_moe_block_weights<double> block() const
+    {
+        return ml::latent_moe_block_weights_in<M>(std::span<const double>(block_params));
+    }
+    [[nodiscard]] auto weights() const
+    {
+        return ml::mtp_weights<ml::latent_moe_block_weights<double>, double>{hnorm, enorm, {projection, d, 2 * d}, block(), onorm};
+    }
+    [[nodiscard]] auto act()
+    {
+        return ml::mtp_activations<ml::latent_moe_block_activations<double>, double>{
+            combined, ml::latent_moe_block_activations_in<M>(std::span<double>(block_values), std::span<std::uint32_t>(block_indices), rows), output,
+            head_input};
+    }
+    [[nodiscard]] auto grads()
+    {
+        return ml::mtp_gradients<ml::latent_moe_block_gradients<double>, double>{
+            dhnorm, denorm, dprojection, ml::latent_moe_block_gradients_in<M>(std::span<double>(block_grads), std::span<double>(block_work), rows), donorm,
+            wcombined, woutput};
+    }
+    // Forward and the total: the depth's weighted loss plus the block's auxiliary losses
+    double run()
+    {
+        ml::mtp_input_ids(ids, depth, sequences, 0, shifted);
+        ml::embed_rows(reference, std::span<const double>(table_rows), std::span<const double>{}, shifted, std::span<double>(embedded));
+        aux = ml::mtp_forward_sequence<M>(reference, weights(), hidden_prev, embedded, table<M, double>(), act(), sequences);
+        std::fill(dhead_input.begin(), dhead_input.end(), 0.0);
+        return ml::mtp_loss_sequence(reference, ml::dense_weights<double>{head, vocab, d}, head_input, targets, depth, logits, losses, dhead_input,
+                                     dhead, weight, sequences)
+               + aux.balance + aux.z;
+    }
+};
+
+TEST(MlMultiTokenPrediction, AModuleWithAMixtureOfExpertsBlockReturnsItsLosses)
+{
+    mtp_moe_problem p;
+    const double total = p.run();
+    EXPECT_GT(p.aux.balance, 0.0);
+    EXPECT_GT(p.aux.z, 0.0);
+    // The block's own losses, from what it saved, one balance group per sequence
+    const auto a = p.act().block.mlp;
+    EXPECT_EQ(p.aux.balance, ml::moe_balance_loss<v3_like>(reference, std::span<const double>(a.logits), a.experts, std::span<double>{}, sequences));
+    EXPECT_EQ(p.aux.z, ml::moe_z_loss<v3_like>(reference, std::span<const double>(a.logits), std::span<double>{}));
+    EXPECT_GT(total, p.aux.balance + p.aux.z);
+}
+
+TEST(MlMultiTokenPrediction, ModuleWithAMixtureOfExpertsBlockMatchesCentralDifferences)
+{
+    mtp_moe_problem p;
+    p.run();
+    const auto chosen = std::vector<std::uint32_t>(p.act().block.mlp.experts.begin(), p.act().block.mlp.experts.end());
+    ml::mtp_backward<v3_like>(reference, p.weights(), p.hidden_prev, p.embedded, table<v3_like, double>(), p.act(), p.dhead_input,
+                              std::span<const double>{}, p.dhidden, p.dembedded, p.grads(), sequences);
+    ml::embed_rows_backward(reference, std::span<const double>(p.dembedded), p.shifted, std::span<double>(p.dtable), std::span<double>{});
+    const auto analytic = p;
+    const auto check = [&](std::vector<double>& x, const std::vector<double>& g, const char* name) {
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            const double x0 = x[i];
+            x[i] = x0 + 1e-6;
+            const double up = p.run();
+            EXPECT_TRUE(std::equal(chosen.begin(), chosen.end(), p.act().block.mlp.experts.begin()));   // no choice changes
+            x[i] = x0 - 1e-6;
+            const double down = p.run();
+            x[i] = x0;
+            EXPECT_NEAR(g[i], (up - down) / 2e-6, 2e-8 * (1 + std::abs(g[i]))) << name << ' ' << i;
+        }
+    };
+    check(p.hidden_prev, analytic.dhidden, "hidden_prev");
+    check(p.table_rows, analytic.dtable, "embedding table");
+    check(p.head, analytic.dhead, "head");
+    check(p.projection, analytic.dprojection, "projection");
+    check(p.hnorm, analytic.dhnorm, "hidden norm");
+    check(p.enorm, analytic.denorm, "embedding norm");
+    check(p.onorm, analytic.donorm, "output norm");
+    check(p.block_params, analytic.block_grads, "block");
 }
 
 } // namespace

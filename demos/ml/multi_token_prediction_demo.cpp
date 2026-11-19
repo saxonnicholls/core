@@ -7,16 +7,20 @@
 //  Demo for <snicholls/core/ml/multi_token_prediction.hpp>: one DeepSeek-V3 multi-token prediction module on top of
 //  a model's final hidden states: the next-but-one token's embedding combined with them, a latent-attention block, the
 //  model's own head; the main loss and the module's weighted loss; the backward pass into the main model's hidden
-//  states, the shared embedding table and the shared head. Exits non-zero if a result is not what it documents.
+//  states, the shared embedding table and the shared head; then the module with DeepSeek-V3's own block kind (latent
+//  attention and a mixture of experts), returning its auxiliary losses. Exits non-zero if a result is not what it
+//  documents.
 //
 
 #include <snicholls/core/linalg/reference.hpp>
+#include <snicholls/core/ml/composed_block.hpp>
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/latent_block.hpp>
 #include <snicholls/core/ml/lm_head.hpp>
 #include <snicholls/core/ml/multi_token_prediction.hpp>
 #include <snicholls/core/ml/rope.hpp>
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -99,6 +103,43 @@ int main()
     ml::mtp_backward<C>(backend, module, hidden, embedded, rope, act, dhead_input, std::span<const float>{}, dhidden, dembedded, grads);
     ml::embed_rows_backward(backend, std::span<const float>(dembedded), shifted, std::span<float>(dtable), std::span<float>{});
     //! [mtp]
+
+    //! [mtp_moe]
+    // DeepSeek-V3's module uses the main model's block kind: latent attention and a mixture of experts (4 experts in 2
+    // groups, top 2, one shared, both auxiliary losses). The module returns the block's losses, weighted by alpha and
+    // beta as every block's are (not by lambda / D), and its backward pass includes their gradients
+    constexpr auto M = [] {
+        auto c = ml::tiny_mla;
+        c.experts = 4;
+        c.top_k = 2;
+        c.shared_experts = 1;
+        c.expert_d_ff = 8;
+        c.scoring = ml::moe_scoring::sigmoid;
+        c.balance_loss_weight = 0.001;
+        c.z_loss_weight = 0.001;
+        c.expert_groups = 2;
+        c.group_top_k = 1;
+        return c;
+    }();
+    std::vector<float> bp = filled(ml::latent_moe_block_parameter_count(M), 0.3f), bg(bp.size()), bv(ml::latent_moe_block_activation_values(M, n)),
+                       bw(ml::latent_moe_block_gradient_work(M, n));
+    std::vector<std::uint32_t> bi(ml::latent_moe_block_activation_indices(M, n));
+    const ml::mtp_weights<ml::latent_moe_block_weights<float>, float> moe_module{
+        {}, {}, {projection, d, 2 * d}, ml::latent_moe_block_weights_in<M>(std::span<const float>(bp)), {}};
+    const ml::mtp_activations<ml::latent_moe_block_activations<float>, float> moe_act{
+        combined, ml::latent_moe_block_activations_in<M>(std::span<float>(bv), std::span<std::uint32_t>(bi), n), output, head_input};
+    const ml::moe_losses<float> aux = ml::mtp_forward_sequence<M>(backend, moe_module, hidden, embedded, rope, moe_act);
+    std::vector<float> moe_losses_by_row(n);
+    std::fill(dhead_input.begin(), dhead_input.end(), 0.0f);
+    const float moe_mtp_loss = ml::mtp_loss_sequence(backend, head, head_input, targets, 1, logits, moe_losses_by_row, dhead_input, dhead, lambda);
+    const float moe_total = main_loss + moe_mtp_loss + aux.balance + aux.z;   // plus the main model's blocks' own auxiliary losses
+    const ml::mtp_gradients<ml::latent_moe_block_gradients<float>, float> moe_grads{
+        {}, {}, dprojection, ml::latent_moe_block_gradients_in<M>(std::span<float>(bg), std::span<float>(bw), n), {}, wcombined, woutput};
+    ml::mtp_backward<M>(backend, moe_module, hidden, embedded, rope, moe_act, dhead_input, std::span<const float>{}, dhidden, dembedded, moe_grads);
+    //! [mtp_moe]
+    std::printf("  with DeepSeek-V3's block: MTP loss %.4f, balance %.5f, z %.5f; total %.4f\n", static_cast<double>(moe_mtp_loss),
+                static_cast<double>(aux.balance), static_cast<double>(aux.z), static_cast<double>(moe_total));
+    ok &= aux.balance > 0.0f && aux.z > 0.0f && std::isfinite(moe_total) && std::isfinite(bg[0]);
 
     double gp = 0, gt = 0;
     for (const float g : dprojection)

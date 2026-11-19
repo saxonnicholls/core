@@ -27,8 +27,10 @@
 /// - `mtp_combine_rows` and `mtp_combine_rows_backward`: the two RMS norms and the concatenation, on the backend
 ///   (TRAINING.md T9).
 /// - `mtp_forward_sequence(backend, w, hidden_prev, embedded, rope_src, act, sequences)`: the combine, `M_k`, the block
-///   (any block with batched passes: `block_weights`, `latent_block_weights`), and the norm before the shared head;
-///   writes `act.output` (`h^k`, the next depth's `hidden_prev`) and `act.head_input`.
+///   (any block with batched passes: `block_weights`, `latent_block_weights`, `moe_block_weights`,
+///   `composed_block_weights` such as DeepSeek-V3's `latent_moe_block_weights`), and the norm before the shared head;
+///   writes `act.output` (`h^k`, the next depth's `hidden_prev`) and `act.head_input`, and returns the block's
+///   auxiliary losses when it has a mixture of experts (V3's modules use the main model's block kind).
 /// - `mtp_backward(...)`: from the gradient in the head's input (and in `h^k` from the depth after), the gradients in
 ///   `h^{k-1}` and in the embedded rows (added into; `embed_rows_backward` takes them to the shared table), and every
 ///   weight's.
@@ -37,6 +39,8 @@
 ///
 /// \snippet ml/multi_token_prediction_demo.cpp mtp
 ///
+/// \snippet ml/multi_token_prediction_demo.cpp mtp_moe
+///
 /// **At inference** the modules can be dropped: the main model does not read them (V3 section 2.2). Or they draft:
 /// module 1 on the main model's last hidden state and the token just sampled proposes the token after it, which the
 /// main model verifies in its next step (speculative decoding; V3 reports 85 to 90% acceptance of the second token,
@@ -44,7 +48,7 @@
 /// cache of its own.
 ///
 /// **Relationships.** `ml/lm_head.hpp` (the shared head), `ml/embedding.hpp` (`embed_rows`, `embed_rows_backward`),
-/// `ml/transformer_block.hpp` and `ml/latent_block.hpp` (the blocks), `ml/norm.hpp`, `transformer_config::mtp_depth`
+/// `ml/transformer_block.hpp`, `ml/latent_block.hpp`, `ml/moe_block.hpp` and `ml/composed_block.hpp` (the blocks), `ml/norm.hpp`, `transformer_config::mtp_depth`
 /// and `mtp_loss_weight`. Group: \ref core.
 ///
 /// **Implementations.** One, generic over the block.
@@ -65,7 +69,9 @@
 /// `ml/transformer_config.hpp`.
 ///
 /// **Known issues.** The block's overloads are found by argument-dependent lookup: include its header
-/// (`ml/latent_block.hpp` for a latent-attention block). Released DeepSeek-V3 checkpoints store `M_k` with the embedding's columns first (`eh_proj` over
+/// (`ml/latent_block.hpp` for a latent-attention block, `ml/composed_block.hpp` for DeepSeek-V3's). With a
+/// mixture-of-experts block the last `k` positions, padded and unscored, are still routed: they count in the balance
+/// loss and the z-loss and so reach the router's gradient (the loss's other terms ignore them). Released DeepSeek-V3 checkpoints store `M_k` with the embedding's columns first (`eh_proj` over
 /// `[enorm(e); hnorm(h)]`, recalled from the open implementations): swap the halves when loading.
 ///
 /// **Status.** Experimental, new in 0.16.0.
@@ -92,7 +98,8 @@ namespace snicholls::ml
 
 /// \brief The weights of one multi-token prediction module: views the caller fills.
 /// \ingroup core
-/// \tparam Block The block's weights: `block_weights<dense_weights<T>, T>` or `latent_block_weights<dense_weights<T>, T>`.
+/// \tparam Block The block's weights: `block_weights<dense_weights<T>, T>`, `latent_block_weights<dense_weights<T>, T>`,
+/// `moe_block_weights<T>` or a `composed_block_weights` (`latent_moe_block_weights<T>`).
 /// \tparam T The number type.
 template <typename Block, math::math_number T = float>
 struct mtp_weights
@@ -200,7 +207,35 @@ constexpr void mtp_combine_rows_backward(const B&, std::type_identity_t<std::spa
 
 /// @}
 
+namespace detail::mtp
+{
+    // Runs the block's pass, then the rest, and returns what the block returned: nothing for a block without auxiliary
+    // losses, the losses of a block with a mixture of experts
+    template <typename Block, typename Rest>
+        requires std::is_void_v<std::invoke_result_t<Block&>>
+    constexpr void then(Block&& block, Rest&& rest)
+    {
+        block();
+        rest();
+    }
+
+    template <typename Block, typename Rest>
+        requires(!std::is_void_v<std::invoke_result_t<Block&>>)
+    constexpr auto then(Block&& block, Rest&& rest)
+    {
+        const auto losses = block();
+        rest();
+        return losses;
+    }
+} // namespace detail::mtp
+
 /// \brief One multi-token prediction module over a batch of sequences: combine, project, the block, the head's norm.
+///
+/// The module returns what its block's `block_forward_sequence` returns: nothing for a dense block, the auxiliary
+/// losses (`moe_losses`) for a block with a mixture of experts (`ml/moe_block.hpp`, `ml/composed_block.hpp`), as
+/// DeepSeek-V3's modules have. Those losses are the block's like any other block's, already weighted by the
+/// configuration's `balance_loss_weight` and `z_loss_weight` and not by `λ / D`: the caller adds them to the total as
+/// it adds the main model's blocks', and `mtp_backward` includes their gradients.
 /// \tparam C The configuration of the module's block.
 /// \param backend A `linalg::blas_backend`.
 /// \param w The module's weights.
@@ -208,10 +243,11 @@ constexpr void mtp_combine_rows_backward(const B&, std::type_identity_t<std::spa
 /// \param embedded The embeddings of `mtp_input_ids(ids, k, ...)`, the same size.
 /// \param rope_src The block's rope source.
 /// \param act Receives the activations: `output` is `h^k`, `head_input` the shared head's input.
-/// \param sequences The sequences.
+/// \param sequences The sequences: the block's, and a mixture of experts' balance-loss groups.
+/// \return The block's auxiliary losses for a block that has them (`moe_losses<T>`), else nothing.
 template <transformer_config C, typename B, math::math_number T, typename Block, typename BlockActivations, typename R>
     requires linalg::blas_backend<B, T>
-constexpr void mtp_forward_sequence(const B& backend, const mtp_weights<Block, T>& w, std::type_identity_t<std::span<const T>> hidden_prev,
+constexpr auto mtp_forward_sequence(const B& backend, const mtp_weights<Block, T>& w, std::type_identity_t<std::span<const T>> hidden_prev,
                                     std::type_identity_t<std::span<const T>> embedded, const R& rope_src,
                                     const mtp_activations<BlockActivations, T>& act, std::size_t sequences = 1)
 {
@@ -219,11 +255,12 @@ constexpr void mtp_forward_sequence(const B& backend, const mtp_weights<Block, T
            && act.head_input.size() == hidden_prev.size());
     mtp_combine_rows<C>(backend, hidden_prev, embedded, w.hidden_norm, w.embedding_norm, act.combined);
     linear_sequence(backend, w.projection, std::span<const T>(act.combined), act.output);
-    block_forward_sequence<C>(backend, w.block, act.output, rope_src, act.block, sequences);
-    block_norm_rows<C>(backend, std::span<const T>(act.output), w.output_norm, std::span<const T>{}, act.head_input);
+    return detail::mtp::then([&] { return block_forward_sequence<C>(backend, w.block, act.output, rope_src, act.block, sequences); },
+                             [&] { block_norm_rows<C>(backend, std::span<const T>(act.output), w.output_norm, std::span<const T>{}, act.head_input); });
 }
 
-/// \brief The backward pass of `mtp_forward_sequence`.
+/// \brief The backward pass of `mtp_forward_sequence`; with a mixture-of-experts block, its auxiliary losses' gradients
+/// included (as the block's `block_backward` includes them).
 /// \tparam C The configuration of the module's block.
 /// \param backend A `linalg::blas_backend`.
 /// \param w The weights the forward pass used.
