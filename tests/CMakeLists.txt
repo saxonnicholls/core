@@ -93,6 +93,7 @@ add_executable(snicholls_core_tests
     ml/grammar_test.cpp
     ml/jepa_test.cpp
     ml/json_schema_test.cpp
+    ml/kv_cache_quant_test.cpp
     ml/kv_cache_test.cpp
     ml/kv_cells_test.cpp
     ml/latent_attention_test.cpp

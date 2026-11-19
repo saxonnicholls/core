@@ -114,6 +114,7 @@
 #include <snicholls/core/ml/jepa.hpp>
 #include <snicholls/core/ml/json_schema.hpp>
 #include <snicholls/core/ml/kv_cache.hpp>
+#include <snicholls/core/ml/kv_cache_quant.hpp>
 #include <snicholls/core/ml/kv_cells.hpp>
 #include <snicholls/core/ml/latent_attention.hpp>
 #include <snicholls/core/ml/latent_block.hpp>
