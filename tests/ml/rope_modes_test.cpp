@@ -179,7 +179,7 @@ TEST(MlRopeModes, AShiftedKeyIsTheKeyRotatedAtItsNewPosition)
     for (std::size_t i = 0; i < key.size(); ++i)
         key[i] = std::sin(0.3 * double(i) + 1.0);
     for (const auto layout : {ml::rope_layout::half, ml::rope_layout::interleaved})
-        for (const auto [from, delta] : {std::pair<std::size_t, std::int64_t>{10, 5}, {300, -120}, {7, 0}, {0, 4096}}) {
+        for (const auto& [from, delta] : {std::pair<std::size_t, std::int64_t>{10, 5}, {300, -120}, {7, 0}, {0, 4096}}) {
             std::array<double, 8> c{}, s{};
             auto moved = key, fresh = key;
             ml::rope_angles(from, c, s);

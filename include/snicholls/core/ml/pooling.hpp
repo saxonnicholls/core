@@ -115,7 +115,8 @@ constexpr void pool_rows(pooling_kind kind, std::type_identity_t<std::span<const
     const std::size_t sequences = starts.size() - 1;
     if (kind == pooling_kind::none) {
         assert(out.size() == rows.size());
-        std::copy(rows.begin(), rows.end(), out.begin());
+        for (std::size_t i = 0; i < rows.size(); ++i)   // a loop, not std::copy: GCC 13's -Warray-bounds misreads the memcpy
+            out[i] = rows[i];
         return;
     }
     assert(out.size() == sequences * width);
@@ -128,7 +129,8 @@ constexpr void pool_rows(pooling_kind kind, std::type_identity_t<std::span<const
         }
         assert(n > 0);
         const std::size_t r = kind == pooling_kind::last ? first + n - 1 : first;
-        std::copy_n(rows.begin() + std::ptrdiff_t(r * width), width, dst.begin());
+        for (std::size_t c = 0; c < width; ++c)
+            dst[c] = rows[r * width + c];
     }
 }
 

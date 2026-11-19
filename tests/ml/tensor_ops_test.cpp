@@ -74,8 +74,9 @@ TEST(TensorOpsTimestep, IsGgmlsLoopToTheBitCosinesFirst)
                 EXPECT_EQ(std::bit_cast<std::uint32_t>(out[i * dim + j]), std::bit_cast<std::uint32_t>(std::cos(arg)));
                 EXPECT_EQ(std::bit_cast<std::uint32_t>(out[i * dim + j + half]), std::bit_cast<std::uint32_t>(std::sin(arg)));
             }
-            if (dim % 2 != 0)
+            if (dim % 2 != 0) {
                 EXPECT_EQ(out[i * dim + dim - 1], 0.0f);
+            }
         }
         EXPECT_EQ(out[0], 1.0f);   // t = 0: cosines 1, sines 0
         EXPECT_EQ(out[half], 0.0f);

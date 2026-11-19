@@ -117,10 +117,11 @@ double chi_square(const std::vector<double>& counts, const std::vector<double>& 
 {
     double chi2 = 0;
     for (std::size_t i = 0; i < p.size(); ++i)
-        if (p[i] > 0)
+        if (p[i] > 0) {
             chi2 += (counts[i] - n * p[i]) * (counts[i] - n * p[i]) / (n * p[i]);
-        else
+        } else {
             EXPECT_EQ(counts[i], 0.0) << "a token of target probability 0 was emitted";
+        }
     return chi2;
 }
 

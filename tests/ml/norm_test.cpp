@@ -211,7 +211,7 @@ TEST(MlNormGroup, GroupNormIsGgmlsAndSplitsChannelsAsGgmlDoes)
     EXPECT_EQ(ml::group_channels(10, 4, 3).first, 9u);
     EXPECT_EQ(ml::group_channels(10, 4, 3).last, 10u);
     EXPECT_EQ(ml::group_channels(4, 3, 2).first, ml::group_channels(4, 3, 2).last);   // ceil(4 / 3) = 2: the third group is empty
-    for (const auto [c, g] : {std::pair<std::size_t, std::size_t>{10, 4}, {8, 2}, {4, 3}, {6, 6}, {5, 1}}) {
+    for (const auto& [c, g] : {std::pair<std::size_t, std::size_t>{10, 4}, {8, 2}, {4, 3}, {6, 6}, {5, 1}}) {
         const auto x = wave(c * 7, 2.5, 0.4);
         std::vector<double> y(x.size());
         ml::group_norm(x, c, g, none{}, none{}, y, 1e-6);
