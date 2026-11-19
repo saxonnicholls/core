@@ -386,6 +386,7 @@ struct ema_segment
 
 /// \brief `ema_rows` over every tensor of a model, in the order given: one call for a whole step, which a device
 /// library runs as one kernel over the segments (as an optimiser over a model's tensors).
+/// \param backend The backend.
 /// \param segments The tensors.
 /// \param momentum `m`, in `[0, 1]`.
 template <typename B, math::math_number T>

@@ -37,6 +37,36 @@ A version is released when its tag is on a commit where every blocking CI leg is
   - `ml::to_bfloat16_rows` and `ml::to_float_rows` (`ml/minifloat.hpp`): rows converted on the backend, for a
     payload sent in half the bytes.
 
+- Joint embedding predictive architectures (TRAINING.md T11): every primitive to train I-JEPA, V-JEPA / V-JEPA 2 and
+  LLM-JEPA on core's reference backend, each a backend call a device library can overload.
+  - Attention masks: `ml::attention_mask` (`causal`, `bidirectional`, `block_causal`) and `ml::attention_keys`
+    (`ml/attention.hpp`); `transformer_config::mask` and `mask_block`, after the existing fields with defaults that
+    change no preset, and the preset `ml::vit_base`; `attention_activations::lengths`, a key-padding mask per
+    sequence; a rope source with `sequence(s)` gives each sequence of a batch its own positions; `self_attention_head`
+    and its backward take a mask and a block.
+  - `ml/patch.hpp`: `patch_grid`, `patchify_rows` / `unpatchify_rows` for images, video tubelets and spectrograms;
+    2-D and 3-D sine-cosine position embeddings (functions and `constexpr` tables); `axial_rope_table`;
+    `gathered_rope`.
+  - `ml/masking.hpp`: I-JEPA's multi-block masks, V-JEPA's tubes (`vjepa_short_range`, `vjepa_long_range`), random
+    masks, deterministic from (seed, step, sample) through `stats::wyrand` streams; `common_count` and
+    `collate_indices` (truncation, or padding with lengths).
+  - `ml/gather.hpp`: `gather_rows`, `scatter_add_rows` (fixed order), `scatter_rows`, `concat_rows`, `slice_rows`
+    and its backward, over a batch of sequences.
+  - `ml/jepa.hpp`: `jepa_predictor_config` with `block_parameter_count` and `jepa_predictor_parameters`, the preset
+    `ijepa_vit_h14_predictor`; `jepa_predictor_input_rows` and its backward; `jepa_target_norm_rows`;
+    `jepa_loss_rows` (L2, L1, smooth L1, cosine) with gradients in both arguments and padding; `ema_rows`,
+    `ema_segments` and `ema_momentum` (linear, cosine).
+  - `ml/collapse.hpp`: `embedding_moments` (mergeable mean, co-moment, standard deviation, covariance, effective
+    rank); VICReg's variance and covariance terms with gradients; LeJEPA's SIGReg (`sigreg_quadrature`,
+    `sigreg_directions`, `sigreg_moments_rows`, `sigreg_value`, `sigreg_backward_rows`, `sigreg_rows`), its sums
+    merging across workers.
+  - `ml/probe.hpp`: `mean_pool_rows` and V-JEPA's attentive probe, forward and backward.
+
+### Fixed
+
+- `attention_forward_sequence` (the per-token path) projects every token before any attends, so a bidirectional or
+  block-causal layer reads later keys; a causal layer's bits are unchanged.
+
 ## 0.15.0 - 2026-11-19
 
 ### Added
