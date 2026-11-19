@@ -53,7 +53,7 @@
 ///
 /// **Tests and demos.** `tests/ml/nf4_test.cpp`, `demos/ml/nf4_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `ml/minifloat.hpp`, `ml/row.hpp`.
+/// **Dependencies.** `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<ranges>`, `<span>`, `ml/minifloat.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** The products are in `float`, as QLoRA computes in a 16-bit type; a `bfloat16` compute path is the
 /// caller's, after `nf4_dequantize`.
@@ -68,8 +68,10 @@
 
 #include <array>
 #include <cassert>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <ranges>
 #include <span>
 
 namespace snicholls::ml

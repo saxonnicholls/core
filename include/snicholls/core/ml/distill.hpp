@@ -187,7 +187,7 @@ constexpr row_value_t<S> distill_loss(const reverse_kl& c, const S& student, con
 /// \param students `n` rows of `V`. \param teachers `n` rows of `V`. \param mask `n` (1 for a response position), or
 /// empty for every row. \param losses Receives `n`. \param dstudents Written, `n · V`; may be `students`.
 /// \param scale The factor on every row's gradient (`T² / count` for Hinton's mean).
-template <typename B, typename P, math::math_number T>
+template <math::math_number T, typename B, typename P>
 constexpr void distill_rows(const B&, const P& params, std::span<const T> students, std::type_identity_t<std::span<const T>> teachers,
                             std::span<const std::uint8_t> mask, std::type_identity_t<std::span<T>> losses,
                             std::type_identity_t<std::span<T>> dstudents, std::type_identity_t<T> scale) noexcept(std::is_floating_point_v<T>)
@@ -268,7 +268,7 @@ constexpr row_value_t<S> distill_loss_topk(const forward_kl& c, const S& student
 /// \brief `distill_loss_topk` on every row of a batch, on the backend; the masked rows 0.
 /// \param c The temperature. \param students `n · V`. \param ids `n · k`. \param values `n · k`. \param mask `n`, or
 /// empty. \param losses Receives `n`. \param dstudents Written, `n · V`. \param scale The factor.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void distill_topk_rows(const B&, const forward_kl& c, std::span<const T> students, std::span<const std::uint32_t> ids,
                                  std::type_identity_t<std::span<const T>> values, std::span<const std::uint8_t> mask,
                                  std::type_identity_t<std::span<T>> losses, std::type_identity_t<std::span<T>> dstudents,

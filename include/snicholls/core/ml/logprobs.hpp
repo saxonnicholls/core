@@ -168,7 +168,7 @@ constexpr row_value_t<In> token_entropy(const In& logits) noexcept(std::is_float
 /// \param targets `n` targets, each below `V`.
 /// \param logps Receives `n` log-probabilities.
 /// \param entropies Receives `n` entropies, or empty to skip them.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void token_logprobs_rows(const B&, std::type_identity_t<std::span<const T>> logits, std::span<const std::uint32_t> targets,
                                    std::span<T> logps, std::type_identity_t<std::span<T>> entropies = {}) noexcept(std::is_floating_point_v<T>)
 {
@@ -193,7 +193,7 @@ constexpr void token_logprobs_rows(const B&, std::type_identity_t<std::span<cons
 /// \param targets `n` targets.
 /// \param dlogps The gradient of the loss in each row's log-probability, `n` (0 for a masked position).
 /// \param dentropies The gradient of the loss in each row's entropy, `n`, or empty when no entropy term is trained.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void token_logprobs_rows_backward(const B&, std::span<T> logits, std::span<const std::uint32_t> targets,
                                             std::type_identity_t<std::span<const T>> dlogps,
                                             std::type_identity_t<std::span<const T>> dentropies = {}) noexcept(std::is_floating_point_v<T>)
@@ -233,7 +233,7 @@ constexpr std::size_t response_length(std::span<const std::uint8_t> mask) noexce
 /// \param mask `rows · length`: 1 for a response token, 0 for the prompt and padding.
 /// \param out Receives `rows` values: the sum, or the mean (0 for an empty response).
 /// \param reduction Sum or mean.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void sequence_logprobs(const B&, std::type_identity_t<std::span<const T>> token_logps, std::span<const std::uint8_t> mask,
                                  std::span<T> out, logprob_reduction reduction) noexcept(std::is_floating_point_v<T>)
 {
@@ -259,7 +259,7 @@ constexpr void sequence_logprobs(const B&, std::type_identity_t<std::span<const 
 /// \param dseq The gradient in each row's value, `rows`.
 /// \param dtoken Written, `rows · length`: 0 on the prompt and padding.
 /// \param reduction The forward's reduction.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void sequence_logprobs_backward(const B&, std::span<const std::uint8_t> mask, std::type_identity_t<std::span<const T>> dseq,
                                           std::span<T> dtoken, logprob_reduction reduction) noexcept(std::is_floating_point_v<T>)
 {

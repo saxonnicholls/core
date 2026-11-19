@@ -266,7 +266,7 @@ struct preference_metrics
 /// \param d_rejected Written, `n`.
 /// \param metrics Added into.
 /// \return The mean loss over the pairs; 0 with none.
-template <typename B, typename P, math::math_number T>
+template <math::math_number T, typename B, typename P>
 constexpr T preference_loss_rows(const B&, const P& params, std::span<const T> chosen, std::type_identity_t<std::span<const T>> rejected,
                                  std::type_identity_t<std::span<const T>> ref_chosen, std::type_identity_t<std::span<const T>> ref_rejected,
                                  std::type_identity_t<std::span<T>> d_chosen, std::type_identity_t<std::span<T>> d_rejected,

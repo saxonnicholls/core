@@ -137,7 +137,7 @@ enum class token_aggregation : std::uint8_t
 /// \param advantages Receives `rows` advantages; may be `rewards`.
 /// \param scale `group_std` (GRPO) or `none` (Dr. GRPO).
 /// \param epsilon Added to the std: 1e-4 as TRL.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void group_advantages(const B&, std::span<const T> rewards, std::size_t group_size, std::type_identity_t<std::span<T>> advantages,
                                 advantage_scale scale = advantage_scale::group_std, double epsilon = 1e-4) noexcept(std::is_floating_point_v<T>)
 {
@@ -163,8 +163,8 @@ constexpr void group_advantages(const B&, std::span<const T> rewards, std::size_
 
 /// \brief Each row's value repeated over its `length` positions: a sequence's advantage on every token.
 /// \param per_row `rows` values. \param per_token Receives `rows · length`.
-template <typename B, math::math_number T>
-constexpr void expand_rows(const B&, std::span<const T> per_row, std::type_identity_t<std::span<T>> per_token) noexcept
+template <math::math_number T, typename B>
+constexpr void expand_rows(const B&, std::span<const T> per_row, std::type_identity_t<std::span<T>> per_token) noexcept(std::is_floating_point_v<T>)
 {
     assert(per_row.empty() ? per_token.empty() : per_token.size() % per_row.size() == 0);
     if (per_row.empty())
@@ -306,7 +306,7 @@ constexpr double token_weight(std::span<const std::uint8_t> mask, std::size_t ro
 /// \param c The settings.
 /// \param metrics Added into.
 /// \return The aggregated loss.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr T policy_loss_rows(const B&, std::span<const std::uint8_t> mask, std::span<const T> logps, std::type_identity_t<std::span<const T>> old_logps,
                              std::type_identity_t<std::span<const T>> ref_logps, std::type_identity_t<std::span<const T>> advantages,
                              std::type_identity_t<std::span<const T>> entropies, std::type_identity_t<std::span<T>> dlogps,
@@ -360,7 +360,7 @@ constexpr T policy_loss_rows(const B&, std::span<const std::uint8_t> mask, std::
 /// last token). \param values The value model's, per token. \param gamma The discount. \param lambda GAE's `λ`.
 /// \param advantages Written, per token. \param returns Written, per token.
 /// \param rows The sequences.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void gae_rows(const B&, std::span<const std::uint8_t> mask, std::span<const T> rewards, std::type_identity_t<std::span<const T>> values,
                         double gamma, double lambda, std::type_identity_t<std::span<T>> advantages, std::type_identity_t<std::span<T>> returns,
                         std::size_t rows) noexcept(std::is_floating_point_v<T>)
@@ -391,7 +391,7 @@ constexpr void gae_rows(const B&, std::span<const std::uint8_t> mask, std::span<
 
 /// \brief Normalises the values on the mask to mean 0 and standard deviation 1 (sample variance, `ε = 1e-8`); 0 off it.
 /// \param mask The mask. \param values The values. \param out Written; may be `values`.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void masked_whiten(const B&, std::span<const std::uint8_t> mask, std::span<const T> values, std::type_identity_t<std::span<T>> out) noexcept(std::is_floating_point_v<T>)
 {
     assert(values.size() == mask.size() && out.size() == mask.size());
@@ -422,7 +422,7 @@ constexpr void masked_whiten(const B&, std::span<const std::uint8_t> mask, std::
 /// \param mask `rows · length`. \param values The value head's, per token. \param old_values At sampling, per token.
 /// \param returns The targets `R`, per token. \param clip `ε_v`, or 0 for no clip. \param dvalues Written, per token.
 /// \return The mean over response tokens; 0 with none.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr T value_loss_rows(const B&, std::span<const std::uint8_t> mask, std::span<const T> values, std::type_identity_t<std::span<const T>> old_values,
                             std::type_identity_t<std::span<const T>> returns, double clip, std::type_identity_t<std::span<T>> dvalues) noexcept(std::is_floating_point_v<T>)
 {

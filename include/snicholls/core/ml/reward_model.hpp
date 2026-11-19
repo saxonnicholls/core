@@ -43,7 +43,7 @@
 ///
 /// **Tests and demos.** `tests/ml/reward_model_test.cpp`, `demos/ml/reward_model_demo.cpp`.
 ///
-/// **Dependencies.** `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`, `ml/activations.hpp`, `ml/preference.hpp`, `ml/row.hpp`.
+/// **Dependencies.** `<cassert>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`, `ml/activations.hpp`, `ml/preference.hpp`, `ml/row.hpp`.
 ///
 /// **Known issues.** A head with more than one output (a multi-objective reward) is `linear`'s job.
 ///
@@ -57,6 +57,7 @@
 #include <snicholls/core/ml/row.hpp>
 
 #include <cassert>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -122,7 +123,7 @@ constexpr void value_head_backward(std::span<const T> w, std::type_identity_t<st
 
 /// \brief The value head on every row, on the backend. \param w `d` weights. \param bias The bias.
 /// \param hs `n` hidden states of `d`. \param values Receives `n` scalars.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void value_head_rows(const B&, std::span<const T> w, std::type_identity_t<T> bias, std::type_identity_t<std::span<const T>> hs,
                                std::type_identity_t<std::span<T>> values) noexcept(std::is_floating_point_v<T>)
 {
@@ -135,7 +136,7 @@ constexpr void value_head_rows(const B&, std::span<const T> w, std::type_identit
 /// \brief The backward pass of `value_head_rows`, row by row in order. \param w The weights. \param hs The hidden
 /// states. \param dvalues The gradients in the outputs, `n`. \param dhs Added into, `n · d`, or empty.
 /// \param dw Added into, `d`. \param db Added into.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void value_head_rows_backward(const B&, std::span<const T> w, std::type_identity_t<std::span<const T>> hs,
                                         std::type_identity_t<std::span<const T>> dvalues, std::type_identity_t<std::span<T>> dhs,
                                         std::type_identity_t<std::span<T>> dw, T& db) noexcept(std::is_floating_point_v<T>)
@@ -169,9 +170,9 @@ constexpr void last_response_positions(std::span<const std::uint8_t> mask, std::
 
 /// \brief `out_i = xs[rows_i]`: rows of `width` copied out of a batch, on the backend. \param xs The rows, end to end.
 /// \param width The row's width. \param rows The rows to copy. \param out Receives `rows.size() · width`.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void gather_rows(const B&, std::span<const T> xs, std::size_t width, std::span<const std::uint32_t> rows,
-                           std::type_identity_t<std::span<T>> out) noexcept
+                           std::type_identity_t<std::span<T>> out) noexcept(std::is_floating_point_v<T>)
 {
     assert(width > 0 && out.size() == rows.size() * width);
     for (std::size_t i = 0; i < rows.size(); ++i) {
@@ -183,7 +184,7 @@ constexpr void gather_rows(const B&, std::span<const T> xs, std::size_t width, s
 
 /// \brief The backward pass of `gather_rows`: `dxs[rows_i] += douts_i`, in order. \param douts The gathered rows'
 /// gradients. \param width The row's width. \param rows The rows. \param dxs Added into.
-template <typename B, math::math_number T>
+template <math::math_number T, typename B>
 constexpr void scatter_add_rows(const B&, std::span<const T> douts, std::size_t width, std::span<const std::uint32_t> rows,
                                 std::type_identity_t<std::span<T>> dxs) noexcept(std::is_floating_point_v<T>)
 {
