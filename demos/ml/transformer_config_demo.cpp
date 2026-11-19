@@ -26,6 +26,24 @@ static_assert(ml::valid(mine));   // every template taking a configuration check
 constexpr float eps = ml::norm_eps_v<mine, float>;
 //! [transformer_config]
 
+//! [moe_config]
+// A mixture of experts in DeepSeek-V3's style: 16 fine-grained experts of 256, each token to 4, one shared expert,
+// sigmoid scoring scaled by 2.5, the selection bias stepped by 0.001 (ml/moe.hpp)
+constexpr ml::transformer_config experts = [] {
+    auto c = mine;
+    c.d_ff = 256;
+    c.experts = 16;
+    c.top_k = 4;
+    c.shared_experts = 1;
+    c.expert_d_ff = 256;
+    c.scoring = ml::moe_scoring::sigmoid;
+    c.route_scale = 2.5;
+    c.bias_update_rate = 0.001;
+    return c;
+}();
+static_assert(ml::valid(experts) && experts.moe() && !mine.moe());
+//! [moe_config]
+
 int main()
 {
     std::printf("snicholls-core transformer_config demo\n");
@@ -41,6 +59,10 @@ int main()
     std::printf("  8 heads over 3 kv heads is %s\n", ml::valid(broken) ? "valid" : "rejected");
     ok &= mine.q_size() == 512 && mine.kv_size() == 128 && mine.group() == 4 && eps == 1e-6f && !ml::valid(broken);
     ok &= ml::rope_base_v<ml::llama3_8b, double> == 500000 && ml::attention_softcap_v<mine, double> == 0;
+    std::printf("  experts: %zu of %zu wide, top %zu, %zu shared, route scale %g; olmoe_1b_7b %zu experts, top %zu\n", experts.experts,
+                experts.expert_d_ff, experts.top_k, experts.shared_experts, ml::route_scale_v<experts, double>, ml::olmoe_1b_7b.experts,
+                ml::olmoe_1b_7b.top_k);
+    ok &= ml::route_scale_v<experts, double> == 2.5 && ml::olmoe_1b_7b.top_k == 8 && ml::valid(ml::tiny_moe);
     std::printf(ok ? "transformer_config demo: ok\n" : "transformer_config demo: FAILED\n");
     return ok ? 0 : 1;
 }

@@ -26,6 +26,8 @@
 /// every token passes through, and the balance settings. With `experts == 0` (the default) every expert field is 0
 /// and nothing changes for a dense model.
 ///
+/// \snippet ml/transformer_config_demo.cpp moe_config
+///
 /// **Implementations.** One. The presets (`gpt2_small`, `gpt2_medium`, `gpt2_large`, `llama3_8b`, `nanochat_d20`,
 /// `olmoe_1b_7b`) are the shapes of those models; `tiny_moe` is a small mixture of experts for tests.
 ///

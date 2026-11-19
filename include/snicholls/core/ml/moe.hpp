@@ -624,8 +624,9 @@ constexpr void grouped_linear_backward(const B& backend, const grouped_weights<T
 /// \tparam C A mixture-of-experts configuration (its `mlp` and `expert_d_ff`).
 /// \param backend A `linalg::blas_backend`.
 /// \param w The experts' weights: `up` and `gate` `E` of `expert_d_ff x d_model`, `down` `E` of `d_model x
-/// expert_d_ff`, biases `E` times the dense sizes, or empty.
-/// \param offsets The experts' segments, `E + 1`.
+/// expert_d_ff`, biases `E` times the dense sizes, or empty; or a run of the experts (`moe_expert_range`, as expert
+/// parallelism places them on a rank).
+/// \param offsets The experts' segments, one more than `w`'s experts.
 /// \param xp The permuted rows, `n · d_model`.
 /// \param yp Receives the experts' outputs, `n · d_model`.
 /// \param save Receives the pre-activations and the hidden rows, `n · expert_d_ff` each (the gate for SwiGLU only).
@@ -638,7 +639,7 @@ constexpr void moe_experts_forward(const B& backend, const mlp_weights<grouped_w
     static_assert(valid(C), "snicholls::ml::moe_experts_forward: the transformer_config is not valid");
     constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
     [[maybe_unused]] const std::size_t n = xp.size() / C.d_model, m = n * C.expert_d_ff;
-    assert(w.up.experts == C.experts && w.up.rows == C.expert_d_ff && w.up.cols == C.d_model && w.down.rows == C.d_model
+    assert(w.up.experts <= C.experts && offsets.size() == w.up.experts + 1 && w.up.rows == C.expert_d_ff && w.up.cols == C.d_model && w.down.rows == C.d_model
            && w.down.cols == C.expert_d_ff && yp.size() == xp.size() && save.up.size() == m && save.hidden.size() == m
            && (!swiglu || save.gate.size() == m));
     grouped_linear(backend, w.up, offsets, xp, save.up, w.up_bias);
