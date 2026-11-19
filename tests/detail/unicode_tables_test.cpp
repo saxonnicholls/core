@@ -47,8 +47,9 @@ TEST(UnicodeTables, AreSortedAndInRange)
         const auto first = t::combining_classes[i] >> 29, last = (t::combining_classes[i] >> 8) & 0x1FFFFF;
         EXPECT_LE(first, last);
         EXPECT_NE(t::combining_classes[i] & 0xFF, 0u);
-        if (i > 0)
+        if (i > 0) {
             EXPECT_LT((t::combining_classes[i - 1] >> 8) & 0x1FFFFF, first);
+        }
     }
 }
 
