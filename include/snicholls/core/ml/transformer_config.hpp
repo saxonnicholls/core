@@ -18,6 +18,15 @@
 ///
 /// \snippet ml/transformer_config_demo.cpp transformer_config
 ///
+/// **Latent attention, multi-token prediction and long context** (TRAINING.md T11), one group of fields after the others,
+/// every default leaving a model as it was: multi-head latent attention's ranks and widths (`q_lora_rank`,
+/// `kv_lora_rank`, `qk_rope_dim`, `v_head_dim`; `ml/latent_attention.hpp`), RoPE's rescaling for a long context
+/// (`rope_scaling`, `rope_factor`, `rope_original_context`, YaRN's `β`, `α` and temperature coefficient; `ml/rope.hpp`),
+/// learnable attention sinks, a sparse selection of `sparse_top_k` keys, and multi-token prediction's depth and weight
+/// (`ml/multi_token_prediction.hpp`). `valid_long_context` checks them; `deepseek_v3` and `tiny_mla` set them.
+///
+/// \snippet ml/transformer_config_demo.cpp transformer_config_latent
+///
 /// **Relationships.** `ml/linear.hpp`, `ml/mlp.hpp`, `ml/kv_cache.hpp`, `ml/attention_layer.hpp`,
 /// `ml/transformer_block.hpp`; the plan is `INFERENCE.md`. Group: \ref core.
 ///
@@ -33,7 +42,8 @@
 /// architecture, TRAINING.md T11) or `block_causal` with `mask_block` tokens per block.
 ///
 /// **Implementations.** One. The presets (`gpt2_small`, `gpt2_medium`, `gpt2_large`, `llama3_8b`, `nanochat_d20`,
-/// `olmoe_1b_7b`, `vit_base`) are the shapes of those models; `tiny_moe` is a small mixture of experts for tests.
+/// `olmoe_1b_7b`, `vit_base`, `deepseek_v3`) are the shapes of those models; `tiny_moe` is a small mixture of experts and
+/// `tiny_mla` a small latent attention for tests.
 ///
 /// **Guarantees.** `constexpr`, trivially copyable, structural (usable as a template argument). `valid(c)` checks the
 /// invariants below; every class and function templated on a configuration rejects an invalid one at compile time.
@@ -46,17 +56,18 @@
 /// **Tests and demos.** `tests/ml/transformer_config_test.cpp`, `demos/ml/transformer_config_demo.cpp`.
 ///
 /// **Dependencies.** `<cstddef>`, `snicholls/core/math/constexpr_math.hpp`, `snicholls/core/ml/attention.hpp`
-/// (`attention_mask`), `snicholls/core/ml/rope.hpp` (`rope_layout`).
+/// (`attention_mask`), `snicholls/core/ml/rope.hpp` (`rope_layout`, `rope_scaling`).
 ///
 /// **Known issues.** Clang (Apple clang 17, Clang 18) miscompiles a run-time read of a `double` member of a
 /// class-type template argument: it loads garbage (`C.norm_eps` reads as 6e-314), while the same read in a constant
 /// expression is right, and GCC is right in both. Read the floating-point members through `norm_eps_v`,
-/// `rope_base_v`, `attention_softcap_v` and the mixture of experts' `route_scale_v`, `bias_update_rate_v`,
-/// `balance_loss_weight_v` and `z_loss_weight_v`, which evaluate them at compile time, never as `C.norm_eps` in code that
-/// runs; every header here does. Wrapping the value in a class (its bits as an integer) is worse: Clang 18 crashes.
+/// `rope_base_v`, `attention_softcap_v`, the mixture of experts' `route_scale_v`, `bias_update_rate_v`,
+/// `balance_loss_weight_v` and `z_loss_weight_v`, and `rope_factor_v`, `mtp_loss_weight_v`, `rope_scaling_v` and
+/// `yarn_attention_factor_v`, which evaluate them at compile time, never as `C.norm_eps` in code that runs; every header
+/// here does. Wrapping the value in a class (its bits as an integer) is worse: Clang 18 crashes.
 ///
-/// **Status.** Experimental, new in 0.8.0; the mixture-of-experts fields, `mask`, `mask_block` and `vit_base` new in
-/// 0.16.0.
+/// **Status.** Experimental, new in 0.8.0; the mixture-of-experts fields, `mask`, `mask_block`, `vit_base`, the fields of
+/// TRAINING.md T12, `deepseek_v3` and `tiny_mla` new in 0.16.0.
 
 #ifndef snicholls_core_ml_transformer_config_hpp
 #define snicholls_core_ml_transformer_config_hpp

@@ -64,6 +64,20 @@ static_assert(ml::olmoe_1b_7b.experts == 64 && ml::olmoe_1b_7b.top_k == 8 && ml:
               && ml::olmoe_1b_7b.scoring == ml::moe_scoring::softmax);
 static_assert(ml::route_scale_v<ml::tiny_moe, float> == 1.0f && ml::balance_loss_weight_v<ml::olmoe_1b_7b, double> == 0.01
               && ml::z_loss_weight_v<ml::olmoe_1b_7b, double> == 0.001 && ml::bias_update_rate_v<ml::tiny_moe, double> == 0);
+// TRAINING.md T12: the defaults leave every model as it was; each group of fields is checked
+static_assert(!base.latent() && base.mtp_depth == 0 && base.rope_scaling == ml::rope_scaling_kind::none && !base.attention_sinks);
+static_assert(!ml::llama3_8b.latent() && ml::valid_long_context(ml::llama3_8b) && ml::valid_long_context(ml::gpt2_small));
+static_assert(!ml::valid(with(base, [](auto& c) { c.qk_rope_dim = 2; })));             // an MLA field without a latent
+static_assert(!ml::valid(with(base, [](auto& c) { c.sparse_top_k = 4; })));            // sparse selection is MLA's
+static_assert(!ml::valid(with(base, [](auto& c) { c.rope_factor = 0.5; })));
+static_assert(!ml::valid(with(base, [](auto& c) { c.rope_scaling = ml::rope_scaling_kind::yarn; c.rope_factor = 4; })));   // no L
+static_assert(ml::valid(with(base, [](auto& c) { c.rope_scaling = ml::rope_scaling_kind::ntk; c.rope_factor = 4; })));
+static_assert(!ml::valid(with(base, [](auto& c) { c.mtp_loss_weight = 0.1; })));        // a weight without modules
+static_assert(ml::valid(with(base, [](auto& c) { c.mtp_depth = 2; c.mtp_loss_weight = 0.3; })));
+static_assert(ml::deepseek_v3.head_dim == ml::deepseek_v3.qk_nope_dim() + ml::deepseek_v3.qk_rope_dim);
+static_assert(ml::rope_scaling_v<ml::deepseek_v3, float>.kind == ml::rope_scaling_kind::yarn_index_ramp
+              && ml::rope_scaling_v<ml::deepseek_v3, float>.original_context == 4096);
+static_assert(ml::yarn_attention_factor_v<ml::tiny_mla, double> == 1.0 && ml::yarn_attention_factor_v<ml::deepseek_v3, double> > 1.36);
 
 // The configuration is a template argument
 template <ml::transformer_config C>
@@ -116,6 +130,35 @@ TEST(MlTransformerConfig, TheMixtureOfExpertsReadersReadCorrectlyAtRunTime)
     EXPECT_EQ(read_moe_at_run_time<c>(which[0]), 2.5);
     EXPECT_EQ(read_moe_at_run_time<c>(which[1]), 0.01);
     EXPECT_EQ(read_moe_at_run_time<c>(which[2]), 0.001);
+}
+
+TEST(MlTransformerConfig, DeepSeekV3HasItsPapersAndConfigurationsShape)
+{
+    // DeepSeek-V3, section 4.2, and its config.json
+    constexpr auto c = ml::deepseek_v3;
+    volatile int which = 0;   // the double members, read at run time through their readers
+    EXPECT_EQ(c.d_model, 7168u);
+    EXPECT_EQ(c.n_heads, 128u);
+    EXPECT_EQ(c.qk_nope_dim(), 128u);
+    EXPECT_EQ(c.qk_rope_dim, 64u);
+    EXPECT_EQ(c.v_head_dim, 128u);
+    EXPECT_EQ(c.q_lora_rank, 1536u);
+    EXPECT_EQ(c.kv_lora_rank, 512u);
+    EXPECT_EQ(c.rope, ml::rope_kind::interleaved);
+    EXPECT_EQ(c.rope_original_context, 4096u);
+    EXPECT_EQ(c.mtp_depth, 1u);
+    EXPECT_EQ(c.experts, 256u);   // its mixture of experts (section 4.2): T10's fields
+    EXPECT_EQ(c.top_k, 8u);
+    EXPECT_EQ(c.shared_experts, 1u);
+    EXPECT_EQ(c.expert_d_ff, 2048u);
+    EXPECT_EQ(c.scoring, ml::moe_scoring::sigmoid);
+    EXPECT_EQ(which == 0 ? (ml::route_scale_v<c, double>) : 0.0, 2.5);
+    EXPECT_EQ(which == 0 ? (ml::bias_update_rate_v<c, double>) : 0.0, 0.001);
+    EXPECT_EQ(which == 0 ? (ml::balance_loss_weight_v<c, double>) : 0.0, 0.0001);
+    EXPECT_EQ(which == 0 ? (ml::rope_factor_v<c, double>) : 0.0, 40.0);
+    EXPECT_EQ(which == 0 ? (ml::mtp_loss_weight_v<c, double>) : 0.0, 0.1);
+    EXPECT_EQ(which == 0 ? (ml::norm_eps_v<c, double>) : 0.0, 1e-6);
+    EXPECT_TRUE(ml::tiny_mla.latent());
 }
 
 } // namespace

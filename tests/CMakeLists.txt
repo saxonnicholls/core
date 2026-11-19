@@ -77,6 +77,7 @@ add_executable(snicholls_core_tests
     meta/values_test.cpp
     ml/activations_test.cpp
     ml/attention_layer_test.cpp
+    ml/attention_sink_test.cpp
     ml/attention_test.cpp
     ml/bpe_test.cpp
     ml/collapse_test.cpp
@@ -86,6 +87,8 @@ add_executable(snicholls_core_tests
     ml/gather_test.cpp
     ml/jepa_test.cpp
     ml/kv_cache_test.cpp
+    ml/latent_attention_test.cpp
+    ml/latent_block_test.cpp
     ml/linear_test.cpp
     ml/lm_head_test.cpp
     ml/masking_test.cpp
@@ -93,6 +96,7 @@ add_executable(snicholls_core_tests
     ml/mlp_test.cpp
     ml/moe_block_test.cpp
     ml/moe_test.cpp
+    ml/multi_token_prediction_test.cpp
     ml/muon_test.cpp
     ml/norm_test.cpp
     ml/optim_test.cpp
@@ -104,6 +108,7 @@ add_executable(snicholls_core_tests
     ml/sampling_test.cpp
     ml/self_attention_test.cpp
     ml/softmax_test.cpp
+    ml/sparse_attention_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp
     pipeline/stages_test.cpp

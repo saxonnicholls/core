@@ -43,6 +43,20 @@ constexpr ml::transformer_config experts = [] {
 }();
 static_assert(ml::valid(experts) && experts.moe() && !mine.moe());
 //! [moe_config]
+//! [transformer_config_latent]
+// Multi-head latent attention with YaRN to 4x a trained 2048, a sink per head and one multi-token prediction module
+// (TRAINING.md T12): every other model leaves these fields at their defaults
+constexpr ml::transformer_config latent{.d_model = 512, .n_heads = 8, .n_kv_heads = 8, .head_dim = 96, .d_ff = 1536,
+                                        .norm = ml::norm_kind::rms, .norm_eps = 1e-6, .mlp = ml::mlp_kind::swiglu,
+                                        .rope = ml::rope_kind::interleaved, .rope_base = 10000, .q_lora_rank = 192,
+                                        .kv_lora_rank = 128, .qk_rope_dim = 32, .v_head_dim = 64,
+                                        .rope_scaling = ml::rope_scaling_kind::yarn_index_ramp, .rope_factor = 4,
+                                        .rope_original_context = 2048, .attention_sinks = true, .mtp_depth = 1,
+                                        .mtp_loss_weight = 0.3};
+static_assert(ml::valid(latent) && ml::valid_long_context(latent) && latent.latent() && latent.qk_nope_dim() == 64);
+constexpr auto scaling = ml::rope_scaling_v<latent, double>;          // for rope_table(base, scaling)
+constexpr double temperature = ml::yarn_attention_factor_v<latent, double>;
+//! [transformer_config_latent]
 
 int main()
 {
@@ -69,6 +83,12 @@ int main()
     std::printf("  vit_base %zu wide, mask %s; a windowed bidirectional layer is %s\n", ml::vit_base.d_model,
                 ml::vit_base.mask == ml::attention_mask::bidirectional ? "bidirectional" : "other", ml::valid(windowed_vit) ? "valid" : "rejected");
     ok &= ml::vit_base.mask == ml::attention_mask::bidirectional && !ml::valid(windowed_vit) && ml::gpt2_small.mask == ml::attention_mask::causal;
+    std::printf("  latent: %zu plain + %zu rotary channels, YaRN x%g from %zu, temperature %.4f, MTP weight %g\n", latent.qk_nope_dim(),
+                latent.qk_rope_dim, ml::rope_factor_v<latent, double>, scaling.original_context, temperature,
+                ml::mtp_loss_weight_v<latent, double>);
+    std::printf("  deepseek_v3: %zu heads, latents %zu and %zu; tiny_mla %zu wide\n", ml::deepseek_v3.n_heads, ml::deepseek_v3.q_lora_rank,
+                ml::deepseek_v3.kv_lora_rank, ml::tiny_mla.d_model);
+    ok &= scaling.factor == 4.0 && temperature > 1.13 && temperature < 1.14 && !ml::llama3_8b.latent() && ml::deepseek_v3.latent();
     std::printf(ok ? "transformer_config demo: ok\n" : "transformer_config demo: FAILED\n");
     return ok ? 0 : 1;
 }

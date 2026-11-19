@@ -40,6 +40,12 @@ std::vector<double> wave(std::size_t size, double a, double b)
     return v;
 }
 
+std::vector<float> fwave(std::size_t size, double a, double b)
+{
+    const auto w = wave(size, a, b);
+    return {w.begin(), w.end()};
+}
+
 const std::vector<std::size_t> targets{3, 0, 6, 3, 1};
 
 constexpr bool compile_time()
@@ -195,6 +201,25 @@ TEST(MlLmHead, APaddedHeadIsTheUnpaddedHeadAndItsPaddingGetsNothing)
     EXPECT_EQ(dhs_w, dhs_n);
     EXPECT_EQ(std::vector<double>(dhead_w.begin(), dhead_w.begin() + std::ptrdiff_t(vocab * d)), dhead_n);
     EXPECT_TRUE(std::all_of(dhead_w.begin() + std::ptrdiff_t(vocab * d), dhead_w.end(), [](double e) { return e == 0; }));
+}
+
+TEST(MlLmHead, AWeightAndADenominatorScaleTheLossAndItsGradients)
+{
+    const auto hs = fwave(4 * 8, 1.0, 0.3), head = fwave(5 * 8, 0.5, 1.2);
+    const std::vector<std::uint32_t> targets{1, 4, 0, 2};
+    std::vector<float> l1(4 * 5), l2(4 * 5), s1(4), s2(4), dh1(32), dh2(32), dw1(40), dw2(40);
+    const ml::dense_weights<float> w{head, 5, 8};
+    const float a = ml::lm_head_loss_sequence(snicholls::linalg::reference, w, hs, targets, l1, s1, dh1, dw1);
+    const float b = ml::lm_head_loss_sequence(snicholls::linalg::reference, w, hs, targets, l2, s2, dh2, dw2, 0, 1.0f, 4);
+    EXPECT_EQ(a, b);
+    EXPECT_EQ(dh1, dh2);
+    EXPECT_EQ(dw1, dw2);
+    // A weight of 0.5 over a denominator of 8: the loss and every gradient a quarter of the mean's (exact in binary)
+    std::vector<float> l3(4 * 5), s3(4), dh3(32), dw3(40);
+    EXPECT_EQ(ml::lm_head_loss_sequence(snicholls::linalg::reference, w, hs, targets, l3, s3, dh3, dw3, 0, 0.5f, 8), a / 4);
+    for (std::size_t i = 0; i < 32; ++i)
+        EXPECT_FLOAT_EQ(dh3[i], dh1[i] / 4);
+    EXPECT_EQ(s3, s1);   // the per-row losses are unweighted
 }
 
 } // namespace

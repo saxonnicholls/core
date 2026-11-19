@@ -60,11 +60,12 @@
 ///
 /// **Tests and demos.** `tests/ml/multi_token_prediction_test.cpp`, `demos/ml/multi_token_prediction_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`,
+/// **Dependencies.** `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`,
 /// `linalg/backend.hpp`, `ml/linear.hpp`, `ml/lm_head.hpp`, `ml/norm.hpp`, `ml/transformer_block.hpp`,
 /// `ml/transformer_config.hpp`.
 ///
-/// **Known issues.** Released DeepSeek-V3 checkpoints store `M_k` with the embedding's columns first (`eh_proj` over
+/// **Known issues.** The block's overloads are found by argument-dependent lookup: include its header
+/// (`ml/latent_block.hpp` for a latent-attention block). Released DeepSeek-V3 checkpoints store `M_k` with the embedding's columns first (`eh_proj` over
 /// `[enorm(e); hnorm(h)]`, recalled from the open implementations): swap the halves when loading.
 ///
 /// **Status.** Experimental, new in 0.16.0.
@@ -79,7 +80,6 @@
 #include <snicholls/core/ml/transformer_block.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
 
-#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cstddef>

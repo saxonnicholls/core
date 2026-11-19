@@ -98,6 +98,7 @@
 #include <snicholls/core/ml/activations.hpp>
 #include <snicholls/core/ml/attention.hpp>
 #include <snicholls/core/ml/attention_layer.hpp>
+#include <snicholls/core/ml/attention_sink.hpp>
 #include <snicholls/core/ml/bpe.hpp>
 #include <snicholls/core/ml/collapse.hpp>
 #include <snicholls/core/ml/diloco.hpp>
@@ -106,6 +107,8 @@
 #include <snicholls/core/ml/gather.hpp>
 #include <snicholls/core/ml/jepa.hpp>
 #include <snicholls/core/ml/kv_cache.hpp>
+#include <snicholls/core/ml/latent_attention.hpp>
+#include <snicholls/core/ml/latent_block.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/lm_head.hpp>
 #include <snicholls/core/ml/masking.hpp>
@@ -113,6 +116,7 @@
 #include <snicholls/core/ml/mlp.hpp>
 #include <snicholls/core/ml/moe.hpp>
 #include <snicholls/core/ml/moe_block.hpp>
+#include <snicholls/core/ml/multi_token_prediction.hpp>
 #include <snicholls/core/ml/muon.hpp>
 #include <snicholls/core/ml/norm.hpp>
 #include <snicholls/core/ml/optim.hpp>
@@ -124,6 +128,7 @@
 #include <snicholls/core/ml/sampling.hpp>
 #include <snicholls/core/ml/self_attention.hpp>
 #include <snicholls/core/ml/softmax.hpp>
+#include <snicholls/core/ml/sparse_attention.hpp>
 #include <snicholls/core/ml/transformer_block.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
 #include <snicholls/core/pipeline/stages.hpp>

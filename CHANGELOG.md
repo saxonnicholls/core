@@ -62,6 +62,31 @@ A version is released when its tag is on a commit where every blocking CI leg is
     merging across workers.
   - `ml/probe.hpp`: `mean_pool_rows` and V-JEPA's attentive probe, forward and backward.
 
+- Latent attention, multi-token prediction and long context, DeepSeek-V3's attention side as references (TRAINING.md
+  T12):
+  - `ml/latent_attention.hpp`: multi-head latent attention (DeepSeek-V2 and V3), queries and keys/values from RMS-normed
+    low-rank latents with decoupled RoPE, in DeepSeek-V3's weight layout. `ml::latent_attention_forward_sequence` and
+    `ml::latent_attention_backward` over a batch of sequences through a `linalg` backend, their non-product steps
+    backend calls; `ml::latent_kv_cache_view` / `ml::latent_kv_cache` holding only `[c^KV; k^R]`;
+    `ml::latent_attention_forward`, the absorbed decode, equal to the training form within rounding;
+    `ml::kv_cache_elements_per_token` and `ml::kv_cache_elements` as constant expressions; `ml::latent_attention_scale`.
+  - `ml/latent_block.hpp`: `ml::latent_block_weights` and overloads of `block_forward`, `block_forward_sequence` and
+    `block_backward` for a block whose attention is MLA.
+  - `ml/multi_token_prediction.hpp`: DeepSeek-V3's MTP modules: `ml::mtp_combine_rows` and its backward pass,
+    `ml::mtp_forward_sequence`, `ml::mtp_backward`, `ml::mtp_loss_sequence` through the shared head, `ml::mtp_input_ids`.
+  - `ml/attention_sink.hpp`: `ml::attend_with_sink` and its backward pass (gpt-oss's learnable sink logit, keys and
+    values of different widths), `ml::attention_sink_weight`.
+  - `ml/sparse_attention.hpp`: `ml::attend_selected` and its backward pass; DeepSeek Sparse Attention's lightning
+    indexer, `ml::indexer_scores` and its backward pass, `ml::select_top_k`, `ml::indexer_kl_loss`.
+  - `ml/rope.hpp`: long-context rescaling, `ml::rope_scaling` (position interpolation, NTK-aware, YaRN as its paper and
+    as its code and DeepSeek-V3 compute it), `ml::rope_scaled_frequency`, `ml::yarn_ramp`, `ml::yarn_correction_dim`,
+    `ml::yarn_attention_factor`, and `rope_angles` / `rope_table` overloads taking a rescaling.
+  - `ml::transformer_config`: one group of fields for MLA, RoPE rescaling, sinks, sparse selection and MTP, every default
+    leaving a model unchanged (`ml::valid_long_context`); presets `ml::deepseek_v3` and `ml::tiny_mla`; readers
+    `rope_factor_v`, `mtp_loss_weight_v`, `rope_scaling_v`, `yarn_attention_factor_v`.
+  - `ml::lm_head_loss_sequence` takes a `weight` and a `denominator` (defaults: the mean, to the bit), for a loss that
+    is a part of a larger one.
+
 ### Changed
 
 - `attention_forward_sequence` (the per-token path) projects every token before any attends, so a bidirectional or
