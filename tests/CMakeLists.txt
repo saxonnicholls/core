@@ -115,6 +115,7 @@ add_executable(snicholls_core_tests
     ml/quantize_test.cpp
     ml/reward_model_test.cpp
     ml/rl_test.cpp
+    ml/rope_modes_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
     ml/samplers_test.cpp

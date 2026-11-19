@@ -136,6 +136,7 @@
 #include <snicholls/core/ml/reward_model.hpp>
 #include <snicholls/core/ml/rl.hpp>
 #include <snicholls/core/ml/rope.hpp>
+#include <snicholls/core/ml/rope_modes.hpp>
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/samplers.hpp>
 #include <snicholls/core/ml/sampling.hpp>
