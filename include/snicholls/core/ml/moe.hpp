@@ -51,12 +51,15 @@
 ///    merge across workers.
 /// 7. The layer: `moe_forward` and `moe_backward` compose them; `moe_parameter_count`, `moe_activation_values`,
 ///    `moe_activation_indices` and `moe_gradient_work` size its buffers, and `moe_weights_in`, `moe_activations_in` and
-///    `moe_gradients_in` lay them out. The block with an MoE MLP is `ml/moe_block.hpp`; expert parallelism across
-///    ranks is `ml/expert_parallel.hpp`.
+///    `moe_gradients_in` lay them out; the overload of `mlp_forward` for `moe_weights` is the layer for one token, for
+///    decoding. The block with an MoE MLP is `ml/moe_block.hpp` (with latent attention, `ml/composed_block.hpp`);
+///    expert parallelism across ranks is `ml/expert_parallel.hpp`.
 ///
 /// \snippet ml/moe_demo.cpp route
 ///
 /// \snippet ml/moe_demo.cpp layer
+///
+/// \snippet ml/moe_demo.cpp node_limited
 ///
 /// \snippet ml/moe_demo.cpp balance
 ///
@@ -66,7 +69,10 @@
 /// - Routing, per row `z` (logits) and selection bias `b` (or none): the affinities `s` are `z` itself
 ///   (`softmax_top_k`), `softmax(z)` (`softmax`, `ml/softmax.hpp`'s own) or `sigmoid(z_e)` (`sigmoid`); the key is
 ///   `s_e + b_e` (or `s_e`); the chosen experts are `top_k<K>` of the keys (`ml/sampling.hpp`: largest first, ties to
-///   the lower index). Weights, slot `i` of expert `e_i`: `softmax_top_k`, `m` the largest chosen logit,
+///   the lower index). With node-limited routing (`expert_groups` `G`, `group_top_k` `J`; DeepSeek-V3's `n_group` and
+///   `topk_group`), group `g` holds experts `[g·E/G, (g+1)·E/G)`, its score is `k_0 + k_1`, its two largest keys
+///   (`top_k<2>`, the larger first; `k_0` alone for groups of one), the `J` groups of the largest scores are kept
+///   (`top_k<J>`), and `top_k<K>` runs over their experts' keys in expert order. Weights, slot `i` of expert `e_i`: `softmax_top_k`, `m` the largest chosen logit,
 ///   `u_i = exp(z_(e_i) - m)`, `S = u_0 + u_1 + ...` in slot order, `w_i = (u_i / S) · scale`; `softmax`,
 ///   `w_i = p_(e_i) · scale`; `sigmoid`, `S` the sum of the chosen `s` in slot order, `w_i = (s_(e_i) / S) · scale`.
 /// - The combine: `y = w_0 · yp_0`, then `y = y + w_i · yp_i` for `i = 1 .. K-1`; its backward `dyp_i = w_i · dy` and
@@ -114,8 +120,8 @@
 ///
 /// **Tests and demos.** `tests/ml/moe_test.cpp`, `demos/ml/moe_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`,
-/// `linalg/backend.hpp`, `math/constexpr_math.hpp`, `ml/activations.hpp`, `ml/linear.hpp`, `ml/mlp.hpp`,
+/// **Dependencies.** `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<span>`, `<type_traits>`,
+/// `linalg/backend.hpp`, `math/constexpr_math.hpp`, `ml/activations.hpp`, `ml/linear.hpp`, `ml/mlp.hpp`, `ml/row.hpp`,
 /// `ml/sampling.hpp`, `ml/softmax.hpp`, `ml/transformer_config.hpp`.
 ///
 /// **Known issues.** Expert capacity (dropping tokens past a fixed number per expert, as Switch does) is not
@@ -132,12 +138,14 @@
 #include <snicholls/core/ml/activations.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/mlp.hpp>
+#include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/sampling.hpp>
 #include <snicholls/core/ml/softmax.hpp>
 #include <snicholls/core/ml/transformer_config.hpp>
 
 #include <array>
 #include <cassert>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -152,7 +160,7 @@ namespace snicholls::ml
 [[nodiscard]] constexpr transformer_config moe_expert_config(transformer_config c) noexcept
 {
     c.d_ff = c.expert_d_ff;
-    c.experts = c.top_k = c.shared_experts = c.expert_d_ff = 0;
+    c.experts = c.top_k = c.shared_experts = c.expert_d_ff = c.expert_groups = c.group_top_k = 0;
     return c;
 }
 
@@ -165,7 +173,7 @@ namespace snicholls::ml
 [[nodiscard]] constexpr transformer_config moe_shared_config(transformer_config c) noexcept
 {
     c.d_ff = c.shared_experts * c.expert_d_ff;
-    c.experts = c.top_k = c.shared_experts = c.expert_d_ff = 0;
+    c.experts = c.top_k = c.shared_experts = c.expert_d_ff = c.expert_groups = c.group_top_k = 0;
     return c;
 }
 
@@ -270,6 +278,76 @@ namespace detail::moe
             q[i] /= sum;
         return q;
     }
+
+    // The K experts of the largest keys, best first, ties to the lower expert: over every expert, or, with
+    // node-limited routing, over the experts of the group_top_k groups whose two largest keys sum the highest
+    template <transformer_config C, typename T>
+    constexpr void choose(const std::array<T, C.experts>& key, std::span<std::uint32_t> ids)
+    {
+        constexpr std::size_t E = C.experts, K = C.top_k, G = C.expert_groups;
+        if constexpr (G == 0) {
+            const auto best = top_k<K>(key);
+            for (std::size_t i = 0; i < K; ++i)
+                ids[i] = static_cast<std::uint32_t>(best.index[i]);
+        } else {
+            constexpr std::size_t n = E / G, J = C.group_top_k, two = n < 2 ? n : 2;
+            std::array<T, G> score{};
+            for (std::size_t g = 0; g < G; ++g) {
+                const auto top = top_k<two>(std::span<const T>(key).subspan(g * n, n));
+                score[g] = top.value[0];
+                for (std::size_t i = 1; i < two; ++i)
+                    score[g] = score[g] + top.value[i];
+            }
+            const auto groups = top_k<J>(score);
+            std::array<std::size_t, J> chosen = groups.index;
+            for (std::size_t i = 1; i < J; ++i)   // ascending, so the candidates stay in expert order
+                for (std::size_t j = i; j > 0 && chosen[j - 1] > chosen[j]; --j) {
+                    const std::size_t t = chosen[j];
+                    chosen[j] = chosen[j - 1];
+                    chosen[j - 1] = t;
+                }
+            std::array<T, J * n> candidate{};
+            for (std::size_t j = 0; j < J; ++j)
+                for (std::size_t i = 0; i < n; ++i)
+                    candidate[j * n + i] = key[chosen[j] * n + i];
+            const auto best = top_k<K>(candidate);
+            for (std::size_t i = 0; i < K; ++i)
+                ids[i] = static_cast<std::uint32_t>(chosen[best.index[i] / n] * n + best.index[i] % n);
+        }
+    }
+
+    // One row of moe_route_rows: the affinities, the keys, the choice, the weights
+    template <transformer_config C, typename T>
+    constexpr void route_row(std::span<const T> z, std::span<const T> bias, std::span<std::uint32_t> ids, std::span<T> w)
+    {
+        constexpr std::size_t E = C.experts, K = C.top_k;
+        constexpr T scale = route_scale_v<C, T>;
+        std::array<T, E> s{}, key{};
+        affinities<C, T>(z, s);
+        for (std::size_t e = 0; e < E; ++e)
+            key[e] = bias.empty() ? s[e] : s[e] + bias[e];
+        choose<C, T>(key, ids);
+        switch (C.scoring) {
+        case moe_scoring::softmax_top_k: {
+            const auto q = top_softmax<C, T>(z, ids);
+            for (std::size_t i = 0; i < K; ++i)
+                w[i] = q[i] * scale;
+            return;
+        }
+        case moe_scoring::softmax:
+            for (std::size_t i = 0; i < K; ++i)
+                w[i] = s[ids[i]] * scale;
+            return;
+        case moe_scoring::sigmoid: {
+            T sum = T(0);
+            for (std::size_t i = 0; i < K; ++i)
+                sum += s[ids[i]];
+            for (std::size_t i = 0; i < K; ++i)
+                w[i] = s[ids[i]] / sum * scale;
+            return;
+        }
+        }
+    }
 } // namespace detail::moe
 
 /// \name 1. Routing
@@ -277,6 +355,11 @@ namespace detail::moe
 
 /// \brief Routes every row: the `K` experts of the largest keys (the affinities plus the selection bias) and their
 /// weights, as the configuration's `scoring` says (the file's "The arithmetic, exactly").
+///
+/// With `expert_groups > 0` the choice is DeepSeek-V3's node-limited routing: the experts split into `expert_groups`
+/// equal groups of consecutive ids, each group scored by the sum of its two largest keys, the `group_top_k` best groups
+/// kept (ties to the lower group), and the `K` largest keys among their experts chosen (ties to the lower expert). The
+/// weights are computed from the chosen experts as without groups. One group is the plain choice to the bit.
 ///
 /// With `moe_scoring::softmax_top_k`, no bias and `route_scale` 1, each row is `moe_gate<K>` to the bit.
 /// \tparam C A mixture-of-experts configuration.
@@ -293,39 +376,8 @@ constexpr void moe_route_rows(const B&, std::type_identity_t<std::span<const T>>
     constexpr std::size_t E = C.experts, K = C.top_k;
     const std::size_t rows = logits.size() / E;
     assert(logits.size() == rows * E && experts.size() == rows * K && weights.size() == rows * K && (bias.empty() || bias.size() == E));
-    constexpr T scale = route_scale_v<C, T>;
-    std::array<T, E> s{}, key{};
-    for (std::size_t t = 0; t < rows; ++t) {
-        const auto z = logits.subspan(t * E, E);
-        const auto ids = experts.subspan(t * K, K);
-        const auto w = weights.subspan(t * K, K);
-        detail::moe::affinities<C, T>(z, s);
-        for (std::size_t e = 0; e < E; ++e)
-            key[e] = bias.empty() ? s[e] : s[e] + bias[e];
-        const auto best = top_k<K>(key);
-        for (std::size_t i = 0; i < K; ++i)
-            ids[i] = static_cast<std::uint32_t>(best.index[i]);
-        switch (C.scoring) {
-        case moe_scoring::softmax_top_k: {
-            const auto q = detail::moe::top_softmax<C, T>(z, ids);
-            for (std::size_t i = 0; i < K; ++i)
-                w[i] = q[i] * scale;
-            break;
-        }
-        case moe_scoring::softmax:
-            for (std::size_t i = 0; i < K; ++i)
-                w[i] = s[ids[i]] * scale;
-            break;
-        case moe_scoring::sigmoid: {
-            T sum = T(0);
-            for (std::size_t i = 0; i < K; ++i)
-                sum += s[ids[i]];
-            for (std::size_t i = 0; i < K; ++i)
-                w[i] = s[ids[i]] / sum * scale;
-            break;
-        }
-        }
-    }
+    for (std::size_t t = 0; t < rows; ++t)
+        detail::moe::route_row<C, T>(logits.subspan(t * E, E), bias, experts.subspan(t * K, K), weights.subspan(t * K, K));
 }
 
 /// \brief The backward pass of `moe_route_rows`: the gradient in the logits from the gradient in the weights.
@@ -1038,22 +1090,6 @@ namespace detail::moe
     return g * n * c.expert_d_ff + g * rows * c.shared_experts * c.expert_d_ff + rows * c.experts + n + 2 * n * c.d_model;
 }
 
-namespace detail::moe
-{
-    // Cuts consecutive pieces off a span
-    template <typename T>
-    struct cutter
-    {
-        std::span<T> rest;
-        constexpr std::span<T> take(std::size_t n)
-        {
-            const auto s = rest.first(n);
-            rest = rest.subspan(n);
-            return s;
-        }
-    };
-} // namespace detail::moe
-
 /// \brief The weights of a mixture-of-experts MLP laid out in one buffer: the router (`E x d_model`), then for `up`,
 /// `gate`, `down`, `up_bias`, `gate_bias`, `down_bias` in turn every expert's tensor, then the shared MLP's six.
 /// \tparam C A mixture-of-experts configuration.
@@ -1067,7 +1103,7 @@ constexpr moe_weights<T> moe_weights_in(std::span<const T> params, std::span<con
     assert(params.size() == moe_parameter_count(C));
     constexpr std::size_t d = C.d_model, f = C.expert_d_ff, fs = C.shared_experts * f, E = C.experts;
     constexpr auto es = detail::moe::mlp_sizes(C, f), ss = detail::moe::mlp_sizes(C, fs);
-    detail::moe::cutter<const T> c{params};
+    detail::cutter<const T> c{params};
     moe_weights<T> w{};
     w.router = {c.take(E * d), E, d};
     w.selection_bias = selection_bias;
@@ -1100,8 +1136,8 @@ constexpr moe_activations<T> moe_activations_in(std::span<T> values, std::span<s
     constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
     constexpr std::size_t d = C.d_model, f = C.expert_d_ff, fs = C.shared_experts * f, E = C.experts;
     const std::size_t n = rows * C.top_k;
-    detail::moe::cutter<T> v{values};
-    detail::moe::cutter<std::uint32_t> i{indices};
+    detail::cutter<T> v{values};
+    detail::cutter<std::uint32_t> i{indices};
     moe_activations<T> a{};
     a.logits = v.take(rows * E);
     a.experts = i.take(n);
@@ -1132,7 +1168,7 @@ constexpr moe_gradients<T> moe_gradients_in(std::span<T> grads, std::span<T> wor
     constexpr std::size_t d = C.d_model, f = C.expert_d_ff, fs = C.shared_experts * f, E = C.experts, g = C.mlp == mlp_kind::swiglu ? 2 : 1;
     constexpr auto es = detail::moe::mlp_sizes(C, f), ss = detail::moe::mlp_sizes(C, fs);
     const std::size_t n = rows * C.top_k;
-    detail::moe::cutter<T> c{grads}, w{work};
+    detail::cutter<T> c{grads}, w{work};
     moe_gradients<T> out{};
     out.router = c.take(E * d);
     out.experts = {c.take(E * es[0]), c.take(E * es[1]), c.take(E * es[2]), c.take(E * es[3]), c.take(E * es[4]), c.take(E * es[5]), w.take(g * n * f)};
@@ -1227,6 +1263,61 @@ constexpr void moe_backward(const B& backend, const moe_weights<T>& w, std::type
     if constexpr (C.shared_experts > 0)
         mlp_backward_sequence<moe_shared_config(C)>(backend, w.shared, xs, act.shared, dys, dxs, grads.shared);
     (void)sequences;
+}
+
+namespace detail::moe
+{
+    // Expert e's MLP as dense weights
+    template <typename T>
+    constexpr mlp_weights<dense_weights<T>, T> expert(const mlp_weights<grouped_weights<T>, T>& w, std::size_t e)
+    {
+        auto cut = [&](std::span<const T> b, std::size_t each) { return b.empty() ? b : b.subspan(e * each, each); };
+        return {w.up.expert(e), w.gate.experts == 0 ? dense_weights<T>{} : w.gate.expert(e), w.down.expert(e),
+                cut(w.up_bias, w.up.rows), cut(w.gate_bias, w.gate.rows), cut(w.down_bias, w.down.rows)};
+    }
+} // namespace detail::moe
+
+/// \brief The mixture of experts for one token, as a decoding block calls its MLP: the router, the row's routing
+/// (`moe_route_rows`' arithmetic, node-limited routing included), the chosen experts' MLPs (`mlp_forward` with
+/// `moe_expert_config(C)`) combined in slot order as `moe_combine_rows` combines, then the shared experts' MLP added.
+///
+/// The overload of `mlp_forward` for `moe_weights`, so a block's decoding code calls the same name for a dense or a
+/// mixture-of-experts MLP. Nothing is saved and no auxiliary loss is computed: it is for inference. Each step is the
+/// batched layer's for one row in the same order, so on the reference backend the output is `moe_forward`'s row to the
+/// bit when the products have no biases, and within their rounding when they do (the per-token product adds its bias
+/// in another order; tested). Work: the router, `K` expert MLPs and the shared MLP; no allocation (`E` logits and
+/// one row of `d_model` on the stack).
+/// \tparam C A mixture-of-experts configuration.
+/// \param w The weights (the selection bias, if any, enters the choice).
+/// \param x The input, `d_model`.
+/// \param y The output, `d_model`; may not alias `x`.
+template <transformer_config C, math::math_number T, row X, mutable_row Y>
+    requires(C.experts > 0) && std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Y>, T>
+constexpr void mlp_forward(const moe_weights<T>& w, const X& x, Y&& y)
+{
+    static_assert(valid(C), "snicholls::ml::mlp_forward: the transformer_config is not valid");
+    constexpr std::size_t d = C.d_model, E = C.experts, K = C.top_k;
+    const auto xs = as_row(x);
+    const auto out = as_mutable_row(y);
+    assert(xs.size() == d && out.size() == d && w.router.rows == E && w.router.cols == d);
+    std::array<T, E> z{};
+    linear(w.router, xs, z);
+    std::array<std::uint32_t, K> ids{};
+    std::array<T, K> weights{};
+    detail::moe::route_row<C, T>(z, w.selection_bias, ids, weights);
+    std::array<T, d> yp{};
+    for (std::size_t s = 0; s < K; ++s) {
+        mlp_forward<moe_expert_config(C)>(detail::moe::expert(w.experts, ids[s]), xs, yp);
+        for (std::size_t i = 0; i < d; ++i) {
+            const T v = weights[s] * yp[i];
+            out[i] = s == 0 ? v : out[i] + v;
+        }
+    }
+    if constexpr (C.shared_experts > 0) {
+        mlp_forward<moe_shared_config(C)>(w.shared, xs, yp);
+        for (std::size_t i = 0; i < d; ++i)
+            out[i] = yp[i] + out[i];
+    }
 }
 
 /// @}

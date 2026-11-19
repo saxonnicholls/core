@@ -78,6 +78,14 @@ static_assert(ml::deepseek_v3.head_dim == ml::deepseek_v3.qk_nope_dim() + ml::de
 static_assert(ml::rope_scaling_v<ml::deepseek_v3, float>.kind == ml::rope_scaling_kind::yarn_index_ramp
               && ml::rope_scaling_v<ml::deepseek_v3, float>.original_context == 4096);
 static_assert(ml::yarn_attention_factor_v<ml::tiny_mla, double> == 1.0 && ml::yarn_attention_factor_v<ml::deepseek_v3, double> > 1.36);
+// Node-limited routing: off by default, so no preset but DeepSeek-V3's changes; the groups must divide the experts and
+// hold enough of them for top_k
+static_assert(ml::tiny_moe.expert_groups == 0 && ml::olmoe_1b_7b.group_top_k == 0 && ml::llama3_8b.expert_groups == 0);
+static_assert(ml::deepseek_v3.expert_groups == 8 && ml::deepseek_v3.group_top_k == 4 && ml::valid(ml::deepseek_v3));
+static_assert(!ml::valid(with(ml::deepseek_v3, [](auto& c) { c.group_top_k = 0; })));
+static_assert(!ml::valid(with(ml::deepseek_v3, [](auto& c) { c.expert_groups = 7; })));
+static_assert(!ml::valid(with(ml::deepseek_v3, [](auto& c) { c.expert_groups = 128; c.group_top_k = 3; })));   // 6 experts < top 8
+static_assert(ml::valid(with(ml::deepseek_v3, [](auto& c) { c.expert_groups = 128; c.group_top_k = 4; })));
 
 // The configuration is a template argument
 template <ml::transformer_config C>

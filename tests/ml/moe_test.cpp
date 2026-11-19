@@ -17,6 +17,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <span>
 #include <type_traits>
 #include <vector>
@@ -84,6 +85,23 @@ constexpr ml::transformer_config top1{.d_model = 4, .n_heads = 1, .n_kv_heads = 
                                       .experts = 5, .top_k = 1, .expert_d_ff = 6};
 constexpr ml::transformer_config all_experts{.d_model = 4, .n_heads = 1, .n_kv_heads = 1, .head_dim = 4, .d_ff = 3, .mlp = ml::mlp_kind::swiglu,
                                              .experts = 3, .top_k = 3, .expert_d_ff = 3};
+
+// DeepSeek-V3's node-limited routing on `deepseek`'s 8 experts: 4 groups of 2, the best 2 kept (4 candidates for top 3);
+// one group, and every group kept, are the plain choice
+template <ml::transformer_config C>
+constexpr ml::transformer_config with_groups(std::size_t groups, std::size_t kept)
+{
+    auto c = C;
+    c.expert_groups = groups;
+    c.group_top_k = kept;
+    return c;
+}
+constexpr auto grouped = with_groups<deepseek>(4, 2);
+static_assert(ml::valid(grouped) && ml::valid(with_groups<deepseek>(1, 1)) && ml::valid(with_groups<deepseek>(8, 3)));
+static_assert(!ml::valid(with_groups<deepseek>(3, 1)) && !ml::valid(with_groups<deepseek>(4, 1)) && !ml::valid(with_groups<deepseek>(4, 5))
+              && !ml::valid(with_groups<deepseek>(4, 0)) && !ml::valid(with_groups<deepseek>(0, 2)));   // 3 does not divide 8; 2 < K; 5 > 4
+static_assert(!ml::valid(with_groups<ml::gpt2_small>(1, 1)));                                                 // no groups without experts
+static_assert(ml::deepseek_v3.expert_groups == 8 && ml::deepseek_v3.group_top_k == 4 && ml::tiny_moe.expert_groups == 0);
 
 template <ml::transformer_config C>
 constexpr ml::transformer_config with_scoring(ml::moe_scoring s, double scale = 1.0)
@@ -258,8 +276,86 @@ void route_backward_is_central_differences()
     }
 }
 
+template <ml::transformer_config Grouped, ml::transformer_config Plain>
+void grouping_is_the_plain_choice()
+{
+    constexpr std::size_t E = Plain.experts, K = Plain.top_k, rows = 13;
+    const auto z = noise<float>(rows * E, 31, 3.0), bias = noise<float>(E, 32, 0.4), dw = noise<float>(rows * K, 33);
+    std::vector<u32> a(rows * K), b(rows * K);
+    std::vector<float> wa(rows * K), wb(rows * K), da(rows * E), db(rows * E);
+    ml::moe_route_rows<Grouped>(ref, z, bias, a, std::span<float>(wa));
+    ml::moe_route_rows<Plain>(ref, z, bias, b, std::span<float>(wb));
+    ml::moe_route_rows_backward<Grouped>(ref, z, a, dw, std::span<float>(da));
+    ml::moe_route_rows_backward<Plain>(ref, z, b, dw, std::span<float>(db));
+    EXPECT_EQ(a, b);
+    EXPECT_EQ(wa, wb);
+    EXPECT_EQ(da, db);
+}
+
+TEST(MlMoeRouting, NodeLimitedRoutingWithOneGroupOrEveryGroupKeptIsThePlainChoiceToTheBit)
+{
+    grouping_is_the_plain_choice<with_groups<deepseek>(1, 1), deepseek>();
+    grouping_is_the_plain_choice<with_groups<deepseek>(4, 4), deepseek>();
+    grouping_is_the_plain_choice<with_groups<mixtral>(1, 1), mixtral>();
+    grouping_is_the_plain_choice<with_groups<switch_like>(2, 2), switch_like>();
+}
+
+// The definition, in double: group scores the sum of the two largest keys, the best groups by stable sort, then the
+// best keys among their experts
+TEST(MlMoeRouting, NodeLimitedRoutingChoosesWithinTheGroupsOfTheLargestTopTwoSums)
+{
+    constexpr auto C = grouped;
+    constexpr std::size_t E = C.experts, K = C.top_k, G = C.expert_groups, n = E / G, rows = 40;
+    const auto logits = noise<double>(rows * E, 41, 3.0), bias = noise<double>(E, 42, 0.5);
+    std::vector<u32> ids(rows * K);
+    std::vector<double> w(rows * K);
+    ml::moe_route_rows<C>(ref, logits, bias, ids, std::span<double>(w));
+    std::size_t differs = 0;
+    for (std::size_t t = 0; t < rows; ++t) {
+        std::vector<double> s(E), key(E), score(G);
+        for (std::size_t e = 0; e < E; ++e) {
+            s[e] = 1 / (1 + std::exp(-logits[t * E + e]));
+            key[e] = s[e] + bias[e];
+        }
+        for (std::size_t g = 0; g < G; ++g) {
+            std::vector<double> k(key.begin() + std::ptrdiff_t(g * n), key.begin() + std::ptrdiff_t((g + 1) * n));
+            std::sort(k.begin(), k.end(), std::greater<>{});
+            score[g] = k[0] + k[1];
+        }
+        std::vector<std::size_t> groups(G), order;
+        for (std::size_t g = 0; g < G; ++g)
+            groups[g] = g;
+        std::stable_sort(groups.begin(), groups.end(), [&](std::size_t a, std::size_t b) { return score[a] > score[b]; });
+        for (std::size_t e = 0; e < E; ++e)
+            if (std::find(groups.begin(), groups.begin() + std::ptrdiff_t(C.group_top_k), e / n) != groups.begin() + std::ptrdiff_t(C.group_top_k))
+                order.push_back(e);
+        std::stable_sort(order.begin(), order.end(), [&](std::size_t a, std::size_t b) { return key[a] > key[b]; });
+        std::vector<std::size_t> plain(E);
+        for (std::size_t e = 0; e < E; ++e)
+            plain[e] = e;
+        std::stable_sort(plain.begin(), plain.end(), [&](std::size_t a, std::size_t b) { return key[a] > key[b]; });
+        double sum = 0;
+        for (std::size_t i = 0; i < K; ++i) {
+            sum += s[order[i]];
+            differs += plain[i] != order[i];
+        }
+        for (std::size_t i = 0; i < K; ++i) {
+            ASSERT_EQ(ids[t * K + i], order[i]) << "row " << t;
+            EXPECT_NEAR(w[t * K + i], C.route_scale * s[order[i]] / sum, 1e-14);
+        }
+    }
+    EXPECT_GT(differs, 0u);   // the groups changed some choices
+    // By hand: expert 0 has the largest key, but its group's partner is the smallest, so group 0 loses to groups 1 and 2
+    const std::vector<double> z{3.0, -6.0, 2.0, 1.9, 1.8, 1.7, -1.0, -1.0};
+    std::vector<u32> chosen(K);
+    std::vector<double> cw(K);
+    ml::moe_route_rows<C>(ref, z, {}, chosen, std::span<double>(cw));
+    EXPECT_EQ(chosen, (std::vector<u32>{2, 3, 4}));
+}
+
 TEST(MlMoeRouting, BackwardOfEachScoringMatchesCentralDifferences)
 {
+    route_backward_is_central_differences<grouped>();
     route_backward_is_central_differences<with_scoring<deepseek>(ml::moe_scoring::softmax_top_k, 1.5)>();
     route_backward_is_central_differences<with_scoring<deepseek>(ml::moe_scoring::softmax, 0.7)>();
     route_backward_is_central_differences<deepseek>();
@@ -463,6 +559,35 @@ void layer_is_the_per_token_path()
     }
 }
 
+// mlp_forward's overload for moe_weights, one token at a time, against the batched layer's rows: to the bit without
+// biases on the products (the per-token product adds its bias in another order), within float's rounding with them
+template <ml::transformer_config C>
+void one_token_is_the_batched_layer(bool selection_bias)
+{
+    constexpr std::size_t d = C.d_model, rows = 9;
+    layer<C, float> l(rows, 71, selection_bias);
+    l.forward();
+    for (std::size_t r = 0; r < rows; ++r) {
+        std::array<float, d> y{};
+        ml::mlp_forward<C>(l.weights(), std::span<const float>(l.xs).subspan(r * d, d), y);
+        for (std::size_t j = 0; j < d; ++j) {
+            if constexpr (C.bias)
+                ASSERT_NEAR(l.ys[r * d + j], y[j], 1e-6f * (1 + std::abs(y[j]))) << "row " << r << " element " << j;
+            else
+                ASSERT_EQ(l.ys[r * d + j], y[j]) << "row " << r << " element " << j;
+        }
+    }
+}
+
+TEST(MlMoeLayer, TheOneTokenOverloadOfMlpForwardIsTheBatchedLayer)
+{
+    one_token_is_the_batched_layer<mixtral>(false);
+    one_token_is_the_batched_layer<deepseek>(true);   // biases, shared experts, a selection bias
+    one_token_is_the_batched_layer<grouped>(true);
+    one_token_is_the_batched_layer<switch_like>(false);
+    one_token_is_the_batched_layer<ml::tiny_moe>(false);
+}
+
 TEST(MlMoeLayer, ForwardIsThePerTokenPathToTheBit)
 {
     layer_is_the_per_token_path<mixtral>();
@@ -516,6 +641,7 @@ TEST(MlMoeLayer, BackwardMatchesCentralDifferences)
 {
     layer_backward_is_central_differences<mixtral>(6, 1, false);
     layer_backward_is_central_differences<deepseek>(6, 2, true);       // sigmoid, scale, bias, biases, both losses by sequence
+    layer_backward_is_central_differences<grouped>(6, 2, true);        // the same with node-limited routing
     layer_backward_is_central_differences<switch_like>(6, 3, false);   // softmax over every expert, both losses
     layer_backward_is_central_differences<top1>(4, 1, true);
     layer_backward_is_central_differences<all_experts>(3, 1, false);

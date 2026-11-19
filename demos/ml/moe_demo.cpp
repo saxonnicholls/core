@@ -6,7 +6,8 @@
 //
 //  Demo for <snicholls/core/ml/moe.hpp>: routing three tokens in DeepSeek-V3's style and Mixtral's; the permutation,
 //  gather, grouped products and combine one by one; the layer trained for a few SGD steps on a regression, its loss
-//  falling; and auxiliary-loss-free balancing moving a skewed router toward uniform load. Exits non-zero if a result
+//  falling; the layer for one token, as decoding calls it; node-limited routing confining each token's experts to its
+//  best groups; and auxiliary-loss-free balancing moving a skewed router toward uniform load. Exits non-zero if a result
 //  is not what it documents.
 //
 
@@ -46,6 +47,8 @@ constexpr ml::transformer_config ds{.d_model = 8, .n_heads = 2, .n_kv_heads = 2,
 // Switch's softmax over every expert and Mixtral's softmax over the chosen two, on the same shape
 constexpr ml::transformer_config sw = [] { auto c = ds; c.scoring = ml::moe_scoring::softmax; c.route_scale = 1; return c; }();
 constexpr ml::transformer_config mx = [] { auto c = ds; c.scoring = ml::moe_scoring::softmax_top_k; c.route_scale = 1; return c; }();
+// DeepSeek-V3's node-limited routing on the same shape: 4 groups of 2 experts, each token's experts from its best 2
+constexpr ml::transformer_config nl = [] { auto c = ds; c.expert_groups = 4; c.group_top_k = 2; return c; }();
 
 } // namespace
 
@@ -155,6 +158,32 @@ int main()
     //! [layer]
     std::printf("  layer: loss %.4f -> %.4f after 60 SGD steps\n", static_cast<double>(first), static_cast<double>(last));
     ok &= last < 0.7f * first;
+
+    // The layer for one token, as a decoding block calls its MLP: the batched layer's row
+    {
+        const auto w = ml::moe_weights_in<ds>(std::span<const float>(params), std::span<const float>(selection));
+        ml::moe_forward<ds>(backend, w, xs, ys, act, 4);
+        std::vector<float> y(d);
+        ml::mlp_forward<ds>(w, std::span<const float>(xs).first(d), y);
+        float gap = 0;
+        for (std::size_t i = 0; i < d; ++i)
+            gap = std::max(gap, std::abs(y[i] - ys[i]));
+        std::printf("  one token through mlp_forward: largest difference from the batched row %.1e\n", static_cast<double>(gap));
+        ok &= gap < 1e-5f;
+    }
+
+    //! [node_limited]
+    // Node-limited routing: the 8 experts in 4 groups of 2; a token's group scores the sum of its two largest keys, and
+    // its experts come from its 2 best groups. Expert 0 has the largest score, but its group-mate the smallest
+    const std::vector<float> row{3.0f, -6.0f, 2.0f, 1.9f, 1.8f, 1.7f, -1.0f, -1.0f};
+    std::vector<u32> plain(2), limited(2);
+    std::vector<float> wp(2), wl(2);
+    ml::moe_route_rows<ds>(backend, row, {}, plain, std::span<float>(wp));
+    ml::moe_route_rows<nl>(backend, row, {}, limited, std::span<float>(wl));
+    // plain chooses experts 0 and 2; node-limited keeps groups 1 and 2 and chooses experts 2 and 3
+    //! [node_limited]
+    std::printf("  node-limited routing: plain chooses %u, %u; within the best 2 of 4 groups %u, %u\n", plain[0], plain[1], limited[0], limited[1]);
+    ok &= plain == std::vector<u32>{0, 2} && limited == std::vector<u32>{2, 3} && std::abs(wl[0] + wl[1] - 2.5f) < 1e-5f;
 
     //! [balance]
     // A router that prefers the low-numbered experts; DeepSeek-V3's bias rule evens the load out over 300 steps

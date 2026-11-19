@@ -164,6 +164,22 @@ namespace detail::linear
     }
 } // namespace detail::linear
 
+namespace detail
+{
+    // Cuts consecutive pieces off a span: the `*_in` layout helpers of the layers' buffers
+    template <typename T>
+    struct cutter
+    {
+        std::span<T> rest;
+        constexpr std::span<T> take(std::size_t n)
+        {
+            const auto s = rest.first(n);
+            rest = rest.subspan(n);
+            return s;
+        }
+    };
+} // namespace detail
+
 /// \brief The input of a dense product: `x` itself.
 /// \tparam N The input's size, as for every storage.
 /// \param x The input row.

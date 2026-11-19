@@ -32,8 +32,10 @@
 ///
 /// **Mixture of experts.** With `experts > 0` the MLP is a mixture of experts (`ml/moe.hpp`, TRAINING.md T10): `top_k`
 /// of `experts` routed experts of `expert_d_ff` per token, scored as `scoring` says, `shared_experts` dense experts
-/// every token passes through, and the balance settings. With `experts == 0` (the default) every expert field is 0
-/// and nothing changes for a dense model.
+/// every token passes through, the balance settings, and DeepSeek-V3's node-limited routing (`expert_groups`,
+/// `group_top_k`: a token's experts come from its best `group_top_k` of `expert_groups` groups; 0 and 0, the defaults,
+/// route over every expert). With `experts == 0` (the default) every expert field is 0 and nothing changes for a dense
+/// model.
 ///
 /// \snippet ml/transformer_config_demo.cpp moe_config
 ///
@@ -148,6 +150,8 @@ struct transformer_config
     double bias_update_rate = 0;                                ///< DeepSeek-V3's `gamma`, the step of the selection bias (`moe_update_bias`).
     double balance_loss_weight = 0;                             ///< The auxiliary balance loss's `alpha`; 0 for none.
     double z_loss_weight = 0;                                   ///< The router z-loss's `beta` (ST-MoE); 0 for none.
+    std::size_t expert_groups = 0;                    ///< Node-limited routing (DeepSeek-V3's `n_group`): the routed experts in this many equal groups; 0 for none.
+    std::size_t group_top_k = 0;                      ///< The groups a token's experts may come from (DeepSeek-V3's `topk_group`); 0 without groups.
 
     // Joint embedding predictive architectures (TRAINING.md T11): the attention mask. The defaults are a language
     // model's, so no preset changes.
@@ -215,15 +219,19 @@ struct transformer_config
 
 /// \brief Whether a configuration is consistent: every width set, `n_heads` a multiple of `n_kv_heads`, `head_dim`
 /// even under RoPE, a positive `norm_eps`, a non-negative soft cap; for a mixture of experts, `top_k` from 1 to
-/// `experts`, `expert_d_ff` set, a positive `route_scale` and non-negative balance settings, and with no experts every
-/// expert field 0; a sliding window only under the causal mask, and a `mask_block` exactly under `block_causal`.
+/// `experts`, `expert_d_ff` set, a positive `route_scale` and non-negative balance settings, groups (if any) dividing
+/// the experts with `group_top_k` from 1 to `expert_groups` and enough experts in the chosen groups for `top_k`, and
+/// with no experts every expert field 0; a sliding window only under the causal mask, and a `mask_block` exactly under `block_causal`.
 /// \param c The configuration.
 /// \return Whether it is valid.
 [[nodiscard]] constexpr bool valid(const transformer_config& c) noexcept
 {
-    const bool dense = c.experts == 0 && c.top_k == 0 && c.shared_experts == 0 && c.expert_d_ff == 0;
+    const bool dense = c.experts == 0 && c.top_k == 0 && c.shared_experts == 0 && c.expert_d_ff == 0 && c.expert_groups == 0 && c.group_top_k == 0;
+    const bool groups = (c.expert_groups == 0 && c.group_top_k == 0)
+                        || (c.expert_groups > 0 && c.experts % c.expert_groups == 0 && c.group_top_k > 0 && c.group_top_k <= c.expert_groups
+                            && c.group_top_k * (c.experts / c.expert_groups) >= c.top_k);
     const bool moe = c.experts > 0 && c.experts <= 0xffffffffu && c.top_k > 0 && c.top_k <= c.experts && c.expert_d_ff > 0
-                     && c.route_scale > 0 && c.bias_update_rate >= 0 && c.balance_loss_weight >= 0 && c.z_loss_weight >= 0;
+                     && c.route_scale > 0 && c.bias_update_rate >= 0 && c.balance_loss_weight >= 0 && c.z_loss_weight >= 0 && groups;
     return c.d_model > 0 && c.n_heads > 0 && c.n_kv_heads > 0 && c.head_dim > 0 && c.d_ff > 0 && c.n_heads % c.n_kv_heads == 0
            && (c.rope == rope_kind::none || c.head_dim % 2 == 0) && c.norm_eps > 0 && c.attention_softcap >= 0
            && (c.rope == rope_kind::none || c.rope_base > 1) && (dense || moe) && (c.mask == attention_mask::causal || c.window == 0)
@@ -291,14 +299,16 @@ inline constexpr transformer_config tiny_mla{.d_model = 16, .n_heads = 2, .n_kv_
 /// with `λ` 0.1 (0.3 for the first 10T tokens); its mixture of experts (section 2.1.2, `config.json`): 256 routed
 /// experts of 2048 (top 8) and one shared, sigmoid affinities normalised over the chosen and scaled by 2.5, the
 /// selection bias's step 0.001 and the sequence-wise balance loss at 0.0001 (section 4.2). `d_ff` is the dense MLP of
-/// its first three blocks (61 blocks, which the configuration does not carry; the other 58 are mixtures of experts);
-/// its node-limited routing (8 groups, 4 chosen) is not modelled.
+/// its first three blocks (61 blocks, which the configuration does not carry; the other 58 are mixtures of experts),
+/// and its node-limited routing chooses each token's experts from 4 of 8 groups of 32 (section 2.1.2, `n_group`,
+/// `topk_group`). With a vocabulary of 129,280 (also not carried) these give 671.0B parameters, 37.6B active per token,
+/// as the paper's 671B and 37B (`tests/ml/composed_block_test.cpp`).
 inline constexpr transformer_config deepseek_v3{.d_model = 7168, .n_heads = 128, .n_kv_heads = 128, .head_dim = 192, .d_ff = 18432,
                                                 .norm = norm_kind::rms, .norm_eps = 1e-6, .mlp = mlp_kind::swiglu,
                                                 .rope = rope_kind::interleaved, .rope_base = 10000, .experts = 256, .top_k = 8,
                                                 .shared_experts = 1, .expert_d_ff = 2048, .scoring = moe_scoring::sigmoid,
                                                 .route_scale = 2.5, .bias_update_rate = 0.001, .balance_loss_weight = 0.0001,
-                                                .q_lora_rank = 1536,
+                                                .expert_groups = 8, .group_top_k = 4, .q_lora_rank = 1536,
                                                 .kv_lora_rank = 512, .qk_rope_dim = 64, .v_head_dim = 128,
                                                 .rope_scaling = rope_scaling_kind::yarn_index_ramp, .rope_factor = 40,
                                                 .rope_original_context = 4096, .yarn_beta_fast = 32, .yarn_beta_slow = 1,
