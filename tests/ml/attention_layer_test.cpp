@@ -446,8 +446,10 @@ template <ml::transformer_config C>
 void batch_is_each_sequence()
 {
     const train_layer<C> l;
-    constexpr std::size_t n = train_layer<C>::n, seqs = 3, rows = seqs * n, d = C.d_model, qn = C.q_size(), kn = C.kv_size();
-    constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
+    constexpr std::size_t n = train_layer<C>::n, seqs = 3, rows = seqs * n, d = C.d_model;
+    // Read only by run_t's member initialisers, which MSVC does not count as a use (C4189)
+    [[maybe_unused]] constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
+    [[maybe_unused]] constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
     const auto& backend = snicholls::linalg::reference;
     struct run_t {
         std::vector<double> q = std::vector<double>(rows * qn), k = std::vector<double>(rows * kn), v = k,
