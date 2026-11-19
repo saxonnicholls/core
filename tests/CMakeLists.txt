@@ -87,6 +87,7 @@ add_executable(snicholls_core_tests
     ml/embedding_test.cpp
     ml/expert_parallel_test.cpp
     ml/gather_test.cpp
+    ml/hadamard_test.cpp
     ml/jepa_test.cpp
     ml/kv_cache_test.cpp
     ml/latent_attention_test.cpp
