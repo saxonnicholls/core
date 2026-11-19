@@ -89,6 +89,17 @@ int main()
     std::printf("  deepseek_v3: %zu heads, latents %zu and %zu; tiny_mla %zu wide\n", ml::deepseek_v3.n_heads, ml::deepseek_v3.q_lora_rank,
                 ml::deepseek_v3.kv_lora_rank, ml::tiny_mla.d_model);
     ok &= scaling.factor == 4.0 && temperature > 1.13 && temperature < 1.14 && !ml::llama3_8b.latent() && ml::deepseek_v3.latent();
+
+    //! [transformer_config_glu]
+    // gpt-oss's MLP: a clamped SwiGLU, with the constants read at compile time
+    constexpr ml::transformer_config oss{.d_model = 2880, .n_heads = 64, .n_kv_heads = 8, .head_dim = 64, .d_ff = 2880,
+                                         .mlp = ml::mlp_kind::swiglu_oai, .rope = ml::rope_kind::half, .rope_base = 150000};
+    static_assert(ml::valid(oss) && ml::gated(oss.mlp) && !ml::gated(ml::mlp_kind::gelu_quick));
+    constexpr float alpha = ml::glu_alpha_v<oss, float>, limit = ml::glu_limit_v<oss, float>;
+    //! [transformer_config_glu]
+    std::printf("  gpt-oss MLP: gated %d, alpha %.3f, limit %.1f\n", ml::gated(oss.mlp) ? 1 : 0, static_cast<double>(alpha),
+                static_cast<double>(limit));
+    ok &= alpha == 1.702f && limit == 7.0f;
     std::printf(ok ? "transformer_config demo: ok\n" : "transformer_config demo: FAILED\n");
     return ok ? 0 : 1;
 }

@@ -88,6 +88,7 @@ add_executable(snicholls_core_tests
     ml/embedding_test.cpp
     ml/expert_parallel_test.cpp
     ml/gather_test.cpp
+    ml/glu_test.cpp
     ml/grammar_test.cpp
     ml/jepa_test.cpp
     ml/json_schema_test.cpp

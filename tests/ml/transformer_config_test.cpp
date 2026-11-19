@@ -35,6 +35,11 @@ constexpr ml::transformer_config with(ml::transformer_config c, auto change)
 }
 
 static_assert(!ml::valid(with(base, [](auto& c) { c.d_model = 0; })));
+// The gated MLPs' constants (INFERENCE.md I12): gpt-oss's by default, positive, read at compile time
+static_assert(base.glu_alpha == 1.702 && base.glu_limit == 7);
+static_assert(!ml::valid(with(base, [](auto& c) { c.glu_limit = 0; })) && !ml::valid(with(base, [](auto& c) { c.glu_alpha = -1; })));
+static_assert(ml::valid(with(base, [](auto& c) { c.mlp = ml::mlp_kind::swiglu_oai; })));
+static_assert(ml::glu_alpha_v<ml::llama3_8b, float> == 1.702f && ml::glu_limit_v<ml::llama3_8b, double> == 7.0);
 static_assert(!ml::valid(with(base, [](auto& c) { c.d_ff = 0; })));
 static_assert(!ml::valid(with(base, [](auto& c) { c.n_kv_heads = 0; })));
 static_assert(!ml::valid(with(base, [](auto& c) { c.n_heads = 3; c.n_kv_heads = 2; })));   // 3 heads cannot share 2

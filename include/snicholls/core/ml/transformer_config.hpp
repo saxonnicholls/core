@@ -27,6 +27,13 @@
 ///
 /// \snippet ml/transformer_config_demo.cpp transformer_config_latent
 ///
+/// **Gated MLPs** (INFERENCE.md I12). `mlp` is one of the plain activations (GELU, tanh GELU, ReLU², quick GELU) or a
+/// gated linear unit (`gated(mlp)`: SwiGLU, ReGLU, the three GEGLUs, gpt-oss's clamped SwiGLU and SwiGLU with a clamp;
+/// `ml/glu.hpp`). The clamped ones read `glu_alpha` and `glu_limit`, one group after the others whose defaults
+/// (gpt-oss's 1.702 and 7) change no other kind.
+///
+/// \snippet ml/transformer_config_demo.cpp transformer_config_glu
+///
 /// **Relationships.** `ml/linear.hpp`, `ml/mlp.hpp`, `ml/kv_cache.hpp`, `ml/attention_layer.hpp`,
 /// `ml/transformer_block.hpp`; the plan is `INFERENCE.md`. Group: \ref core.
 ///
@@ -64,12 +71,13 @@
 /// class-type template argument: it loads garbage (`C.norm_eps` reads as 6e-314), while the same read in a constant
 /// expression is right, and GCC is right in both. Read the floating-point members through `norm_eps_v`,
 /// `rope_base_v`, `attention_softcap_v`, the mixture of experts' `route_scale_v`, `bias_update_rate_v`,
-/// `balance_loss_weight_v` and `z_loss_weight_v`, and `rope_factor_v`, `mtp_loss_weight_v`, `rope_scaling_v` and
-/// `yarn_attention_factor_v`, which evaluate them at compile time, never as `C.norm_eps` in code that runs; every header
+/// `balance_loss_weight_v` and `z_loss_weight_v`, `rope_factor_v`, `mtp_loss_weight_v`, `rope_scaling_v` and
+/// `yarn_attention_factor_v`, and `glu_alpha_v` and `glu_limit_v`, which evaluate them at compile time, never as `C.norm_eps` in code that runs; every header
 /// here does. Wrapping the value in a class (its bits as an integer) is worse: Clang 18 crashes.
 ///
 /// **Status.** Experimental, new in 0.8.0; the mixture-of-experts fields, `mask`, `mask_block`, `vit_base`, the fields of
-/// TRAINING.md T12, `deepseek_v3` and `tiny_mla` new in 0.16.0.
+/// TRAINING.md T12, `deepseek_v3` and `tiny_mla` new in 0.16.0; the gated kinds after `swiglu`, `gated`, `glu_alpha`,
+/// `glu_limit` and their readers new in 0.17.0.
 
 #ifndef snicholls_core_ml_transformer_config_hpp
 #define snicholls_core_ml_transformer_config_hpp
@@ -97,7 +105,37 @@ enum class mlp_kind
     gelu_tanh,      ///< `down(gelu_tanh(up x))`: GPT-2.
     relu_squared,   ///< `down(relu(up x)²)`: nanochat.
     swiglu,         ///< `down(silu(gate x) · up x)`: Llama.
+    gelu_quick,     ///< `down(gelu_quick(up x))`: CLIP's vision encoder.
+    reglu,          ///< `down(relu(gate x) · up x)` (`ml/glu.hpp`).
+    geglu,          ///< `down(gelu_tanh(gate x) · up x)`: ggml's GEGLU, Gemma.
+    geglu_erf,      ///< `down(gelu(gate x) · up x)`.
+    geglu_quick,    ///< `down(gelu_quick(gate x) · up x)`.
+    swiglu_oai,     ///< gpt-oss's clamped SwiGLU with `glu_alpha` and `glu_limit` (`glu_kind::swiglu_oai`).
+    swiglu_clamp,   ///< `down(silu(min(gate x, limit)) · clamp(up x, ±limit))` with `glu_limit`.
 };
+
+/// \brief Whether an MLP of this kind has a gate projection (the gated linear units of `ml/glu.hpp`).
+/// \param k The kind.
+/// \return True for `swiglu`, `reglu`, the GEGLUs and the clamped SwiGLUs.
+[[nodiscard]] constexpr bool gated(mlp_kind k) noexcept
+{
+    switch (k) {
+    case mlp_kind::gelu:
+    case mlp_kind::gelu_tanh:
+    case mlp_kind::relu_squared:
+    case mlp_kind::gelu_quick:
+        return false;
+    case mlp_kind::swiglu:
+    case mlp_kind::reglu:
+    case mlp_kind::geglu:
+    case mlp_kind::geglu_erf:
+    case mlp_kind::geglu_quick:
+    case mlp_kind::swiglu_oai:
+    case mlp_kind::swiglu_clamp:
+        return true;
+    }
+    return false;
+}
 
 /// \brief The positional encoding applied to queries and keys.
 enum class rope_kind
@@ -174,6 +212,11 @@ struct transformer_config
     std::size_t mtp_depth = 0;                        ///< Multi-token prediction modules `D` (DeepSeek-V3); 0 for none.
     double mtp_loss_weight = 0;                                 ///< MTP's `λ`.
 
+    // Inference operations (INFERENCE.md I12): the constants of the clamped gated MLPs, read only by `swiglu_oai` and
+    // `swiglu_clamp`, so no preset changes
+    double glu_alpha = 1.702;                                   ///< `swiglu_oai`'s sigmoid scale (gpt-oss's 1.702).
+    double glu_limit = 7;                                       ///< The clamped SwiGLUs' limit (gpt-oss's 7).
+
     /// \brief The width of all the query heads together.
     /// \return `n_heads · head_dim`.
     [[nodiscard]] constexpr std::size_t q_size() const noexcept { return n_heads * head_dim; }
@@ -235,7 +278,8 @@ struct transformer_config
     return c.d_model > 0 && c.n_heads > 0 && c.n_kv_heads > 0 && c.head_dim > 0 && c.d_ff > 0 && c.n_heads % c.n_kv_heads == 0
            && (c.rope == rope_kind::none || c.head_dim % 2 == 0) && c.norm_eps > 0 && c.attention_softcap >= 0
            && (c.rope == rope_kind::none || c.rope_base > 1) && (dense || moe) && (c.mask == attention_mask::causal || c.window == 0)
-           && ((c.mask == attention_mask::block_causal) == (c.mask_block > 0)) && valid_long_context(c);
+           && ((c.mask == attention_mask::block_causal) == (c.mask_block > 0)) && valid_long_context(c) && c.glu_alpha > 0
+           && c.glu_limit > 0;
 }
 
 /// \brief The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.
@@ -349,6 +393,14 @@ inline constexpr T rope_factor_v = static_cast<T>(C.rope_factor);
 /// \brief `C.mtp_loss_weight` in `T`, evaluated at compile time (see Known issues).
 template <transformer_config C, math::math_number T>
 inline constexpr T mtp_loss_weight_v = static_cast<T>(C.mtp_loss_weight);
+
+/// \brief `C.glu_alpha` in `T`, evaluated at compile time (see Known issues).
+template <transformer_config C, math::math_number T>
+inline constexpr T glu_alpha_v = static_cast<T>(C.glu_alpha);
+
+/// \brief `C.glu_limit` in `T`, evaluated at compile time (see Known issues).
+template <transformer_config C, math::math_number T>
+inline constexpr T glu_limit_v = static_cast<T>(C.glu_limit);
 
 /// \brief The configuration's RoPE rescaling in `T`, for `rope_table(base, scaling)`, every field evaluated at compile
 /// time; the amplitude is 1 (a latent attention takes YaRN's temperature in its score scale).

@@ -85,6 +85,27 @@ int main()
     ok &= ys[0] == y[0] && ys[1] == y[1] && ys[2] == y[0] && ys[3] == y[1] && dxs[0] == dx[0] && dxs[2] == dx[0];
     ok &= dup2[0] == 2 * dup[0] && ddown2[0] == 2 * ddown[0];   // two identical tokens: twice the weights' gradients
 
+    //! [mlp_gated]
+    // The other gated units run through the same MLP: GEGLU (Gemma) and gpt-oss's clamped SwiGLU, its limit lowered to
+    // 1 here so the clamp shows; mlp_glu is one hidden element, mlp_glu_backward its gradients
+    constexpr ml::transformer_config geglu{.d_model = 2, .n_heads = 1, .n_kv_heads = 1, .head_dim = 2, .d_ff = 2, .mlp = ml::mlp_kind::geglu};
+    constexpr ml::transformer_config oai{.d_model = 2, .n_heads = 1, .n_kv_heads = 1, .head_dim = 2, .d_ff = 2,
+                                         .mlp = ml::mlp_kind::swiglu_oai, .glu_limit = 1};
+    std::array<float, 2> c{}, d{};
+    ml::mlp_forward<geglu>(ml::mlp_weights<W>{W{up, 2, 2}, W{gate, 2, 2}, W{down, 2, 2}}, x, c);   // down(gelu_tanh(gate x) · up x)
+    ml::mlp_forward<oai>(ml::mlp_weights<W>{W{up, 2, 2}, W{gate, 2, 2}, W{down, 2, 2}}, x, d);
+    const auto grads = ml::mlp_glu_backward<oai>(1.0f, 2.0f, 1.0f);   // gate x = 1, up x = 2 (clamped to 1): d/dup is 0
+    //! [mlp_gated]
+    std::printf("  GEGLU: [%.4f %.4f]   gpt-oss SwiGLU: [%.4f %.4f]; d gate %.4f d up %.1f\n", static_cast<double>(c[0]),
+                static_cast<double>(c[1]), static_cast<double>(d[0]), static_cast<double>(d[1]), static_cast<double>(grads.gate),
+                static_cast<double>(grads.up));
+    // gate x = [1, -1], up x = [2, -1]: GEGLU h = [gelu_tanh(1) 2, gelu_tanh(-1) (-1)]; gpt-oss h = [q(1) (1 + 1), q(-1) (-1 + 1)]
+    ok &= std::abs(c[0] - 2.0f * ml::gelu_tanh(1.0f)) < 1e-6f && std::abs(c[1] - (2.0f * ml::gelu_tanh(1.0f) - ml::gelu_tanh(-1.0f))) < 1e-6f;
+    ok &= d[0] == ml::mlp_glu<oai>(1.0f, 2.0f) && d[0] == d[1] && grads.up == 0.0f && grads.gate > 0.0f;
+    ok &= ml::mlp_activation<ml::mlp_kind::gelu_quick>(1.0f) == ml::gelu_quick(1.0f)
+          && ml::mlp_activation_derivative<ml::mlp_kind::reglu>(1.0f) == 1.0f && ml::gated(ml::mlp_kind::geglu)
+          && ml::mlp_glu_kind(ml::mlp_kind::geglu) == ml::glu_kind::geglu;
+
     std::printf(ok ? "mlp demo: ok\n" : "mlp demo: FAILED\n");
     return ok ? 0 : 1;
 }

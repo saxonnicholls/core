@@ -108,6 +108,7 @@
 #include <snicholls/core/ml/embedding.hpp>
 #include <snicholls/core/ml/expert_parallel.hpp>
 #include <snicholls/core/ml/gather.hpp>
+#include <snicholls/core/ml/glu.hpp>
 #include <snicholls/core/ml/grammar.hpp>
 #include <snicholls/core/ml/jepa.hpp>
 #include <snicholls/core/ml/json_schema.hpp>
