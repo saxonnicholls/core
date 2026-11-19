@@ -9,7 +9,9 @@
 //  Nesterov and plain momentum on a hand-computed case, as plain averaging with one worker (bit-exact under
 //  Sterbenz's lemma, and the case where it is not); DiLoCo with four workers on a least-squares problem reaching the
 //  loss of one worker trained for the same steps, and four workers with identical data giving one worker's bits;
-//  compile-time use and the noexcept claims.
+//  compile-time use and the noexcept claims. bfloat16 pseudo-gradients: compress_bf16's residual exact, error feedback
+//  carrying the cumulative sum to within the last round's residual, NaN, infinities, overflow, -0 and subnormals;
+//  ordered_sum_bf16 as ordered_sum over the decoded parts, ordered_mean_bf16 as its stated formula.
 //
 
 #include <snicholls/core/ml/diloco.hpp>
@@ -18,11 +20,15 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <bit>
+#include <cfloat>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <limits>
 #include <span>
 #include <type_traits>
 #include <vector>
@@ -56,6 +62,33 @@ constexpr bool at_compile_time()
            && global[0] == 0.5 && global[1] == -2.0;
 }
 static_assert(at_compile_time());
+
+static_assert(noexcept(ml::compress_bf16({}, {}, {})));
+static_assert(noexcept(ml::ordered_sum_bf16({}, {})));
+static_assert(noexcept(ml::ordered_mean_bf16({}, {})));
+
+constexpr bool bf16_at_compile_time()
+{
+    // 1 + 2^-10 is not a bfloat16: it rounds to 1, and the residual keeps the 2^-10
+    const std::array<float, 3> delta{1.0f + 0x1.0p-10f, -3.0f, 0.0f};
+    std::array<float, 3> residual{};
+    std::array<std::uint16_t, 3> bits{};
+    ml::compress_bf16(delta, residual, bits);
+    if (bits[0] != 0x3f80 || residual[0] != 0x1.0p-10f || bits[1] != 0xc040 || residual[1] != 0.0f || bits[2] != 0)
+        return false;
+    // The next round: a zero delta sends the residual
+    const std::array<float, 3> zero{};
+    ml::compress_bf16(zero, residual, bits);
+    if (bits[0] != 0x3a80 || residual[0] != 0.0f)   // 2^-10
+        return false;
+    const std::array<std::uint16_t, 2> a{0x3f80, 0x4000}, b{0x3f80, 0x4040};   // (1, 2) and (1, 3)
+    const std::array<std::span<const std::uint16_t>, 2> parts{a, b};
+    std::array<float, 2> sum{}, mean{};
+    ml::ordered_sum_bf16(parts, sum);
+    ml::ordered_mean_bf16(parts, mean);
+    return sum[0] == 2.0f && sum[1] == 5.0f && mean[0] == 1.0f && mean[1] == 2.5f;
+}
+static_assert(bf16_at_compile_time());
 
 std::vector<float> random_floats(stats::wyrand& g, std::size_t n, double scale)
 {
@@ -352,6 +385,170 @@ TEST(MlDiloco, FourWorkersWithIdenticalDataAreOneWorkerToTheBit)
     const auto one = diloco(p, 1, 5, 20, [](std::size_t) { return std::size_t{0}; });
     for (std::size_t j = 0; j < dim; ++j)
         EXPECT_EQ(std::bit_cast<std::uint64_t>(four[j]), std::bit_cast<std::uint64_t>(one[j])) << j;
+}
+
+// ------------------------------------------------------------------------------------- bfloat16 pseudo-gradients
+
+float decoded(std::uint16_t b)
+{
+    return ml::to_float(ml::bfloat16::from_bits(b));
+}
+
+// Random floats over the whole finite range, subnormals included: random bits, NaN and infinity drawn again
+float any_finite(stats::wyrand& g)
+{
+    for (;;) {
+        const float f = std::bit_cast<float>(static_cast<std::uint32_t>(g()));
+        if (std::isfinite(f))
+            return f;
+    }
+}
+
+TEST(MlDilocoBf16, TheResidualIsExactSoTheValueIsTheBfloat16PlusTheResidual)
+{
+    stats::wyrand g(11);
+    std::size_t subnormals = 0;
+    for (int k = 0; k < 200000; ++k) {
+        std::array<float, 1> delta{k % 4 == 0 ? std::bit_cast<float>(static_cast<std::uint32_t>(g()) & 0x807fffffu) : any_finite(g)};
+        std::array<float, 1> residual{};
+        std::array<std::uint16_t, 1> bits{};
+        if (std::fpclassify(delta[0]) == FP_SUBNORMAL)
+            ++subnormals;
+        ml::compress_bf16(delta, residual, bits);
+        const float back = decoded(bits[0]);
+        if (!std::isfinite(back)) {   // overflow beyond bfloat16's largest finite
+            EXPECT_EQ(residual[0], 0.0f);
+            EXPECT_GT(std::fabs(delta[0]), 3.3e38f);
+            continue;
+        }
+        ASSERT_EQ(static_cast<double>(back) + static_cast<double>(residual[0]), static_cast<double>(delta[0])) << delta[0];
+        ASSERT_EQ(bits[0], ml::to_minifloat<ml::bfloat16>(static_cast<double>(delta[0])).bits) << "round to nearest even";
+    }
+    EXPECT_GT(subnormals, 10000u);
+}
+
+TEST(MlDilocoBf16, NonFiniteValuesTravelOnAndCarryNoResidual)
+{
+    const float inf = std::numeric_limits<float>::infinity(), nan = std::numeric_limits<float>::quiet_NaN();
+    const std::array<float, 6> delta{nan, inf, -inf, FLT_MAX, -0.0f, -FLT_MAX};
+    std::array<float, 6> residual{};
+    std::array<std::uint16_t, 6> bits{};
+    ml::compress_bf16(delta, residual, bits);
+    EXPECT_TRUE(std::isnan(decoded(bits[0])));
+    EXPECT_EQ(bits[1], 0x7f80);
+    EXPECT_EQ(bits[2], 0xff80);
+    EXPECT_EQ(bits[3], 0x7f80) << "FLT_MAX rounds to infinity";
+    EXPECT_EQ(bits[4], 0x0000) << "-0 + a zero residual is +0 (IEEE 754), so a zero is sent as +0";
+    EXPECT_EQ(bits[5], 0xff80);
+    for (const float r : residual)
+        EXPECT_EQ(std::bit_cast<std::uint32_t>(r), 0u);
+    // A residual is never NaN: a finite delta after a NaN round sends itself
+    const std::array<float, 6> next{0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
+    ml::compress_bf16(next, residual, bits);
+    for (const auto b : bits)
+        EXPECT_EQ(b, 0x3f00);
+}
+
+TEST(MlDilocoBf16, ErrorFeedbackMakesTheCumulativeSumExactOnAGridOfExactAdditions)
+{
+    // Deltas are multiples of 2^-20 below 2^3 in magnitude, so delta + residual is exact in float: what was sent plus
+    // the last residual is the sum of the deltas, exactly
+    constexpr std::size_t n = 257, rounds = 500;
+    stats::wyrand g(3);
+    std::vector<float> residual(n), delta(n);
+    std::vector<std::uint16_t> bits(n);
+    std::vector<double> sent(n), truth(n);
+    for (std::size_t r = 0; r < rounds; ++r) {
+        for (std::size_t i = 0; i < n; ++i) {
+            delta[i] = static_cast<float>(static_cast<std::int64_t>(stats::uniform_index(g, 1u << 22)) - (1 << 21)) * 0x1.0p-20f;
+            truth[i] += static_cast<double>(delta[i]);
+        }
+        ml::compress_bf16(delta, residual, bits);
+        for (std::size_t i = 0; i < n; ++i)
+            sent[i] += static_cast<double>(decoded(bits[i]));
+    }
+    for (std::size_t i = 0; i < n; ++i)
+        ASSERT_EQ(sent[i] + static_cast<double>(residual[i]), truth[i]) << i;
+}
+
+TEST(MlDilocoBf16, ErrorFeedbackLosesOnlyTheFloatAdditionsAndFarLessThanNoFeedback)
+{
+    constexpr std::size_t n = 1000, rounds = 1000;
+    stats::wyrand g(5);
+    std::vector<float> residual(n), no_residual(n), delta(n);
+    std::vector<std::uint16_t> bits(n), plain(n);
+    std::vector<double> sent(n), sent_plain(n), truth(n), bound(n);
+    for (std::size_t r = 0; r < rounds; ++r) {
+        for (std::size_t i = 0; i < n; ++i) {
+            delta[i] = static_cast<float>(stats::uniform_real(g) - 0.3) * 1e-3f;   // a drift, as a training direction has
+            truth[i] += static_cast<double>(delta[i]);
+            const float v = delta[i] + residual[i];
+            bound[i] += 0.5 * static_cast<double>(std::nextafter(std::fabs(v), INFINITY) - std::fabs(v));   // half an ulp of v
+        }
+        ml::compress_bf16(delta, residual, bits);
+        std::fill(no_residual.begin(), no_residual.end(), 0.0f);
+        ml::compress_bf16(delta, no_residual, plain);
+        for (std::size_t i = 0; i < n; ++i) {
+            sent[i] += static_cast<double>(decoded(bits[i]));
+            sent_plain[i] += static_cast<double>(decoded(plain[i]));
+        }
+    }
+    double feedback_error = 0, plain_error = 0;
+    for (std::size_t i = 0; i < n; ++i) {
+        ASSERT_LE(std::fabs(truth[i] - sent[i] - static_cast<double>(residual[i])), bound[i]) << i;
+        feedback_error += std::fabs(truth[i] - sent[i]);
+        plain_error += std::fabs(truth[i] - sent_plain[i]);
+    }
+    std::printf("bfloat16 over %zu rounds: mean cumulative error %.3g with error feedback, %.3g without\n", rounds,
+                feedback_error / n, plain_error / n);
+    EXPECT_LT(10 * feedback_error, plain_error);
+}
+
+TEST(MlDilocoBf16, TheSumIsOrderedSumOverTheDecodedPartsToTheBit)
+{
+    stats::wyrand g(17);
+    for (std::size_t workers = 1; workers <= 5; ++workers)
+        for (const std::size_t n : {std::size_t{1}, std::size_t{7}, std::size_t{1001}}) {
+            std::vector<std::vector<std::uint16_t>> bits(workers, std::vector<std::uint16_t>(n));
+            std::vector<std::vector<float>> floats(workers, std::vector<float>(n));
+            for (std::size_t k = 0; k < workers; ++k)
+                for (std::size_t i = 0; i < n; ++i) {
+                    bits[k][i] = ml::to_bfloat16(static_cast<float>(stats::uniform_real(g) - 0.5) * 1e-2f).bits;
+                    floats[k][i] = decoded(bits[k][i]);
+                }
+            const std::vector<std::span<const std::uint16_t>> bit_parts(bits.begin(), bits.end());
+            const std::vector<std::span<const float>> float_parts(floats.begin(), floats.end());
+            std::vector<float> a(n), b(n), mean(n);
+            ml::ordered_sum_bf16(bit_parts, a);
+            ml::ordered_sum<float>(float_parts, b);
+            ml::ordered_mean_bf16(bit_parts, mean);
+            for (std::size_t i = 0; i < n; ++i) {
+                ASSERT_EQ(std::bit_cast<std::uint32_t>(a[i]), std::bit_cast<std::uint32_t>(b[i])) << workers << " " << i;
+                const float expect = ml::to_float(ml::to_bfloat16(b[i])) / static_cast<float>(workers);
+                ASSERT_EQ(std::bit_cast<std::uint32_t>(mean[i]), std::bit_cast<std::uint32_t>(expect)) << workers << " " << i;
+            }
+        }
+}
+
+TEST(MlDilocoBf16, TheMeanOfOnePartIsItsValues)
+{
+    const std::array<std::uint16_t, 5> part{0x3f80, 0xbf00, 0x0001, 0x8000, 0x4049};
+    const std::array<std::span<const std::uint16_t>, 1> parts{part};
+    std::array<float, 5> mean{};
+    ml::ordered_mean_bf16(parts, mean);
+    for (std::size_t i = 0; i < part.size(); ++i)
+        EXPECT_EQ(std::bit_cast<std::uint32_t>(mean[i]), std::bit_cast<std::uint32_t>(decoded(part[i]))) << i;
+}
+
+TEST(MlDilocoBf16, AMeanOfIdenticalPartsWithAnExactSumIsThePart)
+{
+    // Two copies of d: d + d is exact and a bfloat16, halving it gives d
+    const std::array<std::uint16_t, 3> d{0x3c23, 0xc2f7, 0x0042};
+    const std::array<std::span<const std::uint16_t>, 2> parts{d, d};
+    std::array<float, 3> mean{};
+    ml::ordered_mean_bf16(parts, mean);
+    for (std::size_t i = 0; i < d.size(); ++i)
+        EXPECT_EQ(mean[i], decoded(d[i])) << i;
 }
 
 } // namespace
