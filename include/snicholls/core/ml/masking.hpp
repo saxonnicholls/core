@@ -311,7 +311,8 @@ constexpr mask_counts vjepa_masks(const vjepa_mask_config& c, std::uint64_t seed
                                   std::span<std::uint32_t> context, std::span<std::uint32_t> targets) noexcept
 {
     using detail::masking::box;
-    const std::size_t n = c.grid.tokens(), m = c.targets.blocks;
+    [[maybe_unused]] const std::size_t n = c.grid.tokens();
+    const std::size_t m = c.targets.blocks;
     assert(m <= max_mask_blocks && context.size() >= n && targets.size() >= n);
     const std::uint64_t key = detail::masking::key(seed, step);
     stats::wyrand sizes = stats::wyrand::stream(key, 0), rng = stats::wyrand::stream(key, sample + 1);

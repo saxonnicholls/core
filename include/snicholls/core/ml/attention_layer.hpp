@@ -464,7 +464,7 @@ namespace detail::attention_layer
         assert(act.lengths.empty() || act.lengths.size() == sequences);
         for ([[maybe_unused]] const std::size_t l : act.lengths)
             assert(l <= n);
-        (void)n;
+        (void)act, (void)n, (void)sequences;
     }
 } // namespace detail::attention_layer
 
