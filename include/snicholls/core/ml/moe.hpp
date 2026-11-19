@@ -99,7 +99,18 @@
 /// rows divide into the groups. An invalid configuration, or a dense one where experts are needed, is a compile error.
 ///
 /// **Performance.** The grouped product, the gather and the combine through `linalg::reference` against the same loops
-/// by hand, after a bit-for-bit fairness check (`benchmarks/ml/moe_benchmark.cpp`); numbers in BENCHMARKS.md.
+/// by hand, after a bit-for-bit fairness check (`benchmarks/ml/moe_benchmark.cpp`): 256 tokens of 256 routed to 4 of
+/// 16 experts, each expert's up projection 128 x 256 (Release, Apple clang 17, Xeon W-3245, macOS 26, 2026-11-19,
+/// medians of five, a shared machine at load average about 12):
+///
+/// | Step | Core | By hand |
+/// |---|---|---|
+/// | `grouped_linear`, 1024 rows | 30.0 ms | 29.6 ms |
+/// | `moe_gather_rows` | 38.6 us | 38.7 us |
+/// | `moe_combine_rows` | 41.0 us | 40.5 us |
+///
+/// Level: the views, the segments and the backend's dispatch cost nothing measurable. The reference product is a
+/// plain loop; a BLAS or a device backend is where the grouped product gets fast.
 ///
 /// **Tests and demos.** `tests/ml/moe_test.cpp`, `demos/ml/moe_demo.cpp`.
 ///
