@@ -267,7 +267,7 @@ banner, then `/// \file`, `\brief` and `\ingroup`. `snicholls::detail` is exclud
     make asan            # Address + UB sanitizers
     make docs            # Doxygen, warnings are errors
     make check           # scripts/check_version.py and scripts/check_mirror.py
-    make ubuntu          # the full suite on Ubuntu 24.04 in Docker: GCC and Clang, Release and Debug, sanitizers
+    make ubuntu          # the full suite on Ubuntu in Docker: GCC 13, GCC 15 and Clang, Release and Debug, sanitizers
     make demos           # build and run every demo with its output shown (scripts/run_demos.sh --all, or <name>...)
     make benchmarks      # every benchmark in Release; rewrites BENCHMARKS.md, which is never edited by hand
 
@@ -277,10 +277,14 @@ never a gate. BENCHMARKS.md and the headers' **Performance** sections quote quie
 
 **The local gate is macOS plus Ubuntu-in-Docker**, matching CI's two Unix families: run `make test-werror` on the Mac
 and `make ubuntu` before pushing. Ubuntu is a supported target and must be testable without waiting for CI, from any
-machine with Docker. `scripts/test_ubuntu.sh` builds core's own image (`docker/ubuntu/Dockerfile`: GCC 13, Clang 18
-with compiler-rt so Clang's sanitizers link, CMake, Ninja, the pinned Doxygen) and runs six configurations, each a
-fresh build with warnings as errors: GCC Release with docs and benchmark smoke runs, GCC Debug, Clang Release, Clang
-Debug, and ASan+UBSan under both compilers. `--quick` runs GCC Release only. macOS 13 and older Xcode are not supported targets.
+machine with Docker. `scripts/test_ubuntu.sh` builds core's own two images and runs eight configurations, each a
+fresh build with warnings as errors. `docker/ubuntu/Dockerfile` (Ubuntu 24.04: GCC 13, Clang 18 with compiler-rt so
+Clang's sanitizers link, CMake, Ninja, the pinned Doxygen; the compilers of CI's ARM64 legs) runs GCC Release with
+docs and benchmark smoke runs, GCC Debug, Clang Release, Clang Debug, and ASan+UBSan under both compilers.
+`docker/ubuntu-26.04/Dockerfile` (Ubuntu 26.04: GCC 15 from the archive, CMake, Ninja; the `g++` of CI's x86-64 GCC
+leg) runs GCC 15 Release with benchmark smoke runs and GCC 15 ASan+UBSan, because GCC 15 warns where GCC 13 does not
+(a false `-Warray-bounds` reached CI once). `--quick` runs GCC 13 Release and GCC 15 Release. macOS 13 and older
+Xcode are not supported targets.
 
 CI (`.github/workflows/ci.yml`) runs on Linux x86-64 and ARM64 with GCC and Clang, macOS ARM64 and x86-64 with
 Apple Clang, and Windows with MSVC: the static checks, a Release build with warnings as errors, a Debug build at

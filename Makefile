@@ -8,7 +8,7 @@
 #   make asan            Address + UB sanitizers
 #   make docs            Doxygen, warnings as errors; opens nothing, writes build/docs/html
 #   make check           the static checks CI runs first: version, mirror
-#   make ubuntu          the full suite on Ubuntu 24.04 in Docker (scripts/test_ubuntu.sh)
+#   make ubuntu          the full suite on Ubuntu 24.04 and 26.04 in Docker, GCC 13 and 15 (scripts/test_ubuntu.sh)
 #   make benchmarks      every benchmark in Release, results written to BENCHMARKS.md
 #                        (scripts/benchmarks_md.py; --filter for one file)
 #   make demos           build and run every demo, output shown (scripts/run_demos.sh --all;
