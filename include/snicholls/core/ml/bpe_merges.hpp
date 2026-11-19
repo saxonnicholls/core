@@ -62,7 +62,7 @@
 /// Gemma 4, on committed subsets of those vocabularies (`tests/fixtures/ml/tokenizers/`, written by
 /// `scripts/generate_tokenizer_fixtures.cpp`), and decoding back. `demos/ml/bpe_merges_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cstddef>`, `<cstdint>`, `<limits>`, `<span>`, `<string_view>`,
+/// **Dependencies.** `<array>`, `<cstddef>`, `<cstdint>`, `<limits>`, `<span>`, `<string_view>`,
 /// `<type_traits>`, `<utility>`, `ml/bpe.hpp`, `ml/unicode.hpp`.
 ///
 /// **Known issues.** Code-point units decode strictly (`decode_utf8`): an invalid byte is a unit of its own.
@@ -78,7 +78,6 @@
 #include <snicholls/core/ml/unicode.hpp>
 #include <snicholls/core/ml/token_trie.hpp>
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <cstdint>

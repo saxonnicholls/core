@@ -50,7 +50,7 @@
 /// **Tests and demos.** `tests/ml/token_trie_test.cpp` (against a linear scan on random vocabularies, duplicates,
 /// the empty piece, bytes above 0x7F, a compile-time trie), `demos/ml/token_trie_demo.cpp`.
 ///
-/// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<string_view>`.
+/// **Dependencies.** `<array>`, `<cassert>`, `<cstddef>`, `<cstdint>`, `<span>`, `<string_view>`.
 ///
 /// **Known issues.** Each step of a walk is two binary searches over string views (two indirections a probe), which
 /// is what makes it slower than a node trie (see Performance).
@@ -60,7 +60,6 @@
 #ifndef snicholls_core_ml_token_trie_hpp
 #define snicholls_core_ml_token_trie_hpp
 
-#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cstddef>
@@ -89,13 +88,37 @@ enum class token_kind : std::uint8_t
 
 namespace detail::vocab_index
 {
-    // Heap sort, O(n log n) and constexpr: std::sort's final insertion pass trips GCC's -Warray-bounds on a fixed
-    // array shorter than its threshold of 16
+    // Heap sort written out, O(n log n) and constexpr: GCC's -Warray-bounds misreads both std::sort's insertion
+    // pass and std::make_heap over a fixed array of a few elements
     template <typename Less>
-    constexpr void sort(std::span<std::uint32_t> v, Less& less)
+    constexpr void sift_down(std::uint32_t* v, std::size_t i, std::size_t n, Less& less)
     {
-        std::make_heap(v.begin(), v.end(), less);
-        std::sort_heap(v.begin(), v.end(), less);
+        for (std::size_t c = 2 * i + 1; c < n; i = c, c = 2 * i + 1) {
+            if (c + 1 < n && less(v[c], v[c + 1]))
+                ++c;
+            if (!less(v[i], v[c]))
+                return;
+            const std::uint32_t t = v[i];
+            v[i] = v[c];
+            v[c] = t;
+        }
+    }
+
+    template <typename Less>
+    constexpr void sort(std::span<std::uint32_t> span, Less& less)
+    {
+        const std::size_t n = span.size();
+        if (n < 2)
+            return;
+        std::uint32_t* v = span.data();
+        for (std::size_t i = n / 2; i-- > 0;)
+            sift_down(v, i, n, less);
+        for (std::size_t end = n - 1; end > 0; --end) {
+            const std::uint32_t t = v[0];
+            v[0] = v[end];
+            v[end] = t;
+            sift_down(v, 0, end, less);
+        }
     }
 } // namespace detail::vocab_index
 
