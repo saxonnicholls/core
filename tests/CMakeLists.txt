@@ -133,7 +133,7 @@ add_executable(snicholls_core_tests
     ml/rope_modes_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
-    ml/rwkv_test.cpp
+    ml/rwkv_tokenizer_test.cpp
     ml/samplers_test.cpp
     ml/sampling_test.cpp
     ml/self_attention_test.cpp

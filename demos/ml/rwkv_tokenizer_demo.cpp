@@ -4,12 +4,12 @@
 //
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
-//  Demo for <snicholls/core/ml/rwkv.hpp>: an RWKV vocabulary's escaped pieces read back, indexed, and text
+//  Demo for <snicholls/core/ml/rwkv_tokenizer.hpp>: an RWKV vocabulary's escaped pieces read back, indexed, and text
 //  tokenized by greedy longest match at compile time and at run time, with an unknown byte. Exits non-zero if a
 //  result is not what it documents.
 //
 
-#include <snicholls/core/ml/rwkv.hpp>
+#include <snicholls/core/ml/rwkv_tokenizer.hpp>
 
 #include <array>
 #include <cstddef>

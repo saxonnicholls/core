@@ -4,13 +4,13 @@
 //
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
-//  Tests for <snicholls/core/ml/rwkv.hpp>: greedy longest matches, a byte no entry starts with, the escapes of
+//  Tests for <snicholls/core/ml/rwkv_tokenizer.hpp>: greedy longest matches, a byte no entry starts with, the escapes of
 //  RWKV's vocabulary (\t \n \r \xNN, a backslash before anything else, a trailing backslash), decoding by
 //  concatenation, the errors, and both at compile time.
 //
 
 #include <snicholls/core/ml/bpe.hpp>
-#include <snicholls/core/ml/rwkv.hpp>
+#include <snicholls/core/ml/rwkv_tokenizer.hpp>
 
 #include <gtest/gtest.h>
 

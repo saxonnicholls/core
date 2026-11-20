@@ -10,7 +10,7 @@
 /// \ingroup core
 ///
 /// **Overview.** The building blocks of `ml/pretokenize.hpp`, `ml/bpe_merges.hpp`, `ml/sentencepiece.hpp`,
-/// `ml/unigram.hpp`, `ml/wordpiece.hpp` and `ml/rwkv.hpp` assembled the way llama.cpp's `llama_tokenize` assembles
+/// `ml/unigram.hpp`, `ml/wordpiece.hpp` and `ml/rwkv_tokenizer.hpp` assembled the way llama.cpp's `llama_tokenize` assembles
 /// them, for the five model types a tokenizer file can name:
 ///
 /// | `tokenizer_model` | GGUF `tokenizer.ggml.model` | pipeline |
@@ -71,7 +71,7 @@
 
 #include <snicholls/core/ml/bpe_merges.hpp>
 #include <snicholls/core/ml/pretokenize.hpp>
-#include <snicholls/core/ml/rwkv.hpp>
+#include <snicholls/core/ml/rwkv_tokenizer.hpp>
 #include <snicholls/core/ml/sentencepiece.hpp>
 #include <snicholls/core/ml/token_trie.hpp>
 #include <snicholls/core/ml/unigram.hpp>

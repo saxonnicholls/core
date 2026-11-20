@@ -26,7 +26,7 @@
 ///
 /// \snippet ml/token_trie_demo.cpp token_trie
 ///
-/// **Relationships.** The vocabulary behind `ml/unigram.hpp`, `ml/wordpiece.hpp`, `ml/rwkv.hpp`, and the token
+/// **Relationships.** The vocabulary behind `ml/unigram.hpp`, `ml/wordpiece.hpp`, `ml/rwkv_tokenizer.hpp`, and the token
 /// lookups of `ml/sentencepiece.hpp` and `ml/bpe_merges.hpp` (any callable will do there; this is the
 /// allocation-free one). `containers/perfect_map.hpp` is the faster exact lookup when only `find` is needed and
 /// the vocabulary is fixed. Group: \ref core.

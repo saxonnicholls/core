@@ -15,7 +15,7 @@
 /// back, once, when the vocabulary is loaded. Decoding is the concatenation of the pieces (`bpe_decode` in
 /// `ml/bpe.hpp`).
 ///
-/// \snippet ml/rwkv_demo.cpp rwkv
+/// \snippet ml/rwkv_tokenizer_demo.cpp rwkv
 ///
 /// **Relationships.** `ml/token_trie.hpp` (the vocabulary over the unescaped pieces), `ml/bpe.hpp` (`bpe_decode`).
 /// Group: \ref core.
@@ -32,8 +32,8 @@
 /// **Performance.** Not benchmarked separately: the work is `token_trie::longest_prefix`
 /// (`benchmarks/ml/token_trie_benchmark.cpp`).
 ///
-/// **Tests and demos.** `tests/ml/rwkv_test.cpp` (greedy matches, the unknown byte, escapes, at compile time),
-/// `demos/ml/rwkv_demo.cpp`. No RWKV vocabulary ships with llama.cpp's test vectors, so there is no token-for-token
+/// **Tests and demos.** `tests/ml/rwkv_tokenizer_test.cpp` (greedy matches, the unknown byte, escapes, at compile time),
+/// `demos/ml/rwkv_tokenizer_demo.cpp`. No RWKV vocabulary ships with llama.cpp's test vectors, so there is no token-for-token
 /// fixture.
 ///
 /// **Dependencies.** `<cstddef>`, `<cstdint>`, `<span>`, `<string_view>`, `snicholls/core/result.hpp`,
@@ -43,8 +43,8 @@
 ///
 /// **Status.** Experimental, new in 0.17.0.
 
-#ifndef snicholls_core_ml_rwkv_hpp
-#define snicholls_core_ml_rwkv_hpp
+#ifndef snicholls_core_ml_rwkv_tokenizer_hpp
+#define snicholls_core_ml_rwkv_tokenizer_hpp
 
 #include <snicholls/core/ml/token_trie.hpp>
 #include <snicholls/core/result.hpp>
@@ -133,4 +133,4 @@ constexpr result<std::size_t, rwkv_error> rwkv_encode(std::string_view text, con
 
 } // namespace snicholls::ml
 
-#endif // snicholls_core_ml_rwkv_hpp
+#endif // snicholls_core_ml_rwkv_tokenizer_hpp

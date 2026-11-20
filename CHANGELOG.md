@@ -119,7 +119,7 @@ experimental.
 - **WordPiece** (`ml/wordpiece.hpp`): BERT's basic tokenisation (Hugging Face's rules: nonspacing marks stripped,
   `\p{C}` dropped, punctuation and CJK split off, U+0130's full lowercase) and greedy longest match, in Hugging
   Face's ("##") or GGUF's ("▁") spelling; `wordpiece_decode`.
-- **RWKV** (`ml/rwkv.hpp`): `rwkv_encode` (greedy longest match) and `rwkv_unescape`.
+- **RWKV** (`ml/rwkv_tokenizer.hpp`): `rwkv_encode` (greedy longest match) and `rwkv_unescape`.
 - **The pipeline** (`ml/tokenizer.hpp`): `tokenize` and `detokenize` over `tokenizer_vocab`, the non-owning view a
   GGUF or `tokenizer.json` loader fills (pieces, scores, kinds, tries, merges, pre-tokenizer, flags, charsmap,
   byte fallback), for SentencePiece BPE, BPE (byte-level and Gemma 4's), Unigram, WordPiece and RWKV, with

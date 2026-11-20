@@ -152,7 +152,7 @@
 #include <snicholls/core/ml/rope.hpp>
 #include <snicholls/core/ml/rope_modes.hpp>
 #include <snicholls/core/ml/row.hpp>
-#include <snicholls/core/ml/rwkv.hpp>
+#include <snicholls/core/ml/rwkv_tokenizer.hpp>
 #include <snicholls/core/ml/samplers.hpp>
 #include <snicholls/core/ml/sampling.hpp>
 #include <snicholls/core/ml/self_attention.hpp>
