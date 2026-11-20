@@ -205,6 +205,11 @@ target_link_libraries(snicholls_core_tests PRIVATE snicholls::core snicholls::co
 # The portability fixtures (tests/fixtures/), read at run time by the same tests on every platform
 target_compile_definitions(snicholls_core_tests PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/fixtures")
 snicholls_core_test_options(snicholls_core_tests)
+# ml/grammar_test.cpp compiles json.gbnf at compile time: under Clang that exceeds the default 1,048,576 evaluation
+# steps with Xcode 26's libc++ and libstdc++ 15 (ml/grammar.hpp, Known issues)
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(snicholls_core_tests PRIVATE -fconstexpr-steps=16777216)
+endif()
 
 include(GoogleTest)
 

@@ -193,7 +193,13 @@ TEST(MlQuantIq, Iq4NlIsGgmlsOnEveryRow)
 {
     // quantize_row_iq4_nl_ref leaves a block of zeros (and of subnormals, below its 1e-15 threshold) with the codes
     // of the block before it; before the first, ggml's are uninitialised memory and core's are 0
-    matches_ggml<ml::block_iq4_nl>("iq4_nl", false, {{{"rref", quant_rows::zero_half}, {"rref", quant_rows::spike}, {"rref", quant_rows::subnormal}}});
+    // On the row with a NaN the blocks' bytes follow the CPU's NaN arithmetic, which differs between x86-64 (where the
+    // fixture was made) and ARM64; ggml's own bytes differ the same way, so that row is compared on x86-64 only
+    exclusions skip{{{"rref", quant_rows::zero_half}, {"rref", quant_rows::spike}, {"rref", quant_rows::subnormal}}};
+#if !(defined(__x86_64__) || defined(_M_X64))
+    skip.keys.insert({{"ref", quant_rows::with_nan}, {"imat", quant_rows::with_nan}, {"rref", quant_rows::with_nan}});
+#endif
+    matches_ggml<ml::block_iq4_nl>("iq4_nl", false, skip);
 }
 
 TEST(MlQuantIq, Iq4XsIsGgmlsOnEveryRow) { matches_ggml<ml::block_iq4_xs>("iq4_xs", false); }

@@ -76,8 +76,10 @@
 /// can be more numerous on grammars with many alternatives sharing a prefix. `{m,n}` with `n < m` is an error here
 /// (llama.cpp loops). At a token terminal reached in the middle of a piece, llama.cpp's reject pass compares the
 /// token's id while its `accept_token` drops the stack; the mask here follows `accept_token`, so the two never
-/// disagree. Compile-time grammars are limited by the compiler's evaluation steps: a grammar the size of
-/// `json.gbnf` compiles, matching long strings in a `static_assert` may not.
+/// disagree. Compile-time grammars are limited by the compiler's evaluation steps, and the count depends on the
+/// standard library: under Clang a grammar the size of `json.gbnf` exceeds the default limit with Xcode 26's libc++
+/// and with libstdc++ 15 (whose assertions run in constant evaluation), so raise it with `-fconstexpr-steps=16777216`
+/// as core's tests do. GCC's default compiles it. Matching long strings in a `static_assert` may still not fit.
 ///
 /// **Status.** Experimental, new in 0.17.0.
 
