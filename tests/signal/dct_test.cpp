@@ -18,6 +18,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -127,6 +128,9 @@ TEST(Dct, EveryTypeIsScipysUnnormalisedAndOrthonormal)
 
 TEST(Dct, EveryLengthToFortyIsTheDefinitionInLongDouble)
 {
+    if (std::numeric_limits<long double>::digits <= std::numeric_limits<double>::digits)
+        GTEST_SKIP() << "long double is double here (Apple ARM64, MSVC): no wider reference to check the last bits against";
+
     for (std::size_t n = 1; n <= 40; ++n) {
         planned p(n), p2(2 * n);
         std::vector<double> x(n);

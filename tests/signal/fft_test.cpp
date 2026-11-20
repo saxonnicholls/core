@@ -254,6 +254,9 @@ TEST(FftAccuracy, EveryLengthFromOneTo300IsTheDirectTransformWithinTheBound)
 
 TEST(FftAccuracy, PowersOfTwoToTwoToTheSixteenAndPrimesTo10007AgreeBinByBin)
 {
+    if (std::numeric_limits<long double>::digits <= std::numeric_limits<double>::digits)
+        GTEST_SKIP() << "long double is double here (Apple ARM64, MSVC): no wider reference to check the last bits against";
+
     for (const std::size_t n : {std::size_t{1} << 10, std::size_t{1} << 12, std::size_t{1} << 16, std::size_t{1009}, std::size_t{4093},
                                 std::size_t{10007}, std::size_t{3 * 5 * 7 * 11 * 13}, std::size_t{2 * 31 * 31}}) {
         std::vector<std::size_t> bins{0, 1, 2, n / 2, n - 1};

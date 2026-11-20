@@ -232,7 +232,8 @@ add_executable(snicholls_core_result_terminate_tests
 target_link_libraries(snicholls_core_result_terminate_tests PRIVATE snicholls::core GTest::gtest_main)
 snicholls_core_test_options(snicholls_core_result_terminate_tests)
 gtest_discover_tests(snicholls_core_result_terminate_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
-gtest_discover_tests(snicholls_core_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST)
+# DISCOVERY_TIMEOUT: listing 1,800 tests took over the default 5 s on a loaded macOS x86-64 runner
+gtest_discover_tests(snicholls_core_tests PROPERTIES LABELS unit DISCOVERY_MODE PRE_TEST DISCOVERY_TIMEOUT 120)
 
 # The diamond rules are CMake, so they are tested with CMake: a fixture project
 # reaches core twice and the script checks that the right copy wins, that an

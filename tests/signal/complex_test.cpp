@@ -15,6 +15,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <limits>
 #include <type_traits>
 
 namespace {
@@ -75,6 +76,10 @@ TEST(Complex, RunTimeArithmeticIsTheSame)
 
 TEST(Twiddle, IsTheRootOfUnityToTheLastBit)
 {
+    EXPECT_EQ(s::twiddle<double>(250, 1000), (cd{0, -1}));
+    EXPECT_EQ(s::twiddle<long double>(3, 4), (s::complex<long double>{0, 1}));
+    if (std::numeric_limits<long double>::digits <= std::numeric_limits<double>::digits)
+        GTEST_SKIP() << "long double is double here (Apple ARM64, MSVC): no wider reference to check the last bits against";
     // Against long double's cos and sin of 2 pi k / n, for every k of several n: within one ulp of double.
     for (const std::size_t n : {std::size_t{3}, std::size_t{7}, std::size_t{64}, std::size_t{1000}, std::size_t{4099}})
         for (std::size_t k = 0; k < n; ++k) {
@@ -84,8 +89,6 @@ TEST(Twiddle, IsTheRootOfUnityToTheLastBit)
             EXPECT_NEAR(w.im, static_cast<double>(-std::sin(a)), 2.3e-16) << k << "/" << n;
             EXPECT_EQ(s::twiddle<double>(n - k, n).re, k == 0 ? 1.0 : w.re);   // conjugate symmetry, exactly
         }
-    EXPECT_EQ(s::twiddle<double>(250, 1000), (cd{0, -1}));
-    EXPECT_EQ(s::twiddle<long double>(3, 4), (s::complex<long double>{0, 1}));
 }
 
 } // namespace
