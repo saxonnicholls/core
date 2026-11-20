@@ -33,6 +33,13 @@
 /// (gpt-oss's 1.702 and 7) change no other kind.
 ///
 /// \snippet ml/transformer_config_demo.cpp transformer_config_glu
+/// **Linear-time sequence mixers** (TRAINING.md T15), one group of fields after the others, every default leaving a model
+/// as it was: the mixer a layer uses in place of attention (`mixer`: Mamba-2 or the gated delta rule as layers; gated
+/// linear attention and RWKV as ops), its heads, channels, groups, convolution and chunk, and the hybrid stack's pattern
+/// (`hybrid_period`, `hybrid_attention_offset`, read by `layer_is_attention`). `valid_mixer` checks them;
+/// `mixer_state_size` is a sequence's state; `tiny_mamba2` and `tiny_gated_deltanet` set them.
+///
+/// \snippet ml/transformer_config_demo.cpp mixer_config
 ///
 /// **Relationships.** `ml/linear.hpp`, `ml/mlp.hpp`, `ml/kv_cache.hpp`, `ml/attention_layer.hpp`,
 /// `ml/transformer_block.hpp`; the plan is `INFERENCE.md`. Group: \ref core.
@@ -77,7 +84,8 @@
 ///
 /// **Status.** Experimental, new in 0.8.0; the mixture-of-experts fields, `mask`, `mask_block`, `vit_base`, the fields of
 /// TRAINING.md T12, `deepseek_v3` and `tiny_mla` new in 0.16.0; the gated kinds after `swiglu`, `gated`, `glu_alpha`,
-/// `glu_limit` and their readers new in 0.17.0.
+/// `glu_limit` and their readers, the mixer fields, `valid_mixer`, `mixer_state_size`, `layer_is_attention`,
+/// `mixer_scale_v`, `tiny_mamba2` and `tiny_gated_deltanet` new in 0.17.0.
 
 #ifndef snicholls_core_ml_transformer_config_hpp
 #define snicholls_core_ml_transformer_config_hpp
@@ -161,6 +169,17 @@ enum class moe_scoring
     sigmoid,         ///< A sigmoid per expert; choose by it, the weights the chosen sigmoids divided by their sum (DeepSeek-V3).
 };
 
+/// \brief The linear-time sequence mixer a layer may use in place of attention (`ml/mixer_layer.hpp`, TRAINING.md T15).
+enum class mixer_kind
+{
+    none,             ///< No mixer: every layer is attention.
+    mamba2,           ///< Mamba-2's selective state space (`ml/ssd.hpp`), a layer of its own.
+    gated_deltanet,   ///< The gated delta rule (`ml/delta_rule.hpp`), Qwen3-Next's linear attention, a layer of its own.
+    gla,              ///< Gated linear attention (`ml/gla.hpp`): the shape of its op; no layer yet.
+    rwkv6,            ///< RWKV-6's WKV (`ml/rwkv.hpp`): the shape of its op; no layer yet.
+    rwkv7,            ///< RWKV-7's WKV (`ml/rwkv.hpp`): the shape of its op; no layer yet.
+};
+
 /// \brief The architecture of a transformer layer: a structural aggregate, passed as a template parameter.
 /// \ingroup core
 struct transformer_config
@@ -216,6 +235,17 @@ struct transformer_config
     // `swiglu_clamp`, so no preset changes
     double glu_alpha = 1.702;                                   ///< `swiglu_oai`'s sigmoid scale (gpt-oss's 1.702).
     double glu_limit = 7;                                       ///< The clamped SwiGLUs' limit (gpt-oss's 7).
+    // Linear-time sequence mixers (TRAINING.md T15): every default leaves a model as it was. The names follow state-space
+    // duality: a mixer's state per head is `mixer_state` key channels by `mixer_head_dim` value channels
+    mixer_kind mixer = mixer_kind::none;              ///< The mixer of the layers that are not attention; `none` for none.
+    std::size_t mixer_heads = 0;                      ///< The mixer's value heads `H` (Mamba-2's heads).
+    std::size_t mixer_head_dim = 0;                   ///< The value channels of a head `P` (Mamba-2's `headdim`).
+    std::size_t mixer_state = 0;                      ///< The key channels of a head `N` (Mamba-2's `d_state`).
+    std::size_t mixer_groups = 0;                     ///< The key heads `G` the value heads share (Mamba-2's `ngroups`).
+    std::size_t conv_width = 0;                       ///< The short causal convolution's taps `K` (Mamba-2's `d_conv`); 0 for none.
+    std::size_t mixer_chunk = 0;                      ///< The chunk `L` of the chunked forms and the backward pass's checkpoints.
+    std::size_t hybrid_period = 0;                    ///< Hybrid stacks: one attention layer in every `hybrid_period`; 0 for none.
+    std::size_t hybrid_attention_offset = 0;          ///< Hybrid stacks: the attention layer's place in each period.
 
     /// \brief The width of all the query heads together.
     /// \return `n_heads · head_dim`.
@@ -260,6 +290,45 @@ struct transformer_config
     return (c.kv_lora_rank == 0 ? standard : latent) && scaling && mtp && options;
 }
 
+/// \brief Whether the mixer fields of TRAINING.md T15 are consistent: with no mixer every one of them 0; with one, every
+/// width set, the value heads a multiple of the key heads and a chunk; RWKV with one key head per value head and square
+/// heads; a short convolution of at least one tap for Mamba-2 and the gated delta rule; a hybrid period only with a mixer,
+/// its attention layer inside it.
+/// \param c The configuration.
+/// \return Whether those fields are valid.
+[[nodiscard]] constexpr bool valid_mixer(const transformer_config& c) noexcept
+{
+    if (c.mixer == mixer_kind::none)
+        return c.mixer_heads == 0 && c.mixer_head_dim == 0 && c.mixer_state == 0 && c.mixer_groups == 0 && c.conv_width == 0
+               && c.mixer_chunk == 0 && c.hybrid_period == 0 && c.hybrid_attention_offset == 0;
+    const bool rwkv = c.mixer == mixer_kind::rwkv6 || c.mixer == mixer_kind::rwkv7;
+    const bool conv = c.mixer == mixer_kind::mamba2 || c.mixer == mixer_kind::gated_deltanet;
+    return c.mixer_heads > 0 && c.mixer_head_dim > 0 && c.mixer_state > 0 && c.mixer_groups > 0 && c.mixer_heads % c.mixer_groups == 0
+           && c.mixer_chunk > 0 && (!rwkv || (c.mixer_groups == c.mixer_heads && c.mixer_state == c.mixer_head_dim))
+           && (!conv || c.conv_width > 0)
+           && (c.hybrid_period == 0 ? c.hybrid_attention_offset == 0 : c.hybrid_attention_offset < c.hybrid_period);
+}
+
+/// \brief The state a mixer keeps per sequence: `H · N · P` numbers (the short convolution's is `ml/short_conv.hpp`'s).
+/// \param c The configuration.
+/// \return The number of values; 0 with no mixer.
+[[nodiscard]] constexpr std::size_t mixer_state_size(const transformer_config& c) noexcept
+{
+    return c.mixer_heads * c.mixer_state * c.mixer_head_dim;
+}
+
+/// \brief Whether layer `layer` of a stack is attention: every layer without a mixer, none with a mixer and no hybrid
+/// period, else the layer at `hybrid_attention_offset` of each `hybrid_period` (Qwen3-Next: period 4, offset 3; Jamba's
+/// pattern: period 8, offset 4).
+/// \param c The configuration. \param layer The layer, from 0.
+/// \return Whether it is attention; otherwise it is the configuration's mixer.
+[[nodiscard]] constexpr bool layer_is_attention(const transformer_config& c, std::size_t layer) noexcept
+{
+    if (c.mixer == mixer_kind::none)
+        return true;
+    return c.hybrid_period != 0 && layer % c.hybrid_period == c.hybrid_attention_offset;
+}
+
 /// \brief Whether a configuration is consistent: every width set, `n_heads` a multiple of `n_kv_heads`, `head_dim`
 /// even under RoPE, a positive `norm_eps`, a non-negative soft cap; for a mixture of experts, `top_k` from 1 to
 /// `experts`, `expert_d_ff` set, a positive `route_scale` and non-negative balance settings, groups (if any) dividing
@@ -279,7 +348,7 @@ struct transformer_config
            && (c.rope == rope_kind::none || c.head_dim % 2 == 0) && c.norm_eps > 0 && c.attention_softcap >= 0
            && (c.rope == rope_kind::none || c.rope_base > 1) && (dense || moe) && (c.mask == attention_mask::causal || c.window == 0)
            && ((c.mask == attention_mask::block_causal) == (c.mask_block > 0)) && valid_long_context(c) && c.glu_alpha > 0
-           && c.glu_limit > 0;
+           && c.glu_limit > 0 && valid_mixer(c);
 }
 
 /// \brief The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions.
@@ -358,6 +427,28 @@ inline constexpr transformer_config deepseek_v3{.d_model = 7168, .n_heads = 128,
                                                 .rope_original_context = 4096, .yarn_beta_fast = 32, .yarn_beta_slow = 1,
                                                 .yarn_mscale = 1, .mtp_depth = 1, .mtp_loss_weight = 0.1};
 
+/// \brief A small Mamba-2 model for tests and demos (`ml/mixer_layer.hpp`): 8 wide, 2 attention heads of 4 for its
+/// hybrid layers, and a mixer of 2 heads of 4 value channels sharing one group of 4 state channels, a convolution of 4
+/// taps, chunks of 4; RMS norm, SwiGLU, RoPE.
+inline constexpr transformer_config tiny_mamba2{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 16,
+                                                .norm = norm_kind::rms, .mlp = mlp_kind::swiglu, .rope = rope_kind::half,
+                                                .mixer = mixer_kind::mamba2, .mixer_heads = 2, .mixer_head_dim = 4,
+                                                .mixer_state = 4, .mixer_groups = 1, .conv_width = 4, .mixer_chunk = 4};
+
+/// \brief A small gated-delta-rule model for tests and demos, laid out as Qwen3-Next's hybrid stack (three linear
+/// attention layers, then one attention layer: period 4, offset 3): 8 wide, attention heads as `tiny_mamba2`'s, a mixer of
+/// 2 value heads of 4 sharing one key head of 4, a convolution of 4 taps, chunks of 4.
+inline constexpr transformer_config tiny_gated_deltanet{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 16,
+                                                        .norm = norm_kind::rms, .mlp = mlp_kind::swiglu, .rope = rope_kind::half,
+                                                        .mixer = mixer_kind::gated_deltanet, .mixer_heads = 2, .mixer_head_dim = 4,
+                                                        .mixer_state = 4, .mixer_groups = 1, .conv_width = 4, .mixer_chunk = 4,
+                                                        .hybrid_period = 4, .hybrid_attention_offset = 3};
+
+/// \brief The scale of a linear attention's queries, `1 / sqrt(mixer_state)` (the gated delta rule's and gated linear
+/// attention's), evaluated at compile time.
+template <transformer_config C, math::math_number T>
+inline constexpr T mixer_scale_v = T(1) / math::sqrt(static_cast<T>(C.mixer_state));
+
 /// \brief `C.norm_eps` in `T`, evaluated at compile time (see Known issues).
 template <transformer_config C, math::math_number T>
 inline constexpr T norm_eps_v = static_cast<T>(C.norm_eps);
@@ -416,7 +507,8 @@ inline constexpr T yarn_attention_factor_v
           : T(1);
 
 static_assert(valid(gpt2_small) && valid(gpt2_medium) && valid(gpt2_large) && valid(llama3_8b) && valid(nanochat_d20) && valid(tiny_moe)
-              && valid(olmoe_1b_7b) && valid(vit_base) && valid(tiny_mla) && valid(deepseek_v3));
+              && valid(olmoe_1b_7b) && valid(vit_base) && valid(tiny_mla) && valid(deepseek_v3) && valid(tiny_mamba2)
+              && valid(tiny_gated_deltanet));
 
 } // namespace snicholls::ml
 

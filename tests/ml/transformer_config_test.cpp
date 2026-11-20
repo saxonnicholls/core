@@ -97,6 +97,26 @@ template <ml::transformer_config C>
 constexpr std::size_t heads_v = C.n_heads;
 static_assert(heads_v<ml::llama3_8b> == 32);
 
+// The linear-time sequence mixers' fields (TRAINING.md T15): neutral defaults, consistency, the hybrid pattern
+static_assert(ml::gpt2_small.mixer == ml::mixer_kind::none && ml::mixer_state_size(ml::llama3_8b) == 0);
+static_assert(ml::valid(ml::tiny_mamba2) && ml::valid(ml::tiny_gated_deltanet));
+static_assert(ml::mixer_state_size(ml::tiny_mamba2) == 2 * 4 * 4);
+static_assert(!ml::valid(with(ml::gpt2_small, [](auto& c) { c.mixer_heads = 2; })));                 // a field without a mixer
+static_assert(!ml::valid(with(ml::tiny_mamba2, [](auto& c) { c.mixer_groups = 3; })));               // 2 heads in 3 groups
+static_assert(!ml::valid(with(ml::tiny_mamba2, [](auto& c) { c.mixer_chunk = 0; })));
+static_assert(!ml::valid(with(ml::tiny_mamba2, [](auto& c) { c.conv_width = 0; })));                 // Mamba-2 has a convolution
+static_assert(!ml::valid(with(ml::tiny_mamba2, [](auto& c) { c.mixer = ml::mixer_kind::rwkv7; })));  // RWKV's heads are square, one key head each
+static_assert(ml::valid(with(ml::tiny_mamba2, [](auto& c) { c.mixer = ml::mixer_kind::rwkv7; c.mixer_groups = 2; })));
+static_assert(!ml::valid(with(ml::tiny_gated_deltanet, [](auto& c) { c.hybrid_attention_offset = 4; })));
+static_assert(!ml::valid(with(ml::tiny_mamba2, [](auto& c) { c.hybrid_attention_offset = 1; })));     // an offset without a period
+// Qwen3-Next's pattern: three linear attention layers, then attention; Jamba's: attention at 4 of every 8
+static_assert(!ml::layer_is_attention(ml::tiny_gated_deltanet, 0) && !ml::layer_is_attention(ml::tiny_gated_deltanet, 2)
+              && ml::layer_is_attention(ml::tiny_gated_deltanet, 3) && ml::layer_is_attention(ml::tiny_gated_deltanet, 7));
+static_assert(ml::layer_is_attention(with(ml::tiny_mamba2, [](auto& c) { c.hybrid_period = 8; c.hybrid_attention_offset = 4; }), 12));
+static_assert(ml::layer_is_attention(ml::gpt2_small, 5) && !ml::layer_is_attention(ml::tiny_mamba2, 5));
+static_assert(ml::mixer_scale_v<ml::tiny_mamba2, double> == 0.5);
+
+
 // Clang reads a double member of a template argument wrongly at run time; the readers evaluate it at compile time.
 // This runs the reads where the bug showed (selected by a volatile, so the optimiser cannot fold them), so a
 // regression is a failure.

@@ -86,14 +86,17 @@ add_executable(snicholls_core_tests
     ml/bpe_merges_test.cpp
     ml/bpe_test.cpp
     ml/collapse_test.cpp
+    ml/composed_block_hybrid_test.cpp
     ml/composed_block_test.cpp
     ml/control_vector_test.cpp
     ml/conv_test.cpp
+    ml/delta_rule_test.cpp
     ml/diloco_test.cpp
     ml/distill_test.cpp
     ml/embedding_test.cpp
     ml/expert_parallel_test.cpp
     ml/gather_test.cpp
+    ml/gla_test.cpp
     ml/glu_test.cpp
     ml/grammar_test.cpp
     ml/hadamard_test.cpp
@@ -110,6 +113,7 @@ add_executable(snicholls_core_tests
     ml/lora_test.cpp
     ml/masking_test.cpp
     ml/minifloat_test.cpp
+    ml/mixer_layer_test.cpp
     ml/mlp_test.cpp
     ml/moe_block_test.cpp
     ml/moe_test.cpp
@@ -128,20 +132,24 @@ add_executable(snicholls_core_tests
     ml/quant_k_test.cpp
     ml/quant_ternary_test.cpp
     ml/quantize_test.cpp
+    ml/recurrence_test.cpp
     ml/reward_model_test.cpp
     ml/rl_test.cpp
     ml/rope_modes_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
+    ml/rwkv_test.cpp
     ml/rwkv_tokenizer_test.cpp
     ml/samplers_test.cpp
     ml/sampling_test.cpp
     ml/self_attention_test.cpp
     ml/sentencepiece_test.cpp
+    ml/short_conv_test.cpp
     ml/softmax_test.cpp
     ml/sparse_attention_test.cpp
     ml/spatial_test.cpp
     ml/speculative_test.cpp
+    ml/ssd_test.cpp
     ml/tensor_ops_test.cpp
     ml/token_trie_test.cpp
     ml/tokenizer_test.cpp

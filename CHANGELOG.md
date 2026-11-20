@@ -168,6 +168,42 @@ experimental.
 - `math::log10` and `math::bessel_i0` (`math/constexpr_math.hpp`).
 - Reference fixtures from numpy 2.0.2, scipy 1.13.1 and librosa 0.11.0 (`tests/fixtures/signal/`,
   `scripts/generate_signal_fixture.py`); benchmarks `signal/fft_benchmark` and `signal/convolve_benchmark`.
+### Added
+
+- **Linear-time sequence mixers** (TRAINING.md T15), each with a forward pass over a batch of sequences, its backward
+  pass for training, and a single step for decoding with a fixed-size state, every op on core's backend (T9) and
+  checked against llama.cpp's CPU reference at commit 39039aa:
+  - `ml/recurrence.hpp`: `recurrence`, a step and its backward pass, and the driver that gives every mixer its sequence
+    forward with checkpoints at chunk starts (`recurrence_forward`), backpropagation through time recomputing each
+    chunk from its checkpoint (`recurrence_backward`, memory `n / chunk + chunk` states), and decoding;
+    `recurrence_checkpoints`, `recurrence_backward_work`.
+  - `ml/short_conv.hpp`: Mamba's short causal depthwise convolution (`GGML_OP_SSM_CONV`, to the bit), its state carried
+    between pieces of a sequence and into decoding, its backward pass (taps, bias, inputs, initial state).
+  - `ml/ssd.hpp`: Mamba-2's selective state space, the scan (`GGML_OP_SSM_SCAN`'s scalar-A path) and the chunked SSD
+    form (quadratic within a chunk, the state passed between chunks), equal within rounding; the backward pass from
+    either form's checkpoints; `ssd_step` for decoding.
+  - `ml/gla.hpp`: gated linear attention with per-channel log-gates (`GGML_OP_GATED_LINEAR_ATTN`, to the bit), recurrent
+    and chunked, its backward pass and step.
+  - `ml/rwkv.hpp`: token shift (forward, backward, step); RWKV-6's WKV with its bonus and RWKV-7's generalised delta rule
+    (`GGML_OP_RWKV_WKV6` and `_WKV7`, to the bit), their backward passes and steps.
+  - `ml/delta_rule.hpp`: the gated delta rule (`GGML_OP_GATED_DELTA_NET`, a gate per head as Qwen3-Next or per key
+    channel as Kimi), recurrent and chunked through the WY / UT representation with the backend's unit lower-triangular
+    `triangular_solve`, its backward pass and step; `l2_normalise_rows` and its backward pass.
+  - `ml/mixer_layer.hpp`: Mamba-2's layer (projection, convolution, `softplus` steps, SSD, the `D` skip, the SiLU gate,
+    the grouped RMS norm) and the gated delta rule's (Qwen3-Next's: convolution, L2-normalised queries and keys, `β`
+    and the gate, the gated per-head norm), batched with their backward passes and one token at a time; their buffers'
+    sizes and layouts (`mixer_parameter_count`, `mixer_activation_values`, `mixer_gradient_work`, `mixer_state_values`,
+    `mixer_weights_in`, `mixer_activations_in`, `mixer_gradients_in`); `recurrent_cache`, `hybrid_cache`,
+    `hybrid_attention_index`, `hybrid_mixer_index`.
+  - `ml/composed_block.hpp`: a mixer as the composed block's attention part, so hybrid stacks (Qwen3-Next's three
+    gated-delta-rule layers then attention, Jamba's one attention layer in eight) train through `block_forward_sequence`
+    and `block_backward` and decode through `block_forward` with a hybrid cache.
+  - `ml/transformer_config.hpp`: the mixer fields as one group with neutral defaults (`mixer`, `mixer_heads`,
+    `mixer_head_dim`, `mixer_state`, `mixer_groups`, `conv_width`, `mixer_chunk`, `hybrid_period`,
+    `hybrid_attention_offset`), `mixer_kind`, `valid_mixer`, `mixer_state_size`, `layer_is_attention`, `mixer_scale_v`,
+    and the presets `tiny_mamba2` and `tiny_gated_deltanet`.
+  - Benchmarks of every recurrence against loops by hand (`benchmarks/ml/ssd_benchmark.cpp`, `gla_benchmark.cpp`,
+    `rwkv_benchmark.cpp`, `delta_rule_benchmark.cpp`, `short_conv_benchmark.cpp`), each pair checked to the bit.
 
 ## 0.16.0 - 2026-11-19
 

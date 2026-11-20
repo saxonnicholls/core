@@ -100,6 +100,18 @@ int main()
     std::printf("  gpt-oss MLP: gated %d, alpha %.3f, limit %.1f\n", ml::gated(oss.mlp) ? 1 : 0, static_cast<double>(alpha),
                 static_cast<double>(limit));
     ok &= alpha == 1.702f && limit == 7.0f;
+    //! [mixer_config]
+    // Qwen3-Next's hybrid stack in miniature: gated delta rule layers, one attention layer in every four
+    constexpr ml::transformer_config hybrid = ml::tiny_gated_deltanet;
+    static_assert(ml::valid_mixer(hybrid));
+    std::size_t attention_layers = 0;
+    for (std::size_t layer = 0; layer < 12; ++layer)
+        attention_layers += ml::layer_is_attention(hybrid, layer) ? 1 : 0;
+    const std::size_t state = ml::mixer_state_size(hybrid);   // per sequence and mixer layer, whatever the length
+    //! [mixer_config]
+    std::printf("  hybrid: %zu attention layers of 12, a mixer state of %zu numbers, query scale %.4f\n", attention_layers, state,
+                ml::mixer_scale_v<hybrid, double>);
+    ok &= attention_layers == 3 && state == 32 && ml::tiny_mamba2.mixer == ml::mixer_kind::mamba2;
     std::printf(ok ? "transformer_config demo: ok\n" : "transformer_config demo: FAILED\n");
     return ok ? 0 : 1;
 }
