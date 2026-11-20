@@ -89,6 +89,7 @@ struct digest_hex
     /// \return `2 * Bytes`.
     [[nodiscard]] static constexpr std::size_t size() noexcept { return 2 * Bytes; }
     /// \brief Implicit conversion to a view of the digits.
+    /// \return `view()`.
     constexpr operator std::string_view() const noexcept { return view(); }
 };
 
