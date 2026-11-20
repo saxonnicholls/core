@@ -3,10 +3,27 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased (0.17.0)
+## 0.17.0 - 2026-11-20
 
-Serving and encoder operations with llama.cpp's semantics (INFERENCE.md I12), each a `constexpr` building block over
-spans, checked against llama.cpp and ggml at commit 39039aa; every new header is experimental.
+Inference, quantisation, tokenizers, signal processing, linear-time sequence mixers and hashes, each a `constexpr`
+building block over spans:
+
+- serving and encoder operations with llama.cpp's semantics, checked against llama.cpp and ggml at commit 39039aa
+  (INFERENCE.md I12);
+- every ggml weight format byte for byte, with the importance-matrix quantisation and ggml's dot products, codebooks
+  and tables built at compile time; BitNet b1.58's quantisation, kernels and quantisation-aware training; the Hadamard
+  rotation as a quantisation pre-step (INFERENCE.md I13 to I15, TRAINING.md T14);
+- tokenizers from text to token ids and back, token for token with llama.cpp on its own vocabulary test vectors
+  (INFERENCE.md I16);
+- signal processing at compile time and at run time: transforms of any length, windows, the short-time Fourier
+  transform, mel front ends (OpenAI Whisper's among them), cosine transforms, convolution, FIR and IIR filters,
+  resampling and the analytic signal, each with its backward pass (SIGNAL.md);
+- linear-time sequence mixers (Mamba-2, gated linear attention, RWKV-6 and 7, the gated delta rule) and hybrid stacks
+  (TRAINING.md T15);
+- every hash that can be `constexpr` (SHA-1, SHA-2, SHA-3 and SHAKE, Keccak-256, RIPEMD-160, BLAKE2, BLAKE3, CRCs),
+  HMAC, HKDF, PBKDF2 and scrypt, checked against their standards' vectors and an independent implementation.
+
+Every new header is experimental.
 
 ### Added
 
@@ -35,18 +52,6 @@ spans, checked against llama.cpp and ggml at commit 39039aa; every new header is
 - **Embeddings, rerankers, steering:** `ml/pooling.hpp` (mean, CLS, last, the RANK head); `ml/control_vector.hpp`.
 - **Speculative decoding:** `ml/speculative.hpp` (n-gram prompt lookup, greedy verification, the rejection rule that
   preserves the target distribution, token trees with their mask, drafts from MTP heads).
-
-### Notes
-
-- llama.cpp's `seq_div` stores its K-shift with the opposite sign of `seq_add`'s; core's moves keys to their new
-  positions (`ml/kv_cells.hpp`, Known issues).
-Every ggml weight format, byte for byte with ggml (llama.cpp 39039aa) on committed fixtures, with the
-importance-matrix quantisation and the dot products ggml pairs them with, all `constexpr` with their codebooks and
-tables built at compile time; BitNet b1.58's quantisation, kernels and quantisation-aware training; the Hadamard
-rotation as a quantisation pre-step (INFERENCE.md I13 to I15, TRAINING.md T14). Every new header is experimental.
-
-### Added
-
 - **ggml's type ids and block traits** (`ml/quantize.hpp`): `ggml_type` (the ids a GGUF file stores),
   `ggml_type_traits(id)` and `ggml_row_bytes` (name, block size and bytes of every type, at compile time), the
   `quantized_block` concept and `block_traits<B>` (elements, bytes, name, bits per weight, the activation block).
@@ -78,23 +83,6 @@ rotation as a quantisation pre-step (INFERENCE.md I13 to I15, TRAINING.md T14). 
   `generate_quant_ternary_fixture.cpp`, `generate_bitnet_i2s_fixture.cpp`, `generate_bitnet_lut_fixture.py`,
   `generate_hadamard_fixture.cpp` and `scripts/ggml_ref_stubs.c` (what ggml's quantisation files need from the rest
   of ggml), with the shared input rows `tests/ml/quant_rows.hpp`; outputs are hashed, so the fixtures stay small.
-
-### Changed
-
-- `quant_block` (what `quantized_weights` in `ml/linear.hpp` takes) is now any 32-element `quantized_block` paired
-  with Q8_0 activations, so Q5_0 and IQ4_NL weights work there too. The per-block `detail` functions became the
-  public `quantize_row` / `dequantize_row`.
-- `ml/quantize.hpp` gives ggml's x86 result where ggml converts a float out of an integer's range (the inverse scale
-  of a block of subnormals; an MXFP4 amax below 2^-125), so those blocks are byte-identical too.
-Tokenizers, from text to token ids and back, as `constexpr`, allocation-free building blocks over the standard
-library (INFERENCE.md I16), token for token with llama.cpp on its own vocabulary test vectors. Every new header is
-Signal processing, at compile time and at run time: transforms of any length, windows, the short-time Fourier
-transform, mel front ends (OpenAI Whisper's among them), cosine transforms, convolution, FIR and IIR filters,
-resampling and the analytic signal, each with its backward pass for training (SIGNAL.md). Every new header is
-experimental.
-
-### Added
-
 - **Unicode for tokenizers** (`ml/unicode.hpp`): strict UTF-8 `decode_utf8` / `encode_utf8`, `is_valid_utf8`,
   `replace_invalid_utf8`; `category` (every general category of Unicode 16.0) with `is_letter`, `is_mark`,
   `is_number`, `is_punctuation`, `is_symbol`, `is_separator`, `is_other` and GPT-4o's `is_uppercase_class` /
@@ -168,8 +156,6 @@ experimental.
 - `math::log10` and `math::bessel_i0` (`math/constexpr_math.hpp`).
 - Reference fixtures from numpy 2.0.2, scipy 1.13.1 and librosa 0.11.0 (`tests/fixtures/signal/`,
   `scripts/generate_signal_fixture.py`); benchmarks `signal/fft_benchmark` and `signal/convolve_benchmark`.
-### Added
-
 - **Linear-time sequence mixers** (TRAINING.md T15), each with a forward pass over a batch of sequences, its backward
   pass for training, and a single step for decoding with a fixed-size state, every op on core's backend (T9) and
   checked against llama.cpp's CPU reference at commit 39039aa:
@@ -204,12 +190,6 @@ experimental.
     and the presets `tiny_mamba2` and `tiny_gated_deltanet`.
   - Benchmarks of every recurrence against loops by hand (`benchmarks/ml/ssd_benchmark.cpp`, `gla_benchmark.cpp`,
     `rwkv_benchmark.cpp`, `delta_rule_benchmark.cpp`, `short_conv_benchmark.cpp`), each pair checked to the bit.
-Every hash that can be `constexpr`, in `hash/`, computed at compile time where the language allows and with no
-allocation: the cryptographic hashes, the checksums, the MACs and the key derivation functions the family's
-libraries use, each checked against its standard's published vectors and against an independent implementation.
-
-### Added
-
 - `hash/digest.hpp`: `digest<N>`, the value every hash returns (N bytes, structural, trivially copyable, `==` and
   `<=>`, `hex()` without allocating, `from_hex`, `first<M>()`, printable); `hash_input`, any one-byte sequence under
   core's string rules or a digest; `hash_function`, the interface `hmac` and the KDFs are written against; and
@@ -241,11 +221,21 @@ libraries use, each checked against its standard's published vectors and against
 
 ### Changed
 
+- `quant_block` (what `quantized_weights` in `ml/linear.hpp` takes) is now any 32-element `quantized_block` paired
+  with Q8_0 activations, so Q5_0 and IQ4_NL weights work there too. The per-block `detail` functions became the
+  public `quantize_row` / `dequantize_row`.
+- `ml/quantize.hpp` gives ggml's x86 result where ggml converts a float out of an integer's range (the inverse scale
+  of a block of subnormals; an MXFP4 amax below 2^-125), so those blocks are byte-identical too.
 - `secret<std::string>` wipes its string with `secure_wipe`; `make_uuid_v5` hashes with the public `sha1`.
 
 ### Removed
 
 - `detail/sha1.hpp` (internal): its one user, `uuid`, uses `hash/sha1.hpp`.
+
+### Notes
+
+- llama.cpp's `seq_div` stores its K-shift with the opposite sign of `seq_add`'s; core's moves keys to their new
+  positions (`ml/kv_cells.hpp`, Known issues; recorded in `erratum/llama.cpp.md`).
 
 ## 0.16.0 - 2026-11-19
 

@@ -1,6 +1,6 @@
 # snicholls::signal - transforms, spectrograms and filters
 
-Status: new in 0.17.0 (unreleased), experimental. Headers: `include/snicholls/core/signal/` (standard library and core
+Status: new in 0.17.0, experimental. Headers: `include/snicholls/core/signal/` (standard library and core
 only), namespace `snicholls::signal`.
 
 ## Why
