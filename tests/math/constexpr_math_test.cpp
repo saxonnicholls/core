@@ -85,6 +85,23 @@ static_assert(m::expm1(1e-30) == 1e-30 && m::log1p(1e-30) == 1e-30);   // exp(x)
 static_assert(m::near(m::expm1(1.0), m::e_v - 1, 1e-15) && m::near(m::log1p(m::e_v - 1), 1.0, 1e-15));
 static_assert(m::near(m::expm1(1e-5f), 1.00000500001666e-5f, 1e-12f) && m::near<long double>(m::log1p(1e-5L), 9.99995000033333e-6L, 1e-18L));
 
+// log10 and the Bessel function I0 (the Kaiser window's), at compile time and at run time.
+static_assert(m::near(m::log10(1000.0), 3.0, 1e-15) && m::near(m::log10(2.0f), 0.30103f, 1e-6f) && m::log10(1.0) == 0.0);
+static_assert(m::bessel_i0(0.0) == 1.0 && m::near(m::bessel_i0(1.0), 1.2660658777520082, 1e-15) && m::bessel_i0(-2.0) == m::bessel_i0(2.0));
+static_assert(m::near<long double>(m::bessel_i0(3.0L), 4.88079258586502388L, 1e-15L) && m::near(m::bessel_i0(2.5f), 3.2898391f, 1e-6f));
+
+TEST(ConstexprMath, Log10AndBesselI0)
+{
+    EXPECT_EQ(m::log10(0.001), std::log10(0.001));   // run time is <cmath>'s
+    for (double x = 1e-6; x < 1e6; x *= 3.7)
+        EXPECT_NEAR(snicholls::math::detail::log_ct(x) / snicholls::math::detail::log_ct(10.0), std::log10(x), 4e-16 * (1 + std::abs(std::log10(x))));
+    // I0 against its values (Abramowitz and Stegun, table 9.8) and its large-x asymptote e^x / sqrt(2 pi x)
+    EXPECT_NEAR(m::bessel_i0(5.0), 27.239871823604442, 1e-13);
+    EXPECT_NEAR(m::bessel_i0(10.0), 2815.716628466254, 1e-10);
+    EXPECT_NEAR(m::bessel_i0(100.0) / (std::exp(100.0) / std::sqrt(2 * m::pi * 100.0)), 1.0 + 1.0 / 800 + 9.0 / (2 * 800 * 800), 1e-6);
+    EXPECT_TRUE(m::is_inf(m::bessel_i0(800.0)));
+}
+
 TEST(ConstexprMath, TheRunTimePathIsCmathToTheBit)
 {
     for (const double x : {0.1, 1.7, 33.0, -4.2})

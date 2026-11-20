@@ -43,8 +43,8 @@ A header is admitted only if all of the following hold.
   `utc<D>::now()` (a read of `std::chrono::system_clock`) are core. "Now" is only ever read explicitly through
   `now()`; nothing constructs it implicitly (default construction is the epoch). Clock *sources* (injectable,
   replay and master clocks) and time zones stay with the libraries above.
-- **Run-time numerics by exception.** `game/` (Shapley, Owen, Harsanyi, the samplers) and `finance/attribution.hpp`
-  are admitted as run-time numerics. They follow every other rule: standard library only, `constexpr` wherever the
+- **Run-time numerics by exception.** `game/` (Shapley, Owen, Harsanyi, the samplers), `finance/attribution.hpp` and
+  `signal/` (transforms, windows, spectrograms, filters, resampling) are admitted as run-time numerics. They follow every other rule: standard library only, `constexpr` wherever the
   language allows, the caller's own random generator.
 - **Nothing coupled to a consumer's object model.** The libraries above core pin it, so anything that names their
   objects, fields or composition would be a cycle. Core reflects *plain aggregates*.
@@ -141,7 +141,8 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`); `containers/`; `game/` (`snicholls::game`); `finance/`
-  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`; `snicholls::linalg`). A new trait or concept goes in `meta/`, never in a library above core.
+  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`; `snicholls::linalg`); `signal/` (`complex`, `fft`,
+  `window`, `stft`, `mel`, `dct`, `convolve`, `fir`, `iir`, `resample`, `hilbert`; `snicholls::signal`, SIGNAL.md). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
   which takes its test, demo and benchmark along and rewrites every include, guard and registration. CMake lists
   and `core.hpp` are sorted: top-level files first, then each area, alphabetically.
@@ -377,6 +378,11 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - Compile-time maths: `snicholls::math` (`exp`, `log`, `normal_quantile`, ...) in the argument's type: `float` for
   a table a GPU kernel reads, `double`, `long double`. A type of your own gets them by specialising
   `math::math_limits<T>`, as `std::numeric_limits` is; never a `double`-only copy of a function.
+- Spectra and filters: `signal::fft_plan` over caller memory, or `static_fft_plan<T, N>` when the length is known
+  (tables by the compiler), never a recursive FFT, a `std::complex` table or a hand-written DFT; `rfft` for real
+  samples. Windows from `signal/window.hpp`, never a hand-written Hann; `stft`/`istft` with `torch.stft`'s options;
+  audio front ends (`whisper_log_mel`, `mel_filterbank`, `mfcc`) from `signal/mel.hpp`. Every transform has its
+  backward pass beside it; train through it rather than around it.
 - Machine learning: `snicholls::ml` holds the pure, fixed-size primitives (activations with their derivatives,
   softmax and losses, norms, `minifloat` formats, BPE merging), all `constexpr` and alloc-free, taking any `ml::row`.
   Models, training loops, file formats (GGUF, safetensors, tokenizer files), the split pattern's regex, tokenizer

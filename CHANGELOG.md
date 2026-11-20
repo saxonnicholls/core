@@ -88,6 +88,9 @@ rotation as a quantisation pre-step (INFERENCE.md I13 to I15, TRAINING.md T14). 
   of a block of subnormals; an MXFP4 amax below 2^-125), so those blocks are byte-identical too.
 Tokenizers, from text to token ids and back, as `constexpr`, allocation-free building blocks over the standard
 library (INFERENCE.md I16), token for token with llama.cpp on its own vocabulary test vectors. Every new header is
+Signal processing, at compile time and at run time: transforms of any length, windows, the short-time Fourier
+transform, mel front ends (OpenAI Whisper's among them), cosine transforms, convolution, FIR and IIR filters,
+resampling and the analytic signal, each with its backward pass for training (SIGNAL.md). Every new header is
 experimental.
 
 ### Added
@@ -131,6 +134,40 @@ experimental.
   llama.cpp's test strings; the differences recorded are invalid UTF-8 (SentencePiece's lead-byte cut, an encoded
   surrogate), Phi-3's "</s>" (which llama.cpp re-marks as a control token) and BERT's Hangul (Hugging Face's jamo).
 - Benchmarks against the hand-written equivalents: `unicode`, `token_trie`, `pretokenize`, `bpe_merges`, `unigram`.
+- **`signal/`, a new area (`snicholls::signal`, SIGNAL.md):**
+  - `signal/complex.hpp`: `complex<T>`, trivially copyable and structural, every operation `constexpr`; `twiddle<T>(k, n)`
+    reduced to the first octant in integers, so quarter turns are exact.
+  - `signal/fft.hpp`: complex transforms of every length (Stockham radix 4 / 2 and odd primes to 31, Bluestein for the
+    rest), forward and inverse with numpy's `norm` (`backward`, `forward`, `ortho`) and `none`; `fft_plan` over caller
+    memory and `static_fft_plan<T, N>` built by a `consteval` constructor (with the bit-reversal table and an in-place
+    radix-2 transform for a power of two); `fft(std::array)` / `ifft` on a plan the compiler builds; `rfft` / `irfft`
+    with `rfft_plan` and `static_rfft_plan`; `fft_rows`, `fft2`, `fftn`; the direct `dft` as the reference; the
+    backward passes `fft_backward`, `ifft_backward`, `rfft_backward`, `irfft_backward`, `fftn_backward`.
+  - `signal/window.hpp`: rectangular, Hann, Hamming, Blackman, Blackman-Harris, Kaiser, Gaussian and Tukey windows,
+    periodic or symmetric, as values, filled spans and `make_window` tables; `is_cola`, `is_nola`.
+  - `signal/stft.hpp`: `stft` / `istft` with `torch.stft`'s options (centre padding by reflection or zeros, hop,
+    normalised; one- and two-sided), `stft_frames`, `istft_length`, `spectrogram` (magnitude or power), `power`,
+    `magnitude`, and the backward passes `stft_backward`, `istft_backward`, `power_backward`, `magnitude_backward`.
+  - `signal/mel.hpp`: `hz_to_mel` / `mel_to_hz` (HTK, Slaney), `mel_filterbank` / `make_mel_filterbank`
+    (`librosa.filters.mel`, Slaney area normalisation), `mel_spectrogram` and `mel_backward`, `log_compress` with
+    `decibels` (librosa's `power_to_db`) and `whisper_compression`, and `log_compress_backward`; Whisper's front end,
+    `whisper_log_mel` (80 or 128 mels, 3,000 frames per 30-second chunk) and `whisper_log_mel_backward`, with
+    `whisper_window` and `whisper_mel_filters` as compile-time tables; `mfcc`.
+  - `signal/dct.hpp`: `dct2`, `dct3`, `dct4`, `dst2`, `dst3`, `dst4` through the FFT, scipy's definitions,
+    `dct_norm::ortho`; `dct2_backward`.
+  - `signal/convolve.hpp`: `convolve` / `correlate` (direct) and `fft_convolve` / `fft_correlate` in scipy's `full`,
+    `same` and `valid` modes; `overlap_add`, `overlap_save`.
+  - `signal/fir.hpp`: `fir_design` / `make_fir` (scipy's `firwin`: low-, high-, band-pass, band-stop, any window),
+    `fir_response`, `fir_filter`, `sinc`.
+  - `signal/iir.hpp`: `biquad`, `biquad_state`, `rbj_biquad` (the Audio EQ Cookbook's eight filters), `butterworth` /
+    `make_butterworth` as second-order sections (low-, high-, band-pass, band-stop), `sos_response`, `sosfilt`.
+  - `signal/resample.hpp`: `resample_poly` (scipy's, Kaiser 5 windowed sinc), `resample_kernel`,
+    `polyphase_resampler<T, Up, Down>` with its kernel built by the compiler.
+  - `signal/hilbert.hpp`: `analytic_signal` (scipy's `hilbert`), `hilbert_transform`, `envelope`,
+    `analytic_signal_backward`.
+- `math::log10` and `math::bessel_i0` (`math/constexpr_math.hpp`).
+- Reference fixtures from numpy 2.0.2, scipy 1.13.1 and librosa 0.11.0 (`tests/fixtures/signal/`,
+  `scripts/generate_signal_fixture.py`); benchmarks `signal/fft_benchmark` and `signal/convolve_benchmark`.
 
 ## 0.16.0 - 2026-11-19
 

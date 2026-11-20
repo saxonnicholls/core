@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::math`: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all `constexpr`, for any floating-point type.
+/// \brief `snicholls::math`: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, the Bessel function I0, and the normal and chi-square distributions, all `constexpr`, for any floating-point type.
 /// \ingroup core
 ///
 /// **Overview.** `<cmath>` is not `constexpr` in C++20, so a table built at compile time (a normal
@@ -715,6 +715,17 @@ constexpr real_t<X> log(X x)
     return detail::dispatch<real_t<X>>(x, [](auto v) { return detail::log_ct(v); }, [](auto v) { using std::log; return log(v); });
 }
 
+/// \brief The base-10 logarithm.
+/// \tparam X An integer or a `math_number`.
+/// \param x The argument.
+/// \return The result.
+template <math_argument X>
+constexpr real_t<X> log10(X x)
+{
+    return detail::dispatch<real_t<X>>(x, [](auto v) { return detail::log_ct(v) / detail::log_ct(decltype(v)(10)); },
+                                       [](auto v) { using std::log10; return log10(v); });
+}
+
 /// \brief The sine.
 /// \tparam X An integer or a `math_number`.
 /// \param x The argument.
@@ -908,6 +919,29 @@ template <math_argument X>
 constexpr real_t<X> acos(X x)
 {
     return detail::dispatch<real_t<X>>(x, [](auto v) { return detail::acos_ct(v); }, [](auto v) { using std::acos; return acos(v); });
+}
+
+/// \brief The modified Bessel function of the first kind of order zero, `I0(x) = sum_k ((x / 2)^k / k!)^2`: the Kaiser window's.
+///
+/// The power series, summed in the compute type until a term is below its tolerance, at compile time and at run time
+/// alike (`<cmath>` has `std::cyl_bessel_i` only in some standard libraries). Every term is positive, so the sum is
+/// accurate to a few units in the last place; it overflows to infinity beyond about 713 for a `double`.
+/// \tparam X An integer or a `math_number`.
+/// \param x The argument.
+/// \return The result.
+template <math_argument X>
+constexpr real_t<X> bessel_i0(X x)
+{
+    using C = detail::compute_t<real_t<X>>;
+    const C q = static_cast<C>(x) * static_cast<C>(x) / C(4);
+    C term = C(1), sum = C(1);
+    for (int k = 1; k < 1000; ++k) {
+        term *= q / (C(k) * C(k));
+        sum += term;
+        if (term <= detail::limits<real_t<X>>::series_tolerance * sum)
+            break;
+    }
+    return static_cast<real_t<X>>(sum);
 }
 
 /// \brief Whether `a` and `b` agree to `tol`, relative to their size.

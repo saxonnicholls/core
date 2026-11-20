@@ -13,13 +13,13 @@ and commit the result. The "relative" column is each row's time over the fastest
 
 | | |
 | --- | --- |
-| date | 2026-11-19 |
+| date | 2026-11-20 |
 | machine | Intel(R) Xeon(R) W-3245 CPU @ 3.20GHz, 32 CPUs |
 | OS | Darwin 25.6.0 |
 | compiler | AppleClang 17.0.0.17000309 |
-| build | Release, `build-werror` |
+| build | Release, `build-bench` |
 | min time per benchmark | 0.5 s |
-| this run | only `diloco`; other sections are from earlier runs |
+| this run | only `fft_benchmark`, `convolve_benchmark`; other sections are from earlier runs |
 
 ## accumulators_benchmark
 
@@ -131,6 +131,25 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Lookup100K_OpenAddressingByHand` | 2.19 ms | 2.29x | 29.99 M/s |
 | `BM_Lookup100K_StdUnorderedMap` | 10.80 ms | 11.29x | 6.91 M/s |
 
+## convolve_benchmark
+
+`benchmarks/signal/convolve_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Convolve_Core/16` | 187.70 us | 1.31x | 87.90 M/s |
+| `BM_Convolve_Core/64` | 812.01 us | 5.65x | 20.18 M/s |
+| `BM_Convolve_Core/512` | 8.46 ms | 58.87x | 1.94 M/s |
+| `BM_Convolve_HandWritten/16` | 143.65 us | 1.00x | 114.07 M/s |
+| `BM_Convolve_HandWritten/64` | 761.65 us | 5.30x | 21.52 M/s |
+| `BM_Convolve_HandWritten/512` | 8.31 ms | 57.84x | 1.97 M/s |
+| `BM_FftConvolve_Core/16` | 925.36 us | 6.44x | 17.79 M/s |
+| `BM_FftConvolve_Core/64` | 936.78 us | 6.52x | 17.50 M/s |
+| `BM_FftConvolve_Core/512` | 902.18 us | 6.28x | 18.17 M/s |
+| `BM_OverlapSave_Core/16` | 420.40 us | 2.93x | 38.97 M/s |
+| `BM_OverlapSave_Core/64` | 357.97 us | 2.49x | 45.79 M/s |
+| `BM_OverlapSave_Core/512` | 427.27 us | 2.97x | 38.35 M/s |
+
 ## dense_id_map_benchmark
 
 `benchmarks/containers/dense_id_map_benchmark.cpp`
@@ -150,6 +169,27 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_OrderedSum_HandWritten` | 2.07 ms | 2.48x | 511.93 M/s |
 | `BM_OuterStep_Core` | 929.41 us | 1.11x | 1.14 G/s |
 | `BM_OuterStep_HandWritten` | 834.46 us | 1.00x | 1.27 G/s |
+
+## fft_benchmark
+
+`benchmarks/signal/fft_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Fft_Core/1024` | 8.03 us | 1.93x | 128.16 M/s |
+| `BM_Fft_Core/4096` | 33.81 us | 8.13x | 121.26 M/s |
+| `BM_Fft_Core/1000` | 38.02 us | 9.14x | 26.30 M/s |
+| `BM_Fft_Core/1009` | 44.09 us | 10.60x | 22.89 M/s |
+| `BM_Fft_Core/65536` | 939.31 us | 225.87x | 70.03 M/s |
+| `BM_Fft_HandWrittenStockham/1024` | 8.24 us | 1.98x | 124.62 M/s |
+| `BM_Fft_HandWrittenStockham/4096` | 32.91 us | 7.91x | 124.50 M/s |
+| `BM_Fft_HandWrittenStockham/65536` | 935.78 us | 225.03x | 70.05 M/s |
+| `BM_Dft_Direct/1024` | 1.30 ms | 313.00x | 787.33 k/s |
+| `BM_Dft_Direct/1000` | 1.23 ms | 295.82x | 812.90 k/s |
+| `BM_Dft_Direct/1009` | 1.37 ms | 328.86x | 739.17 k/s |
+| `BM_Rfft_Core/1024` | 4.16 us | 1.00x | 246.24 M/s |
+| `BM_Rfft_Core/4096` | 18.33 us | 4.41x | 223.49 M/s |
+| `BM_Fft_StaticInPlaceRadix2` | 8.09 us | 1.95x | 126.53 M/s |
 
 ## flat_id_map_benchmark
 

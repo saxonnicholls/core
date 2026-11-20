@@ -174,6 +174,17 @@
 #include <snicholls/core/reflect/string_access.hpp>
 #include <snicholls/core/reflect/string_traits.hpp>
 #include <snicholls/core/reflect/struct_tuple.hpp>
+#include <snicholls/core/signal/complex.hpp>
+#include <snicholls/core/signal/convolve.hpp>
+#include <snicholls/core/signal/dct.hpp>
+#include <snicholls/core/signal/fft.hpp>
+#include <snicholls/core/signal/fir.hpp>
+#include <snicholls/core/signal/hilbert.hpp>
+#include <snicholls/core/signal/iir.hpp>
+#include <snicholls/core/signal/mel.hpp>
+#include <snicholls/core/signal/resample.hpp>
+#include <snicholls/core/signal/stft.hpp>
+#include <snicholls/core/signal/window.hpp>
 #include <snicholls/core/stats/accumulators.hpp>
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/covariance.hpp>
