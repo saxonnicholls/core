@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -95,10 +95,34 @@ $(function(){initNavTree('dir_daedd7797dcf4f1b9df5a556f0f11e89.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-files" class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
+<tr class="memitem:blake2_2Ehpp" id="r_blake2_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="blake2_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blake2_8hpp.html">blake2.hpp</a></td></tr>
+<tr class="memdesc:blake2_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">BLAKE2b and BLAKE2s (RFC 7693), keyed or not, with any output length, usable at compile time. <br /></td></tr>
+<tr class="memitem:blake3_2Ehpp" id="r_blake3_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="blake3_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blake3_8hpp.html">blake3.hpp</a></td></tr>
+<tr class="memdesc:blake3_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">BLAKE3: hash, keyed hash, key derivation and extendable output, on one thread, usable at compile time. <br /></td></tr>
+<tr class="memitem:crc_2Ehpp" id="r_crc_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="crc_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crc_8hpp.html">crc.hpp</a></td></tr>
+<tr class="memdesc:crc_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC-32 (zlib's), CRC-32C (Castagnoli) and CRC-64/XZ, with their tables built by the compiler. <br /></td></tr>
+<tr class="memitem:digest_2Ehpp" id="r_digest_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="digest_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="digest_8hpp.html">digest.hpp</a></td></tr>
+<tr class="memdesc:digest_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">digest&lt;N&gt;</span>, the value every hash in core returns, and the concepts the hashes share. <br /></td></tr>
 <tr class="memitem:fnv_2Ehpp" id="r_fnv_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="fnv_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fnv_8hpp.html">fnv.hpp</a></td></tr>
 <tr class="memdesc:fnv_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">FNV-1a hashing, usable at compile time and the same on every machine. <br /></td></tr>
 <tr class="memitem:hash_5Fcombine_2Ehpp" id="r_hash_5Fcombine_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="hash__combine_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hash__combine_8hpp.html">hash_combine.hpp</a></td></tr>
 <tr class="memdesc:hash__combine_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="group__core.html#gace89d770a926ae46bba7e0481738a6fb" title="Mixes hash value h into seed (order-sensitive), in 64 bits on every platform.">snicholls::hash_combine</a></span>: mix one hash value into a running seed, in 64 bits on every platform. <br /></td></tr>
+<tr class="memitem:hmac_2Ehpp" id="r_hmac_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="hmac_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hmac_8hpp.html">hmac.hpp</a></td></tr>
+<tr class="memdesc:hmac_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">HMAC (RFC 2104, FIPS 198-1) over any hash in core, usable at compile time. <br /></td></tr>
+<tr class="memitem:kdf_2Ehpp" id="r_kdf_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="kdf_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kdf_8hpp.html">kdf.hpp</a></td></tr>
+<tr class="memdesc:kdf_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">HKDF (RFC 5869) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory. <br /></td></tr>
+<tr class="memitem:ripemd160_2Ehpp" id="r_ripemd160_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="ripemd160_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ripemd160_8hpp.html">ripemd160.hpp</a></td></tr>
+<tr class="memdesc:ripemd160_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">RIPEMD-160 (Dobbertin, Bosselaers and Preneel, 1996), usable at compile time: Bitcoin's <span class="tt">hash160</span>. <br /></td></tr>
+<tr class="memitem:scrypt_2Ehpp" id="r_scrypt_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="scrypt_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scrypt_8hpp.html">scrypt.hpp</a></td></tr>
+<tr class="memdesc:scrypt_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">scrypt (RFC 7914), the memory-hard password KDF, in working memory the caller supplies. <br /></td></tr>
+<tr class="memitem:secure_2Ehpp" id="r_secure_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="secure_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="secure_8hpp.html">secure.hpp</a></td></tr>
+<tr class="memdesc:secure_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">secure_wipe</span>, which the optimiser may not remove, and <span class="tt">constant_time_equal</span> for MACs and digests. <br /></td></tr>
+<tr class="memitem:sha1_2Ehpp" id="r_sha1_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="sha1_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sha1_8hpp.html">sha1.hpp</a></td></tr>
+<tr class="memdesc:sha1_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">SHA-1 (FIPS 180-4), usable at compile time; for the protocols that still name it, never for security. <br /></td></tr>
+<tr class="memitem:sha2_2Ehpp" id="r_sha2_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="sha2_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sha2_8hpp.html">sha2.hpp</a></td></tr>
+<tr class="memdesc:sha2_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 (FIPS 180-4), usable at compile time. <br /></td></tr>
+<tr class="memitem:sha3_2Ehpp" id="r_sha3_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="sha3_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sha3_8hpp.html">sha3.hpp</a></td></tr>
+<tr class="memdesc:sha3_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">SHA3-224/256/384/512 and SHAKE128/256 (FIPS 202), and Ethereum's Keccak-256, on one Keccak-f[1600]. <br /></td></tr>
 <tr class="memitem:wyhash_2Ehpp" id="r_wyhash_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="wyhash_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wyhash_8hpp.html">wyhash.hpp</a></td></tr>
 <tr class="memdesc:wyhash_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">wyhash final version 4.3: a fast 64-bit hash, usable at compile time and the same on every machine. <br /></td></tr>
 </table>

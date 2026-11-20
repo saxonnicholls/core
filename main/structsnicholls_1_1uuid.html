@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -166,7 +166,7 @@ Friends</h2></td></tr>
 <div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1uuid.html">uuid</a> a = <span class="stringliteral">&quot;F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6&quot;</span>_uuid;   <span class="comment">// checked at compile time</span></div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> &lt;&lt; a &lt;&lt; <span class="stringliteral">&quot;  version &quot;</span> &lt;&lt; a.<a class="code hl_function" href="#a179480d67bbeb9dbcbbe58226990655f">version</a>() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">    <span class="keywordtype">char</span> buf[36];</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> [end, ec] = <a class="code hl_function" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e">snicholls::to_chars</a>(buf, buf + 36, a);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> [<a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">end</a>, ec] = <a class="code hl_function" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e">snicholls::to_chars</a>(buf, buf + 36, a);</div>
 <div class="line">    check(ec == std::errc{} &amp;&amp; std::string_view(buf, end - buf) == <span class="stringliteral">&quot;f81d4fae-7dec-11d0-a765-00a0c91e6bf6&quot;</span>, <span class="stringliteral">&quot;to_chars&quot;</span>);</div>
 <div class="line">    <span class="keywordtype">char</span> small[10];</div>
 <div class="line">    check(<a class="code hl_function" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e">snicholls::to_chars</a>(small, small + 10, a).ec == std::errc::value_too_large, <span class="stringliteral">&quot;to_chars: buffer too small&quot;</span>);</div>
@@ -209,7 +209,7 @@ Friends</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> std::string_view name = <span class="stringliteral">&quot;www.example.com&quot;</span>;</div>
 <div class="line">    check(<a class="code hl_function" href="group__core.html#ga3fe29dcc09ddce32184059c26f28b699">snicholls::make_uuid_v5</a>(<a class="code hl_variable" href="uuid_8hpp.html#acc5b6da40736c649c0abf3fe87f56ec6">snicholls::uuid_namespace::dns</a>, std::as_bytes(std::span(name.data(), name.size()))) == v5,</div>
 <div class="line">          <span class="stringliteral">&quot;v5 from bytes&quot;</span>);</div>
-<div class="line">    check(<a class="code hl_variable" href="uuid_8hpp.html#af77d05d48b0df7f3813febc235d8db42">snicholls::uuid_namespace::url</a> != <a class="code hl_variable" href="uuid_8hpp.html#a2aafdafd3db26c86f2c43e84d51fd54d">snicholls::uuid_namespace::oid</a> &amp;&amp; <a class="code hl_variable" href="uuid_8hpp.html#ad40ea2d7940a8eab9b329d9defc09740">snicholls::uuid_namespace::x500</a>.<a class="code hl_function" href="group__core.html#ga3f96282a1da786108d1b05820da0cc71">version</a>() == 1,</div>
+<div class="line">    check(<a class="code hl_variable" href="uuid_8hpp.html#af77d05d48b0df7f3813febc235d8db42">snicholls::uuid_namespace::url</a> != <a class="code hl_variable" href="uuid_8hpp.html#a2aafdafd3db26c86f2c43e84d51fd54d">snicholls::uuid_namespace::oid</a> &amp;&amp; <a class="code hl_variable" href="uuid_8hpp.html#ad40ea2d7940a8eab9b329d9defc09740">snicholls::uuid_namespace::x500</a>.version() == 1,</div>
 <div class="line">          <span class="stringliteral">&quot;namespace IDs&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    std::puts(<span class="stringliteral">&quot;Ordering and hashing&quot;</span>);</div>

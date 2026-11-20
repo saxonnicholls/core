@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -118,10 +118,21 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">rms</a>
  }</td></tr>
 <tr class="memdesc:a21b0dad5dc8807f3ffc438bf4402a444"><td class="mdescLeft">&#160;</td><td class="mdescRight">The normalisation before attention and before the MLP.  <a href="#a21b0dad5dc8807f3ffc438bf4402a444">More...</a><br /></td></tr>
-<tr class="memitem:ac5e0175232c3baa3e799982b3ed61ca4" id="r_ac5e0175232c3baa3e799982b3ed61ca4"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4">snicholls::ml::mlp_kind</a> { <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a">gelu</a>
+<tr class="memitem:ac5e0175232c3baa3e799982b3ed61ca4" id="r_ac5e0175232c3baa3e799982b3ed61ca4"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4">snicholls::ml::mlp_kind</a> { <br />
+&#160;&#160;<a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a">gelu</a>
 , <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">gelu_tanh</a>
 , <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4aadf0933e3ed181eac4ebdfde6fee3841">relu_squared</a>
 , <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c">swiglu</a>
+, <br />
+&#160;&#160;<a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4a08646b7766141c3745f5b5eee613b934">gelu_quick</a>
+, <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4a558b693797a345cb4dd3438031770f3d">reglu</a>
+, <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4ac07be79572afebadc302c8ac82feb799">geglu</a>
+, <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4a812b768129d358b1bfa299acac4f153f">geglu_erf</a>
+, <br />
+&#160;&#160;<a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4ad197736e9871ec5bb8d56375f7ed7922">geglu_quick</a>
+, <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4afff3d7c162f4187716d8399c6131606c">swiglu_oai</a>
+, <a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4a6d41daa70c80adc86313a78da2994c59">swiglu_clamp</a>
+<br />
  }</td></tr>
 <tr class="memdesc:ac5e0175232c3baa3e799982b3ed61ca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The MLP's form and activation.  <a href="#ac5e0175232c3baa3e799982b3ed61ca4">More...</a><br /></td></tr>
 <tr class="memitem:a8cbaf0209f9c7391b59294244380154b" id="r_a8cbaf0209f9c7391b59294244380154b"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cbaf0209f9c7391b59294244380154b">snicholls::ml::rope_kind</a> { <a class="el" href="#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>
@@ -139,11 +150,30 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a6ecd02f0374ce72ec8169a1bb8fce7cbaaccc4a6aef7653498bcf65507244b7f5">sigmoid</a>
  }</td></tr>
 <tr class="memdesc:a6ecd02f0374ce72ec8169a1bb8fce7cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">How a mixture of experts scores the experts and weights the ones it chooses (<span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>).  <a href="#a6ecd02f0374ce72ec8169a1bb8fce7cb">More...</a><br /></td></tr>
+<tr class="memitem:a8041a45fae39dc034df3344a21d5cd18" id="r_a8041a45fae39dc034df3344a21d5cd18"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8041a45fae39dc034df3344a21d5cd18">snicholls::ml::mixer_kind</a> { <br />
+&#160;&#160;<a class="el" href="#a8041a45fae39dc034df3344a21d5cd18a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>
+, <a class="el" href="#a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69">mamba2</a>
+, <a class="el" href="#a8041a45fae39dc034df3344a21d5cd18aebd55e8b55a5d33b8fcc59f67aa4ad3f">gated_deltanet</a>
+, <a class="el" href="#a8041a45fae39dc034df3344a21d5cd18af79d4ab46ae52104064d2e12db4c693d">gla</a>
+, <br />
+&#160;&#160;<a class="el" href="#a8041a45fae39dc034df3344a21d5cd18a3a599072ff690a7cbcc80f23707cd58d">rwkv6</a>
+, <a class="el" href="#a8041a45fae39dc034df3344a21d5cd18a2128feb701d1a375c39a262f1bc645c3">rwkv7</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a8041a45fae39dc034df3344a21d5cd18"><td class="mdescLeft">&#160;</td><td class="mdescRight">The linear-time sequence mixer a layer may use in place of attention (<span class="tt"><a class="el" href="mixer__layer_8hpp.html" title="snicholls::ml linear-time mixer layers in place of attention: Mamba-2&#39;s and the gated delta rule&#39;s (Q...">ml/mixer_layer.hpp</a></span>, TRAINING.md T15).  <a href="#a8041a45fae39dc034df3344a21d5cd18">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:afdb50df591db26e6fa93259ebd2ccd25" id="r_afdb50df591db26e6fa93259ebd2ccd25"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdb50df591db26e6fa93259ebd2ccd25">snicholls::ml::gated</a> (<a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4">mlp_kind</a> k) noexcept</td></tr>
+<tr class="memdesc:afdb50df591db26e6fa93259ebd2ccd25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether an MLP of this kind has a gate projection (the gated linear units of <span class="tt"><a class="el" href="glu_8hpp.html" title="snicholls::ml gated linear units: ReGLU, GEGLU (tanh, erf and quick), SwiGLU, gpt-oss&#39;s clamped SwiGL...">ml/glu.hpp</a></span>).  <br /></td></tr>
 <tr class="memitem:a0d30999955e8e36ef361251271d915cd" id="r_a0d30999955e8e36ef361251271d915cd"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d30999955e8e36ef361251271d915cd">snicholls::ml::valid_long_context</a> (const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;c) noexcept</td></tr>
 <tr class="memdesc:a0d30999955e8e36ef361251271d915cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the fields of TRAINING.md T12 are consistent: with no latent rank every MLA field 0; for MLA a rotary part that is even, set and smaller than <span class="tt">head_dim</span>, a value head, RoPE on, one key-value head per query head and the causal mask (the latent attention's only); a rescaling factor of at least 1, YaRN's trained context and <span class="tt">β &gt; α &gt; 0</span>; a non-negative MTP weight, 0 without modules; sinks and sparse attention only with MLA, the attention that implements them.  <br /></td></tr>
+<tr class="memitem:a4a39edf24f77feaaffbec3c2e9977b67" id="r_a4a39edf24f77feaaffbec3c2e9977b67"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a39edf24f77feaaffbec3c2e9977b67">snicholls::ml::valid_mixer</a> (const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;c) noexcept</td></tr>
+<tr class="memdesc:a4a39edf24f77feaaffbec3c2e9977b67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the mixer fields of TRAINING.md T15 are consistent: with no mixer every one of them 0; with one, every width set, the value heads a multiple of the key heads and a chunk; RWKV with one key head per value head and square heads; a short convolution of at least one tap for Mamba-2 and the gated delta rule; a hybrid period only with a mixer, its attention layer inside it.  <br /></td></tr>
+<tr class="memitem:aeb969523b1290784bf453881c45c7285" id="r_aeb969523b1290784bf453881c45c7285"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb969523b1290784bf453881c45c7285">snicholls::ml::mixer_state_size</a> (const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;c) noexcept</td></tr>
+<tr class="memdesc:aeb969523b1290784bf453881c45c7285"><td class="mdescLeft">&#160;</td><td class="mdescRight">The state a mixer keeps per sequence: <span class="tt">H · N · P</span> numbers (the short convolution's is <span class="tt"><a class="el" href="short__conv_8hpp.html" title="snicholls::ml short causal depthwise convolution (Mamba&#39;s conv1d): over a batch of sequences with a s...">ml/short_conv.hpp</a></span>'s).  <br /></td></tr>
+<tr class="memitem:ab60df2bd1a9b6ffce4e0291225c9976e" id="r_ab60df2bd1a9b6ffce4e0291225c9976e"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab60df2bd1a9b6ffce4e0291225c9976e">snicholls::ml::layer_is_attention</a> (const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;c, std::size_t layer) noexcept</td></tr>
+<tr class="memdesc:ab60df2bd1a9b6ffce4e0291225c9976e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether layer <span class="tt">layer</span> of a stack is attention: every layer without a mixer, none with a mixer and no hybrid period, else the layer at <span class="tt">hybrid_attention_offset</span> of each <span class="tt">hybrid_period</span> (Qwen3-Next: period 4, offset 3; Jamba's pattern: period 8, offset 4).  <br /></td></tr>
 <tr class="memitem:a381e1581feafff052df52f713595f04d" id="r_a381e1581feafff052df52f713595f04d"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a381e1581feafff052df52f713595f04d">snicholls::ml::valid</a> (const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;c) noexcept</td></tr>
 <tr class="memdesc:a381e1581feafff052df52f713595f04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether a configuration is consistent: every width set, <span class="tt">n_heads</span> a multiple of <span class="tt">n_kv_heads</span>, <span class="tt">head_dim</span> even under RoPE, a positive <span class="tt">norm_eps</span>, a non-negative soft cap; for a mixture of experts, <span class="tt"><a class="el" href="sampling_8hpp.html#a058648b4e4e2978edb77105648534454" title="The K largest values of a row and their indices, largest first: O(n · K), no allocation.">top_k</a></span> from 1 to <span class="tt">experts</span>, <span class="tt">expert_d_ff</span> set, a positive <span class="tt">route_scale</span> and non-negative balance settings, groups (if any) dividing the experts with <span class="tt">group_top_k</span> from 1 to <span class="tt">expert_groups</span> and enough experts in the chosen groups for <span class="tt"><a class="el" href="sampling_8hpp.html#a058648b4e4e2978edb77105648534454" title="The K largest values of a row and their indices, largest first: O(n · K), no allocation.">top_k</a></span>, and with no experts every expert field 0; a sliding window only under the causal mask, and a <span class="tt">mask_block</span> exactly under <span class="tt">block_causal</span>.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -169,6 +199,13 @@ Variables</h2></td></tr>
 <tr class="memdesc:ab771459e364ff486d6e5adcdca554ba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A small MLA model for tests and demos: 16 wide, 2 heads of 6 query-key channels (4 plain, 2 rotary) and 4 value channels, a query latent of 6 and a key-value latent of 8, RMS norm, SwiGLU, interleaved RoPE.  <br /></td></tr>
 <tr class="memitem:aa484a29c4fdd4498c3ffc5a99c27eb00" id="r_aa484a29c4fdd4498c3ffc5a99c27eb00"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa484a29c4fdd4498c3ffc5a99c27eb00">snicholls::ml::deepseek_v3</a></td></tr>
 <tr class="memdesc:aa484a29c4fdd4498c3ffc5a99c27eb00"><td class="mdescLeft">&#160;</td><td class="mdescRight">The attention shape of DeepSeek-V3 (DeepSeek-AI, 2024, section 4.2; its <span class="tt">config.json</span>): 7168 wide, 128 heads of 128 plain and 64 rotary query-key channels and 128 value channels, a query latent of 1536 and a key-value latent of 512, RMS norm (1e-6), interleaved RoPE with base 10,000 under YaRN (factor 40 from 4,096, β 32, α 1), one MTP module with <span class="tt">λ</span> 0.1 (0.3 for the first 10T tokens); its mixture of experts (section 2.1.2, <span class="tt">config.json</span>): 256 routed experts of 2048 (top 8) and one shared, sigmoid affinities normalised over the chosen and scaled by 2.5, the selection bias's step 0.001 and the sequence-wise balance loss at 0.0001 (section 4.2). <span class="tt">d_ff</span> is the dense MLP of its first three blocks (61 blocks, which the configuration does not carry; the other 58 are mixtures of experts), and its node-limited routing chooses each token's experts from 4 of 8 groups of 32 (section 2.1.2, <span class="tt">n_group</span>, <span class="tt">topk_group</span>). With a vocabulary of 129,280 (also not carried) these give 671.0B parameters, 37.6B active per token, as the paper's 671B and 37B (<span class="tt">tests/ml/composed_block_test.cpp</span>).  <br /></td></tr>
+<tr class="memitem:a32621b959583c14c8e717b00ddca053f" id="r_a32621b959583c14c8e717b00ddca053f"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32621b959583c14c8e717b00ddca053f">snicholls::ml::tiny_mamba2</a></td></tr>
+<tr class="memdesc:a32621b959583c14c8e717b00ddca053f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A small Mamba-2 model for tests and demos (<span class="tt"><a class="el" href="mixer__layer_8hpp.html" title="snicholls::ml linear-time mixer layers in place of attention: Mamba-2&#39;s and the gated delta rule&#39;s (Q...">ml/mixer_layer.hpp</a></span>): 8 wide, 2 attention heads of 4 for its hybrid layers, and a mixer of 2 heads of 4 value channels sharing one group of 4 state channels, a convolution of 4 taps, chunks of 4; RMS norm, SwiGLU, RoPE.  <br /></td></tr>
+<tr class="memitem:a75902fe5a82b3ab16dab29ece32e4b70" id="r_a75902fe5a82b3ab16dab29ece32e4b70"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75902fe5a82b3ab16dab29ece32e4b70">snicholls::ml::tiny_gated_deltanet</a></td></tr>
+<tr class="memdesc:a75902fe5a82b3ab16dab29ece32e4b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">A small gated-delta-rule model for tests and demos, laid out as Qwen3-Next's hybrid stack (three linear attention layers, then one attention layer: period 4, offset 3): 8 wide, attention heads as <span class="tt"><a class="el" href="#a32621b959583c14c8e717b00ddca053f" title="A small Mamba-2 model for tests and demos (ml/mixer_layer.hpp): 8 wide, 2 attention heads of 4 for it...">tiny_mamba2</a></span>'s, a mixer of 2 value heads of 4 sharing one key head of 4, a convolution of 4 taps, chunks of 4.  <br /></td></tr>
+<tr class="memitem:afb3f1a473435f2dfe21304c8696af1ab" id="r_afb3f1a473435f2dfe21304c8696af1ab"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T&gt; </td></tr>
+<tr class="memitem:afb3f1a473435f2dfe21304c8696af1ab template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb3f1a473435f2dfe21304c8696af1ab">snicholls::ml::mixer_scale_v</a> = T(1) / <a class="el" href="constexpr__math_8hpp.html#a0b16773df7354cfaf804d91b977b7b69">math::sqrt</a>(static_cast&lt;T&gt;(C.mixer_state))</td></tr>
+<tr class="memdesc:afb3f1a473435f2dfe21304c8696af1ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The scale of a linear attention's queries, <span class="tt">1 / sqrt(mixer_state)</span> (the gated delta rule's and gated linear attention's), evaluated at compile time.  <br /></td></tr>
 <tr class="memitem:a3768a7f85d5f7e9032f8034ac8085b95" id="r_a3768a7f85d5f7e9032f8034ac8085b95"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T&gt; </td></tr>
 <tr class="memitem:a3768a7f85d5f7e9032f8034ac8085b95 template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3768a7f85d5f7e9032f8034ac8085b95">snicholls::ml::norm_eps_v</a> = static_cast&lt;T&gt;(C.norm_eps)</td></tr>
 <tr class="memdesc:a3768a7f85d5f7e9032f8034ac8085b95"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">C.norm_eps</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues).  <br /></td></tr>
@@ -196,6 +233,12 @@ Variables</h2></td></tr>
 <tr class="memitem:a8f9b78f801b3fc5bb3be62f993296318" id="r_a8f9b78f801b3fc5bb3be62f993296318"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T&gt; </td></tr>
 <tr class="memitem:a8f9b78f801b3fc5bb3be62f993296318 template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f9b78f801b3fc5bb3be62f993296318">snicholls::ml::mtp_loss_weight_v</a> = static_cast&lt;T&gt;(C.mtp_loss_weight)</td></tr>
 <tr class="memdesc:a8f9b78f801b3fc5bb3be62f993296318"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">C.mtp_loss_weight</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues).  <br /></td></tr>
+<tr class="memitem:a106dfa055544c8b9eb8a59f60c244e87" id="r_a106dfa055544c8b9eb8a59f60c244e87"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T&gt; </td></tr>
+<tr class="memitem:a106dfa055544c8b9eb8a59f60c244e87 template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a106dfa055544c8b9eb8a59f60c244e87">snicholls::ml::glu_alpha_v</a> = static_cast&lt;T&gt;(C.glu_alpha)</td></tr>
+<tr class="memdesc:a106dfa055544c8b9eb8a59f60c244e87"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">C.glu_alpha</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues).  <br /></td></tr>
+<tr class="memitem:a87689aeac2f60db19f312df039ec664e" id="r_a87689aeac2f60db19f312df039ec664e"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T&gt; </td></tr>
+<tr class="memitem:a87689aeac2f60db19f312df039ec664e template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87689aeac2f60db19f312df039ec664e">snicholls::ml::glu_limit_v</a> = static_cast&lt;T&gt;(C.glu_limit)</td></tr>
+<tr class="memdesc:a87689aeac2f60db19f312df039ec664e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">C.glu_limit</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues).  <br /></td></tr>
 <tr class="memitem:a51509961945ef23ee7968511d1690b5c" id="r_a51509961945ef23ee7968511d1690b5c"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T&gt; </td></tr>
 <tr class="memitem:a51509961945ef23ee7968511d1690b5c template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1rope__scaling.html">rope_scaling</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51509961945ef23ee7968511d1690b5c">snicholls::ml::rope_scaling_v</a></td></tr>
 <tr class="memdesc:a51509961945ef23ee7968511d1690b5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The configuration's RoPE rescaling in <span class="tt">T</span>, for <span class="tt">rope_table(base, scaling)</span>, every field evaluated at compile time; the amplitude is 1 (a latent attention takes YaRN's temperature in its score scale).  <br /></td></tr>
@@ -227,7 +270,21 @@ Variables</h2></td></tr>
 <div class="line"><span class="keyword">static_assert</span>(ml::valid(latent) &amp;&amp; ml::valid_long_context(latent) &amp;&amp; latent.latent() &amp;&amp; latent.qk_nope_dim() == 64);</div>
 <div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> scaling = ml::rope_scaling_v&lt;latent, double&gt;;          <span class="comment">// for rope_table(base, scaling)</span></div>
 <div class="line"><span class="keyword">constexpr</span> <span class="keywordtype">double</span> temperature = ml::yarn_attention_factor_v&lt;latent, double&gt;;</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="kv__cache_8hpp.html" title="snicholls::ml::kv_cache_view and kv_cache: the keys and values of every layer and key-value head,...">ml/kv_cache.hpp</a></span>, <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>; the plan is <span class="tt">INFERENCE.md</span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Gated MLPs</b> (INFERENCE.md I12). <span class="tt">mlp</span> is one of the plain activations (GELU, tanh GELU, ReLU², quick GELU) or a gated linear unit (<span class="tt">gated(mlp)</span>: SwiGLU, ReGLU, the three GEGLUs, gpt-oss's clamped SwiGLU and SwiGLU with a clamp; <span class="tt"><a class="el" href="glu_8hpp.html" title="snicholls::ml gated linear units: ReGLU, GEGLU (tanh, erf and quick), SwiGLU, gpt-oss&#39;s clamped SwiGL...">ml/glu.hpp</a></span>). The clamped ones read <span class="tt">glu_alpha</span> and <span class="tt">glu_limit</span>, one group after the others whose defaults (gpt-oss's 1.702 and 7) change no other kind.</p>
+<div class="fragment"><div class="line">    <span class="comment">// gpt-oss&#39;s MLP: a clamped SwiGLU, with the constants read at compile time</span></div>
+<div class="line">    <span class="keyword">constexpr</span> ml::transformer_config oss{.d_model = 2880, .n_heads = 64, .n_kv_heads = 8, .head_dim = 64, .d_ff = 2880,</div>
+<div class="line">                                         .mlp = ml::mlp_kind::swiglu_oai, .rope = ml::rope_kind::half, .rope_base = 150000};</div>
+<div class="line">    <span class="keyword">static_assert</span>(ml::valid(oss) &amp;&amp; ml::gated(oss.mlp) &amp;&amp; !ml::gated(ml::mlp_kind::gelu_quick));</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">float</span> alpha = ml::glu_alpha_v&lt;oss, float&gt;, limit = ml::glu_limit_v&lt;oss, float&gt;;</div>
+</div><!-- fragment --><p> <b>Linear-time sequence mixers</b> (TRAINING.md T15), one group of fields after the others, every default leaving a model as it was: the mixer a layer uses in place of attention (<span class="tt">mixer</span>: Mamba-2 or the gated delta rule as layers; gated linear attention and RWKV as ops), its heads, channels, groups, convolution and chunk, and the hybrid stack's pattern (<span class="tt">hybrid_period</span>, <span class="tt">hybrid_attention_offset</span>, read by <span class="tt">layer_is_attention</span>). <span class="tt">valid_mixer</span> checks them; <span class="tt">mixer_state_size</span> is a sequence's state; <span class="tt">tiny_mamba2</span> and <span class="tt">tiny_gated_deltanet</span> set them.</p>
+<div class="fragment"><div class="line">    <span class="comment">// Qwen3-Next&#39;s hybrid stack in miniature: gated delta rule layers, one attention layer in every four</span></div>
+<div class="line">    <span class="keyword">constexpr</span> ml::transformer_config hybrid = ml::tiny_gated_deltanet;</div>
+<div class="line">    <span class="keyword">static_assert</span>(ml::valid_mixer(hybrid));</div>
+<div class="line">    std::size_t attention_layers = 0;</div>
+<div class="line">    <span class="keywordflow">for</span> (std::size_t layer = 0; <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">layer</a> &lt; 12; ++<a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">layer</a>)</div>
+<div class="line">        attention_layers += ml::layer_is_attention(hybrid, layer) ? 1 : 0;</div>
+<div class="line">    <span class="keyword">const</span> std::size_t state = ml::mixer_state_size(hybrid);   <span class="comment">// per sequence and mixer layer, whatever the length</span></div>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or a ...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="kv__cache_8hpp.html" title="snicholls::ml::kv_cache_view and kv_cache: the keys and values of every layer and key-value head,...">ml/kv_cache.hpp</a></span>, <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>; the plan is <span class="tt">INFERENCE.md</span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Mixture of experts.</b> With <span class="tt">experts &gt; 0</span> the MLP is a mixture of experts (<span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>, TRAINING.md T10): <span class="tt">top_k</span> of <span class="tt">experts</span> routed experts of <span class="tt">expert_d_ff</span> per token, scored as <span class="tt">scoring</span> says, <span class="tt">shared_experts</span> dense experts every token passes through, the balance settings, and DeepSeek-V3's node-limited routing (<span class="tt">expert_groups</span>, <span class="tt">group_top_k</span>: a token's experts come from its best <span class="tt">group_top_k</span> of <span class="tt">expert_groups</span> groups; 0 and 0, the defaults, route over every expert). With <span class="tt">experts == 0</span> (the default) every expert field is 0 and nothing changes for a dense model.</p>
 <div class="fragment"><div class="line"><span class="comment">// A mixture of experts in DeepSeek-V3&#39;s style: 16 fine-grained experts of 256, each token to 4, one shared expert,</span></div>
 <div class="line"><span class="comment">// sigmoid scoring scaled by 2.5, the selection bias stepped by 0.001 (ml/moe.hpp)</span></div>
@@ -250,12 +307,52 @@ Variables</h2></td></tr>
 <p><b>Errors.</b> None at run time. A configuration whose <span class="tt">n_heads</span> is not a multiple of <span class="tt">n_kv_heads</span>, with an odd <span class="tt">head_dim</span> under RoPE, or with a zero width is a compile error (<span class="tt">static_assert</span> with a <span class="tt">snicholls::ml::</span> message).</p>
 <p><b>Performance.</b> Not applicable: a value read by the compiler.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/transformer_config_test.cpp</span>, <span class="tt">demos/ml/transformer_config_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;cstddef&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">snicholls/core/ml/attention.hpp</a></span> (<span class="tt">attention_mask</span>), <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">snicholls/core/ml/rope.hpp</a></span> (<span class="tt">rope_layout</span>, <span class="tt">rope_scaling</span>).</p>
-<p><b>Known issues.</b> Clang (Apple clang 17, Clang 18) miscompiles a run-time read of a <span class="tt">double</span> member of a class-type template argument: it loads garbage (<span class="tt">C.norm_eps</span> reads as 6e-314), while the same read in a constant expression is right, and GCC is right in both. Read the floating-point members through <span class="tt">norm_eps_v</span>, <span class="tt">rope_base_v</span>, <span class="tt">attention_softcap_v</span>, the mixture of experts' <span class="tt">route_scale_v</span>, <span class="tt">bias_update_rate_v</span>, <span class="tt">balance_loss_weight_v</span> and <span class="tt">z_loss_weight_v</span>, and <span class="tt">rope_factor_v</span>, <span class="tt">mtp_loss_weight_v</span>, <span class="tt">rope_scaling_v</span> and <span class="tt">yarn_attention_factor_v</span>, which evaluate them at compile time, never as <span class="tt">C.norm_eps</span> in code that runs; every header here does. Wrapping the value in a class (its bits as an integer) is worse: Clang 18 crashes.</p>
-<p><b>Status.</b> Experimental, new in 0.8.0; the mixture-of-experts fields, <span class="tt">mask</span>, <span class="tt">mask_block</span>, <span class="tt">vit_base</span>, the fields of TRAINING.md T12, <span class="tt">deepseek_v3</span> and <span class="tt">tiny_mla</span> new in 0.16.0. </p>
+<p><b>Dependencies.</b> <span class="tt">&lt;cstddef&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">snicholls/core/ml/attention.hpp</a></span> (<span class="tt">attention_mask</span>), <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">snicholls/core/ml/rope.hpp</a></span> (<span class="tt">rope_layout</span>, <span class="tt">rope_scaling</span>).</p>
+<p><b>Known issues.</b> Clang (Apple clang 17, Clang 18) miscompiles a run-time read of a <span class="tt">double</span> member of a class-type template argument: it loads garbage (<span class="tt">C.norm_eps</span> reads as 6e-314), while the same read in a constant expression is right, and GCC is right in both. Read the floating-point members through <span class="tt">norm_eps_v</span>, <span class="tt">rope_base_v</span>, <span class="tt">attention_softcap_v</span>, the mixture of experts' <span class="tt">route_scale_v</span>, <span class="tt">bias_update_rate_v</span>, <span class="tt">balance_loss_weight_v</span> and <span class="tt">z_loss_weight_v</span>, <span class="tt">rope_factor_v</span>, <span class="tt">mtp_loss_weight_v</span>, <span class="tt">rope_scaling_v</span> and <span class="tt">yarn_attention_factor_v</span>, and <span class="tt">glu_alpha_v</span> and <span class="tt">glu_limit_v</span>, which evaluate them at compile time, never as <span class="tt">C.norm_eps</span> in code that runs; every header here does. Wrapping the value in a class (its bits as an integer) is worse: Clang 18 crashes.</p>
+<p><b>Status.</b> Experimental, new in 0.8.0; the mixture-of-experts fields, <span class="tt">mask</span>, <span class="tt">mask_block</span>, <span class="tt">vit_base</span>, the fields of TRAINING.md T12, <span class="tt">deepseek_v3</span> and <span class="tt">tiny_mla</span> new in 0.16.0; the gated kinds after <span class="tt">swiglu</span>, <span class="tt">gated</span>, <span class="tt">glu_alpha</span>, <span class="tt">glu_limit</span> and their readers, the mixer fields, <span class="tt">valid_mixer</span>, <span class="tt">mixer_state_size</span>, <span class="tt">layer_is_attention</span>, <span class="tt">mixer_scale_v</span>, <span class="tt">tiny_mamba2</span> and <span class="tt">tiny_gated_deltanet</span> new in 0.17.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 </div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="a8041a45fae39dc034df3344a21d5cd18" name="a8041a45fae39dc034df3344a21d5cd18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8041a45fae39dc034df3344a21d5cd18">&#9670;&#160;</a></span>mixer_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a8041a45fae39dc034df3344a21d5cd18">snicholls::ml::mixer_kind</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The linear-time sequence mixer a layer may use in place of attention (<span class="tt"><a class="el" href="mixer__layer_8hpp.html" title="snicholls::ml linear-time mixer layers in place of attention: Mamba-2&#39;s and the gated delta rule&#39;s (Q...">ml/mixer_layer.hpp</a></span>, TRAINING.md T15). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8041a45fae39dc034df3344a21d5cd18a334c4a4c42fdb79d7ebc3e73b517e6f8" name="a8041a45fae39dc034df3344a21d5cd18a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>No mixer: every layer is attention. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69" name="a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69"></a>mamba2&#160;</td><td class="fielddoc"><p>Mamba-2's selective state space (<span class="tt"><a class="el" href="ssd_8hpp.html" title="snicholls::ml Mamba-2&#39;s selective state space (SSD): the recurrent scan, the chunked form (quadratic ...">ml/ssd.hpp</a></span>), a layer of its own. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8041a45fae39dc034df3344a21d5cd18aebd55e8b55a5d33b8fcc59f67aa4ad3f" name="a8041a45fae39dc034df3344a21d5cd18aebd55e8b55a5d33b8fcc59f67aa4ad3f"></a>gated_deltanet&#160;</td><td class="fielddoc"><p>The gated delta rule (<span class="tt"><a class="el" href="delta__rule_8hpp.html" title="snicholls::ml the gated delta rule (Gated DeltaNet, Qwen3-Next&#39;s and Kimi Linear&#39;s linear attention):...">ml/delta_rule.hpp</a></span>), Qwen3-Next's linear attention, a layer of its own. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8041a45fae39dc034df3344a21d5cd18af79d4ab46ae52104064d2e12db4c693d" name="a8041a45fae39dc034df3344a21d5cd18af79d4ab46ae52104064d2e12db4c693d"></a>gla&#160;</td><td class="fielddoc"><p>Gated linear attention (<span class="tt"><a class="el" href="gla_8hpp.html" title="snicholls::ml gated linear attention (GLA): the recurrent form, the chunked form, the backward pass,...">ml/gla.hpp</a></span>): the shape of its op; no layer yet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8041a45fae39dc034df3344a21d5cd18a3a599072ff690a7cbcc80f23707cd58d" name="a8041a45fae39dc034df3344a21d5cd18a3a599072ff690a7cbcc80f23707cd58d"></a>rwkv6&#160;</td><td class="fielddoc"><p>RWKV-6's WKV (<span class="tt"><a class="el" href="rwkv_8hpp.html" title="snicholls::ml RWKV&#39;s sequence mixing: token shift, RWKV-6&#39;s WKV with its bonus, and RWKV-7&#39;s WKV (the...">ml/rwkv.hpp</a></span>): the shape of its op; no layer yet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8041a45fae39dc034df3344a21d5cd18a2128feb701d1a375c39a262f1bc645c3" name="a8041a45fae39dc034df3344a21d5cd18a2128feb701d1a375c39a262f1bc645c3"></a>rwkv7&#160;</td><td class="fielddoc"><p>RWKV-7's WKV (<span class="tt"><a class="el" href="rwkv_8hpp.html" title="snicholls::ml RWKV&#39;s sequence mixing: token shift, RWKV-6&#39;s WKV with its bonus, and RWKV-7&#39;s WKV (the...">ml/rwkv.hpp</a></span>): the shape of its op; no layer yet. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00173">173</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ac5e0175232c3baa3e799982b3ed61ca4" name="ac5e0175232c3baa3e799982b3ed61ca4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac5e0175232c3baa3e799982b3ed61ca4">&#9670;&#160;</a></span>mlp_kind</h2>
 
@@ -286,9 +383,23 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c" name="ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c"></a>swiglu&#160;</td><td class="fielddoc"><p><span class="tt">down(silu(gate x) · up x)</span>: Llama. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4a08646b7766141c3745f5b5eee613b934" name="ac5e0175232c3baa3e799982b3ed61ca4a08646b7766141c3745f5b5eee613b934"></a>gelu_quick&#160;</td><td class="fielddoc"><p><span class="tt">down(gelu_quick(up x))</span>: CLIP's vision encoder. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4a558b693797a345cb4dd3438031770f3d" name="ac5e0175232c3baa3e799982b3ed61ca4a558b693797a345cb4dd3438031770f3d"></a>reglu&#160;</td><td class="fielddoc"><p><span class="tt">down(relu(gate x) · up x)</span> (<span class="tt"><a class="el" href="glu_8hpp.html" title="snicholls::ml gated linear units: ReGLU, GEGLU (tanh, erf and quick), SwiGLU, gpt-oss&#39;s clamped SwiGL...">ml/glu.hpp</a></span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4ac07be79572afebadc302c8ac82feb799" name="ac5e0175232c3baa3e799982b3ed61ca4ac07be79572afebadc302c8ac82feb799"></a>geglu&#160;</td><td class="fielddoc"><p><span class="tt">down(gelu_tanh(gate x) · up x)</span>: ggml's GEGLU, Gemma. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4a812b768129d358b1bfa299acac4f153f" name="ac5e0175232c3baa3e799982b3ed61ca4a812b768129d358b1bfa299acac4f153f"></a>geglu_erf&#160;</td><td class="fielddoc"><p><span class="tt">down(gelu(gate x) · up x)</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4ad197736e9871ec5bb8d56375f7ed7922" name="ac5e0175232c3baa3e799982b3ed61ca4ad197736e9871ec5bb8d56375f7ed7922"></a>geglu_quick&#160;</td><td class="fielddoc"><p><span class="tt">down(gelu_quick(gate x) · up x)</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4afff3d7c162f4187716d8399c6131606c" name="ac5e0175232c3baa3e799982b3ed61ca4afff3d7c162f4187716d8399c6131606c"></a>swiglu_oai&#160;</td><td class="fielddoc"><p>gpt-oss's clamped SwiGLU with <span class="tt">glu_alpha</span> and <span class="tt">glu_limit</span> (<span class="tt"><a class="el" href="group__core.html#gga584f745fb8285b09f0aa49be961b9e32afff3d7c162f4187716d8399c6131606c" title="gpt-oss: x · sigmoid(α x) · (y + 1), x = min(g, limit), y = clamp(u, -limit, limit).">glu_kind::swiglu_oai</a></span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac5e0175232c3baa3e799982b3ed61ca4a6d41daa70c80adc86313a78da2994c59" name="ac5e0175232c3baa3e799982b3ed61ca4a6d41daa70c80adc86313a78da2994c59"></a>swiglu_clamp&#160;</td><td class="fielddoc"><p><span class="tt">down(silu(min(gate x, limit)) · clamp(up x, ±limit))</span> with <span class="tt">glu_limit</span>. </p>
+</td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00094">94</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00110">110</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,7 +433,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00119">119</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00165">165</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -354,7 +465,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00087">87</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00103">103</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -388,7 +499,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00111">111</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00157">157</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -422,11 +533,124 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00103">103</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00149">149</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="afdb50df591db26e6fa93259ebd2ccd25" name="afdb50df591db26e6fa93259ebd2ccd25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdb50df591db26e6fa93259ebd2ccd25">&#9670;&#160;</a></span>gated()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::ml::gated </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac5e0175232c3baa3e799982b3ed61ca4">mlp_kind</a></td>          <td class="paramname"><span class="paramname"><em>k</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether an MLP of this kind has a gate projection (the gated linear units of <span class="tt"><a class="el" href="glu_8hpp.html" title="snicholls::ml gated linear units: ReGLU, GEGLU (tanh, erf and quick), SwiGLU, gpt-oss&#39;s clamped SwiGL...">ml/glu.hpp</a></span>). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k</td><td>The kind. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True for <span class="tt">swiglu</span>, <span class="tt">reglu</span>, the GEGLUs and the clamped SwiGLUs. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00128">128</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab60df2bd1a9b6ffce4e0291225c9976e" name="ab60df2bd1a9b6ffce4e0291225c9976e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab60df2bd1a9b6ffce4e0291225c9976e">&#9670;&#160;</a></span>layer_is_attention()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::ml::layer_is_attention </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>layer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether layer <span class="tt">layer</span> of a stack is attention: every layer without a mixer, none with a mixer and no hybrid period, else the layer at <span class="tt">hybrid_attention_offset</span> of each <span class="tt">hybrid_period</span> (Qwen3-Next: period 4, offset 3; Jamba's pattern: period 8, offset 4). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The configuration.</td></tr>
+    <tr><td class="paramname">layer</td><td>The layer, from 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether it is attention; otherwise it is the configuration's mixer. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00325">325</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aeb969523b1290784bf453881c45c7285" name="aeb969523b1290784bf453881c45c7285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb969523b1290784bf453881c45c7285">&#9670;&#160;</a></span>mixer_state_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::mixer_state_size </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>c</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The state a mixer keeps per sequence: <span class="tt">H · N · P</span> numbers (the short convolution's is <span class="tt"><a class="el" href="short__conv_8hpp.html" title="snicholls::ml short causal depthwise convolution (Mamba&#39;s conv1d): over a batch of sequences with a s...">ml/short_conv.hpp</a></span>'s). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of values; 0 with no mixer. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00315">315</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a381e1581feafff052df52f713595f04d" name="a381e1581feafff052df52f713595f04d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a381e1581feafff052df52f713595f04d">&#9670;&#160;</a></span>valid()</h2>
 
@@ -459,7 +683,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Whether it is valid. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00227">227</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00339">339</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -495,7 +719,43 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Whether those fields are valid. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00207">207</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00280">280</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4a39edf24f77feaaffbec3c2e9977b67" name="a4a39edf24f77feaaffbec3c2e9977b67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a39edf24f77feaaffbec3c2e9977b67">&#9670;&#160;</a></span>valid_mixer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::ml::valid_mixer </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>c</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether the mixer fields of TRAINING.md T15 are consistent: with no mixer every one of them 0; with one, every width set, the value heads a multiple of the key heads and a chunk; RWKV with one key head per value head and square heads; a short convolution of at least one tap for Mamba-2 and the gated delta rule; a hybrid period only with a mixer, its attention layer inside it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether those fields are valid. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00299">299</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -524,7 +784,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.attention_softcap</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00327">327</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00462">462</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -552,7 +812,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.balance_loss_weight</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00339">339</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00474">474</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -580,7 +840,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.bias_update_rate</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00335">335</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00470">470</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -614,14 +874,70 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 <div class="line">                                                .rope_original_context = 4096, .yarn_beta_fast = 32, .yarn_beta_slow = 1,</div>
 <div class="line">                                                .yarn_mscale = 1, .mtp_depth = 1, .mtp_loss_weight = 0.1}</div>
 <div class="ttc" id="agroup__core_html_gga1b1f83a6f20af477f93e246c8d25a67da94b941dedc33c2a74d8bcbb3a9011556"><div class="ttname"><a href="group__core.html#gga1b1f83a6f20af477f93e246c8d25a67da94b941dedc33c2a74d8bcbb3a9011556">snicholls::ml::rope_scaling_kind::yarn_index_ramp</a></div><div class="ttdeci">@ yarn_index_ramp</div><div class="ttdef"><b>Definition</b> <a href="rope_8hpp_source.html#l00146">rope.hpp:146</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92"><div class="ttname"><a href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">snicholls::ml::norm_kind::rms</a></div><div class="ttdeci">@ rms</div><div class="ttdoc">rms_norm: Llama, nanochat.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00090">transformer_config.hpp:90</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_a6ecd02f0374ce72ec8169a1bb8fce7cbaaccc4a6aef7653498bcf65507244b7f5"><div class="ttname"><a href="#a6ecd02f0374ce72ec8169a1bb8fce7cbaaccc4a6aef7653498bcf65507244b7f5">snicholls::ml::moe_scoring::sigmoid</a></div><div class="ttdeci">@ sigmoid</div><div class="ttdoc">A sigmoid per expert; choose by it, the weights the chosen sigmoids divided by their sum (DeepSeek-V3...</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00123">transformer_config.hpp:123</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_a8cbaf0209f9c7391b59294244380154ba5fc70ff0369f56d734047c9507af8623"><div class="ttname"><a href="#a8cbaf0209f9c7391b59294244380154ba5fc70ff0369f56d734047c9507af8623">snicholls::ml::rope_kind::interleaved</a></div><div class="ttdeci">@ interleaved</div><div class="ttdoc">RoPE, adjacent channels paired (the original Llama).</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00107">transformer_config.hpp:107</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c">snicholls::ml::mlp_kind::swiglu</a></div><div class="ttdeci">@ swiglu</div><div class="ttdoc">down(silu(gate x) · up x): Llama.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00099">transformer_config.hpp:99</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92"><div class="ttname"><a href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">snicholls::ml::norm_kind::rms</a></div><div class="ttdeci">@ rms</div><div class="ttdoc">rms_norm: Llama, nanochat.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00106">transformer_config.hpp:106</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a6ecd02f0374ce72ec8169a1bb8fce7cbaaccc4a6aef7653498bcf65507244b7f5"><div class="ttname"><a href="#a6ecd02f0374ce72ec8169a1bb8fce7cbaaccc4a6aef7653498bcf65507244b7f5">snicholls::ml::moe_scoring::sigmoid</a></div><div class="ttdeci">@ sigmoid</div><div class="ttdoc">A sigmoid per expert; choose by it, the weights the chosen sigmoids divided by their sum (DeepSeek-V3...</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00169">transformer_config.hpp:169</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a8cbaf0209f9c7391b59294244380154ba5fc70ff0369f56d734047c9507af8623"><div class="ttname"><a href="#a8cbaf0209f9c7391b59294244380154ba5fc70ff0369f56d734047c9507af8623">snicholls::ml::rope_kind::interleaved</a></div><div class="ttdeci">@ interleaved</div><div class="ttdoc">RoPE, adjacent channels paired (the original Llama).</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00153">transformer_config.hpp:153</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c">snicholls::ml::mlp_kind::swiglu</a></div><div class="ttdeci">@ swiglu</div><div class="ttdoc">down(silu(gate x) · up x): Llama.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00115">transformer_config.hpp:115</a></div></div>
 </div><!-- fragment -->
 <p>The attention shape of DeepSeek-V3 (DeepSeek-AI, 2024, section 4.2; its <span class="tt">config.json</span>): 7168 wide, 128 heads of 128 plain and 64 rotary query-key channels and 128 value channels, a query latent of 1536 and a key-value latent of 512, RMS norm (1e-6), interleaved RoPE with base 10,000 under YaRN (factor 40 from 4,096, β 32, α 1), one MTP module with <span class="tt">λ</span> 0.1 (0.3 for the first 10T tokens); its mixture of experts (section 2.1.2, <span class="tt">config.json</span>): 256 routed experts of 2048 (top 8) and one shared, sigmoid affinities normalised over the chosen and scaled by 2.5, the selection bias's step 0.001 and the sequence-wise balance loss at 0.0001 (section 4.2). <span class="tt">d_ff</span> is the dense MLP of its first three blocks (61 blocks, which the configuration does not carry; the other 58 are mixtures of experts), and its node-limited routing chooses each token's experts from 4 of 8 groups of 32 (section 2.1.2, <span class="tt">n_group</span>, <span class="tt">topk_group</span>). With a vocabulary of 129,280 (also not carried) these give 671.0B parameters, 37.6B active per token, as the paper's 671B and 37B (<span class="tt">tests/ml/composed_block_test.cpp</span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00306">306</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00419">419</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a106dfa055544c8b9eb8a59f60c244e87" name="a106dfa055544c8b9eb8a59f60c244e87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a106dfa055544c8b9eb8a59f60c244e87">&#9670;&#160;</a></span>glu_alpha_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;transformer_config C, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T snicholls::ml::glu_alpha_v = static_cast&lt;T&gt;(C.glu_alpha)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">C.glu_alpha</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00490">490</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a87689aeac2f60db19f312df039ec664e" name="a87689aeac2f60db19f312df039ec664e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87689aeac2f60db19f312df039ec664e">&#9670;&#160;</a></span>glu_limit_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;transformer_config C, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T snicholls::ml::glu_limit_v = static_cast&lt;T&gt;(C.glu_limit)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">C.glu_limit</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00494">494</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -646,12 +962,12 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 1280, .n_heads = 20, .n_kv_heads = 20, .head_dim = 64, .d_ff = 5120,</div>
 <div class="line">                                               .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">norm_kind::layer</a>, .norm_eps = 1e-5, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">mlp_kind::gelu_tanh</a>, .bias = <span class="keyword">true</span>}</div>
-<div class="ttc" id="atransformer__config_8hpp_html_a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b"><div class="ttname"><a href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">snicholls::ml::norm_kind::layer</a></div><div class="ttdeci">@ layer</div><div class="ttdoc">layer_norm: GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00089">transformer_config.hpp:89</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">snicholls::ml::mlp_kind::gelu_tanh</a></div><div class="ttdeci">@ gelu_tanh</div><div class="ttdoc">down(gelu_tanh(up x)): GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00097">transformer_config.hpp:97</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b"><div class="ttname"><a href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">snicholls::ml::norm_kind::layer</a></div><div class="ttdeci">@ layer</div><div class="ttdoc">layer_norm: GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00105">transformer_config.hpp:105</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4a3dc8fa0fa3e73afe3d02390f2ac56189">snicholls::ml::mlp_kind::gelu_tanh</a></div><div class="ttdeci">@ gelu_tanh</div><div class="ttdoc">down(gelu_tanh(up x)): GPT-2.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00113">transformer_config.hpp:113</a></div></div>
 </div><!-- fragment -->
 <p>The shape of GPT-2 large (774M): 20 heads of 64, 1280 wide, otherwise as <span class="tt">gpt2_small</span> (36 blocks). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00251">251</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00364">364</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -679,7 +995,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>The shape of GPT-2 medium (350M): 16 heads of 64, 1024 wide, otherwise as <span class="tt">gpt2_small</span> (24 blocks, which the configuration does not carry). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00247">247</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00360">360</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -707,7 +1023,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>The shape of GPT-2 small (124M): 12 heads of 64, layer norm, tanh GELU, biases, learned positions. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00242">242</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00355">355</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -733,11 +1049,39 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 4096, .n_heads = 32, .n_kv_heads = 8, .head_dim = 128, .d_ff = 14336,</div>
 <div class="line">                                              .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">norm_kind::rms</a>, .norm_eps = 1e-5, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c">mlp_kind::swiglu</a>,</div>
 <div class="line">                                              .rope = <a class="code hl_enumvalue" href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">rope_kind::half</a>, .rope_base = 500000}</div>
-<div class="ttc" id="atransformer__config_8hpp_html_a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4"><div class="ttname"><a href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">snicholls::ml::rope_kind::half</a></div><div class="ttdeci">@ half</div><div class="ttdoc">RoPE, the halves of a head paired (Hugging Face&#39;s rotate_half, nanochat).</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00106">transformer_config.hpp:106</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4"><div class="ttname"><a href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">snicholls::ml::rope_kind::half</a></div><div class="ttdeci">@ half</div><div class="ttdoc">RoPE, the halves of a head paired (Hugging Face&#39;s rotate_half, nanochat).</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00152">transformer_config.hpp:152</a></div></div>
 </div><!-- fragment -->
 <p>The shape of Llama 3 8B: 32 query heads sharing 8 key-value heads, RMS norm, SwiGLU, RoPE with base 500,000. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00255">255</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00368">368</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afb3f1a473435f2dfe21304c8696af1ab" name="afb3f1a473435f2dfe21304c8696af1ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb3f1a473435f2dfe21304c8696af1ab">&#9670;&#160;</a></span>mixer_scale_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;transformer_config C, math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T snicholls::ml::mixer_scale_v = T(1) / math::sqrt(static_cast&lt;T&gt;(C.mixer_state))</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The scale of a linear attention's queries, <span class="tt">1 / sqrt(mixer_state)</span> (the gated delta rule's and gated linear attention's), evaluated at compile time. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00450">450</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -765,7 +1109,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.mtp_loss_weight</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00351">351</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00486">486</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -792,12 +1136,12 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 <div class="line">                                                 .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">norm_kind::rms</a>, .norm_eps = 1.1920928955078125e-07,</div>
 <div class="line">                                                 .qk_norm = <a class="code hl_enumvalue" href="#adeaf53e2021a1addc2b68ff4fd427824ac243d59f6ac721decd0687e8970edfc5">qk_norm_kind::after_rope</a>, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4aadf0933e3ed181eac4ebdfde6fee3841">mlp_kind::relu_squared</a>,</div>
 <div class="line">                                                 .rope = <a class="code hl_enumvalue" href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">rope_kind::half</a>, .rope_base = 10000}</div>
-<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4aadf0933e3ed181eac4ebdfde6fee3841"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4aadf0933e3ed181eac4ebdfde6fee3841">snicholls::ml::mlp_kind::relu_squared</a></div><div class="ttdeci">@ relu_squared</div><div class="ttdoc">down(relu(up x)²): nanochat.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00098">transformer_config.hpp:98</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_adeaf53e2021a1addc2b68ff4fd427824ac243d59f6ac721decd0687e8970edfc5"><div class="ttname"><a href="#adeaf53e2021a1addc2b68ff4fd427824ac243d59f6ac721decd0687e8970edfc5">snicholls::ml::qk_norm_kind::after_rope</a></div><div class="ttdeci">@ after_rope</div><div class="ttdoc">Rotate, then normalise: nanochat.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00115">transformer_config.hpp:115</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4aadf0933e3ed181eac4ebdfde6fee3841"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4aadf0933e3ed181eac4ebdfde6fee3841">snicholls::ml::mlp_kind::relu_squared</a></div><div class="ttdeci">@ relu_squared</div><div class="ttdoc">down(relu(up x)²): nanochat.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00114">transformer_config.hpp:114</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_adeaf53e2021a1addc2b68ff4fd427824ac243d59f6ac721decd0687e8970edfc5"><div class="ttname"><a href="#adeaf53e2021a1addc2b68ff4fd427824ac243d59f6ac721decd0687e8970edfc5">snicholls::ml::qk_norm_kind::after_rope</a></div><div class="ttdeci">@ after_rope</div><div class="ttdoc">Rotate, then normalise: nanochat.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00161">transformer_config.hpp:161</a></div></div>
 </div><!-- fragment -->
 <p>The shape of nanochat at depth 20: 10 heads of 128, parameter-free RMS norm (float's epsilon), QK norm after RoPE, ReLU², no biases. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00261">261</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00374">374</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -825,7 +1169,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.norm_eps</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00319">319</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00454">454</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -853,11 +1197,11 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 <div class="line">                                                .rope = <a class="code hl_enumvalue" href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">rope_kind::half</a>, .rope_base = 10000, .experts = 64, .top_k = 8,</div>
 <div class="line">                                                .expert_d_ff = 1024, .scoring = <a class="code hl_enumvalue" href="#a6ecd02f0374ce72ec8169a1bb8fce7cbace2f1fbd249d24aabc07ac4488ab5b8c">moe_scoring::softmax</a>,</div>
 <div class="line">                                                .balance_loss_weight = 0.01, .z_loss_weight = 0.001}</div>
-<div class="ttc" id="atransformer__config_8hpp_html_a6ecd02f0374ce72ec8169a1bb8fce7cbace2f1fbd249d24aabc07ac4488ab5b8c"><div class="ttname"><a href="#a6ecd02f0374ce72ec8169a1bb8fce7cbace2f1fbd249d24aabc07ac4488ab5b8c">snicholls::ml::moe_scoring::softmax</a></div><div class="ttdeci">@ softmax</div><div class="ttdoc">A softmax over every expert; choose by probability, the weights the chosen probabilities,...</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00122">transformer_config.hpp:122</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_a6ecd02f0374ce72ec8169a1bb8fce7cbace2f1fbd249d24aabc07ac4488ab5b8c"><div class="ttname"><a href="#a6ecd02f0374ce72ec8169a1bb8fce7cbace2f1fbd249d24aabc07ac4488ab5b8c">snicholls::ml::moe_scoring::softmax</a></div><div class="ttdeci">@ softmax</div><div class="ttdoc">A softmax over every expert; choose by probability, the weights the chosen probabilities,...</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00168">transformer_config.hpp:168</a></div></div>
 </div><!-- fragment -->
 <p>The shape of OLMoE-1B-7B (Muennighoff et al., 2024): 2048 wide, 16 heads of 128, 64 SwiGLU experts of 1024 (top 8, no shared expert), a softmax over every expert with the chosen probabilities not renormalised, the balance loss at 0.01 and the router z-loss at 0.001, RMS norm, RoPE (16 blocks, which the configuration does not carry; OLMoE's QK norm, over all the heads at once, is not set). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00276">276</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00389">389</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -885,7 +1229,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.rope_base</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00323">323</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00458">458</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -913,7 +1257,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.rope_factor</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00347">347</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00482">482</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -943,7 +1287,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>The configuration's RoPE rescaling in <span class="tt">T</span>, for <span class="tt">rope_table(base, scaling)</span>, every field evaluated at compile time; the amplitude is 1 (a latent attention takes YaRN's temperature in its score scale). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00356">356</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00499">499</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -971,7 +1315,70 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.route_scale</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00331">331</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00466">466</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a75902fe5a82b3ab16dab29ece32e4b70" name="a75902fe5a82b3ab16dab29ece32e4b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75902fe5a82b3ab16dab29ece32e4b70">&#9670;&#160;</a></span>tiny_gated_deltanet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">transformer_config snicholls::ml::tiny_gated_deltanet</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 16,</div>
+<div class="line">                                                        .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">norm_kind::rms</a>, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c">mlp_kind::swiglu</a>, .rope = <a class="code hl_enumvalue" href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">rope_kind::half</a>,</div>
+<div class="line">                                                        .mixer = <a class="code hl_enumvalue" href="#a8041a45fae39dc034df3344a21d5cd18aebd55e8b55a5d33b8fcc59f67aa4ad3f">mixer_kind::gated_deltanet</a>, .mixer_heads = 2, .mixer_head_dim = 4,</div>
+<div class="line">                                                        .mixer_state = 4, .mixer_groups = 1, .conv_width = 4, .mixer_chunk = 4,</div>
+<div class="line">                                                        .hybrid_period = 4, .hybrid_attention_offset = 3}</div>
+<div class="ttc" id="atransformer__config_8hpp_html_a8041a45fae39dc034df3344a21d5cd18aebd55e8b55a5d33b8fcc59f67aa4ad3f"><div class="ttname"><a href="#a8041a45fae39dc034df3344a21d5cd18aebd55e8b55a5d33b8fcc59f67aa4ad3f">snicholls::ml::mixer_kind::gated_deltanet</a></div><div class="ttdeci">@ gated_deltanet</div><div class="ttdoc">The gated delta rule (ml/delta_rule.hpp), Qwen3-Next&#39;s linear attention, a layer of its own.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00177">transformer_config.hpp:177</a></div></div>
+</div><!-- fragment -->
+<p>A small gated-delta-rule model for tests and demos, laid out as Qwen3-Next's hybrid stack (three linear attention layers, then one attention layer: period 4, offset 3): 8 wide, attention heads as <span class="tt">tiny_mamba2</span>'s, a mixer of 2 value heads of 4 sharing one key head of 4, a convolution of 4 taps, chunks of 4. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00441">441</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a32621b959583c14c8e717b00ddca053f" name="a32621b959583c14c8e717b00ddca053f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32621b959583c14c8e717b00ddca053f">&#9670;&#160;</a></span>tiny_mamba2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">transformer_config snicholls::ml::tiny_mamba2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{.d_model = 8, .n_heads = 2, .n_kv_heads = 2, .head_dim = 4, .d_ff = 16,</div>
+<div class="line">                                                .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444aba431d163238dc15bc32c6a9ad77ca92">norm_kind::rms</a>, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4adbf98241cec1be3b4e9925243134c67c">mlp_kind::swiglu</a>, .rope = <a class="code hl_enumvalue" href="#a8cbaf0209f9c7391b59294244380154ba7afe399f1415b137d0962f82662fa9d4">rope_kind::half</a>,</div>
+<div class="line">                                                .mixer = <a class="code hl_enumvalue" href="#a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69">mixer_kind::mamba2</a>, .mixer_heads = 2, .mixer_head_dim = 4,</div>
+<div class="line">                                                .mixer_state = 4, .mixer_groups = 1, .conv_width = 4, .mixer_chunk = 4}</div>
+<div class="ttc" id="atransformer__config_8hpp_html_a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69"><div class="ttname"><a href="#a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69">snicholls::ml::mixer_kind::mamba2</a></div><div class="ttdeci">@ mamba2</div><div class="ttdoc">Mamba-2&#39;s selective state space (ml/ssd.hpp), a layer of its own.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00176">transformer_config.hpp:176</a></div></div>
+</div><!-- fragment -->
+<p>A small Mamba-2 model for tests and demos (<span class="tt"><a class="el" href="mixer__layer_8hpp.html" title="snicholls::ml linear-time mixer layers in place of attention: Mamba-2&#39;s and the gated delta rule&#39;s (Q...">ml/mixer_layer.hpp</a></span>): 8 wide, 2 attention heads of 4 for its hybrid layers, and a mixer of 2 heads of 4 value channels sharing one group of 4 state channels, a convolution of 4 taps, chunks of 4; RMS norm, SwiGLU, RoPE. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00433">433</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1001,7 +1408,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>A small MLA model for tests and demos: 16 wide, 2 heads of 6 query-key channels (4 plain, 2 rotary) and 4 value channels, a query latent of 6 and a key-value latent of 8, RMS norm, SwiGLU, interleaved RoPE. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00291">291</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00404">404</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1030,7 +1437,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p>A small mixture of experts for tests and demos: 8 wide, 2 heads of 4, 4 routed experts of 16 (top 2) and one shared, SwiGLU, RMS norm, RoPE, scored by softmax over the top 2. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00268">268</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00381">381</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1057,11 +1464,11 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 <div class="line">                                             .norm = <a class="code hl_enumvalue" href="#a21b0dad5dc8807f3ffc438bf4402a444af56b53e412e87751f665cb9f9061e50b">norm_kind::layer</a>, .norm_eps = 1e-6, .mlp = <a class="code hl_enumvalue" href="#ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a">mlp_kind::gelu</a>, .bias = <span class="keyword">true</span>,</div>
 <div class="line">                                             .mask = <a class="code hl_enumvalue" href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8feae4dc2e9671c1874f0e2e9dd07eabcb0b">attention_mask::bidirectional</a>}</div>
 <div class="ttc" id="aattention_8hpp_html_a7efe7e832432e7fe9563bb4144f4d8feae4dc2e9671c1874f0e2e9dd07eabcb0b"><div class="ttname"><a href="attention_8hpp.html#a7efe7e832432e7fe9563bb4144f4d8feae4dc2e9671c1874f0e2e9dd07eabcb0b">snicholls::ml::attention_mask::bidirectional</a></div><div class="ttdeci">@ bidirectional</div><div class="ttdoc">Every key of the sequence: a ViT, the encoders and predictors of I-JEPA and V-JEPA.</div><div class="ttdef"><b>Definition</b> <a href="attention_8hpp_source.html#l00109">attention.hpp:109</a></div></div>
-<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a">snicholls::ml::mlp_kind::gelu</a></div><div class="ttdeci">@ gelu</div><div class="ttdoc">down(gelu(up x)), the exact GELU.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00096">transformer_config.hpp:96</a></div></div>
+<div class="ttc" id="atransformer__config_8hpp_html_ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a"><div class="ttname"><a href="#ac5e0175232c3baa3e799982b3ed61ca4ab3be9d0a0747f09c4bb18840003e3f9a">snicholls::ml::mlp_kind::gelu</a></div><div class="ttdeci">@ gelu</div><div class="ttdoc">down(gelu(up x)), the exact GELU.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00112">transformer_config.hpp:112</a></div></div>
 </div><!-- fragment -->
 <p>The shape of ViT-B/16 (Dosovitskiy et al., 2021) as I-JEPA's and V-JEPA's encoders use it: 12 heads of 64, layer norm (epsilon 1e-6, timm's), the exact GELU, biases, bidirectional attention, positions added outside the layer (<span class="tt"><a class="el" href="patch_8hpp.html" title="snicholls::ml patches and positions for vision transformers: patch_grid, patchify_rows / unpatchify_r...">ml/patch.hpp</a></span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00285">285</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00398">398</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1094,7 +1501,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 </div><!-- fragment -->
 <p><span class="tt">yarn_attention_factor</span> of the configuration in <span class="tt">T</span>: 1 unless it rescales RoPE with YaRN. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00361">361</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00504">504</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1122,7 +1529,7 @@ template&lt;transformer_config C, math::math_number T&gt; </div>
 
 <p><span class="tt">C.z_loss_weight</span> in <span class="tt">T</span>, evaluated at compile time (see Known issues). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00343">343</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00478">478</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>

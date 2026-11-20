@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -214,7 +214,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> mid = ml::rope_frequency&lt;double&gt;(16, 64);                                                     <span class="comment">// between the two</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="group__core.html#gga1b1f83a6f20af477f93e246c8d25a67dabb3462b62cd8db3f9ba007d86f8d1c6d">yarn</a> = ml::rope_scaled_frequency(31, 64, 10000.0, method(ml::rope_scaling_kind::yarn));       <span class="comment">// slow pairs: θ / 40</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> yarn_fast = ml::rope_scaled_frequency(0, 64, 10000.0, method(ml::rope_scaling_kind::yarn_index_ramp));   <span class="comment">// fast: θ</span></div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a> = ml::rope_scaled_frequency(31, 64, 10000.0, method(ml::rope_scaling_kind::none));</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> none = ml::rope_scaled_frequency(31, 64, 10000.0, method(ml::rope_scaling_kind::none));</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> ramp = ml::yarn_ramp(16.5, 1.0, 32.0), lo = ml::yarn_correction_dim(32.0, 64, 10000.0, 4096);</div>
 <div class="line">    <span class="comment">// YaRN&#39;s temperature: DeepSeek-V3 multiplies its softmax scale by its square; a table can carry it as an amplitude</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> t = ml::yarn_attention_factor(40.0);</div>
@@ -227,7 +227,7 @@ Variables</h2></td></tr>
 <p><b>Errors.</b> Preconditions, asserted: the head has an even number of channels, and <span class="tt">cos</span> and <span class="tt">sin</span> have half as many. Position 0 is the identity.</p>
 <p><b>Performance.</b> Not benchmarked: four multiplications and two additions per pair, against a table read.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/rope_test.cpp</span>, <span class="tt">demos/ml/rope_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
 <p><b>Known issues.</b> nanochat's <span class="tt">apply_rotary_emb</span> rotates by <span class="tt">-θ</span> (<span class="tt">y1 = x1 cos + x2 sin</span>): its forward pass is <span class="tt">rope_inverse</span> here. Either direction is a valid RoPE as long as queries and keys agree. LLaMA 3's own long-context rescaling (a ramp over wavelengths with its own constants) is not built in. YaRN's paper and its code differ in the ramp's shape between the bounds (both are offered); gpt-oss computes the paper's form. A table with an amplitude other than 1 is not orthogonal: <span class="tt">rope_inverse</span> is still <span class="tt">rope</span>'s backward pass (the transpose), but no longer its inverse.</p>
 <p><b>Status.</b> Experimental, new in 0.7.0; the rescalings new in 0.16.0. </p>
 

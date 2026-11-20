@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -178,7 +178,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">                    <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(dtable[5]));</div>
 <div class="line">        <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= rows[0] == 5.5f &amp;&amp; rows[3] == 6.25f &amp;&amp; dtable[4] == rows[0] + rows[2] &amp;&amp; dtable[0] == 0.0f;</div>
 <div class="line">    }</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>; <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, forward and backward,...">ml/norm.hpp</a></span> and <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span> come next in the model. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>; <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, group_norm over a sample&#39;s channel...">ml/norm.hpp</a></span> and <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span> come next in the model. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, linear in <span class="tt">C</span>. <span class="tt">embedding_row</span> refers to the caller's table and lives as long as it does.</p>
 <p><b>Errors.</b> Preconditions, asserted: the row <span class="tt">id</span> (and <span class="tt">pos</span>) lies inside its table, and <span class="tt">dout</span> has <span class="tt">C</span> channels.</p>

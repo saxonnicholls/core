@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('constexpr__math_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt">snicholls::math</span>: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all <span class="tt">constexpr</span>, for any floating-point type.  
+<p><span class="tt">snicholls::math</span>: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, the Bessel function I0, and the normal and chi-square distributions, all <span class="tt">constexpr</span>, for any floating-point type.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;bit&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
@@ -159,6 +159,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac4e139fa17377290ae3a108f550d2b29" id="r_ac4e139fa17377290ae3a108f550d2b29"><td class="memTemplParams" colspan="2">template&lt;math_argument X&gt; </td></tr>
 <tr class="memitem:ac4e139fa17377290ae3a108f550d2b29 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4e139fa17377290ae3a108f550d2b29">snicholls::math::log</a> (X x)</td></tr>
 <tr class="memdesc:ac4e139fa17377290ae3a108f550d2b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">The natural logarithm.  <br /></td></tr>
+<tr class="memitem:a73c14e7592de85ecc4f1aa573f09f035" id="r_a73c14e7592de85ecc4f1aa573f09f035"><td class="memTemplParams" colspan="2">template&lt;math_argument X&gt; </td></tr>
+<tr class="memitem:a73c14e7592de85ecc4f1aa573f09f035 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73c14e7592de85ecc4f1aa573f09f035">snicholls::math::log10</a> (X x)</td></tr>
+<tr class="memdesc:a73c14e7592de85ecc4f1aa573f09f035"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base-10 logarithm.  <br /></td></tr>
 <tr class="memitem:a052cc9c653a10e4e0bb30423cbb36b4a" id="r_a052cc9c653a10e4e0bb30423cbb36b4a"><td class="memTemplParams" colspan="2">template&lt;math_argument X&gt; </td></tr>
 <tr class="memitem:a052cc9c653a10e4e0bb30423cbb36b4a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a052cc9c653a10e4e0bb30423cbb36b4a">snicholls::math::sin</a> (X x)</td></tr>
 <tr class="memdesc:a052cc9c653a10e4e0bb30423cbb36b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sine.  <br /></td></tr>
@@ -210,6 +213,9 @@ Functions</h2></td></tr>
 <tr class="memitem:acfb04778499435692a55420d0c8cc681" id="r_acfb04778499435692a55420d0c8cc681"><td class="memTemplParams" colspan="2">template&lt;math_argument X&gt; </td></tr>
 <tr class="memitem:acfb04778499435692a55420d0c8cc681 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfb04778499435692a55420d0c8cc681">snicholls::math::acos</a> (X x)</td></tr>
 <tr class="memdesc:acfb04778499435692a55420d0c8cc681"><td class="mdescLeft">&#160;</td><td class="mdescRight">The arc cosine.  <br /></td></tr>
+<tr class="memitem:aa98700131d4c70cd231a7fb0af6a6b39" id="r_aa98700131d4c70cd231a7fb0af6a6b39"><td class="memTemplParams" colspan="2">template&lt;math_argument X&gt; </td></tr>
+<tr class="memitem:aa98700131d4c70cd231a7fb0af6a6b39 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa98700131d4c70cd231a7fb0af6a6b39">snicholls::math::bessel_i0</a> (X x)</td></tr>
+<tr class="memdesc:aa98700131d4c70cd231a7fb0af6a6b39"><td class="mdescLeft">&#160;</td><td class="mdescRight">The modified Bessel function of the first kind of order zero, <span class="tt">I0(x) = sum_k ((x / 2)^k / k!)^2</span>: the Kaiser window's.  <br /></td></tr>
 <tr class="memitem:a1e04306ca7acabcfaeee9286ff82311d" id="r_a1e04306ca7acabcfaeee9286ff82311d"><td class="memTemplParams" colspan="2">template&lt;typename T = double&gt; <br />
 requires math_number&lt;T&gt;</td></tr>
 <tr class="memitem:a1e04306ca7acabcfaeee9286ff82311d template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e04306ca7acabcfaeee9286ff82311d">snicholls::math::near</a> (std::type_identity_t&lt; T &gt; a, std::type_identity_t&lt; T &gt; b, std::type_identity_t&lt; T &gt; tol=T(1e-9))</td></tr>
@@ -249,7 +255,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a29772d7c237f87ee316706083df6fea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A quiet NaN.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt">snicholls::math</span>: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, and the normal and chi-square distributions, all <span class="tt">constexpr</span>, for any floating-point type. </p>
+<div class="textblock"><p><span class="tt">snicholls::math</span>: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions, erf, gamma, the Bessel function I0, and the normal and chi-square distributions, all <span class="tt">constexpr</span>, for any floating-point type. </p>
 <p><b>Overview.</b> <span class="tt">&lt;cmath&gt;</span> is not <span class="tt">constexpr</span> in C++20, so a table built at compile time (a normal quantile grid, a discount curve, a Sobol point mapped to a normal draw) cannot call it. These functions can: during constant evaluation they use series and argument-reduction kernels, and at run time they defer to the correctly rounded <span class="tt">&lt;cmath&gt;</span> (or, for a type of the caller's, to its own functions, found by argument-dependent lookup), so run-time results are the library's to the bit and compile-time ones agree with them to a few units in the last place.</p>
 <p>Every function is a template on its argument's type: <span class="tt">float</span>, <span class="tt">double</span>, <span class="tt">long double</span>, or a type of the caller's (a multiprecision or fixed-point number) for which <span class="tt">math_limits</span> is specialised. An integer argument computes in <span class="tt">double</span>, as <span class="tt">&lt;cmath&gt;</span> does. What a kernel needs to know about a type (its overflow bounds, how far a series runs, its constants) is in <span class="tt">math_limits&lt;T&gt;</span>, one specialisation per type, as <span class="tt">std::numeric_limits</span> is; <span class="tt">compute_type</span> says which type the kernels run in (<span class="tt">float</span> runs in <span class="tt">double</span> and is rounded once, so it is correctly rounded nearly always).</p>
 <div class="fragment"><div class="line">    <span class="comment">// Discount factors for 1 to 5 years at 4% continuously compounded, computed by the compiler.</span></div>
@@ -264,6 +270,9 @@ Variables</h2></td></tr>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> z95 = math::normal_quantile(0.95);</div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> z99 = math::normal_quantile(0.99);</div>
 <div class="line">    <span class="keyword">static_assert</span>(math::near(z99, 2.3263478740408408, 1e-14));</div>
+<div class="line">    <span class="comment">// Decibels and the Kaiser window&#39;s Bessel function, for tables of filters.</span></div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> db = 20 * math::log10(0.5);   <span class="comment">// -6.02 dB</span></div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> i0 = math::bessel_i0(5.0);</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span> (the normal quantile for BCa intervals), <span class="tt"><a class="el" href="low__discrepancy_8hpp.html" title="Sobol and Halton sequences: points that fill the unit cube evenly, for faster-converging Monte Carlo.">stats/low_discrepancy.hpp</a></span> (Sobol points to normal draws), <span class="tt"><a class="el" href="attribution_8hpp.html" title="P&amp;L explained by greeks and factors, and risk by contributor: Taylor terms, shared fairly by Shapley.">finance/attribution.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> Every function is <span class="tt">constexpr</span>. NaN and infinities propagate as in <span class="tt">&lt;cmath&gt;</span>. <span class="tt">double</span> results are bit-identical to those before the functions were generic.</p>
 <p><b>Errors.</b> None: a domain error is NaN, as in <span class="tt">&lt;cmath&gt;</span>.</p>
@@ -359,7 +368,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00908">908</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00919">919</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -403,7 +412,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00898">898</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00909">909</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -447,7 +456,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00852">852</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00863">863</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -497,7 +506,51 @@ template&lt;math_argument Y, math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00877">877</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00888">888</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa98700131d4c70cd231a7fb0af6a6b39" name="aa98700131d4c70cd231a7fb0af6a6b39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa98700131d4c70cd231a7fb0af6a6b39">&#9670;&#160;</a></span>bessel_i0()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real_t&lt; X &gt; snicholls::math::bessel_i0 </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The modified Bessel function of the first kind of order zero, <span class="tt">I0(x) = sum_k ((x / 2)^k / k!)^2</span>: the Kaiser window's. </p>
+<p>The power series, summed in the compute type until a term is below its tolerance, at compile time and at run time alike (<span class="tt">&lt;cmath&gt;</span> has <span class="tt">std::cyl_bessel_i</span> only in some standard libraries). Every term is positive, so the sum is accurate to a few units in the last place; it overflows to infinity beyond about 713 for a <span class="tt">double</span>. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00933">933</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -547,7 +600,7 @@ template&lt;math_argument X, math_argument K&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">P(X &lt;= x)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01126">1126</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01160">1160</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -591,7 +644,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00733">733</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00744">744</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -635,7 +688,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00812">812</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00823">823</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -679,7 +732,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00749">749</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00760">760</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -723,7 +776,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00782">782</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00793">793</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -767,7 +820,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00792">792</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00803">803</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -855,7 +908,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00832">832</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00843">843</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -949,7 +1002,7 @@ template&lt;math_argument A, math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">P(a, x)</span>, in [0, 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01104">1104</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01138">1138</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1125,7 +1178,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">log |Gamma(x)|</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01053">1053</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01087">1087</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1173,6 +1226,50 @@ template&lt;math_argument X&gt; </div>
 
 </div>
 </div>
+<a id="a73c14e7592de85ecc4f1aa573f09f035" name="a73c14e7592de85ecc4f1aa573f09f035"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73c14e7592de85ecc4f1aa573f09f035">&#9670;&#160;</a></span>log10()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real_t&lt; X &gt; snicholls::math::log10 </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The base-10 logarithm. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00723">723</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ab3a3dadf5fdf614a8fc27d512b8f5be6" name="ab3a3dadf5fdf614a8fc27d512b8f5be6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3a3dadf5fdf614a8fc27d512b8f5be6">&#9670;&#160;</a></span>log1p()</h2>
 
@@ -1213,7 +1310,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00842">842</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00853">853</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1269,7 +1366,7 @@ requires math_number&lt;T&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00921">921</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00955">955</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1313,7 +1410,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00962">962</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00996">996</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1357,7 +1454,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00943">943</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00977">977</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1401,7 +1498,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01019">1019</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01053">1053</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1451,7 +1548,7 @@ template&lt;math_argument A, math_argument B&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00768">768</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00779">779</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1539,7 +1636,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00723">723</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00734">734</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1583,7 +1680,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00802">802</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00813">813</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1627,7 +1724,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00756">756</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00767">767</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1671,7 +1768,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00743">743</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00754">754</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
@@ -1715,7 +1812,7 @@ template&lt;math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00822">822</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l00833">833</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>

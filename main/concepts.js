@@ -28,10 +28,14 @@ var concepts =
         [ "kv_store", "conceptsnicholls_1_1ml_1_1kv__store.html", null ],
         [ "latent_kv_store", "conceptsnicholls_1_1ml_1_1latent__kv__store.html", null ],
         [ "weight_matrix", "conceptsnicholls_1_1ml_1_1weight__matrix.html", null ],
+        [ "quantized_block", "conceptsnicholls_1_1ml_1_1quantized__block.html", null ],
         [ "quant_block", "conceptsnicholls_1_1ml_1_1quant__block.html", null ],
+        [ "recurrence", "conceptsnicholls_1_1ml_1_1recurrence.html", null ],
         [ "rope_source", "conceptsnicholls_1_1ml_1_1rope__source.html", null ],
         [ "row", "conceptsnicholls_1_1ml_1_1row.html", null ],
-        [ "mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ]
+        [ "mutable_row", "conceptsnicholls_1_1ml_1_1mutable__row.html", null ],
+        [ "accepting_sampler", "conceptsnicholls_1_1ml_1_1accepting__sampler.html", null ],
+        [ "resettable_sampler", "conceptsnicholls_1_1ml_1_1resettable__sampler.html", null ]
       ] ],
       [ "pipeline", null, [
         [ "stage_spec", "conceptsnicholls_1_1pipeline_1_1stage__spec.html", null ]
@@ -48,6 +52,8 @@ var concepts =
       [ "json_attribute", "conceptsnicholls_1_1json__attribute.html", null ],
       [ "byte_type", "conceptsnicholls_1_1byte__type.html", null ],
       [ "byte_order_value", "conceptsnicholls_1_1byte__order__value.html", null ],
+      [ "hash_input", "conceptsnicholls_1_1hash__input.html", null ],
+      [ "hash_function", "conceptsnicholls_1_1hash__function.html", null ],
       [ "argument_source", "conceptsnicholls_1_1argument__source.html", null ],
       [ "non_narrowing_assignable", "conceptsnicholls_1_1non__narrowing__assignable.html", null ],
       [ "has_attributes", "conceptsnicholls_1_1has__attributes.html", null ],

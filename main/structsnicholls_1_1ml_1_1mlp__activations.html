@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -103,7 +103,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ac8b2ae95b10be6aec07fde7d01bc3957" id="r_ac8b2ae95b10be6aec07fde7d01bc3957"><td class="memItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8b2ae95b10be6aec07fde7d01bc3957">up</a> {}</td></tr>
 <tr class="memdesc:ac8b2ae95b10be6aec07fde7d01bc3957"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#ac8b2ae95b10be6aec07fde7d01bc3957" title="up x + b, before the activation.">up</a> x + b</span>, before the activation.  <br /></td></tr>
 <tr class="memitem:a2ae0bffbbc609496f12c064b77653b13" id="r_a2ae0bffbbc609496f12c064b77653b13"><td class="memItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ae0bffbbc609496f12c064b77653b13">gate</a> {}</td></tr>
-<tr class="memdesc:a2ae0bffbbc609496f12c064b77653b13"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#a2ae0bffbbc609496f12c064b77653b13" title="gate x + b, before SiLU; SwiGLU only, else empty.">gate</a> x + b</span>, before SiLU; SwiGLU only, else empty.  <br /></td></tr>
+<tr class="memdesc:a2ae0bffbbc609496f12c064b77653b13"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#a2ae0bffbbc609496f12c064b77653b13" title="gate x + b, before SiLU; gated kinds only, else empty.">gate</a> x + b</span>, before SiLU; gated kinds only, else empty.  <br /></td></tr>
 <tr class="memitem:afac4fa42e0aba065a873cfe331c35b8d" id="r_afac4fa42e0aba065a873cfe331c35b8d"><td class="memItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afac4fa42e0aba065a873cfe331c35b8d">hidden</a> {}</td></tr>
 <tr class="memdesc:afac4fa42e0aba065a873cfe331c35b8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hidden row after the activation, <span class="tt">down</span>'s input: saved by <span class="tt"><a class="el" href="mlp_8hpp.html#aa309a01a46ba8b646e2a93ead928a359" title="The MLP over a sequence of n tokens, its products through a linalg backend, saving what mlp_backward_...">mlp_forward_sequence</a></span> only.  <br /></td></tr>
 </table>
@@ -117,7 +117,7 @@ struct snicholls::ml::mlp_activations&lt; T &gt;</div><p>What an MLP's forward p
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00113">113</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00126">126</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a2ae0bffbbc609496f12c064b77653b13" name="a2ae0bffbbc609496f12c064b77653b13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ae0bffbbc609496f12c064b77653b13">&#9670;&#160;</a></span>gate</h2>
@@ -133,9 +133,9 @@ template&lt;math::math_number T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><span class="tt"><a class="el" href="#a2ae0bffbbc609496f12c064b77653b13" title="gate x + b, before SiLU; SwiGLU only, else empty.">gate</a> x + b</span>, before SiLU; SwiGLU only, else empty. </p>
+<p><span class="tt"><a class="el" href="#a2ae0bffbbc609496f12c064b77653b13" title="gate x + b, before SiLU; gated kinds only, else empty.">gate</a> x + b</span>, before SiLU; gated kinds only, else empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00116">116</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00129">129</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -155,7 +155,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p>The hidden row after the activation, <span class="tt">down</span>'s input: saved by <span class="tt"><a class="el" href="mlp_8hpp.html#aa309a01a46ba8b646e2a93ead928a359" title="The MLP over a sequence of n tokens, its products through a linalg backend, saving what mlp_backward_...">mlp_forward_sequence</a></span> only. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00117">117</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00130">130</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -175,7 +175,7 @@ template&lt;math::math_number T&gt; </div>
 
 <p><span class="tt"><a class="el" href="#ac8b2ae95b10be6aec07fde7d01bc3957" title="up x + b, before the activation.">up</a> x + b</span>, before the activation. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00115">115</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00128">128</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>

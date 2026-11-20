@@ -1,8 +1,16 @@
 var searchData=
 [
   ['magenta_0',['magenta',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a4c2a4a7078da0ac6733464eacfd00f86',1,'snicholls']]],
-  ['mean_1',['mean',['../group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a',1,'snicholls::ml']]],
-  ['microsoft_2',['microsoft',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca5f532a3fc4f1ea403f37070f59a7a53a',1,'snicholls']]],
-  ['misaligned_3',['misaligned',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faa4fd4dace003cbeba14751db739087a3b',1,'snicholls::containers']]],
-  ['multinomial_4',['multinomial',['../group__core.html#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386',1,'snicholls::stats']]]
+  ['magnitude_1',['magnitude',['../group__core.html#gga9c327897414ff9ad46ed541f2ad0237aa28c3d8f4b7e312af5e0d6b59a50efd1c',1,'snicholls::signal']]],
+  ['mamba2_2',['mamba2',['../transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69',1,'snicholls::ml']]],
+  ['math_5fsymbol_3',['math_symbol',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a61a93ff236498725d515b0fe355161f2',1,'snicholls::ml']]],
+  ['max_4',['max',['../spatial_8hpp.html#a612941c0ca7f39ffdf43df4c172dbca9a2ffe4e77325d9a7152f7086ea7aa5114',1,'snicholls::ml']]],
+  ['mean_5',['mean',['../group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a',1,'meansnicholls::ml'],['../group__core.html#gga3c675a762d07d5a302c88c82acd7a06dab93db188572fc4d76cce5660f3823b0a',1,'meansnicholls::ml']]],
+  ['microsoft_6',['microsoft',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca5f532a3fc4f1ea403f37070f59a7a53a',1,'snicholls']]],
+  ['misaligned_7',['misaligned',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faa4fd4dace003cbeba14751db739087a3b',1,'snicholls::containers']]],
+  ['modifier_5fletter_8',['modifier_letter',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a20e3c50d758e00bd2cf04abf62bf5b7c',1,'snicholls::ml']]],
+  ['modifier_5fsymbol_9',['modifier_symbol',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a0a9a22258e30a54f39d1809e5f4912f0',1,'snicholls::ml']]],
+  ['mrope_10',['mrope',['../group__core.html#gga08793641836b2c6f6c00d8e50cd21167a772913db520f514c7cf6a06384f28903',1,'snicholls::ml']]],
+  ['multinomial_11',['multinomial',['../group__core.html#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386',1,'snicholls::stats']]],
+  ['mxfp4_12',['mxfp4',['../group__core.html#gga9e0478b5793b0458c05dd05fe1c501ffa5a769dd6809d04bd1b4fdca93113f5eb',1,'snicholls::ml']]]
 ];

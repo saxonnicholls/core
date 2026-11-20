@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -212,7 +212,7 @@ $(function(){initNavTree('gather_8hpp_source.html','',''); });
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>} <span class="comment">// namespace snicholls::ml</span></div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="preprocessor">#endif </span><span class="comment">// snicholls_core_ml_gather_hpp</span></div>
-<div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...</div></div>
+<div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...</div></div>
 <div class="ttc" id="agather_8hpp_html_a3a1a827d19128c846f15d4d326fbbfe3"><div class="ttname"><a href="gather_8hpp.html#a3a1a827d19128c846f15d4d326fbbfe3">snicholls::ml::gather_rows</a></div><div class="ttdeci">constexpr void gather_rows(const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; src, std::span&lt; const std::uint32_t &gt; indices, std::span&lt; T &gt; out, std::size_t width, std::size_t sequences=1) noexcept(std::is_floating_point_v&lt; T &gt;)</div><div class="ttdoc">out(s, j) = src(s, indices(s, j)): each sequence&#39;s rows at its index list.</div><div class="ttdef"><b>Definition</b> <a href="#l00087">gather.hpp:87</a></div></div>
 <div class="ttc" id="agather_8hpp_html_a3b5e94480ee3581b9dd9b33fb2d01f4f"><div class="ttname"><a href="gather_8hpp.html#a3b5e94480ee3581b9dd9b33fb2d01f4f">snicholls::ml::slice_rows</a></div><div class="ttdeci">constexpr void slice_rows(const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; rows, std::size_t first, std::size_t count, std::span&lt; T &gt; out, std::size_t width, std::size_t sequences=1) noexcept(std::is_floating_point_v&lt; T &gt;)</div><div class="ttdoc">Rows [first, first + count) of each sequence of n rows, into out.</div><div class="ttdef"><b>Definition</b> <a href="#l00171">gather.hpp:171</a></div></div>
 <div class="ttc" id="agather_8hpp_html_a468165a7364f75e0a2aa2ebc328989a7"><div class="ttname"><a href="gather_8hpp.html#a468165a7364f75e0a2aa2ebc328989a7">snicholls::ml::slice_rows_backward</a></div><div class="ttdeci">constexpr void slice_rows_backward(const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dout, std::size_t first, std::size_t count, std::span&lt; T &gt; drows, std::size_t width, std::size_t sequences=1) noexcept(std::is_floating_point_v&lt; T &gt;)</div><div class="ttdoc">The backward pass of slice_rows: the gradients of the slice added into rows [first,...</div><div class="ttdef"><b>Definition</b> <a href="#l00190">gather.hpp:190</a></div></div>

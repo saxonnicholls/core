@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -98,18 +98,48 @@ $(function(){initNavTree('structsnicholls_1_1ml_1_1block__q4__0.html','','struct
 
 <p><code>#include &lt;<a class="el" href="quantize_8hpp_source.html">snicholls/core/ml/quantize.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a38f33642ec6db280ef8787ac273b6c46" id="r_a38f33642ec6db280ef8787ac273b6c46"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38f33642ec6db280ef8787ac273b6c46">dot_block</a> = <a class="el" href="structsnicholls_1_1ml_1_1block__q8__0.html">block_q8_0</a></td></tr>
+<tr class="memdesc:a38f33642ec6db280ef8787ac273b6c46"><td class="mdescLeft">&#160;</td><td class="mdescRight">ggml's <span class="tt">vec_dot_type</span>.  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ae1d35d8e8781328f973841dbb7808741" id="r_ae1d35d8e8781328f973841dbb7808741"><td class="memItemLeft" align="right" valign="top"><a class="el" href="minifloat_8hpp.html#afd5e1ae8f11fa94843002e72782a7963">float16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1d35d8e8781328f973841dbb7808741">d</a></td></tr>
 <tr class="memdesc:ae1d35d8e8781328f973841dbb7808741"><td class="mdescLeft">&#160;</td><td class="mdescRight">The scale: the signed value of largest magnitude / -8.  <br /></td></tr>
 <tr class="memitem:a45ad53b806aa3914adea8d370dcd799f" id="r_a45ad53b806aa3914adea8d370dcd799f"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::uint8_t, <a class="el" href="quantize_8hpp.html#acfc37a9c200ffa3f745b8688031dd531">quant_block_size</a>/2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45ad53b806aa3914adea8d370dcd799f">qs</a></td></tr>
 <tr class="memdesc:a45ad53b806aa3914adea8d370dcd799f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element <span class="tt">j</span> in the low nibble of byte <span class="tt">j</span>, <span class="tt">j + 16</span> in the high.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:ac7d17f0853dbbadc59965cb883804726" id="r_ac7d17f0853dbbadc59965cb883804726"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="group__core.html#ga9e0478b5793b0458c05dd05fe1c501ff">ggml_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7d17f0853dbbadc59965cb883804726">type</a> = <a class="el" href="group__core.html#gga9e0478b5793b0458c05dd05fe1c501ffaece8fec56059b34214cf0fcda48d6d4f">ggml_type::q4_0</a></td></tr>
+<tr class="memdesc:ac7d17f0853dbbadc59965cb883804726"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ggml id.  <br /></td></tr>
+<tr class="memitem:a4c67bee367ea72977409d054f805abc5" id="r_a4c67bee367ea72977409d054f805abc5"><td class="memItemLeft" align="right" valign="top">static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c67bee367ea72977409d054f805abc5">elements</a> = 32</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ggml's Q4_0: a <span class="tt"><a class="el" href="minifloat_8hpp.html#afd5e1ae8f11fa94843002e72782a7963" title="IEEE 754 binary16.">float16</a></span> scale and 32 four-bit numbers, <span class="tt">x ≈ <a class="el" href="#ae1d35d8e8781328f973841dbb7808741" title="The scale: the signed value of largest magnitude / -8.">d</a> · (q - 8)</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00098">98</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
-</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00297">297</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a38f33642ec6db280ef8787ac273b6c46" name="a38f33642ec6db280ef8787ac273b6c46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38f33642ec6db280ef8787ac273b6c46">&#9670;&#160;</a></span>dot_block</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a38f33642ec6db280ef8787ac273b6c46">snicholls::ml::block_q4_0::dot_block</a> = <a class="el" href="structsnicholls_1_1ml_1_1block__q8__0.html">block_q8_0</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ggml's <span class="tt">vec_dot_type</span>. </p>
+
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00302">302</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="ae1d35d8e8781328f973841dbb7808741" name="ae1d35d8e8781328f973841dbb7808741"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae1d35d8e8781328f973841dbb7808741">&#9670;&#160;</a></span>d</h2>
 
@@ -124,7 +154,32 @@ Public Attributes</h2></td></tr>
 
 <p>The scale: the signed value of largest magnitude / -8. </p>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00100">100</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00304">304</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4c67bee367ea72977409d054f805abc5" name="a4c67bee367ea72977409d054f805abc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c67bee367ea72977409d054f805abc5">&#9670;&#160;</a></span>elements</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::block_q4_0::elements = 32</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Numbers per block. </p>
+
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00300">300</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>
@@ -142,7 +197,33 @@ Public Attributes</h2></td></tr>
 
 <p>Element <span class="tt">j</span> in the low nibble of byte <span class="tt">j</span>, <span class="tt">j + 16</span> in the high. </p>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00101">101</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00305">305</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac7d17f0853dbbadc59965cb883804726" name="ac7d17f0853dbbadc59965cb883804726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d17f0853dbbadc59965cb883804726">&#9670;&#160;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__core.html#ga9e0478b5793b0458c05dd05fe1c501ff">ggml_type</a> snicholls::ml::block_q4_0::type = <a class="el" href="group__core.html#gga9e0478b5793b0458c05dd05fe1c501ffaece8fec56059b34214cf0fcda48d6d4f">ggml_type::q4_0</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The ggml id. </p>
+
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00299">299</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 
 </div>
 </div>

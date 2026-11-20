@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -103,13 +103,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad0abb1cb7ce2904381e4aced98c4e071" id="r_ad0abb1cb7ce2904381e4aced98c4e071"><td class="memItemLeft" align="right" valign="top">W&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0abb1cb7ce2904381e4aced98c4e071">up</a> {}</td></tr>
 <tr class="memdesc:ad0abb1cb7ce2904381e4aced98c4e071"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_ff x d_model</span>.  <br /></td></tr>
 <tr class="memitem:a16c5c68980a9939116875046a4cd1261" id="r_a16c5c68980a9939116875046a4cd1261"><td class="memItemLeft" align="right" valign="top">W&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16c5c68980a9939116875046a4cd1261">gate</a> {}</td></tr>
-<tr class="memdesc:a16c5c68980a9939116875046a4cd1261"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_ff x d_model</span>, SwiGLU only.  <br /></td></tr>
+<tr class="memdesc:a16c5c68980a9939116875046a4cd1261"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_ff x d_model</span>, gated kinds only.  <br /></td></tr>
 <tr class="memitem:aed552575da3dfad7f0d7132f2dce5715" id="r_aed552575da3dfad7f0d7132f2dce5715"><td class="memItemLeft" align="right" valign="top">W&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed552575da3dfad7f0d7132f2dce5715">down</a> {}</td></tr>
 <tr class="memdesc:aed552575da3dfad7f0d7132f2dce5715"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_model x d_ff</span>.  <br /></td></tr>
 <tr class="memitem:a8111f2639ab1d566c12364ec067e8914" id="r_a8111f2639ab1d566c12364ec067e8914"><td class="memItemLeft" align="right" valign="top">std::span&lt; const T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8111f2639ab1d566c12364ec067e8914">up_bias</a> {}</td></tr>
 <tr class="memdesc:a8111f2639ab1d566c12364ec067e8914"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_ff</span>, or empty.  <br /></td></tr>
 <tr class="memitem:a6aa191c3c913d249058a53436c865560" id="r_a6aa191c3c913d249058a53436c865560"><td class="memItemLeft" align="right" valign="top">std::span&lt; const T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6aa191c3c913d249058a53436c865560">gate_bias</a> {}</td></tr>
-<tr class="memdesc:a6aa191c3c913d249058a53436c865560"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_ff</span>, or empty; SwiGLU only.  <br /></td></tr>
+<tr class="memdesc:a6aa191c3c913d249058a53436c865560"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_ff</span>, or empty; gated kinds only.  <br /></td></tr>
 <tr class="memitem:a688443fef16bd785692f3f2e02641ffb" id="r_a688443fef16bd785692f3f2e02641ffb"><td class="memItemLeft" align="right" valign="top">std::span&lt; const T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a688443fef16bd785692f3f2e02641ffb">down_bias</a> {}</td></tr>
 <tr class="memdesc:a688443fef16bd785692f3f2e02641ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">d_model</span>, or empty.  <br /></td></tr>
 </table>
@@ -124,7 +124,7 @@ struct snicholls::ml::mlp_weights&lt; W, T &gt;</div><p>The weights of an MLP: v
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00083">83</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00088">88</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="aed552575da3dfad7f0d7132f2dce5715" name="aed552575da3dfad7f0d7132f2dce5715"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aed552575da3dfad7f0d7132f2dce5715">&#9670;&#160;</a></span>down</h2>
@@ -142,7 +142,7 @@ template&lt;weight_matrix W, math::math_number T = float&gt; </div>
 
 <p><span class="tt">d_model x d_ff</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00087">87</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00092">92</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -162,7 +162,7 @@ template&lt;weight_matrix W, math::math_number T = float&gt; </div>
 
 <p><span class="tt">d_model</span>, or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00090">90</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00095">95</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -180,9 +180,9 @@ template&lt;weight_matrix W, math::math_number T = float&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><span class="tt">d_ff x d_model</span>, SwiGLU only. </p>
+<p><span class="tt">d_ff x d_model</span>, gated kinds only. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00086">86</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00091">91</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -200,9 +200,9 @@ template&lt;weight_matrix W, math::math_number T = float&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><span class="tt">d_ff</span>, or empty; SwiGLU only. </p>
+<p><span class="tt">d_ff</span>, or empty; gated kinds only. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00089">89</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00094">94</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -222,7 +222,7 @@ template&lt;weight_matrix W, math::math_number T = float&gt; </div>
 
 <p><span class="tt">d_ff x d_model</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00085">85</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00090">90</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>
@@ -242,7 +242,7 @@ template&lt;weight_matrix W, math::math_number T = float&gt; </div>
 
 <p><span class="tt">d_ff</span>, or empty. </p>
 
-<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00088">88</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mlp_8hpp_source.html#l00093">93</a> of file <a class="el" href="mlp_8hpp_source.html">mlp.hpp</a>.</p>
 
 </div>
 </div>

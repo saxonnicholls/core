@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -144,7 +144,7 @@ Concepts</h2></td></tr>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// A method of the caller&#39;s own: draws clipped at 4 sigma (a truncated normal for stress scenarios, say)</span></div>
-<div class="line"><span class="keyword">struct </span>clipped {</div>
+<div class="line"><span class="keyword">struct </span><a class="code hl_enumvalue" href="group__core.html#gga522a99a029b76df6940c237f47e6128caee34d849a8b1237bd4af9d65e2a9a95c">clipped</a> {</div>
 <div class="line">    st::normal_inverse_cdf base{};</div>
 <div class="line">    <span class="keywordtype">double</span> operator()(st::wyrand&amp; g)<span class="keyword"> const</span></div>
 <div class="line"><span class="keyword">    </span>{</div>
@@ -152,13 +152,13 @@ Concepts</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> z &gt; 4 ? 4 : z &lt; -4 ? -4 : z;</div>
 <div class="line">    }</div>
 <div class="line">};</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span> (the generators, <span class="tt">uniform_real</span>), <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span> (<span class="tt">normal_quantile</span>, <span class="tt">log</span>, <span class="tt">sin</span>, <span class="tt">cos</span>), <span class="tt"><a class="el" href="randomized__svd_8hpp.html" title="snicholls::linalg::truncated_svd: the leading k singular values and vectors of a matrix by randomised...">linalg/randomized_svd.hpp</a></span> (<span class="tt">gaussian_sketch</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span> (the generators, <span class="tt">uniform_real</span>), <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span> (<span class="tt">normal_quantile</span>, <span class="tt">log</span>, <span class="tt">sin</span>, <span class="tt">cos</span>), <span class="tt"><a class="el" href="randomized__svd_8hpp.html" title="snicholls::linalg::truncated_svd: the leading k singular values and vectors of a matrix by randomised...">linalg/randomized_svd.hpp</a></span> (<span class="tt">gaussian_sketch</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> <span class="tt">normal_inverse_cdf</span>: one call of the generator and one <span class="tt">normal_quantile</span> (a rational approximation refined by Halley's step) per draw. <span class="tt">normal_box_muller</span>: two calls, a logarithm, a square root, a sine and a cosine per pair.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, <span class="tt">noexcept</span> when the generator is, no allocation; the same seed gives the same draws on every platform for <span class="tt">normal_inverse_cdf</span> (its arithmetic is core's); <span class="tt">normal_box_muller</span> uses core's <span class="tt">log</span>, <span class="tt">sin</span> and <span class="tt">cos</span>, which follow <span class="tt">&lt;cmath&gt;</span> at run time, so its last bits may differ between standard libraries. Neither draw is ever infinite: the uniforms stay inside <span class="tt">(0, 1)</span>.</p>
 <p><b>Errors.</b> None.</p>
 <p><b>Performance.</b> Each against the same draws written by hand over the same stream, after a bit-for-bit check, a million draws (<span class="tt">benchmarks/stats/normal_benchmark.cpp</span>; Release, Apple clang 17, Xeon W-3245, 2026-11-16): the inverse CDF 21.5 million draws a second (by hand 21.2), Box-Muller 82.8 million (by hand 81.3). Box-Muller is the faster by four; the inverse CDF is the default for being the same on every platform and monotone.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/stats/normal_test.cpp</span>, <span class="tt">demos/stats/normal_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span>.</p>
 <p><b>Known issues.</b> Draws are <span class="tt">double</span>; convert for <span class="tt">float</span>.</p>
 <p><b>Status.</b> Experimental, new in 0.9.0. </p>
 

@@ -14,7 +14,14 @@ var searchData=
   ['layout_5fright_11',['layout_right',['../structsnicholls_1_1containers_1_1layout__right.html',1,'snicholls::containers::layout_right'],['../structsnicholls_1_1linalg_1_1layout__right.html',1,'snicholls::linalg::layout_right']]],
   ['layout_5fstride_12',['layout_stride',['../structsnicholls_1_1containers_1_1layout__stride.html',1,'snicholls::containers::layout_stride'],['../structsnicholls_1_1linalg_1_1layout__stride.html',1,'snicholls::linalg::layout_stride']]],
   ['lift_5fsampling_13',['lift_sampling',['../structsnicholls_1_1game_1_1lift__sampling.html',1,'snicholls::game']]],
-  ['logit_5fpenalties_14',['logit_penalties',['../structsnicholls_1_1ml_1_1logit__penalties.html',1,'snicholls::ml']]],
-  ['lora_5fparameters_15',['lora_parameters',['../structsnicholls_1_1ml_1_1lora__parameters.html',1,'snicholls::ml']]],
-  ['lora_5fweights_16',['lora_weights',['../structsnicholls_1_1ml_1_1lora__weights.html',1,'snicholls::ml']]]
+  ['llama3_5flike_5fpattern_14',['llama3_like_pattern',['../structsnicholls_1_1ml_1_1llama3__like__pattern.html',1,'snicholls::ml']]],
+  ['llama3_5flike_5fpattern_3c_201_20_3e_15',['llama3_like_pattern&lt; 1 &gt;',['../structsnicholls_1_1ml_1_1llama3__like__pattern.html',1,'snicholls::ml']]],
+  ['llama3_5flike_5fpattern_3c_203_20_3e_16',['llama3_like_pattern&lt; 3 &gt;',['../structsnicholls_1_1ml_1_1llama3__like__pattern.html',1,'snicholls::ml']]],
+  ['log_5fcompression_17',['log_compression',['../structsnicholls_1_1signal_1_1log__compression.html',1,'snicholls::signal']]],
+  ['logit_5fbias_5fentry_18',['logit_bias_entry',['../structsnicholls_1_1ml_1_1logit__bias__entry.html',1,'snicholls::ml']]],
+  ['logit_5fbias_5fsampler_19',['logit_bias_sampler',['../structsnicholls_1_1ml_1_1logit__bias__sampler.html',1,'snicholls::ml']]],
+  ['logit_5fpenalties_20',['logit_penalties',['../structsnicholls_1_1ml_1_1logit__penalties.html',1,'snicholls::ml']]],
+  ['lora_5fparameters_21',['lora_parameters',['../structsnicholls_1_1ml_1_1lora__parameters.html',1,'snicholls::ml']]],
+  ['lora_5fweights_22',['lora_weights',['../structsnicholls_1_1ml_1_1lora__weights.html',1,'snicholls::ml']]],
+  ['lut_5ftiles_23',['lut_tiles',['../structsnicholls_1_1ml_1_1lut__tiles.html',1,'snicholls::ml']]]
 ];

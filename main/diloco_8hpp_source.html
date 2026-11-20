@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -222,12 +222,12 @@ $(function(){initNavTree('diloco_8hpp_source.html','',''); });
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        <span class="keyword">const</span> T g = mean_delta[i];</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        <span class="keyword">const</span> T decayed = mu * momentum[i];</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        momentum[i] = decayed + g;</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        T step = momentum[i];</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        T <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a> = momentum[i];</div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>        <span class="keywordflow">if</span> (c.nesterov) {</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            <span class="keyword">const</span> T ahead = mu * momentum[i];</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            step = g + ahead;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a> = g + ahead;</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        }</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        <span class="keyword">const</span> T change = lr * step;</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        <span class="keyword">const</span> T change = lr * <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>;</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        global[i] = global[i] - change;</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    }</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>}</div>
@@ -236,7 +236,8 @@ $(function(){initNavTree('diloco_8hpp_source.html','',''); });
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>} <span class="comment">// namespace snicholls::ml</span></div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span> </div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><span class="preprocessor">#endif </span><span class="comment">// snicholls_core_ml_diloco_hpp</span></div>
-<div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...</div></div>
+<div class="ttc" id="aactivations_8hpp_html_a915a3289564e16b60f8689a66ad9e786"><div class="ttname"><a href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">snicholls::ml::step</a></div><div class="ttdeci">constexpr math::real_t&lt; X &gt; step(X x)</div><div class="ttdoc">The step function, 1 above 0 and 0 at or below (ggml&#39;s step); its derivative is 0 almost everywhere.</div><div class="ttdef"><b>Definition</b> <a href="activations_8hpp_source.html#l00518">activations.hpp:518</a></div></div>
+<div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...</div></div>
 <div class="ttc" id="adiloco_8hpp_html_a37f72860db633c3e76b7ee59beb11a3f"><div class="ttname"><a href="diloco_8hpp.html#a37f72860db633c3e76b7ee59beb11a3f">snicholls::ml::ordered_sum_bf16</a></div><div class="ttdeci">constexpr void ordered_sum_bf16(std::span&lt; const std::span&lt; const std::uint16_t &gt; &gt; parts, std::span&lt; float &gt; out) noexcept</div><div class="ttdoc">The workers&#39; bfloat16 parts decoded to float and summed left to right in rank order,...</div><div class="ttdef"><b>Definition</b> <a href="#l00235">diloco.hpp:235</a></div></div>
 <div class="ttc" id="adiloco_8hpp_html_a4cc1490370aae20104e827c34dab5700"><div class="ttname"><a href="diloco_8hpp.html#a4cc1490370aae20104e827c34dab5700">snicholls::ml::pseudo_gradient</a></div><div class="ttdeci">constexpr void pseudo_gradient(std::span&lt; const T &gt; global, std::span&lt; const T &gt; local, std::span&lt; T &gt; out) noexcept(std::is_floating_point_v&lt; T &gt;)</div><div class="ttdoc">A worker&#39;s pseudo-gradient after its local steps: out = global - local (DiLoCo, Douillard et al....</div><div class="ttdef"><b>Definition</b> <a href="#l00183">diloco.hpp:183</a></div></div>
 <div class="ttc" id="adiloco_8hpp_html_a6d592d1b83d7b53820e02f65c04eb99f"><div class="ttname"><a href="diloco_8hpp.html#a6d592d1b83d7b53820e02f65c04eb99f">snicholls::ml::ordered_sum</a></div><div class="ttdeci">constexpr void ordered_sum(std::span&lt; const std::span&lt; const T &gt; &gt; parts, std::span&lt; T &gt; out) noexcept(std::is_floating_point_v&lt; T &gt;)</div><div class="ttdoc">The elementwise sum of the parts, left to right in the order given: the reference for any all-reduce.</div><div class="ttdef"><b>Definition</b> <a href="#l00144">diloco.hpp:144</a></div></div>

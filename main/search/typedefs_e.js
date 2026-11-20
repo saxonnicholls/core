@@ -1,20 +1,14 @@
 var searchData=
 [
-  ['range_5ft_0',['range_t',['../group__core.html#ga9aa0c13965181d4fd8ff5f3e39a10b9b',1,'snicholls::meta']]],
-  ['real_5ft_1',['real_t',['../group__core.html#gaee5ee36a464f42353d5a712baf4ba54b',1,'snicholls::math']]],
-  ['rebind_2',['rebind',['../classsnicholls_1_1result__throws_1_1result.html#a1e0b77f79f5209a04b71cc7bdcaf2a96',1,'snicholls::result_throws::result']]],
-  ['reference_3',['reference',['../classsnicholls_1_1containers_1_1inplace__vector.html#ae6eeaf22752ceea82befbcc5bf9574f1',1,'snicholls::containers::inplace_vector::reference'],['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a5b7afb169a426e96aec97d25c15c9d3b',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::reference'],['../classsnicholls_1_1containers_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d',1,'snicholls::containers::md_span::reference'],['../classsnicholls_1_1linalg_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d',1,'snicholls::linalg::md_span::reference']]],
-  ['remove_5fif_5ft_4',['remove_if_t',['../type__list_8hpp.html#a1e23ba4455fb4af202109bee2794ade2',1,'snicholls::meta']]],
-  ['remove_5ft_5',['remove_t',['../type__list_8hpp.html#a41b9e0bdd904550531391e80b490c135',1,'snicholls::meta']]],
-  ['rename_5ft_6',['rename_t',['../type__list_8hpp.html#af3260e10462fc03182add8e7c2e43927',1,'snicholls::meta']]],
-  ['rep_7',['rep',['../classsnicholls_1_1utc.html#a5f08a63ebb179fb4d8e4c397b09747cd',1,'snicholls::utc']]],
-  ['replace_5fat_5ft_8',['replace_at_t',['../type__list_8hpp.html#ae67fe3e4d58e1c1de4363fbb1257a59b',1,'snicholls::meta']]],
-  ['replace_5fif_5ft_9',['replace_if_t',['../type__list_8hpp.html#a8d8cc12e68bfe9faf5bf62a7e5e6be4f',1,'snicholls::meta']]],
-  ['replace_5ft_10',['replace_t',['../type__list_8hpp.html#a90e956c7d88a9109bac055a157797920',1,'snicholls::meta']]],
-  ['result_5ftype_11',['result_type',['../classsnicholls_1_1stats_1_1wyrand.html#aca4989da72982ba4fcf44d56c1ccc5f7',1,'snicholls::stats::wyrand']]],
-  ['reverse_5ft_12',['reverse_t',['../type__list_8hpp.html#a8e76c436b561040ecb4cad81d1fd6866',1,'snicholls::meta']]],
-  ['riffle_5ft_13',['riffle_t',['../group__core.html#ga0cc9345bcf0e80b08f22ead454da4f42',1,'snicholls::meta']]],
-  ['rotate_5fleft_5ft_14',['rotate_left_t',['../group__core.html#ga4425323d3be3eab13f5e8394a488a69e',1,'snicholls::meta']]],
-  ['rotate_5fright_5ft_15',['rotate_right_t',['../group__core.html#ga29f4ff292bed4841310536695a27245a',1,'snicholls::meta']]],
-  ['row_5fvalue_5ft_16',['row_value_t',['../group__core.html#gab64702f991c1102c4f17d2651d2035dd',1,'snicholls::ml']]]
+  ['partition_5fn_5ft_0',['partition_n_t',['../group__core.html#ga67bd90d3384db811834570a552c45d12',1,'snicholls::meta']]],
+  ['period_1',['period',['../classsnicholls_1_1utc.html#adfab4e7860c36229cc293e7c73e234c3',1,'snicholls::utc']]],
+  ['permutations_5ft_2',['permutations_t',['../group__core.html#gaf6794dc97b0c1c651bf0d1bf678d5d59',1,'snicholls::meta']]],
+  ['permutations_5fwith_5ft_3',['permutations_with_t',['../group__core.html#ga496b5dc1aa2f304fb6d217751f1111f2',1,'snicholls::meta']]],
+  ['pivot_5findex_4',['pivot_index',['../group__core.html#gafd1890d6e796465f8c62adeb9608334d',1,'snicholls::linalg']]],
+  ['pointer_5',['pointer',['../classsnicholls_1_1containers_1_1inplace__vector.html#a4459f17bd96a06e2098f58cbf3d34523',1,'snicholls::containers::inplace_vector::pointer'],['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a2c64636cb80f61ffb9c6a1c03fca3fa2',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::pointer'],['../structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_4.html#a98b0fed2d42abc23b25478163f66a9bc',1,'snicholls::fn_ptr&lt; R(*)(Args...)&gt;::pointer'],['../structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_01noexcept_01_4.html#acb6d0ceb11dc2f135aed9a926cd639f4',1,'snicholls::fn_ptr&lt; R(*)(Args...) noexcept &gt;::pointer']]],
+  ['pop_5fback_5ft_6',['pop_back_t',['../type__list_8hpp.html#aca3bb5d63c5d17c49724da7d5bf00209',1,'snicholls::meta']]],
+  ['pop_5ffront_5ft_7',['pop_front_t',['../type__list_8hpp.html#ad98a3e6bbc4c305af90adfacad6fd8ef',1,'snicholls::meta']]],
+  ['product_5fwith_5ft_8',['product_with_t',['../group__core.html#ga995f47949917aa6a56dbcc2bddbe7eda',1,'snicholls::meta']]],
+  ['push_5fback_5ft_9',['push_back_t',['../type__list_8hpp.html#a8bbe1f44142ab5210aede12c1c38e6ce',1,'snicholls::meta']]],
+  ['push_5ffront_5ft_10',['push_front_t',['../type__list_8hpp.html#a43b25108d0b9c44ab67891f341a4c14a',1,'snicholls::meta']]]
 ];

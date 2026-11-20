@@ -1,13 +1,21 @@
 var searchData=
 [
-  ['take_5ft_0',['take_t',['../group__core.html#gaa61b53afdaa4ef6c430dbbb5ddf41804',1,'snicholls::meta']]],
-  ['tally_5ft_1',['tally_t',['../group__core.html#gaba98118bd19472b25edf86a0ea3d8288',1,'snicholls::meta']]],
-  ['thread_5ft_2',['thread_t',['../group__core.html#ga41b3340670dd50a0283a8e6627a93ac2',1,'snicholls::meta']]],
-  ['thread_5fwith_5ft_3',['thread_with_t',['../group__core.html#gacf61bac838d4e401a5628488ba3e7efb',1,'snicholls::meta']]],
-  ['time_5fpoint_4',['time_point',['../classsnicholls_1_1utc.html#afc8b5f20645d2767a9b1db8b55a68a13',1,'snicholls::utc']]],
-  ['topological_5fsort_5ft_5',['topological_sort_t',['../group__core.html#ga82a5f0744e9aa756b4532e8d07b84f71',1,'snicholls::meta']]],
-  ['traced_5ft_6',['traced_t',['../group__core.html#ga71f8f69b548ec6b8ee05a18c3863c904',1,'snicholls']]],
-  ['traits_5ftype_7',['traits_type',['../classsnicholls_1_1containers_1_1intrusive__avl__tree.html#a1d9e31a2143ff76b29f4bfe02a2da21c',1,'snicholls::containers::intrusive_avl_tree']]],
-  ['transform_5ft_8',['transform_t',['../type__list_8hpp.html#a36c0d295b282e6f49af27a7affe1ec8b',1,'snicholls::meta']]],
-  ['type_9',['type',['../structsnicholls_1_1named.html#acfd129091cea0177474706743fad2760',1,'snicholls::named::type'],['../structsnicholls_1_1game_1_1game__scalar.html#a8944bbb7da1442dc5077b351eed36ef1',1,'snicholls::game::game_scalar::type'],['../structsnicholls_1_1game_1_1game__scalar_3_01T_01_4.html#a438645eb0457fc1d8677cf25dab0ccb2',1,'snicholls::game::game_scalar&lt; T &gt;::type'],['../structsnicholls_1_1meta_1_1rename_3_01Source_3_01Ts_8_8_8_01_4_00_01Target_01_4.html#abc998ce3079a55e136d2efe5759761a4',1,'snicholls::meta::rename&lt; Source&lt; Ts... &gt;, Target &gt;::type'],['../structsnicholls_1_1code__unit_3_01S_01_4.html#a960b761fb1aadefe0aefe68953cc9705',1,'snicholls::code_unit&lt; S &gt;::type']]]
+  ['range_5ft_0',['range_t',['../group__core.html#ga9aa0c13965181d4fd8ff5f3e39a10b9b',1,'snicholls::meta']]],
+  ['real_5ft_1',['real_t',['../group__core.html#gaee5ee36a464f42353d5a712baf4ba54b',1,'snicholls::math']]],
+  ['rebind_2',['rebind',['../classsnicholls_1_1result__throws_1_1result.html#a1e0b77f79f5209a04b71cc7bdcaf2a96',1,'snicholls::result_throws::result']]],
+  ['reference_3',['reference',['../classsnicholls_1_1containers_1_1inplace__vector.html#ae6eeaf22752ceea82befbcc5bf9574f1',1,'snicholls::containers::inplace_vector::reference'],['../classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a5b7afb169a426e96aec97d25c15c9d3b',1,'snicholls::containers::intrusive_avl_tree::basic_iterator::reference'],['../classsnicholls_1_1containers_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d',1,'snicholls::containers::md_span::reference'],['../classsnicholls_1_1linalg_1_1md__span.html#a5fe7e5f499722c5d105751bb5540552d',1,'snicholls::linalg::md_span::reference']]],
+  ['remove_5fif_5ft_4',['remove_if_t',['../type__list_8hpp.html#a1e23ba4455fb4af202109bee2794ade2',1,'snicholls::meta']]],
+  ['remove_5ft_5',['remove_t',['../type__list_8hpp.html#a41b9e0bdd904550531391e80b490c135',1,'snicholls::meta']]],
+  ['rename_5ft_6',['rename_t',['../type__list_8hpp.html#af3260e10462fc03182add8e7c2e43927',1,'snicholls::meta']]],
+  ['rep_7',['rep',['../classsnicholls_1_1utc.html#a5f08a63ebb179fb4d8e4c397b09747cd',1,'snicholls::utc']]],
+  ['replace_5fat_5ft_8',['replace_at_t',['../type__list_8hpp.html#ae67fe3e4d58e1c1de4363fbb1257a59b',1,'snicholls::meta']]],
+  ['replace_5fif_5ft_9',['replace_if_t',['../type__list_8hpp.html#a8d8cc12e68bfe9faf5bf62a7e5e6be4f',1,'snicholls::meta']]],
+  ['replace_5ft_10',['replace_t',['../type__list_8hpp.html#a90e956c7d88a9109bac055a157797920',1,'snicholls::meta']]],
+  ['result_5ftype_11',['result_type',['../classsnicholls_1_1stats_1_1wyrand.html#aca4989da72982ba4fcf44d56c1ccc5f7',1,'snicholls::stats::wyrand']]],
+  ['reverse_5ft_12',['reverse_t',['../type__list_8hpp.html#a8e76c436b561040ecb4cad81d1fd6866',1,'snicholls::meta']]],
+  ['riffle_5ft_13',['riffle_t',['../group__core.html#ga0cc9345bcf0e80b08f22ead454da4f42',1,'snicholls::meta']]],
+  ['ripemd160_14',['ripemd160',['../group__core.html#ga7ffb5bcd46ede21edde1ee95e2c39c2f',1,'snicholls']]],
+  ['rotate_5fleft_5ft_15',['rotate_left_t',['../group__core.html#ga4425323d3be3eab13f5e8394a488a69e',1,'snicholls::meta']]],
+  ['rotate_5fright_5ft_16',['rotate_right_t',['../group__core.html#ga29f4ff292bed4841310536695a27245a',1,'snicholls::meta']]],
+  ['row_5fvalue_5ft_17',['row_value_t',['../group__core.html#gab64702f991c1102c4f17d2651d2035dd',1,'snicholls::ml']]]
 ];

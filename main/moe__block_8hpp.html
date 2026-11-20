@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -151,7 +151,7 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; (C.experts &gt; 0) &amp;&am
 <div class="line">    <span class="keyword">const</span> ml::moe_block_gradients&lt;float&gt; grads{gn1, {}, gn2, {}, {dq, dk, dv, gq, gk, gv, go, {}, {}, {}, {}, {}, {}, dy},</div>
 <div class="line">                                               ml::moe_gradients_in&lt;C&gt;(std::span&lt;float&gt;(gm), std::span&lt;float&gt;(mw), rows), scratch};</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> input = noise(rows * d, 8, 1.0), target = noise(rows * d, 9, 1.0);</div>
-<div class="line">    <span class="keyword">auto</span> step = [&amp;] {</div>
+<div class="line">    <span class="keyword">auto</span> <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a> = [&amp;] {</div>
 <div class="line">        std::vector&lt;float&gt; xs = input;</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> aux = ml::block_forward_sequence&lt;C&gt;(backend, w, xs, rope, act, seqs);</div>
 <div class="line">        <span class="keywordtype">float</span> loss = aux.balance + aux.z;</div>

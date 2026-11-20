@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -199,11 +199,33 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a23a08d53d31c8e4786c35c15748ef712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multi-token prediction modules <span class="tt">D</span> (DeepSeek-V3); 0 for none.  <br /></td></tr>
 <tr class="memitem:a1c1d67f16019a3d72afb7785818036d3" id="r_a1c1d67f16019a3d72afb7785818036d3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c1d67f16019a3d72afb7785818036d3">mtp_loss_weight</a> = 0</td></tr>
 <tr class="memdesc:a1c1d67f16019a3d72afb7785818036d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">MTP's <span class="tt">λ</span>.  <br /></td></tr>
+<tr class="memitem:a30d8476838895d35eb04f166c28113a4" id="r_a30d8476838895d35eb04f166c28113a4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30d8476838895d35eb04f166c28113a4">glu_alpha</a> = 1.702</td></tr>
+<tr class="memdesc:a30d8476838895d35eb04f166c28113a4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">swiglu_oai</span>'s sigmoid scale (gpt-oss's 1.702).  <br /></td></tr>
+<tr class="memitem:adb2b9abfcdc0b1170145c8d2ddb7e18c" id="r_adb2b9abfcdc0b1170145c8d2ddb7e18c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb2b9abfcdc0b1170145c8d2ddb7e18c">glu_limit</a> = 7</td></tr>
+<tr class="memdesc:adb2b9abfcdc0b1170145c8d2ddb7e18c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The clamped SwiGLUs' limit (gpt-oss's 7).  <br /></td></tr>
+<tr class="memitem:ade3b79202fc4e053f260e981e329d9c3" id="r_ade3b79202fc4e053f260e981e329d9c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18">mixer_kind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade3b79202fc4e053f260e981e329d9c3">mixer</a> = <a class="el" href="transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18a334c4a4c42fdb79d7ebc3e73b517e6f8">mixer_kind::none</a></td></tr>
+<tr class="memdesc:ade3b79202fc4e053f260e981e329d9c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mixer of the layers that are not attention; <span class="tt">none</span> for none.  <br /></td></tr>
+<tr class="memitem:a98d3c253f2838d8f6de6c320d5a278c9" id="r_a98d3c253f2838d8f6de6c320d5a278c9"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98d3c253f2838d8f6de6c320d5a278c9">mixer_heads</a> = 0</td></tr>
+<tr class="memdesc:a98d3c253f2838d8f6de6c320d5a278c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mixer's value heads <span class="tt">H</span> (Mamba-2's heads).  <br /></td></tr>
+<tr class="memitem:a0839bdfe6798d2c94836a5da581e76e5" id="r_a0839bdfe6798d2c94836a5da581e76e5"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0839bdfe6798d2c94836a5da581e76e5">mixer_head_dim</a> = 0</td></tr>
+<tr class="memdesc:a0839bdfe6798d2c94836a5da581e76e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value channels of a head <span class="tt">P</span> (Mamba-2's <span class="tt">headdim</span>).  <br /></td></tr>
+<tr class="memitem:a3c3e1b6e420d7086d1a47a08ebcfe73e" id="r_a3c3e1b6e420d7086d1a47a08ebcfe73e"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c3e1b6e420d7086d1a47a08ebcfe73e">mixer_state</a> = 0</td></tr>
+<tr class="memdesc:a3c3e1b6e420d7086d1a47a08ebcfe73e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The key channels of a head <span class="tt">N</span> (Mamba-2's <span class="tt">d_state</span>).  <br /></td></tr>
+<tr class="memitem:abeafda4b7675f647d4835e06224eeaa6" id="r_abeafda4b7675f647d4835e06224eeaa6"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeafda4b7675f647d4835e06224eeaa6">mixer_groups</a> = 0</td></tr>
+<tr class="memdesc:abeafda4b7675f647d4835e06224eeaa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The key heads <span class="tt">G</span> the value heads share (Mamba-2's <span class="tt">ngroups</span>).  <br /></td></tr>
+<tr class="memitem:aca1af412dbee7d42d8b43bf6a355f59b" id="r_aca1af412dbee7d42d8b43bf6a355f59b"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca1af412dbee7d42d8b43bf6a355f59b">conv_width</a> = 0</td></tr>
+<tr class="memdesc:aca1af412dbee7d42d8b43bf6a355f59b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The short causal convolution's taps <span class="tt">K</span> (Mamba-2's <span class="tt">d_conv</span>); 0 for none.  <br /></td></tr>
+<tr class="memitem:a645f83756002b0b78fde9a33b666ab02" id="r_a645f83756002b0b78fde9a33b666ab02"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a645f83756002b0b78fde9a33b666ab02">mixer_chunk</a> = 0</td></tr>
+<tr class="memdesc:a645f83756002b0b78fde9a33b666ab02"><td class="mdescLeft">&#160;</td><td class="mdescRight">The chunk <span class="tt">L</span> of the chunked forms and the backward pass's checkpoints.  <br /></td></tr>
+<tr class="memitem:aaa55f88bc86dfdd09cabb75e0eba602e" id="r_aaa55f88bc86dfdd09cabb75e0eba602e"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa55f88bc86dfdd09cabb75e0eba602e">hybrid_period</a> = 0</td></tr>
+<tr class="memdesc:aaa55f88bc86dfdd09cabb75e0eba602e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hybrid stacks: one attention layer in every <span class="tt"><a class="el" href="#aaa55f88bc86dfdd09cabb75e0eba602e" title="Hybrid stacks: one attention layer in every hybrid_period; 0 for none.">hybrid_period</a></span>; 0 for none.  <br /></td></tr>
+<tr class="memitem:abb892fa1b542aa5106bc27e8c9447322" id="r_abb892fa1b542aa5106bc27e8c9447322"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb892fa1b542aa5106bc27e8c9447322">hybrid_attention_offset</a> = 0</td></tr>
+<tr class="memdesc:abb892fa1b542aa5106bc27e8c9447322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hybrid stacks: the attention layer's place in each period.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The architecture of a transformer layer: a structural aggregate, passed as a template parameter. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00128">128</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00185">185</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="aec01774d0494cb03415b3c63aa391038" name="aec01774d0494cb03415b3c63aa391038"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aec01774d0494cb03415b3c63aa391038">&#9670;&#160;</a></span>group()</h2>
@@ -231,7 +253,7 @@ Public Attributes</h2></td></tr>
 <p>The query heads that share one key-value head. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#aaa9a62d897b634b112406e00601c6fae" title="The query heads.">n_heads</a> / <a class="el" href="#a10be1812002f39d6dba574adb8cb85f4" title="The key-value heads: n_heads (MHA), a divisor (GQA) or 1 (MQA).">n_kv_heads</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00185">185</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00258">258</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -261,7 +283,7 @@ Public Attributes</h2></td></tr>
 <p>The width of all the key (or value) heads together. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a10be1812002f39d6dba574adb8cb85f4" title="The key-value heads: n_heads (MHA), a divisor (GQA) or 1 (MQA).">n_kv_heads</a> · <a class="el" href="#a29e68995ac3c56946a981d336cd473ab" title="The channels of a head.">head_dim</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00182">182</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00255">255</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -291,7 +313,7 @@ Public Attributes</h2></td></tr>
 <p>Whether the attention is multi-head latent attention. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#aaf28ca898026edad9b45ab480fb3a7d5" title="MLA: the key-value latent&#39;s rank d_c; 0 for standard attention.">kv_lora_rank</a> &gt; 0</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00194">194</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00267">267</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -321,7 +343,7 @@ Public Attributes</h2></td></tr>
 <p>The RoPE layout, for <span class="tt"><a class="el" href="#ab6aed4c00dca183dd1f012a68de48274" title="The positional rotation.">rope</a></span> (meaningful unless <span class="tt"><a class="el" href="#ab6aed4c00dca183dd1f012a68de48274" title="The positional rotation.">rope</a></span> is <span class="tt">none</span>). </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4" title="Channel i with i + d/2: GPT-NeoX, Hugging Face LLaMA, nanochat.">rope_layout::half</a></span> or <span class="tt"><a class="el" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa5fc70ff0369f56d734047c9507af8623" title="Channel 2i with 2i + 1: Meta&#39;s LLaMA, GPT-J.">rope_layout::interleaved</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00188">188</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00261">261</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -351,7 +373,7 @@ Public Attributes</h2></td></tr>
 <p>Whether the MLP is a mixture of experts. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a1fc63942067d536cba8bf2f9d26e4156" title="Routed experts of a mixture-of-experts MLP; 0 for a dense MLP.">experts</a> &gt; 0</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00191">191</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00264">264</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +403,7 @@ Public Attributes</h2></td></tr>
 <p>The width of all the query heads together. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#aaa9a62d897b634b112406e00601c6fae" title="The query heads.">n_heads</a> · <a class="el" href="#a29e68995ac3c56946a981d336cd473ab" title="The channels of a head.">head_dim</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00179">179</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00252">252</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -411,7 +433,7 @@ Public Attributes</h2></td></tr>
 <p>MLA: the non-rotary channels of a query or key head, <span class="tt">d_h</span>. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a29e68995ac3c56946a981d336cd473ab" title="The channels of a head.">head_dim</a> - <a class="el" href="#a95ed2e34628a4b3d0ce5d62e53a9d082" title="MLA: the decoupled rotary channels d_h^R at the end of each query and key head.">qk_rope_dim</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00197">197</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00270">270</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -430,7 +452,7 @@ Public Attributes</h2></td></tr>
 
 <p>A learnable sink logit per query head (gpt-oss). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00172">172</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00229">229</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -448,7 +470,7 @@ Public Attributes</h2></td></tr>
 
 <p><span class="tt">cap · tanh(s / cap)</span> on each score; 0 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00142">142</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00199">199</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -466,7 +488,7 @@ Public Attributes</h2></td></tr>
 
 <p>The auxiliary balance loss's <span class="tt">alpha</span>; 0 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00151">151</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00208">208</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +506,7 @@ Public Attributes</h2></td></tr>
 
 <p>Biases on the projections and, with layer norm, a shift. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00143">143</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00200">200</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -502,7 +524,25 @@ Public Attributes</h2></td></tr>
 
 <p>DeepSeek-V3's <span class="tt">gamma</span>, the step of the selection bias (<span class="tt"><a class="el" href="moe_8hpp.html#aea8d977dc3de95061cbc09064f3bf0a2" title="DeepSeek-V3&#39;s auxiliary-loss-free balancing: bias_e += gamma · sign(mean load - load_e) with gamma th...">moe_update_bias</a></span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00150">150</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00207">207</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aca1af412dbee7d42d8b43bf6a355f59b" name="aca1af412dbee7d42d8b43bf6a355f59b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca1af412dbee7d42d8b43bf6a355f59b">&#9670;&#160;</a></span>conv_width</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::conv_width = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The short causal convolution's taps <span class="tt">K</span> (Mamba-2's <span class="tt">d_conv</span>); 0 for none. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00245">245</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -520,7 +560,7 @@ Public Attributes</h2></td></tr>
 
 <p>The MLP's hidden width. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00134">134</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00191">191</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -538,7 +578,7 @@ Public Attributes</h2></td></tr>
 
 <p>The width of the residual stream. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00130">130</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00187">187</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -556,7 +596,7 @@ Public Attributes</h2></td></tr>
 
 <p>The hidden width of each expert (0 when dense). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00147">147</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00204">204</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -574,7 +614,7 @@ Public Attributes</h2></td></tr>
 
 <p>Node-limited routing (DeepSeek-V3's <span class="tt">n_group</span>): the routed experts in this many equal groups; 0 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00153">153</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00210">210</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -592,7 +632,43 @@ Public Attributes</h2></td></tr>
 
 <p>Routed experts of a mixture-of-experts MLP; 0 for a dense MLP. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00144">144</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00201">201</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a30d8476838895d35eb04f166c28113a4" name="a30d8476838895d35eb04f166c28113a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30d8476838895d35eb04f166c28113a4">&#9670;&#160;</a></span>glu_alpha</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double snicholls::ml::transformer_config::glu_alpha = 1.702</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><span class="tt">swiglu_oai</span>'s sigmoid scale (gpt-oss's 1.702). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00236">236</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="adb2b9abfcdc0b1170145c8d2ddb7e18c" name="adb2b9abfcdc0b1170145c8d2ddb7e18c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb2b9abfcdc0b1170145c8d2ddb7e18c">&#9670;&#160;</a></span>glu_limit</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double snicholls::ml::transformer_config::glu_limit = 7</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The clamped SwiGLUs' limit (gpt-oss's 7). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00237">237</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -610,7 +686,7 @@ Public Attributes</h2></td></tr>
 
 <p>The groups a token's experts may come from (DeepSeek-V3's <span class="tt">topk_group</span>); 0 without groups. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00154">154</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00211">211</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -628,7 +704,43 @@ Public Attributes</h2></td></tr>
 
 <p>The channels of a head. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00133">133</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00190">190</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="abb892fa1b542aa5106bc27e8c9447322" name="abb892fa1b542aa5106bc27e8c9447322"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb892fa1b542aa5106bc27e8c9447322">&#9670;&#160;</a></span>hybrid_attention_offset</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::hybrid_attention_offset = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hybrid stacks: the attention layer's place in each period. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00248">248</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aaa55f88bc86dfdd09cabb75e0eba602e" name="aaa55f88bc86dfdd09cabb75e0eba602e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa55f88bc86dfdd09cabb75e0eba602e">&#9670;&#160;</a></span>hybrid_period</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::hybrid_period = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hybrid stacks: one attention layer in every <span class="tt"><a class="el" href="#aaa55f88bc86dfdd09cabb75e0eba602e" title="Hybrid stacks: one attention layer in every hybrid_period; 0 for none.">hybrid_period</a></span>; 0 for none. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00247">247</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -646,7 +758,7 @@ Public Attributes</h2></td></tr>
 
 <p>MLA: the key-value latent's rank <span class="tt">d_c</span>; 0 for standard attention. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00163">163</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00220">220</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -664,7 +776,7 @@ Public Attributes</h2></td></tr>
 
 <p>Which keys a query sees: causal, bidirectional or block-causal. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00158">158</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00215">215</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -682,7 +794,115 @@ Public Attributes</h2></td></tr>
 
 <p>The tokens of a block under <span class="tt">block_causal</span>; 0 otherwise. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00159">159</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00216">216</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ade3b79202fc4e053f260e981e329d9c3" name="ade3b79202fc4e053f260e981e329d9c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade3b79202fc4e053f260e981e329d9c3">&#9670;&#160;</a></span>mixer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18">mixer_kind</a> snicholls::ml::transformer_config::mixer = <a class="el" href="transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18a334c4a4c42fdb79d7ebc3e73b517e6f8">mixer_kind::none</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The mixer of the layers that are not attention; <span class="tt">none</span> for none. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00240">240</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a645f83756002b0b78fde9a33b666ab02" name="a645f83756002b0b78fde9a33b666ab02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a645f83756002b0b78fde9a33b666ab02">&#9670;&#160;</a></span>mixer_chunk</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::mixer_chunk = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The chunk <span class="tt">L</span> of the chunked forms and the backward pass's checkpoints. </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00246">246</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="abeafda4b7675f647d4835e06224eeaa6" name="abeafda4b7675f647d4835e06224eeaa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeafda4b7675f647d4835e06224eeaa6">&#9670;&#160;</a></span>mixer_groups</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::mixer_groups = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The key heads <span class="tt">G</span> the value heads share (Mamba-2's <span class="tt">ngroups</span>). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00244">244</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0839bdfe6798d2c94836a5da581e76e5" name="a0839bdfe6798d2c94836a5da581e76e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0839bdfe6798d2c94836a5da581e76e5">&#9670;&#160;</a></span>mixer_head_dim</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::mixer_head_dim = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The value channels of a head <span class="tt">P</span> (Mamba-2's <span class="tt">headdim</span>). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00242">242</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a98d3c253f2838d8f6de6c320d5a278c9" name="a98d3c253f2838d8f6de6c320d5a278c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98d3c253f2838d8f6de6c320d5a278c9">&#9670;&#160;</a></span>mixer_heads</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::mixer_heads = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The mixer's value heads <span class="tt">H</span> (Mamba-2's heads). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00241">241</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a3c3e1b6e420d7086d1a47a08ebcfe73e" name="a3c3e1b6e420d7086d1a47a08ebcfe73e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c3e1b6e420d7086d1a47a08ebcfe73e">&#9670;&#160;</a></span>mixer_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t snicholls::ml::transformer_config::mixer_state = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The key channels of a head <span class="tt">N</span> (Mamba-2's <span class="tt">d_state</span>). </p>
+
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00243">243</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -700,7 +920,7 @@ Public Attributes</h2></td></tr>
 
 <p>The MLP. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00138">138</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00195">195</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -718,7 +938,7 @@ Public Attributes</h2></td></tr>
 
 <p>Multi-token prediction modules <span class="tt">D</span> (DeepSeek-V3); 0 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00174">174</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00231">231</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -736,7 +956,7 @@ Public Attributes</h2></td></tr>
 
 <p>MTP's <span class="tt">λ</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00175">175</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00232">232</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -754,7 +974,7 @@ Public Attributes</h2></td></tr>
 
 <p>The query heads. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00131">131</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00188">188</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -772,7 +992,7 @@ Public Attributes</h2></td></tr>
 
 <p>The key-value heads: <span class="tt"><a class="el" href="#aaa9a62d897b634b112406e00601c6fae" title="The query heads.">n_heads</a></span> (MHA), a divisor (GQA) or 1 (MQA). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00132">132</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00189">189</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -790,7 +1010,7 @@ Public Attributes</h2></td></tr>
 
 <p>The normalisation. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00135">135</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00192">192</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -808,7 +1028,7 @@ Public Attributes</h2></td></tr>
 
 <p>Added to the variance or mean square. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00136">136</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00193">193</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -826,7 +1046,7 @@ Public Attributes</h2></td></tr>
 
 <p>MLA: the query latent's rank <span class="tt">d_c'</span>; 0 projects the query directly. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00162">162</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00219">219</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -844,7 +1064,7 @@ Public Attributes</h2></td></tr>
 
 <p>A per-head RMS norm of queries and keys. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00137">137</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00194">194</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -862,7 +1082,7 @@ Public Attributes</h2></td></tr>
 
 <p>MLA: the decoupled rotary channels <span class="tt">d_h^R</span> at the end of each query and key head. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00164">164</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00221">221</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -880,7 +1100,7 @@ Public Attributes</h2></td></tr>
 
 <p>The positional rotation. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00139">139</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00196">196</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -898,7 +1118,7 @@ Public Attributes</h2></td></tr>
 
 <p>The base of RoPE's frequencies. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00140">140</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00197">197</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -916,7 +1136,7 @@ Public Attributes</h2></td></tr>
 
 <p>The rescaling's factor <span class="tt">s</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00167">167</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00224">224</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -934,7 +1154,7 @@ Public Attributes</h2></td></tr>
 
 <p>YaRN's trained context <span class="tt">L</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00168">168</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00225">225</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -952,7 +1172,7 @@ Public Attributes</h2></td></tr>
 
 <p>RoPE's rescaling for a long context. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00166">166</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00223">223</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -970,7 +1190,7 @@ Public Attributes</h2></td></tr>
 
 <p>A factor on the routed weights (DeepSeek-V3's 2.5); 1 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00149">149</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00206">206</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -988,7 +1208,7 @@ Public Attributes</h2></td></tr>
 
 <p>How the router scores and weights the experts. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00148">148</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00205">205</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +1226,7 @@ Public Attributes</h2></td></tr>
 
 <p>Shared experts every token passes through, each <span class="tt"><a class="el" href="#a0ae66366c5e9bc6287e826f3a9956224" title="The hidden width of each expert (0 when dense).">expert_d_ff</a></span> wide (DeepSeekMoE). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00146">146</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00203">203</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1024,7 +1244,7 @@ Public Attributes</h2></td></tr>
 
 <p>Keys each query attends to, chosen by an indexer (DeepSeek Sparse Attention); 0 for all. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00173">173</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00230">230</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1042,7 +1262,7 @@ Public Attributes</h2></td></tr>
 
 <p>The routed experts each token goes to: 1 to <span class="tt"><a class="el" href="#a1fc63942067d536cba8bf2f9d26e4156" title="Routed experts of a mixture-of-experts MLP; 0 for a dense MLP.">experts</a></span> (0 when dense). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00145">145</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00202">202</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1060,7 +1280,7 @@ Public Attributes</h2></td></tr>
 
 <p>MLA: the channels of a value head. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00165">165</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00222">222</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1078,7 +1298,7 @@ Public Attributes</h2></td></tr>
 
 <p>A sliding window of keys, counting the query's own; 0 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00141">141</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00198">198</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1096,7 +1316,7 @@ Public Attributes</h2></td></tr>
 
 <p>YaRN's <span class="tt">β</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00169">169</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00226">226</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1114,7 +1334,7 @@ Public Attributes</h2></td></tr>
 
 <p>YaRN's <span class="tt">α</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00170">170</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00227">227</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1132,7 +1352,7 @@ Public Attributes</h2></td></tr>
 
 <p>YaRN's temperature coefficient (DeepSeek's <span class="tt">mscale_all_dim</span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00171">171</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00228">228</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>
@@ -1150,7 +1370,7 @@ Public Attributes</h2></td></tr>
 
 <p>The router z-loss's <span class="tt">beta</span> (ST-MoE); 0 for none. </p>
 
-<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00152">152</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="transformer__config_8hpp_source.html#l00209">209</a> of file <a class="el" href="transformer__config_8hpp_source.html">transformer_config.hpp</a>.</p>
 
 </div>
 </div>

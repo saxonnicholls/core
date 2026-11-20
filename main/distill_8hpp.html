@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -170,7 +170,7 @@ T)</span> (Hinton et al. 2015, eq. 1):</p>
 <p><b>Definitions.</b> The softened softmax, the gradient <span class="tt">(q - p) / T</span> and the <span class="tt">T²</span> factor: checked against Hinton et al. 2015 (arXiv 1503.02531, eqs. 1-2, §2). The reverse KL and its gradient are derived here and checked by central differences; the top-k renormalisation is the usual sparse-logit form, recalled.</p>
 <p><b>Performance.</b> <span class="tt">distill_rows</span> with the forward KL against the same loops by hand, after a bit-for-bit check (<span class="tt">benchmarks/ml/distill_benchmark.cpp</span>), 16 rows of 50,304 float logits: 31.1 ms against 30.1 ms, level (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/distill_test.cpp</span>, <span class="tt">demos/ml/distill_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
 <p><b>Known issues.</b> A mix of forward and reverse (the generalised JSD of GKD) is two calls and a weighted sum.</p>
 <p><b>Status.</b> Experimental, new in 0.16.0. </p>
 

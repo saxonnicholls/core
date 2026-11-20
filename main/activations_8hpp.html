@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('activations_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>.  
+<p><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact, tanh and quick), ELU, leaky ReLU, hard sigmoid, hard swish, xIELU, step, sign and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
@@ -101,6 +101,11 @@ $(function(){initNavTree('activations_8hpp.html','',''); });
 </div>
 <p><a href="activations_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:snicholls_3A_3Aml_3A_3Axielu_5Fparameters_3C_20T_20_3E" id="r_snicholls_3A_3Aml_3A_3Axielu_5Fparameters_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1ml_1_1xielu__parameters.html">snicholls::ml::xielu_parameters&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The parameters of <span class="tt"><a class="el" href="#af5cdc8cd72731b6ea373f2a51dd1b485" title="xIELU (Huang et al., 2025): α_p x² + β x above 0, α_n (expm1(min(x, ε)) - x) + β x at or below,...">xielu</a></span>, as a model stores them after their softplus (Apertus; ggml's <span class="tt"><a class="el" href="#af5cdc8cd72731b6ea373f2a51dd1b485" title="xIELU (Huang et al., 2025): α_p x² + β x above 0, α_n (expm1(min(x, ε)) - x) + β x at or below,...">xielu</a></span> operation parameters).  <a href="structsnicholls_1_1ml_1_1xielu__parameters.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:snicholls" id="r_snicholls"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html">snicholls</a></td></tr>
@@ -165,14 +170,63 @@ Functions</h2></td></tr>
 <tr class="memitem:aef726307cf8039cadb81e58fa2322ab9" id="r_aef726307cf8039cadb81e58fa2322ab9"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
 <tr class="memitem:aef726307cf8039cadb81e58fa2322ab9 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef726307cf8039cadb81e58fa2322ab9">snicholls::ml::softcap_derivative</a> (X x, std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; cap)</td></tr>
 <tr class="memdesc:aef726307cf8039cadb81e58fa2322ab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#a6df23707722c29c97ccc8033993633b2" title="The logit soft cap, cap · tanh(x / cap) (Gemma 2, nanochat): smooth, near x for small x,...">softcap</a></span> in <span class="tt">x</span>: <span class="tt">1 - tanh(x / cap)²</span>.  <br /></td></tr>
+<tr class="memitem:aae1daad1659f357db3fb800662d2d6a5" id="r_aae1daad1659f357db3fb800662d2d6a5"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:aae1daad1659f357db3fb800662d2d6a5 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae1daad1659f357db3fb800662d2d6a5">snicholls::ml::elu</a> (X x, std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; alpha=1)</td></tr>
+<tr class="memdesc:aae1daad1659f357db3fb800662d2d6a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">ELU, <span class="tt">x</span> above 0 and <span class="tt">alpha (e^x - 1)</span> at or below (ggml's <span class="tt"><a class="el" href="#aae1daad1659f357db3fb800662d2d6a5" title="ELU, x above 0 and alpha (e^x - 1) at or below (ggml&#39;s elu with alpha 1).">elu</a></span> with <span class="tt">alpha</span> 1).  <br /></td></tr>
+<tr class="memitem:aea92da11f17ccbead24c770ba56ab3a1" id="r_aea92da11f17ccbead24c770ba56ab3a1"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:aea92da11f17ccbead24c770ba56ab3a1 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea92da11f17ccbead24c770ba56ab3a1">snicholls::ml::elu_derivative</a> (X x, std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; alpha=1)</td></tr>
+<tr class="memdesc:aea92da11f17ccbead24c770ba56ab3a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#aae1daad1659f357db3fb800662d2d6a5" title="ELU, x above 0 and alpha (e^x - 1) at or below (ggml&#39;s elu with alpha 1).">elu</a></span>: 1 above 0, <span class="tt">alpha e^x</span> at or below.  <br /></td></tr>
+<tr class="memitem:a7ae4a80faef38a471a48ed9732d90e91" id="r_a7ae4a80faef38a471a48ed9732d90e91"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a7ae4a80faef38a471a48ed9732d90e91 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ae4a80faef38a471a48ed9732d90e91">snicholls::ml::leaky_relu</a> (X x, std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; slope=0.01)</td></tr>
+<tr class="memdesc:a7ae4a80faef38a471a48ed9732d90e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Leaky ReLU, <span class="tt">max(x, 0) + slope · min(x, 0)</span> (ggml's <span class="tt"><a class="el" href="#a7ae4a80faef38a471a48ed9732d90e91" title="Leaky ReLU, max(x, 0) + slope · min(x, 0) (ggml&#39;s leaky_relu, written as it is there).">leaky_relu</a></span>, written as it is there).  <br /></td></tr>
+<tr class="memitem:a51b03d47651ad00598b80db47cbf3274" id="r_a51b03d47651ad00598b80db47cbf3274"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a51b03d47651ad00598b80db47cbf3274 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51b03d47651ad00598b80db47cbf3274">snicholls::ml::leaky_relu_derivative</a> (X x, std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; slope=0.01)</td></tr>
+<tr class="memdesc:a51b03d47651ad00598b80db47cbf3274"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#a7ae4a80faef38a471a48ed9732d90e91" title="Leaky ReLU, max(x, 0) + slope · min(x, 0) (ggml&#39;s leaky_relu, written as it is there).">leaky_relu</a></span>: 1 above 0, <span class="tt">slope</span> at or below (PyTorch's convention at 0).  <br /></td></tr>
+<tr class="memitem:a40ba4fa7f04edfe80430a31d9042624d" id="r_a40ba4fa7f04edfe80430a31d9042624d"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a40ba4fa7f04edfe80430a31d9042624d template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40ba4fa7f04edfe80430a31d9042624d">snicholls::ml::hardsigmoid</a> (X x)</td></tr>
+<tr class="memdesc:a40ba4fa7f04edfe80430a31d9042624d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hard sigmoid, <span class="tt">min(1, max(0, (x + 3) / 6))</span> (ggml, PyTorch, MobileNetV3).  <br /></td></tr>
+<tr class="memitem:a8583c51cc70b1a8a045a9f3f3b086a4e" id="r_a8583c51cc70b1a8a045a9f3f3b086a4e"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a8583c51cc70b1a8a045a9f3f3b086a4e template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8583c51cc70b1a8a045a9f3f3b086a4e">snicholls::ml::hardsigmoid_derivative</a> (X x)</td></tr>
+<tr class="memdesc:a8583c51cc70b1a8a045a9f3f3b086a4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#a40ba4fa7f04edfe80430a31d9042624d" title="Hard sigmoid, min(1, max(0, (x + 3) / 6)) (ggml, PyTorch, MobileNetV3).">hardsigmoid</a></span>: 1/6 strictly between -3 and 3, else 0 (PyTorch's convention at the corners).  <br /></td></tr>
+<tr class="memitem:a38a341b7ee23d44e0b073994a3ae1e21" id="r_a38a341b7ee23d44e0b073994a3ae1e21"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a38a341b7ee23d44e0b073994a3ae1e21 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38a341b7ee23d44e0b073994a3ae1e21">snicholls::ml::hardswish</a> (X x)</td></tr>
+<tr class="memdesc:a38a341b7ee23d44e0b073994a3ae1e21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hard swish, <span class="tt">x · hardsigmoid(x)</span> (ggml, MobileNetV3).  <br /></td></tr>
+<tr class="memitem:afb379dde8e099f98fe3e6fb89b48e36b" id="r_afb379dde8e099f98fe3e6fb89b48e36b"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:afb379dde8e099f98fe3e6fb89b48e36b template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb379dde8e099f98fe3e6fb89b48e36b">snicholls::ml::hardswish_derivative</a> (X x)</td></tr>
+<tr class="memdesc:afb379dde8e099f98fe3e6fb89b48e36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#a38a341b7ee23d44e0b073994a3ae1e21" title="Hard swish, x · hardsigmoid(x) (ggml, MobileNetV3).">hardswish</a></span>: 0 at or below -3, 1 at or above 3, <span class="tt">(2x + 3) / 6</span> between (PyTorch's).  <br /></td></tr>
+<tr class="memitem:a229a8324620d47c437a38829dbf40f91" id="r_a229a8324620d47c437a38829dbf40f91"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a229a8324620d47c437a38829dbf40f91 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a229a8324620d47c437a38829dbf40f91">snicholls::ml::gelu_quick</a> (X x)</td></tr>
+<tr class="memdesc:a229a8324620d47c437a38829dbf40f91"><td class="mdescLeft">&#160;</td><td class="mdescRight">GELU's sigmoid approximation, <span class="tt">x · <a class="el" href="#ac0baa87bac65d7e1136318c26266582e" title="The logistic function 1 / (1 + e^-x), computed so that it never overflows.">sigmoid</a>(1.702 x)</span> (CLIP, ggml's <span class="tt"><a class="el" href="#a229a8324620d47c437a38829dbf40f91" title="GELU&#39;s sigmoid approximation, x · sigmoid(1.702 x) (CLIP, ggml&#39;s gelu_quick).">gelu_quick</a></span>).  <br /></td></tr>
+<tr class="memitem:ab5943b001ed93bdc85f900985757b583" id="r_ab5943b001ed93bdc85f900985757b583"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:ab5943b001ed93bdc85f900985757b583 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5943b001ed93bdc85f900985757b583">snicholls::ml::gelu_quick_derivative</a> (X x)</td></tr>
+<tr class="memdesc:ab5943b001ed93bdc85f900985757b583"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#a229a8324620d47c437a38829dbf40f91" title="GELU&#39;s sigmoid approximation, x · sigmoid(1.702 x) (CLIP, ggml&#39;s gelu_quick).">gelu_quick</a></span>: <span class="tt">s + 1.702 x s (1 - s)</span> with <span class="tt">s = <a class="el" href="#ac0baa87bac65d7e1136318c26266582e" title="The logistic function 1 / (1 + e^-x), computed so that it never overflows.">sigmoid</a>(1.702 x)</span> and <span class="tt">1 - s</span> taken as <span class="tt"><a class="el" href="#ac0baa87bac65d7e1136318c26266582e" title="The logistic function 1 / (1 + e^-x), computed so that it never overflows.">sigmoid</a>(-1.702 x)</span>.  <br /></td></tr>
+<tr class="memitem:af5cdc8cd72731b6ea373f2a51dd1b485" id="r_af5cdc8cd72731b6ea373f2a51dd1b485"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:af5cdc8cd72731b6ea373f2a51dd1b485 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5cdc8cd72731b6ea373f2a51dd1b485">snicholls::ml::xielu</a> (X x, const <a class="el" href="structsnicholls_1_1ml_1_1xielu__parameters.html">xielu_parameters</a>&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; &amp;p)</td></tr>
+<tr class="memdesc:af5cdc8cd72731b6ea373f2a51dd1b485"><td class="mdescLeft">&#160;</td><td class="mdescRight">xIELU (Huang et al., 2025): <span class="tt">α_p x² + β x</span> above 0, <span class="tt">α_n (expm1(min(x, ε)) - x) + β x</span> at or below, as ggml's <span class="tt">op_xielu</span>.  <br /></td></tr>
+<tr class="memitem:afb1771c8032eb3e7d58926e402f183f8" id="r_afb1771c8032eb3e7d58926e402f183f8"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:afb1771c8032eb3e7d58926e402f183f8 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb1771c8032eb3e7d58926e402f183f8">snicholls::ml::xielu_derivative</a> (X x, const <a class="el" href="structsnicholls_1_1ml_1_1xielu__parameters.html">xielu_parameters</a>&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; &amp;p)</td></tr>
+<tr class="memdesc:afb1771c8032eb3e7d58926e402f183f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of <span class="tt"><a class="el" href="#af5cdc8cd72731b6ea373f2a51dd1b485" title="xIELU (Huang et al., 2025): α_p x² + β x above 0, α_n (expm1(min(x, ε)) - x) + β x at or below,...">xielu</a></span>: <span class="tt">2 α_p x + β</span> above 0, <span class="tt">α_n (e^x [x &lt; ε] - 1) + β</span> at or below.  <br /></td></tr>
+<tr class="memitem:a915a3289564e16b60f8689a66ad9e786" id="r_a915a3289564e16b60f8689a66ad9e786"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:a915a3289564e16b60f8689a66ad9e786 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a915a3289564e16b60f8689a66ad9e786">snicholls::ml::step</a> (X x)</td></tr>
+<tr class="memdesc:a915a3289564e16b60f8689a66ad9e786"><td class="mdescLeft">&#160;</td><td class="mdescRight">The step function, 1 above 0 and 0 at or below (ggml's <span class="tt"><a class="el" href="#a915a3289564e16b60f8689a66ad9e786" title="The step function, 1 above 0 and 0 at or below (ggml&#39;s step); its derivative is 0 almost everywhere.">step</a></span>); its derivative is 0 almost everywhere.  <br /></td></tr>
+<tr class="memitem:ae8cc1d7f17d9e0e8cef37fbbd91a209a" id="r_ae8cc1d7f17d9e0e8cef37fbbd91a209a"><td class="memTemplParams" colspan="2">template&lt;math::math_argument X&gt; </td></tr>
+<tr class="memitem:ae8cc1d7f17d9e0e8cef37fbbd91a209a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8cc1d7f17d9e0e8cef37fbbd91a209a">snicholls::ml::sign</a> (X x)</td></tr>
+<tr class="memdesc:ae8cc1d7f17d9e0e8cef37fbbd91a209a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sign, 1, -1 or 0 (ggml's <span class="tt">sgn</span>: a NaN and both zeros give 0); its derivative is 0 almost everywhere.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a0e03fd2a959aa9af711645d5e4e60bfe" id="r_a0e03fd2a959aa9af711645d5e4e60bfe"><td class="memTemplParams" colspan="2">template&lt;math::math_number T&gt; </td></tr>
+<tr class="memitem:a0e03fd2a959aa9af711645d5e4e60bfe template"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e03fd2a959aa9af711645d5e4e60bfe">snicholls::ml::gelu_quick_coefficient</a> = T(1.702)</td></tr>
+<tr class="memdesc:a0e03fd2a959aa9af711645d5e4e60bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The coefficient of <span class="tt"><a class="el" href="#a229a8324620d47c437a38829dbf40f91" title="GELU&#39;s sigmoid approximation, x · sigmoid(1.702 x) (CLIP, ggml&#39;s gelu_quick).">gelu_quick</a></span>, 1.702 (Hendrycks and Gimpel; ggml's <span class="tt">GELU_QUICK_COEF</span> is its negative).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>. </p>
+<div class="textblock"><p><span class="tt">snicholls::ml</span> activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact, tanh and quick), ELU, leaky ReLU, hard sigmoid, hard swish, xIELU, step, sign and the logit soft cap, each with its derivative, all <span class="tt">constexpr</span>. </p>
 <p><b>Overview.</b> The element-wise functions of a neural network, written once for every floating-point type and usable at compile time (a lookup table of GELU for an 8-bit format), at run time on the CPU, and from a GPU kernel. Each comes with its derivative for the backward pass. Where the output of the forward pass is what backpropagation keeps (sigmoid, tanh), the derivative also has a form that takes the output. Every function is computed in the form that cannot overflow or cancel:</p>
 <ul>
 <li><span class="tt">sigmoid(x)</span> is <span class="tt">1 / (1 + e^-x)</span> for <span class="tt">x &gt;= 0</span> and <span class="tt">e^x / (1 + e^x)</span> below, so neither form overflows.</li>
 <li><span class="tt">softplus(x) = max(x, 0) + log1p(e^-|x|)</span> and <span class="tt">log_sigmoid(x) = -softplus(-x)</span>, so a loss built on them never takes the log of an underflowed probability.</li>
 <li>The derivatives of sigmoid, SiLU and GELU-tanh take <span class="tt">1 - sigmoid(z)</span> as <span class="tt">sigmoid(-z)</span>, from the same <span class="tt">e^-|z|</span>, rather than subtracting a sigmoid near 1 from 1, which cancels for large <span class="tt">z</span> (and is then scaled by <span class="tt">x</span> in SiLU and GELU-tanh: 11.5 and 43.7 units in the last place in double, 7.2 and 16.5 in float, before 0.14.0; under 2 in float since).</li>
+<li>The activations of vision and audio encoders and of newer language models, as ggml computes them (<span class="tt">ggml/src/ggml-cpu/unary-ops.cpp</span> and <span class="tt">vec.h</span>, llama.cpp 39039aa): <span class="tt">elu</span>, <span class="tt">leaky_relu</span>, <span class="tt">hardsigmoid</span>, <span class="tt">hardswish</span>, <span class="tt">gelu_quick</span> (<span class="tt">x · sigmoid(1.702 x)</span>, CLIP), <span class="tt">xielu</span> (Apertus, with the coefficients after their softplus, as a GGUF file stores them), <span class="tt">step</span> and <span class="tt">sign</span>. Each has a derivative; at a kink it takes PyTorch's convention. The gated forms (GEGLU, SwiGLU and gpt-oss's clamped SwiGLU) are in <span class="tt"><a class="el" href="glu_8hpp.html" title="snicholls::ml gated linear units: ReGLU, GEGLU (tanh, erf and quick), SwiGLU, gpt-oss&#39;s clamped SwiGL...">ml/glu.hpp</a></span>.</li>
 <li><span class="tt">gelu(x) = x Φ(x)</span> uses <span class="tt">erfc</span> for the normal CDF, accurate in the left tail; <span class="tt">gelu_tanh</span> (GPT-2's approximation) is computed as <span class="tt">x · sigmoid(2u)</span>, which is identical to <span class="tt">0.5 x (1 + tanh u)</span> and does not cancel for large negative <span class="tt">x</span>.</li>
 </ul>
 <div class="fragment"><div class="line">    <span class="comment">// A lookup table a kernel reads, computed by the compiler: GELU on [-4, 4] in steps of 1/2, in float.</span></div>
@@ -194,18 +248,122 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> grads[] = {ml::gelu_derivative(1.0), ml::gelu_tanh_derivative(1.0), ml::silu_derivative(1.0),</div>
 <div class="line">                                ml::relu_derivative(1.0), ml::relu_squared_derivative(1.0), ml::softcap_derivative(1.0, 15.0),</div>
 <div class="line">                                ml::sigmoid_derivative(1.0), ml::tanh_derivative_from_output(math::tanh(1.0))};</div>
-</div><!-- fragment --><p><b>Relationships.</b> Built on <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span> (<span class="tt">exp</span>, <span class="tt">expm1</span>, <span class="tt">log1p</span>, <span class="tt">erfc</span>, <span class="tt">tanh</span>). Used with <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span> and <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, forward and backward,...">ml/norm.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// The activations of vision and audio encoders, as ggml computes them, each with its derivative</span></div>
+<div class="line">    <span class="keyword">constexpr</span> ml::xielu_parameters&lt;double&gt; xp{0.8, 0.8, 0.5, -1e-6};   <span class="comment">// a model&#39;s coefficients after their softplus</span></div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> enc[] = {ml::elu(-1.0), ml::leaky_relu(-1.0, 0.1), ml::hardsigmoid(1.0), ml::hardswish(1.0),</div>
+<div class="line">                              ml::gelu_quick(1.0), ml::xielu(-1.0, xp), ml::step(-0.5), ml::sign(-0.5)};</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> enc_d[] = {ml::elu_derivative(-1.0), ml::leaky_relu_derivative(-1.0, 0.1), ml::hardsigmoid_derivative(1.0),</div>
+<div class="line">                                ml::hardswish_derivative(1.0), ml::gelu_quick_derivative(1.0), ml::xielu_derivative(-1.0, xp)};</div>
+</div><!-- fragment --><p><b>Relationships.</b> Built on <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span> (<span class="tt">exp</span>, <span class="tt">expm1</span>, <span class="tt">log1p</span>, <span class="tt">erfc</span>, <span class="tt">tanh</span>). Used with <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span> and <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, group_norm over a sample&#39;s channel...">ml/norm.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each. A type of the caller's works through <span class="tt">math_limits</span>, as in <span class="tt">snicholls::math</span>.</p>
 <p><b>Guarantees.</b> Every function is <span class="tt">constexpr</span> and pure; NaN propagates. At run time the results are those of the <span class="tt">&lt;cmath&gt;</span> functions they call; at compile time they agree to a few units in the last place.</p>
 <p><b>Errors.</b> None: a domain error (<span class="tt">logit</span> outside [0, 1]) is NaN.</p>
 <p><b>Performance.</b> Benchmarked against the same formulas written by hand (<span class="tt">benchmarks/ml/activations_benchmark.cpp</span>, <span class="tt">BENCHMARKS.md</span>).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/activations_test.cpp</span>, <span class="tt">demos/ml/activations_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>.</p>
-<p><b>Known issues.</b> <span class="tt">relu</span> and its derivative at exactly 0 take 0, as PyTorch does.</p>
-<p><b>Status.</b> Experimental, new in 0.6.0. </p>
+<p><b>Dependencies.</b> <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>.</p>
+<p><b>Known issues.</b> <span class="tt">relu</span> and its derivative at exactly 0 take 0, as PyTorch does. ggml computes <span class="tt">gelu_quick</span> as <span class="tt">x / (1 + e^(-1.702 x))</span>, and through a 16-bit table for <span class="tt">float16</span> inputs; here it is <span class="tt">x · sigmoid(1.702 x)</span> in the argument's type, which agrees to a few units in the last place and never overflows.</p>
+<p><b>Status.</b> Experimental, new in 0.6.0; <span class="tt">elu</span>, <span class="tt">leaky_relu</span>, <span class="tt">hardsigmoid</span>, <span class="tt">hardswish</span>, <span class="tt">gelu_quick</span>, <span class="tt">xielu</span>, <span class="tt">step</span> and <span class="tt">sign</span> new in 0.17.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="aae1daad1659f357db3fb800662d2d6a5" name="aae1daad1659f357db3fb800662d2d6a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae1daad1659f357db3fb800662d2d6a5">&#9670;&#160;</a></span>elu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::elu </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ELU, <span class="tt">x</span> above 0 and <span class="tt">alpha (e^x - 1)</span> at or below (ggml's <span class="tt">elu</span> with <span class="tt">alpha</span> 1). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+    <tr><td class="paramname">alpha</td><td>The scale of the negative branch. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00346">346</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aea92da11f17ccbead24c770ba56ab3a1" name="aea92da11f17ccbead24c770ba56ab3a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea92da11f17ccbead24c770ba56ab3a1">&#9670;&#160;</a></span>elu_derivative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::elu_derivative </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The derivative of <span class="tt">elu</span>: 1 above 0, <span class="tt">alpha e^x</span> at or below. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+    <tr><td class="paramname">alpha</td><td>The scale of the negative branch. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00359">359</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a5fd1a816be6fb78408cd1887063cec54" name="a5fd1a816be6fb78408cd1887063cec54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5fd1a816be6fb78408cd1887063cec54">&#9670;&#160;</a></span>gelu()</h2>
 
@@ -246,7 +404,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00244">244</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00254">254</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -290,7 +448,95 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00257">257</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00267">267</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a229a8324620d47c437a38829dbf40f91" name="a229a8324620d47c437a38829dbf40f91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a229a8324620d47c437a38829dbf40f91">&#9670;&#160;</a></span>gelu_quick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::gelu_quick </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GELU's sigmoid approximation, <span class="tt">x · sigmoid(1.702 x)</span> (CLIP, ggml's <span class="tt">gelu_quick</span>). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00449">449</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab5943b001ed93bdc85f900985757b583" name="ab5943b001ed93bdc85f900985757b583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5943b001ed93bdc85f900985757b583">&#9670;&#160;</a></span>gelu_quick_derivative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::gelu_quick_derivative </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The derivative of <span class="tt">gelu_quick</span>: <span class="tt">s + 1.702 x s (1 - s)</span> with <span class="tt">s = sigmoid(1.702 x)</span> and <span class="tt">1 - s</span> taken as <span class="tt">sigmoid(-1.702 x)</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00461">461</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -334,7 +580,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00284">284</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00294">294</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -378,7 +624,281 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00296">296</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00306">306</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a40ba4fa7f04edfe80430a31d9042624d" name="a40ba4fa7f04edfe80430a31d9042624d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40ba4fa7f04edfe80430a31d9042624d">&#9670;&#160;</a></span>hardsigmoid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::hardsigmoid </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hard sigmoid, <span class="tt">min(1, max(0, (x + 3) / 6))</span> (ggml, PyTorch, MobileNetV3). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A value in [0, 1]. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00397">397</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8583c51cc70b1a8a045a9f3f3b086a4e" name="a8583c51cc70b1a8a045a9f3f3b086a4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8583c51cc70b1a8a045a9f3f3b086a4e">&#9670;&#160;</a></span>hardsigmoid_derivative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::hardsigmoid_derivative </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The derivative of <span class="tt">hardsigmoid</span>: 1/6 strictly between -3 and 3, else 0 (PyTorch's convention at the corners). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00409">409</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a38a341b7ee23d44e0b073994a3ae1e21" name="a38a341b7ee23d44e0b073994a3ae1e21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38a341b7ee23d44e0b073994a3ae1e21">&#9670;&#160;</a></span>hardswish()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::hardswish </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hard swish, <span class="tt">x · hardsigmoid(x)</span> (ggml, MobileNetV3). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00421">421</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afb379dde8e099f98fe3e6fb89b48e36b" name="afb379dde8e099f98fe3e6fb89b48e36b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb379dde8e099f98fe3e6fb89b48e36b">&#9670;&#160;</a></span>hardswish_derivative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::hardswish_derivative </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The derivative of <span class="tt">hardswish</span>: 0 at or below -3, 1 at or above 3, <span class="tt">(2x + 3) / 6</span> between (PyTorch's). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00432">432</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7ae4a80faef38a471a48ed9732d90e91" name="a7ae4a80faef38a471a48ed9732d90e91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ae4a80faef38a471a48ed9732d90e91">&#9670;&#160;</a></span>leaky_relu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::leaky_relu </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>slope</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0.01</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Leaky ReLU, <span class="tt">max(x, 0) + slope · min(x, 0)</span> (ggml's <span class="tt">leaky_relu</span>, written as it is there). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+    <tr><td class="paramname">slope</td><td>The slope below 0 (PyTorch's <span class="tt">negative_slope</span>, 0.01 by default). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00372">372</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a51b03d47651ad00598b80db47cbf3274" name="a51b03d47651ad00598b80db47cbf3274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b03d47651ad00598b80db47cbf3274">&#9670;&#160;</a></span>leaky_relu_derivative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::leaky_relu_derivative </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::type_identity_t&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>slope</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0.01</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The derivative of <span class="tt">leaky_relu</span>: 1 above 0, <span class="tt">slope</span> at or below (PyTorch's convention at 0). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+    <tr><td class="paramname">slope</td><td>The slope below 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00386">386</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -422,7 +942,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result; its derivative is <span class="tt">sigmoid(-x)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00140">140</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00150">150</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -466,7 +986,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The log-odds: -infinity at 0, infinity at 1, NaN outside [0, 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00151">151</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00161">161</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -510,7 +1030,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00175">175</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00185">185</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -554,7 +1074,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00187">187</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00197">197</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -598,7 +1118,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00198">198</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00208">208</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -642,7 +1162,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00209">209</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00219">219</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -686,7 +1206,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A value in [0, 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00088">88</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00098">98</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -730,7 +1250,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">d sigmoid / dx</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00113">113</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00123">123</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -774,7 +1294,51 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">d sigmoid / dx</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00103">103</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00113">113</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae8cc1d7f17d9e0e8cef37fbbd91a209a" name="ae8cc1d7f17d9e0e8cef37fbbd91a209a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8cc1d7f17d9e0e8cef37fbbd91a209a">&#9670;&#160;</a></span>sign()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::sign </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The sign, 1, -1 or 0 (ggml's <span class="tt">sgn</span>: a NaN and both zeros give 0); its derivative is 0 almost everywhere. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>-1, 0 or 1. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00529">529</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -818,7 +1382,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00220">220</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00230">230</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -862,7 +1426,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00231">231</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00241">241</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -911,7 +1475,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00312">312</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00322">322</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -960,7 +1524,7 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00324">324</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00334">334</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -1004,7 +1568,51 @@ template&lt;math::math_argument X&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result; its derivative is <span class="tt">sigmoid(x)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00125">125</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00135">135</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a915a3289564e16b60f8689a66ad9e786" name="a915a3289564e16b60f8689a66ad9e786"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a915a3289564e16b60f8689a66ad9e786">&#9670;&#160;</a></span>step()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::step </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The step function, 1 above 0 and 0 at or below (ggml's <span class="tt">step</span>); its derivative is 0 almost everywhere. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 or 1. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00518">518</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>
@@ -1048,7 +1656,140 @@ template&lt;math::math_number T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">d tanh / dx</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00165">165</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00175">175</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af5cdc8cd72731b6ea373f2a51dd1b485" name="af5cdc8cd72731b6ea373f2a51dd1b485"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5cdc8cd72731b6ea373f2a51dd1b485">&#9670;&#160;</a></span>xielu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::xielu </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1xielu__parameters.html">xielu_parameters</a>&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>xIELU (Huang et al., 2025): <span class="tt">α_p x² + β x</span> above 0, <span class="tt">α_n (expm1(min(x, ε)) - x) + β x</span> at or below, as ggml's <span class="tt">op_xielu</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+    <tr><td class="paramname">p</td><td>The parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00487">487</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afb1771c8032eb3e7d58926e402f183f8" name="afb1771c8032eb3e7d58926e402f183f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb1771c8032eb3e7d58926e402f183f8">&#9670;&#160;</a></span>xielu_derivative()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_argument X&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">math::real_t&lt; X &gt; snicholls::ml::xielu_derivative </td>
+          <td>(</td>
+          <td class="paramtype">X</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1ml_1_1xielu__parameters.html">xielu_parameters</a>&lt; <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">math::real_t</a>&lt; X &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The derivative of <span class="tt">xielu</span>: <span class="tt">2 α_p x + β</span> above 0, <span class="tt">α_n (e^x [x &lt; ε] - 1) + β</span> at or below. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">X</td><td>An integer or a <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The argument. </td></tr>
+    <tr><td class="paramname">p</td><td>The parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00503">503</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a0e03fd2a959aa9af711645d5e4e60bfe" name="a0e03fd2a959aa9af711645d5e4e60bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e03fd2a959aa9af711645d5e4e60bfe">&#9670;&#160;</a></span>gelu_quick_coefficient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math::math_number T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T snicholls::ml::gelu_quick_coefficient = T(1.702)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The coefficient of <span class="tt">gelu_quick</span>, 1.702 (Hendrycks and Gimpel; ggml's <span class="tt">GELU_QUICK_COEF</span> is its negative). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>A <span class="tt">math::math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="activations_8hpp_source.html#l00442">442</a> of file <a class="el" href="activations_8hpp_source.html">activations.hpp</a>.</p>
 
 </div>
 </div>

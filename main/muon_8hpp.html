@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -162,7 +162,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">        <span class="keywordflow">return</span> std::sqrt(dist);</div>
 <div class="line">    };</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> before = distance();</div>
-<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> step = 0; step &lt; 30; ++step) {</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> step = 0; <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a> &lt; 30; ++<a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>) {</div>
 <div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; w.size(); ++i)</div>
 <div class="line">            grad[i] = w[i] - target[i];</div>
 <div class="line">        ml::muon_step(la::reference, std::span&lt;float&gt;(w), std::span&lt;const float&gt;(grad), std::span&lt;float&gt;(momentum), 2, 3,</div>
@@ -226,7 +226,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">    std::vector&lt;float&gt; dq = std::vector&lt;float&gt;(n * d), dk = dq, dv = dq, scratch = dq, work = std::vector&lt;float&gt;(ml::muon_work_size(f, d));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// One training step on a sequence: forward, loss, backward, then every tensor&#39;s update. Returns the loss.</span></div>
-<div class="line">    <span class="keywordtype">float</span> step(<span class="keyword">const</span> std::vector&lt;std::size_t&gt;&amp; text, std::uint64_t t)</div>
+<div class="line">    <span class="keywordtype">float</span> <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>(<span class="keyword">const</span> std::vector&lt;std::size_t&gt;&amp; text, std::uint64_t t)</div>
 <div class="line">    {</div>
 <div class="line">        <span class="keyword">const</span> std::span&lt;const std::size_t&gt; in(<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>.data(), n), next(<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>.data() + 1, n);</div>
 <div class="line">        std::vector&lt;float&gt; x(n * d), xf(n * d), h(n * d), dh(n * d), logits(vocab);</div>
@@ -287,7 +287,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <p><b>Errors.</b> Preconditions, asserted: <span class="tt">g</span>, <span class="tt">out</span>, <span class="tt">w</span> and <span class="tt">momentum</span> have <span class="tt">rows · cols</span>; <span class="tt">work</span> has <span class="tt">muon_work_size(rows, cols)</span>.</p>
 <p><b>Performance.</b> Not benchmarked here: three <span class="tt">gemm</span>s and two copies per iteration, the backend's. On a GPU see snicholls-gpu's <span class="tt">cuda_ops_benchmark.cpp</span> (a GPT-2-small Muon step against AdamW on the same matrices).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/muon_test.cpp</span>, <span class="tt">demos/ml/muon_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>.</p>
 <p><b>Known issues.</b> nanochat runs the iteration in bfloat16; here it runs in <span class="tt">T</span>, or in whatever the backend's products use (snicholls-gpu's <span class="tt">cuda_math::bf16</span> rounds their operands to bfloat16).</p>
 <p><b>Status.</b> Experimental, new in 0.9.0. </p>
 

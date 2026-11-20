@@ -12,6 +12,7 @@ var dir_ce2eb865886ca7822fe520b31767e825 =
     [ "ml", "dir_45bfda8d10d67fec6764e25982387e1e.html", "dir_45bfda8d10d67fec6764e25982387e1e" ],
     [ "pipeline", "dir_136edbfd3e25dec735805e8eb9848495.html", "dir_136edbfd3e25dec735805e8eb9848495" ],
     [ "reflect", "dir_86482eecdb004a839f5318c7edb218a8.html", "dir_86482eecdb004a839f5318c7edb218a8" ],
+    [ "signal", "dir_13e0ffe23526c2f7274e59203307fa6f.html", "dir_13e0ffe23526c2f7274e59203307fa6f" ],
     [ "stats", "dir_5bfee65998c47bd628d226d790feebc6.html", "dir_5bfee65998c47bd628d226d790feebc6" ],
     [ "stochastic", "dir_75efb6a5d72cdc7e71012d881af78f17.html", "dir_75efb6a5d72cdc7e71012d881af78f17" ],
     [ "time", "dir_a70ff56e65079ba4c1ac88056b96f7e3.html", "dir_a70ff56e65079ba4c1ac88056b96f7e3" ],

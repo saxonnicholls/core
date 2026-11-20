@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -176,7 +176,7 @@ t</span> of the token log-probabilities, the targets and the mask. The target at
 <p><b>Errors.</b> Preconditions, asserted: the targets are below the row's width; the spans' sizes agree (<span class="tt">logits</span> is <span class="tt">n · V</span> for <span class="tt">n</span> targets; the token log-probabilities and the mask are <span class="tt">rows · length</span>). A mask is 0 or 1.</p>
 <p><b>Performance.</b> <span class="tt">token_logprobs_rows</span> (with entropies) and its backward against the same loops by hand, after a bit-for-bit check (<span class="tt">benchmarks/ml/logprobs_benchmark.cpp</span>), 16 rows of 50,304 float logits: forward 8.3 ms against 7.5 ms, backward 23.8 ms against 22.9 ms, level within the noise (Xeon W-3245, -O2, Apple clang 17, 2026-11-19, one thread, CPU time, load average about 100: a record, not a quiet-machine figure).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/logprobs_test.cpp</span>, <span class="tt">demos/ml/logprobs_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>, <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>, <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span>.</p>
 <p><b>Known issues.</b> A vocabulary padded to a hardware multiple (<span class="tt">cross_entropy_rows</span>' <span class="tt">classes</span>) is not handled here: pass the unpadded rows. A soft cap on the logits is the caller's, before this.</p>
 <p><b>Status.</b> Experimental, new in 0.16.0. </p>
 

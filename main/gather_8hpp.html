@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -165,7 +165,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> Preconditions, asserted: the sizes divide as stated, every index is below <span class="tt">n</span>, no output overlaps an input.</p>
 <p><b>Performance.</b> <span class="tt">gather_rows</span> and <span class="tt">scatter_add_rows</span> against the loops by hand (<span class="tt">benchmarks/ml/gather_benchmark.cpp</span>), 64 sequences gathering 49 of 196 rows of 768 floats: level, 5 to 7 GiB/s for the gather and 5.4 GiB/s for the scatter-add, memory bound (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a machine at load average 60 to 80: differences within about 15% are noise).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/gather_test.cpp</span>, <span class="tt">demos/ml/gather_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span> (the <span class="tt">math_number</span> concept).</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span> (the <span class="tt">math_number</span> concept).</p>
 <p><b>Known issues.</b> Indices are <span class="tt">std::uint32_t</span>, as the mixture of experts' are: four billion rows per sequence.</p>
 <p><b>Status.</b> Experimental, new in 0.16.0. </p>
 

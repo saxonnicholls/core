@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -151,7 +151,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    <span class="keyword">constexpr</span> std::size_t d = 2, length = 3;</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;double, 2 * length * d&gt; hs{0.1, 0.0, 0.9, 0.2, 0.0, 0.0, <span class="comment">/**/</span> 0.3, 0.1, 0.0, 0.8, 0.5, 0.5};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;std::uint8_t, 2 * length&gt; mask{0, 1, 0, <span class="comment">/**/</span> 0, 1, 1};</div>
-<div class="line">    std::array&lt;std::uint32_t, 2&gt; last{};</div>
+<div class="line">    std::array&lt;std::uint32_t, 2&gt; <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a>{};</div>
 <div class="line">    ml::last_response_positions(mask, last);                  <span class="comment">// positions 1 and 2</span></div>
 <div class="line">    std::array&lt;double, 2 * d&gt; h_last{};</div>
 <div class="line">    ml::gather_rows(backend, std::span&lt;const double&gt;(hs), last, std::span&lt;double&gt;(h_last), d, 2);   <span class="comment">// ml/gather.hpp</span></div>
@@ -167,7 +167,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <p><b>Definitions.</b> The Bradley-Terry loss <span class="tt">-log σ(r_w - r_l)</span> and the margin form: recalled from InstructGPT and Llama 2, not re-read; it is DPO's loss with the implicit reward replaced by the head's.</p>
 <p><b>Performance.</b> Not benchmarked: one dot product a row, negligible next to the model.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/reward_model_test.cpp</span>, <span class="tt">demos/ml/reward_model_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="activations_8hpp.html" title="snicholls::ml activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact and tanh) and the...">ml/activations.hpp</a></span>, <span class="tt"><a class="el" href="preference_8hpp.html" title="snicholls::ml preference losses over (chosen, rejected) pairs: DPO, IPO, SimPO and ORPO,...">ml/preference.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="activations_8hpp.html" title="snicholls::ml activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact,...">ml/activations.hpp</a></span>, <span class="tt"><a class="el" href="preference_8hpp.html" title="snicholls::ml preference losses over (chosen, rejected) pairs: DPO, IPO, SimPO and ORPO,...">ml/preference.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
 <p><b>Known issues.</b> A head with more than one output (a multi-objective reward) is <span class="tt">linear</span>'s job.</p>
 <p><b>Status.</b> Experimental, new in 0.16.0. </p>
 

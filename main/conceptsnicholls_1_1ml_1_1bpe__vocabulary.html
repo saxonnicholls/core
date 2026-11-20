@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -99,11 +99,11 @@ $(function(){initNavTree('conceptsnicholls_1_1ml_1_1bpe__vocabulary.html','','')
 <p><code>#include &lt;<a class="el" href="bpe_8hpp_source.html">snicholls/core/ml/bpe.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> F&gt;</div>
-<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1ml_1_1bpe__vocabulary.html">snicholls::ml::bpe_vocabulary</a> =  <span class="keyword">requires</span>(F&amp; f, std::string_view <a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a>) {</div>
-<div class="line">    { f(<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a>) } -&gt; std::convertible_to&lt;std::uint32_t&gt;;</div>
+<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1ml_1_1bpe__vocabulary.html">snicholls::ml::bpe_vocabulary</a> =  <span class="keyword">requires</span>(F&amp; f, std::string_view <a class="code hl_enumvalue" href="group__core.html#gga77f8481e10b420d8a8d6a9ce07770c29a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a>) {</div>
+<div class="line">    { f(<a class="code hl_enumvalue" href="group__core.html#gga77f8481e10b420d8a8d6a9ce07770c29a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a>) } -&gt; std::convertible_to&lt;std::uint32_t&gt;;</div>
 <div class="line">}</div>
 <div class="ttc" id="aconceptsnicholls_1_1ml_1_1bpe__vocabulary_html"><div class="ttname"><a href="conceptsnicholls_1_1ml_1_1bpe__vocabulary.html">snicholls::ml::bpe_vocabulary</a></div><div class="ttdoc">A vocabulary lookup: bytes to their rank, or bpe_no_rank.</div><div class="ttdef"><b>Definition</b> <a href="bpe_8hpp_source.html#l00113">bpe.hpp:113</a></div></div>
-<div class="ttc" id="anamespacesnicholls_html_a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92"><div class="ttname"><a href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92">snicholls::code_unit_category::bytes</a></div><div class="ttdeci">@ bytes</div><div class="ttdef"><b>Definition</b> <a href="string__traits_8hpp_source.html#l00092">string_traits.hpp:92</a></div></div>
+<div class="ttc" id="agroup__core_html_gga77f8481e10b420d8a8d6a9ce07770c29a4b3a6218bb3e3a7303e8a171a60fcf92"><div class="ttname"><a href="group__core.html#gga77f8481e10b420d8a8d6a9ce07770c29a4b3a6218bb3e3a7303e8a171a60fcf92">snicholls::ml::merge_units::bytes</a></div><div class="ttdeci">@ bytes</div><div class="ttdoc">One unit per byte (a vocabulary over raw bytes).</div><div class="ttdef"><b>Definition</b> <a href="bpe__merges_8hpp_source.html#l00131">bpe_merges.hpp:131</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A vocabulary lookup: bytes to their rank, or <span class="tt">bpe_no_rank</span>. </p>
 

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -178,7 +178,7 @@ Functions</h2></td></tr>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// A video of 4 frames in tubelets of 2 x 2 x 2, and a 1-channel spectrogram (frequency x time) in 4 x 3 patches</span></div>
 <div class="line">    <span class="keyword">constexpr</span> ml::patch_grid video{.frames = 4, .height = 4, .width = 4, .channels = 3, .tubelet = 2, .patch_height = 2, .patch_width = 2};</div>
-<div class="line">    <span class="keyword">constexpr</span> ml::patch_grid spectrogram{.height = 8, .width = 12, .channels = 1, .patch_height = 4, .patch_width = 3};</div>
+<div class="line">    <span class="keyword">constexpr</span> ml::patch_grid <a class="code hl_function" href="namespacesnicholls_1_1signal.html#a334d25279a5694ea6f42bda6b0f0d4cc">spectrogram</a>{.height = 8, .width = 12, .channels = 1, .patch_height = 4, .patch_width = 3};</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// The fixed sine-cosine embedding of a 2 x 3 grid in 8 channels: [row, column], each [sin ..., cos ...]</span></div>
 <div class="line">    std::array&lt;double, 2 * 3 * 8&gt; pos{}, swapped{};</div>
 <div class="line">    ml::sincos_position_2d&lt;double&gt;(8, 2, 3, pos);</div>
@@ -199,7 +199,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> Preconditions, asserted (<span class="tt">valid(grid)</span>): the frames, height and width divide by the tubelet and patch sizes; the sizes of the spans; an even share of channels per axis (<span class="tt">dim</span> a multiple of 4 in two dimensions, of 8 in three; even and at least 6 with <span class="tt">uniform_power</span>).</p>
 <p><b>Performance.</b> <span class="tt">patchify_rows</span> against the loops by hand (<span class="tt">benchmarks/ml/patch_benchmark.cpp</span>), 16 RGB images of 224 x 224 in patches of 16 and 4 videos of 16 frames in tubelets of 2 x 16 x 16: within 10%, about 4 GiB/s, a copy of each patch row (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a machine at load average 60 to 80: differences within about 15% are noise). The tables are built once.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/patch_test.cpp</span>, <span class="tt">demos/ml/patch_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span>.</p>
 <p><b>Known issues.</b> MAE's <span class="tt">get_2d_sincos_pos_embed</span> (which I-JEPA copies) builds its grid as <span class="tt">meshgrid(grid_w,
 grid_h)</span> and gives its first half to that grid's first component, the column; V-JEPA's builds <span class="tt">[row, column]</span>. The layout of MAE and I-JEPA is recalled, not checked against their code here: pass the one the checkpoint was trained with. V-JEPA 2's split of a head among its axes (<span class="tt">2 · ((head_dim / 3) / 2)</span> channels each) is recalled; this header splits the pairs evenly, <span class="tt">(HeadDim / 2) / axes</span> each, the rest unrotated.</p>
 <p><b>Status.</b> Experimental, new in 0.16.0. </p>

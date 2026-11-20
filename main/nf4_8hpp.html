@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -178,7 +178,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="comment">// y = W x, each weight dequantised as it is read</span></div>
 <div class="line">    std::vector&lt;float&gt; x(cols, 0.5f), y(rows);</div>
 <div class="line">    ml::linear(q, ml::prepare_input&lt;cols&gt;(q, x), y);</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="lora_8hpp.html" title="snicholls::ml LoRA: a trainable low-rank update y = W x + (α/r) B A x beside a frozen base (dense,...">ml/lora.hpp</a></span> (the adapters over a frozen base), <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span> (the same <span class="tt">prepare_input</span> / <span class="tt">linear</span> seam), <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s Q8_0 and Q4_0 blocks and the OCP MXFP4 block,...">ml/quantize.hpp</a></span> (ggml's formats, for inference), <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span> (<span class="tt">float8_e4m3</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="lora_8hpp.html" title="snicholls::ml LoRA: a trainable low-rank update y = W x + (α/r) B A x beside a frozen base (dense,...">ml/lora.hpp</a></span> (the adapters over a frozen base), <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span> (the same <span class="tt">prepare_input</span> / <span class="tt">linear</span> seam), <span class="tt"><a class="el" href="quantize_8hpp.html" title="snicholls::ml quantised weights: ggml&#39;s type ids and block traits, and its 32-element blocks (Q4_0,...">ml/quantize.hpp</a></span> (ggml's formats, for inference), <span class="tt"><a class="el" href="minifloat_8hpp.html" title="snicholls::ml::minifloat&lt;E, M, Kind&gt;: the low-precision floating-point formats of machine learning (b...">ml/minifloat.hpp</a></span> (<span class="tt">float8_e4m3</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One, on the host. A device library overloads <span class="tt">linear_sequence</span> and <span class="tt">linear_sequence_backward_input</span> for its backend (TRAINING.md T9).</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, <span class="tt">noexcept</span>. Quantising is linear in the weights (three passes); a product is one multiply and one add a weight, plus one scale a block.</p>
 <p><b>Errors.</b> Preconditions, asserted: <span class="tt">cols</span> is a multiple of 64 (a block never crosses a row); the spans have the sizes <span class="tt">nf4_code_bytes</span>, <span class="tt">nf4_block_count</span> and <span class="tt">nf4_group_count</span> give.</p>

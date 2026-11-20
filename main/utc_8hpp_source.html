@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -180,7 +180,7 @@ $(function(){initNavTree('utc_8hpp_source.html','',''); });
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keyword">template</span> &lt;utc_duration D2&gt;</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keyword">requires</span>(!std::is_same_v&lt;D2, Duration&gt; &amp;&amp; std::is_convertible_v&lt;D2, Duration&gt;)</div>
 <div class="foldopen" id="foldopen00193" data-start="{" data-end="}">
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="classsnicholls_1_1utc.html#a674c4b7f401adb9702bd3adc335a5d89">  193</a></span>    <span class="keyword">constexpr</span> <a class="code hl_function" href="classsnicholls_1_1utc.html#a674c4b7f401adb9702bd3adc335a5d89">utc</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsnicholls_1_1utc.html#a216b3932db4edff88a095b9a6adae905">utc&lt;D2&gt;</a>&amp; other) noexcept : tp_(other.<a class="code hl_function" href="classsnicholls_1_1utc.html#a600162f51f5c055c4dfc14128656b32e">sys_time</a>())</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="classsnicholls_1_1utc.html#a674c4b7f401adb9702bd3adc335a5d89">  193</a></span>    <span class="keyword">constexpr</span> <a class="code hl_function" href="classsnicholls_1_1utc.html#a674c4b7f401adb9702bd3adc335a5d89">utc</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsnicholls_1_1utc.html#a216b3932db4edff88a095b9a6adae905">utc&lt;D2&gt;</a>&amp; other) noexcept : tp_(other.sys_time())</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    {</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
 </div>

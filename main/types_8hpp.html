@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -221,7 +221,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> None of its own: <span class="tt">error</span> is the value the operations return.</p>
 <p><b>Performance.</b> No run-time cost beyond the views' (see <span class="tt"><a class="el" href="md__array_8hpp.html" title="containers::md_array&lt;T, E...&gt; and md_span&lt;T, Rank, Layout&gt;: multi-dimensional storage and views,...">containers/md_array.hpp</a></span>).</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/linalg/types_test.cpp</span>, <span class="tt">demos/linalg/types_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="md__array_8hpp.html" title="containers::md_array&lt;T, E...&gt; and md_span&lt;T, Rank, Layout&gt;: multi-dimensional storage and views,...">containers/md_array.hpp</a></span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">math/constexpr_math.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="md__array_8hpp.html" title="containers::md_array&lt;T, E...&gt; and md_span&lt;T, Rank, Layout&gt;: multi-dimensional storage and views,...">containers/md_array.hpp</a></span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span>.</p>
 <p><b>Known issues.</b> Tolerances are relative to <span class="tt">std::numeric_limits&lt;T&gt;::epsilon()</span>, and the kernels' <span class="tt">abs</span>, <span class="tt">sqrt</span> and <span class="tt">log</span> are <span class="tt">snicholls::math</span>'s; a number type of the caller's (a half-precision or quantised type) takes part by specialising <span class="tt">std::numeric_limits</span> and <span class="tt">math::math_limits</span>, as for every other numeric header in core.</p>
 <p><b>Status.</b> Experimental, new in 0.6.0. </p>
 

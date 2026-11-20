@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -181,7 +181,7 @@ requires std::integral&lt;Token&gt;</td></tr>
 <p><b>Errors.</b> Preconditions, asserted: the row is not empty; <span class="tt">u</span> is in <span class="tt">[0, 1)</span>; the temperature is not negative; <span class="tt">p</span> and <span class="tt">min_p</span> are in <span class="tt">(0, 1]</span>; <span class="tt">scratch</span> has the row's size; a penalty's token is in the row; the repetition penalty is positive. Rounding never makes a sampler return an index past the row: if <span class="tt">u</span> falls beyond the last cumulative sum, the last index with a nonzero probability is returned.</p>
 <p><b>Performance.</b> Not benchmarked: one or two passes over the row, dominated by the exponentials.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/sampling_test.cpp</span>, <span class="tt">demos/ml/sampling_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>.</p>
 <p><b>Known issues.</b> NaN logits are not ordered; a row with one compares as if it were absent from the maximum.</p>
 <p><b>Status.</b> Experimental, new in 0.7.0; <span class="tt">sample_min_p</span>, <span class="tt">min_p_threshold</span> and <span class="tt">apply_penalties</span> new in 0.8.0. </p>
 

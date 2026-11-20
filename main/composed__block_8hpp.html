@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -99,6 +99,7 @@ $(function(){initNavTree('composed__block_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="attention__layer_8hpp_source.html">snicholls/core/ml/attention_layer.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="latent__attention_8hpp_source.html">snicholls/core/ml/latent_attention.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="linear_8hpp_source.html">snicholls/core/ml/linear.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="mixer__layer_8hpp_source.html">snicholls/core/ml/mixer_layer.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="mlp_8hpp_source.html">snicholls/core/ml/mlp.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="moe_8hpp_source.html">snicholls/core/ml/moe.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="row_8hpp_source.html">snicholls/core/ml/row.hpp</a>&gt;</code><br />
@@ -180,7 +181,8 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">snicholls::ml</span> transformer blocks composed from an attention part and an MLP part, either kind of each: <span class="tt">x += attention(norm(x)); x += mlp(norm(x))</span>, batched for training (returning the MLP's auxiliary losses) and token by token for decoding; DeepSeek-V3's block, multi-head latent attention with a mixture of experts, as <span class="tt">latent_moe_block_*</span> with its buffers' sizes and layouts. </p>
-<p><b>Overview.</b> Every pre-norm block is the same eight steps: keep the input, the first norm, the attention, the residual, keep it, the second norm, the MLP, the residual. Only the two parts vary: the attention is standard (<span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>) or multi-head latent (<span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>), the MLP dense (<span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span>) or a mixture of experts (<span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>). <span class="tt">composed_block_weights&lt;Attention, Mlp, T&gt;</span> holds one of each beside the norms, and the overloads here of <span class="tt">block_forward_sequence</span>, <span class="tt">block_backward</span> and <span class="tt">block_forward</span> run the steps with the parts chosen by their weights' types (an overload set, not a chain of type tests), so four kinds of block are one template rather than four headers. A new kind of attention or MLP is one overload of each part's step, not a new block.</p>
+<p><b>Overview.</b> Every pre-norm block is the same eight steps: keep the input, the first norm, the attention, the residual, keep it, the second norm, the MLP, the residual. Only the two parts vary: the attention is standard (<span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>) or multi-head latent (<span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>), the MLP dense (<span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or a ...">ml/mlp.hpp</a></span>) or a mixture of experts (<span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>). <span class="tt">composed_block_weights&lt;Attention, Mlp, T&gt;</span> holds one of each beside the norms, and the overloads here of <span class="tt">block_forward_sequence</span>, <span class="tt">block_backward</span> and <span class="tt">block_forward</span> run the steps with the parts chosen by their weights' types (an overload set, not a chain of type tests), so four kinds of block are one template rather than four headers. A new kind of attention or MLP is one overload of each part's step, not a new block.</p>
+<p>A linear-time mixer is a third kind of attention part (TRAINING.md T15): <span class="tt">mamba2_weights</span> or <span class="tt">gated_deltanet_weights</span> (<span class="tt"><a class="el" href="mixer__layer_8hpp.html" title="snicholls::ml linear-time mixer layers in place of attention: Mamba-2&#39;s and the gated delta rule&#39;s (Q...">ml/mixer_layer.hpp</a></span>), with <span class="tt">mixer_activations</span> and <span class="tt">mixer_gradients</span>. A hybrid stack is composed blocks of both kinds, layer <span class="tt">i</span> attention exactly when <span class="tt">layer_is_attention(C, i)</span> (Qwen3-Next's three gated-delta-rule layers then one attention layer; Jamba's one attention layer in eight); decoding goes through a <span class="tt">hybrid_cache</span>, its KV cache holding the attention layers alone (<span class="tt">hybrid_attention_index</span>) and its <span class="tt">recurrent_cache</span> the mixer layers' states (<span class="tt">hybrid_mixer_index</span>), or through a <span class="tt">recurrent_cache</span> for a stack of mixers alone.</p>
 <ul>
 <li><span class="tt">block_forward_sequence&lt;C&gt;(backend, w, xs, rope_src, act, sequences) -&gt; moe_losses&lt;T&gt;</span>: the batched training pass, every step a backend call (TRAINING.md T9). It returns the mixture of experts' auxiliary losses (zero for a dense MLP), the sequences being the sequence-wise balance loss's groups.</li>
 <li><span class="tt">block_backward&lt;C&gt;(backend, w, rope_src, act, dxs, grads, sequences)</span>: its backward pass, the auxiliary losses' gradients included.</li>
@@ -196,8 +198,8 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 <div class="line">    {</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> w = ml::latent_moe_block_weights_in&lt;C&gt;(std::span&lt;const float&gt;(params));</div>
 <div class="line">        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> norm : {w.norm1_weight, w.norm2_weight, w.attention.q_norm, w.attention.kv_norm})   <span class="comment">// norms start at 1</span></div>
-<div class="line">            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; norm.size(); ++i)</div>
-<div class="line">                params[std::size_t(norm.data() - params.data()) + i] = 1.0f;</div>
+<div class="line">            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; <a class="code hl_function" href="namespacesnicholls_1_1signal.html#a5e1e109326c706e556abaab94f370cb6">norm</a>.size(); ++i)</div>
+<div class="line">                params[std::size_t(<a class="code hl_function" href="namespacesnicholls_1_1signal.html#a5e1e109326c706e556abaab94f370cb6">norm</a>.data() - params.data()) + i] = 1.0f;</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> act = ml::latent_moe_block_activations_in&lt;C&gt;(std::span&lt;float&gt;(values), std::span&lt;u32&gt;(indices), rows);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> g = ml::latent_moe_block_gradients_in&lt;C&gt;(std::span&lt;float&gt;(grads), std::span&lt;float&gt;(work), rows);</div>
@@ -206,7 +208,7 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 <div class="line">    <span class="comment">// Training: two sequences of 6 tokens, the block learning a fixed target; its auxiliary losses join the loss</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> input = noise(rows * d, 2, 1.0), target = noise(rows * d, 3, 0.5);</div>
 <div class="line">    std::vector&lt;float&gt; xs(rows * d);</div>
-<div class="line">    <span class="keyword">auto</span> step = [&amp;] {</div>
+<div class="line">    <span class="keyword">auto</span> <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a> = [&amp;] {</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> w = ml::latent_moe_block_weights_in&lt;C&gt;(std::span&lt;const float&gt;(params), std::span&lt;const float&gt;(selection));</div>
 <div class="line">        xs = input;</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> aux = ml::block_forward_sequence&lt;C&gt;(backend, w, std::span&lt;float&gt;(xs), rope, act, sequences);</div>
@@ -224,10 +226,10 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 <div class="line">        ml::moe_update_bias&lt;C&gt;(backend, act.mlp.counts, std::span&lt;float&gt;(selection));   <span class="comment">// auxiliary-loss-free balancing</span></div>
 <div class="line">        <span class="keywordflow">return</span> loss;</div>
 <div class="line">    };</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> first = step();</div>
-<div class="line">    <span class="keywordtype">float</span> last = first;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> first = <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>();</div>
+<div class="line">    <span class="keywordtype">float</span> <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a> = first;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 40; ++i)</div>
-<div class="line">        last = step();</div>
+<div class="line">        last = <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>();</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Decoding: one token at a time, the attention absorbed over a latent cache (10 numbers a token), the experts</span></div>
 <div class="line">    <span class="comment">// through mlp_forward&#39;s overload for moe_weights; the training pass&#39;s outputs within rounding</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> w = ml::latent_moe_block_weights_in&lt;C&gt;(std::span&lt;const float&gt;(params), std::span&lt;const float&gt;(selection));</div>
@@ -241,15 +243,15 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 <div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; d; ++i)</div>
 <div class="line">            worst = std::max(worst, std::abs(x[i] - xs[t * d + i]));</div>
 <div class="line">    }</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span> (<span class="tt">block_norm</span>, <span class="tt">block_norm_rows</span> and their backward passes; the dense block), <span class="tt"><a class="el" href="moe__block_8hpp.html" title="snicholls::ml::block_forward_sequence and block_backward for a block whose MLP is a mixture of expert...">ml/moe_block.hpp</a></span> and <span class="tt"><a class="el" href="latent__block_8hpp.html" title="snicholls::ml transformer blocks whose attention is multi-head latent attention: x += mla(norm(x)); x...">ml/latent_block.hpp</a></span> (the standard-and-MoE and latent-and-dense blocks with their own field names, kept for their users; the composed block with the same parts gives their bits, tested), <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>, <span class="tt"><a class="el" href="multi__token__prediction_8hpp.html" title="snicholls::ml multi-token prediction (DeepSeek-V3): a chain of modules, each predicting one token fur...">ml/multi_token_prediction.hpp</a></span> (a user). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Implementations.</b> One skeleton; the parts are standard or latent attention and a dense or mixture-of-experts MLP.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span> (<span class="tt">block_norm</span>, <span class="tt">block_norm_rows</span> and their backward passes; the dense block), <span class="tt"><a class="el" href="moe__block_8hpp.html" title="snicholls::ml::block_forward_sequence and block_backward for a block whose MLP is a mixture of expert...">ml/moe_block.hpp</a></span> and <span class="tt"><a class="el" href="latent__block_8hpp.html" title="snicholls::ml transformer blocks whose attention is multi-head latent attention: x += mla(norm(x)); x...">ml/latent_block.hpp</a></span> (the standard-and-MoE and latent-and-dense blocks with their own field names, kept for their users; the composed block with the same parts gives their bits, tested), <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or a ...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>, <span class="tt"><a class="el" href="multi__token__prediction_8hpp.html" title="snicholls::ml multi-token prediction (DeepSeek-V3): a chain of modules, each predicting one token fur...">ml/multi_token_prediction.hpp</a></span> (a user). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<p><b>Implementations.</b> One skeleton; the parts are standard or latent attention or a mixer, and a dense or mixture-of-experts MLP.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, each step in a fixed order, so the bits do not depend on scheduling; no allocation (decoding keeps two rows of <span class="tt">d_model</span> and the parts' own fixed-size scratch). The batched passes are the existing blocks' steps with the parts' passes, to the bit: with standard attention and an MoE MLP it is <span class="tt"><a class="el" href="moe__block_8hpp.html" title="snicholls::ml::block_forward_sequence and block_backward for a block whose MLP is a mixture of expert...">ml/moe_block.hpp</a></span>'s block, with latent attention and a dense MLP <span class="tt"><a class="el" href="latent__block_8hpp.html" title="snicholls::ml transformer blocks whose attention is multi-head latent attention: x += mla(norm(x)); x...">ml/latent_block.hpp</a></span>'s, and latent attention with one expert chosen with weight 1 is the latent block's dense path (all tested). Decoding is the training pass within the latent attention's stated rounding (its absorbed form) and the MoE's (per-token products against the batched ones). Weight gradients are added into; <span class="tt">dxs</span> is replaced by the gradient in the block's input.</p>
 <p><b>Errors.</b> Preconditions, asserted, as the parts' and the norms' (empty or of <span class="tt">d_model</span>). Parts of no supported kind, or a configuration the parts reject (a dense one under a mixture of experts, a standard one under latent attention), are compile errors.</p>
 <p><b>Performance.</b> Not benchmarked as a whole: its parts are (<span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>, <span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>, <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>), and the skeleton adds the norms and residuals the other blocks have.</p>
-<p><b>Tests and demos.</b> <span class="tt">tests/ml/composed_block_test.cpp</span>, <span class="tt">demos/ml/composed_block_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>, <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or Sw...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>, <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>, <span class="tt"><a class="el" href="transformer__config_8hpp.html" title="snicholls::ml::transformer_config: the architecture of a transformer layer as one compile-time value,...">ml/transformer_config.hpp</a></span>. It pulls in both attentions and both MLPs.</p>
+<p><b>Tests and demos.</b> <span class="tt">tests/ml/composed_block_test.cpp</span>, <span class="tt">tests/ml/composed_block_hybrid_test.cpp</span> (mixer blocks against central differences, hybrid stacks decoded against their batched passes, a hybrid stack trained), <span class="tt">demos/ml/composed_block_demo.cpp</span>, <span class="tt">demos/ml/mixer_layer_demo.cpp</span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="backend_8hpp.html" title="The linear-algebra interface: the linalg::backend concepts and the free functions that check extents ...">linalg/backend.hpp</a></span>, <span class="tt"><a class="el" href="attention__layer_8hpp.html" title="snicholls::ml::attention_forward, attention_forward_sequence and attention_backward: a transformer&#39;s ...">ml/attention_layer.hpp</a></span>, <span class="tt"><a class="el" href="latent__attention_8hpp.html" title="snicholls::ml multi-head latent attention (MLA, DeepSeek-V2 and V3): queries, keys and values from lo...">ml/latent_attention.hpp</a></span>, <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>, <span class="tt"><a class="el" href="mixer__layer_8hpp.html" title="snicholls::ml linear-time mixer layers in place of attention: Mamba-2&#39;s and the gated delta rule&#39;s (Q...">ml/mixer_layer.hpp</a></span>, <span class="tt"><a class="el" href="mlp_8hpp.html" title="snicholls::ml::mlp_forward and mlp_backward: a transformer&#39;s MLP for one token, down(act(up x)) or a ...">ml/mlp.hpp</a></span>, <span class="tt"><a class="el" href="moe_8hpp.html" title="snicholls::ml mixture of experts for training: routing with a selection bias, the expert permutation,...">ml/moe.hpp</a></span>, <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span>, <span class="tt"><a class="el" href="transformer__block_8hpp.html" title="snicholls::ml::block_forward: one pre-norm transformer block, x += attention(norm(x)); x += mlp(norm(...">ml/transformer_block.hpp</a></span>, <span class="tt"><a class="el" href="transformer__config_8hpp.html" title="snicholls::ml::transformer_config: the architecture of a transformer layer as one compile-time value,...">ml/transformer_config.hpp</a></span>. It pulls in both attentions and both MLPs.</p>
 <p><b>Known issues.</b> The decoding MoE runs one token's experts one after another (<span class="tt">mlp_forward</span>'s overload for <span class="tt">moe_weights</span>): a batch of tokens decoding together is the batched layer's job, through the backend.</p>
-<p><b>Status.</b> Experimental, new in 0.16.0. </p>
+<p><b>Status.</b> Experimental, new in 0.16.0; mixers as the attention part and hybrid caches new in 0.17.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
@@ -275,7 +277,7 @@ template&lt;math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00157">157</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00168">168</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -301,7 +303,7 @@ template&lt;math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00161">161</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00172">172</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -327,7 +329,7 @@ template&lt;math::math_number T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00153">153</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00164">164</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -407,7 +409,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00288">288</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00344">344</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +482,7 @@ requires std::same_as&lt;row_value_t&lt;X&gt;, T&gt;</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00317">317</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00373">373</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -554,7 +556,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The MLP's auxiliary losses: a mixture of experts' <span class="tt">balance</span> and <span class="tt">z</span> as its configuration weights them, else 0. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00256">256</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00312">312</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -595,7 +597,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of <span class="tt">std::uint32_t</span>s. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00361">361</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00417">417</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -636,7 +638,7 @@ requires linalg::blas_backend&lt;B, T&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00353">353</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00409">409</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -698,7 +700,7 @@ requires (C.latent() &amp;&amp; C.moe())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The views. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00407">407</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00463">463</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -739,7 +741,7 @@ requires (C.latent() &amp;&amp; C.moe())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00370">370</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00426">426</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -795,7 +797,7 @@ requires (C.latent() &amp;&amp; C.moe())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The views. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00430">430</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00486">486</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -831,7 +833,7 @@ requires (C.latent() &amp;&amp; C.moe())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of values (the selection bias is state, not counted). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00343">343</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00399">399</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>
@@ -881,7 +883,7 @@ requires (C.latent() &amp;&amp; C.moe())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The views. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00383">383</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="composed__block_8hpp_source.html#l00439">439</a> of file <a class="el" href="composed__block_8hpp_source.html">composed_block.hpp</a>.</p>
 
 </div>
 </div>

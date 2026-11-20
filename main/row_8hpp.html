@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -148,13 +148,13 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; x : <a class="code hl_function" href="#a6c30d636b5bd442012078fe17fc8489b">snicholls::ml::as_mutable_row</a>(r))</div>
 <div class="line">        x *= by;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p><b>Relationships.</b> Used by <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span>, <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, forward and backward,...">ml/norm.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">ml/attention.hpp</a></span>, <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>, <span class="tt"><a class="el" href="sampling_8hpp.html" title="snicholls::ml sampling the next token: argmax, sampling from probabilities or from logits at a temper...">ml/sampling.hpp</a></span>, <span class="tt"><a class="el" href="embedding_8hpp.html" title="snicholls::ml embeddings: a token&#39;s row of a table, GPT-2&#39;s token plus position, and the backward pas...">ml/embedding.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> Used by <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span>, <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, group_norm over a sample&#39;s channel...">ml/norm.hpp</a></span>, <span class="tt"><a class="el" href="attention_8hpp.html" title="snicholls::ml attention for one query: attend over a block of keys and values in one pass,...">ml/attention.hpp</a></span>, <span class="tt"><a class="el" href="optim_8hpp.html" title="snicholls::ml training arithmetic: the AdamW step, learning-rate schedules, clipping by the global no...">ml/optim.hpp</a></span>, <span class="tt"><a class="el" href="sampling_8hpp.html" title="snicholls::ml sampling the next token: argmax, sampling from probabilities or from logits at a temper...">ml/sampling.hpp</a></span>, <span class="tt"><a class="el" href="embedding_8hpp.html" title="snicholls::ml embeddings: a token&#39;s row of a table, GPT-2&#39;s token plus position, and the backward pas...">ml/embedding.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, <span class="tt">noexcept</span>, no copy: a span over the caller's elements.</p>
 <p><b>Errors.</b> None.</p>
 <p><b>Performance.</b> Not benchmarked: a pointer and a size.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/row_test.cpp</span>, <span class="tt">demos/ml/row_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions,...">snicholls/core/math/constexpr_math.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;ranges&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">snicholls/core/math/constexpr_math.hpp</a></span>.</p>
 <p><b>Known issues.</b> None.</p>
 <p><b>Status.</b> Experimental, new in 0.6.0. </p>
 

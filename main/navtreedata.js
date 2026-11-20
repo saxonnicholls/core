@@ -81,18 +81,23 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accumulators_8hpp.html",
-"classsnicholls_1_1containers_1_1layout__stride_1_1mapping.html#a9a7ace1256cb5c9a0d9f242a8b9f945a",
-"classsnicholls_1_1result__throws_1_1result.html#a3b3f2fc97bd68f91bd98727940cde8c7",
-"classsnicholls_1_1zip__view.html",
-"group__core.html#ga11277882bc1ab6ad99bab45c08ed4f82",
-"group__core.html#gaa773e0369a0f4256fd8e4db03d6ee61b",
-"index.html#autotoc_md2",
-"structsnicholls_1_1basic__fixed__string.html#a6c4a0a17ad81b5f242f65142a09cd022",
-"structsnicholls_1_1is__owning__sequence.html",
-"structsnicholls_1_1ml_1_1diloco__config.html#a4fc82a597e86e3c7d3fc096d2398973a",
-"structsnicholls_1_1ml_1_1nf4__weights.html#a018c00ff7406f000074b5c4860968ae1",
-"structsnicholls_1_1pipeline_1_1filter__stage.html#a3297fc9334d0f4d462902279ca80b5ef",
-"structstd_1_1hash_3_01snicholls_1_1result_3_01V_00_01E_01_4_01_4.html"
+"classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a9f1ec807a178ae8b6cd09f046c195c78",
+"classsnicholls_1_1ml_1_1kv__cache__view.html#ac6d968b276989feac060e43c97ff7dcd",
+"classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html#a683eeee06e65136063d8cf9b982fb865",
+"convolve_8hpp.html",
+"group__core.html#ga3b996690055e68158049d9418fcb4546",
+"group__core.html#gab9b18ecdd549799909c7cb7cbe8f3d04",
+"group__core.html#gga584f745fb8285b09f0aa49be961b9e32ad197736e9871ec5bb8d56375f7ed7922",
+"namespacemembers_type.html",
+"short__conv_8hpp.html",
+"structsnicholls_1_1finance_1_1taylor__model.html#adbd8d563ac0e61f18f83fc1958344f15",
+"structsnicholls_1_1ml_1_1bitlinear__weights.html#add9ab443715f107ec920f8583a912eb3",
+"structsnicholls_1_1ml_1_1conv__transpose__shape.html#abb4236b9a96ffabe81f9a24102c7c628",
+"structsnicholls_1_1ml_1_1lora__parameters.html#adf2f11fd453376e9cf5e4e27c6b9aa74",
+"structsnicholls_1_1ml_1_1policy__loss__config.html#a2537a6073924c362bac25e66bc9ff09e",
+"structsnicholls_1_1ml_1_1tokenizer__vocab.html#a04e55ca1d9e2ea4aef4ca1ac4bfa7824",
+"structsnicholls_1_1sign__colours.html#ad8bd46715bc6b32c2e53f57f283e20dc",
+"structsnicholls_1_1strong.html#a147b9b9ebe505bc8c55786bdb24feb80"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

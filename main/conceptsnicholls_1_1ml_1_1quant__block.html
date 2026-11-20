@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.16.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,18 +93,20 @@ $(function(){initNavTree('conceptsnicholls_1_1ml_1_1quant__block.html','',''); }
 </div><!--header-->
 <div class="contents">
 
-<p>Whether <span class="tt">B</span> is one of the quantised blocks.  
+<p>Whether <span class="tt">B</span> is a 32-element block paired with Q8_0 activations, as <span class="tt">quantized_weights</span> (<span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>) takes.  
 <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="quantize_8hpp_source.html">snicholls/core/ml/quantize.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1ml_1_1quant__block.html">snicholls::ml::quant_block</a> =  std::same_as&lt;B, block_q8_0&gt; || std::same_as&lt;B, block_q4_0&gt; || std::same_as&lt;B, block_mxfp4&gt;</div>
-<div class="ttc" id="aconceptsnicholls_1_1ml_1_1quant__block_html"><div class="ttname"><a href="conceptsnicholls_1_1ml_1_1quant__block.html">snicholls::ml::quant_block</a></div><div class="ttdoc">Whether B is one of the quantised blocks.</div><div class="ttdef"><b>Definition</b> <a href="quantize_8hpp_source.html#l00241">quantize.hpp:241</a></div></div>
+<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1ml_1_1quant__block.html">snicholls::ml::quant_block</a> =  <a class="code hl_concept" href="conceptsnicholls_1_1ml_1_1quantized__block.html">quantized_block&lt;B&gt;</a> &amp;&amp; B::elements == <a class="code hl_variable" href="quantize_8hpp.html#acfc37a9c200ffa3f745b8688031dd531">quant_block_size</a> &amp;&amp; std::same_as&lt;typename B::dot_block, block_q8_0&gt;</div>
+<div class="ttc" id="aconceptsnicholls_1_1ml_1_1quant__block_html"><div class="ttname"><a href="conceptsnicholls_1_1ml_1_1quant__block.html">snicholls::ml::quant_block</a></div><div class="ttdoc">Whether B is a 32-element block paired with Q8_0 activations, as quantized_weights (ml/linear....</div><div class="ttdef"><b>Definition</b> <a href="quantize_8hpp_source.html#l00429">quantize.hpp:429</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1ml_1_1quantized__block_html"><div class="ttname"><a href="conceptsnicholls_1_1ml_1_1quantized__block.html">snicholls::ml::quantized_block</a></div><div class="ttdoc">Whether B is a ggml block: trivially copyable, with type, elements and the size ggml_type_traits give...</div><div class="ttdef"><b>Definition</b> <a href="quantize_8hpp_source.html#l00242">quantize.hpp:242</a></div></div>
+<div class="ttc" id="aquantize_8hpp_html_acfc37a9c200ffa3f745b8688031dd531"><div class="ttname"><a href="quantize_8hpp.html#acfc37a9c200ffa3f745b8688031dd531">snicholls::ml::quant_block_size</a></div><div class="ttdeci">constexpr std::size_t quant_block_size</div><div class="ttdoc">The numbers in one block of the 32-element formats.</div><div class="ttdef"><b>Definition</b> <a href="quantize_8hpp_source.html#l00264">quantize.hpp:264</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Whether <span class="tt">B</span> is one of the quantised blocks. </p>
+<div class="textblock"><p>Whether <span class="tt">B</span> is a 32-element block paired with Q8_0 activations, as <span class="tt">quantized_weights</span> (<span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span>) takes. </p>
 
-<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00241">241</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="quantize_8hpp_source.html#l00429">429</a> of file <a class="el" href="quantize_8hpp_source.html">quantize.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

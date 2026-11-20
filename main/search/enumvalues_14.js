@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['warning_0',['warning',['../group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0a7b83d3f08fa392b79e3f553b585971cd',1,'snicholls']]],
-  ['white_1',['white',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9ad508fe45cecaf653904a0e774084bb5c',1,'snicholls']]]
+  ['valid_0',['valid',['../group__core.html#gga45fd4185752724f72d05367df5e61921a9f7d0ee82b6a6ca7ddeae841f3253059',1,'snicholls::signal']]],
+  ['vision_1',['vision',['../group__core.html#gga08793641836b2c6f6c00d8e50cd21167af42087059b37ae7f4d9f0d3a475801a8',1,'snicholls::ml']]],
+  ['vjepa_2',['vjepa',['../masking_8hpp.html#aae076dcfcc81a6d7feb1dcc56e0b7ecea7ad2c7f7d8b5aa10b2a80d30c4f66b6c',1,'snicholls::ml']]]
 ];
