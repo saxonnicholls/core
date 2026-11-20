@@ -1,0 +1,1820 @@
+# llama.cpp's tokens for ggml-vocab-command-r.gguf, through scripts/generate_tokenizer_fixtures.cpp.
+# Never edit by hand. token <id> <kind> <score> <piece hex>; merge <left hex> <right hex> in rank order;
+# charsmap <key hex> <replacement hex>; case <text hex>, llama <ids>, and core <ids> where core differs.
+model bpe
+pre command-r
+flags 1 0 0 1 1 1 1 0
+wordpiece 1 1 - 2323 100
+unknown -1 0
+size 256000
+token 8 1 0 21
+token 9 1 0 22
+token 10 1 0 23
+token 11 1 0 24
+token 12 1 0 25
+token 13 1 0 26
+token 14 1 0 27
+token 15 1 0 28
+token 16 1 0 29
+token 17 1 0 2a
+token 18 1 0 2b
+token 19 1 0 2c
+token 20 1 0 2d
+token 21 1 0 2e
+token 22 1 0 2f
+token 23 1 0 30
+token 24 1 0 31
+token 25 1 0 32
+token 26 1 0 33
+token 27 1 0 34
+token 28 1 0 35
+token 29 1 0 36
+token 30 1 0 37
+token 31 1 0 38
+token 32 1 0 39
+token 33 1 0 3a
+token 34 1 0 3b
+token 35 1 0 3c
+token 36 1 0 3d
+token 37 1 0 3e
+token 38 1 0 3f
+token 39 1 0 40
+token 40 1 0 41
+token 41 1 0 42
+token 42 1 0 43
+token 43 1 0 44
+token 44 1 0 45
+token 45 1 0 46
+token 46 1 0 47
+token 47 1 0 48
+token 48 1 0 49
+token 49 1 0 4a
+token 50 1 0 4b
+token 51 1 0 4c
+token 52 1 0 4d
+token 53 1 0 4e
+token 54 1 0 4f
+token 55 1 0 50
+token 56 1 0 51
+token 57 1 0 52
+token 58 1 0 53
+token 59 1 0 54
+token 60 1 0 55
+token 61 1 0 56
+token 62 1 0 57
+token 63 1 0 58
+token 64 1 0 59
+token 65 1 0 5a
+token 66 1 0 5b
+token 67 1 0 5c
+token 68 1 0 5d
+token 69 1 0 5e
+token 70 1 0 5f
+token 71 1 0 60
+token 72 1 0 61
+token 73 1 0 62
+token 74 1 0 63
+token 75 1 0 64
+token 76 1 0 65
+token 77 1 0 66
+token 78 1 0 67
+token 79 1 0 68
+token 80 1 0 69
+token 81 1 0 6a
+token 82 1 0 6b
+token 83 1 0 6c
+token 84 1 0 6d
+token 85 1 0 6e
+token 86 1 0 6f
+token 87 1 0 70
+token 88 1 0 71
+token 89 1 0 72
+token 90 1 0 73
+token 91 1 0 74
+token 92 1 0 75
+token 93 1 0 76
+token 94 1 0 77
+token 95 1 0 78
+token 96 1 0 79
+token 97 1 0 7a
+token 98 1 0 7b
+token 99 1 0 7c
+token 100 1 0 7d
+token 101 1 0 7e
+token 102 1 0 c2a1
+token 103 1 0 c2a2
+token 104 1 0 c2a3
+token 105 1 0 c2a4
+token 106 1 0 c2a5
+token 107 1 0 c2a6
+token 108 1 0 c2a7
+token 109 1 0 c2a8
+token 110 1 0 c2a9
+token 111 1 0 c2aa
+token 112 1 0 c2ab
+token 113 1 0 c2ac
+token 114 1 0 c2ae
+token 115 1 0 c2af
+token 116 1 0 c2b0
+token 117 1 0 c2b1
+token 118 1 0 c2b2
+token 119 1 0 c2b3
+token 120 1 0 c2b4
+token 121 1 0 c2b5
+token 122 1 0 c2b6
+token 123 1 0 c2b7
+token 124 1 0 c2b8
+token 125 1 0 c2b9
+token 126 1 0 c2ba
+token 127 1 0 c2bb
+token 128 1 0 c2bc
+token 129 1 0 c2bd
+token 130 1 0 c2be
+token 131 1 0 c2bf
+token 132 1 0 c380
+token 133 1 0 c381
+token 134 1 0 c382
+token 135 1 0 c383
+token 136 1 0 c384
+token 137 1 0 c385
+token 138 1 0 c386
+token 139 1 0 c387
+token 140 1 0 c388
+token 141 1 0 c389
+token 142 1 0 c38a
+token 143 1 0 c38b
+token 144 1 0 c38c
+token 145 1 0 c38d
+token 146 1 0 c38e
+token 147 1 0 c38f
+token 148 1 0 c390
+token 149 1 0 c391
+token 150 1 0 c392
+token 151 1 0 c393
+token 152 1 0 c394
+token 153 1 0 c395
+token 154 1 0 c396
+token 155 1 0 c397
+token 156 1 0 c398
+token 157 1 0 c399
+token 158 1 0 c39a
+token 159 1 0 c39b
+token 160 1 0 c39c
+token 161 1 0 c39d
+token 162 1 0 c39e
+token 163 1 0 c39f
+token 164 1 0 c3a0
+token 165 1 0 c3a1
+token 166 1 0 c3a2
+token 167 1 0 c3a3
+token 168 1 0 c3a4
+token 169 1 0 c3a5
+token 170 1 0 c3a6
+token 171 1 0 c3a7
+token 172 1 0 c3a8
+token 173 1 0 c3a9
+token 174 1 0 c3aa
+token 175 1 0 c3ab
+token 176 1 0 c3ac
+token 177 1 0 c3ad
+token 178 1 0 c3ae
+token 179 1 0 c3af
+token 180 1 0 c3b0
+token 181 1 0 c3b1
+token 182 1 0 c3b2
+token 183 1 0 c3b3
+token 184 1 0 c3b4
+token 185 1 0 c3b5
+token 186 1 0 c3b6
+token 187 1 0 c3b7
+token 188 1 0 c3b8
+token 189 1 0 c3b9
+token 190 1 0 c3ba
+token 191 1 0 c3bb
+token 192 1 0 c3bc
+token 193 1 0 c3bd
+token 194 1 0 c3be
+token 195 1 0 c3bf
+token 196 1 0 c480
+token 197 1 0 c481
+token 198 1 0 c482
+token 199 1 0 c483
+token 200 1 0 c484
+token 201 1 0 c485
+token 202 1 0 c486
+token 203 1 0 c487
+token 204 1 0 c488
+token 205 1 0 c489
+token 206 1 0 c48a
+token 207 1 0 c48b
+token 208 1 0 c48c
+token 209 1 0 c48d
+token 210 1 0 c48e
+token 211 1 0 c48f
+token 212 1 0 c490
+token 213 1 0 c491
+token 214 1 0 c492
+token 215 1 0 c493
+token 216 1 0 c494
+token 217 1 0 c495
+token 218 1 0 c496
+token 219 1 0 c497
+token 220 1 0 c498
+token 221 1 0 c499
+token 222 1 0 c49a
+token 223 1 0 c49b
+token 224 1 0 c49c
+token 225 1 0 c49d
+token 226 1 0 c49e
+token 227 1 0 c49f
+token 228 1 0 c4a0
+token 229 1 0 c4a1
+token 230 1 0 c4a2
+token 231 1 0 c4a3
+token 232 1 0 c4a4
+token 233 1 0 c4a5
+token 234 1 0 c4a6
+token 235 1 0 c4a7
+token 236 1 0 c4a8
+token 237 1 0 c4a9
+token 238 1 0 c4aa
+token 239 1 0 c4ab
+token 240 1 0 c4ac
+token 241 1 0 c4ad
+token 242 1 0 c4ae
+token 243 1 0 c4af
+token 244 1 0 c4b0
+token 245 1 0 c4b1
+token 246 1 0 c4b2
+token 247 1 0 c4b3
+token 248 1 0 c4b4
+token 249 1 0 c4b5
+token 250 1 0 c4b6
+token 251 1 0 c4b7
+token 252 1 0 c4b8
+token 253 1 0 c4b9
+token 254 1 0 c4ba
+token 255 1 0 c4bb
+token 256 1 0 c4bc
+token 257 1 0 c4bd
+token 258 1 0 c4be
+token 259 1 0 c4bf
+token 260 1 0 c580
+token 261 1 0 c581
+token 262 1 0 c582
+token 263 1 0 c583
+token 1667 1 0 c4a0c4a0
+token 1668 1 0 c4a074
+token 1669 1 0 6572
+token 1670 1 0 696e
+token 1671 1 0 c4a061
+token 1672 1 0 6f6e
+token 1673 1 0 656e
+token 1675 1 0 616e
+token 1676 1 0 c4a064
+token 1677 1 0 6f72
+token 1678 1 0 6865
+token 1679 1 0 c4a073
+token 1680 1 0 6174
+token 1681 1 0 c4a0c4a0c4a0c4a0
+token 1682 1 0 c4a063
+token 1683 1 0 6172
+token 1685 1 0 6973
+token 1686 1 0 7265
+token 1687 1 0 616c
+token 1688 1 0 6974
+token 1689 1 0 c4a0c390
+token 1690 1 0 c4a0746865
+token 1691 1 0 c4a06f
+token 1692 1 0 c390c2be
+token 1693 1 0 6c65
+token 1694 1 0 6173
+token 1695 1 0 c4a077
+token 1696 1 0 c4a066
+token 1698 1 0 c4a06d
+token 1699 1 0 6564
+token 1700 1 0 c4a062
+token 1701 1 0 6f75
+token 1702 1 0 c390c2b0
+token 1703 1 0 6e64
+token 1707 1 0 656c
+token 1710 1 0 c390c2b5
+token 1711 1 0 c4a06c
+token 1713 1 0 c390c2b8
+token 1717 1 0 c390c2bd
+token 1718 1 0 c4a06e
+token 1720 1 0 6574
+token 1721 1 0 c4a053
+token 1722 1 0 616d
+token 1723 1 0 6f6d
+token 1724 1 0 c391c4a2
+token 1725 1 0 7374
+token 1726 1 0 c4a0746f
+token 1727 1 0 c4a068
+token 1730 1 0 c391c4a3
+token 1735 1 0 6f6c
+token 1737 1 0 c4a028
+token 1738 1 0 7572
+token 1739 1 0 c4a065
+token 1742 1 0 c4a0c4a0c4a0
+token 1743 1 0 756e
+token 1746 1 0 c4a07468
+token 1751 1 0 c383c2a9
+token 1753 1 0 c3a3c4a3
+token 1759 1 0 656d
+token 1762 1 0 2d2d
+token 1764 1 0 c390c2bb
+token 1765 1 0 756c
+token 1766 1 0 6f74
+token 1767 1 0 c4a049
+token 1770 1 0 c4a079
+token 1773 1 0 c3a2c4a2
+token 1775 1 0 7261
+token 1776 1 0 c390c2ba
+token 1782 1 0 6f77
+token 1785 1 0 6965
+token 1786 1 0 6167
+token 1788 1 0 c3a1c2bb
+token 1793 1 0 c4a048
+token 1796 1 0 c4a0c38e
+token 1797 1 0 c3a3c4a5
+token 1799 1 0 c4a0636f6e
+token 1801 1 0 c4a06973
+token 1808 1 0 c3afc2bc
+token 1809 1 0 c3a3c4a4
+token 1811 1 0 7468
+token 1817 1 0 6c79
+token 1818 1 0 c4a06265
+token 1822 1 0 7465
+token 1824 1 0 c4a057
+token 1826 1 0 c48ac4a0c4a0c4a0c4a0
+token 1836 1 0 617465
+token 1838 1 0 616b
+token 1852 1 0 c3a4c2b8
+token 1855 1 0 6170
+token 1856 1 0 c48ac4a0c4a0c4a0
+token 1857 1 0 c4a03d
+token 1868 1 0 c48ac4a0
+token 1871 1 0 7365
+token 1875 1 0 c4a074686174
+token 1883 1 0 656e64
+token 1889 1 0 657265
+token 1894 1 0 c4a06974
+token 1901 1 0 766572
+token 1903 1 0 61696e
+token 1904 1 0 6970
+token 1905 1 0 2d2d2d2d
+token 1908 1 0 c4a056
+token 1914 1 0 2773
+token 1919 1 0 c4a06865
+token 1921 1 0 616d65
+token 1927 1 0 617264
+token 1933 1 0 c4a0796f75
+token 1945 1 0 c4a02d
+token 1946 1 0 7472
+token 1947 1 0 656c6c
+token 1948 1 0 696b
+token 1949 1 0 706c
+token 1954 1 0 616c6c
+token 1955 1 0 c4a0617265
+token 1957 1 0 c489c489
+token 1965 1 0 3c2f
+token 1966 1 0 6465
+token 1973 1 0 c4a0c48a
+token 1976 1 0 c4a0646f
+token 1977 1 0 c4a07a
+token 1980 1 0 6c64
+token 1984 1 0 757265
+token 1985 1 0 c3a6c4be
+token 1991 1 0 6f6b
+token 2006 1 0 756c74
+token 2021 1 0 6f726d
+token 2025 1 0 746f
+token 2030 1 0 c390c2b3
+token 2031 1 0 c4a0c390c2bd
+token 2048 1 0 6e74
+token 2049 1 0 c4a05374
+token 2052 1 0 636f6e
+token 2068 1 0 c4a06e6f74
+token 2075 1 0 c4a074686973
+token 2076 1 0 c4a07765
+token 2080 1 0 75726e
+token 2084 1 0 657276
+token 2086 1 0 617265
+token 2093 1 0 2a2a
+token 2094 1 0 c391c4a3c390c2ba
+token 2096 1 0 61746564
+token 2103 1 0 c4a06172
+token 2105 1 0 c3a5c2a4
+token 2109 1 0 c4a07465
+token 2123 1 0 617365
+token 2125 1 0 c4a0656d
+token 2126 1 0 c48ac48a
+token 2128 1 0 c4a06469
+token 2139 1 0 736f
+token 2142 1 0 c3a5c4be
+token 2144 1 0 6f6e74
+token 2146 1 0 6c69
+token 2147 1 0 7874
+token 2154 1 0 c4a03c
+token 2155 1 0 c4a027
+token 2161 1 0 c4a07375
+token 2176 1 0 c3a3c4a3c2ae
+token 2178 1 0 6f6d65
+token 2186 1 0 c3a6c4b8
+token 2190 1 0 6c6c
+token 2196 1 0 c4a0c390c2bdc390c2b0
+token 2199 1 0 7475726e
+token 2208 1 0 c3adc4b7
+token 2217 1 0 c3a5c4aa
+token 2222 1 0 c4a0686173
+token 2226 1 0 c3b0c581
+token 2228 1 0 c3a6c4b9
+token 2244 1 0 c3b0c581c4a9
+token 2245 1 0 c4a0c382
+token 2254 1 0 c4a05b
+token 2256 1 0 74686572
+token 2259 1 0 6674
+token 2262 1 0 c3a4c2bd
+token 2271 1 0 2e2e
+token 2275 1 0 6c6f
+token 2279 1 0 7665
+token 2283 1 0 616b65
+token 2288 1 0 6f776e
+token 2297 1 0 c4a06e6f
+token 2298 1 0 c4a0646973
+token 2305 1 0 c4a069
+token 2317 1 0 6169
+token 2339 1 0 c48ac4a0c4a0c4a0c4a0c4a0
+token 2347 1 0 c4a06572
+token 2352 1 0 6d65
+token 2360 1 0 696a
+token 2362 1 0 c4a0736f
+token 2367 1 0 6578
+token 2378 1 0 6f6c64
+token 2395 1 0 c4a06167
+token 2396 1 0 c4a04865
+token 2403 1 0 c390c2b0c391c4a2
+token 2404 1 0 6566
+token 2421 1 0 3d3d
+token 2423 1 0 7765
+token 2445 1 0 5374
+token 2454 1 0 c3a6c4aa
+token 2469 1 0 6361
+token 2474 1 0 c4a0c3ad
+token 2514 1 0 c3a6c4b9c2a5
+token 2517 1 0 c4a0697473
+token 2530 1 0 c391c4ab
+token 2534 1 0 c3a4c2b8c583
+token 2536 1 0 696564
+token 2540 1 0 6e61
+token 2544 1 0 776f
+token 2548 1 0 2774
+token 2567 1 0 636f
+token 2608 1 0 c3a5c2b7
+token 2611 1 0 c390c2bdc390c2b0
+token 2622 1 0 696b65
+token 2626 1 0 7473
+token 2628 1 0 c4a02d2d
+token 2632 1 0 c4a06265656e
+token 2634 1 0 7569
+token 2640 1 0 69c3a1c2bb
+token 2648 1 0 c3a5c4bec2a8
+token 2649 1 0 c390c2bac390c2b8
+token 2653 1 0 c4a0737572
+token 2661 1 0 74656e
+token 2682 1 0 6060
+token 2690 1 0 776e
+token 2693 1 0 7461
+token 2725 1 0 c4a0736f6d65
+token 2736 1 0 c4a06d6f6e
+token 2740 1 0 697473
+token 2763 1 0 c4a0c3b0c581c4a9
+token 2770 1 0 6f726c64
+token 2782 1 0 c4a07468657265
+token 2805 1 0 74657874
+token 2808 1 0 c4a0636f
+token 2812 1 0 6d61
+token 2838 1 0 617070
+token 2884 1 0 293a
+token 2901 1 0 6265
+token 2930 1 0 c4a05765
+token 2969 1 0 c3aac2b5
+token 2981 1 0 c4a02d2d2d
+token 2982 1 0 c4a078
+token 2985 1 0 6861
+token 3010 1 0 6f66
+token 3026 1 0 c4a06c696b65
+token 3059 1 0 c4a06d616b65
+token 3065 1 0 7469
+token 3067 1 0 706c65
+token 3092 1 0 657261
+token 3131 1 0 c3a8c2af
+token 3154 1 0 c48ac48ac4a0
+token 3176 1 0 6b65
+token 3177 1 0 c3a3c4a4c2b9
+token 3179 1 0 7363
+token 3183 1 0 c4a02d2d2d2d
+token 3193 1 0 222e
+token 3215 1 0 c4a06361
+token 3236 1 0 c4a0c390c4b3
+token 3241 1 0 c4a03c2f
+token 3252 1 0 72657475726e
+token 3287 1 0 c4a0646f6e
+token 3293 1 0 c4a0c48ac4a0
+token 3308 1 0 c3adc4b7c4be
+token 3335 1 0 6166
+token 3338 1 0 3d3d3d3d
+token 3342 1 0 c4a06f776e
+token 3354 1 0 5245
+token 3370 1 0 686572
+token 3391 1 0 c3a6c4bec2ac
+token 3407 1 0 c4a0616761696e
+token 3426 1 0 c3a4c2bdc4be
+token 3454 1 0 6275
+token 3455 1 0 69c3a1c2bbc4a9
+token 3482 1 0 c48ac4a0c4a0
+token 3512 1 0 c4a0c390c2bdc390c2b5
+token 3524 1 0 656e61
+token 3545 1 0 646566
+token 3598 1 0 6e6f
+token 3619 1 0 74686973
+token 3642 1 0 c4a064697363
+token 3686 1 0 c4a06d616b
+token 3784 1 0 656e646f
+token 3798 1 0 746865
+token 3802 1 0 606060
+token 3803 1 0 c3a6c4b8c4a9
+token 3834 1 0 2e2e2e
+token 3836 1 0 6665
+token 3845 1 0 c4a0776f726c64
+token 3870 1 0 c4a0c4a0c4a0c4a0c4a0
+token 3908 1 0 c3a3c4a5c4aa
+token 3930 1 0 c4a0576f726c64
+token 3942 1 0 726574
+token 3957 1 0 c3a5c4aac4a8
+token 3972 1 0 c4a0c48ac48a
+token 3988 1 0 657874
+token 4015 1 0 6a69
+token 4070 1 0 c4a0486f77
+token 4106 1 0 4954
+token 4131 1 0 c3acc4b8
+token 4139 1 0 5365
+token 4199 1 0 c4a0c3a2
+token 4229 1 0 5765
+token 4234 1 0 4865
+token 4242 1 0 646f
+token 4252 1 0 c4a06d61
+token 4271 1 0 c4a0736f6d
+token 4272 1 0 6e6f74
+token 4278 1 0 6b656e
+token 4293 1 0 6c74
+token 4349 1 0 c3a8c2aa
+token 4388 1 0 61726473
+token 4457 1 0 6761
+token 4515 1 0 c4a0657261
+token 4517 1 0 697363
+token 4555 1 0 6565
+token 4567 1 0 c4a0636f6e63
+token 4629 1 0 c4a06861
+token 4672 1 0 c3aac2b5c583
+token 4682 1 0 c4a06d6f6e7468
+token 4750 1 0 c383c581
+token 4885 1 0 c3acc4b8c2b4
+token 4929 1 0 c390c2bdc390c2b5
+token 4961 1 0 276c6c
+token 4975 1 0 2222
+token 5033 1 0 2d2d2d
+token 5123 1 0 c3a5c2a4c2a9
+token 5125 1 0 277665
+token 5128 1 0 c4a0c38ec2a3
+token 5129 1 0 6d6f
+token 5172 1 0 c4a06d6f
+token 5299 1 0 c3a6c4a5
+token 5315 1 0 6d6f6e
+token 5345 1 0 c3a5c2b7c2a5
+token 5440 1 0 c3a6c4b9c2a5c3a6c4bec2ac
+token 5470 1 0 c4a073757265
+token 5534 1 0 c3a1c2bbc4a9
+token 5547 1 0 c390c4b3
+token 5565 1 0 656c6c6f
+token 5598 1 0 6f6b656e
+token 5615 1 0 c4a02d2d2d2d2d
+token 5649 1 0 6869
+token 5691 1 0 c4a03f
+token 5748 1 0 c48ac4a0c48a
+token 5787 1 0 646973
+token 5886 1 0 6f6a
+token 5910 1 0 6f726d616c
+token 5929 1 0 c4a0537472
+token 6050 1 0 536572
+token 6177 1 0 756e6b
+token 6239 1 0 c3a3c4a5c4a8
+token 6261 1 0 c4a06c696b
+token 6265 1 0 6e62
+token 6405 1 0 6466
+token 6496 1 0 c4a0486f
+token 6589 1 0 6f6b65
+token 6596 1 0 7264
+token 6623 1 0 61676169
+token 6962 1 0 c3a1c2bbc583
+token 6983 1 0 c4a06d6f6e746873
+token 7261 1 0 5053
+token 7332 1 0 65727665
+token 7494 1 0 434c
+token 7576 1 0 6174656e
+token 7666 1 0 537472
+token 7715 1 0 686173
+token 7723 1 0 c3a3c4a4c583
+token 7969 1 0 7364
+token 8040 1 0 5450
+token 8100 1 0 c4a0c3adc4b7c4be
+token 8136 1 0 69c3a1c2bbc4a974
+token 8261 1 0 c4a0c4a0c48a
+token 8263 1 0 7070
+token 8287 1 0 616761
+token 8299 1 0 636172
+token 8391 1 0 c4a02d2d2d2d2d2d
+token 8563 1 0 c38cc4a3
+token 8666 1 0 c4a0c3adc4b7
+token 8750 1 0 c391c4ac
+token 8845 1 0 6c696b
+token 9006 1 0 6c696b65
+token 9120 1 0 c390c2b3c390c2b0
+token 9127 1 0 c4a048656c
+token 9225 1 0 2e2e2e2e
+token 9382 1 0 c4a0776f72
+token 9411 1 0 6473
+token 9439 1 0 4854
+token 9467 1 0 6469
+token 9517 1 0 2727
+token 9553 1 0 c3a8c2aac580
+token 9554 1 0 c3b0c581c4a9c2ba
+token 9877 1 0 c3a3c4a4c2b9c3a3c4a5c4aa
+token 9946 1 0 c4a06d6f6e74
+token 9957 1 0 c38ec581
+token 9980 1 0 6875
+token 10059 1 0 6d75
+token 10084 1 0 486f77
+token 10203 1 0 6f6e6c79
+token 10251 1 0 2121
+token 10412 1 0 536572766572
+token 10559 1 0 c48ac4a0c4a0c4a0c4a0c48ac4a0c4a0c4a0
+token 10632 1 0 c4a0c3b0c581c4a9c2a6
+token 10634 1 0 746578
+token 10767 1 0 48656c
+token 10791 1 0 62756c
+token 10814 1 0 616665
+token 10851 1 0 63617264
+token 10869 1 0 7374616e
+token 11036 1 0 6561
+token 11065 1 0 c38ec2a3
+token 11120 1 0 c4a04854
+token 11138 1 0 4c53
+token 11149 1 0 746f6b656e
+token 11235 1 0 796f
+token 11254 1 0 c4a0c3b0c581
+token 11411 1 0 6d616b
+token 11516 1 0 c48ac48ac48a
+token 11790 1 0 737572
+token 12081 1 0 c3a6c4aac4b3
+token 12160 1 0 636174
+token 12284 1 0 c4a04954
+token 12332 1 0 c384c2b0
+token 12523 1 0 c4a0746f6b656e
+token 12584 1 0 c4a05669c3a1c2bbc4a974
+token 12605 1 0 43617365
+token 12640 1 0 c4a0c48ac48ac4a0
+token 12646 1 0 c4a06c69
+token 12676 1 0 747261
+token 12968 1 0 737461
+token 13134 1 0 c390c2b5c391c4ab
+token 13336 1 0 c3a6c4a5c2b3
+token 13404 1 0 6e6174
+token 13770 1 0 6873
+token 13873 1 0 6f6e63
+token 14099 1 0 c4a05669
+token 14315 1 0 c3a5c2b7c2a5c3a4c2bdc4be
+token 14788 1 0 6d6f6e74
+token 14863 1 0 6d616c
+token 15028 1 0 c48ac48ac4a0c4a0
+token 15038 1 0 6370
+token 15039 1 0 c383c58165
+token 15139 1 0 c3afc2bd
+token 15289 1 0 53657276
+token 15319 1 0 c4a053747261
+token 15469 1 0 73636172
+token 15480 1 0 5645
+token 16092 1 0 6d616b65
+token 16133 1 0 c4a0c48ac48ac4a0c48a
+token 16410 1 0 6d756c74
+token 16485 1 0 64697363
+token 17000 1 0 7374616e62756c
+token 17004 1 0 796f75
+token 17071 1 0 6d656c
+token 17080 1 0 776f726c64
+token 17416 1 0 68657265
+token 17538 1 0 646f6e
+token 17822 1 0 c4a0c3b0c581c4a9c2a6c3b0c581c4a9c2ba
+token 17926 1 0 63616d
+token 18258 1 0 6e6f726d616c
+token 18372 1 0 c3afc2bdc580
+token 18494 1 0 c4a0c489
+token 18617 1 0 74686174
+token 18728 1 0 c4a02727
+token 19038 1 0 7276
+token 19257 1 0 222222
+token 19317 1 0 637070
+token 19540 1 0 576f726c64
+token 19687 1 0 746861
+token 19923 1 0 7375
+token 20063 1 0 686174
+token 20394 1 0 c48ac4a0c4a0c48ac4a0
+token 20438 1 0 c4a048545450
+token 20676 1 0 5665
+token 20717 1 0 c4a0746f6b
+token 20752 1 0 696a6b
+token 20808 1 0 c3a8c2afc4af
+token 20910 1 0 66656c
+token 21081 1 0 c4a0776f
+token 21111 1 0 6d6f6e7468
+token 21128 1 0 c48ac48ac4a0c48a
+token 21141 1 0 69706c65
+token 21170 1 0 c3b0c581c4a9c2a6
+token 21213 1 0 7475
+token 21432 1 0 5454
+token 21697 1 0 c4a0c48ac4a0c4a0c4a0
+token 21735 1 0 776f72
+token 21853 1 0 7066
+token 22100 1 0 6e6f72
+token 22338 1 0 c4a048656c6c
+token 22848 1 0 c4a0c3a1
+token 22957 1 0 c382c2bd
+token 23099 1 0 746f6b
+token 23186 1 0 c4a0746561
+token 23530 1 0 c4a0746869
+token 23744 1 0 c4a0c4a0c48ac4a0c4a0
+token 23855 1 0 736f6d65
+token 24208 1 0 2d2d2d2d2d
+token 24629 1 0 c581c4a3
+token 24838 1 0 747572
+token 25256 1 0 3d3d3d
+token 25276 1 0 48545450
+token 25338 1 0 746970
+token 25646 1 0 60606060
+token 26032 1 0 c4a0c3adc4b7c4bec3aac2b5c583
+token 26287 1 0 6e63
+token 26471 1 0 c4a0c48ac4a0c4a0c4a0c4a0
+token 27077 1 0 6e6c
+token 27133 1 0 746561
+token 27233 1 0 726d
+token 27239 1 0 657475
+token 27292 1 0 3f3f
+token 27829 1 0 c3a2c4a6
+token 28098 1 0 74616e
+token 28339 1 0 48656c6c6f
+token 28410 1 0 c4a0c3a2c4be
+token 28413 1 0 66c383c2a9
+token 29325 1 0 6170706c65
+token 29385 1 0 69706c
+token 29721 1 0 c4a0272727
+token 29967 1 0 667465
+token 30193 1 0 c3a1c2bbc4a974
+token 30695 1 0 2d2d2d2d2d2d
+token 30719 1 0 c3a1c2bbc58361
+token 30744 1 0 6e6f726d
+token 31555 1 0 686973
+token 31717 1 0 486f
+token 32797 1 0 272727
+token 33246 1 0 4361
+token 33358 1 0 616d656c
+token 33698 1 0 c4a0c48ac4a0c4a0
+token 34774 1 0 c4a0576f
+token 34777 1 0 c489c48a
+token 35669 1 0 c3a4c2b8c583c3a6c4b8c4a9
+token 35927 1 0 c3a2c4a2c4af
+token 36401 1 0 7468657265
+token 37097 1 0 c390c2b3c390c2b0c391c4a2
+token 37112 1 0 436173
+token 37206 1 0 6572766572
+token 37775 1 0 c4a0c3a4c2b8c583
+token 38104 1 0 c48ac4a0c4a0c48ac4a0c4a0
+token 38111 1 0 c3a1c580
+token 38296 1 0 c4a0c4a0c4a0c48a
+token 38673 1 0 c4a0c4a0c48ac4a0
+token 38976 1 0 6d756c
+token 39084 1 0 c38ec2a6
+token 39267 1 0 c4a06473
+token 39388 1 0 212121
+token 40071 1 0 c391c4abc390c2be
+token 40894 1 0 6d756c7469
+token 41168 1 0 c391c4a3c390c2bac390c2b8
+token 41339 1 0 c38ec2a5
+token 42110 1 0 626565
+token 42632 1 0 c4a0636166c383c2a9
+token 43645 1 0 736f6d
+token 43685 1 0 6f6a69
+token 44201 1 0 6f6674
+token 44384 1 0 6361726473
+token 44776 1 0 636f6e63
+token 46609 1 0 c4a048656c6c6f
+token 46770 1 0 c3adc4b7c4bec3aac2b5c583
+token 47553 1 0 c4a0576f72
+token 48389 1 0 c4a0c3a2c4bec4a7
+token 50925 1 0 616761696e
+token 51628 1 0 c48ac48ac48ac4a0
+token 52074 1 0 636f6e636174
+token 52405 1 0 6d756c746970
+token 52853 1 0 c4a0636166
+token 52928 1 0 5669
+token 53772 1 0 c3afc2b8
+token 53823 1 0 746564
+token 53884 1 0 c4a053747261c383c58165
+token 54237 1 0 c48ac4a0c4a0c48a
+token 54457 1 0 6d756c7469706c65
+token 54771 1 0 53747261
+token 54842 1 0 726e
+token 56429 1 0 c4a0c3a2c4bf
+token 57178 1 0 21212121
+token 57384 1 0 c4a0c4a0c48ac4a0c4a0c4a0
+token 57428 1 0 c48ac4a0c4a0c4a0c4a0c48ac4a0c4a0c4a0c4a0
+token 57462 1 0 c3afc2b8c4b1
+token 57606 1 0 65656e
+token 57788 1 0 c4a0c489c489
+token 58537 1 0 c48ac4a0c48ac48a
+token 58709 1 0 c4a0c48ac4a0c4a0c4a0c4a0c4a0
+token 58869 1 0 2760
+token 60489 1 0 545053
+token 60929 1 0 c3afc2bf
+token 62426 1 0 6a6b
+token 62748 1 0 c4a0626565
+token 62946 1 0 746869
+token 62975 1 0 656d6f
+token 63436 1 0 c4a06f77
+token 65646 1 0 c3afc2bfc2bd
+token 68553 1 0 6668
+token 68796 1 0 746f6c
+token 68887 1 0 c384c2b07374616e62756c
+token 70336 1 0 c3a2c4be
+token 70567 1 0 6265656e
+token 70739 1 0 c4a0796f
+token 70854 1 0 746873
+token 71876 1 0 c4a063616665
+token 72732 1 0 726c
+token 74438 1 0 6e7468
+token 74797 1 0 c4a0c3b0c581c4bb
+token 77017 1 0 6761696e
+token 80503 1 0 c4a0c3b0c581c4ba
+token 81117 1 0 63616d656c
+token 81367 1 0 c3a6c4b9c2a5c3a6c4bec2acc3a8c2aac580
+token 82199 1 0 c4a0c3b0c581c4bbc4a4
+token 82830 1 0 6170706c
+token 83162 1 0 48656c6c
+token 85045 1 0 c4a0c4a0c4a0c4a0c48a
+token 85758 1 0 2e2e2e2e2e
+token 86048 1 0 c489c4a0
+token 86325 1 0 c3a1c581
+token 87462 1 0 6c6c6f
+token 87726 1 0 c384c2b073
+token 87771 1 0 576f
+token 88321 1 0 c4a0c382c2b5
+token 90711 1 0 c383c4a6
+token 92151 1 0 c4a04854545053
+token 93766 1 0 c4a0c489c48a
+token 93866 1 0 c3a2c4b3
+token 93876 1 0 6e6b
+token 95177 1 0 c4a064697363617264
+token 97469 1 0 c48ac4a0c4a0c48ac4a0c4a0c4a0
+token 98523 1 0 636166
+token 98816 1 0 3f3f3f
+token 101559 1 0 63616d65
+token 102210 1 0 c48ac4a0c4a0c4a0c4a0c48a
+token 102827 1 0 5365727665
+token 102850 1 0 c4a0746861
+token 103874 1 0 c4a0c48ac48ac4a0c48ac48a
+token 104030 1 0 c4a074686572
+token 104150 1 0 656d6f6a69
+token 104780 1 0 c4a0c3a2c4a6
+token 106230 1 0 c4a0636f6e636174656e
+token 107283 1 0 213f
+token 108071 1 0 c489c489c48a
+token 109160 1 0 c4a0656d6f6a69
+token 109378 1 0 c382c2b5
+token 109676 1 0 c3afc2bfc2bdc3afc2bfc2bd
+token 114422 1 0 c4a0656d6f
+token 115269 1 0 c48ac4a0c4a0c4a0c4a0c48ac4a0
+token 116167 1 0 2e2e2e2e2e2e
+token 117773 1 0 c3a8c2aac580c3a3c4a3c2ae
+token 119213 1 0 69736361
+token 119709 1 0 c48ac4a0c4a0c4a0c48ac4a0c4a0
+token 121794 1 0 c4a0636f6e636174
+token 122093 1 0 c4a053747261c383c581
+token 122781 1 0 53747261c383c58165
+token 124591 1 0 697363617264
+token 125396 1 0 c3adc4b7c4bec3aac2b5c583c3acc4b8c2b4
+token 125797 1 0 63617465
+token 126134 1 0 c48ac4a0c4a0c4a0c4a0c48ac4a0c4a0c4a0c4a0c4a0
+token 126913 1 0 6d6f6e746873
+token 127675 1 0 c4a0c4a0c4a0c4a0c48ac4a0c4a0c4a0
+token 127731 1 0 c48ac4a0c48ac48ac4a0
+token 129461 1 0 6174656e617465
+token 133295 1 0 c48ac48ac4a0c48ac48a
+token 135433 1 0 5669c3a1c2bbc4a974
+token 135523 1 0 c3a2c4bf
+token 138309 1 0 4854545053
+token 141053 1 0 c3a3c4a5c4a8c3a3c4a4c583
+token 141637 1 0 222e2e2e
+token 144296 1 0 65747572
+token 149518 1 0 64697363617264
+token 150804 1 0 726473
+token 154048 1 0 3f3f3f3f
+token 154565 1 0 c3b0c581c4b3
+token 157550 1 0 6f6a6973
+token 158343 1 0 3d3d3d3d3d3d3d
+token 158538 1 0 3d3d3d3d3d
+token 161615 1 0 3d3d3d3d3d3d
+token 163495 1 0 636f6e636174656e617465
+token 166619 1 0 676169
+token 166826 1 0 c48ac4a0c4a0c4a0c48ac4a0c4a0c4a0
+token 168855 1 0 c4a0c4a0c4a0c48ac4a0
+token 169209 1 0 c4a0c4a0c48ac4a0c4a0c4a0c4a0c4a0
+token 169716 1 0 c4a0c3af
+token 170042 1 0 c38ec581c38ec2a3
+token 174833 1 0 c3a1c580c2b6
+token 175822 1 0 2d3d
+token 176074 1 0 c4a0c489c4a0
+token 176601 1 0 c4a0c3b0c581c4b3
+token 177583 1 0 73757265
+token 177753 1 0 c38cc4a5
+token 181360 1 0 c489c489c4a0
+token 182018 1 0 c4a0c3a1c580
+token 182291 1 0 706665
+token 183457 1 0 6022
+token 185786 1 0 6f726d61
+token 185922 1 0 6166c383c2a9
+token 187794 1 0 c489c48ac4a0
+token 188568 1 0 c3b0c581c4ba
+token 189098 1 0 c3a3c4a4c583c3a3c4a4c2b9
+token 190650 1 0 c4a0c4a0c4a0c48ac4a0c4a0c4a0
+token 192362 1 0 c48ac48ac4a0c4a0c48a
+token 193105 1 0 c4a0c4a0c4a0c4a0c48ac4a0
+token 195648 1 0 63616665
+token 195772 1 0 434c53
+token 202206 1 0 c4a0c387
+token 202345 1 0 27272727
+token 205678 1 0 c2a4c3afc2b8c4b1
+token 205860 1 0 c3b0c581c4b6
+token 210277 1 0 c4a0c48ac48ac48a
+token 211770 1 0 c4a0c3adc4b7c4bec3aac2b5c583c3acc4b8c2b4
+token 214871 1 0 c3a2c4bec4a7
+token 215563 1 0 c38cc4a6
+token 217202 1 0 c48ac4a0c489
+token 223165 1 0 c4a0656d6f6a6973
+token 228565 1 0 576f72
+token 228593 1 0 c3a2c4b3c582
+token 236176 1 0 c48ac4a0c4a0c4a0c48a
+token 241197 1 0 6f667465
+token 242811 1 0 c48ac48ac4a0c4a0c48ac4a0
+token 244568 1 0 736466
+token 247593 1 0 c3b0c581c4a9c2a6c3b0c581c4a9c2ba
+token 251993 1 0 c48ac4a0c4a0c4a0c4a0c48ac4a0c4a0
+token 254146 1 0 646f66
+merge c4a0 c4a0
+merge c4a0 74
+merge 65 72
+merge 69 6e
+merge c4a0 61
+merge 6f 6e
+merge 65 6e
+merge 61 6e
+merge c4a0 64
+merge 6f 72
+merge 68 65
+merge c4a0 73
+merge 61 74
+merge c4a0c4a0 c4a0c4a0
+merge c4a0 63
+merge 61 72
+merge 69 73
+merge 72 65
+merge 61 6c
+merge 69 74
+merge c4a0 c390
+merge c4a074 6865
+merge c4a0 6f
+merge c390 c2be
+merge 6c 65
+merge 61 73
+merge c4a0 77
+merge c4a0 66
+merge c4a0 6d
+merge 65 64
+merge c4a0 62
+merge 6f 75
+merge c390 c2b0
+merge 6e 64
+merge 65 6c
+merge c390 c2b5
+merge c4a0 6c
+merge c390 c2b8
+merge c390 c2bd
+merge c4a0 6e
+merge 65 74
+merge c4a0 53
+merge 61 6d
+merge 6f 6d
+merge c391 c4a2
+merge 73 74
+merge c4a074 6f
+merge c4a0 68
+merge c391 c4a3
+merge 6f 6c
+merge c4a0 28
+merge 75 72
+merge c4a0 65
+merge c4a0c4a0 c4a0
+merge 75 6e
+merge c4a074 68
+merge c383 c2a9
+merge c3a3 c4a3
+merge 65 6d
+merge 2d 2d
+merge c390 c2bb
+merge 75 6c
+merge 6f 74
+merge c4a0 49
+merge c4a0 79
+merge c3a2 c4a2
+merge 72 61
+merge c390 c2ba
+merge 6f 77
+merge 69 65
+merge 61 67
+merge c3a1 c2bb
+merge c4a0 48
+merge c4a0 c38e
+merge c3a3 c4a5
+merge c4a063 6f6e
+merge c4a0 6973
+merge c3af c2bc
+merge c3a3 c4a4
+merge 74 68
+merge 6c 79
+merge c4a062 65
+merge 74 65
+merge c4a0 57
+merge c48a c4a0c4a0c4a0c4a0
+merge 6174 65
+merge 61 6b
+merge c3a4 c2b8
+merge 61 70
+merge c48a c4a0c4a0c4a0
+merge c4a0 3d
+merge c48a c4a0
+merge 73 65
+merge c4a07468 6174
+merge 656e 64
+merge 6572 65
+merge c4a0 6974
+merge 76 6572
+merge 61 696e
+merge 69 70
+merge 2d2d 2d2d
+merge c4a0 56
+merge 27 73
+merge c4a0 6865
+merge 616d 65
+merge 6172 64
+merge c4a079 6f75
+merge c4a0 2d
+merge 74 72
+merge 656c 6c
+merge 69 6b
+merge 70 6c
+merge 616c 6c
+merge c4a061 7265
+merge c489 c489
+merge 3c 2f
+merge 64 65
+merge c4a0 c48a
+merge c4a064 6f
+merge c4a0 7a
+merge 6c 64
+merge 75 7265
+merge c3a6 c4be
+merge 6f 6b
+merge 756c 74
+merge 6f72 6d
+merge 74 6f
+merge c390 c2b3
+merge c4a0c390 c2bd
+merge 6e 74
+merge c4a053 74
+merge 63 6f6e
+merge c4a06e 6f74
+merge c4a07468 6973
+merge c4a077 65
+merge 7572 6e
+merge 6572 76
+merge 6172 65
+merge 2a 2a
+merge c391c4a3 c390c2ba
+merge 6174 6564
+merge c4a061 72
+merge c3a5 c2a4
+merge c4a074 65
+merge 6173 65
+merge c4a065 6d
+merge c48a c48a
+merge c4a064 69
+merge 73 6f
+merge c3a5 c4be
+merge 6f6e 74
+merge 6c 69
+merge 78 74
+merge c4a0 3c
+merge c4a0 27
+merge c4a073 75
+merge c3a3c4a3 c2ae
+merge 6f6d 65
+merge c3a6 c4b8
+merge 6c 6c
+merge c4a0c390c2bd c390c2b0
+merge 74 75726e
+merge c3ad c4b7
+merge c3a5 c4aa
+merge c4a068 6173
+merge c3b0 c581
+merge c3a6 c4b9
+merge c3b0c581 c4a9
+merge c4a0 c382
+merge c4a0 5b
+merge 7468 6572
+merge 66 74
+merge c3a4 c2bd
+merge 2e 2e
+merge 6c 6f
+merge 76 65
+merge 616b 65
+merge 6f77 6e
+merge c4a06e 6f
+merge c4a064 6973
+merge c4a0 69
+merge 61 69
+merge c48ac4a0c4a0c4a0c4a0 c4a0
+merge c4a0 6572
+merge 6d 65
+merge 69 6a
+merge c4a073 6f
+merge 65 78
+merge 6f6c 64
+merge c4a061 67
+merge c4a048 65
+merge c390c2b0 c391c4a2
+merge 65 66
+merge 3d 3d
+merge 77 65
+merge 53 74
+merge c3a6 c4aa
+merge 63 61
+merge c4a0 c3ad
+merge c3a6c4b9 c2a5
+merge c4a06974 73
+merge c391 c4ab
+merge c3a4c2b8 c583
+merge 69 6564
+merge 6e 61
+merge 77 6f
+merge 27 74
+merge 63 6f
+merge c3a5 c2b7
+merge c390c2bd c390c2b0
+merge 696b 65
+merge 74 73
+merge c4a0 2d2d
+merge c4a06265 656e
+merge 75 69
+merge 69 c3a1c2bb
+merge c3a5c4be c2a8
+merge c390c2ba c390c2b8
+merge c4a073 7572
+merge 74 656e
+merge 60 60
+merge 77 6e
+merge 74 61
+merge c4a073 6f6d65
+merge c4a06d 6f6e
+merge 6974 73
+merge c4a0 c3b0c581c4a9
+merge 6f72 6c64
+merge c4a07468 657265
+merge 7465 7874
+merge c4a063 6f
+merge 6d 61
+merge 6170 70
+merge 29 3a
+merge 62 65
+merge c4a057 65
+merge c3aa c2b5
+merge c4a02d2d 2d
+merge c4a0 78
+merge 68 61
+merge 6f 66
+merge c4a06c 696b65
+merge c4a06d 616b65
+merge 74 69
+merge 70 6c65
+merge 6572 61
+merge c3a8 c2af
+merge c48a c48ac4a0
+merge 6b 65
+merge c3a3c4a4 c2b9
+merge 73 63
+merge c4a0 2d2d2d2d
+merge 22 2e
+merge c4a063 61
+merge c4a0c390 c4b3
+merge c4a0 3c2f
+merge 7265 7475726e
+merge c4a064 6f6e
+merge c4a0 c48ac4a0
+merge c3adc4b7 c4be
+merge 61 66
+merge 3d3d 3d3d
+merge c4a06f 776e
+merge 52 45
+merge 68 6572
+merge c3a6c4be c2ac
+merge c4a06167 61696e
+merge c3a4c2bd c4be
+merge 62 75
+merge 69c3a1c2bb c4a9
+merge c48a c4a0c4a0
+merge c4a0c390c2bd c390c2b5
+merge 656e 61
+merge 6465 66
+merge 6e 6f
+merge 7468 6973
+merge c4a0646973 63
+merge c4a06d 616b
+merge 656e64 6f
+merge 74 6865
+merge 6060 60
+merge c3a6c4b8 c4a9
+merge 2e2e 2e
+merge 66 65
+merge c4a077 6f726c64
+merge c4a0c4a0c4a0c4a0 c4a0
+merge c3a3c4a5 c4aa
+merge c4a057 6f726c64
+merge 7265 74
+merge c3a5c4aa c4a8
+merge c4a0c48a c48a
+merge 65 7874
+merge 6a 69
+merge c4a048 6f77
+merge 49 54
+merge c3ac c4b8
+merge 53 65
+merge c4a0 c3a2
+merge 57 65
+merge 48 65
+merge 64 6f
+merge c4a06d 61
+merge c4a073 6f6d
+merge 6e 6f74
+merge 6b 656e
+merge 6c 74
+merge c3a8 c2aa
+merge 617264 73
+merge 67 61
+merge c4a06572 61
+merge 6973 63
+merge 65 65
+merge c4a0636f6e 63
+merge c4a068 61
+merge c3aac2b5 c583
+merge c4a06d6f6e 7468
+merge c383 c581
+merge c3acc4b8 c2b4
+merge c390c2bd c390c2b5
+merge 27 6c6c
+merge 22 22
+merge 2d2d 2d
+merge c3a5c2a4 c2a9
+merge 27 7665
+merge c4a0c38e c2a3
+merge 6d 6f
+merge c4a06d 6f
+merge c3a6 c4a5
+merge 6d 6f6e
+merge c3a5c2b7 c2a5
+merge c3a6c4b9c2a5 c3a6c4bec2ac
+merge c4a073 757265
+merge c3a1c2bb c4a9
+merge c390 c4b3
+merge 656c6c 6f
+merge 6f6b 656e
+merge c4a02d2d2d2d 2d
+merge 68 69
+merge c4a0 3f
+merge c48ac4a0 c48a
+merge 64 6973
+merge 6f 6a
+merge 6f726d 616c
+merge c4a053 7472
+merge 53 6572
+merge 756e 6b
+merge c3a3c4a5 c4a8
+merge c4a06c 696b
+merge 6e 62
+merge 64 66
+merge c4a048 6f
+merge 6f6b 65
+merge 72 64
+merge 6167 6169
+merge c3a1c2bb c583
+merge c4a06d6f6e7468 73
+merge 50 53
+merge 657276 65
+merge 43 4c
+merge 6174 656e
+merge 53 7472
+merge 68 6173
+merge c3a3c4a4 c583
+merge 73 64
+merge 54 50
+merge c4a0 c3adc4b7c4be
+merge 69c3a1c2bbc4a9 74
+merge c4a0c4a0 c48a
+merge 70 70
+merge 6167 61
+merge 63 6172
+merge c4a02d2d2d2d 2d2d
+merge c38c c4a3
+merge c4a0 c3adc4b7
+merge c391 c4ac
+merge 6c 696b
+merge 6c 696b65
+merge c390c2b3 c390c2b0
+merge c4a048 656c
+merge 2e2e 2e2e
+merge c4a077 6f72
+merge 64 73
+merge 48 54
+merge 64 69
+merge 27 27
+merge c3a8c2aa c580
+merge c3b0c581c4a9 c2ba
+merge c3a3c4a4c2b9 c3a3c4a5c4aa
+merge c4a06d 6f6e74
+merge c38e c581
+merge 68 75
+merge 6d 75
+merge 48 6f77
+merge 6f6e 6c79
+merge 21 21
+merge 536572 766572
+merge c48ac4a0c4a0c4a0c4a0 c48ac4a0c4a0c4a0
+merge c4a0c3b0c581c4a9 c2a6
+merge 7465 78
+merge 48 656c
+merge 62 756c
+merge 6166 65
+merge 63 617264
+merge 7374 616e
+merge 65 61
+merge c38e c2a3
+merge c4a048 54
+merge 4c 53
+merge 74 6f6b656e
+merge 79 6f
+merge c4a0 c3b0c581
+merge 6d 616b
+merge c48ac48a c48a
+merge 73 7572
+merge c3a6c4aa c4b3
+merge 63 6174
+merge c4a049 54
+merge c384 c2b0
+merge c4a0746f 6b656e
+merge c4a056 69c3a1c2bbc4a974
+merge 43 617365
+merge c4a0c48a c48ac4a0
+merge c4a06c 69
+merge 74 7261
+merge 7374 61
+merge c390c2b5 c391c4ab
+merge c3a6c4a5 c2b3
+merge 6e 6174
+merge 68 73
+merge 6f6e 63
+merge c4a056 69
+merge c3a5c2b7c2a5 c3a4c2bdc4be
+merge 6d 6f6e74
+merge 6d 616c
+merge c48ac48a c4a0c4a0
+merge 63 70
+merge c383c581 65
+merge c3af c2bd
+merge 53 657276
+merge c4a05374 7261
+merge 7363 6172
+merge 56 45
+merge 6d 616b65
+merge c4a0c48a c48ac4a0c48a
+merge 6d 756c74
+merge 64 697363
+merge 7374616e 62756c
+merge 79 6f75
+merge 6d 656c
+merge 77 6f726c64
+merge 68 657265
+merge 64 6f6e
+merge c4a0c3b0c581c4a9c2a6 c3b0c581c4a9c2ba
+merge 63 616d
+merge 6e 6f726d616c
+merge c3afc2bd c580
+merge c4a0 c489
+merge 7468 6174
+merge c4a027 27
+merge 72 76
+merge 2222 22
+merge 63 7070
+merge 57 6f726c64
+merge 7468 61
+merge 73 75
+merge 68 6174
+merge c48ac4a0c4a0 c48ac4a0
+merge c4a04854 5450
+merge 56 65
+merge c4a0746f 6b
+merge 696a 6b
+merge c3a8c2af c4af
+merge 66 656c
+merge c4a077 6f
+merge 6d6f6e 7468
+merge c48ac48ac4a0 c48a
+merge 6970 6c65
+merge c3b0c581c4a9 c2a6
+merge 74 75
+merge 54 54
+merge c4a0 c48ac4a0c4a0c4a0
+merge 77 6f72
+merge 70 66
+merge 6e 6f72
+merge c4a048 656c6c
+merge c4a0 c3a1
+merge c382 c2bd
+merge 74 6f6b
+merge c4a07465 61
+merge c4a07468 69
+merge c4a0c4a0 c48ac4a0c4a0
+merge 73 6f6d65
+merge 2d2d2d2d 2d
+merge c581 c4a3
+merge 74 7572
+merge 3d3d 3d
+merge 4854 5450
+merge 74 6970
+merge 6060 6060
+merge c4a0c3adc4b7c4be c3aac2b5c583
+merge 6e 63
+merge c4a0 c48ac4a0c4a0c4a0c4a0
+merge 6e 6c
+merge 7465 61
+merge 72 6d
+merge 6574 75
+merge 3f 3f
+merge c3a2 c4a6
+merge 74 616e
+merge 48 656c6c6f
+merge c4a0c3a2 c4be
+merge 66 c383c2a9
+merge 617070 6c65
+merge 6970 6c
+merge c4a027 2727
+merge 66 7465
+merge c3a1c2bbc4a9 74
+merge 2d2d2d2d 2d2d
+merge c3a1c2bbc583 61
+merge 6e 6f726d
+merge 68 6973
+merge 48 6f
+merge 2727 27
+merge 43 61
+merge 616d 656c
+merge c4a0c48a c4a0c4a0
+merge c4a057 6f
+merge c489 c48a
+merge c3a4c2b8c583 c3a6c4b8c4a9
+merge c3a2c4a2 c4af
+merge 7468 657265
+merge c390c2b3 c390c2b0c391c4a2
+merge 43 6173
+merge 6572 766572
+merge c4a0 c3a4c2b8c583
+merge c48ac4a0c4a0 c48ac4a0c4a0
+merge c3a1 c580
+merge c4a0c4a0c4a0 c48a
+merge c4a0c4a0 c48ac4a0
+merge 6d 756c
+merge c38e c2a6
+merge c4a064 73
+merge 2121 21
+merge c391c4ab c390c2be
+merge 6d756c74 69
+merge c391c4a3c390c2ba c390c2b8
+merge c38e c2a5
+merge 6265 65
+merge c4a06361 66c383c2a9
+merge 73 6f6d
+merge 6f 6a69
+merge 6f 6674
+merge 63 61726473
+merge 636f6e 63
+merge c4a048 656c6c6f
+merge c3adc4b7c4be c3aac2b5c583
+merge c4a057 6f72
+merge c4a0c3a2c4be c4a7
+merge 6167 61696e
+merge c48ac48a c48ac4a0
+merge 636f6e 636174
+merge 6d756c74 6970
+merge c4a06361 66
+merge 56 69
+merge c3af c2b8
+merge 74 6564
+merge c4a053747261 c383c58165
+merge c48ac4a0c4a0 c48a
+merge 6d756c74 69706c65
+merge 5374 7261
+merge 72 6e
+merge c4a0c3a2 c4bf
+merge 2121 2121
+merge c4a0c4a0 c48ac4a0c4a0c4a0
+merge c48ac4a0c4a0c4a0c4a0 c48ac4a0c4a0c4a0c4a0
+merge c3afc2b8 c4b1
+merge 65 656e
+merge c4a0 c489c489
+merge c48ac4a0 c48ac48a
+merge c4a0 c48ac4a0c4a0c4a0c4a0c4a0
+merge 27 60
+merge 54 5053
+merge c3af c2bf
+merge 6a 6b
+merge c4a06265 65
+merge 7468 69
+merge 656d 6f
+merge c4a06f 77
+merge c3afc2bf c2bd
+merge 66 68
+merge 74 6f6c
+merge c384c2b0 7374616e62756c
+merge c3a2 c4be
+merge 6265 656e
+merge c4a079 6f
+merge 7468 73
+merge c4a06361 6665
+merge 72 6c
+merge 6e 7468
+merge c4a0c3b0c581 c4bb
+merge 67 61696e
+merge c4a0c3b0c581 c4ba
+merge 63616d 656c
+merge c3a6c4b9c2a5c3a6c4bec2ac c3a8c2aac580
+merge c4a0c3b0c581c4bb c4a4
+merge 6170 706c
+merge 48 656c6c
+merge c4a0c4a0c4a0c4a0 c48a
+merge 2e2e 2e2e2e
+merge c489 c4a0
+merge c3a1 c581
+merge 6c6c 6f
+merge c384c2b0 73
+merge 57 6f
+merge c4a0c382 c2b5
+merge c383 c4a6
+merge c4a04854 545053
+merge c4a0c489 c48a
+merge c3a2 c4b3
+merge 6e 6b
+merge c4a064697363 617264
+merge c48ac4a0c4a0 c48ac4a0c4a0c4a0
+merge 6361 66
+merge 3f3f 3f
+merge 63 616d65
+merge c48ac4a0c4a0c4a0c4a0 c48a
+merge 53 65727665
+merge c4a07468 61
+merge c4a0c48ac48ac4a0 c48ac48a
+merge c4a07468 6572
+merge 656d 6f6a69
+merge c4a0c3a2 c4a6
+merge c4a0636f6e63 6174656e
+merge 21 3f
+merge c489c489 c48a
+merge c4a0656d 6f6a69
+merge c382 c2b5
+merge c3afc2bfc2bd c3afc2bfc2bd
+merge c4a0656d 6f
+merge c48ac4a0c4a0c4a0c4a0 c48ac4a0
+merge 2e2e2e2e 2e2e
+merge c3a8c2aac580 c3a3c4a3c2ae
+merge 6973 6361
+merge c48ac4a0c4a0c4a0 c48ac4a0c4a0
+merge c4a0636f6e63 6174
+merge c4a053747261 c383c581
+merge 53747261 c383c58165
+merge 697363 617264
+merge c3adc4b7c4bec3aac2b5c583 c3acc4b8c2b4
+merge 63 617465
+merge c48ac4a0c4a0c4a0c4a0 c48ac4a0c4a0c4a0c4a0c4a0
+merge 6d6f6e7468 73
+merge c4a0c4a0c4a0c4a0 c48ac4a0c4a0c4a0
+merge c48ac4a0 c48ac48ac4a0
+merge 6174656e 617465
+merge c48ac48ac4a0 c48ac48a
+merge 56 69c3a1c2bbc4a974
+merge c3a2 c4bf
+merge 4854 545053
+merge c3a3c4a5c4a8 c3a3c4a4c583
+merge 22 2e2e2e
+merge 6574 7572
+merge 64697363 617264
+merge 7264 73
+merge 3f3f 3f3f
+merge c3b0c581 c4b3
+merge 6f6a 6973
+merge 3d3d3d3d 3d3d3d
+merge 3d3d3d3d 3d
+merge 3d3d3d3d 3d3d
+merge 636f6e63 6174656e617465
+merge 67 6169
+merge c48ac4a0c4a0c4a0 c48ac4a0c4a0c4a0
+merge c4a0c4a0c4a0 c48ac4a0
+merge c4a0c4a0 c48ac4a0c4a0c4a0c4a0c4a0
+merge c4a0 c3af
+merge c38ec581 c38ec2a3
+merge c3a1c580 c2b6
+merge 2d 3d
+merge c4a0c489 c4a0
+merge c4a0c3b0c581 c4b3
+merge 73 757265
+merge c38c c4a5
+merge c489c489 c4a0
+merge c4a0c3a1 c580
+merge 70 6665
+merge 60 22
+merge 6f726d 61
+merge 6166 c383c2a9
+merge c489 c48ac4a0
+merge c3b0c581 c4ba
+merge c3a3c4a4c583 c3a3c4a4c2b9
+merge c4a0c4a0c4a0 c48ac4a0c4a0c4a0
+merge c48ac48a c4a0c4a0c48a
+merge c4a0c4a0c4a0c4a0 c48ac4a0
+merge 6361 6665
+merge 434c 53
+merge c4a0 c387
+merge 2727 2727
+merge c2a4 c3afc2b8c4b1
+merge c3b0c581 c4b6
+merge c4a0c48a c48ac48a
+merge c4a0c3adc4b7c4bec3aac2b5c583 c3acc4b8c2b4
+merge c3a2c4be c4a7
+merge c38c c4a6
+merge c48ac4a0 c489
+merge c4a0656d 6f6a6973
+merge 57 6f72
+merge c3a2c4b3 c582
+merge c48ac4a0c4a0c4a0 c48a
+merge 6f66 7465
+merge c48ac48ac4a0c4a0 c48ac4a0
+merge 73 6466
+merge c3b0c581c4a9c2a6 c3b0c581c4a9c2ba
+merge c48ac4a0c4a0c4a0c4a0 c48ac4a0c4a0
+merge 64 6f66
+case 696564203420c2bd206d6f6e746873
+llama 2536 228 27 228 22957 6983
+case c3847066656c
+llama 90711 87 20910
+case -
+llama
+case 20
+llama 228
+case 2020
+llama 1667
+case 202020
+llama 1742
+case 09
+llama 205
+case 0a
+llama 206
+case 0a0a
+llama 2126
+case 0a0a0a
+llama 11516
+case 090a
+llama 34777
+case 48656c6c6f20776f726c64
+llama 28339 3845
+case 2048656c6c6f20776f726c64
+llama 46609 3845
+case 48656c6c6f20576f726c64
+llama 28339 3930
+case 2048656c6c6f20576f726c64
+llama 46609 3930
+case 2048656c6c6f20576f726c6421
+llama 46609 3930 8
+case 48656c6c6f2c20776f726c6421
+llama 28339 19 3845 8
+case 2048656c6c6f2c20776f726c6421
+llama 46609 19 3845 8
+case 207468697320697320f09fa6992e637070
+llama 2075 1801 11254 107 255 21 19317
+case 7730343820377475696a6b20647364666875
+llama 94 23 27 31 228 30 21213 20752 39267 6405 9980
+case d0bdd0b5d189d0be20d0bdd0b020d091d18ad0bbd0b3d0b0d180d181d0bad0b8
+llama 4929 40071 2196 3236 8750 1764 37097 41168
+case e19e80e19eb6e19e93e19f8be19e8fe19f82e19e96e19eb7e19e9fe19f81e19e9fe19ea2e19eb6e19e85e19e81e19e9be19e85e19f81e19e89
+llama 38111 230 174833 38111 249 86325 241 38111 245 86325 232 38111 252 38111 123 38111 261 165 24629 38111 261 38111 103 174833 38111 235 38111 231 38111 257 38111 235 165 24629 38111 239
+case f09f9a8020286e6f726d616c2920f09f98b6e2808df09f8cabefb88f20286d756c7469706c6520656d6f6a697320636f6e636174656e617465642920e29c8520286f6e6c7920656d6f6a6920746861742068617320697473206f776e20746f6b656e29
+llama 2226 256 230 1737 18258 16 80503 122 35927 2226 242 112 57462 1737 54457 223165 106230 2096 16 48389 1737 10203 109160 1875 2222 2517 3342 12523 16
+case 48656c6c6f
+llama 28339
+case 2048656c6c6f
+llama 46609
+case 202048656c6c6f
+llama 228 46609
+case 20202048656c6c6f
+llama 1667 46609
+case 2020202048656c6c6f
+llama 1742 46609
+case 2020202048656c6c6f0a2020202048656c6c6f
+llama 1742 46609 1856 46609
+case 2028
+llama 1737
+case 0a203d
+llama 206 1857
+case 2720657261
+llama 14 4515
+case 48656c6c6f2c207927616c6c2120486f772061726520796f7520f09f9881203fe68891e683b3e59ca86170706c65e5b7a5e4bd9c31333134313531e5a4a9efbd9e
+llama 28339 19 1770 14 1954 8 4070 1955 1933 80503 231 5691 12081 13336 2648 29325 14315 24 26 24 27 24 28 24 5123 18372
+case 212121212121
+llama 57178 10251
+case 33
+llama 26
+case 3333
+llama 26 26
+case 333333
+llama 26 26 26
+case 33333333
+llama 26 26 26 26
+case 3333333333
+llama 26 26 26 26 26
+case 333333333333
+llama 26 26 26 26 26 26
+case 33333333333333
+llama 26 26 26 26 26 26 26
+case 3333333333333333
+llama 26 26 26 26 26 26 26 26
+case 333333333333333333
+llama 26 26 26 26 26 26 26 26 26
+case 43e1bbad61205669e1bb8774
+llama 42 30719 12584
+case 206469736361726473
+llama 3642 4388
+case 0a200a0a200a0a0a200920090920090a20200a2020200a202020200a20202020200af09f9a8020286e6f726d616c2920f09f98b6e2808df09f8cabefb88f20286d756c7469706c6520656d6f6a697320636f6e636174656e617465642920e29c8520f09fa699f09fa699203320333320333333203333333320333333333320333333333333203333333333333320333333333333333320332e3320332e2e3320332e2e2e3320e19e80e19eb6e19e93e19f8be19e8fe19f82e19e96e19eb7e19e9fe19f81e19e9fe19ea2e19eb6e19e85f09f9881203fe68891e683b3e59ca86170706c65e5b7a5e4bd9c31333134313531e5a4a9efbd9e202d2d2d2d2d2d3d3d3d3d3d3d3d20d0bdd0b5d189d0be20d0bdd0b020d091d18ad0bbd0b3d0b0d180d181d0bad0b82027272727272760606060606060222222222e2e2e2e2e2e2121212121213f3f3f3f3f3f2049277665206265656e2027746f6c6420686527732074686572652c2027524520796f7520737572653f20274d206e6f7420737572652049276c6c206d616b652069742c20274420796f75206c696b6520736f6d65207465613f2057652756652061276c4c
+llama 127731 51628 205 57788 18494 97469 126134 206 2226 256 230 1737 18258 16 80503 122 35927 2226 242 112 57462 1737 54457 223165 106230 2096 16 48389 11254 107 255 2226 107 255 228 26 228 26 26 228 26 26 26 228 26 26 26 26 228 26 26 26 26 26 228 26 26 26 26 26 26 228 26 26 26 26 26 26 26 228 26 26 26 26 26 26 26 26 228 26 21 26 228 26 2271 26 228 26 3834 26 182018 230 174833 38111 249 86325 241 38111 245 86325 232 38111 252 38111 123 38111 261 165 24629 38111 261 38111 103 174833 38111 235 188568 231 5691 12081 13336 2648 29325 14315 24 26 24 27 24 28 24 5123 18372 8391 158343 3512 40071 2196 3236 8750 1764 37097 41168 29721 32797 25646 3802 4975 4975 116167 57178 10251 154048 27292 1767 5125 2632 2155 91 2378 1919 1914 2782 19 2155 3354 1933 5470 38 2155 52 2068 5470 1767 4961 3059 1894 19 2155 43 1933 3026 2725 23186 38 2930 14 20676 1671 14 83 51
+case -
+llama
+case 202020
+llama 1742
+case 09090a0a20200a200d0a
+llama 1957 242811 209 206
+case 48656c6c6f2020776f726c64202020616761696e20202020
+llama 28339 228 3845 1667 3407 1681
+case 656d6f6a6920f09f9982f09f9a80f09f94a520f09f91a9e2808df09f91a9e2808df09f91a720e29da4efb88f20f09f87a6f09f87ba
+llama 104150 82199 2226 256 230 205860 106 176601 110 35927 154565 110 35927 154565 108 56429 205678 17822
+case e697a5e69cace8aa9ee381aee38386e382ade382b9e3838820e4b8ade69687e58886e8af8d20ed959ceab5adec96b4
+llama 81367 2176 141053 9877 228 35669 3957 20808 211770
+case 65cc81206ecc832061cc88cc8420c79520636166c3a92063616665cc81
+llama 76 8563 1718 177753 1671 144 238 215563 202206 251 42632 71876 8563
+case efac8120efac8020e291a020efbca1efbca2efbca320efbdb6efbe8020e284ab20c2b5
+llama 179 113 231 169716 113 230 228 228593 228 1808 102 1808 103 1808 104 228 15139 122 179 130 230 104780 112 88321
+case c4b07374616e62756c20cea3ce8acea3cea5cea6ce9fcea32053747261c39f65
+llama 68887 5128 146 240 11065 41339 39084 170042 53884
+case 63616d656c4361736520485454505365727665722069742773204954275320776527564520646f6e2774
+llama 81117 12605 20438 10412 1894 1914 12284 14 58 2076 14 15480 3287 2548
+case 3132333435363738393020d9a1d9a2d9a320c2bd
+llama 24 25 26 27 28 29 30 31 32 23 228 157 102 157 103 157 104 228 22957
+case 64656620662878293a0a0972657475726e20782a2a320a0a
+llama 3545 1696 15 95 2884 206 205 3252 2982 2093 25 2126
+case 61806220e2822063c0af2064eda08020f4908080207a
+llama 72 65646 73 228 109676 1682 109676 1676 177 262 230 228 109676 109676 1977
+core 72 65646 73 228 109676 1682 109676 1676 109676 65646 228 109676 109676 1977
+case 61806220e2822063c0af20f4908080207aff
+llama 72 65646 73 228 109676 1682 109676 228 109676 109676 1977 65646
+case 3c733e203c2f733e205b434c535d203c7c656e646f66746578747c3e203c756e6b3e
+llama 35 90 37 3241 90 37 2254 195772 68 2154 99 1883 3010 2805 99 37 2154 6177 37

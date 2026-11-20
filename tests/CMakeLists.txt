@@ -48,6 +48,7 @@ add_executable(snicholls_core_tests
     detail/sha1_test.cpp
     detail/sobol_directions_test.cpp
     detail/struct_binders_test.cpp
+    detail/unicode_tables_test.cpp
     detail/wide_mul_test.cpp
     finance/attribution_test.cpp
     game/change_test.cpp
@@ -82,6 +83,7 @@ add_executable(snicholls_core_tests
     ml/attention_test.cpp
     ml/bitnet_kernels_test.cpp
     ml/bitnet_test.cpp
+    ml/bpe_merges_test.cpp
     ml/bpe_test.cpp
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
@@ -119,6 +121,7 @@ add_executable(snicholls_core_tests
     ml/patch_test.cpp
     ml/pooling_test.cpp
     ml/preference_test.cpp
+    ml/pretokenize_test.cpp
     ml/probe_test.cpp
     ml/quant_iq_grids_test.cpp
     ml/quant_iq_test.cpp
@@ -130,16 +133,23 @@ add_executable(snicholls_core_tests
     ml/rope_modes_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
+    ml/rwkv_test.cpp
     ml/samplers_test.cpp
     ml/sampling_test.cpp
     ml/self_attention_test.cpp
+    ml/sentencepiece_test.cpp
     ml/softmax_test.cpp
     ml/sparse_attention_test.cpp
     ml/spatial_test.cpp
     ml/speculative_test.cpp
     ml/tensor_ops_test.cpp
+    ml/token_trie_test.cpp
+    ml/tokenizer_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp
+    ml/unicode_test.cpp
+    ml/unigram_test.cpp
+    ml/wordpiece_test.cpp
     pipeline/stages_test.cpp
     reflect/member_count_test.cpp
     reflect/string_access_test.cpp
@@ -206,6 +216,12 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 add_test(NAME generated.struct_binders_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_struct_binders.py --check)
 set_tests_properties(generated.struct_binders_up_to_date PROPERTIES LABELS boundary)
+
+# The Unicode tables of ml/unicode.hpp (detail/unicode_tables.hpp) must be exactly what
+# scripts/generate_unicode_tables.py writes from the committed extract of UnicodeData.txt.
+add_test(NAME generated.unicode_tables_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_unicode_tables.py --check)
+set_tests_properties(generated.unicode_tables_up_to_date PROPERTIES LABELS boundary)
 
 # The time portability fixtures (tests/fixtures/time/) must be exactly what
 # scripts/generate_time_fixtures.py writes from Python's datetime and exact integer arithmetic.

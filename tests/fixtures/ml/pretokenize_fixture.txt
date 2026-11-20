@@ -1,0 +1,1131 @@
+# Pre-tokenizer splits: Python's regex module on the original expressions, through
+# scripts/generate_pretokenize_fixture.py. Never edit by hand.
+# regex 2.5.107. text <utf-8 hex, '-' if empty>, one line per text; then family <name>, and
+# per text: pieces <byte length of each piece>.
+text 696564203420c2bd206d6f6e746873
+text c3847066656c
+text -
+text 20
+text 2020
+text 202020
+text 09
+text 0a
+text 0a0a
+text 0a0a0a
+text 090a
+text 48656c6c6f20776f726c64
+text 2048656c6c6f20776f726c64
+text 48656c6c6f20576f726c64
+text 2048656c6c6f20576f726c64
+text 2048656c6c6f20576f726c6421
+text 48656c6c6f2c20776f726c6421
+text 2048656c6c6f2c20776f726c6421
+text 207468697320697320f09fa6992e637070
+text 7730343820377475696a6b20647364666875
+text d0bdd0b5d189d0be20d0bdd0b020d091d18ad0bbd0b3d0b0d180d181d0bad0b8
+text e19e80e19eb6e19e93e19f8be19e8fe19f82e19e96e19eb7e19e9fe19f81e19e9fe19ea2e19eb6e19e85e19e81e19e9be19e85e19f81e19e89
+text f09f9a8020286e6f726d616c2920f09f98b6e2808df09f8cabefb88f20286d756c7469706c6520656d6f6a697320636f6e636174656e617465642920e29c8520286f6e6c7920656d6f6a6920746861742068617320697473206f776e20746f6b656e29
+text 48656c6c6f
+text 2048656c6c6f
+text 202048656c6c6f
+text 20202048656c6c6f
+text 2020202048656c6c6f
+text 2020202048656c6c6f0a2020202048656c6c6f
+text 2028
+text 0a203d
+text 2720657261
+text 48656c6c6f2c207927616c6c2120486f772061726520796f7520f09f9881203fe68891e683b3e59ca86170706c65e5b7a5e4bd9c31333134313531e5a4a9efbd9e
+text 212121212121
+text 33
+text 3333
+text 333333
+text 33333333
+text 3333333333
+text 333333333333
+text 33333333333333
+text 3333333333333333
+text 333333333333333333
+text 43e1bbad61205669e1bb8774
+text 206469736361726473
+text 0a200a0a200a0a0a200920090920090a20200a2020200a202020200a20202020200af09f9a8020286e6f726d616c2920f09f98b6e2808df09f8cabefb88f20286d756c7469706c6520656d6f6a697320636f6e636174656e617465642920e29c8520f09fa699f09fa699203320333320333333203333333320333333333320333333333333203333333333333320333333333333333320332e3320332e2e3320332e2e2e3320e19e80e19eb6e19e93e19f8be19e8fe19f82e19e96e19eb7e19e9fe19f81e19e9fe19ea2e19eb6e19e85f09f9881203fe68891e683b3e59ca86170706c65e5b7a5e4bd9c31333134313531e5a4a9efbd9e202d2d2d2d2d2d3d3d3d3d3d3d3d20d0bdd0b5d189d0be20d0bdd0b020d091d18ad0bbd0b3d0b0d180d181d0bad0b82027272727272760606060606060222222222e2e2e2e2e2e2121212121213f3f3f3f3f3f2049277665206265656e2027746f6c6420686527732074686572652c2027524520796f7520737572653f20274d206e6f7420737572652049276c6c206d616b652069742c20274420796f75206c696b6520736f6d65207465613f2057652756652061276c4c
+text -
+text -
+text 20
+text 09
+text 0a
+text 0d0a
+text 61
+text 27
+text 272773
+text 697427732049542753204974274c6c207765275645207468657927442069274d
+text 697427c5bf20616e6420c5bf
+text 63616d656c43617365576f7264204854545053657276657220584d4c4874747052657175657374206950686f6e65204d63446f6e616c64277320c389434f4c4520c3a9434f4c4520c389636f6c652061c38962
+text c784756e676c6120c785756e676c6120c786756e676c6120cab0656c6c6f20e1be8874657374
+text 3132332031323334203132333435203132333435363738393020d9a1d9a2d9a3d9a4d9a520c2bdc2be20e285ab
+text 78c2b22b79c2b33d7ae281b4
+text 20206c656164696e6720616e6420747261696c696e672020
+text 61202062202020632020202064
+text 74616209616e64090974616273
+text 6c696e650a627265616b0a0a616e640d0a0d0a43524c46200a2078
+text 200a200a20200a
+text 6e627370c2a0616e64e380806964656f67726170686963e28083656dc2856e656c
+text 747261696c696e670a
+text 747261696c696e67200a20
+text 656d6f6a6920f09f9982f09f9a80f09f94a520f09f91a9e2808df09f91a9e2808df09f91a7e2808df09f91a620f09f87a6f09f87ba20e29da4efb88f2078f09f998279
+text 636f6d62696e696e672065cc81206ecc832061cc88cc8420cc81616c6f6e65
+text e0a4b9e0a4bfe0a4a8e0a58de0a4a6e0a58020e0a4a8e0a4aee0a4b8e0a58de0a4a4e0a587
+text e0b8a0e0b8b2e0b8a9e0b8b2e0b984e0b897e0b8a2
+text d8a7d984d8b9d8b1d8a8d98ad8a920d985d8b1d8add8a8d8a7
+text e697a5e69cace8aa9ee381aee38386e382ade382b9e38388e381a8e382abe382bfe382abe3838a
+text e4b8ade69687e58886e8af8de6b58be8af95
+text ed959ceab5adec96b420ed858dec8aa4ed8ab8
+text ce95cebbcebbceb7cebdceb9cebaceac20ce9ace95cea6ce91ce9bce91ce99ce91
+text d180d183d181d181d0bad0b8d0b920d0a2d095d09ad0a1d0a2
+text c78720c78820c789
+text 70756e6374212121203f3f3f202e2e2e202d2d2d202f2f2f205c5c2027272720222222
+text 706174682f746f2f66696c652e74787420687474703a2f2f6578616d706c652e636f6d2f613f623d632364
+text 612f622f2f630d0a2f64
+text 2168656c6c6f203f776f726c64202e636f6d
+text 24313030202b35203c613e203d62205e63207e64207c6520606660
+text efbc88e585a8e8a792efbc89e38081e38082e3808ce68bace5bca7e3808de280a6
+text 64656620662878293a0a2020202072657475726e20782a2a320a0a0a
+text 20202020696e64656e746564
+text 78e2808b79e2808d7a
+text f09f9880f09f9881
+text c2b5c380c397c3b7c6bbc6bc
+text 4d4958454463617365206d6978656443415345
+text efac8120efac8020efac83
+family gpt2
+pieces 3 2 3 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 3 2 5 7
+pieces 8 5 19
+pieces 3 3 3 3 3 3 3 3 3 3 6 3 12 3 3
+pieces 4 2 6 1 15 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 4 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 1 3 1 4 4 4 5 2 20 7 3 3
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 4
+pieces 5
+pieces 6
+pieces 7
+pieces 8
+pieces 9
+pieces 5 7
+pieces 9
+pieces 33 1 4 2 6 1 15 2 8 7 13 1 4 9 2 3 4 5 6 7 8 9 2 1 1 2 2 1 2 3 1 4 3 3 3 3 3 3 3 3 3 6 3 3 4 2 20 7 3 3 14 9 5 19 36 2 3 5 2 4 3 2 6 1 2 2 4 5 1 2 1 4 5 2 3 5 3 1 2 1 4 5 5 4 1 3 1 2 2 1 2
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 2 3 1 1 3 1 2 3 1 2 5 1 1 2 1 1
+pieces 2 1 2 4 3
+pieces 13 11 15 7 9 2 7 7 7 5
+pieces 7 8 8 7 8
+pieces 3 5 6 11 11 5 4
+pieces 1 2 1 1 2 1 1 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 1 3 1 1 4
+pieces 4 1 5 1 1 3 3 1 4 2 2
+pieces 7
+pieces 4 2 3 3 11 3 2 2 3
+pieces 8 1
+pieces 8 3
+pieces 5 13 26 9 7 2 4 1
+pieces 9 2 2 2 2 2 4 3 5
+pieces 3 3 3 3 3 3 10 3 3 3
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 1 2 1 4 1 3 5 3 7 1 3 1 1 1 1 1 1 1 1
+pieces 1 1 1 2 1 1 1 1 1
+pieces 1 5 2 5 2 3
+pieces 1 3 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 3 6 12 6 6
+pieces 3 2 1 1 2 4 7 2 2 1 3
+pieces 3 9
+pieces 1 3 1 3 1
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family llama3
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 3 1 1 5 7
+pieces 8 5 19
+pieces 3 6 6 6 6 9 15 6
+pieces 4 2 6 1 15 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 4 1 4 4 4 5 2 20 3 3 1 3 3
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 3 1
+pieces 3 2
+pieces 3 3
+pieces 3 3 1
+pieces 3 3 2
+pieces 3 3 3
+pieces 5 7
+pieces 9
+pieces 34 4 2 6 1 15 2 8 7 13 1 4 9 1 1 1 2 1 3 1 3 1 1 3 2 1 3 3 1 3 3 1 1 3 3 2 1 1 1 1 1 1 2 1 1 1 3 1 4 6 6 6 6 9 6 4 2 20 3 3 1 3 3 14 9 5 19 36 2 3 5 2 4 3 2 6 1 2 2 4 5 1 2 1 4 5 2 3 5 3 1 2 1 4 5 5 4 1 3 3 2 3
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 2 3 2 3 3 3 3 5 2 2 2
+pieces 2 3 4 3
+pieces 13 11 15 7 9 2 7 7 7 5
+pieces 7 8 8 7 8
+pieces 3 1 3 1 1 3 2 1 3 3 3 1 1 6 4 1 4 1 3
+pieces 1 2 2 2 2 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 2 3 4 4 2 2
+pieces 7
+pieces 4 5 14 5 5
+pieces 8 1
+pieces 8 2 1
+pieces 5 13 26 9 7 2 5
+pieces 9 2 2 2 2 2 4 3 5
+pieces 3 6 6 3 10 6 3
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 3 5 4 5 3 7 4 2 2 2 2
+pieces 1 2 2 1 2 2
+pieces 6 2 5 2 3
+pieces 1 3 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 9 12 6 6
+pieces 3 2 2 3 3 7 2 2 1 3
+pieces 3 9
+pieces 1 4 4
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family qwen2
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 1 1 1 1 1 5 7
+pieces 8 5 19
+pieces 3 6 6 6 6 9 15 6
+pieces 4 2 6 1 15 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 4 1 4 4 4 5 2 20 1 1 1 1 1 1 1 3 3
+pieces 6
+pieces 1
+pieces 1 1
+pieces 1 1 1
+pieces 1 1 1 1
+pieces 1 1 1 1 1
+pieces 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1 1
+pieces 5 7
+pieces 9
+pieces 34 4 2 6 1 15 2 8 7 13 1 4 9 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 3 1 4 6 6 6 6 9 6 4 2 20 1 1 1 1 1 1 1 3 3 14 9 5 19 36 2 3 5 2 4 3 2 6 1 2 2 4 5 1 2 1 4 5 2 3 5 3 1 2 1 4 5 5 4 1 3 3 2 3
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 2 3 2 3 3 3 3 5 2 2 2
+pieces 2 3 4 3
+pieces 13 11 15 7 9 2 7 7 7 5
+pieces 7 8 8 7 8
+pieces 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 2 2 1 3
+pieces 1 2 2 2 2 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 2 3 4 4 2 2
+pieces 7
+pieces 4 5 14 5 5
+pieces 8 1
+pieces 8 2 1
+pieces 5 13 26 9 7 2 5
+pieces 9 2 2 2 2 2 4 3 5
+pieces 3 6 6 3 10 6 3
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 3 5 4 5 3 7 4 2 2 2 2
+pieces 1 2 2 1 2 2
+pieces 6 2 5 2 3
+pieces 1 1 1 1 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 9 12 6 6
+pieces 3 2 2 3 3 7 2 2 1 3
+pieces 3 9
+pieces 1 4 4
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family qwen35
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 1 1 1 1 1 5 7
+pieces 8 5 19
+pieces 57
+pieces 4 2 6 1 12 3 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 4 1 4 4 4 5 2 20 1 1 1 1 1 1 1 3 3
+pieces 6
+pieces 1
+pieces 1 1
+pieces 1 1 1
+pieces 1 1 1 1
+pieces 1 1 1 1 1
+pieces 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1 1
+pieces 5 7
+pieces 9
+pieces 34 4 2 6 1 12 3 2 8 7 13 1 4 9 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 3 1 43 4 2 20 1 1 1 1 1 1 1 3 3 14 9 5 19 36 2 3 5 2 4 3 2 6 1 2 2 4 5 1 2 1 4 5 2 3 5 3 1 2 1 4 5 5 4 1 3 3 2 3
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 2 3 2 3 3 3 3 5 2 2 2
+pieces 2 3 4 3
+pieces 13 11 15 7 9 2 7 7 7 5
+pieces 7 8 8 7 8
+pieces 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 2 2 1 3
+pieces 1 2 2 2 2 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 2 3 4 4 2 2
+pieces 7
+pieces 4 5 14 5 5
+pieces 8 1
+pieces 8 2 1
+pieces 5 13 26 9 4 3 2 5
+pieces 9 4 4 6 8
+pieces 18 19
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 3 5 4 5 3 7 4 2 2 2 2
+pieces 1 2 2 1 2 2
+pieces 6 2 5 2 3
+pieces 1 1 1 1 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 9 12 6 6
+pieces 3 2 2 3 3 7 2 2 1 3
+pieces 3 9
+pieces 1 4 4
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family gpt4o
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 3 1 1 5 7
+pieces 8 5 19
+pieces 57
+pieces 4 2 6 1 15 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 4 1 4 4 4 5 2 20 3 3 1 3 3
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 3 1
+pieces 3 2
+pieces 3 3
+pieces 3 3 1
+pieces 3 3 2
+pieces 3 3 3
+pieces 5 7
+pieces 9
+pieces 34 4 2 6 1 15 2 8 7 13 1 4 9 1 1 1 2 1 3 1 3 1 1 3 2 1 3 3 1 3 3 1 1 3 3 2 1 1 1 1 1 1 2 1 1 1 3 1 43 4 2 20 3 3 1 3 3 14 9 5 19 36 5 5 2 4 5 6 1 2 2 4 5 1 2 1 4 5 5 5 3 1 2 1 4 5 5 4 1 6 5
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 4 5 6 6 7 4
+pieces 5 4 3
+pieces 5 4 4 11 8 7 2 5 3 8 7 3 4 7 2 3
+pieces 7 8 8 7 8
+pieces 3 1 3 1 1 3 2 1 3 3 3 1 1 6 4 1 4 1 3
+pieces 1 2 2 2 2 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 2 3 4 4 2 2
+pieces 7
+pieces 4 5 14 5 5
+pieces 8 1
+pieces 8 2 1
+pieces 5 13 26 9 7 2 5
+pieces 9 4 4 6 8
+pieces 18 19
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 3 5 4 5 3 7 4 2 2 2 2
+pieces 1 2 2 1 2 2
+pieces 6 2 5 2 3
+pieces 1 3 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 9 12 6 6
+pieces 3 2 2 3 3 7 2 2 1 3
+pieces 3 9
+pieces 1 4 4
+pieces 8
+pieces 2 2 4 2 2
+pieces 9 6 4
+pieces 3 4 4
+family deepseek_v3
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 3 1 1 5 7
+pieces 8 5 19
+pieces 57
+pieces 4 2 6 1 5 3 4 3 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 4 1 4 4 4 5 2 9 5 6 3 3 1 3 3
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 3 1
+pieces 3 2
+pieces 3 3
+pieces 3 3 1
+pieces 3 3 2
+pieces 3 3 3
+pieces 5 7
+pieces 9
+pieces 34 4 2 6 1 5 3 4 3 2 8 7 13 1 4 9 1 1 1 2 1 3 1 3 1 1 3 2 1 3 3 1 3 3 1 1 3 3 2 1 1 1 1 1 1 2 1 1 1 3 1 43 4 2 9 5 6 3 3 1 3 3 14 9 5 19 36 2 3 5 2 4 3 2 6 1 2 2 4 5 1 2 1 4 5 2 3 5 3 1 2 1 4 5 5 4 1 3 3 2 3
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 2 3 2 3 3 3 3 5 2 2 2
+pieces 2 1 2 4 3
+pieces 13 11 15 7 9 2 7 7 7 5
+pieces 7 8 8 7 8
+pieces 3 1 3 1 1 3 2 1 3 3 3 1 1 6 4 1 4 1 3
+pieces 1 2 2 2 2 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 2 3 4 4 2 2
+pieces 7
+pieces 4 5 14 5 5
+pieces 8 1
+pieces 8 2 1
+pieces 5 13 5 3 4 3 4 3 4 9 4 3 2 4 1
+pieces 9 4 4 6 8
+pieces 18 19
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 3 5 4 5 3 7 4 2 2 2 2
+pieces 1 2 2 1 2 2
+pieces 6 2 5 2 3
+pieces 1 3 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 3 6 12 6 6
+pieces 3 2 2 3 3 7 2 2 1 3
+pieces 3 9
+pieces 1 4 4
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family deepseek_llm
+pieces 3 1 1 1 2 7
+pieces 2 4
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 1 1
+pieces 1 1 1
+pieces 1 1
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 5 1 3
+pieces 1 3 1 1 5 7
+pieces 8 5 19
+pieces 57
+pieces 4 2 6 1 5 3 7 2 8 7 13 1 1 3 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 1 3 1 4 4 4 5 2 9 5 6 7 3 3
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 4
+pieces 5
+pieces 6
+pieces 7
+pieces 8
+pieces 9
+pieces 1 3 1 3 3 1
+pieces 9
+pieces 1 1 1 1 1 1 1 1 7 1 2 1 3 1 4 1 5 1 4 2 6 1 5 3 7 2 8 7 13 1 1 3 10 1 1 2 1 3 1 4 1 5 1 6 1 7 1 8 1 1 1 1 1 1 2 1 1 1 3 1 1 42 4 2 9 5 6 7 3 3 14 9 5 19 36 2 1 2 5 2 4 3 1 1 6 1 2 2 4 5 1 2 1 4 5 2 1 2 5 3 1 2 1 4 5 5 4 1 3 1 2 2 1 2
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 1 1
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 1 1 3 1 1 3 1 2 3 1 2 5 1 1 2 1 1
+pieces 2 1 2 4 3
+pieces 13 11 15 7 9 1 1 3 4 3 4 3 4 2 2 1
+pieces 2 5 3 5 3 5 3 4 1 3 4
+pieces 3 1 4 1 5 1 10 1 10 1 4 1 3
+pieces 1 2 1 1 2 1 1 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 1 1 3 1 1 1 1 4 1 1 2
+pieces 1 1 1 1 2 1
+pieces 4 5 3 11 3 2 5
+pieces 8 1
+pieces 8 1 1 1
+pieces 5 18 3 4 3 4 3 14 3 3 2 4 1
+pieces 9 2 2 2 2 2 7 5
+pieces 18 1 18
+pieces 21
+pieces 25
+pieces 39
+pieces 18
+pieces 9 1 9
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 1 2 1 4 1 3 5 3 7 1 3 1 1 1 1 1 1 1 1
+pieces 1 1 1 2 1 1 1 1 1
+pieces 1 5 2 5 2 3
+pieces 1 3 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 3 6 3 6 15
+pieces 3 2 1 1 2 1 3 7 2 2 1 1 1 1
+pieces 3 9
+pieces 1 3 1 3 1
+pieces 8
+pieces 4 6 2
+pieces 9 10
+pieces 3 4 4
+family deepseek_coder
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 1 1
+pieces 1 1 1
+pieces 1 1
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 5 1 3
+pieces 1 1 1 1 1 1 5 7
+pieces 8 5 19
+pieces 3 3 3 3 3 3 3 3 3 3 6 3 12 3 3
+pieces 4 2 6 1 5 3 7 2 8 7 13 1 1 3 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 1 3 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 1 3 1 4 4 4 5 2 9 5 6 1 1 1 1 1 1 1 3 3
+pieces 6
+pieces 1
+pieces 1 1
+pieces 1 1 1
+pieces 1 1 1 1
+pieces 1 1 1 1 1
+pieces 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1 1
+pieces 1 3 1 3 3 1
+pieces 9
+pieces 1 1 1 1 1 1 1 1 7 1 2 1 3 1 4 1 5 1 4 2 6 1 5 3 7 2 8 7 13 1 1 3 10 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 3 1 1 3 3 3 3 3 3 3 3 3 3 6 3 3 4 2 9 5 6 1 1 1 1 1 1 1 3 3 7 7 9 5 19 7 7 22 2 1 2 5 2 4 3 1 1 6 1 2 2 4 5 1 2 1 4 5 2 1 2 5 3 1 2 1 4 5 5 4 1 3 1 2 2 1 2
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 1 1
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 1 1 3 1 1 3 1 2 3 1 2 5 1 1 2 1 1
+pieces 2 1 2 4 3
+pieces 13 11 15 7 9 1 1 7 7 7 5
+pieces 7 8 8 7 1 3 4
+pieces 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 2 2 1 3
+pieces 1 2 1 1 2 1 1 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 4 1 5
+pieces 4 1 5 1 1 3 1 1 1 1 4 1 1 2
+pieces 1 1 1 1 2 1
+pieces 4 5 3 11 3 2 5
+pieces 8 1
+pieces 8 1 1 1
+pieces 5 18 3 4 3 4 3 14 3 3 2 4 1
+pieces 9 2 2 2 2 2 7 5
+pieces 3 3 3 3 3 3 1 9 3 3 3
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 1 9
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 1 2 1 4 1 3 5 3 7 1 3 1 1 1 1 1 1 1 1
+pieces 1 1 1 2 1 1 1 1 1
+pieces 1 5 2 5 2 3
+pieces 1 1 1 1 2 1 2 1 3 1 2 1 2 1 2 1 2 1 1
+pieces 3 6 3 9 6 6
+pieces 3 2 1 1 2 1 3 7 2 2 1 1 1 1
+pieces 3 9
+pieces 1 3 1 3 1
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family falcon
+pieces 3 2 3 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 5 1 3
+pieces 1 3 2 5 7
+pieces 8 5 19
+pieces 3 3 3 3 3 3 3 3 3 3 6 3 12 3 3
+pieces 4 1 1 6 1 15 1 1 8 7 13 1 4 1 1 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 4 6
+pieces 1 1
+pieces 2 1
+pieces 1 4
+pieces 5 1 2 1 3 1 4 4 4 5 1 1 20 3 3 1 3 3
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 3 1
+pieces 3 2
+pieces 3 3
+pieces 3 3 1
+pieces 3 3 2
+pieces 3 3 3
+pieces 5 7
+pieces 9
+pieces 33 1 4 1 1 6 1 15 1 1 8 7 13 1 4 9 2 3 1 3 1 3 1 1 3 2 1 3 3 1 3 3 1 1 3 3 2 2 1 1 2 2 1 2 3 1 4 3 3 3 3 3 3 3 3 3 6 3 3 4 1 1 20 3 3 1 3 3 1 13 9 5 19 1 35 2 1 2 5 1 1 4 3 1 1 6 1 1 1 2 4 5 1 1 1 1 4 5 2 1 2 5 3 1 1 1 1 4 5 5 4 1 3 1 2 2 1 2
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 1 1 3 1 1 3 1 2 3 1 2 5 1 1 2 1 1
+pieces 2 1 2 4 3
+pieces 13 11 15 7 9 1 1 7 7 7 5
+pieces 7 8 8 7 8
+pieces 3 1 3 1 1 3 2 1 3 3 3 1 11 5 4
+pieces 1 2 1 1 2 1 1 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 1 3 1 1 4
+pieces 4 1 5 1 1 3 3 1 4 2 2
+pieces 7
+pieces 4 2 3 3 11 3 2 2 3
+pieces 8 1
+pieces 8 3
+pieces 5 13 26 9 7 2 4 1
+pieces 9 2 2 2 2 2 4 3 5
+pieces 3 3 3 3 3 3 10 3 3 3
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 1 3 1 3 1 3 1 3 1 2 1 3 1 3
+pieces 4 1 2 1 4 1 3 5 3 7 1 3 1 1 1 1 1 1 1 1
+pieces 1 1 1 2 1 2 1 1
+pieces 1 5 1 1 5 1 1 3
+pieces 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+pieces 3 6 12 6 6
+pieces 3 2 1 1 2 4 7 2 2 1 3
+pieces 3 9
+pieces 1 3 1 3 1
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family starcoder
+pieces 3 1 1 1 2 7
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 2
+pieces 5 6
+pieces 6 6
+pieces 5 6
+pieces 6 6
+pieces 6 6 1
+pieces 5 1 6 1
+pieces 6 1 6 1
+pieces 5 3 6 3
+pieces 1 1 1 1 1 1 5 7
+pieces 8 5 19
+pieces 3 3 3 3 3 3 3 3 3 3 6 3 12 3 3
+pieces 4 2 6 1 15 2 8 7 13 1 4 2 4 6 5 4 4 4 6 1
+pieces 5
+pieces 6
+pieces 1 6
+pieces 2 6
+pieces 3 6
+pieces 3 6 4 6
+pieces 2
+pieces 1 2
+pieces 1 4
+pieces 5 1 2 1 3 1 4 4 4 5 2 20 1 1 1 1 1 1 1 3 3
+pieces 6
+pieces 1
+pieces 1 1
+pieces 1 1 1
+pieces 1 1 1 1
+pieces 1 1 1 1 1
+pieces 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1
+pieces 1 1 1 1 1 1 1 1 1
+pieces 5 7
+pieces 9
+pieces 33 1 4 2 6 1 15 2 8 7 13 1 4 9 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 3 1 4 3 3 3 3 3 3 3 3 3 6 3 3 4 2 20 1 1 1 1 1 1 1 3 3 14 9 5 19 36 2 3 5 2 4 3 2 6 1 2 2 4 5 1 2 1 4 5 2 3 5 3 1 2 1 4 5 5 4 1 3 1 2 2 1 2
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 2
+pieces 1
+pieces 1
+pieces 2 1
+pieces 2 2 3 1 1 3 1 2 3 1 2 5 1 1 2 1 1
+pieces 2 1 2 4 3
+pieces 13 11 15 7 9 2 7 7 7 5
+pieces 7 8 8 7 8
+pieces 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 2 2 1 3
+pieces 1 2 1 1 2 1 1 3
+pieces 1 8 4 9 2
+pieces 1 1 2 2 2 3 2
+pieces 3 1 3 1 1 4
+pieces 4 1 5 1 1 3 3 1 4 2 2
+pieces 7
+pieces 4 2 3 3 11 3 2 2 3
+pieces 8 1
+pieces 8 3
+pieces 5 13 26 9 7 2 4 1
+pieces 9 2 2 2 2 2 4 3 5
+pieces 3 3 3 3 3 3 10 3 3 3
+pieces 21
+pieces 14 11
+pieces 39
+pieces 18
+pieces 9 10
+pieces 16 17
+pieces 14 11
+pieces 2 3 3
+pieces 5 3 4 4 4 4 3 4 4
+pieces 4 1 2 1 4 1 3 5 3 7 1 3 1 1 1 1 1 1 1 1
+pieces 1 1 1 2 1 1 1 1 1
+pieces 1 5 2 5 2 3
+pieces 1 1 1 1 2 1 2 1 1 2 1 2 1 2 1 2 1 2 1 1
+pieces 3 6 12 6 6
+pieces 3 2 1 1 2 4 7 2 2 1 3
+pieces 3 9
+pieces 1 3 1 3 1
+pieces 8
+pieces 4 4 4
+pieces 9 10
+pieces 3 4 4
+family newlines
+pieces 15
+pieces 6
+pieces
+pieces 1
+pieces 2
+pieces 3
+pieces 1
+pieces 1
+pieces 2
+pieces 3
+pieces 1 1
+pieces 11
+pieces 12
+pieces 11
+pieces 12
+pieces 13
+pieces 13
+pieces 14
+pieces 17
+pieces 18
+pieces 32
+pieces 57
+pieces 99
+pieces 5
+pieces 6
+pieces 7
+pieces 8
+pieces 9
+pieces 9 1 9
+pieces 2
+pieces 1 2
+pieces 5
+pieces 65
+pieces 6
+pieces 1
+pieces 2
+pieces 3
+pieces 4
+pieces 5
+pieces 6
+pieces 7
+pieces 8
+pieces 9
+pieces 12
+pieces 9
+pieces 1 1 2 1 3 7 1 2 1 3 1 4 1 5 1 397
+pieces
+pieces
+pieces 1
+pieces 1
+pieces 1
+pieces 1 1
+pieces 1
+pieces 1
+pieces 3
+pieces 32
+pieces 12
+pieces 83
+pieces 38
+pieces 45
+pieces 12
+pieces 24
+pieces 13
+pieces 13
+pieces 4 1 5 2 4 1 1 1 5 1 2
+pieces 1 1 1 1 2 1
+pieces 33
+pieces 8 1
+pieces 9 1 1
+pieces 67
+pieces 31
+pieces 37
+pieces 21
+pieces 25
+pieces 39
+pieces 18
+pieces 19
+pieces 33
+pieces 25
+pieces 8
+pieces 35
+pieces 43
+pieces 7 1 2
+pieces 18
+pieces 27
+pieces 33
+pieces 9 1 15 3
+pieces 12
+pieces 9
+pieces 8
+pieces 12
+pieces 19
+pieces 11
