@@ -44,7 +44,7 @@
 /// **Tests and demos.** `tests/hash/digest_test.cpp`, `demos/hash/digest_demo.cpp`.
 ///
 /// **Dependencies.** `<array>`, `<compare>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<ostream>`,
-/// `<span>`, `<string_view>`, and `reflect/string_access.hpp`, `reflect/string_traits.hpp`,
+/// `<span>`, `<string_view>`, `<type_traits>`, and `reflect/string_access.hpp`, `reflect/string_traits.hpp`,
 /// `detail/hash_engine.hpp` (the Merkle-Damgard engine behind `md_hash`).
 ///
 /// **Known issues.** `==` on digests is not constant-time; see Relationships.
@@ -67,6 +67,7 @@
 #include <ostream>
 #include <span>
 #include <string_view>
+#include <type_traits>
 
 namespace snicholls {
 

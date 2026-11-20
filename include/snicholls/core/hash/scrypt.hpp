@@ -12,8 +12,8 @@
 /// **Overview.** scrypt makes each password guess cost memory as well as time: ROMix fills `N` blocks of `128 r`
 /// bytes and then reads them back in an order that depends on their contents, so an attacker who keeps less memory
 /// pays in recomputation. Use it for a new password store or a wallet key (Ethereum's keystore v3, Litecoin's
-/// proof of work, many vaults use it); `N = 2^17, r = 8, p = 1` (128 MiB) is the 2026 interactive-login setting
-/// of OWASP's guidance, `N = 2^20` for a file encrypted once.
+/// proof of work, many vaults use it); `N = 2^17, r = 8, p = 1` (128 MiB) is the setting OWASP's password storage
+/// cheat sheet gives, `N = 2^20` for a file encrypted once.
 ///
 /// Core never allocates, so the `128 r (N + p + 1)` bytes of working memory are the caller's: ask
 /// `scrypt_work_words(params)` for the size, provide that many `std::uint32_t` (a `std::vector`, a buffer
@@ -42,11 +42,11 @@
 /// **Performance.** `benchmarks/hash/scrypt_benchmark.cpp`: against a hand-written loop over the same working
 /// memory and OpenSSL's `EVP_PBE_scrypt` (when installed), after a fairness check; figures in BENCHMARKS.md.
 ///
-/// **Tests and demos.** `tests/hash/scrypt_test.cpp` (RFC 7914's Salsa20/8, BlockMix-free ROMix and scrypt
+/// **Tests and demos.** `tests/hash/scrypt_test.cpp` (RFC 7914's Salsa20/8, BlockMix, ROMix and scrypt
 /// vectors, the `N = 2^20` one only in Release; Python's `hashlib.scrypt` on random inputs; every error; the wipe;
 /// a compile-time derivation), `demos/hash/scrypt_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cstddef>`, `<cstdint>`, `<span>`, `hash/kdf.hpp`, `hash/sha2.hpp`.
+/// **Dependencies.** `<array>`, `<cstddef>`, `<cstdint>`, `<span>`, `hash/kdf.hpp`, `hash/sha2.hpp`, `result.hpp`.
 ///
 /// **Known issues.** `p` lanes run one after another: scrypt's `p` is meant for parallelism, which core leaves to
 /// the caller (run `p = 1` derivations on several threads, or a library above core). The working memory holds
@@ -59,6 +59,7 @@
 
 #include <snicholls/core/hash/kdf.hpp>
 #include <snicholls/core/hash/sha2.hpp>
+#include <snicholls/core/result.hpp>
 
 #include <array>
 #include <cstddef>
