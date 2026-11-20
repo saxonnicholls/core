@@ -3,6 +3,51 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased (0.17.0)
+
+Every hash that can be `constexpr`, in `hash/`, computed at compile time where the language allows and with no
+allocation: the cryptographic hashes, the checksums, the MACs and the key derivation functions the family's
+libraries use, each checked against its standard's published vectors and against an independent implementation.
+
+### Added
+
+- `hash/digest.hpp`: `digest<N>`, the value every hash returns (N bytes, structural, trivially copyable, `==` and
+  `<=>`, `hex()` without allocating, `from_hex`, `first<M>()`, printable); `hash_input`, any one-byte sequence under
+  core's string rules or a digest; `hash_function`, the interface `hmac` and the KDFs are written against; and
+  `md_hash<Policy>`, the Merkle-Damgard engine behind the next three.
+- `hash/sha1.hpp`: `sha1`, public (it was `detail/sha1.hpp`, behind `uuid`), documented as broken for collisions.
+- `hash/sha2.hpp`: `sha224`, `sha256`, `sha384`, `sha512`, `sha512_224`, `sha512_256` (FIPS 180-4).
+- `hash/sha3.hpp`: `sha3_224` ... `sha3_512`, `shake128` / `shake256` (squeezed in any pieces), Ethereum's
+  `keccak256` (padding `0x01`), all on one `keccak_f1600`, which is public.
+- `hash/ripemd160.hpp`: `ripemd160`, for Bitcoin's `hash160`.
+- `hash/blake2.hpp`: `blake2b<N>` and `blake2s<N>` (RFC 7693), keyed or not, any output length.
+- `hash/blake3.hpp`: `blake3`: hash, keyed hash, key derivation (`derive_key`, `key_derivation`) and extendable
+  output from any offset, the tree mode on one thread.
+- `hash/crc.hpp`: `crc32` (zlib's), `crc32c` (Castagnoli), `crc64_xz`, slicing-by-8 tables built by the compiler,
+  `resume(crc)` for zlib's running CRC.
+- `hash/hmac.hpp`: `hmac<H>` over any hash function (RFC 2104), with `verify` in constant time.
+- `hash/kdf.hpp`: `hkdf_extract`, `hkdf_expand`, `hkdf` (RFC 5869) and `pbkdf2_hmac` (RFC 8018), into the caller's
+  span or as a `digest<L>`, failing with `result<void, kdf_error>`.
+- `hash/scrypt.hpp`: `scrypt` (RFC 7914) in working memory the caller provides (`scrypt_work_words`), wiped before
+  it returns.
+- `hash/secure.hpp`: `secure_wipe`, which the optimiser may not remove, and `constant_time_equal`.
+- Tests against every published vector at hand: NIST's byte-oriented SHA-1, SHA-2, SHA-3 short-message and Monte
+  Carlo vectors and SHAKE Monte Carlo vectors (`tests/fixtures/hash/nist/`, unmodified), RFC 4231, 2202, 5869,
+  6070, 7693 and 7914, BLAKE3's official `test_vectors.json`; Python's hashlib, hmac and zlib, PyCryptodome, the
+  `blake3` package and crcmod at every block boundary and on random lengths to 10,000
+  (`scripts/generate_hash_fixtures.py`, checked by the CTest `generated.hash_fixtures_up_to_date`); every split of
+  an input; digests computed at compile time.
+- Benchmarks of every algorithm against a hand-written loop, with OpenSSL's EVP beside them when it is installed
+  (informational; `SNICHOLLS_CORE_BENCH_OPENSSL`).
+
+### Changed
+
+- `secret<std::string>` wipes its string with `secure_wipe`; `make_uuid_v5` hashes with the public `sha1`.
+
+### Removed
+
+- `detail/sha1.hpp` (internal): its one user, `uuid`, uses `hash/sha1.hpp`.
+
 ## 0.16.0 - 2026-11-19
 
 Training primitives for mixture-of-experts models, DeepSeek-V3's attention and block, joint embedding predictive

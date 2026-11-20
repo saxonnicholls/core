@@ -31,9 +31,11 @@ A header is admitted only if all of the following hold.
 - **Compile-time by nature.** Vocabulary types (`overloaded`, `fixed_string`, `function_ref`, `forward_like`,
   `result<V, E>`), compile-time loops (`constexpr_for`, `pp_for_each`), reflection over plain aggregates
   (`member_count`, `tie` / `to_tuple` / `from_tuple`, `type_list`, `string_traits`), small pure functions
-  (`hash_combine`). constexpr-friendly wherever the language allows.
+  (`hash_combine`), and every hash that can be `constexpr` (SHA-1, SHA-2, SHA-3 and Keccak-256, RIPEMD-160, BLAKE2,
+  BLAKE3, the CRCs, HMAC and the KDFs over them). constexpr-friendly wherever the language allows.
 - **No I/O, no threads, no networking, no codecs, no logging.** Those live in the libraries that pin
-  core: SHA-256 and the base-N codecs in base-encode-decode; synchronisation, the event loop and sockets in
+  core: the base-N codecs (and any SIMD bulk hashing, checked against core's definitions) in base-encode-decode;
+  synchronisation, the event loop and sockets in
   ts-moveables; object models in the libraries above. One named exception:
   `acout.hpp`, thread-safe printing, which does nothing but hand one finished message to a stream the caller
   names, under one program-wide mutex held for that write alone (a `FILE*` target uses the C library's own
@@ -140,7 +142,8 @@ integrity and consistency. The same twelve rules hold in every one of them.
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
-  `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`); `containers/`; `game/` (`snicholls::game`); `finance/`
+  `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
+  `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `game/` (`snicholls::game`); `finance/`
   (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`; `snicholls::linalg`). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
   which takes its test, demo and benchmark along and rewrites every include, guard and registration. CMake lists
@@ -333,7 +336,14 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - `constexpr_map` for a table known when the program is written (an enumeration's names), looked up both ways.
 - `fnv1a_64` where a tiny, specified-by-the-byte hash must agree across machines or be a `switch` label;
   `wyhash` for speed over longer keys and avalanche, also constexpr and machine-independent; `hash_combine` only
-  for `std::hash` values that never leave the process. `containers::bloom_filter` in front of an authoritative
+  for `std::hash` values that never leave the process. For a digest a protocol names, `sha256` (content addresses,
+  checksums, Bitcoin), `sha512` (Ed25519, BIP-32/39), `keccak256` (Ethereum, never `sha3_256` in its place),
+  `ripemd160` (`hash160`), `sha1` only where a protocol fixes it; `blake3` for a fast cryptographic hash, a MAC or a
+  key derivation of our own, `blake2b<N>` where a protocol names BLAKE2; `crc32` / `crc32c` to detect corruption,
+  never tampering. `hmac<H>` for a MAC and `hmac<H>::verify` to check one, `hkdf` to split a strong secret into keys,
+  `scrypt` (or `pbkdf2_hmac` where a protocol fixes it) for a password; compare secrets with `constant_time_equal`
+  and end their life with `secure_wipe`. Never a hand-written copy of any of these, and never OpenSSL for a hash.
+  `containers::bloom_filter` in front of an authoritative
   set when nearly every query is a miss. `containers::byte_map` (owning, `consteval`-buildable) or
   `byte_map_view` (over the caller's spans) for byte strings to 32-bit values built once and read often, such as a
   BPE vocabulary: it is an `ml::bpe_vocabulary` as it stands, and `probe` a batch then `find` it once the table
