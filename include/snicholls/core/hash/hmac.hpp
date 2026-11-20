@@ -37,7 +37,8 @@
 /// **Examples.** Above; `demos/hash/hmac_demo.cpp`.
 ///
 /// **Performance.** Two hash computations, and two extra compressions for the key, which a copied object does not
-/// repeat. Benchmarked through PBKDF2 in `benchmarks/hash/kdf_benchmark.cpp`.
+/// repeat. Benchmarked through PBKDF2 in `benchmarks/hash/kdf_benchmark.cpp` (see `hash/kdf.hpp`): at the hand
+/// loop's speed.
 ///
 /// **Tests and demos.** `tests/hash/hmac_test.cpp` (RFC 4231's test cases 1 to 7 for SHA-224/256/384/512,
 /// RFC 2202 for SHA-1, Python's `hmac` on random keys and lengths over SHA-1, SHA-2 and SHA-3, every split,

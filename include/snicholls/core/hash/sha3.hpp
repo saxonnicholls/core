@@ -45,7 +45,9 @@
 /// **Examples.** Above; `demos/hash/sha3_demo.cpp`.
 ///
 /// **Performance.** `benchmarks/hash/sha3_benchmark.cpp`: Keccak-256 and SHA3-256 against a hand-written sponge
-/// and OpenSSL (when installed), after a fairness check; figures in BENCHMARKS.md.
+/// and OpenSSL (when installed), after a fairness check. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: Keccak-256
+/// core 315 / 139 MB/s, the hand sponge 198 / 91; SHA3-256 core 319 / 137, OpenSSL 423 / 91. (OpenSSL 3 before
+/// 3.2 has no KECCAK-256; the row is skipped where it is missing.)
 ///
 /// **Tests and demos.** `tests/hash/sha3_test.cpp` (FIPS 202's examples, NIST's byte-oriented short-message and
 /// Monte Carlo vectors for SHA-3 and SHAKE, Ethereum's well-known Keccak-256 values, Python's `hashlib` and

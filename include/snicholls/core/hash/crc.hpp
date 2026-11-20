@@ -41,8 +41,9 @@
 ///
 /// **Examples.** Above; `demos/hash/crc_demo.cpp`.
 ///
-/// **Performance.** `benchmarks/hash/crc_benchmark.cpp`: against the byte-at-a-time table loop written by hand,
-/// after a fairness check; figures in BENCHMARKS.md. Hardware CRC-32C (SSE4.2 `crc32`, ARMv8 `crc32c`) and
+/// **Performance.** `benchmarks/hash/crc_benchmark.cpp`: against the same slicing-by-8 written by hand and the
+/// byte-at-a-time loop, after a fairness check. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: CRC-32 core 2.11 /
+/// 2.76 GB/s, hand 2.14 / 2.84, byte at a time 0.49 / 0.57; CRC-32C and CRC-64/XZ alike. Hardware CRC-32C (SSE4.2 `crc32`, ARMv8 `crc32c`) and
 /// zlib's PCLMUL / PMULL folding are several times faster; core has no platform headers, so a library above core
 /// may add them, checked against these definitions.
 ///

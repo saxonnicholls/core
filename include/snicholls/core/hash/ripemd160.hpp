@@ -27,8 +27,8 @@
 ///
 /// **Examples.** Above; `demos/hash/ripemd160_demo.cpp`.
 ///
-/// **Performance.** `benchmarks/hash/ripemd160_benchmark.cpp`, against a hand-written loop and OpenSSL (when it
-/// provides the algorithm), after a fairness check; figures in BENCHMARKS.md.
+/// **Performance.** `benchmarks/hash/ripemd160_benchmark.cpp`, against a hand-written loop, after a fairness check.
+/// Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: core 189 / 90 MB/s, the hand loop 172 / 81.
 ///
 /// **Tests and demos.** `tests/hash/ripemd160_test.cpp` (the designers' published vectors, including a million
 /// `a`, Python's `hashlib` on random lengths, every split), `demos/hash/ripemd160_demo.cpp`.

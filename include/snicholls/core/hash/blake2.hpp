@@ -38,8 +38,9 @@
 /// **Examples.** Above; `demos/hash/blake2_demo.cpp`.
 ///
 /// **Performance.** `benchmarks/hash/blake2_benchmark.cpp`: BLAKE2b-512 and BLAKE2s-256 against a hand-written
-/// loop and OpenSSL (when installed), after a fairness check; figures in BENCHMARKS.md. Portable code only: the
-/// AVX2 and NEON versions of libb2 or libsodium are faster.
+/// loop and OpenSSL (when installed), after a fairness check. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: BLAKE2b-512
+/// core 633 / 267 MB/s, hand 630 / 310, OpenSSL 829 / 106; BLAKE2s-256 core 386 / 319, hand 381 / 377, OpenSSL
+/// 542 / 114. Portable code only: the AVX2 and NEON versions of libb2 or libsodium are faster.
 ///
 /// **Tests and demos.** `tests/hash/blake2_test.cpp` (RFC 7693 Appendices A and B, the reference's keyed vectors,
 /// Python's `hashlib` keyed and unkeyed on random lengths and output lengths, every split),

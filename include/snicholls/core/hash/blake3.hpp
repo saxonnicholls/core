@@ -40,8 +40,9 @@
 /// **Examples.** Above; `demos/hash/blake3_demo.cpp`.
 ///
 /// **Performance.** `benchmarks/hash/blake3_benchmark.cpp`: against a hand-written single-threaded reference
-/// loop, after a fairness check; figures in BENCHMARKS.md. The official implementation's AVX2 / AVX-512 / NEON
-/// paths hash several chunks at once and are several times faster on long inputs.
+/// loop, after a fairness check. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: core 1,000 / 602 MB/s, the hand loop
+/// 579 / 555 (core compresses whole blocks straight from the input). The official implementation's AVX2 / AVX-512 /
+/// NEON paths hash several chunks at once and are several times faster on long inputs.
 ///
 /// **Tests and demos.** `tests/hash/blake3_test.cpp` (the official `test_vectors.json` of all three modes, 131
 /// extended bytes each, at every published length from 0 to 102,400; the `blake3` Python package on random

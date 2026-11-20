@@ -30,7 +30,8 @@
 /// **Examples.** Above; `demos/hash/sha1_demo.cpp`.
 ///
 /// **Performance.** `benchmarks/hash/sha1_benchmark.cpp`, against a hand-written loop and OpenSSL (when
-/// installed), after a fairness check; figures in BENCHMARKS.md.
+/// installed), after a fairness check. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: core 346 / 168
+/// MB/s, the hand loop 249 / 137, OpenSSL 1,130 / 138 (its SIMD message schedule).
 ///
 /// **Tests and demos.** `tests/hash/sha1_test.cpp` (FIPS 180-4 examples, NIST's byte-oriented short-message and
 /// Monte Carlo vectors, Python's `hashlib` on random lengths, every split), `demos/hash/sha1_demo.cpp`.

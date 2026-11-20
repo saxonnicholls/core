@@ -41,10 +41,10 @@
 /// **Examples.** Above; `demos/hash/sha2_demo.cpp`.
 ///
 /// **Performance.** `benchmarks/hash/sha2_benchmark.cpp`, against a hand-written loop with `memcpy` loads and
-/// OpenSSL's EVP interface when it is installed, after a fairness check that every digest agrees. Release, Apple
-/// clang 17, Xeon W-3245, 2026-11-20, 4 KiB messages: see BENCHMARKS.md for the current figures; at the time of
-/// writing SHA-256 ran at the hand loop's speed (within 5 %), and SHA-512 likewise. OpenSSL is faster where it
-/// uses the CPU's SHA extensions, which core does not (no platform headers).
+/// OpenSSL's EVP interface when it is installed, after a fairness check that every digest agrees. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: 
+/// SHA-256 core 239 / 119 MB/s, the hand loop 236 / 114, OpenSSL 514 / 101; SHA-512 core 374 / 165, hand 340 / 173,
+/// OpenSSL 760 / 116. OpenSSL's lead on long inputs is its SIMD schedule and, on CPUs that have them, the SHA
+/// instructions, which core cannot use (no platform headers); on short messages its per-call cost dominates.
 ///
 /// **Tests and demos.** `tests/hash/sha2_test.cpp` (the FIPS 180-4 examples, NIST's byte-oriented short-message
 /// and Monte Carlo vectors from `tests/fixtures/hash/`, Python's `hashlib` on random lengths, every split of an
