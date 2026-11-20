@@ -77,8 +77,12 @@
 #include <snicholls/core/game/properties.hpp>
 #include <snicholls/core/game/shapley.hpp>
 #include <snicholls/core/game/tabular.hpp>
+#include <snicholls/core/hash/digest.hpp>
 #include <snicholls/core/hash/fnv.hpp>
 #include <snicholls/core/hash/hash_combine.hpp>
+#include <snicholls/core/hash/ripemd160.hpp>
+#include <snicholls/core/hash/sha1.hpp>
+#include <snicholls/core/hash/sha2.hpp>
 #include <snicholls/core/hash/wyhash.hpp>
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
