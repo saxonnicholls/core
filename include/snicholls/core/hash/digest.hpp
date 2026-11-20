@@ -73,6 +73,9 @@ namespace snicholls {
 
 /// \brief A digest's hexadecimal text: `2 * Bytes` lowercase digits and a `'\0'`, held by value.
 /// \ingroup core
+///
+/// There is no implicit conversion to `std::string_view`: `std::string_view v = d.hex();` would view a temporary
+/// that is gone at the semicolon. Keep the text (`auto text = d.hex();`) and take `text.view()`.
 /// \tparam Bytes The digest's length in bytes.
 template <std::size_t Bytes>
 struct digest_hex
@@ -89,9 +92,6 @@ struct digest_hex
     /// \brief The number of digits.
     /// \return `2 * Bytes`.
     [[nodiscard]] static constexpr std::size_t size() noexcept { return 2 * Bytes; }
-    /// \brief Implicit conversion to a view of the digits.
-    /// \return `view()`.
-    constexpr operator std::string_view() const noexcept { return view(); }
 };
 
 /// \brief `N` bytes produced by a hash: compared, ordered, printed and parsed as hexadecimal, all `constexpr`.

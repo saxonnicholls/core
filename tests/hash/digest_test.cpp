@@ -64,8 +64,9 @@ TEST(DigestHex, RoundTripsAtRunTime)
     EXPECT_EQ(text.size(), 64u);
     EXPECT_EQ(digest<32>::from_hex(text), d);
     EXPECT_STREQ(d.hex().c_str(), text.c_str());
-    const std::string_view as_view = d.hex();   // implicit conversion of the text to a view
-    EXPECT_EQ(as_view.substr(0, 8), "ba7816bf");
+    const auto kept = d.hex();   // the text is a value: keep it, then view it
+    EXPECT_EQ(kept.view().substr(0, 8), "ba7816bf");
+    static_assert(!std::is_convertible_v<digest_hex<32>, std::string_view>);   // no view of a temporary by accident
 }
 
 TEST(DigestOrder, SortsLexicographicallyByByte)
