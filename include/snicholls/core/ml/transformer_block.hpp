@@ -256,7 +256,7 @@ constexpr void block_forward_sequence(const block_weights<W, T>& w, X&& xs, cons
     const std::size_t n = s.size() / d;
     assert(s.size() == n * d && act.x0.size() == n * d && act.h1.size() == n * d && act.x1.size() == n * d
            && act.h2.size() == n * d && act.mlp_up.size() == n * C.d_ff
-           && (C.mlp != mlp_kind::swiglu || act.mlp_gate.size() == n * C.d_ff));
+           && (!gated(C.mlp) || act.mlp_gate.size() == n * C.d_ff));
     std::copy(s.begin(), s.end(), act.x0.begin());
     for (std::size_t t = 0; t < n; ++t)
         block_norm<C>(s.subspan(t * d, d), w.norm1_weight, w.norm1_bias, act.h1.subspan(t * d, d));

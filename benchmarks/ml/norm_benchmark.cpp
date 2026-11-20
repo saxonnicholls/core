@@ -4,7 +4,7 @@
 //
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
-//  snicholls::ml::layer_norm and rms_norm against the same loops written out by hand, over the same 512
+//  snicholls::ml::layer_norm, rms_norm and group_norm against the same loops written out by hand, over the same 512
 //  rows of 768 floats (GPT-2 small's channels), with the same weight and bias: the same sums in the same
 //  order and the same expression per element. main() runs a fairness check first and refuses to benchmark
 //  if any pair disagrees in a single bit (CLAUDE.md "Zero overhead").
@@ -77,6 +77,52 @@ void rms_norm_core(const float* x, float* y)
     snicholls::ml::rms_norm(std::span<const float>(x, channels), weight, std::span<float>(y, channels), 1e-6f);
 }
 
+// GroupNorm of a 512-channel feature map of 8 x 8 in 32 groups (a diffusion model's), the rows above read as one map
+constexpr std::size_t gn_channels = 512, gn_spatial = 64, gn_groups = 32;
+
+void group_norm_by_hand(const float* x, float* y)
+{
+    const std::size_t per = gn_channels / gn_groups, n = per * gn_spatial;
+    for (std::size_t g = 0; g < gn_groups; ++g) {
+        const float* in = x + g * n;
+        float mean = 0.0f;
+        for (std::size_t i = 0; i < n; ++i)
+            mean += in[i];
+        mean = mean / static_cast<float>(n);
+        float var = 0.0f;
+        for (std::size_t i = 0; i < n; ++i)
+            var += (in[i] - mean) * (in[i] - mean);
+        var = var / static_cast<float>(n);
+        const float rstd = 1.0f / std::sqrt(var + 1e-5f);
+        for (std::size_t i = 0; i < n; ++i)
+            y[g * n + i] = (in[i] - mean) * rstd * weight[g * per + i / gn_spatial] + bias[g * per + i / gn_spatial];
+    }
+}
+
+void group_norm_core(const float* x, float* y)
+{
+    snicholls::ml::group_norm(std::span<const float>(x, gn_channels * gn_spatial), gn_channels, gn_groups,
+                              std::span<const float>(weight).first(gn_channels), std::span<const float>(bias).first(gn_channels),
+                              std::span<float>(y, gn_channels * gn_spatial));
+}
+
+template <void (*F)(const float*, float*)>
+void run_map(benchmark::State& state)
+{
+    std::vector<float> out(input.size());
+    constexpr std::size_t maps = rows * channels / (gn_channels * gn_spatial);
+    for (auto _ : state) {
+        for (std::size_t r = 0; r < maps; ++r)
+            F(input.data() + r * gn_channels * gn_spatial, out.data() + r * gn_channels * gn_spatial);
+        benchmark::DoNotOptimize(out.data());
+        benchmark::ClobberMemory();
+    }
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(maps * gn_channels * gn_spatial));
+}
+
+BENCHMARK(run_map<group_norm_core>)->Name("BM_GroupNorm_Core");
+BENCHMARK(run_map<group_norm_by_hand>)->Name("BM_GroupNorm_HandWritten");
+
 template <void (*F)(const float*, float*)>
 void run(benchmark::State& state)
 {
@@ -109,11 +155,22 @@ bool same()
     return true;
 }
 
+bool same_map()
+{
+    std::vector<float> a(gn_channels * gn_spatial), b(gn_channels * gn_spatial);
+    group_norm_core(input.data(), a.data());
+    group_norm_by_hand(input.data(), b.data());
+    for (std::size_t i = 0; i < a.size(); ++i)
+        if (std::bit_cast<std::uint32_t>(a[i]) != std::bit_cast<std::uint32_t>(b[i]))
+            return false;
+    return true;
+}
+
 } // namespace
 
 int main(int argc, char** argv)
 {
-    if (!same<layer_norm_core, layer_norm_by_hand>() || !same<rms_norm_core, rms_norm_by_hand>()) {
+    if (!same<layer_norm_core, layer_norm_by_hand>() || !same<rms_norm_core, rms_norm_by_hand>() || !same_map()) {
         std::fprintf(stderr, "norm benchmark: fairness check FAILED - the pairs disagree; not benchmarking\n");
         return 1;
     }

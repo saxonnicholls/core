@@ -67,6 +67,22 @@ int main()
                 ml::softplus(1000.0), ml::log_sigmoid(-1000.0), ml::gelu(-30.0));
     ok &= ml::softplus(1000.0) == 1000.0 && ml::log_sigmoid(-1000.0) == -1000.0 && ml::gelu(-30.0) < 0.0;
 
+    //! [activations_encoders]
+    // The activations of vision and audio encoders, as ggml computes them, each with its derivative
+    constexpr ml::xielu_parameters<double> xp{0.8, 0.8, 0.5, -1e-6};   // a model's coefficients after their softplus
+    constexpr double enc[] = {ml::elu(-1.0), ml::leaky_relu(-1.0, 0.1), ml::hardsigmoid(1.0), ml::hardswish(1.0),
+                              ml::gelu_quick(1.0), ml::xielu(-1.0, xp), ml::step(-0.5), ml::sign(-0.5)};
+    constexpr double enc_d[] = {ml::elu_derivative(-1.0), ml::leaky_relu_derivative(-1.0, 0.1), ml::hardsigmoid_derivative(1.0),
+                                ml::hardswish_derivative(1.0), ml::gelu_quick_derivative(1.0), ml::xielu_derivative(-1.0, xp)};
+    //! [activations_encoders]
+    std::printf("  elu(-1) %.6f, leaky(-1) %.2f, hardsigmoid(1) %.6f, hardswish(1) %.6f, gelu_quick(1) %.6f, xielu(-1) %.6f, step %.0f, sign %.0f\n",
+                enc[0], enc[1], enc[2], enc[3], enc[4], enc[5], enc[6], enc[7]);
+    std::printf("  derivatives: %.6f %.2f %.6f %.6f %.6f %.6f\n", enc_d[0], enc_d[1], enc_d[2], enc_d[3], enc_d[4], enc_d[5]);
+    ok &= math::near(enc[0], -0.6321205588285577, 1e-15) && enc[1] == -0.1 && math::near(enc[2], 2.0 / 3.0, 1e-15)
+          && math::near(enc[4], 1.0 / (1.0 + std::exp(-1.702)), 1e-15) && enc[6] == 0.0 && enc[7] == -1.0;
+    ok &= math::near(enc_d[0], std::exp(-1.0), 1e-15) && enc_d[1] == 0.1 && math::near(enc_d[3], 5.0 / 6.0, 1e-15);
+    ok &= math::near(enc[5], (std::expm1(-1.0) + 1.0) * 0.8 - 0.5, 1e-15) && math::near(enc_d[5], (std::exp(-1.0) - 1.0) * 0.8 + 0.5, 1e-15);
+
     std::printf(ok ? "activations demo: ok\n" : "activations demo: FAILED\n");
     return ok ? 0 : 1;
 }

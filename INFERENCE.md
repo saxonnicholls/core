@@ -26,6 +26,7 @@ hand. This plan adds that wiring once, generic over the architecture, with the a
 | I9 | **Core stops at the block.** A whole model (the stack of blocks, the embedding, the LM head), weight files (GGUF, safetensors), the tokenizer pipeline and the generate loop belong in a machine-learning library above core, which pins core and ts-moveables. |
 | I10 | **References, never core's own output.** A generator links llm.c's forward functions for a tiny random GPT-2 and writes a committed fixture; a second, written in Python with float32 arithmetic, covers what llm.c lacks (GQA, QK norm, ReLU², SwiGLU, RoPE, soft cap). Both are drift-checked like the time fixtures. Where the order of summation differs from the reference (llm.c's attention over a whole sequence), the tolerance is stated in ulps and justified in the test. |
 | I11 | **No fused multiply-add assumed.** Each multiply and add is its own statement, and the tests build with `-ffp-contract=off` (see `ml/quantize.hpp`), so results match across x86 and ARM. ARM64 runs of the fixture tests are checked before a push. |
+| I12 | **The serving operations are llama.cpp's semantics, as constexpr building blocks under the block (0.17.0).** What a server runs around and inside the layer is added as functions over spans, each checked against llama.cpp/ggml at commit 39039aa (cited in each header, with every deliberate difference under Known issues): the encoder activations and gated units (`activations.hpp`, `glu.hpp`; `mlp_kind`'s gated kinds and the one config group `glu_alpha`, `glu_limit`), group and L2 norms, ALiBi, ggml's RoPE modes (NORM, NEOX, M-RoPE, interleaved M-RoPE, vision, LongRoPE factors), the KV cells with llama.cpp's sequence operations and the K-shift, quantised KV caches read as ggml's flash attention reads them, convolutions and spatial operations for vision and audio encoders, the samplers as a candidate array with compile-time and run-time chains, GBNF grammars compiled by a `consteval` function from a `fixed_string` (or at run time) with the token mask, JSON schema to GBNF, pooling and the reranker head, control vectors, and speculative decoding's drafts and verification. I9 still holds: the generate loop, the batch scheduler, weight files and the tokenizer pipeline stay above core; every hot step here (the candidate passes, the token bit mask, the quantised attention, im2col and the matrix product) is a function a device library overloads and is checked against. |
 
 ## Headers
 
@@ -37,6 +38,10 @@ hand. This plan adds that wiring once, generic over the architecture, with the a
 | `kv_cache.hpp` | `kv_cache_view<Config>`, `kv_cache<Config, Layers, Capacity>`, `append`, `keys` / `values` as one or two runs, `required_floats` |
 | `attention_layer.hpp` | `attention_weights<Config, W>`, `attention_head`, `attention_forward`: project, QK norm, RoPE, append, GQA, `attend`, output projection |
 | `transformer_block.hpp` | `block_weights<Config, W>`, `block_scratch<Config>`, `block_forward`: `x += attn(norm1(x)); x += mlp(norm2(x))` |
+
+Serving operations (I12, 0.17.0): `glu.hpp`, `alibi.hpp`, `rope_modes.hpp`, `kv_cells.hpp`, `kv_cache_quant.hpp`,
+`conv.hpp`, `spatial.hpp`, `tensor_ops.hpp`, `samplers.hpp`, `grammar.hpp`, `json_schema.hpp`, `pooling.hpp`,
+`control_vector.hpp`, `speculative.hpp`; group and L2 norms in `norm.hpp`, the encoder activations in `activations.hpp`.
 
 Also: `attend` with a logit soft cap; logit processors in `sampling.hpp` (repetition, presence and frequency
 penalties, `min_p`); `top_k_gating<K>` for a mixture-of-experts router.

@@ -76,19 +76,27 @@ add_executable(snicholls_core_tests
     meta/type_name_test.cpp
     meta/values_test.cpp
     ml/activations_test.cpp
+    ml/alibi_test.cpp
     ml/attention_layer_test.cpp
     ml/attention_sink_test.cpp
     ml/attention_test.cpp
     ml/bpe_test.cpp
     ml/collapse_test.cpp
     ml/composed_block_test.cpp
+    ml/control_vector_test.cpp
+    ml/conv_test.cpp
     ml/diloco_test.cpp
     ml/distill_test.cpp
     ml/embedding_test.cpp
     ml/expert_parallel_test.cpp
     ml/gather_test.cpp
+    ml/glu_test.cpp
+    ml/grammar_test.cpp
     ml/jepa_test.cpp
+    ml/json_schema_test.cpp
+    ml/kv_cache_quant_test.cpp
     ml/kv_cache_test.cpp
+    ml/kv_cells_test.cpp
     ml/latent_attention_test.cpp
     ml/latent_block_test.cpp
     ml/linear_test.cpp
@@ -106,17 +114,23 @@ add_executable(snicholls_core_tests
     ml/norm_test.cpp
     ml/optim_test.cpp
     ml/patch_test.cpp
+    ml/pooling_test.cpp
     ml/preference_test.cpp
     ml/probe_test.cpp
     ml/quantize_test.cpp
     ml/reward_model_test.cpp
     ml/rl_test.cpp
+    ml/rope_modes_test.cpp
     ml/rope_test.cpp
     ml/row_test.cpp
+    ml/samplers_test.cpp
     ml/sampling_test.cpp
     ml/self_attention_test.cpp
     ml/softmax_test.cpp
     ml/sparse_attention_test.cpp
+    ml/spatial_test.cpp
+    ml/speculative_test.cpp
+    ml/tensor_ops_test.cpp
     ml/transformer_block_test.cpp
     ml/transformer_config_test.cpp
     pipeline/stages_test.cpp

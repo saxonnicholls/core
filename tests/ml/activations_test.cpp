@@ -192,4 +192,63 @@ TEST(MlActivations, FloatComputesInFloatAndMatchesDouble)
         EXPECT_NEAR(gelu_table[static_cast<std::size_t>(i)], ml::gelu(-4.0f + 0.25f * static_cast<float>(i)), 1e-6f);
 }
 
+// The activations of ggml's unary operations (ggml/src/ggml-cpu/unary-ops.cpp and vec.h, llama.cpp 39039aa), as written
+// there, in double
+double ggml_elu(double x) { return x > 0 ? x : std::expm1(x); }
+double ggml_leaky(double x, double ns) { return (x > 0 ? x : 0) + ns * (x < 0 ? x : 0); }
+double ggml_hardsigmoid(double x) { return std::fmin(1.0, std::fmax(0.0, (x + 3.0) / 6.0)); }
+double ggml_hardswish(double x) { return x * std::fmin(1.0, std::fmax(0.0, (x + 3.0) / 6.0)); }
+double ggml_gelu_quick(double x) { return x * (1.0 / (1.0 + std::exp(-1.702 * x))); }
+double ggml_xielu(double x, double an, double ap, double b, double eps)
+{
+    if (x > 0)
+        return ap * x * x + b * x;
+    return (std::expm1(std::fmin(x, eps)) - x) * an + b * x;
+}
+
+TEST(MlActivationsGgml, EncoderActivationsAreGgmlsOperations)
+{
+    const ml::xielu_parameters<double> p{0.7, 0.9, 0.5, -1e-6};
+    for (int i = -80; i <= 80; ++i) {
+        const double x = i / 10.0 + 0.003;
+        EXPECT_EQ(ml::elu(x), ggml_elu(x)) << x;
+        EXPECT_EQ(ml::leaky_relu(x, 0.1), ggml_leaky(x, 0.1)) << x;
+        EXPECT_EQ(ml::hardsigmoid(x), ggml_hardsigmoid(x)) << x;
+        EXPECT_EQ(ml::hardswish(x), ggml_hardswish(x)) << x;
+        EXPECT_NEAR(ml::gelu_quick(x), ggml_gelu_quick(x), 1e-15 * (1 + std::abs(x))) << x;
+        EXPECT_EQ(ml::xielu(x, p), ggml_xielu(x, p.alpha_n, p.alpha_p, p.beta, p.eps)) << x;
+        EXPECT_EQ(ml::step(x), x > 0 ? 1.0 : 0.0);
+        EXPECT_EQ(ml::sign(x), x > 0 ? 1.0 : x < 0 ? -1.0 : 0.0);
+    }
+    EXPECT_EQ(ml::sign(0.0), 0.0);
+    EXPECT_EQ(ml::sign(std::numeric_limits<double>::quiet_NaN()), 0.0);   // ggml's sgn: a NaN gives 0
+    EXPECT_EQ(ml::step(0.0), 0.0);
+    EXPECT_EQ(ml::elu(-1.0, 2.0), 2.0 * std::expm1(-1.0));
+}
+
+TEST(MlActivationsGgml, EncoderDerivativesMatchACentralDifference)
+{
+    const ml::xielu_parameters<ld> pl{0.7L, 0.9L, 0.5L, -1e-6L};
+    const ml::xielu_parameters<double> p{0.7, 0.9, 0.5, -1e-6};
+    for (int i = -60; i <= 60; ++i) {
+        const ld x = i / 10.0L + 0.013L;   // away from the kinks at 0 and ±3
+        const double xd = static_cast<double>(x);
+        EXPECT_NEAR(ml::elu_derivative(xd, 1.5), static_cast<double>(central([](ld v) { return ml::elu(v, 1.5L); }, x)), 1e-9) << xd;
+        EXPECT_NEAR(ml::leaky_relu_derivative(xd, 0.2), static_cast<double>(central([](ld v) { return ml::leaky_relu(v, 0.2L); }, x)), 1e-9) << xd;
+        EXPECT_NEAR(ml::hardsigmoid_derivative(xd), static_cast<double>(central([](ld v) { return ml::hardsigmoid(v); }, x)), 1e-9) << xd;
+        EXPECT_NEAR(ml::hardswish_derivative(xd), static_cast<double>(central([](ld v) { return ml::hardswish(v); }, x)), 1e-9) << xd;
+        EXPECT_NEAR(ml::gelu_quick_derivative(xd), static_cast<double>(central([](ld v) { return ml::gelu_quick(v); }, x)), 1e-9) << xd;
+        EXPECT_NEAR(ml::xielu_derivative(xd, p), static_cast<double>(central([&](ld v) { return ml::xielu(v, pl); }, x)), 1e-9) << xd;
+    }
+    // PyTorch's conventions at the kinks
+    EXPECT_EQ(ml::leaky_relu_derivative(0.0, 0.2), 0.2);
+    EXPECT_EQ(ml::hardsigmoid_derivative(3.0), 0.0);
+    EXPECT_EQ(ml::hardswish_derivative(-3.0), 0.0);
+    EXPECT_EQ(ml::hardswish_derivative(3.0), 1.0);
+}
+
+static_assert(ml::elu(2.0) == 2.0 && ml::leaky_relu(-2.0, 0.5) == -1.0 && ml::hardsigmoid(0.0) == 0.5 && ml::hardswish(-4.0) == 0.0);
+static_assert(ml::hardswish(4.0) == 4.0 && ml::gelu_quick(0.0) == 0.0 && ml::step(1) == 1.0 && ml::sign(-3) == -1.0);
+static_assert(ml::xielu(1.0, ml::xielu_parameters<double>{2.0, 1.0, 0.5, -1e-6}) == 2.5 && ml::gelu_quick_derivative(0.0) == 0.5);
+
 } // namespace

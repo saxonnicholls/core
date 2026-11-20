@@ -3,6 +3,44 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased (0.17.0)
+
+Serving and encoder operations with llama.cpp's semantics (INFERENCE.md I12), each a `constexpr` building block over
+spans, checked against llama.cpp and ggml at commit 39039aa; every new header is experimental.
+
+### Added
+
+- **Activations and gated units:** ELU, leaky ReLU, hard sigmoid, hard swish, quick GELU, xIELU, step and sign with
+  their derivatives (`ml/activations.hpp`); `ml/glu.hpp`: ReGLU, GEGLU (tanh, erf, quick), SwiGLU, gpt-oss's clamped
+  SwiGLU and SwiGLU with a clamp, per element, over rows and in ggml's split form, with backward. `mlp_kind` gains
+  `gelu_quick` and the gated kinds (`gated(k)`, `mlp_glu`, `mlp_glu_backward`), run by the MLP, the mixture of experts
+  and the blocks; SwiGLU keeps its bits. `transformer_config::glu_alpha` and `glu_limit`, one group whose defaults change
+  no preset.
+- **Norms:** `group_norm` (ggml's channel split, `group_channels`) and `l2_norm`, forward and backward (`ml/norm.hpp`).
+- **Attention:** `ml/alibi.hpp` (slopes as ggml computes them, a compile-time table, `attend_alibi` and its backward);
+  `ml/rope_modes.hpp` (ggml's NORM / NEOX names for core's layouts, M-RoPE and interleaved M-RoPE sections, vision RoPE,
+  LongRoPE factors and attention factor, `rope_shift`); `ml/kv_cells.hpp` (positions and sequences per slot,
+  `seq_rm`, `seq_cp`, `seq_keep`, `seq_add`, `seq_div`, the K-shift `kv_shift_keys`, `attend_cells` with a window and
+  ALiBi); `ml/kv_cache_quant.hpp` (Q8_0, Q4_0 and MXFP4 key and value rows, `attend_quantized`, the quantised K-shift).
+- **Vision and audio encoders:** `ml/conv.hpp` (im2col / col2im and convolution in one to three dimensions with stride,
+  padding, dilation and groups, transposed convolution, forward and backward); `ml/spatial.hpp` (pooling with
+  backward, nearest, bilinear and bicubic upscaling, pad, reflect pad, roll, SAM's windows and relative-position bias);
+  `ml/tensor_ops.hpp` (timestep embedding, arange, cumsum, argsort, top-k mask, triangular fill and solve).
+- **Sampling:** `ml/samplers.hpp`: llama.cpp's candidate arrays and its samplers (greedy, dist, temperature, top-k,
+  top-p, min-p, penalties, locally typical, dynamic temperature, XTC, top-n-sigma, mirostat v1 and v2, DRY, logit
+  bias), every draw from `stats::wyrand`; `sampler_chain<S...>` at compile time and a run-time chain over a variant.
+- **Constrained decoding:** `ml/grammar.hpp` (GBNF parsed at run time or compiled by `compile_grammar<"...">()` into
+  fixed tables, the pushdown matcher, the token mask and bit mask with partial UTF-8 across tokens);
+  `ml/json_schema.hpp` (a practical subset of JSON schema to GBNF, rule for rule as llama.cpp's converter).
+- **Embeddings, rerankers, steering:** `ml/pooling.hpp` (mean, CLS, last, the RANK head); `ml/control_vector.hpp`.
+- **Speculative decoding:** `ml/speculative.hpp` (n-gram prompt lookup, greedy verification, the rejection rule that
+  preserves the target distribution, token trees with their mask, drafts from MTP heads).
+
+### Notes
+
+- llama.cpp's `seq_div` stores its K-shift with the opposite sign of `seq_add`'s; core's moves keys to their new
+  positions (`ml/kv_cells.hpp`, Known issues).
+
 ## 0.16.0 - 2026-11-19
 
 Training primitives for mixture-of-experts models, DeepSeek-V3's attention and block, joint embedding predictive

@@ -136,7 +136,7 @@ inline constexpr jepa_predictor_config ijepa_vit_h14_predictor{
     const std::size_t d = c.d_model, norms = 2 * (c.norm == norm_kind::layer ? 2 * d : d);
     const std::size_t attention = c.q_size() * d + 2 * c.kv_size() * d + d * c.q_size()
                                   + (c.bias ? c.q_size() + 2 * c.kv_size() + d : 0);
-    const std::size_t mats = c.mlp == mlp_kind::swiglu ? 3 : 2;
+    const std::size_t mats = gated(c.mlp) ? 3 : 2;
     const std::size_t mlp = mats * c.d_ff * d + (c.bias ? (mats - 1) * c.d_ff + d : 0);
     return norms + attention + mlp;
 }

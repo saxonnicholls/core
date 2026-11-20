@@ -66,6 +66,34 @@ int main()
                 static_cast<double>(dscale[0]), static_cast<double>(dscale[1]));
     ok &= std::abs(dscale[0] - 3.0f / std::sqrt(12.5f)) < 1e-6f;
 
+    //! [norm_group]
+    // A feature map of 4 channels x 3 positions through GroupNorm with 2 groups (a vision encoder), and its backward pass
+    const std::array<float, 12> fmap{1, 2, 3, 2, 3, 4, 10, 20, 30, 20, 30, 40};
+    const std::array<float, 4> gamma{1.0f, 1.0f, 2.0f, 2.0f}, beta{0.0f, 0.0f, 0.5f, 0.5f};
+    std::array<float, 12> normed{}, dfmap{};
+    ml::group_norm(fmap, 4, 2, gamma, beta, normed);
+    std::array<float, 12> dnormed{};
+    dnormed[0] = 1.0f;
+    std::array<float, 4> dgamma{}, dbeta{};
+    ml::group_norm_backward(dnormed, fmap, 4, 2, gamma, dfmap, dgamma, dbeta);
+
+    // L2 normalisation of a key row (the linear attentions'), and its backward pass
+    const std::array<float, 2> key{3.0f, 4.0f};
+    std::array<float, 2> unit{}, dkey{};
+    const float length = ml::l2_norm(key, unit);
+    ml::l2_norm_backward(std::array<float, 2>{1.0f, 0.0f}, key, length, dkey);
+    const auto [first, last] = ml::group_channels(4, 2, 1);   // the second group's channels: 2 and 3
+    //! [norm_group]
+    std::printf("  group_norm: group 0 [%.4f .. %.4f], group 1 [%.4f .. %.4f]; channels of group 1: %zu to %zu\n",
+                static_cast<double>(normed[0]), static_cast<double>(normed[5]), static_cast<double>(normed[6]),
+                static_cast<double>(normed[11]), first, last);
+    // Group 1 is group 0 times 10: the same normalised values (up to eps), scaled by 2 and shifted by 0.5
+    ok &= std::abs(normed[6] - (2.0f * normed[0] + 0.5f)) < 1e-4f && first == 2 && last == 4;
+    ok &= std::abs(dfmap[0] + dfmap[1] + dfmap[2] + dfmap[3] + dfmap[4] + dfmap[5]) < 1e-6f && dbeta[0] == 1.0f && dgamma[0] == normed[0];
+    std::printf("  l2_norm: |key| %.1f, unit [%.2f %.2f], d key [%.4f %.4f]\n", static_cast<double>(length), static_cast<double>(unit[0]),
+                static_cast<double>(unit[1]), static_cast<double>(dkey[0]), static_cast<double>(dkey[1]));
+    ok &= length == 5.0f && std::abs(unit[0] - 0.6f) < 1e-7f && std::abs(dkey[0] - 0.128f) < 1e-7f;   // (1 - 0.6²) / 5
+
     std::printf(ok ? "norm demo: ok\n" : "norm demo: FAILED\n");
     return ok ? 0 : 1;
 }

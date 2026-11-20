@@ -700,7 +700,7 @@ constexpr void moe_experts_forward(const B& backend, const mlp_weights<grouped_w
                                    const mlp_activations<T>& save)
 {
     static_assert(valid(C), "snicholls::ml::moe_experts_forward: the transformer_config is not valid");
-    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    constexpr bool swiglu = gated(C.mlp);
     const std::size_t n = xp.size() / C.d_model;
     [[maybe_unused]] const std::size_t m = n * C.expert_d_ff; // read by the assertion only
     assert(w.up.experts <= C.experts && offsets.size() == w.up.experts + 1 && w.up.rows == C.expert_d_ff && w.up.cols == C.d_model && w.down.rows == C.d_model
@@ -732,7 +732,7 @@ constexpr void moe_experts_backward(const B& backend, const mlp_weights<grouped_
                                     const mlp_gradients<T>& grads)
 {
     static_assert(valid(C), "snicholls::ml::moe_experts_backward: the transformer_config is not valid");
-    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    constexpr bool swiglu = gated(C.mlp);
     const std::size_t n = xp.size() / C.d_model, m = n * C.expert_d_ff;
     assert(dyp.size() == xp.size() && saved.up.size() == m && saved.hidden.size() == m && (!swiglu || saved.gate.size() == m)
            && grads.scratch.size() >= (swiglu ? 2 : 1) * m);
@@ -1045,7 +1045,7 @@ namespace detail::moe
     // The sizes of one dense MLP's tensors of width f, in mlp_weights order: up, gate, down, up_bias, gate_bias, down_bias
     constexpr std::array<std::size_t, 6> mlp_sizes(const transformer_config& c, std::size_t f) noexcept
     {
-        const bool g = c.mlp == mlp_kind::swiglu;
+        const bool g = gated(c.mlp);
         const std::size_t d = c.d_model, b = c.bias ? 1 : 0;
         return {f * d, g ? f * d : 0, d * f, b * f, g ? b * f : 0, b * d};
     }
@@ -1071,7 +1071,7 @@ namespace detail::moe
 /// \return The number of values.
 [[nodiscard]] constexpr std::size_t moe_activation_values(const transformer_config& c, std::size_t rows) noexcept
 {
-    const std::size_t n = rows * c.top_k, g = c.mlp == mlp_kind::swiglu ? 3 : 2, fs = c.shared_experts * c.expert_d_ff;
+    const std::size_t n = rows * c.top_k, g = gated(c.mlp) ? 3 : 2, fs = c.shared_experts * c.expert_d_ff;
     return rows * c.experts + n + 2 * n * c.d_model + g * n * c.expert_d_ff + g * rows * fs + (fs > 0 ? rows * c.d_model : 0);
 }
 
@@ -1090,7 +1090,7 @@ namespace detail::moe
 /// \return The number of values.
 [[nodiscard]] constexpr std::size_t moe_gradient_work(const transformer_config& c, std::size_t rows) noexcept
 {
-    const std::size_t n = rows * c.top_k, g = c.mlp == mlp_kind::swiglu ? 2 : 1;
+    const std::size_t n = rows * c.top_k, g = gated(c.mlp) ? 2 : 1;
     return g * n * c.expert_d_ff + g * rows * c.shared_experts * c.expert_d_ff + rows * c.experts + n + 2 * n * c.d_model;
 }
 
@@ -1137,7 +1137,7 @@ template <transformer_config C, math::math_number T>
 constexpr moe_activations<T> moe_activations_in(std::span<T> values, std::span<std::uint32_t> indices, std::size_t rows)
 {
     assert(values.size() == moe_activation_values(C, rows) && indices.size() == moe_activation_indices(C, rows));
-    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    constexpr bool swiglu = gated(C.mlp);
     constexpr std::size_t d = C.d_model, f = C.expert_d_ff, fs = C.shared_experts * f, E = C.experts;
     const std::size_t n = rows * C.top_k;
     detail::cutter<T> v{values};
@@ -1169,7 +1169,7 @@ template <transformer_config C, math::math_number T>
 constexpr moe_gradients<T> moe_gradients_in(std::span<T> grads, std::span<T> work, std::size_t rows)
 {
     assert(grads.size() == moe_parameter_count(C) && work.size() == moe_gradient_work(C, rows));
-    constexpr std::size_t d = C.d_model, f = C.expert_d_ff, fs = C.shared_experts * f, E = C.experts, g = C.mlp == mlp_kind::swiglu ? 2 : 1;
+    constexpr std::size_t d = C.d_model, f = C.expert_d_ff, fs = C.shared_experts * f, E = C.experts, g = gated(C.mlp) ? 2 : 1;
     constexpr auto es = detail::moe::mlp_sizes(C, f), ss = detail::moe::mlp_sizes(C, fs);
     const std::size_t n = rows * C.top_k;
     detail::cutter<T> c{grads}, w{work};

@@ -6,11 +6,12 @@
 //
 
 /// \file
-/// \brief `snicholls::ml::mlp_forward` and `mlp_backward`: a transformer's MLP for one token, `down(act(up x))` or SwiGLU's `down(silu(gate x) · up x)`, as the configuration says, and its backward pass; `moe_gate` and its backward.
+/// \brief `snicholls::ml::mlp_forward` and `mlp_backward`: a transformer's MLP for one token, `down(act(up x))` or a gated unit's `down(glu(gate x, up x))` (SwiGLU's `silu(gate x) · up x`, ReGLU, the GEGLUs, gpt-oss's clamped SwiGLU), as the configuration says, and its backward pass; `moe_gate` and its backward.
 /// \ingroup core
 ///
 /// **Overview.** The feed-forward half of a transformer block. `transformer_config::mlp` chooses the form: GELU
-/// (exact or tanh, GPT-2), ReLU² (nanochat) or SwiGLU (Llama). The weights are `mlp_weights`, views over any
+/// (exact or tanh, GPT-2; quick, CLIP), ReLU² (nanochat) or a gated linear unit (`ml/glu.hpp`: SwiGLU, Llama; ReGLU; GEGLU,
+/// Gemma; gpt-oss's clamped SwiGLU). The weights are `mlp_weights`, views over any
 /// `weight_matrix` storage, so the same call runs on float, bfloat16 or quantised weights. The input is prepared
 /// once for `up` and `gate`.
 ///
@@ -27,6 +28,8 @@
 /// those weights back to the router logits.
 ///
 /// \snippet ml/mlp_demo.cpp mlp
+///
+/// \snippet ml/mlp_demo.cpp mlp_gated
 ///
 /// \snippet ml/mlp_demo.cpp mlp_backward
 ///
@@ -54,13 +57,15 @@
 ///
 /// **Known issues.** None known.
 ///
-/// **Status.** Experimental, new in 0.8.0.
+/// **Status.** Experimental, new in 0.8.0; the gated kinds other than SwiGLU, `mlp_glu_kind`, `mlp_glu` and
+/// `mlp_glu_backward` new in 0.17.0.
 
 #ifndef snicholls_core_ml_mlp_hpp
 #define snicholls_core_ml_mlp_hpp
 
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/ml/activations.hpp>
+#include <snicholls/core/ml/glu.hpp>
 #include <snicholls/core/ml/linear.hpp>
 #include <snicholls/core/ml/row.hpp>
 #include <snicholls/core/ml/sampling.hpp>
@@ -83,14 +88,15 @@ template <weight_matrix W, math::math_number T = float>
 struct mlp_weights
 {
     W up{};                             ///< `d_ff x d_model`.
-    W gate{};                           ///< `d_ff x d_model`, SwiGLU only.
+    W gate{};                           ///< `d_ff x d_model`, gated kinds only.
     W down{};                           ///< `d_model x d_ff`.
     std::span<const T> up_bias{};       ///< `d_ff`, or empty.
-    std::span<const T> gate_bias{};     ///< `d_ff`, or empty; SwiGLU only.
+    std::span<const T> gate_bias{};     ///< `d_ff`, or empty; gated kinds only.
     std::span<const T> down_bias{};     ///< `d_model`, or empty.
 };
 
-/// \brief The activation of a configuration's MLP (not SwiGLU, whose gate is a second product).
+/// \brief The activation of a configuration's MLP; for a gated kind, the gate's activation alone (the MLP combines
+/// gate and up with `mlp_glu` instead; for the clamped SwiGLUs this is the unclamped SiLU).
 /// \tparam K The MLP's kind.
 /// \param x A hidden value.
 /// \return The activated value.
@@ -102,6 +108,13 @@ constexpr T mlp_activation(T x)
     case mlp_kind::gelu_tanh: return gelu_tanh(x);
     case mlp_kind::relu_squared: return relu_squared(x);
     case mlp_kind::swiglu: return silu(x);
+    case mlp_kind::gelu_quick: return gelu_quick(x);
+    case mlp_kind::reglu: return relu(x);
+    case mlp_kind::geglu: return gelu_tanh(x);
+    case mlp_kind::geglu_erf: return gelu(x);
+    case mlp_kind::geglu_quick: return gelu_quick(x);
+    case mlp_kind::swiglu_oai:
+    case mlp_kind::swiglu_clamp: return silu(x);
     }
     return x;
 }
@@ -113,7 +126,7 @@ template <math::math_number T>
 struct mlp_activations
 {
     std::span<T> up{};     ///< `up x + b`, before the activation.
-    std::span<T> gate{};   ///< `gate x + b`, before SiLU; SwiGLU only, else empty.
+    std::span<T> gate{};   ///< `gate x + b`, before SiLU; gated kinds only, else empty.
     std::span<T> hidden{}; ///< The hidden row after the activation, `down`'s input: saved by `mlp_forward_sequence` only.
 };
 
@@ -124,15 +137,15 @@ template <math::math_number T>
 struct mlp_gradients
 {
     std::span<T> up{};          ///< `d_ff · d_model`.
-    std::span<T> gate{};        ///< `d_ff · d_model`; SwiGLU only, else empty.
+    std::span<T> gate{};        ///< `d_ff · d_model`; gated kinds only, else empty.
     std::span<T> down{};        ///< `d_model · d_ff`.
     std::span<T> up_bias{};     ///< `d_ff`, or empty.
     std::span<T> gate_bias{};   ///< `d_ff`, or empty.
     std::span<T> down_bias{};   ///< `d_model`, or empty.
-    std::span<T> scratch{};     ///< `n · d_ff` (twice that for SwiGLU): `mlp_backward_sequence`'s working space; else empty.
+    std::span<T> scratch{};     ///< `n · d_ff` (twice that for a gated kind): `mlp_backward_sequence`'s working space; else empty.
 };
 
-/// \brief The derivative of a configuration's activation (not SwiGLU's product).
+/// \brief The derivative of a configuration's activation; for a gated kind, of the gate's activation alone.
 /// \tparam K The MLP's kind.
 /// \param x A hidden value before the activation.
 /// \return `act'(x)`.
@@ -144,8 +157,57 @@ constexpr T mlp_activation_derivative(T x)
     case mlp_kind::gelu_tanh: return gelu_tanh_derivative(x);
     case mlp_kind::relu_squared: return relu_squared_derivative(x);
     case mlp_kind::swiglu: return silu_derivative(x);
+    case mlp_kind::gelu_quick: return gelu_quick_derivative(x);
+    case mlp_kind::reglu: return relu_derivative(x);
+    case mlp_kind::geglu: return gelu_tanh_derivative(x);
+    case mlp_kind::geglu_erf: return gelu_derivative(x);
+    case mlp_kind::geglu_quick: return gelu_quick_derivative(x);
+    case mlp_kind::swiglu_oai:
+    case mlp_kind::swiglu_clamp: return silu_derivative(x);
     }
     return T(1);
+}
+
+/// \brief The `glu_kind` of a gated MLP kind; `swiglu` for any other (unused there).
+/// \param k The kind.
+/// \return The form `ml/glu.hpp` computes.
+[[nodiscard]] constexpr glu_kind mlp_glu_kind(mlp_kind k) noexcept
+{
+    switch (k) {
+    case mlp_kind::reglu: return glu_kind::reglu;
+    case mlp_kind::geglu: return glu_kind::geglu;
+    case mlp_kind::geglu_erf: return glu_kind::geglu_erf;
+    case mlp_kind::geglu_quick: return glu_kind::geglu_quick;
+    case mlp_kind::swiglu_oai: return glu_kind::swiglu_oai;
+    case mlp_kind::swiglu_clamp: return glu_kind::swiglu_clamp;
+    default: return glu_kind::swiglu;
+    }
+}
+
+/// \brief A gated MLP's hidden element from its gate and up pre-activations: `glu(mlp_glu_kind(C.mlp), g, u)` with the
+/// configuration's `glu_alpha` and `glu_limit`; for SwiGLU `silu(g) · u`, as always.
+/// \tparam C A gated configuration.
+/// \tparam T A `math::math_number`.
+/// \param g `gate x + b`.
+/// \param u `up x + b`.
+/// \return The hidden element.
+template <transformer_config C, math::math_number T>
+constexpr T mlp_glu(T g, T u)
+{
+    return glu(mlp_glu_kind(C.mlp), g, u, glu_parameters<T>{glu_alpha_v<C, T>, glu_limit_v<C, T>});
+}
+
+/// \brief The backward pass of `mlp_glu`.
+/// \tparam C A gated configuration.
+/// \tparam T A `math::math_number`.
+/// \param g `gate x + b`.
+/// \param u `up x + b`.
+/// \param dh The gradient in the hidden element.
+/// \return The gradients in `g` and `u`.
+template <transformer_config C, math::math_number T>
+constexpr glu_gradient<T> mlp_glu_backward(T g, T u, T dh)
+{
+    return glu_backward(mlp_glu_kind(C.mlp), g, u, dh, glu_parameters<T>{glu_alpha_v<C, T>, glu_limit_v<C, T>});
 }
 
 namespace detail::mlp
@@ -164,14 +226,14 @@ namespace detail::mlp
         linear(w.up, in, h, w.up_bias);
         if (!save.up.empty())
             std::copy(h.begin(), h.end(), save.up.begin());
-        if constexpr (C.mlp == mlp_kind::swiglu) {
+        if constexpr (gated(C.mlp)) {
             assert(w.gate.rows == C.d_ff && w.gate.cols == C.d_model);
             std::array<T, C.d_ff> g{};
             linear(w.gate, in, g, w.gate_bias);
             if (!save.gate.empty())
                 std::copy(g.begin(), g.end(), save.gate.begin());
             for (std::size_t i = 0; i < C.d_ff; ++i)
-                h[i] = silu(g[i]) * h[i];
+                h[i] = mlp_glu<C>(g[i], h[i]);
         } else {
             for (T& v : h)
                 v = mlp_activation<C.mlp>(v);
@@ -180,7 +242,7 @@ namespace detail::mlp
     }
 } // namespace detail::mlp
 
-/// \brief The MLP for one token: `y = down(act(up x + b) ) + b`, or SwiGLU's `down(silu(gate x) · up x)`.
+/// \brief The MLP for one token: `y = down(act(up x + b) ) + b`, or a gated unit's `down(mlp_glu(gate x + b, up x + b)) + b`.
 /// \tparam C The configuration.
 /// \param w The weights.
 /// \param x The input, `d_model`.
@@ -197,19 +259,19 @@ constexpr void mlp_forward(const mlp_weights<W, T>& w, const X& x, Y&& y)
 /// \param w The weights.
 /// \param x The input, `d_model`.
 /// \param y The output, `d_model`; may not alias `x`.
-/// \param save Receives `up x + b` and, for SwiGLU, `gate x + b`.
+/// \param save Receives `up x + b` and, for a gated kind, `gate x + b`.
 template <transformer_config C, weight_matrix W, math::math_number T, row X, mutable_row Y>
     requires std::same_as<row_value_t<X>, T> && std::same_as<row_value_t<Y>, T>
 constexpr void mlp_forward(const mlp_weights<W, T>& w, const X& x, Y&& y, const mlp_activations<T>& save)
 {
-    assert(save.up.size() == C.d_ff && (C.mlp != mlp_kind::swiglu || save.gate.size() == C.d_ff));
+    assert(save.up.size() == C.d_ff && (!gated(C.mlp) || save.gate.size() == C.d_ff));
     detail::mlp::forward<C>(w, x, y, save);
 }
 
 /// \brief The backward pass of `mlp_forward`, from its saved pre-activations.
 ///
 /// The hidden row is recomputed from them (`d_ff` operations, no buffer saved for it); then `down`'s backward
-/// gives its gradient, the activation's derivative (or SwiGLU's product rule) takes it through, and `up`'s and
+/// gives its gradient, the activation's derivative (or the gated unit's product rule) takes it through, and `up`'s and
 /// `gate`'s backward give the input's. Only dense weights train.
 /// \tparam C The configuration.
 /// \param w The weights the forward pass used.
@@ -224,20 +286,21 @@ constexpr void mlp_backward(const mlp_weights<dense_weights<S>, T>& w, const X& 
                             const DY& dy, DX&& dx, const mlp_gradients<T>& grads)
 {
     static_assert(valid(C), "snicholls::ml::mlp_backward: the transformer_config is not valid");
-    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    constexpr bool swiglu = gated(C.mlp);
     assert(saved.up.size() == C.d_ff && (!swiglu || saved.gate.size() == C.d_ff));
     std::array<T, C.d_ff> h{}, dh{};
     for (std::size_t i = 0; i < C.d_ff; ++i)
         if constexpr (swiglu)
-            h[i] = silu(saved.gate[i]) * saved.up[i];
+            h[i] = mlp_glu<C>(saved.gate[i], saved.up[i]);
         else
             h[i] = mlp_activation<C.mlp>(saved.up[i]);
     linear_backward(w.down, h, dy, dh, grads.down, grads.down_bias);
     if constexpr (swiglu) {
         std::array<T, C.d_ff> dgate{};
         for (std::size_t i = 0; i < C.d_ff; ++i) {
-            dgate[i] = dh[i] * saved.up[i] * silu_derivative(saved.gate[i]);
-            dh[i] = dh[i] * silu(saved.gate[i]);
+            const auto d = mlp_glu_backward<C>(saved.gate[i], saved.up[i], dh[i]);
+            dgate[i] = d.gate;
+            dh[i] = d.up;
         }
         linear_backward(w.gate, x, dgate, dx, grads.gate, grads.gate_bias);
     } else {
@@ -247,17 +310,17 @@ constexpr void mlp_backward(const mlp_weights<dense_weights<S>, T>& w, const X& 
     linear_backward(w.up, x, dh, dx, grads.up, grads.up_bias);
 }
 
-/// \brief The MLP's activation over a sequence, on the backend (TRAINING.md T9): `hidden = act(up)`, or SwiGLU's
-/// `silu(gate) · up`. The overload for any backend runs on the host; a device library overloads it for its own.
+/// \brief The MLP's activation over a sequence, on the backend (TRAINING.md T9): `hidden = act(up)`, or a gated
+/// kind's `mlp_glu(gate, up)`. The overload for any backend runs on the host; a device library overloads it for its own.
 /// \tparam C The configuration.
-/// \param saved `up` (and `gate` for SwiGLU) read, `hidden` written, `n · d_ff` each.
+/// \param saved `up` (and `gate` for a gated kind) read, `hidden` written, `n · d_ff` each.
 template <transformer_config C, typename B, math::math_number T>
 constexpr void mlp_activate_rows(const B&, const mlp_activations<T>& saved)
 {
     const std::size_t m = saved.up.size();
-    if constexpr (C.mlp == mlp_kind::swiglu) {
+    if constexpr (gated(C.mlp)) {
         for (std::size_t i = 0; i < m; ++i)
-            saved.hidden[i] = silu(saved.gate[i]) * saved.up[i];
+            saved.hidden[i] = mlp_glu<C>(saved.gate[i], saved.up[i]);
     } else {
         for (std::size_t i = 0; i < m; ++i)
             saved.hidden[i] = mlp_activation<C.mlp>(saved.up[i]);
@@ -265,19 +328,20 @@ constexpr void mlp_activate_rows(const B&, const mlp_activations<T>& saved)
 }
 
 /// \brief The backward pass of `mlp_activate_rows`, on the backend: the gradient in `hidden` (`dh`) becomes the
-/// gradient in `up`, in place, and for SwiGLU also writes the gradient in `gate`.
+/// gradient in `up`, in place, and for a gated kind also writes the gradient in `gate`.
 /// \tparam C The configuration.
 /// \param saved What the forward pass saved.
 /// \param dh The gradient in the hidden rows, replaced by the gradient in `up`.
-/// \param dgate Receives the gradient in `gate`, SwiGLU only (else empty).
+/// \param dgate Receives the gradient in `gate`, gated kinds only (else empty).
 template <transformer_config C, typename B, math::math_number T>
 constexpr void mlp_activate_rows_backward(const B&, const mlp_activations<T>& saved, std::span<T> dh, std::span<T> dgate)
 {
     const std::size_t m = dh.size();
-    if constexpr (C.mlp == mlp_kind::swiglu) {
+    if constexpr (gated(C.mlp)) {
         for (std::size_t i = 0; i < m; ++i) {
-            dgate[i] = dh[i] * saved.up[i] * silu_derivative(saved.gate[i]);
-            dh[i] = dh[i] * silu(saved.gate[i]);
+            const auto d = mlp_glu_backward<C>(saved.gate[i], saved.up[i], dh[i]);
+            dgate[i] = d.gate;
+            dh[i] = d.up;
         }
     } else {
         for (std::size_t i = 0; i < m; ++i)
@@ -289,7 +353,7 @@ constexpr void mlp_activate_rows_backward(const B&, const mlp_activations<T>& sa
 /// \brief The MLP over a sequence of `n` tokens, its products through a `linalg` backend, saving what
 /// `mlp_backward_sequence` needs.
 ///
-/// The batched form of `mlp_forward` for dense weights in the sequence's type: `U = X Wupᵀ` (and SwiGLU's gate), the
+/// The batched form of `mlp_forward` for dense weights in the sequence's type: `U = X Wupᵀ` (and a gated kind's gate), the
 /// activation, `Y = H Wdownᵀ`, each product one `gemm` (`linear_sequence`). The hidden rows are saved, so the backward
 /// does not recompute them.
 /// \tparam C The configuration.
@@ -297,14 +361,14 @@ constexpr void mlp_activate_rows_backward(const B&, const mlp_activations<T>& sa
 /// \param w The weights.
 /// \param xs `n` inputs of `d_model`, end to end.
 /// \param ys Receives `n` outputs of `d_model`; may not alias `xs`.
-/// \param save Receives the pre-activations and the hidden rows, `n · d_ff` each (the gate for SwiGLU only).
+/// \param save Receives the pre-activations and the hidden rows, `n · d_ff` each (the gate for a gated kind only).
 template <transformer_config C, typename B, math::math_number T>
     requires linalg::blas_backend<B, T>
 constexpr void mlp_forward_sequence(const B& backend, const mlp_weights<dense_weights<T>, T>& w, std::type_identity_t<std::span<const T>> xs,
                                     std::type_identity_t<std::span<T>> ys, const mlp_activations<T>& save)
 {
     static_assert(valid(C), "snicholls::ml::mlp_forward_sequence: the transformer_config is not valid");
-    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    constexpr bool swiglu = gated(C.mlp);
     const std::size_t n = xs.size() / C.d_model;
     [[maybe_unused]] const std::size_t m = n * C.d_ff;
     assert(xs.size() == n * C.d_model && ys.size() == xs.size() && save.up.size() == m && save.hidden.size() == m
@@ -324,7 +388,7 @@ constexpr void mlp_forward_sequence(const B& backend, const mlp_weights<dense_we
 /// \param saved What it saved.
 /// \param dys The gradients in its outputs, `n · d_model`.
 /// \param dxs Added into, `n · d_model`; or empty to skip it.
-/// \param grads Added into; its `scratch` (`n · d_ff`, twice for SwiGLU) is written.
+/// \param grads Added into; its `scratch` (`n · d_ff`, twice for a gated kind) is written.
 template <transformer_config C, typename B, math::math_number T>
     requires linalg::blas_backend<B, T>
 constexpr void mlp_backward_sequence(const B& backend, const mlp_weights<dense_weights<T>, T>& w,
@@ -333,7 +397,7 @@ constexpr void mlp_backward_sequence(const B& backend, const mlp_weights<dense_w
                                      const mlp_gradients<T>& grads)
 {
     static_assert(valid(C), "snicholls::ml::mlp_backward_sequence: the transformer_config is not valid");
-    constexpr bool swiglu = C.mlp == mlp_kind::swiglu;
+    constexpr bool swiglu = gated(C.mlp);
     const std::size_t n = xs.size() / C.d_model, m = n * C.d_ff;
     assert(dys.size() == xs.size() && saved.up.size() == m && saved.hidden.size() == m && (!swiglu || saved.gate.size() == m)
            && grads.scratch.size() >= (swiglu ? 2 : 1) * m);

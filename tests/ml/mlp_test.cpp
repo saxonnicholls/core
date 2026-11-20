@@ -24,8 +24,33 @@ namespace {
 namespace ml = snicholls::ml;
 using W = ml::dense_weights<float>;
 
+// The clamped SwiGLUs at a limit of 0.4, inside the pre-activations' range, so the clamps are exercised
+constexpr double limit_of(ml::mlp_kind k) { return k == ml::mlp_kind::swiglu_oai || k == ml::mlp_kind::swiglu_clamp ? 0.4 : 7.0; }
+
 template <ml::mlp_kind K>
-constexpr ml::transformer_config shape{.d_model = 4, .n_heads = 1, .n_kv_heads = 1, .head_dim = 4, .d_ff = 8, .mlp = K};
+constexpr ml::transformer_config shape{.d_model = 4, .n_heads = 1, .n_kv_heads = 1, .head_dim = 4, .d_ff = 8, .mlp = K,
+                                       .glu_limit = limit_of(K)};
+
+// Every kind, for the tests that run each one
+template <typename F>
+void each_kind(F f)
+{
+    f.template operator()<ml::mlp_kind::gelu>();
+    f.template operator()<ml::mlp_kind::gelu_tanh>();
+    f.template operator()<ml::mlp_kind::relu_squared>();
+    f.template operator()<ml::mlp_kind::swiglu>();
+    f.template operator()<ml::mlp_kind::gelu_quick>();
+    f.template operator()<ml::mlp_kind::reglu>();
+    f.template operator()<ml::mlp_kind::geglu>();
+    f.template operator()<ml::mlp_kind::geglu_erf>();
+    f.template operator()<ml::mlp_kind::geglu_quick>();
+    f.template operator()<ml::mlp_kind::swiglu_oai>();
+    f.template operator()<ml::mlp_kind::swiglu_clamp>();
+}
+
+double gelu_ref(double v) { return 0.5 * v * (1 + std::erf(v / std::sqrt(2.0))); }
+double gelu_tanh_ref(double v) { return 0.5 * v * (1 + std::tanh(std::sqrt(2 / std::numbers::pi) * (v + 0.044715 * v * v * v))); }
+double quick_ref(double v) { return v / (1 + std::exp(-1.702 * v)); }
 
 std::vector<float> pattern(std::size_t n, float scale, std::size_t salt = 0)
 {
@@ -47,11 +72,19 @@ std::vector<double> reference(const std::vector<float>& up, const std::vector<fl
             u += double(up[i * 4 + j]) * x[j];
             g += double(gate.empty() ? 0.0f : gate[i * 4 + j]) * x[j];
         }
+        const double l = limit_of(K), xc = std::min(g, l), yc = std::clamp(u, -l, l);
         switch (K) {
-        case ml::mlp_kind::gelu: h[i] = 0.5 * u * (1 + std::erf(u / std::sqrt(2.0))); break;
-        case ml::mlp_kind::gelu_tanh: h[i] = 0.5 * u * (1 + std::tanh(std::sqrt(2 / std::numbers::pi) * (u + 0.044715 * u * u * u))); break;
+        case ml::mlp_kind::gelu: h[i] = gelu_ref(u); break;
+        case ml::mlp_kind::gelu_tanh: h[i] = gelu_tanh_ref(u); break;
         case ml::mlp_kind::relu_squared: h[i] = u > 0 ? u * u : 0; break;
         case ml::mlp_kind::swiglu: h[i] = g / (1 + std::exp(-g)) * u; break;
+        case ml::mlp_kind::gelu_quick: h[i] = quick_ref(u); break;
+        case ml::mlp_kind::reglu: h[i] = g > 0 ? g * u : 0; break;
+        case ml::mlp_kind::geglu: h[i] = gelu_tanh_ref(g) * u; break;
+        case ml::mlp_kind::geglu_erf: h[i] = gelu_ref(g) * u; break;
+        case ml::mlp_kind::geglu_quick: h[i] = quick_ref(g) * u; break;
+        case ml::mlp_kind::swiglu_oai: h[i] = quick_ref(xc) * (yc + 1); break;   // ggml's swiglu_oai, alpha 1.702
+        case ml::mlp_kind::swiglu_clamp: h[i] = xc / (1 + std::exp(-xc)) * yc; break;
         }
     }
     for (std::size_t i = 0; i < 4; ++i) {
@@ -67,7 +100,7 @@ void matches_its_definition()
 {
     const auto up = pattern(32, 1.0f, 1), gate = pattern(32, 1.0f, 2), down = pattern(32, 1.0f, 3), b1 = pattern(8, 0.2f, 4),
                b2 = pattern(4, 0.2f, 5), x = pattern(4, 2.0f, 6);
-    const bool swiglu = K == ml::mlp_kind::swiglu;
+    const bool swiglu = ml::gated(K);
     const ml::mlp_weights<W> w{W{up, 8, 4}, swiglu ? W{gate, 8, 4} : W{}, W{down, 4, 8}, b1, {}, b2};
     std::array<float, 4> y{};
     ml::mlp_forward<shape<K>>(w, x, y);
@@ -78,10 +111,7 @@ void matches_its_definition()
 
 TEST(MlMlp, EachKindMatchesItsDefinition)
 {
-    matches_its_definition<ml::mlp_kind::gelu>();
-    matches_its_definition<ml::mlp_kind::gelu_tanh>();
-    matches_its_definition<ml::mlp_kind::relu_squared>();
-    matches_its_definition<ml::mlp_kind::swiglu>();
+    each_kind([]<ml::mlp_kind K>() { matches_its_definition<K>(); });
 }
 
 TEST(MlMlp, TheActivationsAreTheActivationsHeaders)
@@ -90,6 +120,15 @@ TEST(MlMlp, TheActivationsAreTheActivationsHeaders)
     EXPECT_EQ(ml::mlp_activation<ml::mlp_kind::gelu_tanh>(0.7f), ml::gelu_tanh(0.7f));
     EXPECT_EQ(ml::mlp_activation<ml::mlp_kind::relu_squared>(-0.7f), 0.0f);
     EXPECT_EQ(ml::mlp_activation<ml::mlp_kind::swiglu>(0.7f), ml::silu(0.7f));
+    EXPECT_EQ(ml::mlp_activation<ml::mlp_kind::gelu_quick>(0.7f), ml::gelu_quick(0.7f));
+    EXPECT_EQ(ml::mlp_activation<ml::mlp_kind::geglu>(0.7f), ml::gelu_tanh(0.7f));
+    // A gated kind's hidden element is its GLU, SwiGLU's the product it always was
+    EXPECT_EQ(ml::mlp_glu<shape<ml::mlp_kind::swiglu>>(0.7f, -1.3f), ml::silu(0.7f) * -1.3f);
+    EXPECT_EQ(ml::mlp_glu<shape<ml::mlp_kind::reglu>>(-0.7f, 2.0f), 0.0f);
+    EXPECT_EQ(ml::mlp_glu<shape<ml::mlp_kind::swiglu_oai>>(0.7f, 2.0f), ml::glu(ml::glu_kind::swiglu_oai, 0.7f, 2.0f, {1.702f, 0.4f}));
+    static_assert(ml::gated(ml::mlp_kind::swiglu) && ml::gated(ml::mlp_kind::geglu_quick) && !ml::gated(ml::mlp_kind::gelu_quick)
+                  && !ml::gated(ml::mlp_kind::relu_squared));
+    static_assert(ml::mlp_glu_kind(ml::mlp_kind::swiglu_clamp) == ml::glu_kind::swiglu_clamp);
 }
 
 constexpr bool compile_time()
@@ -140,7 +179,7 @@ std::vector<double> wave(std::size_t n, double a, double b)
 template <ml::mlp_kind K>
 void backward_is_central_differences()
 {
-    constexpr bool swiglu = K == ml::mlp_kind::swiglu;
+    constexpr bool swiglu = ml::gated(K);
     auto up = wave(32, 0.9, 0.1), gate = wave(32, 0.8, 1.2), down = wave(32, 0.7, 2.3), bu = wave(8, 0.3, 0.4),
          bg = wave(8, 0.2, 1.1), bd = wave(4, 0.1, 0.7), x = wave(4, 1.5, 0.9);
     const auto g = wave(4, 1.0, 1.7);
@@ -186,10 +225,7 @@ void backward_is_central_differences()
 
 TEST(MlMlp, BackwardOfEachKindMatchesCentralDifferences)
 {
-    backward_is_central_differences<ml::mlp_kind::gelu>();
-    backward_is_central_differences<ml::mlp_kind::gelu_tanh>();
-    backward_is_central_differences<ml::mlp_kind::relu_squared>();
-    backward_is_central_differences<ml::mlp_kind::swiglu>();
+    each_kind([]<ml::mlp_kind K>() { backward_is_central_differences<K>(); });
 }
 
 template <ml::mlp_kind K>
@@ -197,7 +233,7 @@ void saving_gives_the_same_bits()
 {
     const auto up = pattern(32, 1.0f, 1), gate = pattern(32, 1.0f, 2), down = pattern(32, 1.0f, 3), b1 = pattern(8, 0.2f, 4),
                b2 = pattern(4, 0.2f, 5), x = pattern(4, 2.0f, 6);
-    const bool swiglu = K == ml::mlp_kind::swiglu;
+    const bool swiglu = ml::gated(K);
     const ml::mlp_weights<W> w{W{up, 8, 4}, swiglu ? W{gate, 8, 4} : W{}, W{down, 4, 8}, b1, {}, b2};
     std::array<float, 4> plain{}, saving{};
     std::vector<float> su(8), sg(swiglu ? 8 : 0);
@@ -212,9 +248,7 @@ void saving_gives_the_same_bits()
 
 TEST(MlMlp, SavingThePreActivationsChangesNoOutput)
 {
-    saving_gives_the_same_bits<ml::mlp_kind::gelu>();
-    saving_gives_the_same_bits<ml::mlp_kind::relu_squared>();
-    saving_gives_the_same_bits<ml::mlp_kind::swiglu>();
+    each_kind([]<ml::mlp_kind K>() { saving_gives_the_same_bits<K>(); });
 }
 
 // The batched pair over a sequence of three tokens, through the reference backend, against mlp_forward and
@@ -222,7 +256,7 @@ TEST(MlMlp, SavingThePreActivationsChangesNoOutput)
 template <ml::mlp_kind K>
 void batched_is_per_token()
 {
-    constexpr bool swiglu = K == ml::mlp_kind::swiglu;
+    constexpr bool swiglu = ml::gated(K);
     constexpr std::size_t n = 3, m = n * 8;
     const auto up = wave(32, 0.9, 0.1), gate = wave(32, 0.8, 1.2), down = wave(32, 0.7, 2.3), bu = wave(8, 0.3, 0.4),
                bg = wave(8, 0.2, 1.1), bd = wave(4, 0.1, 0.7), xs = wave(n * 4, 1.5, 0.9), gs = wave(n * 4, 1.0, 1.7);
@@ -262,10 +296,7 @@ void batched_is_per_token()
 
 TEST(MlMlp, BatchedThroughABackendIsThePerTokenPathWithinRounding)
 {
-    batched_is_per_token<ml::mlp_kind::gelu>();
-    batched_is_per_token<ml::mlp_kind::gelu_tanh>();
-    batched_is_per_token<ml::mlp_kind::relu_squared>();
-    batched_is_per_token<ml::mlp_kind::swiglu>();
+    each_kind([]<ml::mlp_kind K>() { batched_is_per_token<K>(); });
 }
 
 TEST(MlMlp, ActivationDerivativesAreTheActivations)
