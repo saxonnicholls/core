@@ -40,6 +40,52 @@ spans, checked against llama.cpp and ggml at commit 39039aa; every new header is
 
 - llama.cpp's `seq_div` stores its K-shift with the opposite sign of `seq_add`'s; core's moves keys to their new
   positions (`ml/kv_cells.hpp`, Known issues).
+Every ggml weight format, byte for byte with ggml (llama.cpp 39039aa) on committed fixtures, with the
+importance-matrix quantisation and the dot products ggml pairs them with, all `constexpr` with their codebooks and
+tables built at compile time; BitNet b1.58's quantisation, kernels and quantisation-aware training; the Hadamard
+rotation as a quantisation pre-step (INFERENCE.md I13 to I15, TRAINING.md T14). Every new header is experimental.
+
+### Added
+
+- **ggml's type ids and block traits** (`ml/quantize.hpp`): `ggml_type` (the ids a GGUF file stores),
+  `ggml_type_traits(id)` and `ggml_row_bytes` (name, block size and bytes of every type, at compile time), the
+  `quantized_block` concept and `block_traits<B>` (elements, bytes, name, bits per weight, the activation block).
+  Every block has `type`, `elements` and `dot_block`; `quantize_row(x, importance, blocks)` is ggml's
+  `quantize_<type>` for one row (an empty importance row is the reference, a non-empty one the importance-matrix
+  search), `dequantize_row` and `dot` its counterparts; `quantize(x, importance, blocks)` takes any rows.
+- **The 32-element formats and the small ones** (`ml/quantize.hpp`): Q4_1, Q5_0, Q5_1 and Q8_1, the
+  importance-weighted Q4_0 to Q5_1, NVFP4 (ggml's 64-element block of four UE4M3-scaled groups of 16), Q1_0, Q2_0,
+  F8_E4M3 rows, and Q8_K (the super-block formats' activations), with their dot products; ggml's
+  `make_qx_quants`, `make_qkx2_quants` / `make_qkx3_quants` and `make_qp_quants` scale searches, shared by the
+  headers below.
+- **K-quants** (`ml/quant_k.hpp`): Q2_K, Q3_K, Q4_K, Q5_K and Q6_K, reference and importance-weighted
+  quantisation, dequantisation, and the dot products with Q8_K in ggml's eight-lane order.
+- **The IQ family** (`ml/quant_iq.hpp`, `ml/quant_iq_grids.hpp`): IQ1_S, IQ1_M, IQ2_XXS, IQ2_XS, IQ2_S, IQ3_XXS,
+  IQ3_S, IQ4_NL and IQ4_XS: ggml's importance-weighted quantisers, dequantisation and the dot products with Q8_K
+  (IQ4_NL with Q8_0); the lattice grids, sign table and non-linear values built at compile time from ggml's compact
+  index lists and hash-checked against ggml-common.h; the neighbour search computed on demand in ggml's order.
+- **Ternary formats** (`ml/quant_ternary.hpp`): TQ1_0 and TQ2_0 with their dot products with Q8_K.
+- **BitNet b1.58** (`ml/bitnet.hpp`): absmean ternary weights, per-token absmax activations (and a b-bit form),
+  fake-quantised forwards, the straight-through estimator (identity and clipped) with its explicit backward,
+  `ternary_dot`, `bitlinear` and `bitlinear_normed` (BitNet's SubLN placement). `ml/bitnet_kernels.hpp`:
+  bitnet.cpp's I2_S (x86 and ARM blocks) and the TL1 / TL2 lookup-table layouts byte for byte (BitNet 0b341e5),
+  with their tables built at compile time and reference GEMVs equal to the ternary product.
+- **Hadamard rotation** (`ml/hadamard.hpp`): the fast Walsh-Hadamard transform, its orthonormal and block-diagonal
+  forms bit for bit as ggml's CPU `GGML_HINT_SRC0_IS_HADAMARD` product, the randomised rotation of QuaRot and
+  SpinQuant (`hadamard_signs`, `random_hadamard`, `random_hadamard_inverse`), folding into weights (`rotate_rows`),
+  and the Sylvester matrix (`hadamard_entry`, `hadamard_matrix`, llama.cpp's KV-cache rotation bit for bit).
+- **Fixtures and generators**: `scripts/generate_quant_formats_fixture.cpp`, `generate_quant_iq_fixture.cpp`,
+  `generate_quant_ternary_fixture.cpp`, `generate_bitnet_i2s_fixture.cpp`, `generate_bitnet_lut_fixture.py`,
+  `generate_hadamard_fixture.cpp` and `scripts/ggml_ref_stubs.c` (what ggml's quantisation files need from the rest
+  of ggml), with the shared input rows `tests/ml/quant_rows.hpp`; outputs are hashed, so the fixtures stay small.
+
+### Changed
+
+- `quant_block` (what `quantized_weights` in `ml/linear.hpp` takes) is now any 32-element `quantized_block` paired
+  with Q8_0 activations, so Q5_0 and IQ4_NL weights work there too. The per-block `detail` functions became the
+  public `quantize_row` / `dequantize_row`.
+- `ml/quantize.hpp` gives ggml's x86 result where ggml converts a float out of an integer's range (the inverse scale
+  of a block of subnormals; an MXFP4 amax below 2^-125), so those blocks are byte-identical too.
 
 ## 0.16.0 - 2026-11-19
 

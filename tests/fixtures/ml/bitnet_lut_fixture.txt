@@ -1,0 +1,10 @@
+# BitNet's TL1 and TL2 weight layouts (microsoft/BitNet 0b341e5), from scripts/generate_bitnet_lut_fixture.py
+# <layout> M K BM BK bm in=<ternary matrix hash> out=<packed bytes hash> bytes=<count, hex>
+tl1 64 128 32 64 32 in=fbced1e7d8b761e4 out=018bd615817857fe bytes=800
+tl1 128 256 64 128 64 in=9c689d86f69fd806 out=22d9191e1676491c bytes=2000
+tl1 256 4096 256 128 32 in=3f67fbe8562884c9 out=e93eb0d343b178a6 bytes=40000
+tl1 128 1536 128 64 64 in=3887f18a989b3e29 out=5b13014d013ec523 bytes=c000
+tl2 64 320 32 96 32 in=a598809ece6d1ffd out=b0108c95e0446b79 bytes=1355
+tl2 64 384 64 192 32 in=da0d1e9614f4690b out=140a32178dc7f577 bytes=16aa
+tl2 320 3200 320 96 32 in=08590bb3cbc2f23d out=d901f4b528a34b53 bytes=34eaa
+tl2 160 8640 160 96 32 in=4ee09aada3863dc0 out=cf94973bd3a76950 bytes=46baa

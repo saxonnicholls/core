@@ -1,0 +1,21 @@
+# BitNet's I2_S bytes and ggml_vec_dot_i2_i8_s_1x1 (microsoft/BitNet 0b341e5, x86, QK_I2_S 128), from
+# scripts/generate_bitnet_i2s_fixture.cpp; rows of 4736: kinds 0-15 are tests/ml/quant_rows.hpp's, 16 and 17
+# ternary times 0.37 (17 without zeros); <kind> x=<input> a=<activations> bytes=<codes and scale> dot=<int32>
+i2_s 0 x=ddb2995976fedef3 a=531b9870acb67bf3 bytes=3f76575cd0731b67 dot=00000cc0
+i2_s 1 x=404315ef91c5d14d a=b5f6a41e6caba268 bytes=a06af86ffee1fd4f dot=ffffc5d0
+i2_s 2 x=2bf5d3e0ac010927 a=e10e428bc09434c4 bytes=9b04dcb1c1e2d4fd dot=0000188a
+i2_s 3 x=1dd8f86c6342db70 a=a3afb4e62f528587 bytes=93c7ac153d9e98a3 dot=fffff8c2
+i2_s 4 x=933b96c78d0127c7 a=d748398fad30b52f bytes=6023ac0b7e9ea238 dot=ffffe829
+i2_s 5 x=6bb690e832c4552a a=770d73ed0eef9592 bytes=503d3d84132dac30 dot=fffffd84
+i2_s 6 x=ae6c93521901fde3 a=192c81a67c32d429 bytes=c592878ce9fb38cc dot=fffffea5
+i2_s 7 x=eb188ddcf8c9e0ea a=1614e3ca3a0bd9e5 bytes=e1de3bfed1728a2f dot=fffff97a
+i2_s 8 x=bf4969a914dcbe25 a=496a6983ec9b474d bytes=0a4e5bb523a8bd93 dot=fffff754
+i2_s 9 x=e1db0646c01da488 a=b1d671bc337c9a54 bytes=025707724a7579b4 dot=00001765
+i2_s 10 x=ff7867dac2aaeb25 a=b7acfb5f537a3f8c bytes=581300c310fb3695 dot=00000000
+i2_s 11 x=011860d7cbf565e4 a=ef8c0b3f62f526d8 bytes=e2f4ff1ec8817b54 dot=ffffef10
+i2_s 12 x=5bb75944b8507bc8 a=36ac60113f723ecd bytes=6f7ce2f341d72a49 dot=ffffc183
+i2_s 13 x=2c228d1b25110697 a=80d3ab695e707a8f bytes=beb8a18105afe36c dot=00000e30
+i2_s 14 x=757b1210807a71c7 a=7c73b108a7adf8db bytes=9dd6f01675d5f60d dot=00000378
+i2_s 15 x=e032dbaad63a448c a=8e2e95ab0703e333 bytes=f1c265608aa3641e dot=ffffe554
+i2_s 16 x=2bf01c84e8e58dba a=3c2dbaeb04554ed4 bytes=540ea6db3cfaa40b dot=000021a3
+i2_s 17 x=9f523c60cf660325 a=9c4ad7413b78b1be bytes=3c57b6310f03e336 dot=00003272
