@@ -101,7 +101,8 @@ namespace detail {
         0x431d67c49c100d4c, 0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817};
 
     // One compression for both word sizes: the round constants, the rotation amounts and the round count are the
-    // only differences (FIPS 180-4 6.2.2 and 6.4.2).
+    // only differences (FIPS 180-4 6.2.2 and 6.4.2). Eight rounds at a time with the working variables' roles
+    // rotated through the calls instead of moved, and the schedule kept in a ring of 16 words.
     template <typename W, std::size_t Rounds, const W* K, unsigned S0a, unsigned S0b, unsigned S0c, unsigned S1a,
               unsigned S1b, unsigned S1c, unsigned s0a, unsigned s0b, unsigned s0c, unsigned s1a, unsigned s1b,
               unsigned s1c>
@@ -111,24 +112,31 @@ namespace detail {
         for (std::size_t i = 0; i < 16; ++i)
             w[i] = block[i];
         W a = h[0], b = h[1], c = h[2], d = h[3], e = h[4], f = h[5], g = h[6], hh = h[7];
-        for (std::size_t t = 0; t < Rounds; ++t) {
-            if (t >= 16) {
-                const W x = w[(t - 15) & 15], y = w[(t - 2) & 15];
-                const W sig0 = rotr(x, s0a) ^ rotr(x, s0b) ^ static_cast<W>(x >> s0c);
-                const W sig1 = rotr(y, s1a) ^ rotr(y, s1b) ^ static_cast<W>(y >> s1c);
-                w[t & 15] = static_cast<W>(w[t & 15] + sig0 + w[(t - 7) & 15] + sig1);
-            }
-            const W t1 = static_cast<W>(hh + (rotr(e, S1a) ^ rotr(e, S1b) ^ rotr(e, S1c)) + ((e & f) ^ (~e & g)) + K[t] +
-                                        w[t & 15]);
-            const W t2 = static_cast<W>((rotr(a, S0a) ^ rotr(a, S0b) ^ rotr(a, S0c)) + ((a & b) ^ (a & c) ^ (b & c)));
-            hh = g;
-            g = f;
-            f = e;
-            e = static_cast<W>(d + t1);
-            d = c;
-            c = b;
-            b = a;
-            a = static_cast<W>(t1 + t2);
+        const auto round = [](W x0, W x1, W x2, W& x3, W x4, W x5, W x6, W& x7, W k, W wt) {
+            const W t1 = static_cast<W>(x7 + (rotr(x4, S1a) ^ rotr(x4, S1b) ^ rotr(x4, S1c)) + ((x4 & x5) ^ (~x4 & x6)) + k + wt);
+            const W t2 = static_cast<W>((rotr(x0, S0a) ^ rotr(x0, S0b) ^ rotr(x0, S0c)) + ((x0 & x1) ^ (x0 & x2) ^ (x1 & x2)));
+            x3 = static_cast<W>(x3 + t1);
+            x7 = static_cast<W>(t1 + t2);
+        };
+        const auto schedule = [&w](std::size_t t) {
+            const W x = w[(t + 1) & 15], y = w[(t + 14) & 15];
+            const W sig0 = rotr(x, s0a) ^ rotr(x, s0b) ^ static_cast<W>(x >> s0c);
+            const W sig1 = rotr(y, s1a) ^ rotr(y, s1b) ^ static_cast<W>(y >> s1c);
+            w[t & 15] = static_cast<W>(w[t & 15] + sig0 + w[(t + 9) & 15] + sig1);
+            return w[t & 15];
+        };
+        for (std::size_t t = 0; t < Rounds; t += 8) {
+            if (t >= 16)
+                for (std::size_t i = 0; i < 8; ++i)
+                    schedule(t + i);
+            round(a, b, c, d, e, f, g, hh, K[t], w[t & 15]);
+            round(hh, a, b, c, d, e, f, g, K[t + 1], w[(t + 1) & 15]);
+            round(g, hh, a, b, c, d, e, f, K[t + 2], w[(t + 2) & 15]);
+            round(f, g, hh, a, b, c, d, e, K[t + 3], w[(t + 3) & 15]);
+            round(e, f, g, hh, a, b, c, d, K[t + 4], w[(t + 4) & 15]);
+            round(d, e, f, g, hh, a, b, c, K[t + 5], w[(t + 5) & 15]);
+            round(c, d, e, f, g, hh, a, b, K[t + 6], w[(t + 6) & 15]);
+            round(b, c, d, e, f, g, hh, a, K[t + 7], w[(t + 7) & 15]);
         }
         h[0] = static_cast<W>(h[0] + a);
         h[1] = static_cast<W>(h[1] + b);

@@ -66,24 +66,37 @@ namespace detail {
         static constexpr bool big_endian = true;
         static constexpr state initial{0x67452301u, 0xefcdab89u, 0x98badcfeu, 0x10325476u, 0xc3d2e1f0u};
 
+        // Five rounds at a time with the roles of a..e rotated through the calls; each run of 20 rounds has its
+        // own function and constant, so the selection is outside the rounds.
+        template <typename F>
+        static constexpr void twenty(word& a, word& b, word& c, word& d, word& e, word (&w)[16], std::size_t t0, word k,
+                                     F f) noexcept
+        {
+            const auto round = [&](word x0, word& x1, word x2, word x3, word& x4, std::size_t t) {
+                if (t >= 16)
+                    w[t & 15] = rotl<word>(w[(t + 13) & 15] ^ w[(t + 8) & 15] ^ w[(t + 2) & 15] ^ w[t & 15], 1);
+                x4 = static_cast<word>(x4 + rotl<word>(x0, 5) + f(x1, x2, x3) + k + w[t & 15]);
+                x1 = rotl<word>(x1, 30);
+            };
+            for (std::size_t t = t0; t < t0 + 20; t += 5) {
+                round(a, b, c, d, e, t);
+                round(e, a, b, c, d, t + 1);
+                round(d, e, a, b, c, t + 2);
+                round(c, d, e, a, b, t + 3);
+                round(b, c, d, e, a, t + 4);
+            }
+        }
+
         static constexpr void compress(state& h, const word (&block)[16]) noexcept
         {
             word w[16]{};
             for (std::size_t i = 0; i < 16; ++i)
                 w[i] = block[i];
             word a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
-            for (std::size_t t = 0; t < 80; ++t) {
-                if (t >= 16)
-                    w[t & 15] = rotl<word>(w[(t - 3) & 15] ^ w[(t - 8) & 15] ^ w[(t - 14) & 15] ^ w[t & 15], 1);
-                const word f = t < 20 ? (b & c) | (~b & d) : t < 40 ? b ^ c ^ d : t < 60 ? (b & c) | (b & d) | (c & d) : b ^ c ^ d;
-                const word k = t < 20 ? 0x5a827999u : t < 40 ? 0x6ed9eba1u : t < 60 ? 0x8f1bbcdcu : 0xca62c1d6u;
-                const word tmp = rotl<word>(a, 5) + f + e + k + w[t & 15];
-                e = d;
-                d = c;
-                c = rotl<word>(b, 30);
-                b = a;
-                a = tmp;
-            }
+            twenty(a, b, c, d, e, w, 0, 0x5a827999u, [](word x, word y, word z) { return static_cast<word>((x & y) | (~x & z)); });
+            twenty(a, b, c, d, e, w, 20, 0x6ed9eba1u, [](word x, word y, word z) { return static_cast<word>(x ^ y ^ z); });
+            twenty(a, b, c, d, e, w, 40, 0x8f1bbcdcu, [](word x, word y, word z) { return static_cast<word>((x & y) | (x & z) | (y & z)); });
+            twenty(a, b, c, d, e, w, 60, 0xca62c1d6u, [](word x, word y, word z) { return static_cast<word>(x ^ y ^ z); });
             h[0] += a;
             h[1] += b;
             h[2] += c;
