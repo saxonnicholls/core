@@ -23,9 +23,12 @@
 #ifndef snicholls_core_secret_hpp
 #define snicholls_core_secret_hpp
 
+#include <snicholls/core/hash/secure.hpp>
+
 #include <algorithm>
 #include <cstddef>
 #include <ostream>
+#include <span>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -99,7 +102,7 @@ public:
 
     /// \brief Best effort: overwrite string storage before it is released.
     ///
-    /// (the optimiser may not elide volatile writes).
+    /// With `secure_wipe` (`hash/secure.hpp`), whose volatile writes the optimiser may not elide.
     ~secret() { wipe(); }
 
     /// \brief The reveal.
@@ -128,9 +131,7 @@ private:
     {
         if constexpr (std::is_same_v<T, std::string>)
         {
-            volatile char* p = value_.data();
-            for (std::size_t i = 0; i < value_.size(); ++i)
-                p[i] = '\0';
+            secure_wipe(std::span<char>(value_.data(), value_.size()));
         }
     }
 

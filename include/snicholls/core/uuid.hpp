@@ -52,7 +52,7 @@
 #include <string_view>
 #include <system_error>
 
-#include <snicholls/core/detail/sha1.hpp>
+#include <snicholls/core/hash/sha1.hpp>
 #include <snicholls/core/reflect/string_access.hpp>
 #include <snicholls/core/reflect/string_traits.hpp>
 
@@ -287,13 +287,13 @@ namespace detail {
 template <typename Name>
 constexpr uuid make_uuid_v5_from(const uuid& name_space, Name name) noexcept
 {
-    sha1 h;
-    h.update(std::span<const std::uint8_t>(name_space.bytes));
+    snicholls::sha1 h;
+    h.update(name_space.bytes);
     h.update(name);
-    const sha1::digest_type digest = h.finish();
+    const auto d = h.finish();
     uuid u;
     for (std::size_t i = 0; i < 16; ++i)
-        u.bytes[i] = digest[i];   // the first 128 of 160 bits
+        u.bytes[i] = static_cast<std::uint8_t>(d.bytes[i]);   // the first 128 of 160 bits
     u.bytes[6] = static_cast<std::uint8_t>((u.bytes[6] & 0x0FU) | 0x50U);
     u.bytes[8] = static_cast<std::uint8_t>((u.bytes[8] & 0x3FU) | 0x80U);
     return u;

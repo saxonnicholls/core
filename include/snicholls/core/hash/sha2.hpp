@@ -1,0 +1,221 @@
+//
+//  sha2.hpp
+//  snicholls-core
+//
+//  Copyright 2010-2026 Saxon Herschel Nicholls
+//
+
+/// \file
+/// \brief SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 (FIPS 180-4), usable at compile time.
+/// \ingroup core
+///
+/// **Overview.** The SHA-2 family, each as a class with an incremental interface (`update` any number of times,
+/// then `finish`) and a one-shot `hash`. Every function is `constexpr`, so a digest of a short input is a
+/// constant the compiler computes and a `static_assert` can check; at run time the same code runs, with word loads
+/// the compiler fuses into one load and a byte swap. Input is any `hash_input` (text, bytes, a digest); output a
+/// `digest<N>`.
+///
+/// \snippet hash/sha2_demo.cpp sha256
+///
+/// Use SHA-256 for content addresses, file and model checksums, Bitcoin's double hash and anything a protocol
+/// names; SHA-512 where a protocol names it (Ed25519, BIP-32 and BIP-39 through HMAC-SHA512), and on 64-bit hosts
+/// where its 128-byte block makes it faster than SHA-256 per byte. SHA-512/256 is SHA-512's speed with a 32-byte
+/// digest and no length extension. For a password use `pbkdf2_hmac` or `scrypt` (`hash/kdf.hpp`,
+/// `hash/scrypt.hpp`), never a bare hash; for a message authentication code, `hmac<sha256>` (`hash/hmac.hpp`).
+///
+/// **Relationships.** `digest<N>` and `hash_input` (`hash/digest.hpp`); `hmac`, `hkdf_*`, `pbkdf2_hmac`, `scrypt`
+/// build on these; `sha1` (`hash/sha1.hpp`) and `ripemd160` share the Merkle-Damgard engine
+/// (`detail/hash_engine.hpp`). Group: \ref core.
+///
+/// **Implementations / variants.** `sha224` and `sha256` share the 32-bit compression (64-byte blocks);
+/// `sha384`, `sha512`, `sha512_224` and `sha512_256` share the 64-bit compression (128-byte blocks). Each variant
+/// is the shared compression with its own initial value and a truncated output, as FIPS 180-4 defines it.
+///
+/// **Guarantees.** Every member is `constexpr` and `noexcept`; no allocation, no I/O, no global state; a hasher is
+/// a trivially copyable value (a copy forks the computation, which `hmac` uses). Not thread-safe to share one
+/// object between threads; distinct objects are independent. Complexity: one compression per block. After
+/// `finish` the object must not be used again except by assigning a fresh one.
+///
+/// **Errors.** None. Input longer than 2^61 bytes (the length field's limit for SHA-256) is not supported.
+///
+/// **Examples.** Above; `demos/hash/sha2_demo.cpp`.
+///
+/// **Performance.** `benchmarks/hash/sha2_benchmark.cpp`, against a hand-written loop with `memcpy` loads and
+/// OpenSSL's EVP interface when it is installed, after a fairness check that every digest agrees. Release, Apple clang 17, Xeon W-3245 (a shared machine), 2026-11-20, 16 KiB / 64-byte messages: 
+/// SHA-256 core 239 / 119 MB/s, the hand loop 236 / 114, OpenSSL 514 / 101; SHA-512 core 374 / 165, hand 340 / 173,
+/// OpenSSL 760 / 116. OpenSSL's lead on long inputs is its SIMD schedule and, on CPUs that have them, the SHA
+/// instructions, which core cannot use (no platform headers); on short messages its per-call cost dominates.
+///
+/// **Tests and demos.** `tests/hash/sha2_test.cpp` (the FIPS 180-4 examples, NIST's byte-oriented short-message
+/// and Monte Carlo vectors from `tests/fixtures/hash/`, Python's `hashlib` on random lengths, every split of an
+/// input, compile-time digests), `demos/hash/sha2_demo.cpp`.
+///
+/// **Dependencies.** `<array>`, `<cstddef>`, `<cstdint>`, `hash/digest.hpp`, `detail/hash_engine.hpp`.
+///
+/// **Known issues.** SHA-256 and SHA-512 admit length extension: `H(secret || message)` is not a MAC; use `hmac`.
+/// Hashing a long input in a constant expression can reach the compiler's evaluation limit (Clang's
+/// `-fconstexpr-steps`, GCC's `-fconstexpr-ops-limit`): a few kilobytes is fine.
+///
+/// **Status.** New in 0.17.0. Experimental.
+
+#ifndef snicholls_core_hash_sha2_hpp
+#define snicholls_core_hash_sha2_hpp
+
+#include <snicholls/core/detail/hash_engine.hpp>
+#include <snicholls/core/hash/digest.hpp>
+
+#include <array>
+#include <cstddef>
+#include <cstdint>
+
+namespace snicholls {
+
+namespace detail {
+
+    inline constexpr std::uint32_t sha256_k[64] = {
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2};
+
+    inline constexpr std::uint64_t sha512_k[80] = {
+        0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba58189dbbc, 0x3956c25bf348b538,
+        0x59f111f1b605d019, 0x923f82a4af194f9b, 0xab1c5ed5da6d8118, 0xd807aa98a3030242, 0x12835b0145706fbe,
+        0x243185be4ee4b28c, 0x550c7dc3d5ffb4e2, 0x72be5d74f27b896f, 0x80deb1fe3b1696b1, 0x9bdc06a725c71235,
+        0xc19bf174cf692694, 0xe49b69c19ef14ad2, 0xefbe4786384f25e3, 0x0fc19dc68b8cd5b5, 0x240ca1cc77ac9c65,
+        0x2de92c6f592b0275, 0x4a7484aa6ea6e483, 0x5cb0a9dcbd41fbd4, 0x76f988da831153b5, 0x983e5152ee66dfab,
+        0xa831c66d2db43210, 0xb00327c898fb213f, 0xbf597fc7beef0ee4, 0xc6e00bf33da88fc2, 0xd5a79147930aa725,
+        0x06ca6351e003826f, 0x142929670a0e6e70, 0x27b70a8546d22ffc, 0x2e1b21385c26c926, 0x4d2c6dfc5ac42aed,
+        0x53380d139d95b3df, 0x650a73548baf63de, 0x766a0abb3c77b2a8, 0x81c2c92e47edaee6, 0x92722c851482353b,
+        0xa2bfe8a14cf10364, 0xa81a664bbc423001, 0xc24b8b70d0f89791, 0xc76c51a30654be30, 0xd192e819d6ef5218,
+        0xd69906245565a910, 0xf40e35855771202a, 0x106aa07032bbd1b8, 0x19a4c116b8d2d0c8, 0x1e376c085141ab53,
+        0x2748774cdf8eeb99, 0x34b0bcb5e19b48a8, 0x391c0cb3c5c95a63, 0x4ed8aa4ae3418acb, 0x5b9cca4f7763e373,
+        0x682e6ff3d6b2b8a3, 0x748f82ee5defb2fc, 0x78a5636f43172f60, 0x84c87814a1f0ab72, 0x8cc702081a6439ec,
+        0x90befffa23631e28, 0xa4506cebde82bde9, 0xbef9a3f7b2c67915, 0xc67178f2e372532b, 0xca273eceea26619c,
+        0xd186b8c721c0c207, 0xeada7dd6cde0eb1e, 0xf57d4f7fee6ed178, 0x06f067aa72176fba, 0x0a637dc5a2c898a6,
+        0x113f9804bef90dae, 0x1b710b35131c471b, 0x28db77f523047d84, 0x32caab7b40c72493, 0x3c9ebe0a15c9bebc,
+        0x431d67c49c100d4c, 0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817};
+
+    // One compression for both word sizes: the round constants, the rotation amounts and the round count are the
+    // only differences (FIPS 180-4 6.2.2 and 6.4.2). Eight rounds at a time with the working variables' roles
+    // rotated through the calls instead of moved, and the schedule kept in a ring of 16 words.
+    template <typename W, std::size_t Rounds, const W* K, unsigned S0a, unsigned S0b, unsigned S0c, unsigned S1a,
+              unsigned S1b, unsigned S1c, unsigned s0a, unsigned s0b, unsigned s0c, unsigned s1a, unsigned s1b,
+              unsigned s1c>
+    constexpr void sha2_compress(std::array<W, 8>& h, const W (&block)[16]) noexcept
+    {
+        W w[16]{};
+        for (std::size_t i = 0; i < 16; ++i)
+            w[i] = block[i];
+        W a = h[0], b = h[1], c = h[2], d = h[3], e = h[4], f = h[5], g = h[6], hh = h[7];
+        const auto round = [](W x0, W x1, W x2, W& x3, W x4, W x5, W x6, W& x7, W k, W wt) {
+            const W t1 = static_cast<W>(x7 + (rotr(x4, S1a) ^ rotr(x4, S1b) ^ rotr(x4, S1c)) + ((x4 & x5) ^ (~x4 & x6)) + k + wt);
+            const W t2 = static_cast<W>((rotr(x0, S0a) ^ rotr(x0, S0b) ^ rotr(x0, S0c)) + ((x0 & x1) ^ (x0 & x2) ^ (x1 & x2)));
+            x3 = static_cast<W>(x3 + t1);
+            x7 = static_cast<W>(t1 + t2);
+        };
+        const auto schedule = [&w](std::size_t t) {
+            const W x = w[(t + 1) & 15], y = w[(t + 14) & 15];
+            const W sig0 = rotr(x, s0a) ^ rotr(x, s0b) ^ static_cast<W>(x >> s0c);
+            const W sig1 = rotr(y, s1a) ^ rotr(y, s1b) ^ static_cast<W>(y >> s1c);
+            w[t & 15] = static_cast<W>(w[t & 15] + sig0 + w[(t + 9) & 15] + sig1);
+            return w[t & 15];
+        };
+        for (std::size_t t = 0; t < Rounds; t += 8) {
+            if (t >= 16)
+                for (std::size_t i = 0; i < 8; ++i)
+                    schedule(t + i);
+            round(a, b, c, d, e, f, g, hh, K[t], w[t & 15]);
+            round(hh, a, b, c, d, e, f, g, K[t + 1], w[(t + 1) & 15]);
+            round(g, hh, a, b, c, d, e, f, K[t + 2], w[(t + 2) & 15]);
+            round(f, g, hh, a, b, c, d, e, K[t + 3], w[(t + 3) & 15]);
+            round(e, f, g, hh, a, b, c, d, K[t + 4], w[(t + 4) & 15]);
+            round(d, e, f, g, hh, a, b, c, K[t + 5], w[(t + 5) & 15]);
+            round(c, d, e, f, g, hh, a, b, K[t + 6], w[(t + 6) & 15]);
+            round(b, c, d, e, f, g, hh, a, K[t + 7], w[(t + 7) & 15]);
+        }
+        h[0] = static_cast<W>(h[0] + a);
+        h[1] = static_cast<W>(h[1] + b);
+        h[2] = static_cast<W>(h[2] + c);
+        h[3] = static_cast<W>(h[3] + d);
+        h[4] = static_cast<W>(h[4] + e);
+        h[5] = static_cast<W>(h[5] + f);
+        h[6] = static_cast<W>(h[6] + g);
+        h[7] = static_cast<W>(h[7] + hh);
+    }
+
+    template <std::size_t DigestSize, std::array<std::uint32_t, 8> Initial>
+    struct sha256_policy
+    {
+        using word = std::uint32_t;
+        using state = std::array<word, 8>;
+        static constexpr std::size_t block_size = 64;
+        static constexpr std::size_t length_size = 8;
+        static constexpr std::size_t digest_size = DigestSize;
+        static constexpr bool big_endian = true;
+        static constexpr state initial = Initial;
+        static constexpr void compress(state& h, const word (&w)[16]) noexcept
+        {
+            sha2_compress<word, 64, sha256_k, 2, 13, 22, 6, 11, 25, 7, 18, 3, 17, 19, 10>(h, w);
+        }
+    };
+
+    template <std::size_t DigestSize, std::array<std::uint64_t, 8> Initial>
+    struct sha512_policy
+    {
+        using word = std::uint64_t;
+        using state = std::array<word, 8>;
+        static constexpr std::size_t block_size = 128;
+        static constexpr std::size_t length_size = 16;
+        static constexpr std::size_t digest_size = DigestSize;
+        static constexpr bool big_endian = true;
+        static constexpr state initial = Initial;
+        static constexpr void compress(state& h, const word (&w)[16]) noexcept
+        {
+            sha2_compress<word, 80, sha512_k, 28, 34, 39, 14, 18, 41, 1, 8, 7, 19, 61, 6>(h, w);
+        }
+    };
+
+} // namespace detail
+
+/// \brief SHA-224 (FIPS 180-4): SHA-256's compression, its own initial value, 28 bytes of output.
+/// \ingroup core
+using sha224 = md_hash<detail::sha256_policy<28, std::array<std::uint32_t, 8>{0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939,
+                                                                               0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4}>>;
+
+/// \brief SHA-256 (FIPS 180-4): 32 bytes of output over 64-byte blocks.
+/// \ingroup core
+using sha256 = md_hash<detail::sha256_policy<32, std::array<std::uint32_t, 8>{0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+                                                                               0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19}>>;
+
+/// \brief SHA-384 (FIPS 180-4): SHA-512's compression, its own initial value, 48 bytes of output.
+/// \ingroup core
+using sha384 = md_hash<detail::sha512_policy<
+    48, std::array<std::uint64_t, 8>{0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939,
+                                     0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4}>>;
+
+/// \brief SHA-512 (FIPS 180-4): 64 bytes of output over 128-byte blocks.
+/// \ingroup core
+using sha512 = md_hash<detail::sha512_policy<
+    64, std::array<std::uint64_t, 8>{0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
+                                     0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179}>>;
+
+/// \brief SHA-512/224 (FIPS 180-4 5.3.6): SHA-512's compression, its own initial value, 28 bytes of output.
+/// \ingroup core
+using sha512_224 = md_hash<detail::sha512_policy<
+    28, std::array<std::uint64_t, 8>{0x8c3d37c819544da2, 0x73e1996689dcd4d6, 0x1dfab7ae32ff9c82, 0x679dd514582f9fcf,
+                                     0x0f6d2b697bd44da8, 0x77e36f7304c48942, 0x3f9d85a86a1d36c8, 0x1112e6ad91d692a1}>>;
+
+/// \brief SHA-512/256 (FIPS 180-4 5.3.6): SHA-512's compression, its own initial value, 32 bytes of output.
+/// \ingroup core
+using sha512_256 = md_hash<detail::sha512_policy<
+    32, std::array<std::uint64_t, 8>{0x22312194fc2bf72c, 0x9f555fa3c84c64c2, 0x2393b86b6f53b151, 0x963877195940eabd,
+                                     0x96283ee2a88effe3, 0xbe5e1e2553863992, 0x2b0199fc2c85b8aa, 0x0eb72ddc81c52ca2}>>;
+
+} // namespace snicholls
+
+#endif /* snicholls_core_hash_sha2_hpp */

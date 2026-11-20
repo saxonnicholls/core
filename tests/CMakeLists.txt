@@ -44,8 +44,8 @@ add_executable(snicholls_core_tests
     containers/perfect_map_test.cpp
     containers/static_map_test.cpp
     detail/forward_like_test.cpp
+    detail/hash_engine_test.cpp
     detail/pp_for_each_test.cpp
-    detail/sha1_test.cpp
     detail/sobol_directions_test.cpp
     detail/struct_binders_test.cpp
     detail/unicode_tables_test.cpp
@@ -58,8 +58,20 @@ add_executable(snicholls_core_tests
     game/properties_test.cpp
     game/shapley_test.cpp
     game/tabular_test.cpp
+    hash/blake2_test.cpp
+    hash/blake3_test.cpp
+    hash/crc_test.cpp
+    hash/digest_test.cpp
     hash/fnv_test.cpp
     hash/hash_combine_test.cpp
+    hash/hmac_test.cpp
+    hash/kdf_test.cpp
+    hash/ripemd160_test.cpp
+    hash/scrypt_test.cpp
+    hash/secure_test.cpp
+    hash/sha1_test.cpp
+    hash/sha2_test.cpp
+    hash/sha3_test.cpp
     hash/wyhash_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
@@ -241,6 +253,11 @@ set_tests_properties(generated.struct_binders_up_to_date PROPERTIES LABELS bound
 add_test(NAME generated.unicode_tables_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_unicode_tables.py --check)
 set_tests_properties(generated.unicode_tables_up_to_date PROPERTIES LABELS boundary)
+# The hash oracle fixtures (tests/fixtures/hash/oracle_*.txt) must be what scripts/generate_hash_fixtures.py
+# computes from Python's hashlib, hmac and zlib; cases whose oracle package is not installed are skipped.
+add_test(NAME generated.hash_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_hash_fixtures.py --check)
+set_tests_properties(generated.hash_fixtures_up_to_date PROPERTIES LABELS boundary)
 
 # The time portability fixtures (tests/fixtures/time/) must be exactly what
 # scripts/generate_time_fixtures.py writes from Python's datetime and exact integer arithmetic.

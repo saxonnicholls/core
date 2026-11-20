@@ -102,13 +102,17 @@ def run(binary: pathlib.Path, min_time: float) -> dict:
 
 
 def section(name: str, source: str, data: dict) -> str:
-    rows = [b for b in data["benchmarks"] if b.get("run_type", "iteration") == "iteration"]
+    # A row the benchmark skipped (SkipWithMessage: an optional comparison that is not available here) has no time
+    rows = [b for b in data["benchmarks"] if b.get("run_type", "iteration") == "iteration" and not b.get("error_occurred")
+            and b.get("skipped", 0) == 0 and b.get("real_time", 0) > 0]
     to_ns = {"ns": 1, "us": 1e3, "ms": 1e6, "s": 1e9}
     times = [b["real_time"] * to_ns[b.get("time_unit", "ns")] for b in rows]
     fastest = min(times) if times else 1
     lines = [f"## {name}", "", f"`{source}`", "", "| benchmark | time | relative | throughput |", "| --- | ---: | ---: | ---: |"]
     for b, t in zip(rows, times):
         rate = human_rate(b["items_per_second"]) if "items_per_second" in b else ""
+        if not rate and "bytes_per_second" in b:
+            rate = human_rate(b["bytes_per_second"]).replace("/s", "B/s").replace(" B/s", " B/s")
         lines.append(f"| `{b['name']}` | {human_time(t)} | {t / fastest:.2f}x | {rate} |")
     return "\n".join(lines) + "\n"
 

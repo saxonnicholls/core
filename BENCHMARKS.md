@@ -19,7 +19,7 @@ and commit the result. The "relative" column is each row's time over the fastest
 | compiler | AppleClang 17.0.0.17000309 |
 | build | Release, `build-bench` |
 | min time per benchmark | 0.5 s |
-| this run | only `fft_benchmark`, `convolve_benchmark`, `ssd_benchmark`, `gla_benchmark`, `delta_rule_benchmark`, `rwkv_benchmark`, `short_conv_benchmark`; other sections are from earlier runs |
+| this run | only `fft_benchmark`, `convolve_benchmark`, `ssd_benchmark`, `gla_benchmark`, `delta_rule_benchmark`, `rwkv_benchmark`, `short_conv_benchmark`, `sha1`, `sha2`, `sha3`, `ripemd160`, `blake2`, `blake3`, `crc_`, `kdf`, `scrypt`; other sections are from earlier runs |
 
 ## accumulators_benchmark
 
@@ -75,6 +75,36 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Attributes_Colour` | 657.39 us | 2.46x | 1.60 G/s |
 | `BM_Attributes_TableByHand` | 792.53 us | 2.97x | 1.32 G/s |
 | `BM_Attributes_BareColoursNoGuard` | 267.01 us | 1.00x | 3.93 G/s |
+
+## blake2_benchmark
+
+`benchmarks/hash/blake2_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Blake2b_Core/64` | 980.99 us | 3.10x | 267.23 MB/s |
+| `BM_Blake2b_Core/16384` | 413.88 us | 1.31x | 633.42 MB/s |
+| `BM_Blake2b_HandWritten/64` | 845.26 us | 2.67x | 310.13 MB/s |
+| `BM_Blake2b_HandWritten/16384` | 416.03 us | 1.32x | 630.11 MB/s |
+| `BM_Blake2s_Core/64` | 823.05 us | 2.60x | 318.51 MB/s |
+| `BM_Blake2s_Core/16384` | 678.42 us | 2.15x | 386.41 MB/s |
+| `BM_Blake2s_HandWritten/64` | 694.49 us | 2.20x | 377.46 MB/s |
+| `BM_Blake2s_HandWritten/16384` | 688.82 us | 2.18x | 380.59 MB/s |
+| `BM_Blake2b_OpenSSL/64` | 2.48 ms | 7.85x | 105.89 MB/s |
+| `BM_Blake2b_OpenSSL/16384` | 316.16 us | 1.00x | 829.17 MB/s |
+| `BM_Blake2s_OpenSSL/64` | 2.31 ms | 7.29x | 113.69 MB/s |
+| `BM_Blake2s_OpenSSL/16384` | 483.86 us | 1.53x | 541.77 MB/s |
+
+## blake3_benchmark
+
+`benchmarks/hash/blake3_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Blake3_Core/64` | 435.13 us | 1.67x | 602.45 MB/s |
+| `BM_Blake3_Core/16384` | 261.31 us | 1.00x | 1.00 GB/s |
+| `BM_Blake3_HandWritten/64` | 472.43 us | 1.81x | 554.88 MB/s |
+| `BM_Blake3_HandWritten/16384` | 453.10 us | 1.73x | 578.57 MB/s |
 
 ## bloom_filter_benchmark
 
@@ -149,6 +179,28 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_OverlapSave_Core/16` | 420.40 us | 2.93x | 38.97 M/s |
 | `BM_OverlapSave_Core/64` | 357.97 us | 2.49x | 45.79 M/s |
 | `BM_OverlapSave_Core/512` | 427.27 us | 2.97x | 38.35 M/s |
+
+## crc_benchmark
+
+`benchmarks/hash/crc_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Crc32_Core/64` | 94.87 us | 1.03x | 2.76 GB/s |
+| `BM_Crc32_Core/16384` | 124.10 us | 1.34x | 2.11 GB/s |
+| `BM_Crc32_HandWritten/64` | 92.44 us | 1.00x | 2.84 GB/s |
+| `BM_Crc32_HandWritten/16384` | 122.63 us | 1.33x | 2.14 GB/s |
+| `BM_Crc32_BytewiseForScale/64` | 456.91 us | 4.94x | 573.74 MB/s |
+| `BM_Crc32_BytewiseForScale/16384` | 533.81 us | 5.77x | 491.09 MB/s |
+| `BM_Crc32c_Core/64` | 94.79 us | 1.03x | 2.77 GB/s |
+| `BM_Crc32c_Core/16384` | 124.64 us | 1.35x | 2.10 GB/s |
+| `BM_Crc32c_HandWritten/64` | 93.24 us | 1.01x | 2.81 GB/s |
+| `BM_Crc32c_HandWritten/16384` | 122.65 us | 1.33x | 2.14 GB/s |
+| `BM_Crc64Xz_Core/64` | 110.70 us | 1.20x | 2.37 GB/s |
+| `BM_Crc64Xz_Core/16384` | 127.46 us | 1.38x | 2.06 GB/s |
+| `BM_Crc64Xz_HandWritten/64` | 103.27 us | 1.12x | 2.54 GB/s |
+| `BM_Crc64Xz_HandWritten/16384` | 124.20 us | 1.34x | 2.11 GB/s |
+
 ## delta_rule_benchmark
 
 `benchmarks/ml/delta_rule_benchmark.cpp`
@@ -275,6 +327,19 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_InvokeWith_Core` | 135.35 us | 5.52x | 30.51 M/s |
 | `BM_InvokeWith_HandWritten` | 101.69 us | 4.15x | 40.33 M/s |
 | `BM_InvokeWith_DirectCall` | 24.52 us | 1.00x | 167.11 M/s |
+
+## kdf_benchmark
+
+`benchmarks/hash/kdf_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Pbkdf2Sha256_Core` | 1.13 ms | 2.07x |  |
+| `BM_Pbkdf2Sha256_HandWritten` | 1.13 ms | 2.07x |  |
+| `BM_Pbkdf2Sha512_Core` | 792.04 us | 1.45x |  |
+| `BM_Pbkdf2Sha512_HandWritten` | 738.42 us | 1.35x |  |
+| `BM_Pbkdf2Sha256_OpenSSL` | 800.45 us | 1.46x |  |
+| `BM_Pbkdf2Sha512_OpenSSL` | 547.75 us | 1.00x |  |
 
 ## linalg_batched_benchmark
 
@@ -517,6 +582,17 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `result_hand_propagate/50` | 20.22 us | 3.91x | 202.56 M/s |
 | `result_hand_propagate/100` | 12.41 us | 2.40x | 330.13 M/s |
 
+## ripemd160_benchmark
+
+`benchmarks/hash/ripemd160_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Ripemd160_Core/64` | 2.93 ms | 2.11x | 89.53 MB/s |
+| `BM_Ripemd160_Core/16384` | 1.39 ms | 1.00x | 189.05 MB/s |
+| `BM_Ripemd160_HandWritten/64` | 3.22 ms | 2.32x | 81.47 MB/s |
+| `BM_Ripemd160_HandWritten/16384` | 1.52 ms | 1.10x | 172.48 MB/s |
+
 ## rwkv_benchmark
 
 `benchmarks/ml/rwkv_benchmark.cpp`
@@ -527,6 +603,17 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_Wkv6_HandWritten` | 4.30 ms | 1.04x | 59.51 k/s |
 | `BM_Wkv7_Core` | 5.61 ms | 1.35x | 45.85 k/s |
 | `BM_Wkv7_HandWritten` | 5.56 ms | 1.34x | 46.08 k/s |
+
+## scrypt_benchmark
+
+`benchmarks/hash/scrypt_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_ScryptRoMix_Core` | 26.18 ms | 1.00x |  |
+| `BM_ScryptRoMix_HandWritten` | 26.98 ms | 1.03x |  |
+| `BM_Scrypt_Core` | 30.62 ms | 1.17x |  |
+| `BM_Scrypt_OpenSSL` | 39.27 ms | 1.50x |  |
 
 ## self_attention_benchmark
 
@@ -542,6 +629,55 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_SelfAttentionHeadBackward_Core/512` | 21.87 ms | 12.35x | 23.54 k/s |
 | `BM_SelfAttentionHeadBackward_HandWritten/128` | 1.77 ms | 1.00x | 72.30 k/s |
 | `BM_SelfAttentionHeadBackward_HandWritten/512` | 21.50 ms | 12.14x | 23.84 k/s |
+
+## sha1_benchmark
+
+`benchmarks/hash/sha1_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Sha1_Core/64` | 1.56 ms | 6.71x | 167.84 MB/s |
+| `BM_Sha1_Core/16384` | 757.68 us | 3.26x | 345.99 MB/s |
+| `BM_Sha1_HandWritten/64` | 1.91 ms | 8.22x | 136.93 MB/s |
+| `BM_Sha1_HandWritten/16384` | 1.05 ms | 4.53x | 248.71 MB/s |
+| `BM_Sha1_OpenSSL/64` | 1.91 ms | 8.18x | 137.60 MB/s |
+| `BM_Sha1_OpenSSL/16384` | 232.77 us | 1.00x | 1.13 GB/s |
+
+## sha2_benchmark
+
+`benchmarks/hash/sha2_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Sha256_Core/64` | 2.20 ms | 6.39x | 118.97 MB/s |
+| `BM_Sha256_Core/16384` | 1.10 ms | 3.18x | 238.92 MB/s |
+| `BM_Sha256_HandWritten/64` | 2.30 ms | 6.68x | 113.83 MB/s |
+| `BM_Sha256_HandWritten/16384` | 1.11 ms | 3.22x | 236.06 MB/s |
+| `BM_Sha512_Core/64` | 1.59 ms | 4.62x | 164.53 MB/s |
+| `BM_Sha512_Core/16384` | 701.06 us | 2.03x | 373.92 MB/s |
+| `BM_Sha512_HandWritten/64` | 1.52 ms | 4.40x | 172.77 MB/s |
+| `BM_Sha512_HandWritten/16384` | 771.88 us | 2.24x | 339.62 MB/s |
+| `BM_Sha256_OpenSSL/64` | 2.59 ms | 7.50x | 101.36 MB/s |
+| `BM_Sha256_OpenSSL/16384` | 510.11 us | 1.48x | 513.91 MB/s |
+| `BM_Sha512_OpenSSL/64` | 2.26 ms | 6.55x | 116.05 MB/s |
+| `BM_Sha512_OpenSSL/16384` | 344.72 us | 1.00x | 760.46 MB/s |
+
+## sha3_benchmark
+
+`benchmarks/hash/sha3_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Keccak256_Core/64` | 1.88 ms | 3.03x | 139.44 MB/s |
+| `BM_Keccak256_Core/16384` | 831.07 us | 1.34x | 315.43 MB/s |
+| `BM_Keccak256_HandWritten/64` | 2.87 ms | 4.63x | 91.42 MB/s |
+| `BM_Keccak256_HandWritten/16384` | 1.33 ms | 2.14x | 197.56 MB/s |
+| `BM_Sha3_256_Core/64` | 1.92 ms | 3.10x | 136.61 MB/s |
+| `BM_Sha3_256_Core/16384` | 820.61 us | 1.32x | 319.45 MB/s |
+| `BM_Sha3_256_HandWritten/64` | 2.87 ms | 4.63x | 91.37 MB/s |
+| `BM_Sha3_256_HandWritten/16384` | 1.34 ms | 2.16x | 196.18 MB/s |
+| `BM_Sha3_256_OpenSSL/64` | 2.87 ms | 4.63x | 91.33 MB/s |
+| `BM_Sha3_256_OpenSSL/16384` | 619.77 us | 1.00x | 423.01 MB/s |
 
 ## shapley_benchmark
 

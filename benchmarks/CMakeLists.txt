@@ -10,6 +10,8 @@
 # Each benchmark has its own main(), which runs the fairness check before
 # handing over to Google Benchmark, so it links benchmark::benchmark rather
 # than benchmark_main.
+option(SNICHOLLS_CORE_BENCH_OPENSSL "Compare the hash benchmarks with OpenSSL when it is found (informational)" ON)
+
 function(snicholls_core_add_benchmark name source)
     add_executable(snicholls_core_${name} ${source})
     target_link_libraries(snicholls_core_${name} PRIVATE snicholls::core benchmark::benchmark)
@@ -39,8 +41,25 @@ snicholls_core_add_benchmark(object_pool_benchmark containers/object_pool_benchm
 snicholls_core_add_benchmark(offset_ptr_benchmark containers/offset_ptr_benchmark.cpp)
 snicholls_core_add_benchmark(perfect_map_benchmark containers/perfect_map_benchmark.cpp)
 snicholls_core_add_benchmark(shapley_benchmark game/shapley_benchmark.cpp)
+snicholls_core_add_benchmark(blake2_benchmark hash/blake2_benchmark.cpp)
+snicholls_core_add_benchmark(blake3_benchmark hash/blake3_benchmark.cpp)
+snicholls_core_add_benchmark(crc_benchmark hash/crc_benchmark.cpp)
 snicholls_core_add_benchmark(hash_combine_benchmark hash/hash_combine_benchmark.cpp)
+snicholls_core_add_benchmark(kdf_benchmark hash/kdf_benchmark.cpp)
+snicholls_core_add_benchmark(ripemd160_benchmark hash/ripemd160_benchmark.cpp)
+snicholls_core_add_benchmark(scrypt_benchmark hash/scrypt_benchmark.cpp)
+snicholls_core_add_benchmark(sha1_benchmark hash/sha1_benchmark.cpp)
+snicholls_core_add_benchmark(sha2_benchmark hash/sha2_benchmark.cpp)
+snicholls_core_add_benchmark(sha3_benchmark hash/sha3_benchmark.cpp)
 snicholls_core_add_benchmark(wyhash_benchmark hash/wyhash_benchmark.cpp)
+# The hash benchmarks compare with OpenSSL when it is installed: an informational row, never a dependency of core
+find_package(OpenSSL 3 QUIET)
+if(OpenSSL_FOUND AND SNICHOLLS_CORE_BENCH_OPENSSL)
+    foreach(_hash blake2 kdf scrypt sha1 sha2 sha3)
+        target_link_libraries(snicholls_core_${_hash}_benchmark PRIVATE OpenSSL::Crypto)
+        target_compile_definitions(snicholls_core_${_hash}_benchmark PRIVATE SNICHOLLS_CORE_BENCH_OPENSSL=1)
+    endforeach()
+endif()
 snicholls_core_add_benchmark(attributes_benchmark meta/attributes_benchmark.cpp)
 snicholls_core_add_benchmark(linalg_batched_benchmark linalg/batched_benchmark.cpp)
 # 10^6 systems take minutes; the smoke run solves 4096 (the benchmark reads this variable)
