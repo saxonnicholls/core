@@ -71,7 +71,7 @@ void expect_nist(const std::string& prefix)
 {
     for (const auto& m : test::read_nist_short(prefix + "ShortMsg.rsp"))
         ASSERT_EQ(hex(H::hash(m.message).bytes), m.digest) << prefix << " length " << m.message.size();
-    const auto seed = test::unhex(test::read_rsp_field(prefix + "Monte.rsp", "Seed"));
+    const auto seed = test::unhex_bytes(test::read_rsp_field(prefix + "Monte.rsp", "Seed"));
     EXPECT_EQ(test::sha3_monte<H>(seed), test::read_monte_expected(prefix + "Monte.rsp", "MD")) << prefix;
 }
 
@@ -89,7 +89,7 @@ void expect_shake_monte(const std::string& file)
 {
     const std::size_t min_bytes = std::stoull(test::read_rsp_field(file, "Minimum Output Length (bits)")) / 8;
     const std::size_t max_bytes = std::stoull(test::read_rsp_field(file, "Maximum Output Length (bits)")) / 8;
-    std::vector<std::byte> output = test::unhex(test::read_rsp_field(file, "Msg"));
+    std::vector<std::byte> output = test::unhex_bytes(test::read_rsp_field(file, "Msg"));
     std::size_t length = max_bytes;
     std::vector<std::string> got;
     for (int j = 0; j < 100; ++j) {
@@ -190,7 +190,7 @@ TEST(Sha3Keccak, EthereumAddressIsTheLastTwentyBytesOfThePublicKeyHash)
 {
     // The uncompressed public key of private key 1, without its 0x04 prefix; its address is
     // 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf
-    const auto pub = test::unhex(
+    const auto pub = test::unhex_bytes(
         "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
         "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8");
     const auto h = keccak256::hash(pub);

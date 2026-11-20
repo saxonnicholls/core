@@ -42,7 +42,7 @@ TEST(Sha1Vectors, NistShortMessagesAndMonteCarlo)
 {
     for (const auto& m : test::read_nist_short("SHA1ShortMsg.rsp"))
         ASSERT_EQ(hex(sha1::hash(m.message).bytes), m.digest) << "length " << m.message.size();
-    const auto seed = test::unhex(test::read_rsp_field("SHA1Monte.rsp", "Seed"));
+    const auto seed = test::unhex_bytes(test::read_rsp_field("SHA1Monte.rsp", "Seed"));
     EXPECT_EQ(test::sha2_monte<sha1>(seed), test::read_monte_expected("SHA1Monte.rsp", "MD"));
 }
 

@@ -34,7 +34,7 @@
 namespace snicholls::test {
 
 /// Bytes from a hexadecimal string (even length, either case).
-inline std::vector<std::byte> unhex(std::string_view text)
+inline std::vector<std::byte> unhex_bytes(std::string_view text)
 {
     const auto nibble = [](char c) -> int {
         if (c >= '0' && c <= '9') return c - '0';
@@ -174,7 +174,7 @@ inline std::vector<nist_message> read_nist_short(const std::string& file)
         const auto len = r.fields.find("Len");
         if (len == r.fields.end()) continue;
         nist_message m;
-        m.message = unhex(r.fields.at("Msg"));
+        m.message = unhex_bytes(r.fields.at("Msg"));
         m.message.resize(std::stoull(len->second) / 8);
         m.digest = r.fields.at("MD");
         out.push_back(std::move(m));

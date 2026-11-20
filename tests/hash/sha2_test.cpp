@@ -95,7 +95,7 @@ void expect_nist(const std::string& prefix)
         ++n;
     }
     EXPECT_GE(n, 65u);
-    const auto seed = test::unhex(test::read_rsp_field(prefix + "Monte.rsp", "Seed"));
+    const auto seed = test::unhex_bytes(test::read_rsp_field(prefix + "Monte.rsp", "Seed"));
     EXPECT_EQ(test::sha2_monte<H>(seed), test::read_monte_expected(prefix + "Monte.rsp", "MD")) << prefix << " Monte";
 }
 

@@ -48,7 +48,7 @@ TEST(Ripemd160Vectors, BitcoinHash160OfTheGeneratorPoint)
 {
     // The compressed public key of private key 1 (the secp256k1 generator), whose P2PKH address is
     // 1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH: hash160 = 751e76e8199196d454941c45d1b3a323f1433bd6
-    const auto pubkey = test::unhex("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798");
+    const auto pubkey = test::unhex_bytes("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798");
     EXPECT_EQ(ripemd160::hash(sha256::hash(pubkey)).hex().view(), "751e76e8199196d454941c45d1b3a323f1433bd6");
 }
 

@@ -28,7 +28,7 @@ namespace {
 
 using namespace snicholls;
 using snicholls::test::hex;
-using snicholls::test::unhex;
+using snicholls::test::unhex_bytes;
 
 // Compile time: RFC 6070's second vector and RFC 5869's first
 static_assert(pbkdf2_hmac<sha1, 20>("password", "salt", 2).unwrap_unchecked().hex().view() == "ea6c014dc72d6f8ccd1ed92ace1d41f0d8de8957");
@@ -77,13 +77,13 @@ constexpr rfc5869_case rfc5869[] = {
 template <typename H>
 void expect_rfc5869(const rfc5869_case& c)
 {
-    const auto prk = hkdf_extract<H>(unhex(c.salt), unhex(c.ikm));
+    const auto prk = hkdf_extract<H>(unhex_bytes(c.salt), unhex_bytes(c.ikm));
     EXPECT_EQ(hex(prk.bytes), c.prk);
     std::vector<std::byte> okm(c.length);
-    ASSERT_TRUE(hkdf_expand<H>(prk, unhex(c.info), okm));
+    ASSERT_TRUE(hkdf_expand<H>(prk, unhex_bytes(c.info), okm));
     EXPECT_EQ(hex(okm), c.okm);
     std::vector<std::byte> again(c.length);
-    ASSERT_TRUE(hkdf<H>(unhex(c.salt), unhex(c.ikm), unhex(c.info), again));
+    ASSERT_TRUE(hkdf<H>(unhex_bytes(c.salt), unhex_bytes(c.ikm), unhex_bytes(c.info), again));
     EXPECT_EQ(again, okm);
 }
 

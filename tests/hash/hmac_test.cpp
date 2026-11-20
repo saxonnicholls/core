@@ -28,7 +28,7 @@ namespace {
 
 using namespace snicholls;
 using snicholls::test::hex;
-using snicholls::test::unhex;
+using snicholls::test::unhex_bytes;
 
 static_assert(hmac<sha256>::mac("Jefe", "what do ya want for nothing?").hex().view() ==
               "5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843");
@@ -84,7 +84,7 @@ template <typename H>
 std::string tag(const std::string& key, const std::string& data, std::size_t hex_digits)
 {
     const std::string k = key == "aa x 131" ? std::string(262, 'a') : key;   // cases 6 and 7: 131 bytes of 0xaa
-    return hex(hmac<H>::mac(unhex(k), unhex(data)).bytes).substr(0, hex_digits);
+    return hex(hmac<H>::mac(unhex_bytes(k), unhex_bytes(data)).bytes).substr(0, hex_digits);
 }
 
 TEST(HmacVectors, Rfc4231Sha2)
@@ -106,11 +106,11 @@ TEST(HmacVectors, Rfc2202Sha1)
     std::string cd;
     for (int i = 0; i < 50; ++i) cd += "cd";
     EXPECT_EQ(tag<sha1>("0102030405060708090a0b0c0d0e0f10111213141516171819", cd, 40), "4c9007f4026250c6bc8414f9bf50c86c2d7235da");
-    EXPECT_EQ(hex(hmac<sha1>::mac(unhex("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c"), "Test With Truncation").bytes),
+    EXPECT_EQ(hex(hmac<sha1>::mac(unhex_bytes("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c"), "Test With Truncation").bytes),
               "4c1a03424b55e07fe7f27be1d58bb9324a9a5a04");
-    EXPECT_EQ(hex(hmac<sha1>::mac(unhex(aa80), "Test Using Larger Than Block-Size Key - Hash Key First").bytes),
+    EXPECT_EQ(hex(hmac<sha1>::mac(unhex_bytes(aa80), "Test Using Larger Than Block-Size Key - Hash Key First").bytes),
               "aa4ae5e15272d00e95705637ce8a3b55ed402112");
-    EXPECT_EQ(hex(hmac<sha1>::mac(unhex(aa80), "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data").bytes),
+    EXPECT_EQ(hex(hmac<sha1>::mac(unhex_bytes(aa80), "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data").bytes),
               "e8e99d0f45237d786d6bbaa7965c7808bbff1a91");
 }
 
