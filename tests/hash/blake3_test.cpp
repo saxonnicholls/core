@@ -147,7 +147,9 @@ TEST(Blake3Incremental, EverySplitGivesTheOneShotDigest)
         for (std::size_t a = 0; a <= n; a += step)
             for (std::size_t b = a; b <= n; b += step + 4)
                 ASSERT_EQ(test::hash_in_parts<blake3>(m, a, b), whole) << "n=" << n << " a=" << a << " b=" << b;
-        if (n < 2100) ASSERT_EQ(test::hash_bytewise<blake3>(m), whole);
+        if (n < 2100) {
+            ASSERT_EQ(test::hash_bytewise<blake3>(m), whole);
+        }
     }
 }
 
