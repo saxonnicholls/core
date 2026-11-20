@@ -805,11 +805,12 @@ struct grammar_utf8_state
 };
 
 /// \brief Decodes UTF-8 from a partial state as llama.cpp's `decode_utf8(std::string, llama_partial_utf8)`: the
-/// whole code points, and the state an unfinished last sequence leaves.
+/// whole code points, and the state an unfinished last sequence leaves. Named apart from `decode_utf8` in
+/// `ml/unicode.hpp` (one code point at an offset), so `decode_utf8_partial(s, {})` cannot resolve to that one.
 /// \param text The bytes.
 /// \param start The state the previous text left.
 /// \return The code points and the new state; an invalid sequence gives no code points and `remaining == -1`.
-[[nodiscard]] constexpr std::pair<std::vector<std::uint32_t>, grammar_utf8_state> decode_utf8(std::string_view text, grammar_utf8_state start)
+[[nodiscard]] constexpr std::pair<std::vector<std::uint32_t>, grammar_utf8_state> decode_utf8_partial(std::string_view text, grammar_utf8_state start)
 {
     constexpr int lookup[] = {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 3, 4};
     std::vector<std::uint32_t> out;
@@ -912,7 +913,7 @@ public:
     /// \return Whether any stack survives.
     constexpr bool accept_string(std::string_view text)
     {
-        const auto [cps, state] = decode_utf8(text, partial_);
+        const auto [cps, state] = decode_utf8_partial(text, partial_);
         for (const std::uint32_t c : cps)
             if (!accept_code_point(c))
                 break;
@@ -934,7 +935,7 @@ public:
     /// \return Whether any stack survives.
     constexpr bool accept_token(std::uint32_t token, std::string_view piece)
     {
-        const auto [cps, state] = decode_utf8(piece, partial_);
+        const auto [cps, state] = decode_utf8_partial(piece, partial_);
         std::vector<stack> out;
         for (const auto& s : stacks_) {
             if (s.empty())
@@ -990,7 +991,7 @@ public:
     {
         if (piece.empty() || piece[0] == '\0')
             return false;
-        const auto [cps, state] = decode_utf8(piece, partial_);
+        const auto [cps, state] = decode_utf8_partial(piece, partial_);
         for (const auto& s : stacks_) {
             if (s.empty()) {
                 if (cps.empty() && state.remaining == 0)

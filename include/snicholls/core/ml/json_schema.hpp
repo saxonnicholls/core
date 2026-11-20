@@ -1139,7 +1139,7 @@ namespace detail::json_schema
             };
             std::vector<node> trie(1);
             for (const auto& s : strings) {
-                const auto cps = decode_utf8(s, {}).first;
+                const auto cps = decode_utf8_partial(s, {}).first;
                 std::size_t cur = 0;
                 for (const std::uint32_t c : cps) {
                     auto& ch = trie[cur].children;

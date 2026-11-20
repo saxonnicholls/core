@@ -94,7 +94,7 @@ reason ::= [a-z ]+
     std::array<bool, 6> by_callable{};
     n.token_mask([&](std::uint32_t t) { return vocab[t]; }, [](std::uint32_t t) { return t == 5; }, std::span<bool>(by_callable));
     ok &= by_callable == std::array<bool, 6>{false, false, false, true, false, false};
-    const auto [cps, state] = ml::decode_utf8("caf\xc3", {});
+    const auto [cps, state] = ml::decode_utf8_partial("caf\xc3", {});
     ok &= cps.size() == 3 && state.remaining == 1;
     std::printf("  step by step: %s\n", ok ? "as documented" : "NOT as documented");
 

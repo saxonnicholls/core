@@ -601,16 +601,16 @@ TEST(GrammarMatch, AcceptStringCarriesPartialUtf8)
 
 TEST(GrammarMatch, DecodeUtf8AsLlamaCpp)
 {
-    auto [a, sa] = ml::decode_utf8("a\xc3\xa9\xe2\x82", {});
+    auto [a, sa] = ml::decode_utf8_partial("a\xc3\xa9\xe2\x82", {});
     EXPECT_EQ(a, (std::vector<std::uint32_t>{'a', 0xe9}));
     EXPECT_EQ(sa, (ml::grammar_utf8_state{0x82, 1}));
-    auto [b, sb] = ml::decode_utf8("\xac!", sa);   // completes the euro sign
+    auto [b, sb] = ml::decode_utf8_partial("\xac!", sa);   // completes the euro sign
     EXPECT_EQ(b, (std::vector<std::uint32_t>{0x20ac, '!'}));
     EXPECT_EQ(sb.remaining, 0);
-    EXPECT_EQ(ml::decode_utf8("\xa9", {}).second.remaining, -1);         // a continuation byte first: invalid
-    EXPECT_TRUE(ml::decode_utf8("x\xa9", {}).first.empty());            // and the whole piece is invalid
-    EXPECT_EQ(ml::decode_utf8("a", {0x03, 1}).second.remaining, -1);    // not the continuation expected
-    EXPECT_EQ(ml::decode_utf8("", {}).first.size(), 0u);
+    EXPECT_EQ(ml::decode_utf8_partial("\xa9", {}).second.remaining, -1);         // a continuation byte first: invalid
+    EXPECT_TRUE(ml::decode_utf8_partial("x\xa9", {}).first.empty());            // and the whole piece is invalid
+    EXPECT_EQ(ml::decode_utf8_partial("a", {0x03, 1}).second.remaining, -1);    // not the continuation expected
+    EXPECT_EQ(ml::decode_utf8_partial("", {}).first.size(), 0u);
 }
 
 // ---- the token mask
