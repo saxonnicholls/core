@@ -63,6 +63,7 @@ add_executable(snicholls_core_tests
     hash/ripemd160_test.cpp
     hash/sha1_test.cpp
     hash/sha2_test.cpp
+    hash/sha3_test.cpp
     hash/wyhash_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp

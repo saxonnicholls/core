@@ -83,6 +83,7 @@
 #include <snicholls/core/hash/ripemd160.hpp>
 #include <snicholls/core/hash/sha1.hpp>
 #include <snicholls/core/hash/sha2.hpp>
+#include <snicholls/core/hash/sha3.hpp>
 #include <snicholls/core/hash/wyhash.hpp>
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
