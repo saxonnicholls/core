@@ -17,7 +17,8 @@ random lengths up to 10,000. The versions that produced the committed files are 
     ./scripts/generate_hash_fixtures.py --check   recompute every case this Python can and exit 1 on a difference
 
 --check skips the cases whose oracle is not installed (and says so), so it runs on a stock Python: hashlib, hmac
-and zlib cover the SHA-1/2/3, SHAKE, BLAKE2, HMAC, HKDF, PBKDF2, scrypt and CRC-32 cases.
+and zlib cover the SHA-1/2/3, SHAKE, BLAKE2, HMAC, HKDF, PBKDF2, scrypt and CRC-32 cases. A minimal Python
+(python3-minimal, as in the Ubuntu image) has hashlib and zlib but not hmac: the HMAC and HKDF cases are skipped.
 
 Format: one case per line, space-separated: `name length params... hex`, '#' starts a comment. The message is
 message(length); the key, salt and other inputs of each name are defined below and in tests/support/hash_fixtures.hpp.
@@ -26,9 +27,7 @@ message(length); the key, salt and other inputs of each name are defined below a
     key(n)           message(n) with 0x6b65790000000000 added to the seed (n * 2^32 + i / 8)
 """
 import hashlib
-import hmac
 import importlib
-import importlib.metadata
 import pathlib
 import platform
 import sys
@@ -189,12 +188,16 @@ def families():
     def hm(algo):
         # key lengths cycle through empty, short, exactly the block and longer than the block (hashed first)
         def f(n):
+            import hmac
+
             k = (0, 1, 20, 64, 65, 128, 129, 200)[n % 8]
             return [(n, k, hmac.new(key(k), message(n), algo).hexdigest())]
 
         return f
 
     def hkdf_sha256(n):
+        import hmac
+
         length = 1 + (n * 13) % 300
         prk = hmac.new(key(16), message(n), hashlib.sha256).digest()
         okm, t, i = b"", b"", 1
@@ -218,11 +221,11 @@ def families():
     mac_lengths = few(ls, 4)
     kdf_lengths = few(ls, 10)
     mac = [
-        cases("hmac_sha1", None, hm("sha1"), mac_lengths),
-        cases("hmac_sha256", None, hm("sha256"), mac_lengths),
-        cases("hmac_sha512", None, hm("sha512"), mac_lengths),
-        cases("hmac_sha3_256", None, hm("sha3_256"), mac_lengths),
-        cases("hkdf_sha256", None, hkdf_sha256, kdf_lengths),
+        cases("hmac_sha1", "hmac", hm("sha1"), mac_lengths),
+        cases("hmac_sha256", "hmac", hm("sha256"), mac_lengths),
+        cases("hmac_sha512", "hmac", hm("sha512"), mac_lengths),
+        cases("hmac_sha3_256", "hmac", hm("sha3_256"), mac_lengths),
+        cases("hkdf_sha256", "hmac", hkdf_sha256, kdf_lengths),
         cases("pbkdf2_sha1", None, pbkdf2("sha1"), kdf_lengths),
         cases("pbkdf2_sha256", None, pbkdf2("sha256"), kdf_lengths),
         cases("pbkdf2_sha512", None, pbkdf2("sha512"), kdf_lengths),
@@ -242,6 +245,8 @@ def available(need):
 
 
 def versions():
+    import importlib.metadata
+
     def version(dist):
         try:
             return importlib.metadata.version(dist)
