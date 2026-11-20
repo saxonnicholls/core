@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['dash_5fpunctuation_0',['dash_punctuation',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a8f8c8fdf04503f4ecdc1fad0f36a887f',1,'snicholls::ml']]],
+  ['debug_1',['debug',['../group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0aad42f6697b035b7580e4fef93be20b4d',1,'snicholls']]],
+  ['decimal_5fnumber_2',['decimal_number',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a8b023dd1fce546563517b9755b4ca42a',1,'snicholls::ml']]],
+  ['deepseek_5fcoder_3',['deepseek_coder',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a8b2206fe0091b5892e702280a97302f3',1,'snicholls::ml']]],
+  ['deepseek_5fllm_4',['deepseek_llm',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a428982986a9c973b8b67b39ca1f3b53e',1,'snicholls::ml']]],
+  ['deepseek_5fv3_5',['deepseek_v3',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a8b713563ea3ed86c8c7d63eedf437977',1,'snicholls::ml']]],
+  ['descending_6',['descending',['../tensor__ops_8hpp.html#adc92105e791e317a2c5e6ecc1c1e2755ab19e9805fd7727c52ca04dfa3d24a2e5',1,'snicholls::ml']]],
+  ['did_5fnot_5fconverge_7',['did_not_converge',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0aacda4b4490ccb13a5db5192c72bb6d68',1,'did_not_convergesnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151aacda4b4490ccb13a5db5192c72bb6d68',1,'did_not_convergesnicholls::linalg']]],
+  ['dimension_5fmismatch_8',['dimension_mismatch',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0afa5a1299c298ea39fb893169e211ceda',1,'dimension_mismatchsnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151afa5a1299c298ea39fb893169e211ceda',1,'dimension_mismatchsnicholls::linalg']]],
+  ['duplicate_9',['duplicate',['../byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8a24f1b0a79473250c195c7fb84e393392',1,'snicholls::containers']]]
+];
