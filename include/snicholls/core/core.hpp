@@ -83,7 +83,11 @@
 #include <snicholls/core/hash/digest.hpp>
 #include <snicholls/core/hash/fnv.hpp>
 #include <snicholls/core/hash/hash_combine.hpp>
+#include <snicholls/core/hash/hmac.hpp>
+#include <snicholls/core/hash/kdf.hpp>
 #include <snicholls/core/hash/ripemd160.hpp>
+#include <snicholls/core/hash/scrypt.hpp>
+#include <snicholls/core/hash/secure.hpp>
 #include <snicholls/core/hash/sha1.hpp>
 #include <snicholls/core/hash/sha2.hpp>
 #include <snicholls/core/hash/sha3.hpp>

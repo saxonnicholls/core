@@ -63,7 +63,11 @@ add_executable(snicholls_core_tests
     hash/digest_test.cpp
     hash/fnv_test.cpp
     hash/hash_combine_test.cpp
+    hash/hmac_test.cpp
+    hash/kdf_test.cpp
     hash/ripemd160_test.cpp
+    hash/scrypt_test.cpp
+    hash/secure_test.cpp
     hash/sha1_test.cpp
     hash/sha2_test.cpp
     hash/sha3_test.cpp
