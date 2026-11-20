@@ -467,9 +467,9 @@ constexpr void tl1_pack(std::span<const std::int8_t> t, std::size_t M, std::size
     assert(t.size() == M * K && out.size() == tl1_packed_bytes(M, K) && M % BM == 0 && K % BY == 0 && BM % bm == 0 && BY % by == 0
            && bm % 16 == 0 && by % 4 == 0);
     const auto tiling = tl_tiling(M, K, 2, BM, BY, bm, by);
-    const std::array<step, 6> steps{tiling[0], tiling[1], tiling[2], tiling[3],
-                                    step{7, {M / BM, K / BY, BM / bm, BY / by, bm / 16, 16, by / 2}, {0, 1, 2, 3, 4, 6, 5}},
-                                    step{8, {M / BM, K / BY, BM / bm, BY / by, bm / 16, by / 4, 2, 16}, {0, 1, 2, 3, 4, 5, 7, 6}}};
+    const std::array<detail::bitnet::step, 6> steps{tiling[0], tiling[1], tiling[2], tiling[3],
+                                    detail::bitnet::step{7, {M / BM, K / BY, BM / bm, BY / by, bm / 16, 16, by / 2}, {0, 1, 2, 3, 4, 6, 5}},
+                                    detail::bitnet::step{8, {M / BM, K / BY, BM / bm, BY / by, bm / 16, by / 4, 2, 16}, {0, 1, 2, 3, 4, 5, 7, 6}}};
     const auto code = [&](std::size_t pair) { return tl1_code(t[2 * pair], t[2 * pair + 1]); };
     for (std::size_t o = 0; o < out.size(); ++o)
         out[o] = static_cast<std::uint8_t>((code(source_of(2 * o, steps)) << 4) + code(source_of(2 * o + 1, steps)));
@@ -515,9 +515,9 @@ constexpr void tl2_pack(std::span<const std::int8_t> t, std::size_t M, std::size
         out[o] = static_cast<std::uint8_t>((triple(source_of(2 * b, mags)).magnitude << 4) + triple(source_of(2 * b + 1, mags)).magnitude);
     }
     // signs: 16 bits a uint16, written little-endian
-    const std::array<step, 5> signs{mags[0], mags[1], mags[2],
-                                    step{6, {M / BM, K3 / BY, BM / bm, BY / (by * 4), by / 3 * 4, bm}, {0, 1, 2, 3, 5, 4}},
-                                    step{6, {M / BM, K3 / BY, BM / bm, BY / (by * 4), bm, by / 3 * 4}, {0, 1, 2, 3, 5, 4}}};
+    const std::array<detail::bitnet::step, 5> signs{mags[0], mags[1], mags[2],
+                                    detail::bitnet::step{6, {M / BM, K3 / BY, BM / bm, BY / (by * 4), by / 3 * 4, bm}, {0, 1, 2, 3, 5, 4}},
+                                    detail::bitnet::step{6, {M / BM, K3 / BY, BM / bm, BY / (by * 4), bm, by / 3 * 4}, {0, 1, 2, 3, 5, 4}}};
     const std::size_t n_sign = M * K3 / 3 / 8;
     for (std::size_t u = 0; u < n_sign / 2; ++u) {
         const std::size_t outer = u / (bm / 2), c = u % (bm / 2);
