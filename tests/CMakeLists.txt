@@ -59,6 +59,7 @@ add_executable(snicholls_core_tests
     game/tabular_test.cpp
     hash/blake2_test.cpp
     hash/blake3_test.cpp
+    hash/crc_test.cpp
     hash/digest_test.cpp
     hash/fnv_test.cpp
     hash/hash_combine_test.cpp

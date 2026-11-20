@@ -79,6 +79,7 @@
 #include <snicholls/core/game/tabular.hpp>
 #include <snicholls/core/hash/blake2.hpp>
 #include <snicholls/core/hash/blake3.hpp>
+#include <snicholls/core/hash/crc.hpp>
 #include <snicholls/core/hash/digest.hpp>
 #include <snicholls/core/hash/fnv.hpp>
 #include <snicholls/core/hash/hash_combine.hpp>
