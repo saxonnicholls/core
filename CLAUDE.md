@@ -62,7 +62,10 @@ A header is admitted only if all of the following hold.
   sizes known at compile time, bounded loops, no recursion, no allocation. Core never includes a device header, but
   its compute primitives stay device-ready: pure `constexpr` functions with no allocation in the inner loop (callable from CUDA kernels under `--expt-relaxed-constexpr`), spans
   of plain data in, trivially copyable state, partial results that `merge` (a parallel reduction), and randomness by
-  stream or by index (`wyrand::stream`, `sobol::point`).
+  stream or by index (`wyrand::stream`, `sobol::point`). Device-ready means ready for **both CUDA and OpenCL**: every
+  device capability is a core concept that snicholls-gpu implements twice, once per API, behind one compile-time
+  interface (the backend a template parameter, no virtual dispatch, no run-time cost), and is tested, demonstrated and
+  benchmarked on both, CUDA's speed and accuracy against OpenCL's (snicholls-gpu's CLAUDE.md).
 
 Who pins whom, and this never reverses: core pins nothing; base-encode-decode and ts-moveables pin core; the
 libraries above them pin core and those. Nothing in core depends on a library that depends on core.
