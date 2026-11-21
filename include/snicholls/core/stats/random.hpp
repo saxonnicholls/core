@@ -23,7 +23,8 @@
 /// gives the same draws everywhere.
 ///
 /// **Relationships.** `stats/bootstrap.hpp`, `stats/low_discrepancy.hpp`, `game/shapley.hpp`'s
-/// samplers; `hash/wyhash.hpp` for the mixer. Group: \ref core.
+/// samplers; `stats/uniform_int.hpp` for `std::uniform_int_distribution`'s interface, and to reproduce libstdc++'s or
+/// libc++'s draws exactly; `hash/wyhash.hpp` for the mixer. Group: \ref core.
 ///
 /// **Guarantees.** `constexpr`, `noexcept`, no allocation. `wyrand` is 8 bytes and trivially copyable;
 /// `stream(seed, k)` gives independent-looking generators for parallel work. Not cryptographic.

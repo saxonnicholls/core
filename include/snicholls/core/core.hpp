@@ -211,6 +211,7 @@
 #include <snicholls/core/stats/normal.hpp>
 #include <snicholls/core/stats/pivot.hpp>
 #include <snicholls/core/stats/random.hpp>
+#include <snicholls/core/stats/uniform_int.hpp>
 #include <snicholls/core/stochastic/martingale.hpp>
 #include <snicholls/core/stochastic/snell.hpp>
 #include <snicholls/core/time/business_days.hpp>

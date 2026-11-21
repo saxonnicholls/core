@@ -3,6 +3,19 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.18.0 - 2026-11-21
+
+### Added
+
+- `stats/uniform_int.hpp`: `uniform_int<T, D>`, a drop-in for `std::uniform_int_distribution<T>` whose algorithm is
+  a template parameter instead of whatever the standard library ships. `draw::core` (the default) is
+  `uniform_index`; `draw::libstdcxx` reproduces libstdc++'s distribution (GCC 11 and later, 64-bit targets) and
+  `draw::libcxx` libc++'s, to the bit, on every platform. A program can now agree with another program's seeded
+  choices (llama.cpp's HellaSwag selection, a benchmark subset picked on Linux) wherever it is built. Checked draw
+  for draw against the real libraries: libc++ under Apple Clang, libstdc++ under GCC 13, GCC 15 and Clang 18; 27
+  committed sequences of 10,000 draws over `mt19937`, `mt19937_64`, `minstd_rand`, `ranlux24_base` and `wyrand`
+  are checked on every platform. `constexpr` over a `constexpr` generator. MSVC's algorithm is not reproduced.
+
 ## 0.17.0 - 2026-11-20
 
 Inference, quantisation, tokenizers, signal processing, linear-time sequence mixers and hashes, each a `constexpr`

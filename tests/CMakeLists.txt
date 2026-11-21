@@ -193,6 +193,7 @@ add_executable(snicholls_core_tests
     stats/normal_test.cpp
     stats/pivot_test.cpp
     stats/random_test.cpp
+    stats/uniform_int_test.cpp
     stochastic/martingale_test.cpp
     stochastic/snell_test.cpp
     time/business_days_test.cpp

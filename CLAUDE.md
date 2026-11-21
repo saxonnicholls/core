@@ -413,7 +413,8 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   statement, so no compiler fuses an FMA. Matrix work (matmul, Muon's matrix iteration) belongs with the matrices,
   above core.
 - Randomness: `stats::wyrand` and `stats::uniform_index`, never `std::uniform_int_distribution` (its output differs
-  between standard libraries, so a seed would not reproduce). Resampling: `stats::bootstrap_moments` for anything
+  between standard libraries, so a seed would not reproduce). To agree with another program's draws, name its
+  library: `stats::uniform_int<T, draw::libstdcxx>` or `<T, draw::libcxx>`, the same on every platform. Resampling: `stats::bootstrap_moments` for anything
   built from means and variances (no resample is gathered), `stats::resample_table` when the same `n` is bootstrapped
   for many series, the stationary bootstrap for returns, `stats::bootstrap` for anything else. Quasi-Monte Carlo:
   `stats::sobol<D>`, shifted copies for an error bar. `detail/sobol_directions.hpp` is generated; never edit it.
