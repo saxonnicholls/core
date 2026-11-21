@@ -179,6 +179,7 @@ var group__core =
     [ "normal.hpp", "normal_8hpp.html", null ],
     [ "pivot.hpp", "pivot_8hpp.html", null ],
     [ "random.hpp", "random_8hpp.html", null ],
+    [ "uniform_int.hpp", "uniform__int_8hpp.html", null ],
     [ "martingale.hpp", "martingale_8hpp.html", null ],
     [ "snell.hpp", "snell_8hpp.html", null ],
     [ "strong.hpp", "strong_8hpp.html", null ],
@@ -255,6 +256,7 @@ var group__core =
     [ "snicholls::stats::mergeable", "conceptsnicholls_1_1stats_1_1mergeable.html", null ],
     [ "snicholls::stats::normal_sampler", "conceptsnicholls_1_1stats_1_1normal__sampler.html", null ],
     [ "snicholls::stats::full_range_generator", "conceptsnicholls_1_1stats_1_1full__range__generator.html", null ],
+    [ "snicholls::stats::standard_int_type", "conceptsnicholls_1_1stats_1_1standard__int__type.html", null ],
     [ "snicholls::colour_reset_t", "structsnicholls_1_1colour__reset__t.html", null ],
     [ "snicholls::acout", "classsnicholls_1_1acout.html", [
       [ "acout", "classsnicholls_1_1acout.html#a6a80ed18458add590436ede8e137fd73", null ],
@@ -3083,6 +3085,17 @@ var group__core =
       [ "operator()", "classsnicholls_1_1stats_1_1wyrand.html#a1c4858fc75c7303e65e81db8aedd5217", null ],
       [ "operator==", "classsnicholls_1_1stats_1_1wyrand.html#a68d17b293855a2e97a7c1a553827b7a5", null ]
     ] ],
+    [ "snicholls::stats::uniform_int&lt; T, D &gt;", "classsnicholls_1_1stats_1_1uniform__int.html", [
+      [ "result_type", "classsnicholls_1_1stats_1_1uniform__int.html#a93ade3f23f8f8611b776fb65ee24a42a", null ],
+      [ "uniform_int", "classsnicholls_1_1stats_1_1uniform__int.html#ae27387df62290771f16f19167e2ce0b2", null ],
+      [ "a", "classsnicholls_1_1stats_1_1uniform__int.html#afac14b8f3f3ddb447225ff837f20f8eb", null ],
+      [ "b", "classsnicholls_1_1stats_1_1uniform__int.html#a2fd5c3336a49e342375771c40fb7f0cf", null ],
+      [ "max", "classsnicholls_1_1stats_1_1uniform__int.html#afa0e745b22726fad9c511efe6a2677bd", null ],
+      [ "min", "classsnicholls_1_1stats_1_1uniform__int.html#aacc2e5e18b90b772e6ea42f41625a061", null ],
+      [ "operator()", "classsnicholls_1_1stats_1_1uniform__int.html#a54c807099a771b4a283bf85946b7c4e9", null ],
+      [ "reset", "classsnicholls_1_1stats_1_1uniform__int.html#aec04df5dd90f678ad70c82679da7dce3", null ],
+      [ "operator==", "classsnicholls_1_1stats_1_1uniform__int.html#aeafa064b92fc1c7b47764bbdf7354a09", null ]
+    ] ],
     [ "snicholls::stochastic::doob_parts", "structsnicholls_1_1stochastic_1_1doob__parts.html", [
       [ "compensator", "structsnicholls_1_1stochastic_1_1doob__parts.html#a15dcb341522862a6689e5954a157b52a", null ],
       [ "martingale", "structsnicholls_1_1stochastic_1_1doob__parts.html#ac18f91c4fd653bf354ea7a25d92c8b6d", null ]
@@ -3503,6 +3516,11 @@ var group__core =
     [ "snicholls::linalg::diagonal", "group__core.html#ga793302c74afd7e56b5bf507f01b0840b", [
       [ "snicholls::linalg::diagonal::explicit_diagonal", "group__core.html#gga793302c74afd7e56b5bf507f01b0840ba51d651ec5f55c0e9d7b266320d627195", null ],
       [ "snicholls::linalg::diagonal::implicit_unit", "group__core.html#gga793302c74afd7e56b5bf507f01b0840ba53ceb6224acdb4758e9104ad007020a2", null ]
+    ] ],
+    [ "snicholls::stats::draw", "group__core.html#gaf61c9efa99e9bdd06c362d0ee2f6c265", [
+      [ "snicholls::stats::draw::core", "group__core.html#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25", null ],
+      [ "snicholls::stats::draw::libstdcxx", "group__core.html#ggaf61c9efa99e9bdd06c362d0ee2f6c265a84ecd2a19ad32e749974e7fca87f3d8b", null ],
+      [ "snicholls::stats::draw::libcxx", "group__core.html#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa020123e9cf2d0b9d0d6f0ca236b6521", null ]
     ] ],
     [ "snicholls::linalg::error", "group__core.html#ga5022bc05054efff84b4729afa44d90a0", [
       [ "snicholls::linalg::error::singular", "group__core.html#gga5022bc05054efff84b4729afa44d90a0a6558000adbdbb1f87a94fe236eeae5e8", null ],

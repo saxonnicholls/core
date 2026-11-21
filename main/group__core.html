@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -456,6 +456,8 @@ Files</h2></td></tr>
 <tr class="memdesc:pivot_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">stats::pivot</span>: a pivot table whose rows, columns and measures are types, filled in one pass. <br /></td></tr>
 <tr class="memitem:random_2Ehpp" id="r_random_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="random_8hpp.html">random.hpp</a></td></tr>
 <tr class="memdesc:random_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">wyrand</span>, a fast 64-bit generator, and unbiased draws from any full-range generator. <br /></td></tr>
+<tr class="memitem:uniform_5Fint_2Ehpp" id="r_uniform_5Fint_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="uniform__int_8hpp.html">uniform_int.hpp</a></td></tr>
+<tr class="memdesc:uniform__int_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">uniform_int&lt;T, D&gt;</span>: a drop-in <span class="tt">std::uniform_int_distribution</span> whose draws are named, not left to the standard library: core's own, or libstdc++'s or libc++'s reproduced to the bit on every platform. <br /></td></tr>
 <tr class="memitem:martingale_2Ehpp" id="r_martingale_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="martingale_8hpp.html">martingale.hpp</a></td></tr>
 <tr class="memdesc:martingale_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Martingale tools: the Doob decomposition, the martingale transform, quadratic variation, Markov chains, and tests of the martingale hypothesis. <br /></td></tr>
 <tr class="memitem:snell_2Ehpp" id="r_snell_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snell_8hpp.html">snell.hpp</a></td></tr>
@@ -614,6 +616,8 @@ Concepts</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A source of standard normal draws: <span class="tt">s(g)</span> takes what it needs from the generator <span class="tt">g</span>. <br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Afull_5Frange_5Fgenerator" id="r_snicholls_3A_3Astats_3A_3Afull_5Frange_5Fgenerator"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1stats_1_1full__range__generator.html">snicholls::stats::full_range_generator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generator of 32 or 64 full bits: <span class="tt">[0, 2^32)</span> or <span class="tt">[0, 2^64)</span>. <br /></td></tr>
+<tr class="memitem:snicholls_3A_3Astats_3A_3Astandard_5Fint_5Ftype" id="r_snicholls_3A_3Astats_3A_3Astandard_5Fint_5Ftype"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conceptsnicholls_1_1stats_1_1standard__int__type.html">snicholls::stats::standard_int_type</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The integer types <span class="tt">std::uniform_int_distribution</span> accepts: <span class="tt">short</span> to <span class="tt">unsigned long long</span>. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -1388,6 +1392,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pivot table; see the file description.  <a href="classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astats_3A_3Awyrand" id="r_snicholls_3A_3Astats_3A_3Awyrand"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1stats_1_1wyrand.html">snicholls::stats::wyrand</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">wyhash's generator: 64 random bits per call from one add and one wide multiply.  <a href="classsnicholls_1_1stats_1_1wyrand.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Astats_3A_3Auniform_5Fint_3C_20T_2C_20D_20_3E" id="r_snicholls_3A_3Astats_3A_3Auniform_5Fint_3C_20T_2C_20D_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1stats_1_1uniform__int.html">snicholls::stats::uniform_int&lt; T, D &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A uniform integer in <span class="tt">[<a class="el" href="classsnicholls_1_1stats_1_1uniform__int.html#afac14b8f3f3ddb447225ff837f20f8eb" title="The smallest value.">a</a>, <a class="el" href="classsnicholls_1_1stats_1_1uniform__int.html#a2fd5c3336a49e342375771c40fb7f0cf" title="The largest value.">b</a>]</span>, drawn by the algorithm <span class="tt">D</span> names: a drop-in for <span class="tt">std::uniform_int_distribution&lt;T&gt;</span> whose output does not depend on the standard library.  <a href="classsnicholls_1_1stats_1_1uniform__int.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astochastic_3A_3Adoob_5Fparts" id="r_snicholls_3A_3Astochastic_3A_3Adoob_5Fparts"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1stochastic_1_1doob__parts.html">snicholls::stochastic::doob_parts</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A path split as <span class="tt">X_t = X_0 + M_t + A_t</span>: the martingale part and the predictable compensator, both 0 at time 0.  <a href="structsnicholls_1_1stochastic_1_1doob__parts.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Astochastic_3A_3Amarkov_5Fchain" id="r_snicholls_3A_3Astochastic_3A_3Amarkov_5Fchain"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1stochastic_1_1markov__chain.html">snicholls::stochastic::markov_chain</a></td></tr>
@@ -1469,7 +1475,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaa1583aa0ec8823339a420408e653e40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable <span class="tt">?</span> as a statement, discarding the value: returns the error of <span class="tt">expr</span> if there is one.  <br /></td></tr>
 <tr class="memitem:ga4402bc98a6b5059cc7188522bf2c869a" id="r_ga4402bc98a6b5059cc7188522bf2c869a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;17</td></tr>
+<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;18</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
@@ -2122,6 +2128,11 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#gga6637c07c34c92b444b0751e0ac2a418da2c7fa5b4147150b7dfdb1ff83dbfab3e">resampling::poisson</a>
  }</td></tr>
 <tr class="memdesc:ga6637c07c34c92b444b0751e0ac2a418d"><td class="mdescLeft">&#160;</td><td class="mdescRight">How <span class="tt">bootstrap_moments</span> resamples.  <a href="#ga6637c07c34c92b444b0751e0ac2a418d">More...</a><br /></td></tr>
+<tr class="memitem:gaf61c9efa99e9bdd06c362d0ee2f6c265" id="r_gaf61c9efa99e9bdd06c362d0ee2f6c265"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaf61c9efa99e9bdd06c362d0ee2f6c265">snicholls::stats::draw</a> { <a class="el" href="#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25">draw::core</a>
+, <a class="el" href="#ggaf61c9efa99e9bdd06c362d0ee2f6c265a84ecd2a19ad32e749974e7fca87f3d8b">draw::libstdcxx</a>
+, <a class="el" href="#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa020123e9cf2d0b9d0d6f0ca236b6521">draw::libcxx</a>
+ }</td></tr>
+<tr class="memdesc:gaf61c9efa99e9bdd06c362d0ee2f6c265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whose algorithm a <span class="tt">uniform_int</span> draws with.  <a href="#gaf61c9efa99e9bdd06c362d0ee2f6c265">More...</a><br /></td></tr>
 <tr class="memitem:ga3f99d4e0402ac25c5fea1a11976abe6a" id="r_ga3f99d4e0402ac25c5fea1a11976abe6a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3f99d4e0402ac25c5fea1a11976abe6a">snicholls::precision_policy</a> : std::uint8_t { <a class="el" href="#gga3f99d4e0402ac25c5fea1a11976abe6aa6bfaf02d9f3b165809fb7f056665a6bd">snicholls::precision_policy::reject</a>
 , <a class="el" href="#gga3f99d4e0402ac25c5fea1a11976abe6aa244f58cf07c35fd48d7524b289551e5c">snicholls::precision_policy::truncate</a>
  }</td></tr>
@@ -3310,7 +3321,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;17</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;18</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5529,6 +5540,40 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </table>
 
 <p class="definition">Definition at line <a class="el" href="types_8hpp_source.html#l00160">160</a> of file <a class="el" href="types_8hpp_source.html">types.hpp</a>.</p>
+
+</div>
+</div>
+<a id="gaf61c9efa99e9bdd06c362d0ee2f6c265" name="gaf61c9efa99e9bdd06c362d0ee2f6c265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf61c9efa99e9bdd06c362d0ee2f6c265">&#9670;&#160;</a></span>draw</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#gaf61c9efa99e9bdd06c362d0ee2f6c265">snicholls::stats::draw</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whose algorithm a <span class="tt"><a class="el" href="classsnicholls_1_1stats_1_1uniform__int.html" title="A uniform integer in [a, b], drawn by the algorithm D names: a drop-in for std::uniform_int_distribut...">uniform_int</a></span> draws with. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25" name="ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25"></a>core&#160;</td><td class="fielddoc"><p><span class="tt"><a class="el" href="#ga994076086c4d4ef3f1d8877fe5bd0929" title="An unbiased index in [0, n) (Lemire&#39;s nearly divisionless method): one draw almost always.">uniform_index</a></span>: Lemire's nearly divisionless draw; needs 32 or 64 full bits. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf61c9efa99e9bdd06c362d0ee2f6c265a84ecd2a19ad32e749974e7fca87f3d8b" name="ggaf61c9efa99e9bdd06c362d0ee2f6c265a84ecd2a19ad32e749974e7fca87f3d8b"></a>libstdcxx&#160;</td><td class="fielddoc"><p>libstdc++'s <span class="tt">std::uniform_int_distribution</span>, GCC 11 and later, 64-bit targets. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf61c9efa99e9bdd06c362d0ee2f6c265aa020123e9cf2d0b9d0d6f0ca236b6521" name="ggaf61c9efa99e9bdd06c362d0ee2f6c265aa020123e9cf2d0b9d0d6f0ca236b6521"></a>libcxx&#160;</td><td class="fielddoc"><p>libc++'s <span class="tt">std::uniform_int_distribution</span>. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="uniform__int_8hpp_source.html#l00076">76</a> of file <a class="el" href="uniform__int_8hpp_source.html">uniform_int.hpp</a>.</p>
 
 </div>
 </div>
@@ -18146,7 +18191,7 @@ requires (G::max() == std::numeric_limits&lt;std::uint64_t&gt;::max())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The bits. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00120">120</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00121">121</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
 
 </div>
 </div>
@@ -19444,7 +19489,7 @@ template&lt;typename T, full_range_generator G&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00201">201</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00202">202</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
 
 </div>
 </div>
@@ -21839,7 +21884,7 @@ template&lt;full_range_generator G&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The index. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00145">145</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00146">146</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
 
 </div>
 </div>
@@ -21895,7 +21940,7 @@ template&lt;typename Refill&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The index. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00168">168</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00169">169</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
 
 </div>
 </div>
@@ -21939,7 +21984,7 @@ template&lt;full_range_generator G&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The draw. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00189">189</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00190">190</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
 
 </div>
 </div>

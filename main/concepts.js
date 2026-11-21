@@ -44,7 +44,8 @@ var concepts =
         [ "accumulator", "conceptsnicholls_1_1stats_1_1accumulator.html", null ],
         [ "mergeable", "conceptsnicholls_1_1stats_1_1mergeable.html", null ],
         [ "normal_sampler", "conceptsnicholls_1_1stats_1_1normal__sampler.html", null ],
-        [ "full_range_generator", "conceptsnicholls_1_1stats_1_1full__range__generator.html", null ]
+        [ "full_range_generator", "conceptsnicholls_1_1stats_1_1full__range__generator.html", null ],
+        [ "standard_int_type", "conceptsnicholls_1_1stats_1_1standard__int__type.html", null ]
       ] ],
       [ "printable_any", "conceptsnicholls_1_1printable__any.html", null ],
       [ "number_like", "conceptsnicholls_1_1number__like.html", null ],

@@ -371,7 +371,8 @@ var annotated_dup =
         [ "measure", "structsnicholls_1_1stats_1_1measure.html", null ],
         [ "pivot", "classsnicholls_1_1stats_1_1pivot.html", null ],
         [ "pivot&lt; Row, meta::type_list&lt; Rs... &gt;, meta::type_list&lt; Cs... &gt;, measure&lt; Vs, As &gt;... &gt;", "classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html", "classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204" ],
-        [ "wyrand", "classsnicholls_1_1stats_1_1wyrand.html", "classsnicholls_1_1stats_1_1wyrand" ]
+        [ "wyrand", "classsnicholls_1_1stats_1_1wyrand.html", "classsnicholls_1_1stats_1_1wyrand" ],
+        [ "uniform_int", "classsnicholls_1_1stats_1_1uniform__int.html", "classsnicholls_1_1stats_1_1uniform__int" ]
       ] ],
       [ "stochastic", null, [
         [ "doob_parts", "structsnicholls_1_1stochastic_1_1doob__parts.html", "structsnicholls_1_1stochastic_1_1doob__parts" ],

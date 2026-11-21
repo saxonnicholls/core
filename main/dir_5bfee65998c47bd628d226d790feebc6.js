@@ -6,5 +6,6 @@ var dir_5bfee65998c47bd628d226d790feebc6 =
     [ "low_discrepancy.hpp", "low__discrepancy_8hpp.html", "low__discrepancy_8hpp" ],
     [ "normal.hpp", "normal_8hpp.html", null ],
     [ "pivot.hpp", "pivot_8hpp.html", "pivot_8hpp" ],
-    [ "random.hpp", "random_8hpp.html", "random_8hpp" ]
+    [ "random.hpp", "random_8hpp.html", "random_8hpp" ],
+    [ "uniform_int.hpp", "uniform__int_8hpp.html", "uniform__int_8hpp" ]
 ];

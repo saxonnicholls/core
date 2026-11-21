@@ -195,7 +195,7 @@ var searchData=
   ['copies_20in_20one_20build_192',['Two copies in one build',['../index.html#autotoc_md5',1,'']]],
   ['copy_5finto_193',['copy_into',['../classsnicholls_1_1acout.html#a6c4b5cbeff2a7aa8ad9a944aa2a8873c',1,'snicholls::acout']]],
   ['copy_5frows_194',['copy_rows',['../linear_8hpp.html#a733b870030a4e25af05d411db01c094d',1,'snicholls::ml']]],
-  ['core_195',['core',['../group__core.html',1,'snicholls-core'],['../index.html',1,'snicholls-core']]],
+  ['core_195',['core',['../group__core.html#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25',1,'coresnicholls::stats'],['../group__core.html',1,'snicholls-core'],['../index.html',1,'snicholls-core']]],
   ['core_2ehpp_196',['core.hpp',['../core_8hpp.html',1,'']]],
   ['core_5fviolation_197',['core_violation',['../structsnicholls_1_1game_1_1core__violation.html',1,'snicholls::game']]],
   ['correct_198',['correct',['../structsnicholls_1_1ml_1_1preference__metrics.html#a528e8dd26122513ffa9b1872774986e2',1,'snicholls::ml::preference_metrics']]],

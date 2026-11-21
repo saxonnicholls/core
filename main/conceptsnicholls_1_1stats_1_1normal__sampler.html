@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,7 +100,7 @@ $(function(){initNavTree('conceptsnicholls_1_1stats_1_1normal__sampler.html','',
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> G&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1stats_1_1normal__sampler.html">snicholls::stats::normal_sampler</a> =  <a class="code hl_concept" href="conceptsnicholls_1_1stats_1_1full__range__generator.html">full_range_generator&lt;G&gt;</a> &amp;&amp; <span class="keyword">requires</span>(S&amp; s, G&amp; g) { { s(g) } -&gt; std::convertible_to&lt;double&gt;; }</div>
-<div class="ttc" id="aconceptsnicholls_1_1stats_1_1full__range__generator_html"><div class="ttname"><a href="conceptsnicholls_1_1stats_1_1full__range__generator.html">snicholls::stats::full_range_generator</a></div><div class="ttdoc">A generator of 32 or 64 full bits: [0, 2^32) or [0, 2^64).</div><div class="ttdef"><b>Definition</b> <a href="random_8hpp_source.html#l00108">random.hpp:108</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1stats_1_1full__range__generator_html"><div class="ttname"><a href="conceptsnicholls_1_1stats_1_1full__range__generator.html">snicholls::stats::full_range_generator</a></div><div class="ttdoc">A generator of 32 or 64 full bits: [0, 2^32) or [0, 2^64).</div><div class="ttdef"><b>Definition</b> <a href="random_8hpp_source.html#l00109">random.hpp:109</a></div></div>
 <div class="ttc" id="aconceptsnicholls_1_1stats_1_1normal__sampler_html"><div class="ttname"><a href="conceptsnicholls_1_1stats_1_1normal__sampler.html">snicholls::stats::normal_sampler</a></div><div class="ttdoc">A source of standard normal draws: s(g) takes what it needs from the generator g.</div><div class="ttdef"><b>Definition</b> <a href="normal_8hpp_source.html#l00081">normal.hpp:81</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A source of standard normal draws: <span class="tt">s(g)</span> takes what it needs from the generator <span class="tt">g</span>. </p>

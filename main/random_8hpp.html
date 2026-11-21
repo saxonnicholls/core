@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.17.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -159,7 +159,7 @@ requires (G::max() == std::numeric_limits&lt;std::uint32_t&gt;::max())</td></tr>
 <div class="line">    <span class="comment">// One stream per worker, from one seed.</span></div>
 <div class="line">    stats::wyrand worker_3 = stats::wyrand::stream(2026, 3);</div>
 </div><!-- fragment --><p>Any <span class="tt">std::uniform_random_bit_generator</span> of 32 or 64 full bits works (<span class="tt">std::mt19937</span>, <span class="tt">std::mt19937_64</span>, <span class="tt">wyrand</span>); the draws here are specified to the bit, so the same generator state gives the same draws everywhere.</p>
-<p><b>Relationships.</b> <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span>, <span class="tt"><a class="el" href="low__discrepancy_8hpp.html" title="Sobol and Halton sequences: points that fill the unit cube evenly, for faster-converging Monte Carlo.">stats/low_discrepancy.hpp</a></span>, <span class="tt"><a class="el" href="shapley_8hpp.html" title="Shapley attribution of a game, exactly or by sampling, and the attribution methods it is compared wit...">game/shapley.hpp</a></span>'s samplers; <span class="tt"><a class="el" href="wyhash_8hpp.html" title="wyhash final version 4.3: a fast 64-bit hash, usable at compile time and the same on every machine.">hash/wyhash.hpp</a></span> for the mixer. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<p><b>Relationships.</b> <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span>, <span class="tt"><a class="el" href="low__discrepancy_8hpp.html" title="Sobol and Halton sequences: points that fill the unit cube evenly, for faster-converging Monte Carlo.">stats/low_discrepancy.hpp</a></span>, <span class="tt"><a class="el" href="shapley_8hpp.html" title="Shapley attribution of a game, exactly or by sampling, and the attribution methods it is compared wit...">game/shapley.hpp</a></span>'s samplers; <span class="tt"><a class="el" href="uniform__int_8hpp.html" title="uniform_int&lt;T, D&gt;: a drop-in std::uniform_int_distribution whose draws are named, not left to the sta...">stats/uniform_int.hpp</a></span> for <span class="tt">std::uniform_int_distribution</span>'s interface, and to reproduce libstdc++'s or libc++'s draws exactly; <span class="tt"><a class="el" href="wyhash_8hpp.html" title="wyhash final version 4.3: a fast 64-bit hash, usable at compile time and the same on every machine.">hash/wyhash.hpp</a></span> for the mixer. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, <span class="tt">noexcept</span>, no allocation. <span class="tt">wyrand</span> is 8 bytes and trivially copyable; <span class="tt">stream(seed, k)</span> gives independent-looking generators for parallel work. Not cryptographic.</p>
 <p><b>Errors.</b> None: <span class="tt">uniform_index</span> of 0 is a precondition violation (asserted).</p>
 <p><b>Performance.</b> See <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span> and <span class="tt">BENCHMARKS.md</span>.</p>
@@ -211,7 +211,7 @@ requires (G::max() == std::numeric_limits&lt;std::uint32_t&gt;::max())</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The bits. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00132">132</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8hpp_source.html#l00133">133</a> of file <a class="el" href="random_8hpp_source.html">random.hpp</a>.</p>
 
 </div>
 </div>

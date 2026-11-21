@@ -585,6 +585,7 @@ var hierarchy =
     [ "snicholls::meta::type_list&lt; Ts &gt;", "structsnicholls_1_1meta_1_1type__list.html", null ],
     [ "snicholls::ml::typical_sampler&lt; T &gt;", "structsnicholls_1_1ml_1_1typical__sampler.html", null ],
     [ "snicholls::uint256", "classsnicholls_1_1uint256.html", null ],
+    [ "snicholls::stats::uniform_int&lt; T, D &gt;", "classsnicholls_1_1stats_1_1uniform__int.html", null ],
     [ "snicholls::ml::unigram_lattice_entry", "structsnicholls_1_1ml_1_1unigram__lattice__entry.html", null ],
     [ "snicholls::ml::unigram_normalizer_options", "structsnicholls_1_1ml_1_1unigram__normalizer__options.html", null ],
     [ "snicholls::ml::unigram_unknown", "structsnicholls_1_1ml_1_1unigram__unknown.html", null ],
