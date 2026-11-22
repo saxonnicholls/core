@@ -251,6 +251,17 @@ TEST(MlMlp, SavingThePreActivationsChangesNoOutput)
     each_kind([]<ml::mlp_kind K>() { saving_gives_the_same_bits<K>(); });
 }
 
+// The gradients of the 4 -> 8 -> 4 MLP below, for n tokens and m hidden values in all. A class of its own, not local to
+// the test: MSVC's code generator faults (C1001) on a local class whose member initialisers read the function's constants
+struct mlp_grads {
+    mlp_grads(bool gated, std::size_t n, std::size_t m)
+        : dx(n * 4), up(32), gate(gated ? 32 : 0), down(32), bu(8), bg(gated ? 8 : 0), bd(4), scratch(2 * m)
+    {
+    }
+    std::vector<double> dx, up, gate, down, bu, bg, bd, scratch;
+    ml::mlp_gradients<double> view() { return {up, gate, down, bu, bg, bd, scratch}; }
+};
+
 // The batched pair over a sequence of three tokens, through the reference backend, against mlp_forward and
 // mlp_backward token by token: the same outputs and gradients within rounding
 template <ml::mlp_kind K>
@@ -262,12 +273,7 @@ void batched_is_per_token()
                bg = wave(8, 0.2, 1.1), bd = wave(4, 0.1, 0.7), xs = wave(n * 4, 1.5, 0.9), gs = wave(n * 4, 1.0, 1.7);
     const ml::mlp_weights<WD, double> w{WD{up, 8, 4}, swiglu ? WD{gate, 8, 4} : WD{}, WD{down, 4, 8}, bu,
                                         swiglu ? std::span<const double>(bg) : std::span<const double>{}, bd};
-    struct grads_t {
-        std::vector<double> dx = std::vector<double>(n * 4), up = std::vector<double>(32), gate = std::vector<double>(swiglu ? 32 : 0),
-                            down = std::vector<double>(32), bu = std::vector<double>(8), bg = std::vector<double>(swiglu ? 8 : 0),
-                            bd = std::vector<double>(4), scratch = std::vector<double>(2 * m);
-        ml::mlp_gradients<double> view() { return {up, gate, down, bu, bg, bd, scratch}; }
-    } one, many;
+    mlp_grads one(swiglu, n, m), many(swiglu, n, m);
     std::vector<double> ys1(n * 4), su(8), sg(swiglu ? 8 : 0);
     for (std::size_t t = 0; t < n; ++t) {
         const auto x = std::span<const double>(xs).subspan(t * 4, 4);
