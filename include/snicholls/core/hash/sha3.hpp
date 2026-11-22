@@ -175,8 +175,7 @@ namespace detail {
 /// \tparam Pad The domain padding byte: `0x06` for SHA-3, `0x01` for Keccak.
 /// \tparam DigestSize The digest size in bytes.
 template <std::size_t Rate, std::uint8_t Pad, std::size_t DigestSize>
-class keccak_sponge : public detail::hash_updates<keccak_sponge<Rate, Pad, DigestSize>>,
-                      public detail::one_shot_hash<keccak_sponge<Rate, Pad, DigestSize>>
+class keccak_sponge : public detail::one_shot_hash<keccak_sponge<Rate, Pad, DigestSize>>
 {
     static_assert(DigestSize <= Rate, "snicholls::keccak_sponge: the digest fits in one squeeze");
 

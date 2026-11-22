@@ -67,11 +67,11 @@ int main()
     double exact = 0;
     for (std::size_t i = 0; i < w.size(); ++i)
         exact += double(w[i]) * double(a[i]);
-    show<ml::block_q2_k>(w, a, importance, exact, 0.5);
-    show<ml::block_q3_k>(w, a, importance, exact, 0.2);
-    show<ml::block_q4_k>(w, a, importance, exact, 0.1);
-    show<ml::block_q5_k>(w, a, importance, exact, 0.05);
-    show<ml::block_q6_k>(w, a, importance, exact, 0.05);
+    show<ml::block_q2_k>(w, a, importance, exact, 0.5f);
+    show<ml::block_q3_k>(w, a, importance, exact, 0.2f);
+    show<ml::block_q4_k>(w, a, importance, exact, 0.1f);
+    show<ml::block_q5_k>(w, a, importance, exact, 0.05f);
+    show<ml::block_q6_k>(w, a, importance, exact, 0.05f);
     std::printf(ok ? "quant_k demo: ok\n" : "quant_k demo: FAILED\n");
     return ok ? 0 : 1;
 }

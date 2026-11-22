@@ -3,6 +3,20 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.18.1 - 2026-11-22
+
+The MSVC leg builds again. Nothing changes on the other compilers.
+
+### Fixed
+
+- The hashers (`crc32`, `crc32c`, `crc64_xz`, `sha1`, every SHA-2 and SHA-3, Keccak, RIPEMD-160, BLAKE2 and BLAKE3) have
+  the documented size on MSVC. Their two empty bases, the `update` and one-shot `hash` mixins, now form one chain:
+  MSVC gives no size only to the first of several empty bases side by side. The interface is unchanged.
+- `ml/delta_rule.hpp`, `ml/gla.hpp`, `ml/ssd.hpp`: no warning C4189 under `/W4 /WX` for the shape constants that only
+  an `assert` reads (MSVC ignores `[[maybe_unused]]` there).
+- The test, demo and benchmarks that MSVC failed on the same grounds: `attention_layer_test`, `quant_k_demo` (float
+  literals) and the `bpe_merges`, `token_trie` and `unigram` benchmarks (a local that shadowed another).
+
 ## 0.18.0 - 2026-11-21
 
 ### Added

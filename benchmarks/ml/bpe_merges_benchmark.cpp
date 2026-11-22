@@ -44,24 +44,24 @@ struct data_t
 const data_t& data()
 {
     static const data_t& d = *[] {
-        auto* d = new data_t;
-        d->t.load(std::string(SNICHOLLS_CORE_FIXTURE_DIR) + "/ml/tokenizers/llama-bpe.txt");
+        auto* made = new data_t;
+        made->t.load(std::string(SNICHOLLS_CORE_FIXTURE_DIR) + "/ml/tokenizers/llama-bpe.txt");
         for (int rep = 0; rep < 8; ++rep)
-            for (const auto& c : d->t.cases) {
+            for (const auto& c : made->t.cases) {
                 std::string text(3 * c.text.size(), '\0');
                 text.resize(ml::replace_invalid_utf8(c.text, std::span<char>(text)));
                 ml::pretokenize(ml::pretokenizer::llama3, text, [&](std::string_view p) {
                     std::string m(2 * p.size(), '\0');
                     m.resize(ml::byte_level_encode(p, std::span<char>(m)).unwrap());
-                    d->pieces.push_back(m);
+                    made->pieces.push_back(m);
                 });
             }
-        for (std::size_t i = 0; i < d->t.merges.size(); ++i)
-            d->ranks.emplace(std::pair{std::string(d->t.merges[i].first), std::string(d->t.merges[i].second)}, static_cast<int>(i));
-        for (std::uint32_t id = 0; id < d->t.pieces.size(); ++id)
-            if (d->t.present[id])
-                d->ids[std::string(d->t.pieces[id])] = id;
-        return d;
+        for (std::size_t i = 0; i < made->t.merges.size(); ++i)
+            made->ranks.emplace(std::pair{std::string(made->t.merges[i].first), std::string(made->t.merges[i].second)}, static_cast<int>(i));
+        for (std::uint32_t id = 0; id < made->t.pieces.size(); ++id)
+            if (made->t.present[id])
+                made->ids[std::string(made->t.pieces[id])] = id;
+        return made;
     }();
     return d;
 }

@@ -47,23 +47,23 @@ struct data_t
 const data_t& data()
 {
     static const data_t& d = *[] {
-        auto* d = new data_t;
-        d->t.load(std::string(SNICHOLLS_CORE_FIXTURE_DIR) + "/ml/tokenizers/nomic-bert-moe.txt");
+        auto* made = new data_t;
+        made->t.load(std::string(SNICHOLLS_CORE_FIXTURE_DIR) + "/ml/tokenizers/nomic-bert-moe.txt");
         for (int rep = 0; rep < 8; ++rep)
-            for (const auto& c : d->t.cases) {
-                std::string n(ml::unigram_normalized_size(c.text.size(), d->t.view.charsmap), '\0');
-                n.resize(ml::unigram_normalize(c.text, d->t.view.charsmap, {}, d->t.view.normalizer, std::span<char>(n)).unwrap());
-                d->bytes += n.size();
-                d->texts.push_back(n);
+            for (const auto& c : made->t.cases) {
+                std::string n(ml::unigram_normalized_size(c.text.size(), made->t.view.charsmap), '\0');
+                n.resize(ml::unigram_normalize(c.text, made->t.view.charsmap, {}, made->t.view.normalizer, std::span<char>(n)).unwrap());
+                made->bytes += n.size();
+                made->texts.push_back(n);
             }
-        for (const std::uint32_t id : d->t.order) {
-            node_trie* n = &d->trie;
-            for (const char c : d->t.pieces[id])
+        for (const std::uint32_t id : made->t.order) {
+            node_trie* n = &made->trie;
+            for (const char c : made->t.pieces[id])
                 n = &n->children[c];
             n->has_value = true;
             n->value = id;
         }
-        return d;
+        return made;
     }();
     return d;
 }

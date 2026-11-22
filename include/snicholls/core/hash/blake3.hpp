@@ -236,7 +236,7 @@ namespace detail {
 
 /// \brief BLAKE3: the 32-byte hash, the keyed hash, key derivation and extendable output.
 /// \ingroup core
-class blake3 : public detail::hash_updates<blake3>, public detail::one_shot_hash<blake3>
+class blake3 : public detail::one_shot_hash<blake3>
 {
 public:
     /// \brief The block size in bytes (what `hmac` would pad a key to; BLAKE3's own keyed mode needs no HMAC).

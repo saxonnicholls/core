@@ -148,7 +148,7 @@ namespace detail {
 /// \tparam Traits The variant (internal).
 /// \tparam N The output length in bytes.
 template <typename Traits, std::size_t N>
-class blake2_hash : public detail::hash_updates<blake2_hash<Traits, N>>, public detail::one_shot_hash<blake2_hash<Traits, N>>
+class blake2_hash : public detail::one_shot_hash<blake2_hash<Traits, N>>
 {
     static_assert(N >= 1 && N <= Traits::max_size, "snicholls::blake2: the output length is 1 to 64 bytes (BLAKE2b) or 32 (BLAKE2s)");
     using word = typename Traits::word;

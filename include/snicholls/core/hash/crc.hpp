@@ -96,8 +96,7 @@ namespace detail {
 /// \tparam Init The initial register.
 /// \tparam XorOut What the register is xored with to give the CRC.
 template <typename T, T Poly, T Init, T XorOut>
-class reflected_crc : public detail::hash_updates<reflected_crc<T, Poly, Init, XorOut>>,
-                      public detail::one_shot_hash<reflected_crc<T, Poly, Init, XorOut>>
+class reflected_crc : public detail::one_shot_hash<reflected_crc<T, Poly, Init, XorOut>>
 {
 public:
     /// \brief The CRC's type.

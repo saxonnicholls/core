@@ -187,6 +187,7 @@ namespace detail::gla
     {
         [[maybe_unused]] constexpr std::size_t H = C.mixer_heads, P = C.mixer_head_dim, N = C.mixer_state, G = C.mixer_groups;
         static_assert(valid(C) && C.mixer_heads > 0, "snicholls::ml::gla: the configuration has no mixer shape");
+        static_cast<void>(N), static_cast<void>(G);   // read only by the assert (MSVC ignores [[maybe_unused]] there, C4189)
         const std::size_t rows = in.v.size() / (H * P);
         assert(in.v.size() == rows * H * P && in.q.size() == rows * G * N && in.k.size() == rows * G * N && in.gk.size() == rows * H * N);
         return rows;

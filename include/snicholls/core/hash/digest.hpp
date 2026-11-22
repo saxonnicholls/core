@@ -263,9 +263,10 @@ namespace detail {
         }
     };
 
-    // hash(input): one-shot, for a hasher that is default-constructible.
+    // hash(input): one-shot, for a hasher that is default-constructible; update(input) through hash_updates. One chain
+    // of empty bases, not two side by side: MSVC gives only the first of several empty bases no size.
     template <typename Derived>
-    class one_shot_hash
+    class one_shot_hash : public hash_updates<Derived>
     {
     public:
         template <hash_input S>
@@ -304,7 +305,7 @@ using digest_of_t = digest<H::digest_size>;
 /// `finish()` pads, compresses the last block and returns the digest; `hash(input)` is both at once.
 /// \tparam Policy The algorithm (internal).
 template <typename Policy>
-class md_hash : public detail::hash_updates<md_hash<Policy>>, public detail::one_shot_hash<md_hash<Policy>>
+class md_hash : public detail::one_shot_hash<md_hash<Policy>>
 {
 public:
     /// \brief The block size in bytes (64 or 128): what `hmac` pads the key to.

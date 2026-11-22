@@ -200,6 +200,7 @@ namespace detail::ssd
     {
         [[maybe_unused]] constexpr std::size_t H = C.mixer_heads, P = C.mixer_head_dim, N = C.mixer_state, G = C.mixer_groups;
         static_assert(valid(C) && C.mixer_heads > 0, "snicholls::ml::ssd: the configuration has no mixer shape");
+        static_cast<void>(H), static_cast<void>(P), static_cast<void>(N), static_cast<void>(G);   // read only by the assert (MSVC, C4189)
         assert(in.x.size() == rows * H * P && in.dt.size() == rows * H && in.a.size() == H && in.b.size() == rows * G * N
                && in.c.size() == rows * G * N);
         static_cast<void>(rows);

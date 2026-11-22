@@ -60,7 +60,7 @@ struct data_t
 const data_t& data()
 {
     static const data_t d = [] {
-        data_t d;
+        data_t made;
         std::set<std::string> unique;
         std::string all;
         for (const char* name : {"llama-spm", "gpt-2", "llama-bpe", "qwen2", "deepseek-llm", "falcon", "gemma-4", "bert-bge", "nomic-bert-moe"}) {
@@ -72,19 +72,19 @@ const data_t& data()
             for (const auto& c : t.cases)
                 all += c.text;
         }
-        d.storage.assign(unique.begin(), unique.end());
-        d.pieces.assign(d.storage.begin(), d.storage.end());
-        d.order.resize(d.pieces.size());
-        ml::build_token_index(d.pieces, d.order);
-        for (std::uint32_t id = 0; id < d.pieces.size(); ++id) {
-            d.nodes.insert(d.pieces[id], id);
-            d.hash[d.pieces[id]] = id;
+        made.storage.assign(unique.begin(), unique.end());
+        made.pieces.assign(made.storage.begin(), made.storage.end());
+        made.order.resize(made.pieces.size());
+        ml::build_token_index(made.pieces, made.order);
+        for (std::uint32_t id = 0; id < made.pieces.size(); ++id) {
+            made.nodes.insert(made.pieces[id], id);
+            made.hash[made.pieces[id]] = id;
         }
-        while (d.text.size() < (1u << 15))
-            d.text += all;
-        for (std::size_t i = 0; i + 8 < d.text.size(); i += 3)
-            d.queries.push_back(d.text.substr(i, 1 + i % 7));
-        return d;
+        while (made.text.size() < (1u << 15))
+            made.text += all;
+        for (std::size_t i = 0; i + 8 < made.text.size(); i += 3)
+            made.queries.push_back(made.text.substr(i, 1 + i % 7));
+        return made;
     }();
     return d;
 }

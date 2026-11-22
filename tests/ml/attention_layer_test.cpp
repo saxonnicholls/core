@@ -450,6 +450,7 @@ void batch_is_each_sequence()
     // Read only by run_t's member initialisers, which MSVC does not count as a use (C4189)
     [[maybe_unused]] constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
     [[maybe_unused]] constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
+    static_cast<void>(qn), static_cast<void>(kn), static_cast<void>(raw);
     const auto& backend = snicholls::linalg::reference;
     struct run_t {
         std::vector<double> q = std::vector<double>(rows * qn), k = std::vector<double>(rows * kn), v = k,
