@@ -68,6 +68,11 @@
 /// `properties` writes the property names' characters into classes unescaped, and refuses some keys that are proper
 /// prefixes of the declared names.
 ///
+/// MSVC (19.52): `compile_json_schema` is wrong for a schema with an object inside an object (its `properties`). The
+/// compiler's constant evaluator loses the inner object as the reader builds it, and with that worked around, fails the
+/// conversion with "allocated storage not being deallocated". The run-time functions are right on MSVC; use
+/// `json_schema_grammar` there.
+///
 /// **Status.** Experimental, new in 0.17.0.
 
 #ifndef snicholls_core_ml_json_schema_hpp

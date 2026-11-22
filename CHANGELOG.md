@@ -3,9 +3,9 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## 0.18.1 - 2026-11-22
+## 0.18.1 - 2026-11-23
 
-The MSVC leg builds again. Nothing changes on the other compilers.
+The MSVC leg builds and passes again. Nothing changes on the other compilers.
 
 ### Fixed
 
@@ -17,14 +17,18 @@ The MSVC leg builds again. Nothing changes on the other compilers.
 - The tests, demo and benchmarks that MSVC failed on the same grounds: `attention_layer_test` and
   `transformer_block_test`, `tensor_ops_test` and `stft_test` (doubles to floats said explicitly), `quant_k_demo` (float
   literals) and the `bpe_merges`, `token_trie` and `unigram` benchmarks (a local that shadowed another).
-- `ml/json_schema.hpp`: `compile_json_schema` gives `json_schema_grammar`'s grammar on MSVC. Its constant evaluator lost
-  an object nested in an object, or an array in an array, when the reader parsed it into a local and moved it in; the
-  reader now parses each member and element in place. Run-time behaviour is unchanged.
 - `mlp_test` no longer stops MSVC's code generator (C1001), and the attention and block tests'
   `batch_is_each_sequence` no longer fault at run time: their sizes are a class of their own, not constants of the
   function that a local class reads, which MSVC miscompiles.
 - `fft_test`: the bound against the direct transform counts the reference's own rounding where `long double` is no
   wider than `double` (MSVC, Apple's ARM64).
+
+### Known issues
+
+- MSVC: `compile_json_schema` is wrong for a schema with an object inside an object. The compiler's constant evaluator
+  loses the inner object, and with that worked around fails the conversion ("allocated storage not being
+  deallocated"); not cheap to work around, so it is documented in `ml/json_schema.hpp` and its compile-time test does not
+  run on MSVC. The run-time `json_schema_grammar` is right there.
 
 ## 0.18.0 - 2026-11-21
 

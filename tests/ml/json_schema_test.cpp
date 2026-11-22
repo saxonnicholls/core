@@ -1531,6 +1531,8 @@ static_assert(ml::grammar_accepts(colour, "\"red\"") && ml::grammar_accepts(colo
 static_assert(ml::json_schema_to_gbnf(R"({"const": true})").is_ok());
 static_assert(ml::json_schema_to_gbnf(R"({"type": "kaboom"})").unwrap_err().message == "unrecognized type kaboom");
 
+// Not on MSVC, whose constant evaluator gets a nested object wrong (the header's known issues)
+#if !defined(_MSC_VER) || defined(__clang__)
 TEST(JsonSchemaCompileTime, IsTheRunTimeGrammarElementForElement)
 {
     constexpr auto point = ml::compile_json_schema<R"({"type": "object", "properties": {"x": {"type": "integer"}, "y": {"type": "boolean"}},
@@ -1545,5 +1547,6 @@ TEST(JsonSchemaCompileTime, IsTheRunTimeGrammarElementForElement)
     EXPECT_TRUE(ml::grammar_accepts(point, R"({ "x": 0 })"));
     EXPECT_FALSE(ml::grammar_accepts(point, R"({"y": true})"));
 }
+#endif
 
 } // namespace
