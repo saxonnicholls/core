@@ -14,6 +14,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <cmath>
@@ -171,9 +172,11 @@ TEST(TensorOpsSolveTri, IsGgmlsSubstitutionToTheBit)
     auto a = noise(n * n, 4);
     for (std::size_t i = 0; i < n; ++i)
         a[i * n + i] += 3.0;   // well conditioned
-    std::vector<float> af(a.begin(), a.end());
+    std::vector<float> af(a.size());
+    std::ranges::transform(a, af.begin(), [](double v) { return float(v); });
     const auto bd = noise(n * k, 5);
-    const std::vector<float> b(bd.begin(), bd.end());
+    std::vector<float> b(bd.size());
+    std::ranges::transform(bd, b.begin(), [](double v) { return float(v); });
     std::vector<float> x(n * k), ref(n * k);
     ml::solve_tri(af, b, x, n, k);
     for (std::size_t c = 0; c < k; ++c)   // ggml_compute_forward_solve_tri_f32

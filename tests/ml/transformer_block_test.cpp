@@ -566,6 +566,7 @@ void batch_is_each_sequence()
     // Read only by run_t's member initialisers, which MSVC does not count as a use (C4189)
     [[maybe_unused]] constexpr std::size_t rows = seqs * n, f = C.d_ff, qn = C.q_size(), kn = C.kv_size();
     [[maybe_unused]] constexpr bool qk = C.qk_norm != ml::qk_norm_kind::none, swiglu = C.mlp == ml::mlp_kind::swiglu;
+    static_cast<void>(rows), static_cast<void>(f), static_cast<void>(qn), static_cast<void>(kn), static_cast<void>(qk), static_cast<void>(swiglu);
     struct run_t {
         std::vector<double> x0 = std::vector<double>(rows * d), h1 = x0, x1 = x0, h2 = x0, q = std::vector<double>(rows * qn),
                             k = std::vector<double>(rows * kn), v = k, qr = std::vector<double>(qk ? q.size() : 0),

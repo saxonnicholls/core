@@ -14,6 +14,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -172,7 +173,8 @@ TEST(Stft, InverseReconstructsUncentredTwoSidedAndInFloat)
     for (std::size_t i = 0; i < back.size(); ++i)
         EXPECT_NEAR(back[i], x[i], 1e-13);
 
-    std::vector<float> xf(x.begin(), x.end()), wf(400), backf(xf.size());
+    std::vector<float> xf(x.size()), wf(400), backf(xf.size());
+    std::ranges::transform(x, xf.begin(), [](double v) { return float(v); });
     s::fill_window(std::span<float>(wf), s::hann{});
     std::vector<s::complex<float>> st(s::rfft_plan<float>::storage_size(400)), work(s::rfft_plan<float>::work_size(400));
     const s::rfft_plan<float> pf(400, st);
