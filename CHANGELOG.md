@@ -18,8 +18,8 @@ The MSVC leg builds and passes again. Nothing changes on the other compilers.
   `transformer_block_test`, `tensor_ops_test` and `stft_test` (doubles to floats said explicitly), `quant_k_demo` (float
   literals) and the `bpe_merges`, `token_trie` and `unigram` benchmarks (a local that shadowed another).
 - `mlp_test` no longer stops MSVC's code generator (C1001), and the attention and block tests'
-  `batch_is_each_sequence` no longer fault at run time: their sizes are a class of their own, not constants of the
-  function that a local class reads, which MSVC miscompiles.
+  `batch_is_each_sequence` no longer corrupt the heap at run time: their buffers are classes at namespace scope, not
+  local classes reading the function's constants, which MSVC miscompiled.
 - `fft_test`: the bound against the direct transform counts the reference's own rounding where `long double` is no
   wider than `double` (MSVC, Apple's ARM64).
 
