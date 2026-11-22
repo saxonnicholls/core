@@ -319,19 +319,20 @@ namespace detail::json_schema
                     if (peek() != ':')
                         return fail("expecting ':'");
                     ++pos;
-                    // Parsed in place, not into a local moved in afterwards: MSVC's constant evaluator loses a local
-                    // `value` of a recursive call that runs through the same declaration (an object in an object)
-                    std::size_t at = 0;   // a repeated key keeps its place and takes the last value
-                    while (at < v.keys.size() && v.keys[at] != key)
-                        ++at;
-                    if (at == v.keys.size()) {
-                        v.keys.push_back(std::move(key));
-                        v.items.emplace_back();
-                    } else {
-                        v.items[at] = value{};
-                    }
-                    if (!parse(v.items[at], depth + 1))
+                    value item;
+                    if (!parse(item, depth + 1))
                         return false;
+                    bool replaced = false;   // a repeated key keeps its place and takes the last value
+                    for (std::size_t i = 0; i < v.keys.size(); ++i)
+                        if (v.keys[i] == key) {
+                            v.items[i] = std::move(item);
+                            replaced = true;
+                            break;
+                        }
+                    if (!replaced) {
+                        v.keys.push_back(std::move(key));
+                        v.items.push_back(std::move(item));
+                    }
                     space();
                     if (peek() == ',') {
                         ++pos;
@@ -353,9 +354,10 @@ namespace detail::json_schema
                     return true;
                 }
                 while (true) {
-                    v.items.emplace_back();   // in place, as for an object's members
-                    if (!parse(v.items.back(), depth + 1))
+                    value item;
+                    if (!parse(item, depth + 1))
                         return false;
+                    v.items.push_back(std::move(item));
                     space();
                     if (peek() == ',') {
                         ++pos;
