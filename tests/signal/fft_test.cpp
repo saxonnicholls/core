@@ -223,13 +223,26 @@ long double bound(const s::fft_plan<T>& p, long double norm2)
     return 2 * static_cast<long double>(std::numeric_limits<T>::epsilon()) * lg * norm2;
 }
 
+// The direct transform's own error, where long double is no wider than T (MSVC, Apple's ARM64): a recursive sum of n
+// complex products, each twiddle within an ulp, is within (n + 3) eps ||x||_1. Where long double is wider, none.
+template <typename T>
+long double reference_error(const std::vector<s::complex<T>>& x)
+{
+    if constexpr (std::numeric_limits<long double>::digits > std::numeric_limits<T>::digits)
+        return 0;
+    long double l1 = 0;
+    for (const auto& v : x)
+        l1 += std::sqrt(static_cast<long double>(v.re) * v.re + static_cast<long double>(v.im) * v.im);
+    return static_cast<long double>(x.size() + 3) * std::numeric_limits<long double>::epsilon() * l1;
+}
+
 template <typename T>
 long double error_against_bins(std::size_t n, const std::vector<std::size_t>& bins, std::uint64_t seed, long double& limit)
 {
     planned<T> p(n);
     auto x = random_complex<T>(n, seed);
     const auto xl = widen(x);
-    limit = bound(p.plan, l2(x));
+    limit = bound(p.plan, l2(x)) + reference_error<T>(x);
     s::fft(p.plan, std::span<s::complex<T>>(x), std::span<s::complex<T>>(p.work));
     long double e = 0;
     for (const std::size_t k : bins) {

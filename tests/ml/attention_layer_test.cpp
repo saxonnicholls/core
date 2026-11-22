@@ -442,21 +442,26 @@ TEST(MlAttentionLayer, BatchedThroughABackendIsThePerTokenPathWithinRounding)
 // tensors: the activations, the input's gradient, the biases', the QK norms' and Wk's and Wv's to the bit; Wq's and Wo's
 // (one product over every row) within rounding. Attention never crosses a sequence: changing one sequence's input
 // leaves the others' outputs as they were
+// The sizes of batch_is_each_sequence, a class of their own: its local class reads them, and MSVC miscompiles a local
+// class that reads the enclosing function's constants (an access violation at run time, or C1001)
+template <ml::transformer_config C>
+struct batch_sizes {
+    static constexpr std::size_t n = train_layer<C>::n, seqs = 3, rows = seqs * n, d = C.d_model, qn = C.q_size(), kn = C.kv_size();
+    static constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
+};
+
 template <ml::transformer_config C>
 void batch_is_each_sequence()
 {
+    using S = batch_sizes<C>;
     const train_layer<C> l;
-    constexpr std::size_t n = train_layer<C>::n, seqs = 3, rows = seqs * n, d = C.d_model;
-    // Read only by run_t's member initialisers, which MSVC does not count as a use (C4189)
-    [[maybe_unused]] constexpr std::size_t qn = C.q_size(), kn = C.kv_size();
-    [[maybe_unused]] constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
-    static_cast<void>(qn), static_cast<void>(kn), static_cast<void>(raw);
+    constexpr std::size_t n = S::n, seqs = S::seqs, d = S::d;
     const auto& backend = snicholls::linalg::reference;
     struct run_t {
-        std::vector<double> q = std::vector<double>(rows * qn), k = std::vector<double>(rows * kn), v = k,
-                            qr = std::vector<double>(raw ? q.size() : 0), kr = std::vector<double>(raw ? k.size() : 0), y = q,
-                            lse = std::vector<double>(rows * C.n_heads), out = std::vector<double>(rows * d), dq = q, dk = k, dv = k, dy = q,
-                            dx = out;
+        std::vector<double> q = std::vector<double>(S::rows * S::qn), k = std::vector<double>(S::rows * S::kn), v = k,
+                            qr = std::vector<double>(S::raw ? q.size() : 0), kr = std::vector<double>(S::raw ? k.size() : 0), y = q,
+                            lse = std::vector<double>(S::rows * C.n_heads), out = std::vector<double>(S::rows * S::d), dq = q, dk = k, dv = k,
+                            dy = q, dx = out;
         std::vector<double> dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk;
         explicit run_t(const train_layer<C>& l)
             : dwq(l.wq.size()), dwk(l.wk.size()), dwv(l.wv.size()), dwo(l.wo.size()), dbq(l.bq.size()), dbk(l.bk.size()), dbv(l.bv.size()),
@@ -465,7 +470,7 @@ void batch_is_each_sequence()
         }
         static std::span<double> cut(std::vector<double>& v, std::size_t s, std::size_t count)
         {
-            return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / seqs, count * v.size() / seqs);
+            return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs);
         }
         ml::attention_activations<double> act(std::size_t s, std::size_t c)
         {
@@ -476,7 +481,7 @@ void batch_is_each_sequence()
             return {cut(dq, s, c), cut(dk, s, c), cut(dv, s, c), dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, cut(dy, s, c)};
         }
     };
-    const auto xs = wave(rows * d, 1.2, 0.5), gout = wave(rows * d, 0.9, 1.7);
+    const auto xs = wave(S::rows * d, 1.2, 0.5), gout = wave(S::rows * d, 0.9, 1.7);
     run_t each(l), all(l);
     for (std::size_t s = 0; s < seqs; ++s) {
         const auto x = std::span<const double>(xs).subspan(s * n * d, n * d);
@@ -499,7 +504,7 @@ void batch_is_each_sequence()
         other[i] = -other[i];
     run_t changed(l);
     ml::attention_forward_sequence<C>(backend, l.weights(), other, rope_for<C>(), changed.act(0, seqs), changed.out, seqs);
-    for (std::size_t i = 0; i < rows * d; ++i) {
+    for (std::size_t i = 0; i < S::rows * d; ++i) {
         if (i < n * d || i >= 2 * n * d) {
             EXPECT_EQ(changed.out[i], all.out[i]) << i;
         }
