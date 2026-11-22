@@ -312,22 +312,22 @@ namespace detail::json_schema
                     space();
                     if (peek() != '"')
                         return fail("expecting a key");
-                    std::string key;
-                    if (!string(key))
+                    // The key and the value parsed in place, with no local string or value: MSVC's constant evaluator
+                    // loses a local of a recursive call that runs through the same declaration (an object in an object)
+                    v.keys.emplace_back();
+                    if (!string(v.keys.back()))
                         return false;
                     space();
                     if (peek() != ':')
                         return fail("expecting ':'");
                     ++pos;
-                    // Parsed in place, not into a local moved in afterwards: MSVC's constant evaluator loses a local
-                    // `value` of a recursive call that runs through the same declaration (an object in an object)
                     std::size_t at = 0;   // a repeated key keeps its place and takes the last value
-                    while (at < v.keys.size() && v.keys[at] != key)
+                    while (v.keys[at] != v.keys.back())
                         ++at;
-                    if (at == v.keys.size()) {
-                        v.keys.push_back(std::move(key));
+                    if (at + 1 == v.keys.size()) {
                         v.items.emplace_back();
                     } else {
+                        v.keys.pop_back();
                         v.items[at] = value{};
                     }
                     if (!parse(v.items[at], depth + 1))
