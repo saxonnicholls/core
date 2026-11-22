@@ -3,6 +3,58 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.19.0 - 2026-11-23
+
+The primitives of a C++ port of Stone Soup (target tracking and state estimation): fixed-size linear algebra,
+geometry, assignment, resampling, and the tracking filters themselves, all `constexpr`, allocation-free and on
+fixed-size values. The framework that composes them (tracks, detections, trackers) lives in its own library above core.
+
+### Added
+
+- `linalg/fixed.hpp`: `fixed_matrix<T, R, C>` and `fixed_vector<T, N>`, aggregates of one `std::array`, with arithmetic,
+  blocks, `sandwich` (`A P Aᵀ`), Cholesky (`cholesky`, the triangular solves, `cholesky_log_det`, `spd_inverse`), LU
+  (`solve`, `inverse`, `determinant`), `symmetric_eigen` (cyclic Jacobi) and `tria` (the square-root filters' factor).
+- `geometry/` (new area, `snicholls::geometry`): `angle.hpp` (bearing and elevation wrapping, `angle_kinds`,
+  angle-aware residuals and means, `radians` / `degrees`); `coordinates.hpp` (polar, spherical and the radar-face
+  convention, rotations, `sensor_rotation`); `geodetic.hpp` (WGS 84, LLA, ECEF, `local_frame` for ENU and NED);
+  `camera.hpp` (pinhole projection, pixel rays, ray-plane intersection, and `plane_fix`, a pixel's point on a plane
+  with its covariance by the exact Jacobian); `alignment.hpp` (`align_2d`, Umeyama, and `align_3d`, Horn's quaternion,
+  rigid or with scale, weighted).
+- `combinatorics/assignment.hpp`: `linear_assignment` and `assignment_solver`, the optimal rectangular assignment by
+  shortest augmenting paths (Crouse 2016), with forbidden pairs and maximisation.
+- `containers/kd_tree.hpp`: `kd_tree<Point, K, Traits>`, built in place over the caller's points, with nearest,
+  k-nearest, radius and box queries; iterative, no allocation.
+- `stats/resample.hpp`: systematic, stratified, multinomial (sorted by exponential spacings, no sort) and residual
+  resampling, `effective_sample_size`, `needs_resampling`, `log_sum_exp`, `normalise_log_weights`.
+- `stats/ransac.hpp`: `ransac<S>` over the caller's model, with the adaptive iteration count `ransac_iterations`.
+- `math/constexpr_math.hpp`: `chi_square_quantile`, the gate threshold.
+- `tracking/` (new area, `snicholls::tracking`):
+  - `gaussian.hpp`: `gaussian<T, N>`, Mahalanobis, log-likelihood, Hellinger, KL divergence, the χ² gate,
+    `confidence_ellipse`;
+  - `transition.hpp`: constant n-th derivative (random walk, constant velocity, constant acceleration), n-th
+    derivative decay (Ornstein-Uhlenbeck, Singer), `singer_approximate`, `known_turn_rate`, `constant_turn`, and
+    `combined<Ms...>`;
+  - `measurement.hpp`: `linear_gaussian`, `bearing`, `bearing_range`, `elevation_bearing`, `elevation_bearing_range`,
+    `bearing_range_rate`, with analytic Jacobians and compile-time component maps and angle kinds;
+  - `kalman.hpp`: predict (linear, extended, with a control input, or from `F` and `Q` in hand), measurement
+    prediction, update (standard or Joseph) with the innovation, gain, distance and log-likelihood, the information
+    form, Fisher information and GDOP, the Rauch-Tung-Striebel step, `numerical_jacobian`, `alpha_beta_update`;
+  - `unscented.hpp`: sigma and cubature points, `point_transform`, the unscented and cubature predict and measurement
+    prediction;
+  - `association.hpp`: PDA weights and update, `gate_volume`, JPDA marginals by exact enumeration;
+  - `mixture.hpp`: `reduce_to_single`, `merge_pair`, `runnalls_cost`, `reduce_mixture` (Stone Soup's
+    `GaussianMixtureReducer`);
+  - `fusion.hpp`: covariance intersection, `optimal_omega` (bounded, trace or determinant), `fast_ci_weights`;
+  - `discrete.hpp`: the HMM predict, measurement prediction, update and likelihood;
+  - `metrics.hpp`: `set_metric_solver` with OSPA and GOSPA (its localisation, missed and false parts).
+- Benchmarks: `linalg/fixed`, `stats/resample`, `combinatorics/assignment`, `tracking/kalman`.
+
+### Known issues
+
+- `tracking::update` runs at about 0.72 of a hand-written loop's speed on a 2-D constant-velocity target: its update
+  record is copied through `result`. A form that writes into the caller's storage is planned with the batched device
+  forms.
+
 ## 0.18.1 - 2026-11-23
 
 The MSVC leg builds and passes again. Nothing changes on the other compilers.

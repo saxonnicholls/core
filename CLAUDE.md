@@ -142,12 +142,15 @@ integrity and consistency. The same twelve rules hold in every one of them.
   API, still tested, not demonstrated.
 - Areas: `interfaces/` for the contracts of capabilities ("The family", rule 4); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
-  (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`; `snicholls::stats`);
+  (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
-  `partition`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
+  `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
   `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `game/` (`snicholls::game`); `finance/`
-  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`; `snicholls::linalg`); `signal/` (`complex`, `fft`,
+  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`; `snicholls::linalg`);
+  `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`; `snicholls::geometry`); `tracking/` (`gaussian`,
+  `transition`, `measurement`, `kalman`, `unscented`, `association`, `mixture`, `fusion`, `discrete`, `metrics`;
+  `snicholls::tracking`, the primitives of the Stone Soup port); `signal/` (`complex`, `fft`,
   `window`, `stft`, `mel`, `dct`, `convolve`, `fir`, `iir`, `resample`, `hilbert`; `snicholls::signal`, SIGNAL.md). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
   which takes its test, demo and benchmark along and rewrites every include, guard and registration. CMake lists
@@ -412,6 +415,13 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   CI); a kernel that must agree with them across machines writes each multiplication and addition as its own
   statement, so no compiler fuses an FMA. Matrix work (matmul, Muon's matrix iteration) belongs with the matrices,
   above core.
+- Tracking and estimation (the Stone Soup port's primitives): `linalg::fixed_matrix<T, R, C>` for every small matrix
+  whose size is known when the code is written, never a run-time-sized view; `tracking::predict` / `update` with a
+  model type (`combined<constant_velocity<T>, ...>`, `bearing_range<T, N, Map>`), never a hand-written `F P Fᵀ + Q`;
+  angles in residuals and means through the model's `kinds` (`geometry::residual<Kinds>`), never a hand-wrapped
+  difference; gates from `gate_threshold` (`math::chi_square_quantile`); `combinatorics::linear_assignment` for hard
+  association; `tracking::covariance_intersection` for fusing tracks whose correlation is unknown, never an
+  information sum. Components that name tracks, detections or hypotheses belong to the framework above core, not to core.
 - Randomness: `stats::wyrand` and `stats::uniform_index`, never `std::uniform_int_distribution` (its output differs
   between standard libraries, so a seed would not reproduce). To agree with another program's draws, name its
   library: `stats::uniform_int<T, draw::libstdcxx>` or `<T, draw::libcxx>`, the same on every platform. Resampling: `stats::bootstrap_moments` for anything

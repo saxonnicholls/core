@@ -130,6 +130,35 @@ TEST(GammaAndChiSquare, AgreeWithScipy)
     EXPECT_NEAR(m::lgamma(171.5), 709.1431630309283, 1e-10);
     EXPECT_NEAR(m::gamma_p(4.5, 2.0), 0.08858747316832083, 1e-14);
 }
+TEST(ChiSquareQuantile, InvertsTheDistributionFunction)
+{
+    // Tabulated quantiles (the standard chi-square table, to 15 digits)
+    EXPECT_NEAR(m::chi_square_quantile(0.95, 1), 3.841458820694124, 1e-12);
+    EXPECT_NEAR(m::chi_square_quantile(0.99, 4), 13.276704135987622, 1e-11);
+    EXPECT_NEAR(m::chi_square_quantile(0.5, 10), 9.341817765591966, 1e-11);
+    EXPECT_NEAR(m::chi_square_quantile(0.999, 3), 16.26623619623813, 1e-11);
+    // Two degrees of freedom have a closed form, x = -2 log(1 - p)
+    // In the upper tail the CDF's absolute rounding (about 1e-16) is magnified by 1 / (1 - p): the tolerance says so
+    for (const double p : {1e-12, 1e-6, 0.01, 0.5, 0.9, 0.99, 0.999999})
+        EXPECT_NEAR(m::chi_square_quantile(p, 2) / (-2 * std::log1p(-p)), 1.0, 1e-12 + 1e-16 / (1 - p)) << p;
+    // A round trip through the distribution function, over a grid of probabilities and degrees of freedom
+    for (const double k : {0.5, 1.0, 2.0, 3.0, 6.0, 30.0, 300.0})
+        for (const double p : {1e-10, 1e-3, 0.1, 0.5, 0.9, 0.999, 1 - 1e-9})
+            EXPECT_NEAR(m::chi_square_cdf(m::chi_square_quantile(p, k), k) / p, 1.0, 1e-11) << k << " " << p;
+}
+
+TEST(ChiSquareQuantile, EdgesAndDomainErrors)
+{
+    EXPECT_EQ(m::chi_square_quantile(0.0, 3), 0.0);
+    EXPECT_TRUE(m::is_inf(m::chi_square_quantile(1.0, 3)));
+    EXPECT_TRUE(m::is_nan(m::chi_square_quantile(-0.1, 3)));
+    EXPECT_TRUE(m::is_nan(m::chi_square_quantile(1.1, 3)));
+    EXPECT_TRUE(m::is_nan(m::chi_square_quantile(0.5, 0)));
+    EXPECT_TRUE(m::is_nan(m::chi_square_quantile(std::numeric_limits<double>::quiet_NaN(), 3)));
+    EXPECT_NEAR(m::chi_square_quantile(0.99f, 2), 9.2103404f, 1e-5f);
+}
+static_assert(m::near(m::chi_square_quantile(0.99, 2), 9.210340371976182, 1e-12));  // a gate, at compile time
+
 static_assert(m::near(m::lgamma(5.0), 3.1780538303479458, 1e-14));   // log 4!
 static_assert(m::near(m::chi_square_cdf(2.0, 2), 1 - m::exp(-1.0), 1e-14));
 

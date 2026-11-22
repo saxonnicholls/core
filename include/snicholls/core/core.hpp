@@ -52,6 +52,7 @@
 #include <snicholls/core/uuid.hpp>
 #include <snicholls/core/version.hpp>
 #include <snicholls/core/zip.hpp>
+#include <snicholls/core/combinatorics/assignment.hpp>
 #include <snicholls/core/combinatorics/partition.hpp>
 #include <snicholls/core/combinatorics/permutations.hpp>
 #include <snicholls/core/combinatorics/subsets.hpp>
@@ -63,6 +64,7 @@
 #include <snicholls/core/containers/index_pool.hpp>
 #include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/containers/intrusive_avl_tree.hpp>
+#include <snicholls/core/containers/kd_tree.hpp>
 #include <snicholls/core/containers/mapped_header.hpp>
 #include <snicholls/core/containers/md_array.hpp>
 #include <snicholls/core/containers/object_pool.hpp>
@@ -77,6 +79,11 @@
 #include <snicholls/core/game/properties.hpp>
 #include <snicholls/core/game/shapley.hpp>
 #include <snicholls/core/game/tabular.hpp>
+#include <snicholls/core/geometry/alignment.hpp>
+#include <snicholls/core/geometry/angle.hpp>
+#include <snicholls/core/geometry/camera.hpp>
+#include <snicholls/core/geometry/coordinates.hpp>
+#include <snicholls/core/geometry/geodetic.hpp>
 #include <snicholls/core/hash/blake2.hpp>
 #include <snicholls/core/hash/blake3.hpp>
 #include <snicholls/core/hash/crc.hpp>
@@ -94,6 +101,7 @@
 #include <snicholls/core/hash/wyhash.hpp>
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
+#include <snicholls/core/linalg/fixed.hpp>
 #include <snicholls/core/linalg/randomized_svd.hpp>
 #include <snicholls/core/linalg/reference.hpp>
 #include <snicholls/core/linalg/types.hpp>
@@ -211,6 +219,8 @@
 #include <snicholls/core/stats/normal.hpp>
 #include <snicholls/core/stats/pivot.hpp>
 #include <snicholls/core/stats/random.hpp>
+#include <snicholls/core/stats/ransac.hpp>
+#include <snicholls/core/stats/resample.hpp>
 #include <snicholls/core/stats/uniform_int.hpp>
 #include <snicholls/core/stochastic/martingale.hpp>
 #include <snicholls/core/stochastic/snell.hpp>
@@ -220,5 +230,15 @@
 #include <snicholls/core/time/solar.hpp>
 #include <snicholls/core/time/utc.hpp>
 #include <snicholls/core/time/utc_format.hpp>
+#include <snicholls/core/tracking/association.hpp>
+#include <snicholls/core/tracking/discrete.hpp>
+#include <snicholls/core/tracking/fusion.hpp>
+#include <snicholls/core/tracking/gaussian.hpp>
+#include <snicholls/core/tracking/kalman.hpp>
+#include <snicholls/core/tracking/measurement.hpp>
+#include <snicholls/core/tracking/metrics.hpp>
+#include <snicholls/core/tracking/mixture.hpp>
+#include <snicholls/core/tracking/transition.hpp>
+#include <snicholls/core/tracking/unscented.hpp>
 
 #endif /* snicholls_core_core_hpp */

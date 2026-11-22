@@ -41,7 +41,7 @@
 /// **Dependencies.** `<bit>`, `<cmath>`, `<cstdint>`, `<limits>`, `<type_traits>`.
 ///
 /// **Known issues.** At compile time `sin` and `cos` reduce arguments with three parts of pi/2, accurate
-/// for |x| up to about 1e9; beyond that compile-time results drift. `lgamma`, `gamma_p` and `chi_square_cdf` use
+/// for |x| up to about 1e9; beyond that compile-time results drift. `lgamma`, `gamma_p`, `chi_square_cdf` and `chi_square_quantile` use
 /// Lanczos' coefficients and are good to about 15 digits in every type. `long double` is `double` on Apple ARM and
 /// MSVC; its limits follow `std::numeric_limits`, so it is right either way. A type of the caller's needs
 /// arithmetic, comparisons, conversion to and from `long long` and `double`, `std::numeric_limits`, and, for run
@@ -1161,6 +1161,58 @@ constexpr real_t<std::common_type_t<X, K>> chi_square_cdf(X x, K k)
 {
     using C = detail::compute_t<real_t<std::common_type_t<X, K>>>;
     return static_cast<real_t<std::common_type_t<X, K>>>(detail::chi_square_cdf_c(static_cast<C>(x), static_cast<C>(k)));
+}
+
+namespace detail
+{
+// The x with chi_square_cdf_c(x, k) = p: Wilson-Hilferty's cube for a start, then Newton's step on the CDF, kept
+// inside a bracket that shrinks to the root (bisection when a step would leave it)
+template <typename T>
+constexpr T chi_square_quantile_c(T p, T k)
+{
+    if (nan_(p) || nan_(k) || k <= T(0.0) || p < T(0.0) || p > T(1.0)) return std::numeric_limits<T>::quiet_NaN();
+    if (p == T(0.0)) return T(0.0);
+    if (p == T(1.0)) return std::numeric_limits<T>::infinity();
+    const T h = T(2.0) / (T(9.0) * k);
+    const T w = T(1.0) - h + normal_quantile_c(p) * sqrt_ct(h);
+    T x = w > T(0.0) ? k * w * w * w : k * T(1e-3);
+    T lo = T(0.0), hi = T(0.0);
+    const T half = k / T(2.0);
+    const T log_norm = half * log_ct(T(2.0)) + lgamma_c(half);
+    for (int i = 0; i < 200; ++i) {
+        const T f = chi_square_cdf_c(x, k) - p;
+        if (f == T(0.0)) return x;
+        if (f < T(0.0)) lo = x; else hi = x;
+        const T pdf = exp_ct((half - T(1.0)) * log_ct(x) - x / T(2.0) - log_norm);
+        T next = pdf > T(0.0) ? x - f / pdf : x;
+        const bool bracketed = hi > T(0.0);
+        if (!(next > lo) || (bracketed && !(next < hi)) || pdf == T(0.0))
+            next = bracketed ? (lo + hi) / T(2.0) : x * T(2.0);
+        if (abs_(next - x) <= T(4.0) * std::numeric_limits<T>::epsilon() * x) return next;
+        x = next;
+    }
+    return x;
+}
+} // namespace detail
+
+/// \brief The chi-square quantile with `k` degrees of freedom: the `x` with `chi_square_cdf(x, k) = p`.
+///
+/// A gate's threshold: a squared Mahalanobis distance of an `m`-dimensional innovation exceeds
+/// `chi_square_quantile(0.99, m)` with probability 0.01. Wilson-Hilferty's approximation starts a safeguarded
+/// Newton iteration on `chi_square_cdf`, so the result is as accurate as the CDF allows: about 14 digits, except in
+/// the far upper tail, where the CDF's absolute rounding (about 1e-16) costs a relative `1e-16 / (1 - p)`.
+///
+/// \snippet math/constexpr_math_demo.cpp chi_square
+/// \tparam P An integer or a `math_number`.
+/// \tparam K An integer or a `math_number`.
+/// \param p The probability, in `[0, 1]`.
+/// \param k The degrees of freedom, above zero.
+/// \return The quantile: 0 at `p = 0`, infinity at `p = 1`, NaN outside the domain.
+template <math_argument P, math_argument K>
+constexpr real_t<std::common_type_t<P, K>> chi_square_quantile(P p, K k)
+{
+    using C = detail::compute_t<real_t<std::common_type_t<P, K>>>;
+    return static_cast<real_t<std::common_type_t<P, K>>>(detail::chi_square_quantile_c(static_cast<C>(p), static_cast<C>(k)));
 }
 
 } // namespace snicholls::math

@@ -59,6 +59,16 @@ int main()
     std::printf("  expm1(1e-4) %.17g, log1p of it %.17g\n", daily, back);
     ok &= math::near(back, 0.0001, 1e-19) && math::near(daily, 1.00005000166670834e-4, 1e-19);
 
+    //! [chi_square]
+    // A tracker's gates, fixed when the program is compiled: a correct 2-D position measurement falls outside
+    // the first with probability 1%, a 3-D bearing-elevation-range one outside the second with probability 0.1%.
+    constexpr double gate_2d = math::chi_square_quantile(0.99, 2);
+    constexpr double gate_3d = math::chi_square_quantile(0.999, 3);
+    static_assert(math::near(gate_2d, 9.210340371976182, 1e-12));   // -2 log 0.01, the closed form for k = 2
+    //! [chi_square]
+    std::printf("  chi-square gates: 99%% in 2-D %.6f, 99.9%% in 3-D %.6f; back through the CDF %.12f\n", gate_2d, gate_3d, math::chi_square_cdf(gate_3d, 3));
+    ok &= math::near(gate_3d, 16.26623619623813, 1e-11) && math::near(math::chi_square_cdf(gate_3d, 3), 0.999, 1e-13);
+
     std::printf(ok ? "constexpr_math demo: ok\n" : "constexpr_math demo: FAILED\n");
     return ok ? 0 : 1;
 }

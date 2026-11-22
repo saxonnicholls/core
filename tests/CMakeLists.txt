@@ -26,6 +26,7 @@ add_executable(snicholls_core_tests
     uuid_test.cpp
     version_test.cpp
     zip_test.cpp
+    combinatorics/assignment_test.cpp
     combinatorics/partition_test.cpp
     combinatorics/permutations_test.cpp
     combinatorics/subsets_test.cpp
@@ -37,6 +38,7 @@ add_executable(snicholls_core_tests
     containers/index_pool_test.cpp
     containers/inplace_vector_test.cpp
     containers/intrusive_avl_tree_test.cpp
+    containers/kd_tree_test.cpp
     containers/mapped_header_test.cpp
     containers/md_array_test.cpp
     containers/object_pool_test.cpp
@@ -58,6 +60,11 @@ add_executable(snicholls_core_tests
     game/properties_test.cpp
     game/shapley_test.cpp
     game/tabular_test.cpp
+    geometry/alignment_test.cpp
+    geometry/angle_test.cpp
+    geometry/camera_test.cpp
+    geometry/coordinates_test.cpp
+    geometry/geodetic_test.cpp
     hash/blake2_test.cpp
     hash/blake3_test.cpp
     hash/crc_test.cpp
@@ -75,6 +82,7 @@ add_executable(snicholls_core_tests
     hash/wyhash_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
+    linalg/fixed_test.cpp
     linalg/randomized_svd_test.cpp
     linalg/reference_test.cpp
     linalg/types_test.cpp
@@ -193,6 +201,8 @@ add_executable(snicholls_core_tests
     stats/normal_test.cpp
     stats/pivot_test.cpp
     stats/random_test.cpp
+    stats/ransac_test.cpp
+    stats/resample_test.cpp
     stats/uniform_int_test.cpp
     stochastic/martingale_test.cpp
     stochastic/snell_test.cpp
@@ -201,7 +211,17 @@ add_executable(snicholls_core_tests
     time/rfc3339_test.cpp
     time/solar_test.cpp
     time/utc_format_test.cpp
-    time/utc_test.cpp)
+    time/utc_test.cpp
+    tracking/association_test.cpp
+    tracking/discrete_test.cpp
+    tracking/fusion_test.cpp
+    tracking/gaussian_test.cpp
+    tracking/kalman_test.cpp
+    tracking/measurement_test.cpp
+    tracking/metrics_test.cpp
+    tracking/mixture_test.cpp
+    tracking/transition_test.cpp
+    tracking/unscented_test.cpp)
 target_link_libraries(snicholls_core_tests PRIVATE snicholls::core snicholls::core_conformance GTest::gtest_main GTest::gmock)
 # The portability fixtures (tests/fixtures/), read at run time by the same tests on every platform
 target_compile_definitions(snicholls_core_tests PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/fixtures")
