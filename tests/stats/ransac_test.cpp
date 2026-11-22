@@ -248,7 +248,11 @@ TEST(StatsRansac, SamplesHoldDistinctIndicesInRange)
     const auto r = st::ransac<5>(5, [&](std::span<const std::size_t> s) -> std::optional<int> {   // S == n: a full permutation
         std::array<bool, 5> seen{};
         for (const std::size_t i : s) {
-            ok = ok && i < 5 && !seen[i];
+            if (i >= 5) {
+                ok = false;
+                continue;
+            }
+            ok = ok && !seen[i];
             seen[i] = true;
         }
         return 0;
