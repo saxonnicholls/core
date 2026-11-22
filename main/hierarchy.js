@@ -235,36 +235,44 @@ var hierarchy =
     [ "std::hash&lt; snicholls::traced&lt; E &gt; &gt;", "structstd_1_1hash_3_01snicholls_1_1traced_3_01E_01_4_01_4.html", null ],
     [ "std::hash&lt; snicholls::uint256 &gt;", "structstd_1_1hash_3_01snicholls_1_1uint256_01_4.html", null ],
     [ "snicholls::detail::hash_updates&lt; Derived &gt;", null, [
-      [ "snicholls::blake2_hash< detail::blake2b_traits, N >", "classsnicholls_1_1blake2__hash.html", null ],
-      [ "snicholls::blake2_hash< detail::blake2s_traits, N >", "classsnicholls_1_1blake2__hash.html", null ],
-      [ "snicholls::md_hash< detail::ripemd160_policy >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha1_policy >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha256_policy< 28, std::array< std::uint32_t, 8 >{0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha256_policy< 32, std::array< std::uint32_t, 8 >{0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 48, std::array< std::uint64_t, 8 >{0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939, 0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 64, std::array< std::uint64_t, 8 >{0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1, 0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 28, std::array< std::uint64_t, 8 >{0x8c3d37c819544da2, 0x73e1996689dcd4d6, 0x1dfab7ae32ff9c82, 0x679dd514582f9fcf, 0x0f6d2b697bd44da8, 0x77e36f7304c48942, 0x3f9d85a86a1d36c8, 0x1112e6ad91d692a1}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 32, std::array< std::uint64_t, 8 >{0x22312194fc2bf72c, 0x9f555fa3c84c64c2, 0x2393b86b6f53b151, 0x963877195940eabd, 0x96283ee2a88effe3, 0xbe5e1e2553863992, 0x2b0199fc2c85b8aa, 0x0eb72ddc81c52ca2}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::reflected_crc< std::uint32_t, 0xEDB88320u, 0xFFFFFFFFu, 0xFFFFFFFFu >", "classsnicholls_1_1reflected__crc.html", null ],
-      [ "snicholls::reflected_crc< std::uint32_t, 0x82F63B78u, 0xFFFFFFFFu, 0xFFFFFFFFu >", "classsnicholls_1_1reflected__crc.html", null ],
-      [ "snicholls::reflected_crc< std::uint64_t, 0xC96C5795D7870F42ull, ~0ull, ~0ull >", "classsnicholls_1_1reflected__crc.html", null ]
+      [ "snicholls::detail::one_shot_hash< Derived >", null, [
+        [ "snicholls::blake2_hash< detail::blake2b_traits, N >", "classsnicholls_1_1blake2__hash.html", null ],
+        [ "snicholls::blake2_hash< detail::blake2s_traits, N >", "classsnicholls_1_1blake2__hash.html", null ],
+        [ "snicholls::md_hash< detail::ripemd160_policy >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha1_policy >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha256_policy< 28, std::array< std::uint32_t, 8 >{0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4}> >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha256_policy< 32, std::array< std::uint32_t, 8 >{0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19}> >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha512_policy< 48, std::array< std::uint64_t, 8 >{0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939, 0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4}> >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha512_policy< 64, std::array< std::uint64_t, 8 >{0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1, 0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179}> >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha512_policy< 28, std::array< std::uint64_t, 8 >{0x8c3d37c819544da2, 0x73e1996689dcd4d6, 0x1dfab7ae32ff9c82, 0x679dd514582f9fcf, 0x0f6d2b697bd44da8, 0x77e36f7304c48942, 0x3f9d85a86a1d36c8, 0x1112e6ad91d692a1}> >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::md_hash< detail::sha512_policy< 32, std::array< std::uint64_t, 8 >{0x22312194fc2bf72c, 0x9f555fa3c84c64c2, 0x2393b86b6f53b151, 0x963877195940eabd, 0x96283ee2a88effe3, 0xbe5e1e2553863992, 0x2b0199fc2c85b8aa, 0x0eb72ddc81c52ca2}> >", "classsnicholls_1_1md__hash.html", null ],
+        [ "snicholls::reflected_crc< std::uint32_t, 0xEDB88320u, 0xFFFFFFFFu, 0xFFFFFFFFu >", "classsnicholls_1_1reflected__crc.html", null ],
+        [ "snicholls::reflected_crc< std::uint32_t, 0x82F63B78u, 0xFFFFFFFFu, 0xFFFFFFFFu >", "classsnicholls_1_1reflected__crc.html", null ],
+        [ "snicholls::reflected_crc< std::uint64_t, 0xC96C5795D7870F42ull, ~0ull, ~0ull >", "classsnicholls_1_1reflected__crc.html", null ]
+      ] ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; blake2_hash&lt; Traits, N &gt; &gt;", null, [
-      [ "snicholls::blake2_hash< Traits, N >", "classsnicholls_1_1blake2__hash.html", null ]
+      [ "snicholls::detail::one_shot_hash< blake2_hash< Traits, N > >", null, [
+        [ "snicholls::blake2_hash< Traits, N >", "classsnicholls_1_1blake2__hash.html", null ]
+      ] ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; blake3 &gt;", null, [
-      [ "snicholls::blake3", "classsnicholls_1_1blake3.html", null ]
+      [ "snicholls::detail::one_shot_hash< blake3 >", null, [
+        [ "snicholls::blake3", "classsnicholls_1_1blake3.html", null ]
+      ] ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; hmac&lt; H &gt; &gt;", null, [
       [ "snicholls::hmac< H >", "classsnicholls_1_1hmac.html", null ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; keccak_sponge&lt; Rate, Pad, DigestSize &gt; &gt;", null, [
-      [ "snicholls::keccak_sponge< 144, 0x06, 28 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 136, 0x06, 32 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 104, 0x06, 48 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 72, 0x06, 64 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 136, 0x01, 32 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< Rate, Pad, DigestSize >", "classsnicholls_1_1keccak__sponge.html", null ]
+      [ "snicholls::detail::one_shot_hash< keccak_sponge< Rate, Pad, DigestSize > >", null, [
+        [ "snicholls::keccak_sponge< 144, 0x06, 28 >", "classsnicholls_1_1keccak__sponge.html", null ],
+        [ "snicholls::keccak_sponge< 136, 0x06, 32 >", "classsnicholls_1_1keccak__sponge.html", null ],
+        [ "snicholls::keccak_sponge< 104, 0x06, 48 >", "classsnicholls_1_1keccak__sponge.html", null ],
+        [ "snicholls::keccak_sponge< 72, 0x06, 64 >", "classsnicholls_1_1keccak__sponge.html", null ],
+        [ "snicholls::keccak_sponge< 136, 0x01, 32 >", "classsnicholls_1_1keccak__sponge.html", null ],
+        [ "snicholls::keccak_sponge< Rate, Pad, DigestSize >", "classsnicholls_1_1keccak__sponge.html", null ]
+      ] ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; keccak_xof&lt; Rate &gt; &gt;", null, [
       [ "snicholls::keccak_xof< 168 >", "classsnicholls_1_1keccak__xof.html", null ],
@@ -272,10 +280,14 @@ var hierarchy =
       [ "snicholls::keccak_xof< Rate >", "classsnicholls_1_1keccak__xof.html", null ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; md_hash&lt; Policy &gt; &gt;", null, [
-      [ "snicholls::md_hash< Policy >", "classsnicholls_1_1md__hash.html", null ]
+      [ "snicholls::detail::one_shot_hash< md_hash< Policy > >", null, [
+        [ "snicholls::md_hash< Policy >", "classsnicholls_1_1md__hash.html", null ]
+      ] ]
     ] ],
     [ "snicholls::detail::hash_updates&lt; reflected_crc&lt; T, Poly, Init, XorOut &gt; &gt;", null, [
-      [ "snicholls::reflected_crc< T, Poly, Init, XorOut >", "classsnicholls_1_1reflected__crc.html", null ]
+      [ "snicholls::detail::one_shot_hash< reflected_crc< T, Poly, Init, XorOut > >", null, [
+        [ "snicholls::reflected_crc< T, Poly, Init, XorOut >", "classsnicholls_1_1reflected__crc.html", null ]
+      ] ]
     ] ],
     [ "snicholls::containers::hierarchical_bitset", "classsnicholls_1_1containers_1_1hierarchical__bitset.html", null ],
     [ "snicholls::stats::histogram&lt; T, Bins &gt;", "structsnicholls_1_1stats_1_1histogram.html", null ],
@@ -396,41 +408,6 @@ var hierarchy =
     [ "snicholls::containers::offset_ptr&lt; T &gt;", "classsnicholls_1_1containers_1_1offset__ptr.html", null ],
     [ "snicholls::ok_t&lt; V &gt;", "structsnicholls_1_1ok__t.html", null ],
     [ "snicholls::ok_t&lt; void &gt;", "structsnicholls_1_1ok__t_3_01void_01_4.html", null ],
-    [ "snicholls::detail::one_shot_hash&lt; Derived &gt;", null, [
-      [ "snicholls::blake2_hash< detail::blake2b_traits, N >", "classsnicholls_1_1blake2__hash.html", null ],
-      [ "snicholls::blake2_hash< detail::blake2s_traits, N >", "classsnicholls_1_1blake2__hash.html", null ],
-      [ "snicholls::md_hash< detail::ripemd160_policy >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha1_policy >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha256_policy< 28, std::array< std::uint32_t, 8 >{0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha256_policy< 32, std::array< std::uint32_t, 8 >{0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 48, std::array< std::uint64_t, 8 >{0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939, 0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 64, std::array< std::uint64_t, 8 >{0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1, 0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 28, std::array< std::uint64_t, 8 >{0x8c3d37c819544da2, 0x73e1996689dcd4d6, 0x1dfab7ae32ff9c82, 0x679dd514582f9fcf, 0x0f6d2b697bd44da8, 0x77e36f7304c48942, 0x3f9d85a86a1d36c8, 0x1112e6ad91d692a1}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::md_hash< detail::sha512_policy< 32, std::array< std::uint64_t, 8 >{0x22312194fc2bf72c, 0x9f555fa3c84c64c2, 0x2393b86b6f53b151, 0x963877195940eabd, 0x96283ee2a88effe3, 0xbe5e1e2553863992, 0x2b0199fc2c85b8aa, 0x0eb72ddc81c52ca2}> >", "classsnicholls_1_1md__hash.html", null ],
-      [ "snicholls::reflected_crc< std::uint32_t, 0xEDB88320u, 0xFFFFFFFFu, 0xFFFFFFFFu >", "classsnicholls_1_1reflected__crc.html", null ],
-      [ "snicholls::reflected_crc< std::uint32_t, 0x82F63B78u, 0xFFFFFFFFu, 0xFFFFFFFFu >", "classsnicholls_1_1reflected__crc.html", null ],
-      [ "snicholls::reflected_crc< std::uint64_t, 0xC96C5795D7870F42ull, ~0ull, ~0ull >", "classsnicholls_1_1reflected__crc.html", null ]
-    ] ],
-    [ "snicholls::detail::one_shot_hash&lt; blake2_hash&lt; Traits, N &gt; &gt;", null, [
-      [ "snicholls::blake2_hash< Traits, N >", "classsnicholls_1_1blake2__hash.html", null ]
-    ] ],
-    [ "snicholls::detail::one_shot_hash&lt; blake3 &gt;", null, [
-      [ "snicholls::blake3", "classsnicholls_1_1blake3.html", null ]
-    ] ],
-    [ "snicholls::detail::one_shot_hash&lt; keccak_sponge&lt; Rate, Pad, DigestSize &gt; &gt;", null, [
-      [ "snicholls::keccak_sponge< 144, 0x06, 28 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 136, 0x06, 32 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 104, 0x06, 48 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 72, 0x06, 64 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< 136, 0x01, 32 >", "classsnicholls_1_1keccak__sponge.html", null ],
-      [ "snicholls::keccak_sponge< Rate, Pad, DigestSize >", "classsnicholls_1_1keccak__sponge.html", null ]
-    ] ],
-    [ "snicholls::detail::one_shot_hash&lt; md_hash&lt; Policy &gt; &gt;", null, [
-      [ "snicholls::md_hash< Policy >", "classsnicholls_1_1md__hash.html", null ]
-    ] ],
-    [ "snicholls::detail::one_shot_hash&lt; reflected_crc&lt; T, Poly, Init, XorOut &gt; &gt;", null, [
-      [ "snicholls::reflected_crc< T, Poly, Init, XorOut >", "classsnicholls_1_1reflected__crc.html", null ]
-    ] ],
     [ "snicholls::ml::online_softmax&lt; T &gt;", "structsnicholls_1_1ml_1_1online__softmax.html", null ],
     [ "snicholls::ml::orpo", "structsnicholls_1_1ml_1_1orpo.html", null ],
     [ "snicholls::ml::paged_kv_cache_view&lt; C, T, MaxPages &gt;", "classsnicholls_1_1ml_1_1paged__kv__cache__view.html", null ],

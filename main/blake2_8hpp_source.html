@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -192,7 +192,7 @@ $(function(){initNavTree('blake2_8hpp_source.html','',''); });
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span></div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Traits, std::<span class="keywordtype">size_t</span> N&gt;</div>
 <div class="foldopen" id="foldopen00151" data-start="{" data-end="};">
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="classsnicholls_1_1blake2__hash.html">  151</a></span><span class="keyword">class </span><a class="code hl_function" href="classsnicholls_1_1blake2__hash.html#a196eb3962f0d9b6907c29f2cabee8a0b">blake2_hash</a> : <span class="keyword">public</span> detail::hash_updates&lt;blake2_hash&lt;Traits, N&gt;&gt;, <span class="keyword">public</span> detail::one_shot_hash&lt;blake2_hash&lt;Traits, N&gt;&gt;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="classsnicholls_1_1blake2__hash.html">  151</a></span><span class="keyword">class </span><a class="code hl_function" href="classsnicholls_1_1blake2__hash.html#a196eb3962f0d9b6907c29f2cabee8a0b">blake2_hash</a> : <span class="keyword">public</span> detail::one_shot_hash&lt;blake2_hash&lt;Traits, N&gt;&gt;</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>{</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keyword">static_assert</span>(N &gt;= 1 &amp;&amp; N &lt;= Traits::max_size, <span class="stringliteral">&quot;snicholls::blake2: the output length is 1 to 64 bytes (BLAKE2b) or 32 (BLAKE2s)&quot;</span>);</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keyword">using </span>word = <span class="keyword">typename</span> Traits::word;</div>

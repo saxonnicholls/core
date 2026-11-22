@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -262,82 +262,83 @@ $(function(){initNavTree('digest_8hpp_source.html','',''); });
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        }</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    };</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="comment">// hash(input): one-shot, for a hasher that is default-constructible.</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keyword">class </span>one_shot_hash</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    {</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        <span class="keyword">template</span> &lt;hash_input S&gt;</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        [[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> hash(<span class="keyword">const</span> S&amp; input) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        {</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            Derived h;</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            h.update(input);</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            <span class="keywordflow">return</span> h.finish();</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        }</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    };</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>} <span class="comment">// namespace detail</span></div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span></div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> H&gt;</div>
-<div class="foldopen" id="foldopen00288" data-start="{" data-end="}">
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="conceptsnicholls_1_1hash__function.html">  288</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1hash__function.html">hash_function</a> = std::default_initializable&lt;H&gt; &amp;&amp; std::copyable&lt;H&gt; &amp;&amp; <span class="keyword">requires</span>(H h, std::string_view s) {</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    { H::block_size } -&gt; std::convertible_to&lt;std::size_t&gt;;</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    { H::digest_size } -&gt; std::convertible_to&lt;std::size_t&gt;;</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    h.update(s);</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    { h.finish() } -&gt; std::same_as&lt;digest&lt;H::digest_size&gt;&gt;;</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>};</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="comment">// hash(input): one-shot, for a hasher that is default-constructible; update(input) through hash_updates. One chain</span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="comment">// of empty bases, not two side by side: MSVC gives only the first of several empty bases no size.</span></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keyword">class </span>one_shot_hash : <span class="keyword">public</span> hash_updates&lt;Derived&gt;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    {</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        <span class="keyword">template</span> &lt;hash_input S&gt;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        [[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> hash(<span class="keyword">const</span> S&amp; input) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        {</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            Derived h;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            h.update(input);</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>            <span class="keywordflow">return</span> h.finish();</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        }</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    };</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>} <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> H&gt;</div>
+<div class="foldopen" id="foldopen00289" data-start="{" data-end="}">
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno"><a class="line" href="conceptsnicholls_1_1hash__function.html">  289</a></span><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1hash__function.html">hash_function</a> = std::default_initializable&lt;H&gt; &amp;&amp; std::copyable&lt;H&gt; &amp;&amp; <span class="keyword">requires</span>(H h, std::string_view s) {</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    { H::block_size } -&gt; std::convertible_to&lt;std::size_t&gt;;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    { H::digest_size } -&gt; std::convertible_to&lt;std::size_t&gt;;</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    h.update(s);</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    { h.finish() } -&gt; std::same_as&lt;digest&lt;H::digest_size&gt;&gt;;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>};</div>
 </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span></div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="keyword">template</span> &lt;hash_function H&gt;</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno"><a class="line" href="group__core.html#gace9e233c1bd91067b1641dcf72b7694d">  298</a></span><span class="keyword">using </span><a class="code hl_typedef" href="group__core.html#gace9e233c1bd91067b1641dcf72b7694d">digest_of_t</a> = <a class="code hl_struct" href="structsnicholls_1_1digest.html">digest&lt;H::digest_size&gt;</a>;</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Policy&gt;</div>
-<div class="foldopen" id="foldopen00307" data-start="{" data-end="};">
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html">  307</a></span><span class="keyword">class </span><a class="code hl_function" href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">md_hash</a> : <span class="keyword">public</span> detail::hash_updates&lt;md_hash&lt;Policy&gt;&gt;, <span class="keyword">public</span> detail::one_shot_hash&lt;md_hash&lt;Policy&gt;&gt;</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>{</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a4a3220add195173ab968f903eded8f6f">  311</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="classsnicholls_1_1md__hash.html#a4a3220add195173ab968f903eded8f6f">block_size</a> = Policy::block_size;</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a08d097ba6ce1e85322862970d6a9094e">  313</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="classsnicholls_1_1md__hash.html#a08d097ba6ce1e85322862970d6a9094e">digest_size</a> = Policy::digest_size;</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">  315</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">digest_type</a> = <a class="code hl_struct" href="structsnicholls_1_1digest.html">digest&lt;digest_size&gt;</a>;</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span></div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">  318</a></span>    <span class="keyword">constexpr</span> <a class="code hl_function" href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">md_hash</a>() noexcept = default;</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span></div>
-<div class="foldopen" id="foldopen00322" data-start="{" data-end="}">
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">  322</a></span>    [[nodiscard]] constexpr <a class="code hl_typedef" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">digest_type</a> <a class="code hl_function" href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">finish</a>() noexcept</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    {</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <a class="code hl_typedef" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">digest_type</a> out{};</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        engine_.finish(out.<a class="code hl_variable" href="structsnicholls_1_1digest.html#a14391932379790ad7cbf96e16277967e">bytes</a>.data());</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    }</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="keyword">template</span> &lt;hash_function H&gt;</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno"><a class="line" href="group__core.html#gace9e233c1bd91067b1641dcf72b7694d">  299</a></span><span class="keyword">using </span><a class="code hl_typedef" href="group__core.html#gace9e233c1bd91067b1641dcf72b7694d">digest_of_t</a> = <a class="code hl_struct" href="structsnicholls_1_1digest.html">digest&lt;H::digest_size&gt;</a>;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Policy&gt;</div>
+<div class="foldopen" id="foldopen00308" data-start="{" data-end="};">
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html">  308</a></span><span class="keyword">class </span><a class="code hl_function" href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">md_hash</a> : <span class="keyword">public</span> detail::one_shot_hash&lt;md_hash&lt;Policy&gt;&gt;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>{</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a4a3220add195173ab968f903eded8f6f">  312</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="classsnicholls_1_1md__hash.html#a4a3220add195173ab968f903eded8f6f">block_size</a> = Policy::block_size;</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a08d097ba6ce1e85322862970d6a9094e">  314</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="classsnicholls_1_1md__hash.html#a08d097ba6ce1e85322862970d6a9094e">digest_size</a> = Policy::digest_size;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">  316</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">digest_type</a> = <a class="code hl_struct" href="structsnicholls_1_1digest.html">digest&lt;digest_size&gt;</a>;</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">  319</a></span>    <span class="keyword">constexpr</span> <a class="code hl_function" href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">md_hash</a>() noexcept = default;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span></div>
+<div class="foldopen" id="foldopen00323" data-start="{" data-end="}">
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">  323</a></span>    [[nodiscard]] constexpr <a class="code hl_typedef" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">digest_type</a> <a class="code hl_function" href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">finish</a>() noexcept</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <a class="code hl_typedef" href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">digest_type</a> out{};</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        engine_.finish(out.<a class="code hl_variable" href="structsnicholls_1_1digest.html#a14391932379790ad7cbf96e16277967e">bytes</a>.data());</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>        <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    }</div>
 </div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <span class="keyword">friend</span> detail::hash_updates&lt;md_hash&gt;;</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> absorb(<span class="keyword">const</span> U* p, std::size_t n) <span class="keyword">noexcept</span></div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    {</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>        engine_.absorb(p, n);</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    }</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    detail::md_engine&lt;Policy&gt; engine_{};</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>};</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <span class="keyword">friend</span> detail::hash_updates&lt;md_hash&gt;;</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> absorb(<span class="keyword">const</span> U* p, std::size_t n) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        engine_.absorb(p, n);</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    }</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    detail::md_engine&lt;Policy&gt; engine_{};</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>};</div>
 </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>} <span class="comment">// namespace snicholls</span></div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_hash_digest_hpp */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a08d097ba6ce1e85322862970d6a9094e"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a08d097ba6ce1e85322862970d6a9094e">snicholls::md_hash&lt; detail::ripemd160_policy &gt;::digest_size</a></div><div class="ttdeci">static constexpr std::size_t digest_size</div><div class="ttdef"><b>Definition</b> <a href="#l00313">digest.hpp:313</a></div></div>
-<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a2b4fbac26976e03366122aee60e89c84"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">snicholls::md_hash&lt; detail::ripemd160_policy &gt;::finish</a></div><div class="ttdeci">constexpr digest_type finish() noexcept</div><div class="ttdef"><b>Definition</b> <a href="#l00322">digest.hpp:322</a></div></div>
-<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a4a3220add195173ab968f903eded8f6f"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a4a3220add195173ab968f903eded8f6f">snicholls::md_hash&lt; detail::ripemd160_policy &gt;::block_size</a></div><div class="ttdeci">static constexpr std::size_t block_size</div><div class="ttdef"><b>Definition</b> <a href="#l00311">digest.hpp:311</a></div></div>
-<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a8fcccda6b5951b5398655c56e5a57af1"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">snicholls::md_hash::digest_type</a></div><div class="ttdeci">digest&lt; digest_size &gt; digest_type</div><div class="ttdoc">The digest type.</div><div class="ttdef"><b>Definition</b> <a href="#l00315">digest.hpp:315</a></div></div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>} <span class="comment">// namespace snicholls</span></div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_hash_digest_hpp */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a08d097ba6ce1e85322862970d6a9094e"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a08d097ba6ce1e85322862970d6a9094e">snicholls::md_hash&lt; detail::ripemd160_policy &gt;::digest_size</a></div><div class="ttdeci">static constexpr std::size_t digest_size</div><div class="ttdef"><b>Definition</b> <a href="#l00314">digest.hpp:314</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a2b4fbac26976e03366122aee60e89c84"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">snicholls::md_hash&lt; detail::ripemd160_policy &gt;::finish</a></div><div class="ttdeci">constexpr digest_type finish() noexcept</div><div class="ttdef"><b>Definition</b> <a href="#l00323">digest.hpp:323</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a4a3220add195173ab968f903eded8f6f"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a4a3220add195173ab968f903eded8f6f">snicholls::md_hash&lt; detail::ripemd160_policy &gt;::block_size</a></div><div class="ttdeci">static constexpr std::size_t block_size</div><div class="ttdef"><b>Definition</b> <a href="#l00312">digest.hpp:312</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a8fcccda6b5951b5398655c56e5a57af1"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a8fcccda6b5951b5398655c56e5a57af1">snicholls::md_hash::digest_type</a></div><div class="ttdeci">digest&lt; digest_size &gt; digest_type</div><div class="ttdoc">The digest type.</div><div class="ttdef"><b>Definition</b> <a href="#l00316">digest.hpp:316</a></div></div>
 <div class="ttc" id="aclasssnicholls_1_1md__hash_html_ae3b4703955cf7b89627c0e803893bbd4"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#ae3b4703955cf7b89627c0e803893bbd4">snicholls::md_hash::md_hash</a></div><div class="ttdeci">constexpr md_hash() noexcept=default</div><div class="ttdoc">A hasher with nothing absorbed.</div></div>
 <div class="ttc" id="aconceptsnicholls_1_1code__unit__sequence_html"><div class="ttname"><a href="conceptsnicholls_1_1code__unit__sequence.html">snicholls::code_unit_sequence</a></div><div class="ttdef"><b>Definition</b> <a href="string__traits_8hpp_source.html#l00321">string_traits.hpp:321</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1hash__function_html"><div class="ttname"><a href="conceptsnicholls_1_1hash__function.html">snicholls::hash_function</a></div><div class="ttdoc">A fixed-length hash: incremental update / finish, a one-shot hash, block_size and digest_size.</div><div class="ttdef"><b>Definition</b> <a href="#l00288">digest.hpp:288</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1hash__function_html"><div class="ttname"><a href="conceptsnicholls_1_1hash__function.html">snicholls::hash_function</a></div><div class="ttdoc">A fixed-length hash: incremental update / finish, a one-shot hash, block_size and digest_size.</div><div class="ttdef"><b>Definition</b> <a href="#l00289">digest.hpp:289</a></div></div>
 <div class="ttc" id="aconceptsnicholls_1_1hash__input_html"><div class="ttname"><a href="conceptsnicholls_1_1hash__input.html">snicholls::hash_input</a></div><div class="ttdoc">What a hash accepts: a sequence of one-byte code units under core&#39;s string rules, or a digest&lt;N&gt;.</div><div class="ttdef"><b>Definition</b> <a href="#l00223">digest.hpp:223</a></div></div>
 <div class="ttc" id="agroup__core_html_ga57d8b51bfef692cb9cef24c86d80c7b1"><div class="ttname"><a href="group__core.html#ga57d8b51bfef692cb9cef24c86d80c7b1">snicholls::length_of</a></div><div class="ttdeci">constexpr std::size_t length_of(const S &amp;s) noexcept</div><div class="ttdoc">The number of code units.</div><div class="ttdef"><b>Definition</b> <a href="string__access_8hpp_source.html#l00091">string_access.hpp:91</a></div></div>
 <div class="ttc" id="agroup__core_html_ga6d4904d03735012430f69815baed610c"><div class="ttname"><a href="group__core.html#ga6d4904d03735012430f69815baed610c">snicholls::code_unit_t</a></div><div class="ttdeci">typename code_unit&lt; S &gt;::type code_unit_t</div><div class="ttdoc">The cv-unqualified code unit: char for const char*, std::byte for span&lt;const std::byte&gt;.</div><div class="ttdef"><b>Definition</b> <a href="string__traits_8hpp_source.html#l00379">string_traits.hpp:379</a></div></div>
 <div class="ttc" id="agroup__core_html_gaa57245e418571808d2b7f33c4f5663a1"><div class="ttname"><a href="group__core.html#gaa57245e418571808d2b7f33c4f5663a1">snicholls::is_digest_v</a></div><div class="ttdeci">constexpr bool is_digest_v</div><div class="ttdoc">Whether T is a digest&lt;N&gt;.</div><div class="ttdef"><b>Definition</b> <a href="#l00209">digest.hpp:209</a></div></div>
-<div class="ttc" id="agroup__core_html_gace9e233c1bd91067b1641dcf72b7694d"><div class="ttname"><a href="group__core.html#gace9e233c1bd91067b1641dcf72b7694d">snicholls::digest_of_t</a></div><div class="ttdeci">digest&lt; H::digest_size &gt; digest_of_t</div><div class="ttdoc">The digest a hash function returns: digest&lt;H::digest_size&gt;.</div><div class="ttdef"><b>Definition</b> <a href="#l00298">digest.hpp:298</a></div></div>
+<div class="ttc" id="agroup__core_html_gace9e233c1bd91067b1641dcf72b7694d"><div class="ttname"><a href="group__core.html#gace9e233c1bd91067b1641dcf72b7694d">snicholls::digest_of_t</a></div><div class="ttdeci">digest&lt; H::digest_size &gt; digest_of_t</div><div class="ttdoc">The digest a hash function returns: digest&lt;H::digest_size&gt;.</div><div class="ttdef"><b>Definition</b> <a href="#l00299">digest.hpp:299</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1"><div class="ttname"><a href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">snicholls::code_unit_category::text</a></div><div class="ttdeci">@ text</div><div class="ttdef"><b>Definition</b> <a href="string__traits_8hpp_source.html#l00092">string_traits.hpp:92</a></div></div>
 <div class="ttc" id="astring__access_8hpp_html"><div class="ttname"><a href="string__access_8hpp.html">string_access.hpp</a></div><div class="ttdoc">Zero-copy, allocation-free access to strings and byte sequences.</div></div>

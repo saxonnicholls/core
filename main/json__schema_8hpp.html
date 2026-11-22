@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -175,6 +175,7 @@ requires std::same_as&lt;typename decltype(Schema)::value_type, char&gt;</td></t
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/json_schema_test.cpp</span>, <span class="tt">demos/ml/json_schema_demo.cpp</span>.</p>
 <p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="grammar_8hpp.html" title="snicholls::ml grammar-constrained decoding: a GBNF compiler (at run time from a string,...">snicholls/core/ml/grammar.hpp</a></span>, <span class="tt"><a class="el" href="result_8hpp.html" title="snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...">snicholls/core/result.hpp</a></span>.</p>
 <p><b>Known issues.</b> Numbers in <span class="tt">const</span> and <span class="tt">enum</span> are written as they appear in the schema; llama.cpp re-prints them through its JSON library (<span class="tt">1e2</span> becomes <span class="tt">100.0</span>), so the two can differ for numbers not in canonical form. <span class="tt">pattern</span> (a regular expression) is not converted: llama.cpp converts a subset of regular expressions, or accepts any string with a warning; here it is an error. As in llama.cpp, the key rule of <span class="tt">additionalProperties</span> beside <span class="tt">properties</span> writes the property names' characters into classes unescaped, and refuses some keys that are proper prefixes of the declared names.</p>
+<p>MSVC (19.52): <span class="tt">compile_json_schema</span> is wrong for a schema with an object inside an object (its <span class="tt">properties</span>). The compiler's constant evaluator loses the inner object as the reader builds it, and with that worked around, fails the conversion with "allocated storage not being deallocated". The run-time functions are right on MSVC; use <span class="tt">json_schema_grammar</span> there.</p>
 <p><b>Status.</b> Experimental, new in 0.17.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
@@ -214,7 +215,7 @@ requires std::same_as&lt;typename decltype(Schema)::value_type, char&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The compiled grammar, element for element <span class="tt">json_schema_grammar</span>'s. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="json__schema_8hpp_source.html#l01602">1602</a> of file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="json__schema_8hpp_source.html#l01607">1607</a> of file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
 
 </div>
 </div>
@@ -255,7 +256,7 @@ requires std::same_as&lt;typename decltype(Schema)::value_type, char&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The grammar, or the conversion's error (a parse failure of the generated text, which the tests rule out, is reported with path <span class="tt">#</span> and the parser's message). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="json__schema_8hpp_source.html#l01567">1567</a> of file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="json__schema_8hpp_source.html#l01572">1572</a> of file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
 
 </div>
 </div>
@@ -296,7 +297,7 @@ requires std::same_as&lt;typename decltype(Schema)::value_type, char&gt;</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The grammar's text (rules sorted by name, root <span class="tt">root</span>), or what could not be converted. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="json__schema_8hpp_source.html#l01542">1542</a> of file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="json__schema_8hpp_source.html#l01547">1547</a> of file <a class="el" href="json__schema_8hpp_source.html">json_schema.hpp</a>.</p>
 
 </div>
 </div>

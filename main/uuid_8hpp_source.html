@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -502,7 +502,7 @@ $(function(){initNavTree('uuid_8hpp_source.html','',''); });
 <div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>};</div>
 <div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span> </div>
 <div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_uuid_hpp */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a2b4fbac26976e03366122aee60e89c84"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">snicholls::md_hash::finish</a></div><div class="ttdeci">constexpr digest_type finish() noexcept</div><div class="ttdoc">Pads, compresses the last block and returns the digest. The hasher is not used afterwards.</div><div class="ttdef"><b>Definition</b> <a href="digest_8hpp_source.html#l00322">digest.hpp:322</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1md__hash_html_a2b4fbac26976e03366122aee60e89c84"><div class="ttname"><a href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">snicholls::md_hash::finish</a></div><div class="ttdeci">constexpr digest_type finish() noexcept</div><div class="ttdoc">Pads, compresses the last block and returns the digest. The hasher is not used afterwards.</div><div class="ttdef"><b>Definition</b> <a href="digest_8hpp_source.html#l00323">digest.hpp:323</a></div></div>
 <div class="ttc" id="agroup__core_html_ga0134c30fee080aebbf47a0cc967d59f7"><div class="ttname"><a href="group__core.html#ga0134c30fee080aebbf47a0cc967d59f7">snicholls::parse_uuid</a></div><div class="ttdeci">constexpr std::optional&lt; uuid &gt; parse_uuid(const S &amp;text, uuid_parse_options options={}) noexcept</div><div class="ttdoc">The whole string as a UUID (see from_chars); std::nullopt if it is not one or anything follows it.</div><div class="ttdef"><b>Definition</b> <a href="#l00527">uuid.hpp:527</a></div></div>
 <div class="ttc" id="agroup__core_html_ga2b3a361d268f95f0ea152b7357e3690e"><div class="ttname"><a href="group__core.html#ga2b3a361d268f95f0ea152b7357e3690e">snicholls::hash_value</a></div><div class="ttdeci">constexpr std::size_t hash_value(const uuid &amp;u) noexcept</div><div class="ttdoc">A well-mixed std::size_t of all 128 bits (what std::hash&lt;snicholls::uuid&gt; returns).</div><div class="ttdef"><b>Definition</b> <a href="#l00247">uuid.hpp:247</a></div></div>
 <div class="ttc" id="agroup__core_html_ga3fe29dcc09ddce32184059c26f28b699"><div class="ttname"><a href="group__core.html#ga3fe29dcc09ddce32184059c26f28b699">snicholls::make_uuid_v5</a></div><div class="ttdeci">constexpr uuid make_uuid_v5(const uuid &amp;name_space, std::string_view name) noexcept</div><div class="ttdoc">Version 5 (name-based, SHA-1, RFC 9562 §5.5).</div><div class="ttdef"><b>Definition</b> <a href="#l00313">uuid.hpp:313</a></div></div>
