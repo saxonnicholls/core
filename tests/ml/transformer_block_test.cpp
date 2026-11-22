@@ -557,13 +557,41 @@ TEST(MlTransformerBlockTraining, BatchedThroughABackendIsThePerTokenPathWithinRo
 // A batch of sequences in one call against one call per sequence through the same backend, the gradients added into
 // the same tensors sequence by sequence: the outputs, every activation, the input's gradient and every gradient to the
 // bit, except the weight gradients of the products made over all the rows at once (Wq, Wo, the MLP's), within rounding
-// The sizes of batch_is_each_sequence, a class of their own: its local class reads them, and MSVC miscompiles a local
-// class that reads the enclosing function's constants (an access violation at run time, or C1001)
+// The sizes of batch_is_each_sequence and (below) its buffers, classes of their own: MSVC miscompiled them as a local
+// class (C1001, or heap corruption at run time)
 template <ml::transformer_config C>
 struct batch_sizes {
     static constexpr std::size_t n = train_block<C>::n, d = C.d_model, seqs = 3, rows = seqs * n, f = C.d_ff, qn = C.q_size(),
                                  kn = C.kv_size();
     static constexpr bool qk = C.qk_norm != ml::qk_norm_kind::none, swiglu = C.mlp == ml::mlp_kind::swiglu;
+};
+
+template <ml::transformer_config C>
+struct batch_run {
+    using S = batch_sizes<C>;
+    using B = train_block<C>;
+    std::vector<double> x0 = std::vector<double>(S::rows * S::d), h1 = x0, x1 = x0, h2 = x0, q = std::vector<double>(S::rows * S::qn),
+                        k = std::vector<double>(S::rows * S::kn), v = k, qr = std::vector<double>(S::qk ? q.size() : 0),
+                        kr = std::vector<double>(S::qk ? k.size() : 0), y = q, lse = std::vector<double>(S::rows * C.n_heads),
+                        up = std::vector<double>(S::rows * S::f), gate = std::vector<double>(S::swiglu ? up.size() : 0), hidden = up,
+                        dq = q, dk = k, dv = k, dy = q, scratch = x0, mlp_scratch = std::vector<double>(2 * S::rows * S::f),
+                        xs = bwave(S::rows * S::d, 1.1, 0.2), dx = bwave(S::rows * S::d, 0.9, 1.4);
+    std::vector<std::vector<double>> gp;
+    // Sequence s of `count` (all of them for s = 0, count = seqs): every view a slice
+    ml::block_activations<double> act(std::size_t s, std::size_t count)
+    {
+        auto cut = [&](std::vector<double>& v) { return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs); };
+        return {cut(x0), cut(h1), cut(x1), cut(h2), {cut(q), cut(k), cut(v), cut(qr), cut(kr), cut(y), cut(lse)}, cut(up), cut(gate), cut(hidden)};
+    }
+    ml::block_gradients<double> grads(std::size_t s, std::size_t count)
+    {
+        auto cut = [&](std::vector<double>& v) { return std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs); };
+        return {gp[B::n1w], gp[B::n1b], gp[B::n2w], gp[B::n2b],
+                {cut(dq), cut(dk), cut(dv), gp[B::wq], gp[B::wk], gp[B::wv], gp[B::wo], gp[B::bq], gp[B::bk], gp[B::bv], gp[B::bo], gp[B::nq],
+                 gp[B::nk], cut(dy)},
+                {gp[B::up], gp[B::gate], gp[B::down], gp[B::bup], gp[B::bgate], gp[B::bdown], cut(mlp_scratch)},
+                cut(scratch)};
+    }
 };
 
 template <ml::transformer_config C>
@@ -573,30 +601,7 @@ void batch_is_each_sequence()
     using S = batch_sizes<C>;
     const B b;
     constexpr std::size_t n = S::n, d = S::d, seqs = S::seqs;
-    struct run_t {
-        std::vector<double> x0 = std::vector<double>(S::rows * S::d), h1 = x0, x1 = x0, h2 = x0, q = std::vector<double>(S::rows * S::qn),
-                            k = std::vector<double>(S::rows * S::kn), v = k, qr = std::vector<double>(S::qk ? q.size() : 0),
-                            kr = std::vector<double>(S::qk ? k.size() : 0), y = q, lse = std::vector<double>(S::rows * C.n_heads),
-                            up = std::vector<double>(S::rows * S::f), gate = std::vector<double>(S::swiglu ? up.size() : 0), hidden = up,
-                            dq = q, dk = k, dv = k, dy = q, scratch = x0, mlp_scratch = std::vector<double>(2 * S::rows * S::f),
-                            xs = bwave(S::rows * S::d, 1.1, 0.2), dx = bwave(S::rows * S::d, 0.9, 1.4);
-        std::vector<std::vector<double>> gp;
-        // Sequence s of `count` (all of them for s = 0, count = seqs): every view a slice
-        ml::block_activations<double> act(std::size_t s, std::size_t count)
-        {
-            auto cut = [&](std::vector<double>& v) { return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs); };
-            return {cut(x0), cut(h1), cut(x1), cut(h2), {cut(q), cut(k), cut(v), cut(qr), cut(kr), cut(y), cut(lse)}, cut(up), cut(gate), cut(hidden)};
-        }
-        ml::block_gradients<double> grads(std::size_t s, std::size_t count)
-        {
-            auto cut = [&](std::vector<double>& v) { return std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs); };
-            return {gp[B::n1w], gp[B::n1b], gp[B::n2w], gp[B::n2b],
-                    {cut(dq), cut(dk), cut(dv), gp[B::wq], gp[B::wk], gp[B::wv], gp[B::wo], gp[B::bq], gp[B::bk], gp[B::bv], gp[B::bo], gp[B::nq],
-                     gp[B::nk], cut(dy)},
-                    {gp[B::up], gp[B::gate], gp[B::down], gp[B::bup], gp[B::bgate], gp[B::bdown], cut(mlp_scratch)},
-                    cut(scratch)};
-        }
-    };
+    using run_t = batch_run<C>;
     run_t each, all;
     for (run_t* r : {&each, &all}) {
         r->gp.resize(b.p.size());

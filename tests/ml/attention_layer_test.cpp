@@ -442,12 +442,39 @@ TEST(MlAttentionLayer, BatchedThroughABackendIsThePerTokenPathWithinRounding)
 // tensors: the activations, the input's gradient, the biases', the QK norms' and Wk's and Wv's to the bit; Wq's and Wo's
 // (one product over every row) within rounding. Attention never crosses a sequence: changing one sequence's input
 // leaves the others' outputs as they were
-// The sizes of batch_is_each_sequence, a class of their own: its local class reads them, and MSVC miscompiles a local
-// class that reads the enclosing function's constants (an access violation at run time, or C1001)
+// The sizes of batch_is_each_sequence and (below) its buffers, classes of their own: MSVC miscompiled them as a local
+// class (C1001, or heap corruption at run time)
 template <ml::transformer_config C>
 struct batch_sizes {
     static constexpr std::size_t n = train_layer<C>::n, seqs = 3, rows = seqs * n, d = C.d_model, qn = C.q_size(), kn = C.kv_size();
     static constexpr bool raw = C.qk_norm != ml::qk_norm_kind::none;
+};
+
+template <ml::transformer_config C>
+struct batch_run {
+    using S = batch_sizes<C>;
+    std::vector<double> q = std::vector<double>(S::rows * S::qn), k = std::vector<double>(S::rows * S::kn), v = k,
+                        qr = std::vector<double>(S::raw ? q.size() : 0), kr = std::vector<double>(S::raw ? k.size() : 0), y = q,
+                        lse = std::vector<double>(S::rows * C.n_heads), out = std::vector<double>(S::rows * S::d), dq = q, dk = k, dv = k,
+                        dy = q, dx = out;
+    std::vector<double> dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk;
+    explicit batch_run(const train_layer<C>& l)
+        : dwq(l.wq.size()), dwk(l.wk.size()), dwv(l.wv.size()), dwo(l.wo.size()), dbq(l.bq.size()), dbk(l.bk.size()), dbv(l.bv.size()),
+          dbo(l.bo.size()), dnq(l.nq.size()), dnk(l.nk.size())
+    {
+    }
+    static std::span<double> cut(std::vector<double>& v, std::size_t s, std::size_t count)
+    {
+        return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs);
+    }
+    ml::attention_activations<double> act(std::size_t s, std::size_t c)
+    {
+        return {cut(q, s, c), cut(k, s, c), cut(v, s, c), cut(qr, s, c), cut(kr, s, c), cut(y, s, c), cut(lse, s, c)};
+    }
+    ml::attention_gradients<double> grads(std::size_t s, std::size_t c)
+    {
+        return {cut(dq, s, c), cut(dk, s, c), cut(dv, s, c), dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, cut(dy, s, c)};
+    }
 };
 
 template <ml::transformer_config C>
@@ -457,30 +484,7 @@ void batch_is_each_sequence()
     const train_layer<C> l;
     constexpr std::size_t n = S::n, seqs = S::seqs, d = S::d;
     const auto& backend = snicholls::linalg::reference;
-    struct run_t {
-        std::vector<double> q = std::vector<double>(S::rows * S::qn), k = std::vector<double>(S::rows * S::kn), v = k,
-                            qr = std::vector<double>(S::raw ? q.size() : 0), kr = std::vector<double>(S::raw ? k.size() : 0), y = q,
-                            lse = std::vector<double>(S::rows * C.n_heads), out = std::vector<double>(S::rows * S::d), dq = q, dk = k, dv = k,
-                            dy = q, dx = out;
-        std::vector<double> dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk;
-        explicit run_t(const train_layer<C>& l)
-            : dwq(l.wq.size()), dwk(l.wk.size()), dwv(l.wv.size()), dwo(l.wo.size()), dbq(l.bq.size()), dbk(l.bk.size()), dbv(l.bv.size()),
-              dbo(l.bo.size()), dnq(l.nq.size()), dnk(l.nk.size())
-        {
-        }
-        static std::span<double> cut(std::vector<double>& v, std::size_t s, std::size_t count)
-        {
-            return v.empty() ? std::span<double>{} : std::span<double>(v).subspan(s * v.size() / S::seqs, count * v.size() / S::seqs);
-        }
-        ml::attention_activations<double> act(std::size_t s, std::size_t c)
-        {
-            return {cut(q, s, c), cut(k, s, c), cut(v, s, c), cut(qr, s, c), cut(kr, s, c), cut(y, s, c), cut(lse, s, c)};
-        }
-        ml::attention_gradients<double> grads(std::size_t s, std::size_t c)
-        {
-            return {cut(dq, s, c), cut(dk, s, c), cut(dv, s, c), dwq, dwk, dwv, dwo, dbq, dbk, dbv, dbo, dnq, dnk, cut(dy, s, c)};
-        }
-    };
+    using run_t = batch_run<C>;
     const auto xs = wave(S::rows * d, 1.2, 0.5), gout = wave(S::rows * d, 0.9, 1.7);
     run_t each(l), all(l);
     for (std::size_t s = 0; s < seqs; ++s) {
