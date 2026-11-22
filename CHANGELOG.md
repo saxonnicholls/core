@@ -14,8 +14,11 @@ The MSVC leg builds again. Nothing changes on the other compilers.
   MSVC gives no size only to the first of several empty bases side by side. The interface is unchanged.
 - `ml/delta_rule.hpp`, `ml/gla.hpp`, `ml/ssd.hpp`: no warning C4189 under `/W4 /WX` for the shape constants that only
   an `assert` reads (MSVC ignores `[[maybe_unused]]` there).
-- The test, demo and benchmarks that MSVC failed on the same grounds: `attention_layer_test`, `quant_k_demo` (float
+- The tests, demo and benchmarks that MSVC failed on the same grounds: `attention_layer_test` and
+  `transformer_block_test`, `tensor_ops_test` and `stft_test` (doubles to floats said explicitly), `quant_k_demo` (float
   literals) and the `bpe_merges`, `token_trie` and `unigram` benchmarks (a local that shadowed another).
+- `mlp_test` no longer stops MSVC's code generator (C1001): the batched check's gradients are a class of their own, not
+  a local class whose member initialisers read the function's constants.
 
 ## 0.18.0 - 2026-11-21
 
