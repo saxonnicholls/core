@@ -5,7 +5,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ## Unreleased
 
-ISO 3166 countries and currency metadata, day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits and `inplace_string<N>`.
+ISO 3166 countries and currency metadata, the major tokens as types, day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits and `inplace_string<N>`.
 
 ### Added
 
@@ -28,6 +28,14 @@ ISO 3166 countries and currency metadata, day-count conventions, business-day ru
   `A-Z a-z 0-9 _ - . :`), and anything else a provider returns is dropped. Every kit checks it with a provider
   response carrying a marker (`interfaces/capability_conformance.hpp`).
 - **`http_header.hpp`**: `http_header`, `ascii_iequals` and `find_header`.
+- **GTIN check digits** in `ids/check_digits.hpp`: `validate_gtin` and `gtin_check_digit` for EAN-13, EAN-8, UPC-A
+  and GTIN-14 (GS1 mod-10), constexpr, tested against python-stdnum 2.2's `stdnum.ean`. The barcode of a retail
+  product or a bill-payment slip; drawing it is not core's.
+- **`snicholls_core.hpp`, the single include: the whole library in one file**, generated from `core.hpp` by
+  snicholls-tooling's `single_include.py` (`third_party/tooling` at `v0.2.1`, build-time only). It is never committed:
+  every build generates it and compiles it alone, the CTest `check.single_include` fails while a header is missing
+  from `core.hpp`, and every release tag attaches it to the GitHub release. `core.hpp` now also includes
+  `detail/forward_like.hpp` and `detail/pp_for_each.hpp`. The interface check (`check.interfaces`) runs too.
 - **`asset` is ordered** (`operator<=>`: by code, then scale) for sorted reports and ordered maps, and
   **`checked_asset(code, scale)`** builds an asset with no type of its own in a constant expression, a bad code being
   a compile error.
@@ -97,6 +105,36 @@ ISO 3166 countries and currency metadata, day-count conventions, business-day ru
   `containers/inplace_string_benchmark.cpp`.
 - CTests `generated.finance_fixtures_up_to_date`, `generated.check_digit_fixtures_up_to_date` (skipped without
   QuantLib 1.44 or python-stdnum 2.2) and `generated.week_date_fixtures_up_to_date`.
+- **Tokens as compile-time types.** The major tokens are types now, as the chains became types in 0.22.0.
+  - **`concepts/token.hpp`: `token_like`.** An `asset_like` that also answers `chain()` (a `chain_like` value),
+    `contract()` and `symbol()`. Its code is `SYMBOL:chainid` (`USDC:1`, `USDT:728126428`); an issuer's
+    single-supply token may keep its bare symbol.
+  - **`token/basic_token.hpp`: `basic_token<Chain, Address, Decimals, Symbol>`.** A product declares its own token in
+    one line. The compiler checks the address: EIP-55 for an EVM chain, using core's Keccak-256, and base58check
+    `T...` for TRON, using SHA-256. It also checks the decimals and the code.
+  - **`interfaces/token.hpp` and `interfaces/token_conformance.hpp`.** `token_interface` is the virtual twin, and
+    `token_model<T>` adapts a type to it. `check_token` checks the asset, the chain, the code's shape, the address
+    form and checksum, and that each answer is stable.
+  - **`token/tokens.hpp`: the curated set, `token::<chain>::<SYMBOL>`.**
+    - Ethereum: USDT, USDC, DAI, WETH, WBTC, EURC.
+    - Optimism, BNB Smart Chain, Base and Avalanche: USDT and USDC. Both have 18 decimals on BNB Smart Chain,
+      where they are Binance-Peg tokens, not Tether's or Circle's.
+    - Polygon and Arbitrum One: USDT0 and USDC.
+    - Each type says who stands behind it on its chain: `issuer()`, `kind()` (`token::issuance`: native,
+      bridged, pegged or wrapped) and `source()`, the first-party page that lists its address.
+    - TRON: USDT.
+    - `token::all` lists every one of them as a type list.
+  - **The data.** `scripts/generate_tokens.py` generates the types and a test fixture from
+    `scripts/data/tokens/issuers.json`, which holds only first-party data: every address from its issuer's own page
+    (Circle, Tether, Sky) or, for a bridged, pegged or wrapped token, the bridge operator's, the pegging party's or
+    the canonical contract's (USDT0, Optimism's Superchain token list, Binance, ethereum.org, the WBTC DAO), each
+    with its URL.
+
+    The tests check every address case-exactly, and every decimals value, kind and chain, against that data. The
+    CTest `generated.tokens_up_to_date` fails if the header or the fixture drifts from the data. Uniswap Labs'
+    default token list is a cross-check only and nothing from it is committed: `scripts/generate_tokens.py
+    --cross-check`, and the opt-in CTest `external.tokens_cross_check` (`-DSNICHOLLS_CORE_NETWORK_TESTS=ON`),
+    download the pinned npm release into a temporary directory and compare.
 
 ## 0.22.0 - 2026-11-23
 

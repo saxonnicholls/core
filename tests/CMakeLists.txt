@@ -52,6 +52,7 @@ add_executable(snicholls_core_tests
     concepts/onramp_provider_test.cpp
     concepts/payment_provider_test.cpp
     concepts/signer_test.cpp
+    concepts/token_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
@@ -78,6 +79,8 @@ add_executable(snicholls_core_tests
     detail/pp_for_each_test.cpp
     detail/sobol_directions_test.cpp
     detail/struct_binders_test.cpp
+    detail/token_checks_test.cpp
+    detail/token_table_test.cpp
     detail/unicode_tables_test.cpp
     detail/wide_mul_test.cpp
     finance/attribution_test.cpp
@@ -150,6 +153,8 @@ add_executable(snicholls_core_tests
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp
+    interfaces/token_conformance_test.cpp
+    interfaces/token_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp
@@ -308,6 +313,8 @@ add_executable(snicholls_core_tests
     time/utc_format_test.cpp
     time/utc_test.cpp
     time/week_date_test.cpp
+    token/basic_token_test.cpp
+    token/tokens_test.cpp
     tracking/association_test.cpp
     tracking/discrete_test.cpp
     tracking/fusion_test.cpp
@@ -392,6 +399,18 @@ set_tests_properties(generated.iso3166_up_to_date PROPERTIES LABELS boundary)
 add_test(NAME generated.country_fixtures_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_country_fixtures.py --check)
 set_tests_properties(generated.country_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The token types (detail/token_table.hpp) and tests/fixtures/tokens/tokens.txt must be exactly what
+# scripts/generate_tokens.py writes from the data committed under scripts/data/tokens/.
+add_test(NAME generated.tokens_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_tokens.py --check)
+set_tests_properties(generated.tokens_up_to_date PROPERTIES LABELS boundary)
+# The curated tokens against Uniswap Labs' default token list (GPL-3.0, never committed): the pinned npm release is
+# downloaded into a temporary directory and compared. Needs the network: skipped (77) unless
+# -DSNICHOLLS_CORE_NETWORK_TESTS=ON or SNICHOLLS_CORE_NETWORK_TESTS=1 in the environment, or when the download fails.
+add_test(NAME external.tokens_cross_check
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_tokens.py --cross-check --ctest
+            $<$<BOOL:${SNICHOLLS_CORE_NETWORK_TESTS}>:--enabled>)
+set_tests_properties(external.tokens_cross_check PROPERTIES LABELS boundary SKIP_RETURN_CODE 77)
 # The money fixtures (tests/fixtures/money/) must be what scripts/generate_money_fixtures.py computes with Python's
 # decimal.
 add_test(NAME generated.money_fixtures_up_to_date

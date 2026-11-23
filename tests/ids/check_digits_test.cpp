@@ -73,11 +73,21 @@ static_assert(error_of(validate_sedol("A263494")) == identifier_errc::invalid_ch
 static_assert(error_of(validate_sedol("0B63494")) == identifier_errc::invalid_format);      // a letter after a digit
 static_assert(error_of(validate_sedol("026349B")) == identifier_errc::invalid_format);
 static_assert(error_of(validate_sedol("0263495")) == identifier_errc::invalid_check_digit);
+static_assert(validate_gtin("4006381333931") && validate_gtin("96385074") && validate_gtin("036000291452"));
+static_assert(validate_gtin("0036000291452") && validate_gtin("00012345600012"), "a UPC-A padded to EAN-13 and GTIN-14");
+static_assert(*gtin_check_digit("400638133393") == '1' && *gtin_check_digit("9638507") == '4');
+static_assert(error_of(validate_gtin("4006381333932")) == identifier_errc::invalid_check_digit);
+static_assert(error_of(validate_gtin("400638133393")) == identifier_errc::invalid_check_digit);   // 12 digits: a UPC-A
+static_assert(error_of(validate_gtin("40063813339")) == identifier_errc::wrong_length);
+static_assert(error_of(validate_gtin("")) == identifier_errc::wrong_length);
+static_assert(error_of(validate_gtin("400638133393A")) == identifier_errc::invalid_character);
+static_assert(error_of(validate_gtin("40063813339A1")) == identifier_errc::invalid_character);
 static_assert(iban_check_digits("G1", "WEST").unwrap_err_unchecked() == identifier_errc::invalid_format);
 static_assert(iban_check_digits("GB", "").unwrap_err_unchecked() == identifier_errc::wrong_length);
 static_assert(lei_check_digits("5493001KJTIIGC8Y1r").unwrap_err_unchecked() == identifier_errc::invalid_character);
 static_assert(luhn_check_digit("12a").unwrap_err_unchecked() == identifier_errc::invalid_character);
 static_assert(noexcept(validate_iban(std::declval<std::string_view>())) && noexcept(sedol_check_digit(std::declval<std::string_view>())));
+static_assert(noexcept(validate_gtin(std::declval<std::string_view>())) && noexcept(gtin_check_digit(std::declval<std::string_view>())));
 
 bool strict(std::string_view s)
 {
@@ -105,6 +115,8 @@ std::pair<bool, std::string> core(const std::string& scheme, const std::string& 
         return {validate_lei(s).is_ok(), two(lei_check_digits(std::string_view(s).substr(0, 18)))};
     if (scheme == "cusip")
         return {validate_cusip(s).is_ok(), one(cusip_check_digit(std::string_view(s).substr(0, 8)))};
+    if (scheme == "gtin")
+        return {validate_gtin(s).is_ok(), s.empty() ? "-" : one(gtin_check_digit(std::string_view(s).substr(0, s.size() - 1)))};
     return {validate_sedol(s).is_ok(), one(sedol_check_digit(std::string_view(s).substr(0, 6)))};
 }
 
@@ -142,7 +154,7 @@ TEST(IdsCheckDigits, AgreesWithPythonStdnum)
             ++compared[scheme];
         }
     }
-    for (const char* scheme : {"luhn", "isin", "iban", "lei", "cusip", "sedol"}) {
+    for (const char* scheme : {"luhn", "isin", "iban", "lei", "cusip", "sedol", "gtin"}) {
         EXPECT_GT(valid[scheme], 30) << scheme;
         EXPECT_GT(invalid[scheme], 60) << scheme;
         EXPECT_GT(compared[scheme], 40) << scheme;

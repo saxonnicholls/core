@@ -9,7 +9,7 @@
 
 Every expected value comes from the Python package `python-stdnum`, pinned to STDNUM_VERSION below, never from
 core: `stdnum.luhn`, `stdnum.isin`, `stdnum.iban` (with `stdnum.iso7064.mod_97_10` for the checksum alone),
-`stdnum.lei`, `stdnum.cusip` and `stdnum.gb.sedol`. The inputs are well-known identifiers, pseudo-random bodies
+`stdnum.lei`, `stdnum.cusip`, `stdnum.gb.sedol` and `stdnum.ean` (GTIN). The inputs are well-known identifiers, pseudo-random bodies
 (fixed seed) completed with stdnum's check digits, and each of those with one character changed, two adjacent
 characters swapped, a character dropped and a character added.
 
@@ -47,6 +47,8 @@ KNOWN = {
             "5493001KJTIIGC8Y1R17"],
     "cusip": ["037833100", "594918104", "38259P508", "68389X105", "037833101", "0378331OO"],
     "sedol": ["0263494", "B0YBKJ7", "B0YBLH2", "B0WNLY7", "0263495", "B0YBKJA", "1A00000", "A000000"],
+    "gtin": ["4006381333931", "9780306406157", "96385074", "036000291452", "00012345600012", "50614171002323",
+             "4006381333932", "036000291453", "400638133393", "4006381333931A"],
 }
 
 
@@ -67,10 +69,11 @@ def calc(fn, s):
 
 def oracle():
     """The stdnum modules, and per scheme: validate, the check digits of the input's body, the input's alphabet."""
-    from stdnum import cusip, iban, isin, lei, luhn
+    from stdnum import cusip, ean, iban, isin, lei, luhn
     from stdnum.gb import sedol
     from stdnum.iso7064 import mod_97_10
-    m = types.SimpleNamespace(cusip=cusip, iban=iban, isin=isin, lei=lei, luhn=luhn, sedol=sedol, mod_97_10=mod_97_10)
+    m = types.SimpleNamespace(cusip=cusip, ean=ean, iban=iban, isin=isin, lei=lei, luhn=luhn, sedol=sedol,
+                              mod_97_10=mod_97_10)
     m.table = {
         "luhn": (luhn.validate, lambda s: luhn.calc_check_digit(s[:-1]), DIGITS),
         "isin": (isin.validate, lambda s: isin.calc_check_digit(s[:11]), ALNUM),
@@ -78,6 +81,7 @@ def oracle():
         "lei": (lei.validate, lambda s: mod_97_10.calc_check_digits(s[:18]), ALNUM),
         "cusip": (cusip.validate, lambda s: cusip.calc_check_digit(s[:8]), ALNUM + "*@#"),
         "sedol": (sedol.validate, lambda s: sedol.calc_check_digit(s[:6]), DIGITS + CONSONANTS),
+        "gtin": (ean.validate, lambda s: ean.calc_check_digit(s[:-1]), DIGITS),
     }
     return m
 
@@ -103,6 +107,9 @@ def bodies(name, rng, m):
         elif name == "cusip":
             body = "".join(rng.choice(ALNUM + "*@#") for _ in range(8))
             out.append(body + m.cusip.calc_check_digit(body))
+        elif name == "gtin":
+            body = "".join(rng.choice(DIGITS) for _ in range(rng.choice([7, 11, 12, 13])))
+            out.append(body + m.ean.calc_check_digit(body))
         else:
             first = rng.choice(DIGITS + CONSONANTS)
             rest = DIGITS if first in DIGITS else DIGITS + CONSONANTS

@@ -97,6 +97,7 @@ option(SNICHOLLS_CORE_BUILD_TESTS "Build the snicholls-core unit tests and demos
 option(SNICHOLLS_CORE_BUILD_BENCHMARKS "Build the snicholls-core benchmarks (Google Benchmark)" OFF)
 option(SNICHOLLS_CORE_BUILD_DOCS "Build the Doxygen documentation; warnings are errors" OFF)
 option(SNICHOLLS_CORE_WERROR "Treat warnings as errors in everything this project compiles (CI turns this on)" OFF)
+option(SNICHOLLS_CORE_NETWORK_TESTS "Run the CTests that need the network (external.*); otherwise they are skipped" OFF)
 set(SNICHOLLS_CORE_SANITIZE "" CACHE STRING "Sanitizers for the tests and demos, e.g. address,undefined")
 
 # Warning flags go on the things this project compiles, never on the INTERFACE
@@ -175,6 +176,17 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     target_include_directories(snicholls_core_cpp17_check PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     set_target_properties(snicholls_core_cpp17_check PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
     snicholls_core_compile_options(snicholls_core_cpp17_check)
+
+    # tooling (third_party/tooling, a test-only submodule pinned to a tag): single_include/snicholls_core.hpp compiles on
+    # its own, and the CTests check.single_include (fresh and complete) and check.interfaces (every interface has its
+    # concept twin), from tooling.conf
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/tooling/cmake/SnichollsTooling.cmake)
+        message(FATAL_ERROR "third_party/tooling is empty - run: git submodule update --init --recursive")
+    endif()
+    include(${CMAKE_CURRENT_SOURCE_DIR}/third_party/tooling/cmake/SnichollsTooling.cmake)
+    snicholls_single_include_check(snicholls_core_single_include)
+    snicholls_core_compile_options(snicholls_core_single_include)
+    snicholls_tooling_add_checks(SINGLE_INCLUDE INTERFACES)
 
     # GoogleTest, vendored as a shallow submodule pinned to a release tag
     # (CLAUDE.md "Dependencies"). For the tests only: the library has none.

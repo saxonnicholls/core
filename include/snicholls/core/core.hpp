@@ -78,6 +78,7 @@
 #include <snicholls/core/concepts/onramp_provider.hpp>
 #include <snicholls/core/concepts/payment_provider.hpp>
 #include <snicholls/core/concepts/signer.hpp>
+#include <snicholls/core/concepts/token.hpp>
 #include <snicholls/core/containers/ann_forest.hpp>
 #include <snicholls/core/containers/bloom_filter.hpp>
 #include <snicholls/core/containers/byte_map.hpp>
@@ -95,6 +96,8 @@
 #include <snicholls/core/containers/offset_ptr.hpp>
 #include <snicholls/core/containers/perfect_map.hpp>
 #include <snicholls/core/containers/static_map.hpp>
+#include <snicholls/core/detail/forward_like.hpp>   // internals with no public header: here so the single include holds them
+#include <snicholls/core/detail/pp_for_each.hpp>
 #include <snicholls/core/finance/attribution.hpp>
 #include <snicholls/core/finance/business_day.hpp>
 #include <snicholls/core/finance/day_count.hpp>
@@ -165,6 +168,8 @@
 #include <snicholls/core/interfaces/signer.hpp>
 #include <snicholls/core/interfaces/signer_conformance.hpp>
 #include <snicholls/core/interfaces/signer_reference.hpp>
+#include <snicholls/core/interfaces/token.hpp>
+#include <snicholls/core/interfaces/token_conformance.hpp>
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
 #include <snicholls/core/linalg/fixed.hpp>
@@ -322,6 +327,8 @@
 #include <snicholls/core/time/utc.hpp>
 #include <snicholls/core/time/utc_format.hpp>
 #include <snicholls/core/time/week_date.hpp>
+#include <snicholls/core/token/basic_token.hpp>
+#include <snicholls/core/token/tokens.hpp>
 #include <snicholls/core/tracking/association.hpp>
 #include <snicholls/core/tracking/discrete.hpp>
 #include <snicholls/core/tracking/fusion.hpp>

@@ -67,6 +67,8 @@ int main()
     check(validate_iban("GB82WEST1234569876543").unwrap_err_unchecked() == identifier_errc::invalid_check_digit,
           "a digit dropped from an IBAN");
     check(validate_sedol("0B63494").unwrap_err_unchecked() == identifier_errc::invalid_format, "a SEDOL mixing styles");
+    check(validate_gtin("4006381333931") && *gtin_check_digit("9638507") == '4' && !validate_gtin("4006381333932"),
+          "an EAN-13 and an EAN-8, the barcode on a product or a bill-payment slip");
     check(validate_lei("5493001KJTIIGC8Y1R1").unwrap_err_unchecked() == identifier_errc::wrong_length, "a short LEI");
     check(validate_cusip("03783310!").unwrap_err_unchecked() == identifier_errc::invalid_character, "a CUSIP with '!'");
     return failures == 0 ? 0 : 1;
