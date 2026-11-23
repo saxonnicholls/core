@@ -5,6 +5,19 @@ libraries, among them ts-moveables and base-encode-decode. It sits at the bottom
 but the standard library. Namespace `snicholls`, include root `<snicholls/core/...>`, CMake target
 `snicholls::core`.
 
+## The family: placement, versions and standards (MUST)
+
+This repository is one of the snicholls libraries. The family's standards (how we write C++; tests, demos and benchmarks against known libraries; interfaces as a concept and its virtual twin; documentation; Docker; the security model) are in tooling's [STANDARDS.md](https://github.com/saxonnicholls/tooling/blob/main/STANDARDS.md). Which repository owns what, and the one version of every library, are kept in the owner's private `internal/` documents (`REPO_LAYOUT.md`, `LIBRARIES.md`): read them before adding code if you have access.
+
+- **Owns:** the standard library only, no I/O: vocabulary types, reflection and meta, constexpr hashes and HMACs, maths, statistics, linear algebra and optimisation primitives, the `interfaces/` contracts (concept and virtual twin, reference implementation, conformance kit), printing and presentation attributes; money (ISO 4217) and E.164 numbers are planned.
+- **Never:** I/O, threads, sockets, third-party code, secret-bearing signing (the libraries above).
+- **Pins:** nothing.
+- **Code is written once.** Search the family before writing anything. A copy, in a demo, a test, a script or a Dockerfile, is a defect: the best version wins and the others are deleted.
+- **One version of every library, ours and third-party:** pinned by tag only, never a branch tip or an untagged commit, at the same tag as everywhere else in the family. A repository without a release takes `v0.1.0` first.
+- **Interfaces twice:** every pure virtual interface has its concept twin, with adapters both ways and one conformance kit.
+- **Always tests, a demo and a benchmark**, tested against known libraries wherever possible; as much as possible at compile time.
+- **Docker** from tooling's base images; **secrets** in the git-ignored `.credentials/<service>.env`, with committed `.env.example` templates; the rest of the security model and the documentation standard as STANDARDS.md says.
+
 ## Authorship and commits
 
 This library is the author's own work, gathered here from his earlier libraries, with designs going back to 2010. Commits are authored by the repository owner and carry
