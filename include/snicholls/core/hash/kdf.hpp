@@ -6,15 +6,22 @@
 //
 
 /// \file
-/// \brief HKDF (RFC 5869) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory.
+/// \brief HKDF (RFC 5869), the Concat KDF (NIST SP 800-56A; JOSE ECDH-ES) and PBKDF2-HMAC (RFC 8018) over any hash in
+/// core, writing into the caller's memory.
 /// \ingroup core
 ///
-/// **Overview.** Two key derivation functions, for two different jobs.
+/// **Overview.** Three key derivation functions, for two different jobs.
 ///
 /// - **HKDF** turns key material that is already strong but not uniform (a Diffie-Hellman shared secret, a master
 ///   key) into as many independent keys as a protocol needs: `hkdf_extract` concentrates the material into a
 ///   pseudorandom key, `hkdf_expand` stretches that into output bound to an `info` label, and `hkdf` does both.
 ///   TLS 1.3, Signal, Noise, HPKE and MLS use it. It is fast: never use it on a password.
+/// - **The Concat KDF** (NIST SP 800-56A's single-step KDF) does the same job for a Diffie-Hellman secret with one hash
+///   and a counter: `concat_kdf` over encoded FixedInfo, and `jwa_concat_kdf`, which is JOSE's ECDH-ES (RFC 7518 4.6)
+///   with its OtherInfo built from `enc` or `alg`, `apu`, `apv` and the key length.
+///
+/// \snippet hash/kdf_demo.cpp concat_kdf
+///
 /// - **PBKDF2-HMAC** stretches a *password* by iterating HMAC, so that each guess costs an attacker the same
 ///   `iterations` HMACs it costs you. BIP-39 seeds are PBKDF2-HMAC-SHA512 with 2048 iterations; OWASP's 2023
 ///   guidance is 600,000 iterations of SHA-256 or 210,000 of SHA-512. Prefer `scrypt` (`hash/scrypt.hpp`) for a new
@@ -47,7 +54,8 @@
 ///
 /// **Tests and demos.** `tests/hash/kdf_test.cpp` (RFC 5869's test cases 1 to 7, RFC 6070's PBKDF2-HMAC-SHA1
 /// vectors, RFC 7914's PBKDF2-HMAC-SHA256 vectors, Python's `hashlib.pbkdf2_hmac` on random inputs, the BIP-39
-/// test seed, errors), `demos/hash/kdf_demo.cpp`.
+/// test seed, RFC 7518 Appendix C's ECDH-ES key and `hashlib` over several Concat KDF blocks, errors),
+/// `demos/hash/kdf_demo.cpp`. The Concat KDF is not benchmarked: one hash per block.
 ///
 /// **Dependencies.** `<array>`, `<cstddef>`, `<cstdint>`, `<span>`, `hash/hmac.hpp`, `result.hpp` (larger than
 /// it looks: about 2,500 lines).
@@ -173,6 +181,89 @@ template <hash_function H, std::size_t L, hash_input S, hash_input K, hash_input
     digest<L> out = hkdf_expand<H, L>(prk, info);
     secure_wipe(prk);
     return out;
+}
+
+namespace detail {
+
+    // The single-step KDF's blocks (NIST SP 800-56A 5.8.2.1.1): H(counter || Z || FixedInfo) for counter = 1, 2, ...
+    // until out is full; `fixed(h)` feeds FixedInfo into h, so a caller can stream fields without a buffer.
+    template <hash_function H, hash_input Z, typename Fixed>
+    constexpr result<void, kdf_error> concat_kdf_blocks(const Z& z, Fixed&& fixed, std::span<std::byte> out) noexcept
+    {
+        if (out.empty())
+            return err(kdf_error::empty_output);
+        if (static_cast<std::uint64_t>(out.size()) > 0xFFFF'FFFFULL * H::digest_size)
+            return err(kdf_error::output_too_long);
+        digest_of_t<H> block{};
+        std::size_t done = 0;
+        for (std::uint32_t counter = 1; done < out.size(); ++counter) {
+            H h;
+            h.update(std::array<std::uint8_t, 4>{static_cast<std::uint8_t>(counter >> 24), static_cast<std::uint8_t>(counter >> 16),
+                                                 static_cast<std::uint8_t>(counter >> 8), static_cast<std::uint8_t>(counter)});
+            h.update(z);
+            fixed(h);
+            block = h.finish();
+            for (std::size_t i = 0; i < H::digest_size && done < out.size(); ++i)
+                out[done++] = block.bytes[i];
+        }
+        secure_wipe(block);
+        return ok();
+    }
+
+    constexpr std::array<std::uint8_t, 4> be32(std::uint64_t n) noexcept
+    {
+        return {static_cast<std::uint8_t>(n >> 24), static_cast<std::uint8_t>(n >> 16), static_cast<std::uint8_t>(n >> 8),
+                static_cast<std::uint8_t>(n)};
+    }
+
+} // namespace detail
+
+/// \brief The Concatenation KDF (NIST SP 800-56A rev. 3, 5.8.2.1.1, single-step with a hash): `out.size()` bytes of
+/// `H(1 || Z || other_info) || H(2 || Z || other_info) || ...`, each counter 32-bit big-endian.
+///
+/// Derives a key from a Diffie-Hellman shared secret `Z`, bound to `other_info`. JOSE's ECDH-ES (RFC 7518 4.6) uses
+/// it with SHA-256; `jwa_concat_kdf` builds JOSE's OtherInfo for you. Like HKDF, never use it on a password.
+/// \ingroup core
+/// \tparam H The hash.
+/// \param z The shared secret.
+/// \param other_info The fixed information (FixedInfo), already encoded; may be empty.
+/// \param out Where to write, 1 to `(2^32 - 1) * HashLen` bytes.
+/// \return Success, or `kdf_error::output_too_long` / `kdf_error::empty_output` with nothing written.
+template <hash_function H, hash_input Z, hash_input O>
+constexpr result<void, kdf_error> concat_kdf(const Z& z, const O& other_info, std::span<std::byte> out) noexcept
+{
+    return detail::concat_kdf_blocks<H>(z, [&](H& h) { h.update(other_info); }, out);
+}
+
+/// \brief JOSE's Concat KDF (RFC 7518 4.6.2): the key for ECDH-ES, its OtherInfo built from the header's fields.
+///
+/// OtherInfo is `AlgorithmID || PartyUInfo || PartyVInfo || SuppPubInfo`: each of the first three is its length as a
+/// 32-bit big-endian count of bytes and then the bytes, and SuppPubInfo is the key length in *bits*, 32-bit
+/// big-endian (`out.size() * 8`). No buffer is built: the fields are fed to the hash directly.
+/// \ingroup core
+/// \tparam H The hash (`sha256` for every JWA algorithm).
+/// \param z The ECDH shared secret.
+/// \param algorithm The `enc` value for direct key agreement (`"A128GCM"`), else the `alg` value (`"ECDH-ES+A256KW"`).
+/// \param party_u The `apu` header value, base64url-decoded (may be empty).
+/// \param party_v The `apv` header value, base64url-decoded (may be empty).
+/// \param out Where to write the key: its size is the key length.
+/// \return Success, or the error of `concat_kdf`.
+template <hash_function H, hash_input Z, hash_input A, hash_input U, hash_input V>
+constexpr result<void, kdf_error> jwa_concat_kdf(const Z& z, const A& algorithm, const U& party_u, const V& party_v,
+                                                 std::span<std::byte> out) noexcept
+{
+    if (static_cast<std::uint64_t>(out.size()) > 0xFFFF'FFFFULL / 8)
+        return err(kdf_error::output_too_long);
+    const auto field = [](H& h, const auto& bytes) {
+        h.update(detail::be32(detail::input_size(bytes)));
+        h.update(bytes);
+    };
+    return detail::concat_kdf_blocks<H>(z, [&](H& h) {
+        field(h, algorithm);
+        field(h, party_u);
+        field(h, party_v);
+        h.update(detail::be32(static_cast<std::uint64_t>(out.size()) * 8));
+    }, out);
 }
 
 namespace detail {

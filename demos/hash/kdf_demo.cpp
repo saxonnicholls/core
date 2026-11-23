@@ -13,8 +13,11 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
+#include <span>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace {
@@ -40,6 +43,17 @@ snicholls::result<snicholls::digest<64>, snicholls::kdf_error> bip39_seed(const 
     return snicholls::pbkdf2_hmac<snicholls::sha512, 64>(mnemonic, "mnemonic" + passphrase, 2048);
 }
 //! [kdf]
+
+//! [concat_kdf]
+// JOSE ECDH-ES (RFC 7518 4.6): the content key from the ECDH shared secret, bound to enc, apu, apv and its length
+std::array<std::byte, 16> ecdh_es_key(std::span<const std::uint8_t, 32> shared_secret)
+{
+    std::array<std::byte, 16> key{};   // A128GCM: 128 bits
+    (void)snicholls::jwa_concat_kdf<snicholls::sha256>(shared_secret, std::string_view("A128GCM"), std::string_view("Alice"),
+                                                       std::string_view("Bob"), key);   // 16 bytes: cannot fail
+    return key;
+}
+//! [concat_kdf]
 
 } // namespace
 
@@ -73,6 +87,16 @@ int main()
     ok &= snicholls::hkdf_expand<snicholls::sha256>(prk, "", too_long).unwrap_err_unchecked() == snicholls::kdf_error::output_too_long;
     ok &= snicholls::pbkdf2_hmac<snicholls::sha256>("p", "s", 0, dk).unwrap_err_unchecked() == snicholls::kdf_error::zero_iterations;
     std::printf("  zero iterations and an over-long HKDF output are errors: %s\n", ok ? "yes" : "no");
+
+    // Concat KDF: RFC 7518 Appendix C's ECDH-ES key, VqqN6vgjbSBcIijNcacQGg
+    constexpr std::array<std::uint8_t, 32> z{158, 86, 217, 29, 129, 113, 53, 211, 114, 131, 66, 131, 191, 132, 38, 156,
+                                             251, 49, 110, 163, 218, 128, 106, 72, 246, 218, 167, 121, 140, 254, 144, 196};
+    const auto cek = ecdh_es_key(z);
+    const bool rfc = cek[0] == std::byte{0x56} && cek[1] == std::byte{0xaa} && cek[15] == std::byte{0x1a};
+    std::printf("  ECDH-ES Concat KDF matches RFC 7518 Appendix C: %s\n", rfc ? "yes" : "no");
+    ok &= rfc;
+    ok &= snicholls::concat_kdf<snicholls::sha256>(std::string_view("z"), std::string_view(), std::span<std::byte>{})
+              .unwrap_err_unchecked() == snicholls::kdf_error::empty_output;
 
     std::printf(ok ? "kdf demo: ok\n" : "kdf demo: FAILED\n");
     return ok ? 0 : 1;

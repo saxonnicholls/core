@@ -3,6 +3,15 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **The Concat KDF** in `hash/kdf.hpp`: `concat_kdf<H>(z, other_info, out)`, NIST SP 800-56A's single-step KDF, and
+  `jwa_concat_kdf<H>(z, algorithm, apu, apv, out)`, JOSE's ECDH-ES (RFC 7518 4.6), with OtherInfo fed to the hash
+  without a buffer. Constexpr, allocation-free; tested against RFC 7518 Appendix C (at compile time too) and Python's
+  `hashlib` over several blocks.
+
 ## 0.23.0 - 2026-11-24
 
 ISO 3166 countries and currency metadata, the major tokens as types, day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits (now GTIN too), `inplace_string<N>`, the capability contracts from servers (message_sender, signer, key_store, payment_provider, onramp_provider, http_handler) and the single include.

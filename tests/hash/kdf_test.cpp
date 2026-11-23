@@ -18,10 +18,12 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <span>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace {
@@ -169,6 +171,72 @@ TEST(KdfErrors, BadArgumentsAreErrorsAndWriteNothing)
         EXPECT_EQ(b, std::byte{0x5a});
     std::vector<std::byte> longest(255 * 32);
     EXPECT_TRUE(hkdf_expand<sha256>(sha256::hash("k"), "", longest));
+}
+
+// ---- Concat KDF (NIST SP 800-56A 5.8.2.1.1; JOSE ECDH-ES, RFC 7518 4.6) ----------------------------------------------
+
+// RFC 7518 Appendix C: ECDH-ES with enc "A128GCM", apu "Alice", apv "Bob"; the derived key is VqqN6vgjbSBcIijNcacQGg
+constexpr std::array<std::uint8_t, 32> rfc7518_z{158, 86,  217, 29,  129, 113, 53,  211, 114, 131, 66,
+                                                 131, 191, 132, 38,  156, 251, 49,  110, 163, 218, 128,
+                                                 106, 72,  246, 218, 167, 121, 140, 254, 144, 196};
+
+constexpr bool rfc7518_appendix_c()
+{
+    std::array<std::byte, 16> key{};
+    if (!jwa_concat_kdf<sha256>(rfc7518_z, std::string_view("A128GCM"), std::string_view("Alice"), std::string_view("Bob"), key))
+        return false;
+    constexpr std::array<std::uint8_t, 16> expected{0x56, 0xaa, 0x8d, 0xea, 0xf8, 0x23, 0x6d, 0x20,
+                                                    0x5c, 0x22, 0x28, 0xcd, 0x71, 0xa7, 0x10, 0x1a};
+    for (std::size_t i = 0; i < 16; ++i)
+        if (key[i] != std::byte{expected[i]})
+            return false;
+    return true;
+}
+static_assert(rfc7518_appendix_c(), "snicholls::jwa_concat_kdf: RFC 7518 Appendix C, at compile time");
+static_assert(noexcept(concat_kdf<sha256>(std::string_view(), std::string_view(), std::span<std::byte>{})));
+
+TEST(ConcatKdf, Rfc7518AppendixCAtRunTime)
+{
+    std::vector<std::byte> key(16);
+    ASSERT_TRUE(jwa_concat_kdf<sha256>(rfc7518_z, std::string_view("A128GCM"), std::string_view("Alice"),
+                                       std::string_view("Bob"), key));
+    EXPECT_EQ(hex(key), "56aa8deaf8236d205c2228cd71a7101a");   // base64url VqqN6vgjbSBcIijNcacQGg
+}
+
+TEST(ConcatKdf, JwaOtherInfoIsTheLengthPrefixedFieldsAndTheKeyLengthInBits)
+{
+    // the same key from concat_kdf with JOSE's OtherInfo written out by hand
+    const std::string other = std::string("\0\0\0\x07" "A128GCM", 11) + std::string("\0\0\0\x05" "Alice", 9) +
+                              std::string("\0\0\0\x03" "Bob", 7) + std::string("\0\0\0\x80", 4);
+    std::vector<std::byte> by_hand(16), jwa(16);
+    ASSERT_TRUE(concat_kdf<sha256>(rfc7518_z, other, by_hand));
+    ASSERT_TRUE(jwa_concat_kdf<sha256>(rfc7518_z, std::string_view("A128GCM"), std::string_view("Alice"), std::string_view("Bob"), jwa));
+    EXPECT_EQ(by_hand, jwa);
+}
+
+TEST(ConcatKdf, SeveralBlocksAgreeWithHashlib)
+{
+    // Python: sha256(be32(1) + bytes(range(32)) + b"context") + sha256(be32(2) + ...), first 48 bytes
+    std::array<std::uint8_t, 32> z{};
+    for (std::size_t i = 0; i < 32; ++i)
+        z[i] = static_cast<std::uint8_t>(i);
+    std::vector<std::byte> out(48);
+    ASSERT_TRUE(concat_kdf<sha256>(z, std::string_view("context"), out));
+    EXPECT_EQ(hex(out), "cbb85276d645455bb671a4c00b2f2ea7fea80f8e7d006de61813c0cae69c134c"
+                        "988969be87dc6866db741195dd3c7f01");
+    std::vector<std::byte> short_key(20);
+    ASSERT_TRUE(concat_kdf<sha512>(std::string_view("secret"), std::string_view(), short_key));
+    EXPECT_EQ(hex(short_key), "b52c798c9db2ff9bab9e313b581c4699b9b7b7c6");
+}
+
+TEST(ConcatKdf, AnEmptyOutputIsAnErrorAndAKeyIsBoundToItsLength)
+{
+    EXPECT_EQ(concat_kdf<sha256>(std::string_view("z"), std::string_view(), std::span<std::byte>{}).unwrap_err_unchecked(),
+              kdf_error::empty_output);
+    std::vector<std::byte> k16(16), k32(32);
+    ASSERT_TRUE(jwa_concat_kdf<sha256>(rfc7518_z, std::string_view("A128GCM"), std::string_view(), std::string_view(), k16));
+    ASSERT_TRUE(jwa_concat_kdf<sha256>(rfc7518_z, std::string_view("A128GCM"), std::string_view(), std::string_view(), k32));
+    EXPECT_FALSE(std::equal(k16.begin(), k16.end(), k32.begin()));   // SuppPubInfo differs, so even the prefix differs
 }
 
 } // namespace
