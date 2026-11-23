@@ -5,6 +5,8 @@ add_executable(snicholls_core_tests
     acout_test.cpp
     backoff_test.cpp
     basic_type_registry_test.cpp
+    capability_error_test.cpp
+    capability_ids_test.cpp
     checked_test.cpp
     colour_test.cpp
     constexpr_for_test.cpp
@@ -15,6 +17,7 @@ add_executable(snicholls_core_tests
     endian_test.cpp
     fixed_string_test.cpp
     function_ref_test.cpp
+    http_header_test.cpp
     invoke_with_test.cpp
     iterate_test.cpp
     overloaded_test.cpp
@@ -106,6 +109,7 @@ add_executable(snicholls_core_tests
     ids/check_digits_test.cpp
     interfaces/asset_conformance_test.cpp
     interfaces/asset_test.cpp
+    interfaces/capability_conformance_test.cpp
     interfaces/chain_conformance_test.cpp
     interfaces/chain_test.cpp
     interfaces/country_conformance_test.cpp
