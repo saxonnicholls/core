@@ -64,8 +64,15 @@ namespace snicholls {
     };
 
     /// \brief A currency chosen at run time.
-    class currency_interface : public asset_interface, public named_interface {
+    ///
+    /// Single inheritance from `asset_interface`, with `name()` declared here rather than inherited from
+    /// `named_interface`: a second base would need a thunk for the constexpr virtual `name()`, which GCC cannot
+    /// compile (an internal compiler error in `use_thunk`). It still models `has_name`.
+    class currency_interface : public asset_interface {
     public:
+        /// \brief The name.
+        /// \return A view valid while the object lives.
+        [[nodiscard]] constexpr virtual std::string_view name() const noexcept = 0;
         /// \brief The ISO 4217 numeric code.
         /// \return The code.
         [[nodiscard]] constexpr virtual std::uint16_t numeric() const noexcept = 0;

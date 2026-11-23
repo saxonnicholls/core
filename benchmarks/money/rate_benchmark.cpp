@@ -77,8 +77,8 @@ void convert_hand(benchmark::State& state)
         for (const auto& m : amounts()) {
             uint256 units;
             bool negative = false;
-            const bool same = m.asset_of() == eth_usd.from();
-            const bool ok = by_hand(m, units, negative);
+            bool same = m.asset_of() == eth_usd.from();
+            bool ok = by_hand(m, units, negative);
             benchmark::DoNotOptimize(same);
             benchmark::DoNotOptimize(ok);
             benchmark::DoNotOptimize(units);

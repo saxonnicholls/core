@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get install -y --no-install-recommends \
       build-essential gcc-15 g++-15 \
       cmake ninja-build \
-      python3-minimal git ca-certificates && \
+      python3 git ca-certificates && \
     rm -rf /var/lib/apt/lists/* && \
     g++-15 --version | head -1
 

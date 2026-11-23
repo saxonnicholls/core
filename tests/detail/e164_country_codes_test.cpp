@@ -36,7 +36,9 @@ TEST(E164CountryCodes, AreAscendingAndOneToThreeDigits)
     for (std::size_t i = 0; i < std::size(e::country_codes); ++i) {
         EXPECT_GE(e::country_codes[i].code, 1U);
         EXPECT_LE(e::country_codes[i].code, 999U);
-        if (i > 0) EXPECT_LT(e::country_codes[i - 1].code, e::country_codes[i].code);
+        if (i > 0) {
+            EXPECT_LT(e::country_codes[i - 1].code, e::country_codes[i].code);
+        }
     }
 }
 

@@ -438,10 +438,15 @@ TEST(PhoneNumberOracle, AgreesWithPhonenumbersOnEveryFixture)
             ++refused;
             ASSERT_FALSE(r.is_ok()) << snicholls::to_string(*r);
             if (has_other_character(row.input)) continue;
-            if (row.oracle == "INVALID_COUNTRY_CODE")
+            if (row.oracle == "INVALID_COUNTRY_CODE") {
                 EXPECT_TRUE(r.err() == phone_errc::missing_country_code || r.err() == phone_errc::unknown_country_code);
-            if (row.oracle == "TOO_SHORT_NSN") EXPECT_EQ(r.err(), phone_errc::too_short);
-            if (row.oracle == "TOO_LONG") EXPECT_EQ(r.err(), phone_errc::too_long);
+            }
+            if (row.oracle == "TOO_SHORT_NSN") {
+                EXPECT_EQ(r.err(), phone_errc::too_short);
+            }
+            if (row.oracle == "TOO_LONG") {
+                EXPECT_EQ(r.err(), phone_errc::too_long);
+            }
             continue;
         }
         if (has_other_character(row.input)) {

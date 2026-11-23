@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
       build-essential g++-13 \
       clang-18 libclang-rt-18-dev \
       cmake ninja-build \
-      python3-minimal git ca-certificates curl && \
+      python3 git ca-certificates curl && \
     ln -sf /usr/bin/clang-18 /usr/local/bin/clang && \
     ln -sf /usr/bin/clang++-18 /usr/local/bin/clang++ && \
     rm -rf /var/lib/apt/lists/*

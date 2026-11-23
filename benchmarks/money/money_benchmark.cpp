@@ -76,7 +76,7 @@ void hand_add(benchmark::State& state)
 {
     for (auto _ : state)
         for (const auto& p : pairs()) {
-            const bool same = p.a.asset_of() == p.b.asset_of();
+            bool same = p.a.asset_of() == p.b.asset_of();
             auto r = add_by_hand(p.a.is_negative(), p.a.magnitude(), p.b.is_negative(), p.b.magnitude());
             benchmark::DoNotOptimize(same);
             benchmark::DoNotOptimize(r);
