@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -95,7 +95,7 @@ $(function(){initNavTree('assignable_8hpp.html','',''); });
 
 <p><span class="tt">non_narrowing_assignable&lt;V, E&gt;</span>: <span class="tt">V = E</span> compiles, does not narrow a number, and never puts a number in a string.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="meta_2concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
@@ -133,12 +133,12 @@ Concepts</h2></td></tr>
 <div class="line">    o.set_venue(<span class="stringliteral">&quot;LSE&quot;</span>);</div>
 <div class="line">    <span class="comment">// o.set_quantity(99.5);   // does not compile: would truncate</span></div>
 <div class="line">    <span class="comment">// o.set_venue(3);         // does not compile: would be the character &#39;\x03&#39;</span></div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>; <span class="tt"><a class="el" href="struct__tuple_8hpp.html" title="Conversions between plain aggregate structs and std::tuples.">reflect/struct_tuple.hpp</a></span> applies the same brace rules to whole aggregates. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="meta_2concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>; <span class="tt"><a class="el" href="struct__tuple_8hpp.html" title="Conversions between plain aggregate structs and std::tuples.">reflect/struct_tuple.hpp</a></span> applies the same brace rules to whole aggregates. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> A concept: compile time only.</p>
 <p><b>Errors.</b> None.</p>
 <p><b>Performance.</b> Compile time only.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/meta/assignable_test.cpp</span>, <span class="tt">demos/meta/assignable_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="meta_2concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>.</p>
 <p><b>Known issues.</b> A character counts as arithmetic, so <span class="tt">std::string = 'x'</span> is refused too: write <span class="tt">std::string(1, 'x')</span>. A constant expression that fits (<span class="tt">unsigned char = 3</span>) is still refused, because the concept sees types, not values.</p>
 <p><b>Status.</b> Stable. </p>
 

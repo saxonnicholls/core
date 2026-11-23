@@ -6,7 +6,8 @@ var searchData=
   ['periodic_3',['periodic',['../group__core.html#gga42b5bc0f8bf380136fe2eb13b7237b8aae6ffdec5e14fce371eb7ae99edebbbee',1,'snicholls::signal']]],
   ['plain_4',['plain',['../group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e',1,'snicholls']]],
   ['poisson_5',['poisson',['../group__core.html#gga6637c07c34c92b444b0751e0ac2a418da2c7fa5b4147150b7dfdb1ff83dbfab3e',1,'snicholls::stats']]],
-  ['power_6',['power',['../group__core.html#gga9c327897414ff9ad46ed541f2ad0237aa62cd275989e78ee56a81f0265a87562e',1,'snicholls::signal']]],
+  ['power_6',['power',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3a62cd275989e78ee56a81f0265a87562e',1,'powersnicholls::optim'],['../group__core.html#gga9c327897414ff9ad46ed541f2ad0237aa62cd275989e78ee56a81f0265a87562e',1,'snicholls::signal::power']]],
   ['private_5fuse_7',['private_use',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a53b18de82a7edf20d01b347de1f92e22',1,'snicholls::ml']]],
-  ['propagated_8',['propagated',['../group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac',1,'snicholls']]]
+  ['propagated_8',['propagated',['../group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac',1,'snicholls']]],
+  ['psd_9',['psd',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3af6d7022d02ebecf3d3b12aacad4ef7a3',1,'snicholls::optim']]]
 ];

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -103,7 +103,7 @@ $(function(){initNavTree('conceptsnicholls_1_1non__narrowing__assignable.html','
 <div class="line">        std::is_assignable_v&lt;V&amp;, E&gt; &amp;&amp; !(<a class="code hl_concept" href="conceptsnicholls_1_1specialisation__of.html">specialisation_of&lt;std::remove_cv_t&lt;V&gt;</a>, std::basic_string&gt; &amp;&amp; std::is_arithmetic_v&lt;std::remove_cvref_t&lt;E&gt;&gt;) &amp;&amp;</div>
 <div class="line">        (!(std::is_arithmetic_v&lt;V&gt; &amp;&amp; std::is_arithmetic_v&lt;std::remove_cvref_t&lt;E&gt;&gt;) || <span class="keyword">requires</span> { V{std::declval&lt;E&gt;()}; })</div>
 <div class="ttc" id="aconceptsnicholls_1_1non__narrowing__assignable_html"><div class="ttname"><a href="conceptsnicholls_1_1non__narrowing__assignable.html">snicholls::non_narrowing_assignable</a></div><div class="ttdoc">V can be assigned from E without narrowing (brace rules for arithmetic types), and a number is never ...</div><div class="ttdef"><b>Definition</b> <a href="assignable_8hpp_source.html#l00054">assignable.hpp:54</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1specialisation__of_html"><div class="ttname"><a href="conceptsnicholls_1_1specialisation__of.html">snicholls::specialisation_of</a></div><div class="ttdoc">T is Template&lt;Args...&gt; for some Args, cv and references removed: specialisation_of&lt;std::optional&lt;int&gt;...</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00079">concepts.hpp:79</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1specialisation__of_html"><div class="ttname"><a href="conceptsnicholls_1_1specialisation__of.html">snicholls::specialisation_of</a></div><div class="ttdoc">T is Template&lt;Args...&gt; for some Args, cv and references removed: specialisation_of&lt;std::optional&lt;int&gt;...</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00079">concepts.hpp:79</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">V</span> can be assigned from <span class="tt">E</span> without narrowing (brace rules for arithmetic types), and a number is never assigned to a string. </p>
 

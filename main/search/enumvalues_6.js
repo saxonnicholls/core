@@ -11,7 +11,8 @@ var searchData=
   ['gla_8',['gla',['../transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18af79d4ab46ae52104064d2e12db4c693d',1,'snicholls::ml']]],
   ['gpt2_9',['gpt2',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a3abdc140373a107c523ee07a1566027d',1,'snicholls::ml']]],
   ['gpt4o_10',['gpt4o',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a62f0819fdc8ef057b29bb36f29e4d366',1,'snicholls::ml']]],
-  ['green_11',['green',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a9f27410725ab8cc8854a2769c7a516b8',1,'snicholls']]],
-  ['group_5fstd_12',['group_std',['../group__core.html#gga4cc5cd14ab2819308d20200209849b07a7c2a98362786b9d7ce63a74f37731b4d',1,'snicholls::ml']]],
-  ['guaranteed_13',['guaranteed',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6a7e5b79961b9faf85819de779b895a452',1,'snicholls']]]
+  ['gradient_5fconverged_11',['gradient_converged',['../group__core.html#ggaa2c0c4883f89903f6820ae4a8e58def2a246e930cdd613c1215b38cdbbfdfb510',1,'snicholls::optim']]],
+  ['green_12',['green',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a9f27410725ab8cc8854a2769c7a516b8',1,'snicholls']]],
+  ['group_5fstd_13',['group_std',['../group__core.html#gga4cc5cd14ab2819308d20200209849b07a7c2a98362786b9d7ce63a74f37731b4d',1,'snicholls::ml']]],
+  ['guaranteed_14',['guaranteed',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6a7e5b79961b9faf85819de779b895a452',1,'snicholls']]]
 ];

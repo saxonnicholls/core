@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -97,6 +97,7 @@ $(function(){initNavTree('gaussian_8hpp.html','',''); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="fixed_8hpp_source.html">snicholls/core/linalg/fixed.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="minkowski_8hpp_source.html">snicholls/core/metric/minkowski.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="result_8hpp_source.html">snicholls/core/result.hpp</a>&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;numbers&gt;</code><br />
@@ -161,7 +162,7 @@ Functions</h2></td></tr>
 <li><span class="tt">gaussian&lt;T, N&gt;</span>: <span class="tt">mean</span> and <span class="tt">covariance</span>, an aggregate, trivially copyable.</li>
 <li><span class="tt">squared_mahalanobis(r, S)</span>: <span class="tt">rᵀ S⁻¹ r</span> by Cholesky; <span class="tt">whitened_squared_norm(r, L)</span> when <span class="tt">L = cholesky(S)</span> is in hand; <span class="tt">mahalanobis</span> is its root.</li>
 <li><span class="tt">log_likelihood(r, S)</span>: <span class="tt">log N(r; 0, S)</span>, the association score of PDA and of GNN's likelihood costs.</li>
-<li><span class="tt">euclidean</span>, <span class="tt">euclidean_weighted</span>.</li>
+<li><span class="tt">euclidean</span>, <span class="tt">euclidean_weighted</span>: <span class="tt">metric::euclidean</span> and <span class="tt">metric::weighted&lt;2&gt;</span> on <span class="tt">fixed_vector</span>s (the <span class="tt">metric/</span> area has every other distance, on any point type).</li>
 <li><span class="tt">squared_hellinger(a, b)</span>, <span class="tt">hellinger(a, b)</span>, <span class="tt">kl_divergence(p, q)</span> between two Gaussians.</li>
 <li><span class="tt">gate_threshold(probability, m)</span> = <span class="tt">chi_square_quantile(probability, m)</span>, and <span class="tt">in_gate(d², threshold)</span>.</li>
 <li><span class="tt">confidence_ellipse(P, k)</span>: the semi-axes and orientation of the <span class="tt">k</span>-sigma ellipse of a 2 x 2 covariance (a probability plume for a display).</li>
@@ -187,7 +188,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> The functions that factorise a covariance return <span class="tt">linalg::error::not_positive_definite</span> when it is not (numerically) positive definite.</p>
 <p><b>Performance.</b> Not benchmarked on its own: <span class="tt"><a class="el" href="kalman_8hpp.html" title="snicholls::tracking::predict, update, predict_measurement and friends: the Kalman and extended Kalman...">tracking/kalman.hpp</a></span>'s benchmark covers the same Cholesky.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/tracking/gaussian_test.cpp</span>, <span class="tt">demos/tracking/gaussian_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;numbers&gt;</span>, <span class="tt"><a class="el" href="fixed_8hpp.html" title="snicholls::linalg::fixed_matrix&lt;T, R, C&gt;: a matrix whose size is part of its type,...">linalg/fixed.hpp</a></span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="result_8hpp.html" title="snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...">result.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;numbers&gt;</span>, <span class="tt"><a class="el" href="fixed_8hpp.html" title="snicholls::linalg::fixed_matrix&lt;T, R, C&gt;: a matrix whose size is part of its type,...">linalg/fixed.hpp</a></span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="minkowski_8hpp.html" title="snicholls::metric::euclidean, manhattan, chebyshev, minkowski&lt;P&gt;, squared_euclidean and weighted_mink...">metric/minkowski.hpp</a></span>, <span class="tt"><a class="el" href="result_8hpp.html" title="snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...">result.hpp</a></span>.</p>
 <p><b>Known issues.</b> None known.</p>
 <p><b>Status.</b> Experimental, new in 0.19.0. </p>
 

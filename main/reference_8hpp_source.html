@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -637,14 +637,14 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>                    v(i, j) = i == j ? T(1) : T(0);</div>
 <div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>                }</div>
 <div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>            <span class="keyword">const</span> T eps = std::numeric_limits&lt;T&gt;::epsilon();</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            <span class="keywordtype">bool</span> converged = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> sweep = 0; sweep &lt;= max_sweeps &amp;&amp; !converged; ++sweep) {</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            <span class="keywordtype">bool</span> <a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> sweep = 0; sweep &lt;= max_sweeps &amp;&amp; !<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a>; ++sweep) {</div>
 <div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>                T off = T(0);</div>
 <div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                    <span class="keywordflow">for</span> (std::size_t j = i + 1; j &lt; n; ++j)</div>
 <div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                        off += a(i, j) * a(i, j);</div>
 <div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>                <span class="keywordflow">if</span> (!(off &gt; eps * eps * norm2)) {   <span class="comment">// also stops on an all-zero matrix</span></div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                    converged = !math::is_nan(off);</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                    <a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a> = !math::is_nan(off);</div>
 <div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                }</div>
 <div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                <span class="keywordflow">if</span> (sweep == max_sweeps)</div>
@@ -684,7 +684,7 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>                    swap_columns(v, i, smallest);</div>
 <div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>                }</div>
 <div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            }</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            <span class="keywordflow">return</span> converged;</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a>;</div>
 <div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>        }</div>
 <div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
 <div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> A, <span class="keyword">typename</span> V&gt;</div>
@@ -709,8 +709,8 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>                <span class="keywordflow">for</span> (std::size_t j = 0; j &lt; n; ++j)</div>
 <div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>                    v(i, j) = i == j ? T(1) : T(0);</div>
 <div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            <span class="keyword">const</span> T eps = std::numeric_limits&lt;T&gt;::epsilon();</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            <span class="keywordtype">bool</span> converged = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> sweep = 0; sweep &lt; max_sweeps &amp;&amp; !converged; ++sweep) {</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            <span class="keywordtype">bool</span> <a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> sweep = 0; sweep &lt; max_sweeps &amp;&amp; !<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a>; ++sweep) {</div>
 <div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>                <span class="keywordtype">bool</span> rotated = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>                <span class="keywordflow">for</span> (std::size_t p = 0; p &lt; n; ++p)</div>
 <div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>                    <span class="keywordflow">for</span> (std::size_t q = p + 1; q &lt; n; ++q) {</div>
@@ -738,7 +738,7 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                            v(i, q) = sn * vp + c * vq;</div>
 <div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                        }</div>
 <div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>                    }</div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                converged = !rotated;</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                <a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a> = !rotated;</div>
 <div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>            }</div>
 <div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>            <span class="keywordflow">for</span> (std::size_t j = 0; j &lt; n; ++j) {</div>
 <div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>                <span class="keyword">const</span> T <a class="code hl_function" href="group__core.html#gae09494fdd2dc08d0ab9ed4cea43daead">norm</a> = column_norm&lt;T&gt;(a, 0, j);</div>
@@ -757,7 +757,7 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>                    swap_columns(v, i, largest);</div>
 <div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>                }</div>
 <div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>            }</div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>            <span class="keywordflow">return</span> converged;</div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">converged</a>;</div>
 <div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>        }</div>
 <div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span> </div>
 <div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>        <span class="comment">// relative_tolerance as a factor in T: a negative value or a NaN counts as 0 (only an exact zero is singular),</span></div>
@@ -1044,6 +1044,7 @@ $(function(){initNavTree('reference_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gaf6d5e4acbd97a55c224ced751a3bb151"><div class="ttname"><a href="group__core.html#gaf6d5e4acbd97a55c224ced751a3bb151">snicholls::linalg::status</a></div><div class="ttdeci">status</div><div class="ttdoc">One system&#39;s outcome in a batch: ok, or the error it would have returned, with the same number.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00106">types.hpp:106</a></div></div>
 <div class="ttc" id="agroup__core_html_gafd1890d6e796465f8c62adeb9608334d"><div class="ttname"><a href="group__core.html#gafd1890d6e796465f8c62adeb9608334d">snicholls::linalg::pivot_index</a></div><div class="ttdeci">std::int32_t pivot_index</div><div class="ttdoc">A row interchange recorded by LU: at step k, rows k and pivots[k] were swapped (0-based,...</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00092">types.hpp:92</a></div></div>
 <div class="ttc" id="agroup__core_html_gga04587c556fd6ca8c8d13ca465bf59921a81e073b428b50247daba38531dcf412a"><div class="ttname"><a href="group__core.html#gga04587c556fd6ca8c8d13ca465bf59921a81e073b428b50247daba38531dcf412a">snicholls::linalg::triangle::lower</a></div><div class="ttdeci">@ lower</div><div class="ttdoc">On and below the diagonal.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00154">types.hpp:154</a></div></div>
+<div class="ttc" id="agroup__core_html_gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2"><div class="ttname"><a href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">snicholls::linalg::krylov_status::converged</a></div><div class="ttdeci">@ converged</div><div class="ttdoc">The residual met the tolerance.</div><div class="ttdef"><b>Definition</b> <a href="krylov_8hpp_source.html#l00316">krylov.hpp:316</a></div></div>
 <div class="ttc" id="agroup__core_html_gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51"><div class="ttname"><a href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">snicholls::ml::pooling_kind::last</a></div><div class="ttdeci">@ last</div><div class="ttdoc">The last row.</div><div class="ttdef"><b>Definition</b> <a href="pooling_8hpp_source.html#l00082">pooling.hpp:82</a></div></div>
 <div class="ttc" id="agroup__core_html_gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416"><div class="ttname"><a href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">snicholls::ml::logprob_reduction::sum</a></div><div class="ttdeci">@ sum</div><div class="ttdoc">Σ_t mask_t · logp_t: the sequence&#39;s log-probability (DPO, IPO, GRPO).</div><div class="ttdef"><b>Definition</b> <a href="logprobs_8hpp_source.html#l00084">logprobs.hpp:84</a></div></div>
 <div class="ttc" id="agroup__core_html_gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964"><div class="ttname"><a href="group__core.html#gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964">snicholls::linalg::error::not_positive_definite</a></div><div class="ttdeci">@ not_positive_definite</div><div class="ttdoc">Cholesky met a diagonal at or below the tolerance: the matrix is not (numerically) positive definite.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00098">types.hpp:98</a></div></div>

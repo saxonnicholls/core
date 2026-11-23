@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,13 +96,13 @@ $(function(){initNavTree('conceptsnicholls_1_1printable.html','',''); });
 <p>A type that prints itself, in either form: the member is the whole contract.  
 <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="meta_2concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1printable.html">snicholls::printable</a> =  <a class="code hl_concept" href="conceptsnicholls_1_1printable__to__stream.html">printable_to_stream&lt;T&gt;</a> || <a class="code hl_concept" href="conceptsnicholls_1_1printable__to__acout.html">printable_to_acout&lt;T&gt;</a></div>
-<div class="ttc" id="aconceptsnicholls_1_1printable__to__acout_html"><div class="ttname"><a href="conceptsnicholls_1_1printable__to__acout.html">snicholls::printable_to_acout</a></div><div class="ttdoc">Has print(snicholls::acout&amp;) const: a type that writes itself into a message, the form with format st...</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00109">concepts.hpp:109</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1printable__to__stream_html"><div class="ttname"><a href="conceptsnicholls_1_1printable__to__stream.html">snicholls::printable_to_stream</a></div><div class="ttdoc">Has print(std::ostream&amp;) const: a type that writes itself to a stream, the classic form of the house ...</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00100">concepts.hpp:100</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1printable_html"><div class="ttname"><a href="conceptsnicholls_1_1printable.html">snicholls::printable</a></div><div class="ttdoc">A type that prints itself, in either form: the member is the whole contract.</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00121">concepts.hpp:121</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1printable__to__acout_html"><div class="ttname"><a href="conceptsnicholls_1_1printable__to__acout.html">snicholls::printable_to_acout</a></div><div class="ttdoc">Has print(snicholls::acout&amp;) const: a type that writes itself into a message, the form with format st...</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00109">concepts.hpp:109</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1printable__to__stream_html"><div class="ttname"><a href="conceptsnicholls_1_1printable__to__stream.html">snicholls::printable_to_stream</a></div><div class="ttdoc">Has print(std::ostream&amp;) const: a type that writes itself to a stream, the classic form of the house ...</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00100">concepts.hpp:100</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1printable_html"><div class="ttname"><a href="conceptsnicholls_1_1printable.html">snicholls::printable</a></div><div class="ttdoc">A type that prints itself, in either form: the member is the whole contract.</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00121">concepts.hpp:121</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A type that prints itself, in either form: the member is the whole contract. </p>
 <p><span class="tt"><a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">snicholls::acout</a></span> streams a printable type through its member (the <span class="tt">acout</span> form first when a type has both), and <span class="tt">snicholls::print_operators::operator&lt;&lt;</span> lends it to any <span class="tt">std::ostream</span>. The concept replaces the <span class="tt">-&gt; decltype(obj.print(os), os)</span> comma-operator SFINAE the pattern used to need, and says <span class="tt">const</span>: a <span class="tt">print</span> that is not <span class="tt">const</span> does not qualify. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -112,7 +112,7 @@ $(function(){initNavTree('conceptsnicholls_1_1printable.html','',''); });
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_8hpp_source.html#l00121">121</a> of file <a class="el" href="concepts_8hpp_source.html">concepts.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="meta_2concepts_8hpp_source.html#l00121">121</a> of file <a class="el" href="meta_2concepts_8hpp_source.html">concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

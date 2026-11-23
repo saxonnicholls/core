@@ -18,12 +18,14 @@ var searchData=
   ['gpt2_5fmedium_15',['gpt2_medium',['../transformer__config_8hpp.html#ae11d3f0826aae29275e664febb41f895',1,'snicholls::ml']]],
   ['gpt2_5fsmall_16',['gpt2_small',['../transformer__config_8hpp.html#a53269ed412b3760f555ca6cffe778411',1,'snicholls::ml']]],
   ['gradient_17',['gradient',['../structsnicholls_1_1finance_1_1taylor__model.html#a637e4c0b9916b57dec15ebe7445963b3',1,'snicholls::finance::taylor_model']]],
-  ['grazing_18',['grazing',['../structsnicholls_1_1geometry_1_1plane__fix__result.html#ac54bff200771502bab9d71fda7ad25fa',1,'snicholls::geometry::plane_fix_result']]],
-  ['green_19',['green',['../colour_8hpp.html#ab2d82094fb152ac1d14594aa1257a11b',1,'snicholls::colours']]],
-  ['grey_20',['grey',['../colour_8hpp.html#ae1ab49dc56b1aecb11706638d08138e3',1,'snicholls::colours']]],
-  ['grid_21',['grid',['../structsnicholls_1_1ml_1_1ijepa__mask__config.html#a75abc52762c9a05a81a5d944d35f7cb0',1,'snicholls::ml::ijepa_mask_config::grid'],['../structsnicholls_1_1ml_1_1vjepa__mask__config.html#a925f5345469a941cafa4cb7a6dd06fed',1,'snicholls::ml::vjepa_mask_config::grid']]],
-  ['group_5fscales_22',['group_scales',['../structsnicholls_1_1ml_1_1nf4__weights.html#a5bcf6613ab8d61e22616d5e3477c8c34',1,'snicholls::ml::nf4_weights']]],
-  ['group_5fsize_23',['group_size',['../structsnicholls_1_1ml_1_1rollout__view.html#a7e2f37a4a171e8406a7fe4d6603c6c1c',1,'snicholls::ml::rollout_view']]],
-  ['group_5ftop_5fk_24',['group_top_k',['../structsnicholls_1_1ml_1_1transformer__config.html#a547d3249486220a3c63f77053d1f4d21',1,'snicholls::ml::transformer_config']]],
-  ['groups_25',['groups',['../structsnicholls_1_1ml_1_1conv__shape.html#aa04da9f3dddcaa62282d12dcbc375b26',1,'snicholls::ml::conv_shape::groups'],['../structsnicholls_1_1ml_1_1conv__transpose__shape.html#ad3507f4bcb64651885f176dd643d731f',1,'snicholls::ml::conv_transpose_shape::groups']]]
+  ['gradient_5fnorm_18',['gradient_norm',['../structsnicholls_1_1optim_1_1lbfgs__result.html#a71835f728b4e4c1eb1456239eb1d5867',1,'snicholls::optim::lbfgs_result']]],
+  ['gradient_5ftolerance_19',['gradient_tolerance',['../structsnicholls_1_1optim_1_1lbfgs__options.html#a2a0f4bb96d33464d01df71161ab4a676',1,'snicholls::optim::lbfgs_options']]],
+  ['grazing_20',['grazing',['../structsnicholls_1_1geometry_1_1plane__fix__result.html#ac54bff200771502bab9d71fda7ad25fa',1,'snicholls::geometry::plane_fix_result']]],
+  ['green_21',['green',['../colour_8hpp.html#ab2d82094fb152ac1d14594aa1257a11b',1,'snicholls::colours']]],
+  ['grey_22',['grey',['../colour_8hpp.html#ae1ab49dc56b1aecb11706638d08138e3',1,'snicholls::colours']]],
+  ['grid_23',['grid',['../structsnicholls_1_1ml_1_1ijepa__mask__config.html#a75abc52762c9a05a81a5d944d35f7cb0',1,'snicholls::ml::ijepa_mask_config::grid'],['../structsnicholls_1_1ml_1_1vjepa__mask__config.html#a925f5345469a941cafa4cb7a6dd06fed',1,'snicholls::ml::vjepa_mask_config::grid']]],
+  ['group_5fscales_24',['group_scales',['../structsnicholls_1_1ml_1_1nf4__weights.html#a5bcf6613ab8d61e22616d5e3477c8c34',1,'snicholls::ml::nf4_weights']]],
+  ['group_5fsize_25',['group_size',['../structsnicholls_1_1ml_1_1rollout__view.html#a7e2f37a4a171e8406a7fe4d6603c6c1c',1,'snicholls::ml::rollout_view']]],
+  ['group_5ftop_5fk_26',['group_top_k',['../structsnicholls_1_1ml_1_1transformer__config.html#a547d3249486220a3c63f77053d1f4d21',1,'snicholls::ml::transformer_config']]],
+  ['groups_27',['groups',['../structsnicholls_1_1ml_1_1conv__shape.html#aa04da9f3dddcaa62282d12dcbc375b26',1,'snicholls::ml::conv_shape::groups'],['../structsnicholls_1_1ml_1_1conv__transpose__shape.html#ad3507f4bcb64651885f176dd643d731f',1,'snicholls::ml::conv_transpose_shape::groups']]]
 ];

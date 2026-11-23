@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -146,7 +146,7 @@ requires synth_three_way_comparable&lt;T&gt; &amp;&amp; (!std::three_way_compara
 <div class="line">    <span class="keyword">friend</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#ga7a43e5629bb1ee12465e733b78ffb421">operator==</a>(<span class="keyword">const</span> key&amp; a, <span class="keyword">const</span> key&amp; b) { <span class="keywordflow">return</span> (a &lt;=&gt; b) == 0; }</div>
 <div class="line">};</div>
 </div><!-- fragment --> <div class="fragment"><div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> earlier = key{<span class="stringliteral">&quot;LSE&quot;</span>, {7}} &lt; key{<span class="stringliteral">&quot;LSE&quot;</span>, {9}};</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>; objects with fields can compare through it. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="meta_2concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>; objects with fields can compare through it. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>; <span class="tt">noexcept</span> exactly when the comparison it makes is. The result type is the member's own ordering, or <span class="tt">std::weak_ordering</span> when synthesised.</p>
 <p><b>Errors.</b> None: a type with neither <span class="tt">&lt;=&gt;</span> nor <span class="tt">&lt;</span> does not satisfy <span class="tt">synth_three_way_comparable</span>.</p>
 <p><b>Performance.</b> The comparison it makes; not benchmarked.</p>

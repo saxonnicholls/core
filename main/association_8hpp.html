@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -146,8 +146,8 @@ Functions</h2></td></tr>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Clutter: 2 false alarms expected inside the 99% gate, so a density of 2 / gate volume</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> gate = tr::gate_threshold(0.99, 2);</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> volume = tr::gate_volume(gate, mp.covariance).unwrap();</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> clutter_density = 2 / volume;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_function" href="group__core.html#gacbb2177ad645771fa5caceaa82637989">volume</a> = tr::gate_volume(gate, mp.covariance).unwrap();</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> clutter_density = 2 / <a class="code hl_function" href="group__core.html#gacbb2177ad645771fa5caceaa82637989">volume</a>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Four detections: three inside the gate, one far outside (log-likelihood -∞, weight 0)</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;vec2, 4&gt; detections{vec2{{0.4, -0.3}}, vec2{{-1.5, 1.0}}, vec2{{2.0, 2.2}}, vec2{{30.0, -25.0}}};</div>

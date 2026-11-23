@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -182,10 +182,10 @@ e^{G_j[n] - G_i[n]}) Δ_i)</span> and the state passed on is <span class="tt">e^
 <div class="line">    ml::delta_rule_forward_chunked&lt;C&gt;(backend, in, std::span&lt;double&gt;(o_chunked), 1, std::span&lt;double&gt;(s_chunked), {}, std::span&lt;double&gt;(work));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Decoding the next token (β = 0: read only)</span></div>
-<div class="line">    <span class="keyword">const</span> std::array&lt;double, 2&gt; q5{0.6, 0.8}, zero{0, 0};</div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;double, 2&gt; q5{0.6, 0.8}, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>{0, 0};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;double, 1&gt; g5{0}, b5{0};</div>
 <div class="line">    std::array&lt;double, 2&gt; o5{};</div>
-<div class="line">    ml::delta_rule_step&lt;C&gt;(ml::delta_rule_inputs&lt;double&gt;{q5, zero, zero, g5, b5}, std::span&lt;double&gt;(o5), std::span&lt;double&gt;(s));</div>
+<div class="line">    ml::delta_rule_step&lt;C&gt;(ml::delta_rule_inputs&lt;double&gt;{q5, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>, g5, b5}, std::span&lt;double&gt;(o5), std::span&lt;double&gt;(s));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Training: the gradient of the last output&#39;s second channel in β at token 1</span></div>
 <div class="line">    std::array&lt;double, n * 2&gt; dout{0, 0, 0, 0, 0, 0, 0, 1}, dq{}, dk{}, dv{};</div>

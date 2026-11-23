@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -176,7 +176,7 @@ rows - h]</span>, the first frame from <span class="tt">[0, frame groups - frame
 <div class="line">    std::array&lt;std::size_t, 4&gt; target_counts{};</div>
 <div class="line">    <span class="keyword">const</span> ml::mask_counts counts = ml::ijepa_masks(config, 2026, 5, 0, context, targets, target_counts);</div>
 <div class="line">    <span class="comment">// The size every target block of step 5 has, from the step&#39;s draw</span></div>
-<div class="line">    <span class="keyword">const</span> ml::block_extent extent = ml::sample_block_extent(config.grid, config.targets, 0.5, ml::block_rule::ijepa);</div>
+<div class="line">    <span class="keyword">const</span> ml::block_extent <a class="code hl_function" href="group__core.html#gaa38982b8f52540438d337e19510b753d">extent</a> = ml::sample_block_extent(config.grid, config.targets, 0.5, ml::block_rule::ijepa);</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// A batch of four: the context counts differ, so cut every list to the smallest (the papers&#39; rule) ...</span></div>
 <div class="line">    std::vector&lt;std::uint32_t&gt; lists(4 * 196);</div>
 <div class="line">    std::array&lt;std::size_t, 4&gt; context_counts{}, <a class="code hl_enumvalue" href="group__core.html#ggabecc5bf55e610adea310edf529547519afd94c6a26d6b6571e8d9398446227ae8">unused</a>{};</div>

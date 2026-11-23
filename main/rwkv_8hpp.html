@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -200,9 +200,9 @@ sigmoid(d))</span> (eq. 12) also passed as its logarithm: </p><pre class="fragme
 <div class="line">    ml::wkv7_forward&lt;C&gt;(backend, ml::wkv7_inputs&lt;double&gt;{r, lw, k7, v7, a7, b7}, std::span&lt;double&gt;(o7), 1, std::span&lt;double&gt;(s7));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Decoding the next token from RWKV-7&#39;s state: it reads (0, 1)</span></div>
-<div class="line">    <span class="keyword">const</span> std::array&lt;double, 2&gt; r4{1, 0}, zero{0, 0};</div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;double, 2&gt; r4{1, 0}, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>{0, 0};</div>
 <div class="line">    std::array&lt;double, 2&gt; o4{};</div>
-<div class="line">    ml::wkv7_step&lt;C&gt;(ml::wkv7_inputs&lt;double&gt;{r4, zero, zero, zero, zero, zero}, std::span&lt;double&gt;(o4), std::span&lt;double&gt;(s7));</div>
+<div class="line">    ml::wkv7_step&lt;C&gt;(ml::wkv7_inputs&lt;double&gt;{r4, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>, <a class="code hl_enumvalue" href="group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3ad02c4c4cde7ae76252540d116a40f23a">zero</a>}, std::span&lt;double&gt;(o4), std::span&lt;double&gt;(s7));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Training: RWKV-6&#39;s gradient in the bonus from the outputs&#39; sum</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;double, n * 2&gt; dout{1, 1, 1, 1, 1, 1};</div>

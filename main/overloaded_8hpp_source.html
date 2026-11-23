@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -105,7 +105,7 @@ $(function(){initNavTree('overloaded_8hpp_source.html','',''); });
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#ifndef snicholls_core_overloaded_hpp</span></div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#define snicholls_core_overloaded_hpp</span></div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#include &lt;<a class="code" href="concepts_8hpp.html">snicholls/core/meta/concepts.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#include &lt;<a class="code" href="meta_2concepts_8hpp.html">snicholls/core/meta/concepts.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#include &lt;<a class="code" href="type__list_8hpp.html">snicholls/core/meta/type_list.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
@@ -235,9 +235,9 @@ $(function(){initNavTree('overloaded_8hpp_source.html','',''); });
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>}</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span> </div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_overloaded_hpp */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aconcepts_8hpp_html"><div class="ttname"><a href="concepts_8hpp.html">concepts.hpp</a></div><div class="ttdoc">The small concepts the family keeps re-declaring: streamable, printable, enumeration,...</div></div>
 <div class="ttc" id="agroup__core_html_ga319e82230bb6a245e3aef1e0371873b6"><div class="ttname"><a href="group__core.html#ga319e82230bb6a245e3aef1e0371873b6">SNICHOLLS_EMPTY_BASES</a></div><div class="ttdeci">#define SNICHOLLS_EMPTY_BASES</div><div class="ttdoc">Makes every empty base cost nothing on MSVC too (__declspec(empty_bases)); empty elsewhere.</div><div class="ttdef"><b>Definition</b> <a href="#l00105">overloaded.hpp:105</a></div></div>
-<div class="ttc" id="agroup__core_html_ga5a51fab6ab1781c30cc36af4f03694d0"><div class="ttname"><a href="group__core.html#ga5a51fab6ab1781c30cc36af4f03694d0">snicholls::always_false_v</a></div><div class="ttdeci">constexpr bool always_false_v</div><div class="ttdoc">The dependent false: static_assert(always_false_v&lt;T&gt;, &quot;...&quot;) fails only when that branch is instantia...</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00064">concepts.hpp:64</a></div></div>
+<div class="ttc" id="agroup__core_html_ga5a51fab6ab1781c30cc36af4f03694d0"><div class="ttname"><a href="group__core.html#ga5a51fab6ab1781c30cc36af4f03694d0">snicholls::always_false_v</a></div><div class="ttdeci">constexpr bool always_false_v</div><div class="ttdoc">The dependent false: static_assert(always_false_v&lt;T&gt;, &quot;...&quot;) fails only when that branch is instantia...</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00064">concepts.hpp:64</a></div></div>
+<div class="ttc" id="ameta_2concepts_8hpp_html"><div class="ttname"><a href="meta_2concepts_8hpp.html">concepts.hpp</a></div><div class="ttdoc">The small concepts the family keeps re-declaring: streamable, printable, enumeration,...</div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a02ee22f3627f7bcfcd2de4d3b2659c44"><div class="ttname"><a href="namespacesnicholls.html#a02ee22f3627f7bcfcd2de4d3b2659c44">snicholls::first_match</a></div><div class="ttdeci">first_match(Fs...) -&gt; first_match&lt; detail::set_element_t&lt; Fs &gt;... &gt;</div><div class="ttdoc">Deduction guide: first_match{f, g} deduces first_match&lt;F, G&gt;, wrapping function pointers.</div></div>
 <div class="ttc" id="anamespacesnicholls_html_a1934e4cfb6d92785547ece03ec4674ee"><div class="ttname"><a href="namespacesnicholls.html#a1934e4cfb6d92785547ece03ec4674ee">snicholls::overloaded</a></div><div class="ttdeci">overloaded(Fs...) -&gt; overloaded&lt; detail::set_element_t&lt; Fs &gt;... &gt;</div><div class="ttdoc">Deduction guide: overloaded{f, g} deduces overloaded&lt;F, G&gt;, wrapping function pointers.</div></div>

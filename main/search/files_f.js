@@ -9,5 +9,6 @@ var searchData=
   ['preference_2ehpp_6',['preference.hpp',['../preference_8hpp.html',1,'']]],
   ['pretokenize_2ehpp_7',['pretokenize.hpp',['../pretokenize_8hpp.html',1,'']]],
   ['probe_2ehpp_8',['probe.hpp',['../probe_8hpp.html',1,'']]],
-  ['properties_2ehpp_9',['properties.hpp',['../properties_8hpp.html',1,'']]]
+  ['properties_2ehpp_9',['properties.hpp',['../properties_8hpp.html',1,'']]],
+  ['prox_2ehpp_10',['prox.hpp',['../prox_8hpp.html',1,'']]]
 ];

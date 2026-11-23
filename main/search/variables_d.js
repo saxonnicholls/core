@@ -3,7 +3,7 @@ var searchData=
   ['o_0',['o',['../structsnicholls_1_1ml_1_1attention__weights.html#a82a119bc2e3cf97b2e0868d3e57402ae',1,'snicholls::ml::attention_weights::o'],['../structsnicholls_1_1ml_1_1latent__attention__weights.html#aebcb8b4d694477b69aca67518fa02dfd',1,'snicholls::ml::latent_attention_weights::o'],['../structsnicholls_1_1ml_1_1latent__attention__gradients.html#a66dcade550bdf4727d86cf47e0f7bdd2',1,'snicholls::ml::latent_attention_gradients::o']]],
   ['o_5fbias_1',['o_bias',['../structsnicholls_1_1ml_1_1attention__weights.html#a6d469cf555e461dd6b93fc58c743e346',1,'snicholls::ml::attention_weights::o_bias'],['../structsnicholls_1_1ml_1_1attention__gradients.html#aea8b615a434d39b658be5ec14e12f2ff',1,'snicholls::ml::attention_gradients::o_bias']]],
   ['off_5flen_2',['off_len',['../structsnicholls_1_1containers_1_1byte__map__slot.html#a0d141da364336daf209e0dab0519d477',1,'snicholls::containers::byte_map_slot']]],
-  ['offset_3',['offset',['../structsnicholls_1_1signal_1_1log__compression.html#a16ccf4e7b736acd7e66027814468e5b7',1,'snicholls::signal::log_compression']]],
+  ['offset_3',['offset',['../structsnicholls_1_1containers_1_1ann__node.html#a6416c641067b6b90c5b2b804bdfec098',1,'snicholls::containers::ann_node::offset'],['../structsnicholls_1_1signal_1_1log__compression.html#a16ccf4e7b736acd7e66027814468e5b7',1,'snicholls::signal::log_compression::offset']]],
   ['offsets_4',['offsets',['../structsnicholls_1_1ml_1_1moe__activations.html#ab33f84ff2785fc0cd83fbce048fcf672',1,'snicholls::ml::moe_activations']]],
   ['oid_5',['oid',['../uuid_8hpp.html#a2aafdafd3db26c86f2c43e84d51fd54d',1,'snicholls::uuid_namespace']]],
   ['olmoe_5f1b_5f7b_6',['olmoe_1b_7b',['../transformer__config_8hpp.html#ad13a6c20023157d990015341199addd0',1,'snicholls::ml']]],

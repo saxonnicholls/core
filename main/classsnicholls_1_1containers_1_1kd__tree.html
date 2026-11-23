@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>snicholls-core: snicholls::containers::kd_tree&lt; Point, K, Traits &gt; Class Template Reference</title>
+<title>snicholls-core: snicholls::containers::kd_tree&lt; Point, K, Metric &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -89,7 +89,7 @@ $(function(){initNavTree('classsnicholls_1_1containers_1_1kd__tree.html','','cla
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">snicholls::containers::kd_tree&lt; Point, K, Traits &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__core.html">snicholls-core</a></div></div></div>
+  <div class="headertitle"><div class="title">snicholls::containers::kd_tree&lt; Point, K, Metric &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__core.html">snicholls-core</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -100,59 +100,67 @@ $(function(){initNavTree('classsnicholls_1_1containers_1_1kd__tree.html','','cla
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a33301b9c4b8eda02b28995051756eb8b" id="r_a33301b9c4b8eda02b28995051756eb8b"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33301b9c4b8eda02b28995051756eb8b">kd_tree</a> (std::span&lt; const Point &gt; points, std::span&lt; std::uint32_t &gt; indices) noexcept(nothrow_read&lt; Point &gt;)</td></tr>
-<tr class="memdesc:a33301b9c4b8eda02b28995051756eb8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the tree.  <br /></td></tr>
-<tr class="memitem:a01d0cddeceb18f0265855a83976f774a" id="r_a01d0cddeceb18f0265855a83976f774a"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01d0cddeceb18f0265855a83976f774a">size</a> () const noexcept</td></tr>
-<tr class="memdesc:a01d0cddeceb18f0265855a83976f774a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The points indexed.  <br /></td></tr>
-<tr class="memitem:a4d85a59f0c46a3c5538d549e28e7e2bc" id="r_a4d85a59f0c46a3c5538d549e28e7e2bc"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d85a59f0c46a3c5538d549e28e7e2bc">empty</a> () const noexcept</td></tr>
-<tr class="memdesc:a4d85a59f0c46a3c5538d549e28e7e2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the tree is empty.  <br /></td></tr>
-<tr class="memitem:ac50e6f0e91fc399ece97d168a02131e4" id="r_ac50e6f0e91fc399ece97d168a02131e4"><td class="memTemplParams" colspan="2">template&lt;typename Q&gt; </td></tr>
-<tr class="memitem:ac50e6f0e91fc399ece97d168a02131e4 template"><td class="memItemLeft" align="right" valign="top">constexpr std::optional&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac50e6f0e91fc399ece97d168a02131e4">nearest</a> (const Q &amp;q) const noexcept(nothrow_read&lt; Q &gt;)</td></tr>
-<tr class="memdesc:ac50e6f0e91fc399ece97d168a02131e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The point closest to <span class="tt">q</span>.  <br /></td></tr>
-<tr class="memitem:a1fb25639e3ff66f5f6e90baa7fe1c9b4" id="r_a1fb25639e3ff66f5f6e90baa7fe1c9b4"><td class="memTemplParams" colspan="2">template&lt;typename Q&gt; </td></tr>
-<tr class="memitem:a1fb25639e3ff66f5f6e90baa7fe1c9b4 template"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fb25639e3ff66f5f6e90baa7fe1c9b4">k_nearest</a> (const Q &amp;q, std::span&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt; out) const noexcept(nothrow_read&lt; Q &gt;)</td></tr>
-<tr class="memdesc:a1fb25639e3ff66f5f6e90baa7fe1c9b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <span class="tt">out.size()</span> points closest to <span class="tt">q</span>, nearest first.  <br /></td></tr>
-<tr class="memitem:a93342dceaa0528a3ec0837e4d0f94b4f" id="r_a93342dceaa0528a3ec0837e4d0f94b4f"><td class="memTemplParams" colspan="2">template&lt;typename Q, typename F&gt; </td></tr>
-<tr class="memitem:a93342dceaa0528a3ec0837e4d0f94b4f template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93342dceaa0528a3ec0837e4d0f94b4f">for_each_within</a> (const Q &amp;q, double radius2, F &amp;&amp;f) const noexcept(nothrow_read&lt; Q &gt; &amp;&amp;noexcept(f(std::uint32_t{}, double{})))</td></tr>
-<tr class="memdesc:a93342dceaa0528a3ec0837e4d0f94b4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <span class="tt">f(index, d²)</span> for every point within distance <span class="tt">√radius2</span> of <span class="tt">q</span>, in no particular order.  <br /></td></tr>
-<tr class="memitem:ad9564b590ca808dbcb903e07cba6cec4" id="r_ad9564b590ca808dbcb903e07cba6cec4"><td class="memTemplParams" colspan="2">template&lt;typename Q, typename F&gt; </td></tr>
-<tr class="memitem:ad9564b590ca808dbcb903e07cba6cec4 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9564b590ca808dbcb903e07cba6cec4">for_each_in_box</a> (const Q &amp;lo, const Q &amp;hi, F &amp;&amp;f) const noexcept(nothrow_read&lt; Q &gt; &amp;&amp;noexcept(f(std::uint32_t{})))</td></tr>
-<tr class="memdesc:ad9564b590ca808dbcb903e07cba6cec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <span class="tt">f(index)</span> for every point inside the box <span class="tt">[lo, hi]</span>, in no particular order.  <br /></td></tr>
+<tr class="memitem:ab90f303c9d53ac89cb0c09ef49ed10fc" id="r_ab90f303c9d53ac89cb0c09ef49ed10fc"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab90f303c9d53ac89cb0c09ef49ed10fc">kd_tree</a> (std::span&lt; const Point &gt; points, std::span&lt; std::uint32_t &gt; indices, const Metric &amp;m=Metric{}) noexcept(nothrow_read&lt; Point &gt;)</td></tr>
+<tr class="memdesc:ab90f303c9d53ac89cb0c09ef49ed10fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the tree.  <br /></td></tr>
+<tr class="memitem:a76db3cd2b092f18b15111b0a8cfbe05d" id="r_a76db3cd2b092f18b15111b0a8cfbe05d"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76db3cd2b092f18b15111b0a8cfbe05d">size</a> () const noexcept</td></tr>
+<tr class="memdesc:a76db3cd2b092f18b15111b0a8cfbe05d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The points indexed.  <br /></td></tr>
+<tr class="memitem:aa9e2a21a2aa61c7b0b06f1cee93f43cd" id="r_aa9e2a21a2aa61c7b0b06f1cee93f43cd"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9e2a21a2aa61c7b0b06f1cee93f43cd">empty</a> () const noexcept</td></tr>
+<tr class="memdesc:aa9e2a21a2aa61c7b0b06f1cee93f43cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the tree is empty.  <br /></td></tr>
+<tr class="memitem:aca90f4d9811c88dedd28b6f7ecef6bad" id="r_aca90f4d9811c88dedd28b6f7ecef6bad"><td class="memItemLeft" align="right" valign="top">constexpr const Metric &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca90f4d9811c88dedd28b6f7ecef6bad">distance_metric</a> () const noexcept</td></tr>
+<tr class="memdesc:aca90f4d9811c88dedd28b6f7ecef6bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">The metric.  <br /></td></tr>
+<tr class="memitem:a5128ee3317b580e33db36caaec3ed647" id="r_a5128ee3317b580e33db36caaec3ed647"><td class="memTemplParams" colspan="2">template&lt;metric::point Q&gt; </td></tr>
+<tr class="memitem:a5128ee3317b580e33db36caaec3ed647 template"><td class="memItemLeft" align="right" valign="top">constexpr std::optional&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5128ee3317b580e33db36caaec3ed647">nearest</a> (const Q &amp;q) const noexcept(nothrow_read&lt; Q &gt;)</td></tr>
+<tr class="memdesc:a5128ee3317b580e33db36caaec3ed647"><td class="mdescLeft">&#160;</td><td class="mdescRight">The point closest to <span class="tt">q</span>.  <br /></td></tr>
+<tr class="memitem:ae5edd084829900ee3d27d1c2b7684668" id="r_ae5edd084829900ee3d27d1c2b7684668"><td class="memTemplParams" colspan="2">template&lt;metric::point Q&gt; </td></tr>
+<tr class="memitem:ae5edd084829900ee3d27d1c2b7684668 template"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5edd084829900ee3d27d1c2b7684668">k_nearest</a> (const Q &amp;q, std::span&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt; out) const noexcept(nothrow_read&lt; Q &gt;)</td></tr>
+<tr class="memdesc:ae5edd084829900ee3d27d1c2b7684668"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <span class="tt">out.size()</span> points closest to <span class="tt">q</span>, nearest first.  <br /></td></tr>
+<tr class="memitem:a59ef6dbbab22bb0de27d9e8916d5592e" id="r_a59ef6dbbab22bb0de27d9e8916d5592e"><td class="memTemplParams" colspan="2">template&lt;metric::point Q, typename F&gt; </td></tr>
+<tr class="memitem:a59ef6dbbab22bb0de27d9e8916d5592e template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59ef6dbbab22bb0de27d9e8916d5592e">for_each_within</a> (const Q &amp;q, double radius, F &amp;&amp;f) const noexcept(nothrow_read&lt; Q &gt; &amp;&amp;noexcept(f(std::uint32_t{}, double{})))</td></tr>
+<tr class="memdesc:a59ef6dbbab22bb0de27d9e8916d5592e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <span class="tt">f(index, distance)</span> for every point within distance <span class="tt">radius</span> of <span class="tt">q</span>, in no particular order.  <br /></td></tr>
+<tr class="memitem:a49d2462453f410b5c5ffc0b85347b7ba" id="r_a49d2462453f410b5c5ffc0b85347b7ba"><td class="memTemplParams" colspan="2">template&lt;metric::point Q, typename F&gt; </td></tr>
+<tr class="memitem:a49d2462453f410b5c5ffc0b85347b7ba template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49d2462453f410b5c5ffc0b85347b7ba">for_each_in_box</a> (const Q &amp;lo, const Q &amp;hi, F &amp;&amp;f) const noexcept(nothrow_read&lt; Q &gt; &amp;&amp;noexcept(f(std::uint32_t{})))</td></tr>
+<tr class="memdesc:a49d2462453f410b5c5ffc0b85347b7ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <span class="tt">f(index)</span> for every point inside the box <span class="tt">[lo, hi]</span>, in no particular order.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt;<br />
-class snicholls::containers::kd_tree&lt; Point, K, Traits &gt;</div><p>A balanced k-d tree over the caller's points, stored as a permutation of their indices. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt;<br />
+requires metric::decomposable&lt;Metric, double&gt;<br />
+class snicholls::containers::kd_tree&lt; Point, K, Metric &gt;</div><p>A balanced k-d tree over the caller's points, stored as a permutation of their indices. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Point</td><td>The point type. </td></tr>
+    <tr><td class="paramname">Point</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1point.html" title="A type that point_traits can read.">metric::point</a></span>. </td></tr>
     <tr><td class="paramname">K</td><td>The dimension, at least 1. </td></tr>
-    <tr><td class="paramname">Traits</td><td>The coordinate reader: <span class="tt">Traits::coordinate(p, axis)</span>. </td></tr>
+    <tr><td class="paramname">Metric</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1decomposable.html" title="A metric whose reduced form is built coordinate by coordinate: m.term(axis, aᵢ - bᵢ) combined by m....">metric::decomposable</a></span> metric. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00093">93</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00095">95</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a33301b9c4b8eda02b28995051756eb8b" name="a33301b9c4b8eda02b28995051756eb8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33301b9c4b8eda02b28995051756eb8b">&#9670;&#160;</a></span>kd_tree()</h2>
+<a id="ab90f303c9d53ac89cb0c09ef49ed10fc" name="ab90f303c9d53ac89cb0c09ef49ed10fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90f303c9d53ac89cb0c09ef49ed10fc">&#9670;&#160;</a></span>kd_tree()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::kd_tree </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::kd_tree </td>
           <td>(</td>
           <td class="paramtype">std::span&lt; const Point &gt;</td>          <td class="paramname"><span class="paramname"><em>points</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::span&lt; std::uint32_t &gt;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span>&#160;)</td>
+          <td class="paramtype">std::span&lt; std::uint32_t &gt;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Metric &amp;</td>          <td class="paramname"><span class="paramname"><em>m</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Metric{}</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -167,28 +175,61 @@ template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt;
   <table class="params">
     <tr><td class="paramname">points</td><td>The points, which must outlive the tree and not change while it is used. </td></tr>
     <tr><td class="paramname">indices</td><td>Storage for the permutation, <span class="tt">points.size()</span> long (a shorter one indexes a prefix). </td></tr>
+    <tr><td class="paramname">m</td><td>The metric. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00109">109</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00117">117</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a4d85a59f0c46a3c5538d549e28e7e2bc" name="a4d85a59f0c46a3c5538d549e28e7e2bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d85a59f0c46a3c5538d549e28e7e2bc">&#9670;&#160;</a></span>empty()</h2>
+<a id="aca90f4d9811c88dedd28b6f7ecef6bad" name="aca90f4d9811c88dedd28b6f7ecef6bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca90f4d9811c88dedd28b6f7ecef6bad">&#9670;&#160;</a></span>distance_metric()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::empty </td>
+          <td class="memname">const Metric &amp; <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::distance_metric </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The metric. </p>
+<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00145">145</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa9e2a21a2aa61c7b0b06f1cee93f43cd" name="aa9e2a21a2aa61c7b0b06f1cee93f43cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9e2a21a2aa61c7b0b06f1cee93f43cd">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::empty </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -204,25 +245,25 @@ template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt;
 <p>Whether the tree is empty. </p>
 <dl class="section return"><dt>Returns</dt><dd>True for no points. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00135">135</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00143">143</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ad9564b590ca808dbcb903e07cba6cec4" name="ad9564b590ca808dbcb903e07cba6cec4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9564b590ca808dbcb903e07cba6cec4">&#9670;&#160;</a></span>for_each_in_box()</h2>
+<a id="a49d2462453f410b5c5ffc0b85347b7ba" name="a49d2462453f410b5c5ffc0b85347b7ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49d2462453f410b5c5ffc0b85347b7ba">&#9670;&#160;</a></span>for_each_in_box()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <div class="memtemplate">
-template&lt;typename Q, typename F&gt; </div>
+template&lt;metric::point Q, typename F&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::for_each_in_box </td>
+          <td class="memname">void <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::for_each_in_box </td>
           <td>(</td>
           <td class="paramtype">const Q &amp;</td>          <td class="paramname"><span class="paramname"><em>lo</em></span>, </td>
         </tr>
@@ -247,7 +288,7 @@ template&lt;typename Q, typename F&gt; </div>
 <p>Calls <span class="tt">f(index)</span> for every point inside the box <span class="tt">[lo, hi]</span>, in no particular order. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Q</td><td>A type <span class="tt">Traits</span> reads. </td></tr>
+    <tr><td class="paramname">Q</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1point.html" title="A type that point_traits can read.">metric::point</a></span> compatible with <span class="tt">Point</span>. </td></tr>
     <tr><td class="paramname">F</td><td>The callback. </td></tr>
   </table>
   </dd>
@@ -261,32 +302,32 @@ template&lt;typename Q, typename F&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00199">199</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00213">213</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a93342dceaa0528a3ec0837e4d0f94b4f" name="a93342dceaa0528a3ec0837e4d0f94b4f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93342dceaa0528a3ec0837e4d0f94b4f">&#9670;&#160;</a></span>for_each_within()</h2>
+<a id="a59ef6dbbab22bb0de27d9e8916d5592e" name="a59ef6dbbab22bb0de27d9e8916d5592e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59ef6dbbab22bb0de27d9e8916d5592e">&#9670;&#160;</a></span>for_each_within()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <div class="memtemplate">
-template&lt;typename Q, typename F&gt; </div>
+template&lt;metric::point Q, typename F&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::for_each_within </td>
+          <td class="memname">void <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::for_each_within </td>
           <td>(</td>
           <td class="paramtype">const Q &amp;</td>          <td class="paramname"><span class="paramname"><em>q</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>radius2</em></span>, </td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>radius</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -301,10 +342,10 @@ template&lt;typename Q, typename F&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Calls <span class="tt">f(index, d²)</span> for every point within distance <span class="tt">√radius2</span> of <span class="tt">q</span>, in no particular order. </p>
+<p>Calls <span class="tt">f(index, distance)</span> for every point within distance <span class="tt">radius</span> of <span class="tt">q</span>, in no particular order. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Q</td><td>A type <span class="tt">Traits</span> reads. </td></tr>
+    <tr><td class="paramname">Q</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1point.html" title="A type that point_traits can read.">metric::point</a></span> compatible with <span class="tt">Point</span>. </td></tr>
     <tr><td class="paramname">F</td><td>The callback. </td></tr>
   </table>
   </dd>
@@ -312,31 +353,31 @@ template&lt;typename Q, typename F&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">q</td><td>The query. </td></tr>
-    <tr><td class="paramname">radius2</td><td>The squared radius. </td></tr>
+    <tr><td class="paramname">radius</td><td>The radius, in the metric's units. </td></tr>
     <tr><td class="paramname">f</td><td>The callback. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00184">184</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00197">197</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a1fb25639e3ff66f5f6e90baa7fe1c9b4" name="a1fb25639e3ff66f5f6e90baa7fe1c9b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fb25639e3ff66f5f6e90baa7fe1c9b4">&#9670;&#160;</a></span>k_nearest()</h2>
+<a id="ae5edd084829900ee3d27d1c2b7684668" name="ae5edd084829900ee3d27d1c2b7684668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5edd084829900ee3d27d1c2b7684668">&#9670;&#160;</a></span>k_nearest()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <div class="memtemplate">
-template&lt;typename Q&gt; </div>
+template&lt;metric::point Q&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::k_nearest </td>
+          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::k_nearest </td>
           <td>(</td>
           <td class="paramtype">const Q &amp;</td>          <td class="paramname"><span class="paramname"><em>q</em></span>, </td>
         </tr>
@@ -356,7 +397,7 @@ template&lt;typename Q&gt; </div>
 <p>The <span class="tt">out.size()</span> points closest to <span class="tt">q</span>, nearest first. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Q</td><td>A type <span class="tt">Traits</span> reads. </td></tr>
+    <tr><td class="paramname">Q</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1point.html" title="A type that point_traits can read.">metric::point</a></span> compatible with <span class="tt">Point</span>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -367,27 +408,27 @@ template&lt;typename Q&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>How many were written: <span class="tt">min(out.size(), <a class="el" href="#a01d0cddeceb18f0265855a83976f774a" title="The points indexed.">size()</a>)</span>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>How many were written: <span class="tt">min(out.size(), <a class="el" href="#a76db3cd2b092f18b15111b0a8cfbe05d" title="The points indexed.">size()</a>)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00160">160</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00171">171</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ac50e6f0e91fc399ece97d168a02131e4" name="ac50e6f0e91fc399ece97d168a02131e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac50e6f0e91fc399ece97d168a02131e4">&#9670;&#160;</a></span>nearest()</h2>
+<a id="a5128ee3317b580e33db36caaec3ed647" name="a5128ee3317b580e33db36caaec3ed647"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5128ee3317b580e33db36caaec3ed647">&#9670;&#160;</a></span>nearest()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <div class="memtemplate">
-template&lt;typename Q&gt; </div>
+template&lt;metric::point Q&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt; <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::nearest </td>
+          <td class="memname">std::optional&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt; <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::nearest </td>
           <td>(</td>
           <td class="paramtype">const Q &amp;</td>          <td class="paramname"><span class="paramname"><em>q</em></span></td><td>)</td>
           <td> const</td>
@@ -403,7 +444,7 @@ template&lt;typename Q&gt; </div>
 <p>The point closest to <span class="tt">q</span>. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Q</td><td>A type <span class="tt">Traits</span> reads. </td></tr>
+    <tr><td class="paramname">Q</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1point.html" title="A type that point_traits can read.">metric::point</a></span> compatible with <span class="tt">Point</span>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -413,25 +454,25 @@ template&lt;typename Q&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The nearest point's index and squared distance; nothing for an empty tree. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The nearest point's index and distance; nothing for an empty tree. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00142">142</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00152">152</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a01d0cddeceb18f0265855a83976f774a" name="a01d0cddeceb18f0265855a83976f774a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01d0cddeceb18f0265855a83976f774a">&#9670;&#160;</a></span>size()</h2>
+<a id="a76db3cd2b092f18b15111b0a8cfbe05d" name="a76db3cd2b092f18b15111b0a8cfbe05d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76db3cd2b092f18b15111b0a8cfbe05d">&#9670;&#160;</a></span>size()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt; </div>
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Traits &gt;::size </td>
+          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::size </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -447,7 +488,7 @@ template&lt;typename Point, std::size_t K, typename Traits = kd_point_traits&gt;
 <p>The points indexed. </p>
 <dl class="section return"><dt>Returns</dt><dd>Their number. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00133">133</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00141">141</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>

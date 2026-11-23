@@ -16,12 +16,24 @@ var concepts =
         [ "backend", "conceptsnicholls_1_1linalg_1_1backend.html", null ],
         [ "range_executor", "conceptsnicholls_1_1linalg_1_1range__executor.html", null ],
         [ "batched_backend", "conceptsnicholls_1_1linalg_1_1batched__backend.html", null ],
+        [ "linear_operator", "conceptsnicholls_1_1linalg_1_1linear__operator.html", null ],
+        [ "preconditioner", "conceptsnicholls_1_1linalg_1_1preconditioner.html", null ],
         [ "sketch", "conceptsnicholls_1_1linalg_1_1sketch.html", null ],
         [ "scalar", "conceptsnicholls_1_1linalg_1_1scalar.html", null ]
       ] ],
       [ "math", null, [
         [ "math_number", "conceptsnicholls_1_1math_1_1math__number.html", null ],
         [ "math_argument", "conceptsnicholls_1_1math_1_1math__argument.html", null ]
+      ] ],
+      [ "metric", null, [
+        [ "bit_vector", "conceptsnicholls_1_1metric_1_1bit__vector.html", null ],
+        [ "point", "conceptsnicholls_1_1metric_1_1point.html", null ],
+        [ "compatible_points", "conceptsnicholls_1_1metric_1_1compatible__points.html", null ],
+        [ "distance_for", "conceptsnicholls_1_1metric_1_1distance__for.html", null ],
+        [ "reducible", "conceptsnicholls_1_1metric_1_1reducible.html", null ],
+        [ "decomposable", "conceptsnicholls_1_1metric_1_1decomposable.html", null ],
+        [ "true_metric", "conceptsnicholls_1_1metric_1_1true__metric.html", null ],
+        [ "point_range", "conceptsnicholls_1_1metric_1_1point__range.html", null ]
       ] ],
       [ "ml", null, [
         [ "bpe_vocabulary", "conceptsnicholls_1_1ml_1_1bpe__vocabulary.html", null ],

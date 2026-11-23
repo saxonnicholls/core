@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -130,7 +130,7 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line">    <span class="comment">// Tenor buckets in days and the codes that name them: in order, and no code twice.</span></div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_variable" href="group__core.html#ga617801eaccad5151f5456a496a20f0ae">snicholls::strictly_increasing_v&lt;7, 30, 91, 182, 365, 730&gt;</a>, <span class="stringliteral">&quot;tenor buckets out of order&quot;</span>);</div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_variable" href="group__core.html#gad824e986a5d855d8030f63a9f21ab5fa">snicholls::all_distinct_v</a>&lt;<span class="charliteral">&#39;W&#39;</span>, <span class="charliteral">&#39;M&#39;</span>, <span class="charliteral">&#39;Q&#39;</span>, <span class="charliteral">&#39;H&#39;</span>, <span class="charliteral">&#39;Y&#39;</span>, <span class="charliteral">&#39;B&#39;</span>&gt;, <span class="stringliteral">&quot;a bucket code is used twice&quot;</span>);</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span> (<span class="tt">distinct_static_names_v</span> for names); <span class="tt"><a class="el" href="constexpr__map_8hpp.html" title="snicholls::constexpr_map: a fixed table of key-value pairs, looked up at compile time or run time.">constexpr_map.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="meta_2concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span> (<span class="tt">distinct_static_names_v</span> for names); <span class="tt"><a class="el" href="constexpr__map_8hpp.html" title="snicholls::constexpr_map: a fixed table of key-value pairs, looked up at compile time or run time.">constexpr_map.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> Compile time only. An empty pack or a single value is distinct and monotone.</p>
 <p><b>Errors.</b> None.</p>
 <p><b>Performance.</b> Compile time only.</p>

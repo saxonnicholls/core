@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,12 +96,12 @@ $(function(){initNavTree('conceptsnicholls_1_1printable__to__acout.html','','');
 <p>Has <span class="tt">print(<a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">snicholls::acout</a>&amp;) const</span>: a type that writes itself into a message, the form with format strings.  
 <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="meta_2concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1printable__to__acout.html">snicholls::printable_to_acout</a> =  <span class="keyword">requires</span>(<span class="keyword">const</span> std::remove_cvref_t&lt;T&gt;&amp; t, <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a>&amp; out) { t.print(out); }</div>
 <div class="ttc" id="aclasssnicholls_1_1acout_html"><div class="ttname"><a href="classsnicholls_1_1acout.html">snicholls::acout</a></div><div class="ttdoc">A message assembled off to the side and written to its target in one call when it is emitted or destr...</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00369">acout.hpp:369</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1printable__to__acout_html"><div class="ttname"><a href="conceptsnicholls_1_1printable__to__acout.html">snicholls::printable_to_acout</a></div><div class="ttdoc">Has print(snicholls::acout&amp;) const: a type that writes itself into a message, the form with format st...</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00109">concepts.hpp:109</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1printable__to__acout_html"><div class="ttname"><a href="conceptsnicholls_1_1printable__to__acout.html">snicholls::printable_to_acout</a></div><div class="ttdoc">Has print(snicholls::acout&amp;) const: a type that writes itself into a message, the form with format st...</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00109">concepts.hpp:109</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Has <span class="tt">print(<a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">snicholls::acout</a>&amp;) const</span>: a type that writes itself into a message, the form with format strings. </p>
 <p>Inside such a <span class="tt">print</span>, <span class="tt">out.print("{} @ {:.2f}", symbol, price)</span> and <span class="tt">out &lt;&lt; ...</span> both work, and the whole message is written in one call. Take the <span class="tt">acout</span> by reference. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -111,7 +111,7 @@ $(function(){initNavTree('conceptsnicholls_1_1printable__to__acout.html','','');
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_8hpp_source.html#l00109">109</a> of file <a class="el" href="concepts_8hpp_source.html">concepts.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="meta_2concepts_8hpp_source.html#l00109">109</a> of file <a class="el" href="meta_2concepts_8hpp_source.html">concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

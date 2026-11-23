@@ -17,11 +17,16 @@ var searchData=
   ['pivot_5fdomain_14',['pivot_domain',['../structsnicholls_1_1stats_1_1pivot__domain.html',1,'snicholls::stats']]],
   ['plane_5ffix_5fresult_15',['plane_fix_result',['../structsnicholls_1_1geometry_1_1plane__fix__result.html',1,'snicholls::geometry']]],
   ['point_5fset_16',['point_set',['../structsnicholls_1_1tracking_1_1point__set.html',1,'snicholls::tracking']]],
-  ['policy_5floss_5fconfig_17',['policy_loss_config',['../structsnicholls_1_1ml_1_1policy__loss__config.html',1,'snicholls::ml']]],
-  ['policy_5floss_5fmetrics_18',['policy_loss_metrics',['../structsnicholls_1_1ml_1_1policy__loss__metrics.html',1,'snicholls::ml']]],
-  ['policy_5ftoken_19',['policy_token',['../structsnicholls_1_1ml_1_1policy__token.html',1,'snicholls::ml']]],
-  ['polyphase_5fresampler_20',['polyphase_resampler',['../classsnicholls_1_1signal_1_1polyphase__resampler.html',1,'snicholls::signal']]],
-  ['pool_5fshape_21',['pool_shape',['../structsnicholls_1_1ml_1_1pool__shape.html',1,'snicholls::ml']]],
-  ['precompiled_5fcharsmap_22',['precompiled_charsmap',['../structsnicholls_1_1ml_1_1precompiled__charsmap.html',1,'snicholls::ml']]],
-  ['preference_5fmetrics_23',['preference_metrics',['../structsnicholls_1_1ml_1_1preference__metrics.html',1,'snicholls::ml']]]
+  ['point_5ftraits_17',['point_traits',['../structsnicholls_1_1metric_1_1point__traits.html',1,'snicholls::metric']]],
+  ['point_5ftraits_3c_20linalg_3a_3afixed_5fmatrix_3c_20t_2c_201_2c_20n_20_3e_20_3e_18',['point_traits&lt; linalg::fixed_matrix&lt; T, 1, N &gt; &gt;',['../structsnicholls_1_1metric_1_1point__traits_3_01linalg_1_1fixed__matrix_3_01T_00_011_00_01N_01_4_01_4.html',1,'snicholls::metric']]],
+  ['point_5ftraits_3c_20linalg_3a_3afixed_5fmatrix_3c_20t_2c_20n_2c_201_20_3e_20_3e_19',['point_traits&lt; linalg::fixed_matrix&lt; T, N, 1 &gt; &gt;',['../structsnicholls_1_1metric_1_1point__traits_3_01linalg_1_1fixed__matrix_3_01T_00_01N_00_011_01_4_01_4.html',1,'snicholls::metric']]],
+  ['point_5ftraits_3c_20p_20_3e_20',['point_traits&lt; P &gt;',['../structsnicholls_1_1metric_1_1point__traits_3_01P_01_4.html',1,'snicholls::metric']]],
+  ['point_5ftraits_3c_20t_5bn_5d_3e_21',['point_traits&lt; T[N]&gt;',['../structsnicholls_1_1metric_1_1point__traits_3_01T_0fN_0e_4.html',1,'snicholls::metric']]],
+  ['policy_5floss_5fconfig_22',['policy_loss_config',['../structsnicholls_1_1ml_1_1policy__loss__config.html',1,'snicholls::ml']]],
+  ['policy_5floss_5fmetrics_23',['policy_loss_metrics',['../structsnicholls_1_1ml_1_1policy__loss__metrics.html',1,'snicholls::ml']]],
+  ['policy_5ftoken_24',['policy_token',['../structsnicholls_1_1ml_1_1policy__token.html',1,'snicholls::ml']]],
+  ['polyphase_5fresampler_25',['polyphase_resampler',['../classsnicholls_1_1signal_1_1polyphase__resampler.html',1,'snicholls::signal']]],
+  ['pool_5fshape_26',['pool_shape',['../structsnicholls_1_1ml_1_1pool__shape.html',1,'snicholls::ml']]],
+  ['precompiled_5fcharsmap_27',['precompiled_charsmap',['../structsnicholls_1_1ml_1_1precompiled__charsmap.html',1,'snicholls::ml']]],
+  ['preference_5fmetrics_28',['preference_metrics',['../structsnicholls_1_1ml_1_1preference__metrics.html',1,'snicholls::ml']]]
 ];

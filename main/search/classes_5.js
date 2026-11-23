@@ -30,6 +30,7 @@ var searchData=
   ['fn_5fptr_3c_20r_28_2a_29_28args_2e_2e_2e_29_3e_27',['fn_ptr&lt; R(*)(Args...)&gt;',['../structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_4.html',1,'snicholls']]],
   ['forward_5fkl_28',['forward_kl',['../structsnicholls_1_1ml_1_1forward__kl.html',1,'snicholls::ml']]],
   ['full_5fextent_5ft_29',['full_extent_t',['../structsnicholls_1_1containers_1_1full__extent__t.html',1,'snicholls::containers']]],
-  ['function_5fref_30',['function_ref',['../classsnicholls_1_1function__ref.html',1,'snicholls']]],
-  ['function_5fref_3c_20r_28args_2e_2e_2e_29_3e_31',['function_ref&lt; R(Args...)&gt;',['../classsnicholls_1_1function__ref_3_01R_07Args_8_8_8_08_4.html',1,'snicholls']]]
+  ['function_5foperator_30',['function_operator',['../structsnicholls_1_1linalg_1_1function__operator.html',1,'snicholls::linalg']]],
+  ['function_5fref_31',['function_ref',['../classsnicholls_1_1function__ref.html',1,'snicholls']]],
+  ['function_5fref_3c_20r_28args_2e_2e_2e_29_3e_32',['function_ref&lt; R(Args...)&gt;',['../classsnicholls_1_1function__ref_3_01R_07Args_8_8_8_08_4.html',1,'snicholls']]]
 ];

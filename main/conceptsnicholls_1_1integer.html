@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,12 +96,12 @@ $(function(){initNavTree('conceptsnicholls_1_1integer.html','',''); });
 <p>An integral type that is a number: not <span class="tt">bool</span>, not a character type.  
 <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="meta_2concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1integer.html">snicholls::integer</a> =  std::integral&lt;std::remove_cvref_t&lt;T&gt;&gt; &amp;&amp; !std::same_as&lt;std::remove_cvref_t&lt;T&gt;, <span class="keywordtype">bool</span>&gt; &amp;&amp; !<a class="code hl_concept" href="conceptsnicholls_1_1character.html">character&lt;T&gt;</a></div>
-<div class="ttc" id="aconceptsnicholls_1_1character_html"><div class="ttname"><a href="conceptsnicholls_1_1character.html">snicholls::character</a></div><div class="ttdoc">One of the character types: char, wchar_t, char8_t, char16_t, char32_t.</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00150">concepts.hpp:150</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1integer_html"><div class="ttname"><a href="conceptsnicholls_1_1integer.html">snicholls::integer</a></div><div class="ttdoc">An integral type that is a number: not bool, not a character type.</div><div class="ttdef"><b>Definition</b> <a href="concepts_8hpp_source.html#l00158">concepts.hpp:158</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1character_html"><div class="ttname"><a href="conceptsnicholls_1_1character.html">snicholls::character</a></div><div class="ttdoc">One of the character types: char, wchar_t, char8_t, char16_t, char32_t.</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00150">concepts.hpp:150</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1integer_html"><div class="ttname"><a href="conceptsnicholls_1_1integer.html">snicholls::integer</a></div><div class="ttdoc">An integral type that is a number: not bool, not a character type.</div><div class="ttdef"><b>Definition</b> <a href="meta_2concepts_8hpp_source.html#l00158">concepts.hpp:158</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An integral type that is a number: not <span class="tt">bool</span>, not a character type. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -111,7 +111,7 @@ $(function(){initNavTree('conceptsnicholls_1_1integer.html','',''); });
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_8hpp_source.html#l00158">158</a> of file <a class="el" href="concepts_8hpp_source.html">concepts.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="meta_2concepts_8hpp_source.html#l00158">158</a> of file <a class="el" href="meta_2concepts_8hpp_source.html">concepts.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

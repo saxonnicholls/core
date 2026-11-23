@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -154,7 +154,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> std::array&lt;g2, 3&gt; sources{radar, camera, g2{vec2{{100.5, 50.0}}, mat2{{0.5, 0.0, 0.0, 0.5}}}};</div>
 <div class="line">    std::array&lt;double, 3&gt; weights{};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;double, 3&gt; at_most{1.0, 1.0, 0.2};</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> weighted = tr::fast_ci_weights&lt;double, 2&gt;(sources, weights, {}, at_most);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#gac17e0437fcabde744a091db1bee41c68">weighted</a> = tr::fast_ci_weights&lt;double, 2&gt;(sources, weights, {}, at_most);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> fused3 = tr::covariance_intersection&lt;double, 2&gt;(sources, weights);</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="gaussian_8hpp.html" title="snicholls::tracking::gaussian&lt;T, N&gt; and the measures between states: Mahalanobis distance,...">tracking/gaussian.hpp</a></span>, <span class="tt"><a class="el" href="kalman_8hpp.html" title="snicholls::tracking::predict, update, predict_measurement and friends: the Kalman and extended Kalman...">tracking/kalman.hpp</a></span> (the information form, for independent sources). Stone Soup's <span class="tt">ChernoffUpdater</span> with ω, and <span class="tt">CovarianceIntersection</span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, <span class="tt">noexcept</span> for the standard floating-point types, no allocation. The fused covariance is consistent (it bounds the true error covariance) for any correlation, given consistent inputs.</p>

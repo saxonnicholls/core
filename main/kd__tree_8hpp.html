@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,9 +93,11 @@ $(function(){initNavTree('kd__tree_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html" title="A balanced k-d tree over the caller&#39;s points, stored as a permutation of their indices.">snicholls::containers::kd_tree</a>&lt;Point, K, Traits&gt;</span>: a balanced k-d tree built in place over the caller's points, with nearest, k-nearest, radius and box queries, iterative and allocation-free.  
+<p><span class="tt"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html" title="A balanced k-d tree over the caller&#39;s points, stored as a permutation of their indices.">snicholls::containers::kd_tree</a>&lt;Point, K, Metric&gt;</span>: a balanced k-d tree built in place over the caller's points, under any coordinate-wise metric, with nearest, k-nearest, radius and box queries, iterative and allocation-free.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="metric_2concepts_8hpp_source.html">snicholls/core/metric/concepts.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="minkowski_8hpp_source.html">snicholls/core/metric/minkowski.hpp</a>&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -108,11 +110,9 @@ $(function(){initNavTree('kd__tree_8hpp.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:snicholls_3A_3Acontainers_3A_3Akd_5Fpoint_5Ftraits" id="r_snicholls_3A_3Acontainers_3A_3Akd_5Fpoint_5Ftraits"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1containers_1_1kd__point__traits.html">snicholls::containers::kd_point_traits</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default coordinate reader: <span class="tt">p[axis]</span>.  <a href="structsnicholls_1_1containers_1_1kd__point__traits.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Acontainers_3A_3Akd_5Fneighbour" id="r_snicholls_3A_3Acontainers_3A_3Akd_5Fneighbour"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">snicholls::containers::kd_neighbour</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One query result: a point's index and its squared distance.  <a href="structsnicholls_1_1containers_1_1kd__neighbour.html#details">More...</a><br /></td></tr>
-<tr class="memitem:snicholls_3A_3Acontainers_3A_3Akd_5Ftree_3C_20Point_2C_20K_2C_20Traits_20_3E" id="r_snicholls_3A_3Acontainers_3A_3Akd_5Ftree_3C_20Point_2C_20K_2C_20Traits_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree&lt; Point, K, Traits &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One query result: a point's index and its distance.  <a href="structsnicholls_1_1containers_1_1kd__neighbour.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Acontainers_3A_3Akd_5Ftree_3C_20Point_2C_20K_2C_20Metric_20_3E" id="r_snicholls_3A_3Acontainers_3A_3Akd_5Ftree_3C_20Point_2C_20K_2C_20Metric_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree&lt; Point, K, Metric &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A balanced k-d tree over the caller's points, stored as a permutation of their indices.  <a href="classsnicholls_1_1containers_1_1kd__tree.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -121,40 +121,46 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespacesnicholls"><td class="mdescLeft">&#160;</td><td class="mdescRight">Everything the snicholls libraries share, at the bottom of the stack. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html" title="A balanced k-d tree over the caller&#39;s points, stored as a permutation of their indices.">snicholls::containers::kd_tree</a>&lt;Point, K, Traits&gt;</span>: a balanced k-d tree built in place over the caller's points, with nearest, k-nearest, radius and box queries, iterative and allocation-free. </p>
+<div class="textblock"><p><span class="tt"><a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html" title="A balanced k-d tree over the caller&#39;s points, stored as a permutation of their indices.">snicholls::containers::kd_tree</a>&lt;Point, K, Metric&gt;</span>: a balanced k-d tree built in place over the caller's points, under any coordinate-wise metric, with nearest, k-nearest, radius and box queries, iterative and allocation-free. </p>
 <p><b>Overview.</b> A scan brings hundreds of detections and a tracker asks, for each track, which detections lie near its prediction. A k-d tree answers that in about <span class="tt">log n</span> per query instead of <span class="tt">n</span>. This one is built once over a span of points the caller owns, and stores nothing but a permutation of their indices (the caller's span, too). The tree is implicit: the median of each index range is its node, split on axis <span class="tt">depth mod K</span>. So there are no node objects and no pointers, and a rebuild per scan costs O(n log n).</p>
 <ul>
-<li><span class="tt">Point</span> is any type; <span class="tt">Traits::coordinate(p, axis)</span> reads one coordinate. <span class="tt">kd_point_traits</span> (the default) reads <span class="tt">p[axis]</span>, for <span class="tt">fixed_vector</span>, <span class="tt">std::array</span> and anything else with <span class="tt">operator[]</span>.</li>
-<li><span class="tt">nearest(q)</span>: the closest point and its squared distance, or nothing for an empty tree.</li>
+<li><span class="tt">Point</span> is any <span class="tt">metric::point</span> (<span class="tt">fixed_vector</span>, <span class="tt">std::array</span>, a struct of the caller's with <span class="tt">point_traits</span>). Queries may be any compatible point type.</li>
+<li><span class="tt">Metric</span> is any <span class="tt">metric::decomposable</span> metric (<span class="tt">euclidean</span> by default; <span class="tt">manhattan</span>, <span class="tt">chebyshev</span>, <span class="tt">minkowski&lt;P&gt;</span>, <span class="tt">weighted_minkowski</span>, a <span class="tt">mahalanobis</span> made coordinate-wise by whitening the points first, or the caller's own): a single coordinate's term bounds the whole, which is what lets a subtree be skipped.</li>
+<li><span class="tt">nearest(q)</span>: the closest point and its distance, or nothing for an empty tree.</li>
 <li><span class="tt">k_nearest(q, out)</span>: the <span class="tt">out.size()</span> closest, nearest first.</li>
-<li><span class="tt">for_each_within(q, r², f)</span>: <span class="tt">f(index, d²)</span> for every point within radius <span class="tt">r</span>.</li>
+<li><span class="tt">for_each_within(q, r, f)</span>: <span class="tt">f(index, distance)</span> for every point within distance <span class="tt">r</span>.</li>
 <li><span class="tt">for_each_in_box(lo, hi, f)</span>: <span class="tt">f(index)</span> for every point with <span class="tt">lo ≤ p ≤ hi</span> on every axis.</li>
 </ul>
-<p>Distances are Euclidean. For Mahalanobis gating, query in whitened coordinates (points mapped through <span class="tt">L⁻¹</span> of the innovation covariance), or use the box query for the gate's bounding box and test each candidate.</p>
+<p>Distances are reported in the metric's own units (<span class="tt">expand</span> of the reduced form the search compares in).</p>
 <div class="fragment"><div class="line">    <span class="comment">// One scan: index the detections (the tree keeps only a permutation, in storage the caller gives it)</span></div>
 <div class="line">    std::vector&lt;std::uint32_t&gt; order(detections.size());</div>
 <div class="line">    <span class="keyword">const</span> ct::kd_tree&lt;xy, 2&gt; tree(detections, order);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keyword">const</span> xy track{500, 500};   <span class="comment">// a track&#39;s predicted position</span></div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> closest = tree.nearest(track);                  <span class="comment">// index and squared distance</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> closest = tree.nearest(track);                  <span class="comment">// index and distance, in metres</span></div>
 <div class="line"> </div>
 <div class="line">    std::array&lt;ct::kd_neighbour, 5&gt; five{};</div>
 <div class="line">    <span class="keyword">const</span> std::size_t found = tree.k_nearest(track, five);     <span class="comment">// nearest first</span></div>
 <div class="line"> </div>
 <div class="line">    std::vector&lt;std::uint32_t&gt; <a class="code hl_function" href="transformer__config_8hpp.html#afdb50df591db26e6fa93259ebd2ccd25">gated</a>;                         <span class="comment">// every detection within 40 m</span></div>
-<div class="line">    tree.for_each_within(track, 40.0 * 40.0, [&amp;](std::uint32_t i, <span class="keywordtype">double</span>) { <a class="code hl_function" href="transformer__config_8hpp.html#afdb50df591db26e6fa93259ebd2ccd25">gated</a>.push_back(i); });</div>
+<div class="line">    tree.for_each_within(track, 40.0, [&amp;](std::uint32_t i, <span class="keywordtype">double</span>) { <a class="code hl_function" href="transformer__config_8hpp.html#afdb50df591db26e6fa93259ebd2ccd25">gated</a>.push_back(i); });</div>
 <div class="line"> </div>
 <div class="line">    std::vector&lt;std::uint32_t&gt; boxed;                         <span class="comment">// every detection in the gate&#39;s bounding box</span></div>
 <div class="line">    tree.for_each_in_box(xy{460, 460}, xy{540, 540}, [&amp;](std::uint32_t i) { boxed.push_back(i); });</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="intrusive__avl__tree_8hpp.html" title="An intrusive, iterative AVL tree whose linkage and ordering are policies.">intrusive_avl_tree.hpp</a></span> (the same policy style), <span class="tt"><a class="el" href="fixed_8hpp.html" title="snicholls::linalg::fixed_matrix&lt;T, R, C&gt;: a matrix whose size is part of its type,...">linalg/fixed.hpp</a></span> (points). Stone Soup's <span class="tt">DetectionKDTreeNN</span> and <span class="tt">KDTreePDA</span> associators are built on it in the framework above core. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Implementations.</b> Build: an explicit stack of index ranges, each partitioned at its median by <span class="tt">std::nth_element</span> (constexpr since C++20). Queries: an explicit stack of at most 64 frames, near child first, a far child skipped when its splitting plane is farther than the best distance so far.</p>
-<p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, no recursion. Build O(n log n) expected; queries O(log n) expected for well-spread points. The tree reads the points through the span: they must not change or move while the tree is in use. <span class="tt">noexcept</span> when <span class="tt">Traits::coordinate</span> and the callbacks are.</p>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// The metric is a template parameter: the same scan, gated by city-block distance</span></div>
+<div class="line">    std::vector&lt;std::uint32_t&gt; order_l1(detections.size());</div>
+<div class="line">    <span class="keyword">const</span> ct::kd_tree&lt;xy, 2, mt::manhattan&gt; by_blocks(detections, order_l1);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> closest_l1 = by_blocks.nearest(track);</div>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="metric_2concepts_8hpp.html" title="snicholls::metric::point, point_traits, distance_for, reducible, decomposable: the plug-and-play cont...">metric/concepts.hpp</a></span> and <span class="tt"><a class="el" href="minkowski_8hpp.html" title="snicholls::metric::euclidean, manhattan, chebyshev, minkowski&lt;P&gt;, squared_euclidean and weighted_mink...">metric/minkowski.hpp</a></span>, <span class="tt"><a class="el" href="intrusive__avl__tree_8hpp.html" title="An intrusive, iterative AVL tree whose linkage and ordering are policies.">intrusive_avl_tree.hpp</a></span> (the same policy style), <span class="tt"><a class="el" href="ann__forest_8hpp.html" title="snicholls::containers::ann_forest&lt;Point, D, Metric&gt;: approximate nearest neighbours by a forest of ra...">containers/ann_forest.hpp</a></span> (approximate search for high dimensions, where k-d trees lose their edge). Stone Soup's <span class="tt">DetectionKDTreeNN</span> and <span class="tt">KDTreePDA</span> associators are built on it in the framework above core. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<p><b>Implementations.</b> Build: an explicit stack of index ranges, each partitioned at its median by <span class="tt">std::nth_element</span> (constexpr since C++20). Queries: an explicit stack of at most 64 frames, near child first, each carrying a lower bound on its points' reduced distance (the larger of its parent's and the splitting plane's term), skipped when the bound exceeds the best so far. Candidate distances are accumulated with an early exit at the current bound.</p>
+<p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, no recursion. Build O(n log n) expected; queries O(log n) expected for well-spread points in a few dimensions. The tree reads the points through the span: they must not change or move while the tree is in use. <span class="tt">noexcept</span> when the points' coordinate reads and the callbacks are.</p>
 <p><b>Errors.</b> None. An index span shorter than the points builds a tree over the first <span class="tt">indices.size()</span> points.</p>
 <p><b>Performance.</b> Not yet benchmarked.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/containers/kd_tree_test.cpp</span>, <span class="tt">demos/containers/kd_tree_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;utility&gt;</span>.</p>
-<p><b>Known issues.</b> Up to 2³² points (the indices are <span class="tt">std::uint32_t</span>), and depth at most 64, which a balanced tree of fewer than 2⁶³ points never reaches.</p>
-<p><b>Status.</b> Experimental, new in 0.19.0. </p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt"><a class="el" href="metric_2concepts_8hpp.html" title="snicholls::metric::point, point_traits, distance_for, reducible, decomposable: the plug-and-play cont...">metric/concepts.hpp</a></span>, <span class="tt"><a class="el" href="minkowski_8hpp.html" title="snicholls::metric::euclidean, manhattan, chebyshev, minkowski&lt;P&gt;, squared_euclidean and weighted_mink...">metric/minkowski.hpp</a></span>.</p>
+<p><b>Known issues.</b> Up to 2³² points (the indices are <span class="tt">std::uint32_t</span>), and depth at most 64, which a balanced tree of fewer than 2⁶³ points never reaches. Changed in 0.20.0: the metric is a template parameter, points are read through <span class="tt">metric::point_traits</span> (the <span class="tt">kd_point_traits</span> parameter is gone), <span class="tt">kd_neighbour::distance</span> is the metric's distance (it was <span class="tt">distance2</span>, the squared Euclidean distance), and <span class="tt">for_each_within</span> takes a radius (it took its square).</p>
+<p><b>Status.</b> Experimental, new in 0.19.0; generic over the metric in 0.20.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 </div></div><!-- contents -->

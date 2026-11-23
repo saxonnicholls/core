@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -138,7 +138,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ga800fcf2fbfdb3ab81905482481cd3515" id="r_ga800fcf2fbfdb3ab81905482481cd3515"><td class="memTemplParams" colspan="2">template&lt;linalg::scalar T, std::size_t N&gt; </td></tr>
 <tr class="memitem:ga800fcf2fbfdb3ab81905482481cd3515 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1tracking_1_1gaussian.html">gaussian</a>&lt; T, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga800fcf2fbfdb3ab81905482481cd3515">snicholls::tracking::predict</a> (const <a class="el" href="structsnicholls_1_1tracking_1_1gaussian.html">gaussian</a>&lt; T, N &gt; &amp;prior, const <a class="el" href="structsnicholls_1_1linalg_1_1fixed__matrix.html">linalg::fixed_matrix</a>&lt; T, N, N &gt; &amp;f, const <a class="el" href="structsnicholls_1_1linalg_1_1fixed__matrix.html">linalg::fixed_matrix</a>&lt; T, N, N &gt; &amp;q) noexcept(linalg::detail::nothrow_scalar&lt; T &gt;)</td></tr>
 <tr class="memdesc:ga800fcf2fbfdb3ab81905482481cd3515"><td class="mdescLeft">&#160;</td><td class="mdescRight">The predicted state from a transition matrix and process noise already in hand: <span class="tt">F x</span>, <span class="tt">F P Fᵀ + Q</span>. Many targets stepped over the same <span class="tt">dt</span> share one <span class="tt">F</span> and one <span class="tt">Q</span>; form them once with <span class="tt">model.matrix(dt)</span> and <span class="tt">model.covariance(dt)</span>.  <br /></td></tr>
-<tr class="memitem:gacef38eb8f07feed94e1f230b3e987360" id="r_gacef38eb8f07feed94e1f230b3e987360"><td class="memTemplParams" colspan="2">template&lt;transition_model M&gt; </td></tr>
+<tr class="memitem:gacef38eb8f07feed94e1f230b3e987360" id="r_gacef38eb8f07feed94e1f230b3e987360"><td class="memTemplParams" colspan="2">template&lt;transition_model M&gt; <br />
+requires (!linear_transition&lt;M&gt;)</td></tr>
 <tr class="memitem:gacef38eb8f07feed94e1f230b3e987360 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1tracking_1_1gaussian.html">gaussian</a>&lt; typename M::value_type, M::dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gacef38eb8f07feed94e1f230b3e987360">snicholls::tracking::predict</a> (const <a class="el" href="structsnicholls_1_1tracking_1_1gaussian.html">gaussian</a>&lt; typename M::value_type, M::dim &gt; &amp;prior, const M &amp;model, typename M::value_type dt) noexcept(linalg::detail::nothrow_scalar&lt; typename M::value_type &gt;)</td></tr>
 <tr class="memdesc:gacef38eb8f07feed94e1f230b3e987360"><td class="mdescLeft">&#160;</td><td class="mdescRight">The predicted state of a nonlinear model, linearised at the prior mean (the extended Kalman filter): <span class="tt">f(x)</span>, <span class="tt">F P Fᵀ + Q</span> with <span class="tt">F = ∂f/∂x</span>.  <br /></td></tr>
 <tr class="memitem:ga20c3fe4cfdd6efef572016b9a5593f9d" id="r_ga20c3fe4cfdd6efef572016b9a5593f9d"><td class="memTemplParams" colspan="2">template&lt;transition_model M, std::size_t C&gt; </td></tr>
@@ -147,7 +148,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9421d2b359a885e939319451c7df513f" id="r_ga9421d2b359a885e939319451c7df513f"><td class="memTemplParams" colspan="2">template&lt;linear_measurement_model S&gt; </td></tr>
 <tr class="memitem:ga9421d2b359a885e939319451c7df513f template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1tracking_1_1measurement__prediction.html">measurement_prediction</a>&lt; typename S::value_type, S::state_dim, S::measurement_dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga9421d2b359a885e939319451c7df513f">snicholls::tracking::predict_measurement</a> (const <a class="el" href="structsnicholls_1_1tracking_1_1gaussian.html">gaussian</a>&lt; typename S::value_type, S::state_dim &gt; &amp;prediction, const S &amp;sensor) noexcept(linalg::detail::nothrow_scalar&lt; typename S::value_type &gt;)</td></tr>
 <tr class="memdesc:ga9421d2b359a885e939319451c7df513f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The predicted measurement of a linear sensor: <span class="tt">H x</span>, <span class="tt">H P Hᵀ + R</span>, <span class="tt">P Hᵀ</span>.  <br /></td></tr>
-<tr class="memitem:ga9421d2b359a885e939319451c7df513f" id="r_ga9421d2b359a885e939319451c7df513f"><td class="memTemplParams" colspan="2">template&lt;measurement_model S&gt; </td></tr>
+<tr class="memitem:ga9421d2b359a885e939319451c7df513f" id="r_ga9421d2b359a885e939319451c7df513f"><td class="memTemplParams" colspan="2">template&lt;measurement_model S&gt; <br />
+requires (!linear_measurement_model&lt;S&gt;)</td></tr>
 <tr class="memitem:ga9421d2b359a885e939319451c7df513f template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1tracking_1_1measurement__prediction.html">measurement_prediction</a>&lt; typename S::value_type, S::state_dim, S::measurement_dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga9421d2b359a885e939319451c7df513f">snicholls::tracking::predict_measurement</a> (const <a class="el" href="structsnicholls_1_1tracking_1_1gaussian.html">gaussian</a>&lt; typename S::value_type, S::state_dim &gt; &amp;prediction, const S &amp;sensor) noexcept(linalg::detail::nothrow_scalar&lt; typename S::value_type &gt;)</td></tr>
 <tr class="memdesc:ga9421d2b359a885e939319451c7df513f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The predicted measurement of a nonlinear sensor, linearised at the predicted mean (the extended Kalman filter): <span class="tt">h(x)</span>, <span class="tt">H P Hᵀ + R</span>, <span class="tt">P Hᵀ</span> with <span class="tt">H = ∂h/∂x</span>.  <br /></td></tr>
 <tr class="memitem:ga70dba0f98f03149e31ad82e61a69d2d7" id="r_ga70dba0f98f03149e31ad82e61a69d2d7"><td class="memTemplParams" colspan="2">template&lt;auto Kinds, linalg::scalar T, std::size_t N, std::size_t M&gt; </td></tr>
@@ -241,7 +243,8 @@ Functions</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;transition_model M&gt; </div>
+template&lt;transition_model M&gt; <br />
+requires (!linear_transition&lt;M&gt;)</div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -286,7 +289,7 @@ template&lt;transition_model M&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The prediction. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kalman_8hpp_source.html#l00160">160</a> of file <a class="el" href="kalman_8hpp_source.html">kalman.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kalman_8hpp_source.html#l00161">161</a> of file <a class="el" href="kalman_8hpp_source.html">kalman.hpp</a>.</p>
 
 </div>
 </div>
@@ -296,7 +299,8 @@ template&lt;transition_model M&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;measurement_model S&gt; </div>
+template&lt;measurement_model S&gt; <br />
+requires (!linear_measurement_model&lt;S&gt;)</div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -335,7 +339,7 @@ template&lt;measurement_model S&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The measurement prediction. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kalman_8hpp_source.html#l00210">210</a> of file <a class="el" href="kalman_8hpp_source.html">kalman.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kalman_8hpp_source.html#l00212">212</a> of file <a class="el" href="kalman_8hpp_source.html">kalman.hpp</a>.</p>
 
 </div>
 </div>

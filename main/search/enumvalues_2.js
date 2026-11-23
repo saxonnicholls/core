@@ -19,11 +19,12 @@ var searchData=
   ['constant_5ftime_16',['constant_time',['../namespacesnicholls.html#a7fbd16bc685fb8c18dda11ad9bbf9161a866dc42e1351cfdb45798f71626c1781',1,'snicholls']]],
   ['context_17',['context',['../group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a5c18ef72771564b7f43c497dc507aeab',1,'snicholls']]],
   ['control_18',['control',['../group__core.html#ggabecc5bf55e610adea310edf529547519afc5364bf9dbfa34954526becad136d4b',1,'controlsnicholls::ml'],['../group__core.html#gga224371c45ed55cc808c0072b60380b40afc5364bf9dbfa34954526becad136d4b',1,'controlsnicholls::ml']]],
-  ['core_19',['core',['../group__core.html#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25',1,'snicholls::stats']]],
-  ['corrupt_20',['corrupt',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faabc2f39d437ff13dff05f5cfda14327cc',1,'snicholls::containers']]],
-  ['cosine_21',['cosine',['../jepa_8hpp.html#a78ee67ecc4257e9c2726f70f10971870aa31d2f0d9cd723824073d28d35e038da',1,'cosinesnicholls::ml'],['../jepa_8hpp.html#a58ab8c541dc0f8334bd67b40678d2a3baa31d2f0d9cd723824073d28d35e038da',1,'cosinesnicholls::ml']]],
-  ['count_5fover_5fcapacity_22',['count_over_capacity',['../group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa94660698bc34b119b7152959931865d0',1,'snicholls::containers']]],
-  ['critical_23',['critical',['../group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0a7e85bcb66fb9a809d5ab4f62a8b8bea8',1,'snicholls']]],
-  ['currency_5fsymbol_24',['currency_symbol',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a122e8aea22fa5a3a509bd61091f8f92b',1,'snicholls::ml']]],
-  ['cyan_25',['cyan',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a6411532ba4971f378391776a9db629d3',1,'snicholls']]]
+  ['converged_19',['converged',['../group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2',1,'convergedsnicholls::linalg'],['../group__core.html#gga71abac1d8df5667b70b4ab9f02b8c197a7de33615d7fbc1cb7bc608d12f1993d2',1,'convergedsnicholls::math']]],
+  ['core_20',['core',['../group__core.html#ggaf61c9efa99e9bdd06c362d0ee2f6c265aa74ad8dfacd4f985eb3977517615ce25',1,'snicholls::stats']]],
+  ['corrupt_21',['corrupt',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faabc2f39d437ff13dff05f5cfda14327cc',1,'snicholls::containers']]],
+  ['cosine_22',['cosine',['../jepa_8hpp.html#a78ee67ecc4257e9c2726f70f10971870aa31d2f0d9cd723824073d28d35e038da',1,'cosinesnicholls::ml'],['../jepa_8hpp.html#a58ab8c541dc0f8334bd67b40678d2a3baa31d2f0d9cd723824073d28d35e038da',1,'cosinesnicholls::ml']]],
+  ['count_5fover_5fcapacity_23',['count_over_capacity',['../group__core.html#ggae13eae5030df3ed9f6a81bd11debf30fa94660698bc34b119b7152959931865d0',1,'snicholls::containers']]],
+  ['critical_24',['critical',['../group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0a7e85bcb66fb9a809d5ab4f62a8b8bea8',1,'snicholls']]],
+  ['currency_5fsymbol_25',['currency_symbol',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a122e8aea22fa5a3a509bd61091f8f92b',1,'snicholls::ml']]],
+  ['cyan_26',['cyan',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a6411532ba4971f378391776a9db629d3',1,'snicholls']]]
 ];
