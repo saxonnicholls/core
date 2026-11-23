@@ -17,6 +17,7 @@ add_executable(snicholls_core_tests
     invoke_with_test.cpp
     iterate_test.cpp
     overloaded_test.cpp
+    phone_number_test.cpp
     result_test.cpp
     secret_test.cpp
     strong_test.cpp
@@ -53,6 +54,7 @@ add_executable(snicholls_core_tests
     containers/offset_ptr_test.cpp
     containers/perfect_map_test.cpp
     containers/static_map_test.cpp
+    detail/e164_country_codes_test.cpp
     detail/forward_like_test.cpp
     detail/hash_engine_test.cpp
     detail/iso4217_table_test.cpp
@@ -336,6 +338,16 @@ set_tests_properties(generated.iso4217_up_to_date PROPERTIES LABELS boundary)
 add_test(NAME generated.money_fixtures_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_money_fixtures.py --check)
 set_tests_properties(generated.money_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The E.164 country calling codes (detail/e164_country_codes.hpp) must be exactly what
+# scripts/generate_e164_country_codes.py writes from the committed snapshot scripts/data/e164/country_codes.txt.
+add_test(NAME generated.e164_country_codes_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_e164_country_codes.py --check)
+set_tests_properties(generated.e164_country_codes_up_to_date PROPERTIES LABELS boundary)
+# The E.164 oracle fixture (tests/fixtures/e164/parse.tsv) must be what scripts/generate_e164_fixtures.py computes
+# with the Python phonenumbers package; skipped when phonenumbers 9.0.44 is not installed.
+add_test(NAME generated.e164_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_e164_fixtures.py --check)
+set_tests_properties(generated.e164_fixtures_up_to_date PROPERTIES LABELS boundary)
 # The hash oracle fixtures (tests/fixtures/hash/oracle_*.txt) must be what scripts/generate_hash_fixtures.py
 # computes from Python's hashlib, hmac and zlib; cases whose oracle package is not installed are skipped.
 add_test(NAME generated.hash_fixtures_up_to_date
@@ -370,6 +382,7 @@ set(_compile_fail_cases
     "invoke_with_mutable_reference|snicholls::invoke_with: a parameter cannot be a non-const lvalue reference"
     "acout_unprintable|snicholls: no way to print this type"
     "enums_unfixed|snicholls::enum reflection: give the enumeration a fixed underlying type"
+    "phone_number_literal_invalid|_e164: not an E.164 number"
     "permutation_count_overflow|snicholls::permutation_count: the count does not fit"
     "thread_t_lengths|snicholls::meta::thread_t: the threaded arguments must all be the same length"
     "thread_t_position|snicholls::meta::thread_t: the position specification does not fit"
