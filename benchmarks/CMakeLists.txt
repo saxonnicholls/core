@@ -24,6 +24,7 @@ endfunction()
 
 snicholls_core_add_benchmark(acout_benchmark acout_benchmark.cpp)
 snicholls_core_add_benchmark(invoke_with_benchmark invoke_with_benchmark.cpp)
+snicholls_core_add_benchmark(phone_number_benchmark phone_number_benchmark.cpp)
 snicholls_core_add_benchmark(result_benchmark result_benchmark.cpp)
 snicholls_core_add_benchmark(uint256_benchmark uint256_benchmark.cpp)
 snicholls_core_add_benchmark(zip_benchmark zip_benchmark.cpp)
