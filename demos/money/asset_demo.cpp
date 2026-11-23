@@ -7,7 +7,7 @@
 //  Demo for <snicholls/core/money/asset.hpp>.
 //
 
-// assets as types and as 14-byte values
+// assets as types and as 26-byte values
 #include <cstdio>
 #include <snicholls/core/money/asset.hpp>
 #include <snicholls/core/money/iso4217.hpp>

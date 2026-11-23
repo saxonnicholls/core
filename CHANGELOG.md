@@ -13,7 +13,7 @@ Money, currencies and chains as compile-time types; capability concepts beside t
   its concept in `concepts/<capability>.hpp`, with adapters both ways, a conformance kit and unit tests for both.
   The first capabilities are `named`, `asset_like` / `currency_like` and `chain_like` / `evm_chain_like`.
 - **`money/asset.hpp`: `asset`.** A code and a scale: as a type (`asset_v<T>`, checked by the compiler) and as a
-  14-byte structural value (`make_asset`). Also `with_scale<T, S>` for codes ISO gives no minor units.
+  26-byte structural value (`make_asset`), with codes up to 24 characters (`WSTETH:42161`). Also `with_scale<T, S>` for codes ISO gives no minor units.
 - **`money/iso4217.hpp`: every ISO 4217 currency as a type** (`currency::AUD`, `currency::TRY`, ...), with
   `code()`, `name()`, `numeric()`, `scale()` and `withdrawn()`.
   - The table comes with `find_iso4217` (by code and by number), `iso4217_asset` and the `"AUD"_iso4217` literal.

@@ -38,7 +38,7 @@ struct unnamed {
 
 TEST(AssetConformance, NamesTheFailedCheck)
 {
-    EXPECT_EQ(*check_asset(bad_code{}), "asset: code() is not 1 to 12 of A-Z 0-9 : . - _");
+    EXPECT_EQ(*check_asset(bad_code{}), "asset: code() is not 1 to 24 of A-Z 0-9 : . - _");
     EXPECT_EQ(*check_asset(bad_scale{}), "asset: scale() is above max_scale");
     EXPECT_EQ(*check_currency(bad_numeric{}), "currency: numeric() is not between 1 and 999");
     EXPECT_EQ(*check_currency(unnamed{}), "named: name() is empty");

@@ -35,7 +35,7 @@ struct bad_native {
 TEST(ChainConformance, NamesTheFailedCheck)
 {
     EXPECT_EQ(*check_chain(zero_id{}), "chain: chain_id() is zero");
-    EXPECT_EQ(*check_chain(bad_native{}), "asset: code() is not 1 to 12 of A-Z 0-9 : . - _");
+    EXPECT_EQ(*check_chain(bad_native{}), "asset: code() is not 1 to 24 of A-Z 0-9 : . - _");
 }
 
 } // namespace

@@ -43,7 +43,7 @@ std::string text(const money& x, money_digits d = money_digits::minimal) { retur
 static_assert(std::is_trivially_copyable_v<money>);
 static_assert(std::is_trivially_copyable_v<money_of<currency::AUD>>);
 static_assert(sizeof(money_of<currency::AUD>) == sizeof(uint256) + alignof(uint256), "money_of: a sign and a uint256");
-static_assert(sizeof(money) <= sizeof(uint256) + 24, "money: the asset, a sign and a uint256");
+static_assert(sizeof(money) <= sizeof(uint256) + 32, "money: the asset, a sign and a uint256");
 static_assert(noexcept(add(money{}, money{})));
 static_assert(noexcept(parse_money(aud, std::string_view{})));
 

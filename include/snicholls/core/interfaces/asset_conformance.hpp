@@ -59,7 +59,7 @@ namespace snicholls {
     {
         const std::string_view code = t.code();
         if (!is_asset_code(code))
-            return "asset: code() is not 1 to 12 of A-Z 0-9 : . - _";
+            return "asset: code() is not 1 to 24 of A-Z 0-9 : . - _";
         if (static_cast<unsigned>(t.scale()) > max_scale)
             return "asset: scale() is above max_scale";
         if (std::string_view{t.code()} != code || t.scale() != t.scale())

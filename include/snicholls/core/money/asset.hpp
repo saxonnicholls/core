@@ -6,7 +6,7 @@
 //
 
 /// \file
-/// \brief `snicholls::asset`: what an amount is of, a code and a scale, as a type or as a 14-byte value.
+/// \brief `snicholls::asset`: what an amount is of, a code and a scale, as a type or as a 26-byte value.
 /// \ingroup core
 ///
 /// **Overview.** An amount of money is a count of minor units of one asset: cents of `AUD`, wei of `ETH`, the
@@ -19,11 +19,11 @@
 ///   product declares its own tokens the same way: a struct with `static constexpr` member functions `code()` and
 ///   `scale()` (and, for a currency, `name()` and `numeric()`). The concepts are `snicholls::asset_like` and
 ///   `snicholls::currency_like` (`concepts/asset.hpp`);
-/// - **as a value.** `snicholls::asset`, 14 bytes, trivially copyable and structural, for data that names its
+/// - **as a value.** `snicholls::asset`, 26 bytes, trivially copyable and structural, for data that names its
 ///   asset at run time (a ledger row, a message). `asset_v<T>` is a type's value, checked by the compiler;
 ///   `make_asset("USDC:56", 18)` builds one at run time and refuses a malformed code.
 ///
-/// A code is 1 to 12 characters: capitals, digits, and `:` `.` `-` `_` (`AUD`, `ETH`, `USDC:56`, `EEAU2029`). A
+/// A code is 1 to 24 characters: capitals, digits, and `:` `.` `-` `_` (`AUD`, `ETH`, `USDC:56`, `EEAU2029`). A
 /// code is unique within a book: a token that exists on several chains is told apart by its code (`USDC:1`,
 /// `USDC:56`); the registry that assigns those codes is the server's, not core's. The scale is at most
 /// `max_scale` (36), which leaves room in 256 bits for a rate's product.
@@ -45,7 +45,7 @@
 /// **Errors.** `make_asset` returns `std::nullopt` for an empty, over-long or malformed code, or a scale above
 /// `max_scale`. `asset_v<T>` of a type with a bad code or scale is a compile error.
 ///
-/// **Performance.** Equality is a 14-byte compare. Not benchmarked separately: `money/money.hpp`'s benchmarks
+/// **Performance.** Equality is a 26-byte compare. Not benchmarked separately: `money/money.hpp`'s benchmarks
 /// include it.
 ///
 /// **Tests and demos.** `tests/money/asset_test.cpp`, `demos/money/asset_demo.cpp`.
@@ -72,8 +72,8 @@ namespace snicholls {
     /// \brief The largest scale an asset may have: 36 decimal places.
     inline constexpr unsigned max_scale = 36;
 
-    /// \brief The longest asset code: 12 characters.
-    inline constexpr std::size_t max_asset_code = 12;
+    /// \brief The longest asset code: 24 characters, room for a 13-character symbol, `:` and a 10-digit chain id.
+    inline constexpr std::size_t max_asset_code = 24;
 
     /// \brief Whether `c` may appear in an asset code: a capital, a digit, `:`, `.`, `-` or `_`.
     /// \param c The character.
@@ -83,7 +83,7 @@ namespace snicholls {
         return (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == ':' || c == '.' || c == '-' || c == '_';
     }
 
-    /// \brief Whether `code` is a valid asset code: 1 to 12 allowed characters.
+    /// \brief Whether `code` is a valid asset code: 1 to 24 allowed characters.
     /// \param code The code.
     /// \return Whether it is valid.
     [[nodiscard]] constexpr bool is_asset_code(std::string_view code) noexcept
@@ -96,7 +96,7 @@ namespace snicholls {
         return true;
     }
 
-    /// \brief An asset as a value: its code and its scale. 14 bytes, trivially copyable, structural.
+    /// \brief An asset as a value: its code and its scale. 26 bytes, trivially copyable, structural.
     /// \ingroup core
     struct asset {
         /// \brief The code's characters, padded with NULs. Public so that the type is structural; use `code()`.
@@ -119,7 +119,7 @@ namespace snicholls {
     };
 
     /// \brief The asset with this code and scale, if both are valid.
-    /// \param code  The code: 1 to 12 characters, capitals, digits, `:`, `.`, `-`, `_`.
+    /// \param code  The code: 1 to 24 characters, capitals, digits, `:`, `.`, `-`, `_`.
     /// \param scale The scale, at most `max_scale`.
     /// \return The asset, or `std::nullopt`.
     [[nodiscard]] constexpr std::optional<asset> make_asset(std::string_view code, unsigned scale) noexcept
