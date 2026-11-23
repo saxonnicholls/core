@@ -9,6 +9,7 @@ add_executable(snicholls_core_tests
     colour_test.cpp
     constexpr_for_test.cpp
     constexpr_map_test.cpp
+    country_test.cpp
     decimal_test.cpp
     display_test.cpp
     endian_test.cpp
@@ -34,6 +35,7 @@ add_executable(snicholls_core_tests
     combinatorics/subsets_test.cpp
     concepts/asset_test.cpp
     concepts/chain_test.cpp
+    concepts/country_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
     concepts/kv_health_test.cpp
@@ -57,6 +59,7 @@ add_executable(snicholls_core_tests
     detail/e164_country_codes_test.cpp
     detail/forward_like_test.cpp
     detail/hash_engine_test.cpp
+    detail/iso3166_table_test.cpp
     detail/iso4217_table_test.cpp
     detail/mul_div_test.cpp
     detail/pp_for_each_test.cpp
@@ -97,6 +100,8 @@ add_executable(snicholls_core_tests
     interfaces/asset_test.cpp
     interfaces/chain_conformance_test.cpp
     interfaces/chain_test.cpp
+    interfaces/country_conformance_test.cpp
+    interfaces/country_test.cpp
     interfaces/key_value_store_conformance_test.cpp
     interfaces/key_value_store_reference_test.cpp
     interfaces/key_value_store_test.cpp
@@ -333,6 +338,17 @@ set_tests_properties(generated.unicode_tables_up_to_date PROPERTIES LABELS bound
 add_test(NAME generated.iso4217_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_iso4217.py --check)
 set_tests_properties(generated.iso4217_up_to_date PROPERTIES LABELS boundary)
+# The ISO 3166-1 table (detail/iso3166_table.hpp) must be exactly what scripts/generate_iso3166.py writes from the CLDR
+# extract under scripts/data/cldr/, SIX's list one and the E.164 snapshot.
+add_test(NAME generated.iso3166_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_iso3166.py --check)
+set_tests_properties(generated.iso3166_up_to_date PROPERTIES LABELS boundary)
+# The country and currency oracle fixtures (tests/fixtures/countries/, tests/fixtures/money/currencies.tsv) must be
+# what scripts/generate_country_fixtures.py computes with pycountry, babel and phonenumbers; skipped unless the pinned
+# releases are installed.
+add_test(NAME generated.country_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_country_fixtures.py --check)
+set_tests_properties(generated.country_fixtures_up_to_date PROPERTIES LABELS boundary)
 # The money fixtures (tests/fixtures/money/) must be what scripts/generate_money_fixtures.py computes with Python's
 # decimal.
 add_test(NAME generated.money_fixtures_up_to_date
