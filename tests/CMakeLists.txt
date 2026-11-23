@@ -37,6 +37,7 @@ add_executable(snicholls_core_tests
     concepts/chain_test.cpp
     concepts/country_test.cpp
     concepts/day_count_test.cpp
+    concepts/error_sink_test.cpp
     concepts/holiday_calendar_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
@@ -111,6 +112,7 @@ add_executable(snicholls_core_tests
     interfaces/country_test.cpp
     interfaces/day_count_conformance_test.cpp
     interfaces/day_count_test.cpp
+    interfaces/error_sink_test.cpp
     interfaces/holiday_calendar_conformance_test.cpp
     interfaces/holiday_calendar_test.cpp
     interfaces/key_value_store_conformance_test.cpp

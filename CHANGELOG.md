@@ -9,6 +9,9 @@ ISO 3166 countries and currency metadata, day-count conventions, business-day ru
 
 ### Added
 
+- **`concepts/error_sink.hpp`: `error_sink_like`, the concept twin of `snicholls::error_sink`**, and the adapter
+  `error_sink_model<S>`. `error_sink` and `text_error_sink` move to `interfaces/error_sink.hpp`, which `traced.hpp`
+  still includes, so code that includes `traced.hpp` is unchanged.
 - **`country.hpp`: every ISO 3166-1 country as a type** (`country::AU`, `country::GB`, ...), with `alpha2()`,
   `alpha3()`, `numeric()`, `name()` (CLDR's English name), `currencies()` and `calling_code()`.
   - `currencies()` is SIX's list one with the funds left out, sorted: exactly the inverse of the currencies'

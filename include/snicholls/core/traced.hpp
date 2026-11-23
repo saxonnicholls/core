@@ -30,8 +30,6 @@
 #include <format>
 #include <functional>
 #include <memory>
-#include <mutex>
-#include <ostream>
 #include <span>
 #include <string>
 #include <string_view>
@@ -747,135 +745,6 @@ template <class E>
     return format_error_report(make_error_report(t, t.where()));
 }
 
-/// \brief Where errors are logged: receives a structured `snicholls::error_report` at a level.
-/// \ingroup core
-///
-/// \overview
-/// The log hook of `snicholls::result`: `r.log_err(sink)` / `r.log_err(sink, level)` call `log_error`, which builds the
-/// report and calls `write` once. Implement `write` to send it anywhere; the core stays free of logging libraries.
-///
-/// \relations
-/// - `snicholls::result::log_err`, `snicholls::error_report`, `snicholls::traced`.
-/// - Module: \ref core.
-///
-/// \impls
-/// | Implementation | Target | Writes |
-/// |---|---|---|
-/// | `snicholls::text_error_sink` | `snicholls::core` | `format_error_report` text to a `std::ostream` |
-/// | a super-log adapter | the consuming library | one super-log event (NDJSON) per error |
-///
-/// \contracts
-/// - `log_error` never throws: an exception from building the report or from `write` is swallowed (logging is
-///   best effort; the result is returned unchanged either way). `write` may throw.
-/// - Thread safety is the implementation's: both shipped sinks may be called from any thread.
-///
-/// \errors
-/// None escape `log_error`.
-///
-/// \examples
-/// \snippet traced_demo.cpp sink
-///
-/// \perf
-/// Not benchmarked (error path only).
-///
-/// \testing
-/// - Tests: tests/traced_test.cpp (GoogleMock sink, `text_error_sink`), tests/support/snicholls/core/conformance/error_sink.hpp.
-/// - Demo: demos/traced_demo.cpp.
-///
-/// \deps
-/// CMake target `snicholls::core`; standard library only.
-///
-/// \gotchas
-/// None known.
-///
-/// \status
-/// Experimental, pre-1.0. Design: [RESULT_PLAN.md](RESULT_PLAN.md).
-class error_sink
-{
-public:
-    /// \brief Destroys it.
-    virtual ~error_sink() = default;
-
-    /// \brief Receives one error.
-    /// \param level the level.
-    /// \param report the report.
-    virtual void write(error_level level, const error_report& report) = 0;
-
-    /// \brief Builds the report of `e` and writes it at `level`. Never throws.
-    /// \param level the level.
-    /// \param e the error.
-    /// \param where the log site.
-    template <class E>
-    void log_error(error_level level, const E& e, source_location where = source_location::current()) noexcept
-    {
-#if SNICHOLLS_RESULT_HAS_EXCEPTIONS
-        try
-        {
-            write(level, make_error_report(e, where));
-        }
-        catch (...)
-        {
-        }
-#else
-        write(level, make_error_report(e, where));
-#endif
-    }
-
-    /// \brief As `log_error(error_level::error, e, where)`.
-    /// \param e the error.
-    /// \param where the log site.
-    template <class E>
-    void log_error(const E& e, source_location where = source_location::current()) noexcept
-    {
-        log_error(error_level::error, e, where);
-    }
-
-protected:
-    /// \brief Constructs it.
-    error_sink() = default;
-    /// \brief Copies it.
-    error_sink(const error_sink&) = default;
-    /// \brief Copy-assigns.
-    /// \return `*this`.
-    error_sink& operator=(const error_sink&) = default;
-};
-
-/// \brief A `snicholls::error_sink` writing `format_error_report` text, one error per block, to a `std::ostream`.
-/// \ingroup core
-///
-/// Each report is written as `[LEVEL] <text>\n` in one `<<` sequence under a mutex, so concurrent writers never
-/// interleave. Reports below `threshold` are dropped.
-class text_error_sink final : public error_sink
-{
-public:
-    /// \brief Constructs it.
-    /// \param out the stream (outlives the sink).
-    /// \param threshold the lowest level written.
-    explicit text_error_sink(std::ostream& out, error_level threshold = error_level::trace) noexcept
-        : out_(&out), threshold_(threshold)
-    {
-    }
-
-    /// \brief Writes the report.
-    /// \param level the level.
-    /// \param report the report.
-    /// \throws std::bad_alloc, or what the stream throws.
-    void write(error_level level, const error_report& report) override
-    {
-        if (level < threshold_)
-            return;
-        std::string text = "[" + std::string(to_string(level)) + "] " + format_error_report(report) + "\n";
-        const std::lock_guard<std::mutex> lock(mutex_);
-        *out_ << text;
-        out_->flush();
-    }
-
-private:
-    std::ostream* out_;
-    error_level threshold_;
-    std::mutex mutex_;
-};
-
 } // namespace snicholls
 
 /// \brief `std::hash` of a `snicholls::traced<E>`: the hash of the inner error (enabled when `std::hash<E>` is).
@@ -893,5 +762,8 @@ struct std::hash<snicholls::traced<E>>
         return std::hash<E>{}(t.error());
     }
 };
+
+// the sink interface and text_error_sink; included last, so it finds everything above
+#include <snicholls/core/interfaces/error_sink.hpp>
 
 #endif /* snicholls_core_traced_hpp */

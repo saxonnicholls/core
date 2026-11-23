@@ -63,6 +63,7 @@
 #include <snicholls/core/concepts/chain.hpp>
 #include <snicholls/core/concepts/country.hpp>
 #include <snicholls/core/concepts/day_count.hpp>
+#include <snicholls/core/concepts/error_sink.hpp>
 #include <snicholls/core/concepts/holiday_calendar.hpp>
 #include <snicholls/core/concepts/key_value_store.hpp>
 #include <snicholls/core/concepts/kv_backup.hpp>
@@ -126,6 +127,7 @@
 #include <snicholls/core/interfaces/country_conformance.hpp>
 #include <snicholls/core/interfaces/day_count.hpp>
 #include <snicholls/core/interfaces/day_count_conformance.hpp>
+#include <snicholls/core/interfaces/error_sink.hpp>
 #include <snicholls/core/interfaces/holiday_calendar.hpp>
 #include <snicholls/core/interfaces/holiday_calendar_conformance.hpp>
 #include <snicholls/core/interfaces/key_value_store.hpp>
