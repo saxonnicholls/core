@@ -541,19 +541,24 @@ namespace snicholls {
             while (frac > 0 && rev[scale - frac] == '0')
                 --frac;
         const std::size_t whole = n - scale;
-        const std::size_t size = (m.is_negative() ? 1 : 0) + whole + (frac > 0 ? 1 + frac : 0);
+        // the text in a local buffer first, then copied with a loop bounded by both ends: GCC's -Wstringop-overflow
+        // cannot see that a size check alone keeps the writes inside a small destination
+        std::array<char, 82> text{};
+        std::size_t size = 0;
+        if (m.is_negative())
+            text[size++] = '-';
+        for (std::size_t i = 0; i < whole; ++i)
+            text[size++] = rev[n - 1 - i];
+        if (frac > 0) {
+            text[size++] = '.';
+            for (std::size_t i = 0; i < frac; ++i)
+                text[size++] = rev[scale - 1 - i];
+        }
         if (static_cast<std::size_t>(last - first) < size)
             return {last, std::errc::value_too_large};
         char* out = first;
-        if (m.is_negative())
-            *out++ = '-';
-        for (std::size_t i = 0; i < whole; ++i)
-            *out++ = rev[n - 1 - i];
-        if (frac > 0) {
-            *out++ = '.';
-            for (std::size_t i = 0; i < frac; ++i)
-                *out++ = rev[scale - 1 - i];
-        }
+        for (std::size_t i = 0; i < size && out != last; ++i)
+            *out++ = text[i];
         return {out, std::errc{}};
     }
 
