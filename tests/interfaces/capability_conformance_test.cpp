@@ -20,10 +20,19 @@ namespace {
 
 static_assert(capability_provider_response.find(capability_redaction_marker) != std::string_view::npos);
 static_assert(!provider_code::is_code(capability_provider_response), "the response as a whole is never a code");
-static_assert(capability_error_leaks(capability_error{capability_errc::internal, "REDACTION-MARKER-c0re", {}}, capability_redaction_marker));
-static_assert(!capability_error_leaks(capability_error{capability_errc::internal, "provider_error", "fixed"}, capability_redaction_marker));
 
 struct probe {};
+
+TEST(CapabilityConformance, TheLeakCheckLooksInBothFields)
+{
+    // at run time: GCC 15 does not evaluate string_view::find over a temporary's array in a constant expression
+    const capability_error in_code{capability_errc::internal, "REDACTION-MARKER-c0re", {}};
+    const capability_error in_message{capability_errc::internal, {}, "REDACTION-MARKER-c0re in a message"};
+    const capability_error clean{capability_errc::internal, "provider_error", "fixed"};
+    EXPECT_TRUE(capability_error_leaks(in_code, capability_redaction_marker));
+    EXPECT_TRUE(capability_error_leaks(in_message, capability_redaction_marker));
+    EXPECT_FALSE(capability_error_leaks(clean, capability_redaction_marker));
+}
 
 TEST(CapabilityConformance, AReportNamesEveryFailedExpectation)
 {

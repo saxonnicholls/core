@@ -45,7 +45,7 @@ static_assert(key_ref{"k", 0} == key_ref{"k", 0});
 TEST(SignerConcept, SignaturesCompareByEveryMember)
 {
     const signature a{signature_algorithm::hs256, "key-1", 1, {std::byte{1}}};
-    signature b = a;
+    signature b{signature_algorithm::hs256, "key-1", 1, {std::byte{1}}};   // built, not copied: GCC 13 warns falsely on a one-byte vector copy
     EXPECT_EQ(a, b);
     b.key_version = 2;
     EXPECT_NE(a, b);
