@@ -3,7 +3,7 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.23.0 - 2026-11-24
 
 ISO 3166 countries and currency metadata, the major tokens as types, day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits and `inplace_string<N>`.
 
