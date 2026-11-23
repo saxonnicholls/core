@@ -100,7 +100,8 @@ namespace snicholls::geometry {
         friend constexpr bool operator==(const box&, const box&) = default;
     };
 
-    /// \brief A box in the plane from its corners. \ingroup core \tparam T The coordinate type. \param x1 The left.
+    /// \brief A box in the plane from its corners. \tparam T The coordinate type. \param x1 The left.
+    /// \ingroup core
     /// \param y1 The bottom (or top, in image coordinates). \param x2 The right. \param y2 The other edge.
     /// \return The box, its corners ordered.
     template <typename T>
@@ -110,7 +111,8 @@ namespace snicholls::geometry {
         return {{x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2}, {x1 < x2 ? x2 : x1, y1 < y2 ? y2 : y1}};
     }
 
-    /// \brief A box in the plane from a corner and a size. \ingroup core \tparam T The coordinate type.
+    /// \brief A box in the plane from a corner and a size. \tparam T The coordinate type.
+    /// \ingroup core
     /// \param x The corner's x. \param y The corner's y. \param w The width, at least 0. \param h The height, at least 0.
     /// \return `[x, x + w] × [y, y + h]`.
     template <typename T>
@@ -120,7 +122,8 @@ namespace snicholls::geometry {
         return {{x, y}, {static_cast<T>(x + w), static_cast<T>(y + h)}};
     }
 
-    /// \brief A box in the plane from its centre and size (YOLO's form). \ingroup core \tparam T The coordinate type.
+    /// \brief A box in the plane from its centre and size (YOLO's form). \tparam T The coordinate type.
+    /// \ingroup core
     /// \param cx The centre's x. \param cy The centre's y. \param w The width. \param h The height.
     /// \return `[cx - w/2, cx + w/2] × [cy - h/2, cy + h/2]`.
     template <typename T>
@@ -130,28 +133,32 @@ namespace snicholls::geometry {
         return {{static_cast<T>(cx - w / T(2)), static_cast<T>(cy - h / T(2))}, {static_cast<T>(cx + w / T(2)), static_cast<T>(cy + h / T(2))}};
     }
 
-    /// \brief `(x1, y1, x2, y2)`. \ingroup core \tparam T The coordinate type. \param b The box. \return The corners.
+    /// \brief `(x1, y1, x2, y2)`. \tparam T The coordinate type. \param b The box. \return The corners.
+    /// \ingroup core
     template <typename T>
     [[nodiscard]] constexpr std::array<T, 4> to_xyxy(const box<T, 2>& b) noexcept
     {
         return {b.lo[0], b.lo[1], b.hi[0], b.hi[1]};
     }
 
-    /// \brief `(x, y, w, h)`. \ingroup core \tparam T The coordinate type. \param b The box. \return Corner and size.
+    /// \brief `(x, y, w, h)`. \tparam T The coordinate type. \param b The box. \return Corner and size.
+    /// \ingroup core
     template <typename T>
     [[nodiscard]] constexpr std::array<T, 4> to_xywh(const box<T, 2>& b) noexcept
     {
         return {b.lo[0], b.lo[1], static_cast<T>(b.hi[0] - b.lo[0]), static_cast<T>(b.hi[1] - b.lo[1])};
     }
 
-    /// \brief `(cx, cy, w, h)`. \ingroup core \tparam T The coordinate type. \param b The box. \return Centre and size.
+    /// \brief `(cx, cy, w, h)`. \tparam T The coordinate type. \param b The box. \return Centre and size.
+    /// \ingroup core
     template <typename T>
     [[nodiscard]] constexpr std::array<T, 4> to_cxcywh(const box<T, 2>& b) noexcept
     {
         return {static_cast<T>((b.lo[0] + b.hi[0]) / T(2)), static_cast<T>((b.lo[1] + b.hi[1]) / T(2)), static_cast<T>(b.hi[0] - b.lo[0]), static_cast<T>(b.hi[1] - b.lo[1])};
     }
 
-    /// \brief Whether a box is empty (some `hi[i] < lo[i]`, or NaN). \ingroup core \tparam T The coordinate type.
+    /// \brief Whether a box is empty (some `hi[i] < lo[i]`, or NaN). \tparam T The coordinate type.
+    /// \ingroup core
     /// \tparam D The dimension. \param b The box. \return True if it holds no point.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr bool empty(const box<T, D>& b) noexcept
@@ -162,7 +169,8 @@ namespace snicholls::geometry {
         return false;
     }
 
-    /// \brief The box's length along an axis. \ingroup core \tparam T The coordinate type. \tparam D The dimension.
+    /// \brief The box's length along an axis. \tparam T The coordinate type. \tparam D The dimension.
+    /// \ingroup core
     /// \param b The box. \param axis The axis. \return `hi - lo`, 0 for an empty box.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr T extent(const box<T, D>& b, std::size_t axis) noexcept
@@ -170,7 +178,8 @@ namespace snicholls::geometry {
         return empty(b) ? T(0) : static_cast<T>(b.hi[axis] - b.lo[axis]);
     }
 
-    /// \brief The box's centre, in `double` for integer coordinates. \ingroup core \tparam T The coordinate type.
+    /// \brief The box's centre, in `double` for integer coordinates. \tparam T The coordinate type.
+    /// \ingroup core
     /// \tparam D The dimension. \param b The box. \return `(lo + hi) / 2`.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr auto centre(const box<T, D>& b) noexcept
@@ -196,7 +205,8 @@ namespace snicholls::geometry {
         return v;
     }
 
-    /// \brief The box's area: `volume` in the plane. \ingroup core \tparam T The coordinate type. \param b The box.
+    /// \brief The box's area: `volume` in the plane. \tparam T The coordinate type. \param b The box.
+    /// \ingroup core
     /// \return Width times height, 0 when empty.
     template <typename T>
     [[nodiscard]] constexpr auto area(const box<T, 2>& b) noexcept
@@ -204,7 +214,8 @@ namespace snicholls::geometry {
         return volume(b);
     }
 
-    /// \brief The intersection of two boxes (empty when they do not meet). \ingroup core \tparam T The coordinate type.
+    /// \brief The intersection of two boxes (empty when they do not meet). \tparam T The coordinate type.
+    /// \ingroup core
     /// \tparam D The dimension. \param a One box. \param b The other. \return `[max lo, min hi]` per axis.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr box<T, D> intersection(const box<T, D>& a, const box<T, D>& b) noexcept
@@ -217,7 +228,8 @@ namespace snicholls::geometry {
         return r;
     }
 
-    /// \brief The smallest box holding both (an empty box contributes nothing). \ingroup core \tparam T The coordinate type.
+    /// \brief The smallest box holding both (an empty box contributes nothing). \tparam T The coordinate type.
+    /// \ingroup core
     /// \tparam D The dimension. \param a One box. \param b The other. \return `[min lo, max hi]` per axis.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr box<T, D> hull(const box<T, D>& a, const box<T, D>& b) noexcept
@@ -234,7 +246,8 @@ namespace snicholls::geometry {
         return r;
     }
 
-    /// \brief Whether two boxes share a point (touching counts). \ingroup core \tparam T The coordinate type.
+    /// \brief Whether two boxes share a point (touching counts). \tparam T The coordinate type.
+    /// \ingroup core
     /// \tparam D The dimension. \param a One box. \param b The other. \return True if they intersect.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr bool intersects(const box<T, D>& a, const box<T, D>& b) noexcept
@@ -242,7 +255,8 @@ namespace snicholls::geometry {
         return !empty(a) && !empty(b) && !empty(intersection(a, b));
     }
 
-    /// \brief Whether a box contains a point (the boundary included). \ingroup core \tparam T The coordinate type.
+    /// \brief Whether a box contains a point (the boundary included). \tparam T The coordinate type.
+    /// \ingroup core
     /// \tparam D The dimension. \tparam P A `metric::point` of dimension D. \param b The box. \param p The point.
     /// \return True if `lo ≤ p ≤ hi` on every axis.
     template <typename T, std::size_t D, metric::point P>
@@ -284,7 +298,8 @@ namespace snicholls::geometry {
         return r;
     }
 
-    /// \brief The box moved by an offset. \ingroup core \tparam T The coordinate type. \tparam D The dimension.
+    /// \brief The box moved by an offset. \tparam T The coordinate type. \tparam D The dimension.
+    /// \ingroup core
     /// \param b The box. \param offset The offset per axis. \return The moved box.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr box<T, D> translate(const box<T, D>& b, const std::array<T, D>& offset) noexcept
@@ -347,7 +362,8 @@ namespace snicholls::geometry {
     }
 
     /// \brief Intersection over union, in `[0, 1]`: 1 for equal non-empty boxes, 0 for disjoint ones (or any empty).
-    /// \ingroup core \tparam T The coordinate type. \tparam D The dimension. \param a One box. \param b The other.
+    /// \tparam T The coordinate type. \tparam D The dimension. \param a One box. \param b The other.
+    /// \ingroup core
     /// \return `|A ∩ B| / |A ∪ B|`, in `double`.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr double iou(const box<T, D>& a, const box<T, D>& b) noexcept
@@ -359,7 +375,8 @@ namespace snicholls::geometry {
 
     /// \brief Generalised IoU (Rezatofighi et al. 2019), in `(-1, 1]`: `IoU - |C \ (A ∪ B)| / |C|`, with `C` the hull.
     /// Unlike IoU it still measures how far apart disjoint boxes are, so it is a loss that gives a gradient.
-    /// \ingroup core \tparam T The coordinate type. \tparam D The dimension. \param a One box. \param b The other.
+    /// \tparam T The coordinate type. \tparam D The dimension. \param a One box. \param b The other.
+    /// \ingroup core
     /// \return GIoU; 0 when either box is empty.
     template <typename T, std::size_t D>
     [[nodiscard]] constexpr double giou(const box<T, D>& a, const box<T, D>& b) noexcept
