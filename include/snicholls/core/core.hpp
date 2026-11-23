@@ -82,6 +82,7 @@
 #include <snicholls/core/game/tabular.hpp>
 #include <snicholls/core/geometry/alignment.hpp>
 #include <snicholls/core/geometry/angle.hpp>
+#include <snicholls/core/geometry/box.hpp>
 #include <snicholls/core/geometry/camera.hpp>
 #include <snicholls/core/geometry/coordinates.hpp>
 #include <snicholls/core/geometry/geodetic.hpp>

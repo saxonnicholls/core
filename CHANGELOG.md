@@ -45,6 +45,15 @@ modelling atoms. The solvers that assemble them live in the optimisation library
 - `math/roots.hpp`: `bisect`, `brent`, `newton_safeguarded`, `bracket`, all `constexpr`.
 - `math/special.hpp`: `lambert_w0` and `lambert_wm1`, `softplus`, `logistic`, `log_logistic`, `log_normcdf` (accurate
   to the far tail: finite down to about -1e154), `entr`, `rel_entr`, `kl_div`, `huber`, `xlogy`.
+- `geometry/box.hpp`:
+  - `box<T, D>`, an axis-aligned box over any arithmetic type and dimension;
+  - conversions to and from corners (`from_xyxy`), corner and size (`from_xywh`), and YOLO's centre and size
+    (`from_cxcywh`);
+  - `volume`, `intersection`, `hull`, `contains`, `intersects`, `expand`, `translate`, `bounding`, and
+    `squared_distance` to a point;
+  - `iou`, `giou`, and greedy `non_max_suppression`;
+  - `geo_box`: a latitude-longitude box that crosses the antimeridian, with `extend` the shorter way and
+    equal-area `sample`.
 - Benchmarks: `sparse/ldl` (symbolic, numeric and solve, AMD against natural order), `linalg/krylov` (CG against
   the same loop written by hand: equal within noise).
 

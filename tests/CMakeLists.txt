@@ -63,6 +63,7 @@ add_executable(snicholls_core_tests
     game/tabular_test.cpp
     geometry/alignment_test.cpp
     geometry/angle_test.cpp
+    geometry/box_test.cpp
     geometry/camera_test.cpp
     geometry/coordinates_test.cpp
     geometry/geodetic_test.cpp

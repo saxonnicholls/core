@@ -150,7 +150,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
   (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
   `sparse/` (`csc`, `ordering`, `ldl`; `snicholls::sparse`); `optim/` (`cones`, `prox`, `scaling`, `line_search`, `lbfgs`;
   `snicholls::optim`, the primitives of the convex-optimisation solvers above core);
-  `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`; `snicholls::geometry`); `tracking/` (`gaussian`,
+  `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`, `box`; `snicholls::geometry`); `tracking/` (`gaussian`,
   `transition`, `measurement`, `kalman`, `unscented`, `association`, `mixture`, `fusion`, `discrete`, `metrics`;
   `snicholls::tracking`, the primitives of the Stone Soup port);
   `metric/` (`concepts`, `minkowski`, `angular`, `binary`, `geodesic`, `statistical`, `string`, `sets`;
