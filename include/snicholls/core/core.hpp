@@ -86,6 +86,8 @@
 #include <snicholls/core/containers/offset_ptr.hpp>
 #include <snicholls/core/containers/perfect_map.hpp>
 #include <snicholls/core/containers/static_map.hpp>
+#include <snicholls/core/detail/forward_like.hpp>   // internals with no public header: here so the single include holds them
+#include <snicholls/core/detail/pp_for_each.hpp>
 #include <snicholls/core/finance/attribution.hpp>
 #include <snicholls/core/finance/business_day.hpp>
 #include <snicholls/core/finance/day_count.hpp>
