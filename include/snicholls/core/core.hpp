@@ -59,6 +59,9 @@
 #include <snicholls/core/combinatorics/subsets.hpp>
 #include <snicholls/core/concepts/asset.hpp>
 #include <snicholls/core/concepts/chain.hpp>
+#include <snicholls/core/concepts/key_value_store.hpp>
+#include <snicholls/core/concepts/kv_backup.hpp>
+#include <snicholls/core/concepts/kv_health.hpp>
 #include <snicholls/core/concepts/named.hpp>
 #include <snicholls/core/containers/ann_forest.hpp>
 #include <snicholls/core/containers/bloom_filter.hpp>
@@ -109,6 +112,11 @@
 #include <snicholls/core/interfaces/asset_conformance.hpp>
 #include <snicholls/core/interfaces/chain.hpp>
 #include <snicholls/core/interfaces/chain_conformance.hpp>
+#include <snicholls/core/interfaces/key_value_store.hpp>
+#include <snicholls/core/interfaces/key_value_store_conformance.hpp>
+#include <snicholls/core/interfaces/key_value_store_reference.hpp>
+#include <snicholls/core/interfaces/kv_backup.hpp>
+#include <snicholls/core/interfaces/kv_health.hpp>
 #include <snicholls/core/interfaces/named.hpp>
 #include <snicholls/core/interfaces/named_conformance.hpp>
 #include <snicholls/core/linalg/backend.hpp>

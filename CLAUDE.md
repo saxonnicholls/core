@@ -107,16 +107,20 @@ integrity and consistency. The same twelve rules hold in every one of them.
 
    Code that fits two rows is two things: split it.
 4. **Interfaces in core, implementations where they belong.** Core holds the contract of any capability, even one
-   whose every implementation needs the operating system or a third-party library, in
-   `interfaces/<capability>.hpp`, in standard C++ types only (`std::string_view`, `std::span<const std::byte>`,
-   `std::optional`, `result` with the interface's own error enumeration): the concept, for static dispatch; a pure
-   virtual interface of the same operations, for run-time choice; an adapter that lets any type satisfying the
-   concept be used through the virtual interface (which satisfies the concept too). Beside it, in their own headers
+   whose every implementation needs the operating system or a third-party library, as a pair of mirrored headers in
+   standard C++ types only (`std::string_view`, `std::span<const std::byte>`, `std::optional`, `result` with the
+   capability's own error enumeration): `concepts/<capability>.hpp`, the concept, for static dispatch, and the error
+   enumeration; `interfaces/<capability>.hpp`, a pure virtual interface of the same operations, for run-time choice,
+   with an adapter that lets any type satisfying the concept be used through the virtual interface (which satisfies
+   the concept too). Each has its test, `tests/concepts/<capability>_test.cpp` at compile time (the reference and
+   both adapters model the concept; a type missing an operation or with a wrong signature does not) and
+   `tests/interfaces/<capability>_test.cpp` (the kit through both forms). Beside them, in their own headers
    (rule 11): a standard-library reference implementation (the fake tests use) and a conformance kit (plain functions
    that drive any implementation through the contract and say which check failed, so no test framework is
    included). Implementations live where rule 3
    puts them and can come later; callers depend on the contract, never on a concrete library. An interface is
-   experimental until two real implementations pass its kit. Already this shape: the linear algebra backend,
+   experimental until two real implementations pass its kit. First in the mirrored layout: the key-value store
+   (`key_value_store`, with `kv_health` and `kv_backup` as capabilities of their own). Older, in one header: the linear algebra backend,
    `error_sink`, `ml::attention_cache`, `ml::weight_matrix`. Concepts that classify types (`integer`, `map_like`) stay
    in `meta/`.
 5. **Shared vocabulary in core; every type extends it from its own namespace.** Knowledge every library should be able
@@ -153,7 +157,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
   a few headers. `core.hpp` is the umbrella. `detail/` holds internals (`namespace snicholls::detail`): not public
   API, still tested, not demonstrated.
-- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
+- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`, `key_value_store`, `kv_health`, `kv_backup`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,

@@ -33,6 +33,9 @@ add_executable(snicholls_core_tests
     combinatorics/subsets_test.cpp
     concepts/asset_test.cpp
     concepts/chain_test.cpp
+    concepts/key_value_store_test.cpp
+    concepts/kv_backup_test.cpp
+    concepts/kv_health_test.cpp
     concepts/named_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
@@ -92,6 +95,11 @@ add_executable(snicholls_core_tests
     interfaces/asset_test.cpp
     interfaces/chain_conformance_test.cpp
     interfaces/chain_test.cpp
+    interfaces/key_value_store_conformance_test.cpp
+    interfaces/key_value_store_reference_test.cpp
+    interfaces/key_value_store_test.cpp
+    interfaces/kv_backup_test.cpp
+    interfaces/kv_health_test.cpp
     interfaces/named_conformance_test.cpp
     interfaces/named_test.cpp
     linalg/backend_test.cpp
