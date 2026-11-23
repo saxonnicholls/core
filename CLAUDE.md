@@ -157,14 +157,14 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
   a few headers. `core.hpp` is the umbrella. `detail/` holds internals (`namespace snicholls::detail`): not public
   API, still tested, not demonstrated.
-- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`, `key_value_store`, `kv_health`, `kv_backup`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
+- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`, `country`, `day_count`, `holiday_calendar`, `token`, `key_value_store`, `kv_health`, `kv_backup`, `message_sender`, `signer`, `key_store`, `payment_provider`, `onramp_provider`, `http_handler`; their shared error and ids in `capability_error.hpp` and `capability_ids.hpp`, the kits' report in `interfaces/capability_conformance.hpp`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `token/` (`basic_token`, `tokens`: the major tokens, generated from the issuers' own published addresses); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
-  `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `game/` (`snicholls::game`); `finance/`
-  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
+  `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL, GTIN / EAN-13); `game/` (`snicholls::game`); `finance/`
+  (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
   `sparse/` (`csc`, `ordering`, `ldl`; `snicholls::sparse`); `optim/` (`cones`, `prox`, `scaling`, `line_search`, `lbfgs`;
   `snicholls::optim`, the primitives of the convex-optimisation solvers above core);
   `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`, `box`; `snicholls::geometry`); `tracking/` (`gaussian`,
@@ -180,6 +180,11 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - Header guards are named, `snicholls_core_<path>_hpp`, not `#pragma once`: a consumer can test the guard to prove
   an include resolved to core rather than to another root with the same file name. Every header includes what it uses.
 - Macros carry the `SNICHOLLS_` prefix; `SNICHOLLS_CORE_` is reserved for the library's own metadata.
+- `snicholls_core.hpp`, the single include, is the whole library in one file, generated from `core.hpp` by tooling's
+  `single_include.py`. It is **never committed** (`single_include/` holds only its README): every build generates and
+  compiles it alone (`snicholls_core_single_include`), the CTest `check.single_include` fails while a header is
+  missing from `core.hpp`, and every release tag attaches it to the GitHub release. A new header therefore joins
+  `core.hpp`. `make single-include` writes it locally.
 - `tests/`, `demos/` and `benchmarks/` mirror `include/snicholls/core/` (below). `scripts/` holds the CI checks.
   `third_party/` holds the test-only submodules.
 
@@ -597,6 +602,7 @@ do not own beyond what ADL-scoped helpers need.
 |---|---|---|---|
 | GoogleTest / GoogleMock | `third_party/googletest` | `v1.18.0` | tests only |
 | Google Benchmark | `third_party/benchmark` | `v1.9.5` | benchmarks only |
+| snicholls-tooling | `third_party/tooling` | `v0.2.3` | the single include and the interface check (build-time only) |
 
 The rules: pin to a release tag, never a branch tip; HTTPS URLs; `shallow = true`; never edit a file
 inside a submodule; consume via `add_subdirectory(... EXCLUDE_FROM_ALL)` with the dependency's tests and install

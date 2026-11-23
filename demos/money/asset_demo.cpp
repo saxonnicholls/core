@@ -8,6 +8,8 @@
 //
 
 // assets as types and as 26-byte values
+#include <algorithm>
+#include <array>
 #include <cstdio>
 #include <snicholls/core/money/asset.hpp>
 #include <snicholls/core/money/iso4217.hpp>
@@ -45,6 +47,15 @@ int main()
     check(usdc_bsc && usdc_bsc->code() == "USDC:56", "a registry code at run time");
     check(!make_asset("usdc", 6) && !make_asset("AUD", 40), "malformed codes and scales are refused");
     check(asset_v<native::ETH> != *make_asset("ETH", 6), "equality compares the scale too");
+
+    //! [checked]
+    constexpr asset usdc_base = checked_asset("USDC:8453", 6);   // a bad code here would not compile
+    std::array held{checked_asset("USDC:56", 6), usdc_base, asset_v<currency::AUD>};
+    std::ranges::sort(held);   // by code, then scale: deterministic reports
+    //! [checked]
+    check(usdc_base.code() == "USDC:8453", "an asset with no type, checked by the compiler");
+    check(held[0].code() == "AUD" && held[1].code() == "USDC:56" && held[2].code() == "USDC:8453",
+          "assets sort by code, then scale");
     std::printf("%s\n", failures == 0 ? "all checks passed" : "FAILED");
     return failures == 0 ? 0 : 1;
 }

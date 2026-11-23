@@ -32,6 +32,7 @@
 /// `uint256` for a raw on-chain integer that has no asset.
 ///
 /// \snippet money/asset_demo.cpp assets
+/// \snippet money/asset_demo.cpp checked
 ///
 /// **Relationships.** `concepts/asset.hpp` (the concepts), `interfaces/asset.hpp` (the virtual interface and its
 /// adapters), `money/iso4217.hpp`, `money/native.hpp`, `money/money.hpp`. Group: \ref core.
@@ -62,6 +63,7 @@
 #include <snicholls/core/concepts/asset.hpp>
 
 #include <array>
+#include <compare>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -116,6 +118,10 @@ namespace snicholls {
 
         /// \brief Equality: the same code and the same scale.
         friend constexpr bool operator==(const asset&, const asset&) noexcept = default;
+
+        /// \brief Ordering: by code (byte-wise, a prefix first), then by scale. For sorted reports and ordered maps;
+        /// it means nothing about value.
+        friend constexpr std::strong_ordering operator<=>(const asset&, const asset&) noexcept = default;
     };
 
     /// \brief The asset with this code and scale, if both are valid.
@@ -132,6 +138,21 @@ namespace snicholls {
         a.length = static_cast<std::uint8_t>(code.size());
         a.places = static_cast<std::uint8_t>(scale);
         return a;
+    }
+
+    /// \brief The asset with this code and scale, checked by the compiler: `checked_asset("USDC:8453", 6)`.
+    ///
+    /// For an asset with no type of its own, in a constant expression or a test. A malformed code or a scale above
+    /// `max_scale` is a compile error, where `*make_asset(...)` would be undefined behaviour at run time.
+    /// \param code  The code: 1 to 24 characters, capitals, digits, `:`, `.`, `-`, `_`.
+    /// \param scale The scale, at most `max_scale`.
+    /// \return The asset.
+    [[nodiscard]] consteval asset checked_asset(std::string_view code, unsigned scale)
+    {
+        const auto a = make_asset(code, scale);
+        if (!a)
+            throw "snicholls::checked_asset: not a valid asset code and scale";   // a compile error
+        return *a;
     }
 
     namespace detail {
