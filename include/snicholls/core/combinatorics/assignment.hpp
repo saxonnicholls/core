@@ -26,7 +26,7 @@
 ///
 /// \snippet combinatorics/assignment_demo.cpp assignment
 ///
-/// **Relationships.** `linalg/fixed.hpp` (`fixed_matrix`), `result.hpp`. Used by `tracking/metrics.hpp` (OSPA,
+/// **Relationships.** `linalg/fixed.hpp` (`fixed_matrix`), `result.hpp`. Used by `metric/sets.hpp` (OSPA,
 /// GOSPA) and by global-nearest-neighbour association. Group: \ref core.
 ///
 /// **Implementations.** Shortest augmenting paths with dual variables (Jonker-Volgenant style), as in Crouse,

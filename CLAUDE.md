@@ -150,7 +150,9 @@ integrity and consistency. The same twelve rules hold in every one of them.
   (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`; `snicholls::linalg`);
   `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`; `snicholls::geometry`); `tracking/` (`gaussian`,
   `transition`, `measurement`, `kalman`, `unscented`, `association`, `mixture`, `fusion`, `discrete`, `metrics`;
-  `snicholls::tracking`, the primitives of the Stone Soup port); `signal/` (`complex`, `fft`,
+  `snicholls::tracking`, the primitives of the Stone Soup port);
+  `metric/` (`concepts`, `minkowski`, `angular`, `binary`, `geodesic`, `statistical`, `string`, `sets`;
+  `snicholls::metric`, distances as plug-in values over any point type); `signal/` (`complex`, `fft`,
   `window`, `stft`, `mel`, `dct`, `convolve`, `fir`, `iir`, `resample`, `hilbert`; `snicholls::signal`, SIGNAL.md). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
   which takes its test, demo and benchmark along and rewrites every include, guard and registration. CMake lists
@@ -422,6 +424,14 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   difference; gates from `gate_threshold` (`math::chi_square_quantile`); `combinatorics::linear_assignment` for hard
   association; `tracking::covariance_intersection` for fusing tracks whose correlation is unknown, never an
   information sum. Components that name tracks, detections or hypotheses belong to the framework above core, not to core.
+- Distances: a `metric::` value (`euclidean`, `manhattan`, `chebyshev`, `minkowski<P>`, `weighted<P>(w)`,
+  `angular`, `cosine_distance`, `inner_product`, `hamming`, `jaccard`, `haversine`, `mahalanobis`, `levenshtein<N>`,
+  ...), never a hand-written distance loop. Any point type plugs in through `metric::point_traits` (one
+  specialisation for a type of your own); any metric plugs into a search structure through its declared capabilities
+  (`reducible`, `decomposable`, `true_metric`). A structure that searches takes the metric as a template parameter
+  (`containers::kd_tree<P, K, Metric>`, `containers::ann_forest<P, D, Metric>`, `metric::set_metric_solver`), never a
+  hard-wired Euclidean. Exact neighbours in a few dimensions: `kd_tree`; approximate neighbours in many (embeddings):
+  `ann_forest`.
 - Randomness: `stats::wyrand` and `stats::uniform_index`, never `std::uniform_int_distribution` (its output differs
   between standard libraries, so a seed would not reproduce). To agree with another program's draws, name its
   library: `stats::uniform_int<T, draw::libstdcxx>` or `<T, draw::libcxx>`, the same on every platform. Resampling: `stats::bootstrap_moments` for anything

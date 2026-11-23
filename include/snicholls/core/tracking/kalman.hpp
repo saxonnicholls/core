@@ -157,6 +157,7 @@ namespace snicholls::tracking {
     /// \param dt The time step, seconds.
     /// \return The prediction.
     template <transition_model M>
+        requires(!linear_transition<M>)  // said outright: MSVC does not pick the more constrained overload by subsumption
     [[nodiscard]] constexpr gaussian<typename M::value_type, M::dim> predict(const gaussian<typename M::value_type, M::dim>& prior, const M& model, typename M::value_type dt) noexcept(linalg::detail::nothrow_scalar<typename M::value_type>)
     {
         const auto f = model.jacobian(prior.mean, dt);
@@ -207,6 +208,7 @@ namespace snicholls::tracking {
     /// \param sensor The sensor model.
     /// \return The measurement prediction.
     template <measurement_model S>
+        requires(!linear_measurement_model<S>)  // said outright, as for predict
     [[nodiscard]] constexpr measurement_prediction<typename S::value_type, S::state_dim, S::measurement_dim> predict_measurement(const gaussian<typename S::value_type, S::state_dim>& prediction,
                                                                                                                              const S& sensor) noexcept(linalg::detail::nothrow_scalar<typename S::value_type>)
     {

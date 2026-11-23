@@ -30,6 +30,7 @@ add_executable(snicholls_core_tests
     combinatorics/partition_test.cpp
     combinatorics/permutations_test.cpp
     combinatorics/subsets_test.cpp
+    containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
     containers/dense_id_map_test.cpp
@@ -96,6 +97,14 @@ add_executable(snicholls_core_tests
     meta/type_list_test.cpp
     meta/type_name_test.cpp
     meta/values_test.cpp
+    metric/angular_test.cpp
+    metric/binary_test.cpp
+    metric/concepts_test.cpp
+    metric/geodesic_test.cpp
+    metric/minkowski_test.cpp
+    metric/sets_test.cpp
+    metric/statistical_test.cpp
+    metric/string_test.cpp
     ml/activations_test.cpp
     ml/alibi_test.cpp
     ml/attention_layer_test.cpp
@@ -218,7 +227,6 @@ add_executable(snicholls_core_tests
     tracking/gaussian_test.cpp
     tracking/kalman_test.cpp
     tracking/measurement_test.cpp
-    tracking/metrics_test.cpp
     tracking/mixture_test.cpp
     tracking/transition_test.cpp
     tracking/unscented_test.cpp)

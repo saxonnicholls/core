@@ -16,7 +16,7 @@
 /// `std::integral` says yes to `bool` and to every character type, which is rarely what a
 /// branch means. These concepts are the answers, declared once:
 ///
-/// \snippet concepts_demo.cpp chain
+/// \snippet meta/concepts_demo.cpp chain
 ///
 /// `always_false_v<T>` is the dependent `false` for a `static_assert` in a template branch
 /// that must fail only when it is instantiated.

@@ -56,6 +56,7 @@
 #include <snicholls/core/combinatorics/partition.hpp>
 #include <snicholls/core/combinatorics/permutations.hpp>
 #include <snicholls/core/combinatorics/subsets.hpp>
+#include <snicholls/core/containers/ann_forest.hpp>
 #include <snicholls/core/containers/bloom_filter.hpp>
 #include <snicholls/core/containers/byte_map.hpp>
 #include <snicholls/core/containers/dense_id_map.hpp>
@@ -115,6 +116,14 @@
 #include <snicholls/core/meta/type_list.hpp>
 #include <snicholls/core/meta/type_name.hpp>
 #include <snicholls/core/meta/values.hpp>
+#include <snicholls/core/metric/angular.hpp>
+#include <snicholls/core/metric/binary.hpp>
+#include <snicholls/core/metric/concepts.hpp>
+#include <snicholls/core/metric/geodesic.hpp>
+#include <snicholls/core/metric/minkowski.hpp>
+#include <snicholls/core/metric/sets.hpp>
+#include <snicholls/core/metric/statistical.hpp>
+#include <snicholls/core/metric/string.hpp>
 #include <snicholls/core/ml/activations.hpp>
 #include <snicholls/core/ml/alibi.hpp>
 #include <snicholls/core/ml/attention.hpp>
@@ -236,7 +245,6 @@
 #include <snicholls/core/tracking/gaussian.hpp>
 #include <snicholls/core/tracking/kalman.hpp>
 #include <snicholls/core/tracking/measurement.hpp>
-#include <snicholls/core/tracking/metrics.hpp>
 #include <snicholls/core/tracking/mixture.hpp>
 #include <snicholls/core/tracking/transition.hpp>
 #include <snicholls/core/tracking/unscented.hpp>

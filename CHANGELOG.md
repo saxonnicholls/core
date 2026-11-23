@@ -3,6 +3,51 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.20.0 - 2026-11-23
+
+Distances as plug-in values over any point type, a generic k-d tree and set metrics on them, and approximate nearest
+neighbours.
+
+### Added
+
+- `metric/` (new area, `snicholls::metric`):
+  - `concepts.hpp`: the contract. `point_traits` reads any point type: `std::array`, `std::vector`, `std::span`,
+    C arrays, `fixed_vector`, or a type of the caller's by one specialisation. A metric is any value `m(a, b)`, and it
+    declares what it offers (`reducible`, `decomposable`, `true_metric`), so search structures take any metric whose
+    capabilities they need. `accumulate` and `accumulate_within` evaluate a decomposable metric with an early exit.
+  - `minkowski.hpp`: `euclidean`, `manhattan`, `chebyshev`, `minkowski<P>`, `squared_euclidean`,
+    `weighted_minkowski` / `weighted<P>(w)`.
+  - `angular.hpp`: `dot`, `norm`, `cosine_similarity`, and `cosine_distance`, `angular`, `angle`, `inner_product`.
+  - `binary.hpp`: `hamming` and `jaccard` over packed words, and `mismatches` over any sequence.
+  - `geodesic.hpp`: `haversine`.
+  - `statistical.hpp`: `mahalanobis` (`make_mahalanobis` factorises the covariance once), and `hellinger`,
+    `squared_hellinger`, `kl_divergence` as metric values.
+  - `string.hpp`: `levenshtein<MaxLength>`, allocation-free.
+  - `sets.hpp`: `set_metric_solver` (OSPA and GOSPA) and `hausdorff`, over any ranges of any points under any metric.
+- `containers/ann_forest.hpp`: `ann_forest<Point, D, Metric>`, approximate nearest neighbours by a forest of
+  random-projection trees (the algorithm of Spotify's Annoy), generic over the metric:
+  - hyperplane splits for the Minkowski metrics, splits through the origin for the angular ones, and bit splits for
+    Hamming;
+  - flat, index-linked storage that the caller owns, so an index can be written to a file and mapped back;
+  - deterministic for a seed.
+- `benchmarks/containers/ann_forest`: query time and recall against brute force.
+
+### Changed
+
+- `tracking/metrics.hpp` moved to `metric/sets.hpp`. `tracking::set_metric_solver<T, D, MaxT, MaxE>` is now
+  `metric::set_metric_solver<T, MaxT, MaxE>`, taking any point ranges and a base metric (Euclidean by default), and
+  `tracking::metric_error` is now `metric::set_metric_error`.
+- `containers::kd_tree<Point, K, Metric>` takes the metric as a template parameter: any `decomposable` metric, Euclidean
+  by default. Points are read through `metric::point_traits`; the `Traits` parameter and `kd_point_traits` are gone.
+  `kd_neighbour::distance` is the metric's distance (it was `distance2`, the squared Euclidean distance), and
+  `for_each_within` takes a radius (it took its square).
+- `tracking::euclidean` and `euclidean_weighted` are `metric::euclidean` and `metric::weighted<2>`.
+
+### Fixed
+
+- MSVC: `tracking::predict` and `predict_measurement` are no longer ambiguous between their linear and extended
+  overloads (the extended ones now exclude linear models outright, rather than relying on subsumption).
+
 ## 0.19.0 - 2026-11-23
 
 The primitives of a C++ port of Stone Soup (target tracking and state estimation): fixed-size linear algebra,

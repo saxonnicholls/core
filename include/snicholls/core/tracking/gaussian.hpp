@@ -17,7 +17,8 @@
 /// - `squared_mahalanobis(r, S)`: `rᵀ S⁻¹ r` by Cholesky; `whitened_squared_norm(r, L)` when `L = cholesky(S)` is in
 ///   hand; `mahalanobis` is its root.
 /// - `log_likelihood(r, S)`: `log N(r; 0, S)`, the association score of PDA and of GNN's likelihood costs.
-/// - `euclidean`, `euclidean_weighted`.
+/// - `euclidean`, `euclidean_weighted`: `metric::euclidean` and `metric::weighted<2>` on `fixed_vector`s (the
+///   `metric/` area has every other distance, on any point type).
 /// - `squared_hellinger(a, b)`, `hellinger(a, b)`, `kl_divergence(p, q)` between two Gaussians.
 /// - `gate_threshold(probability, m)` = `chi_square_quantile(probability, m)`, and `in_gate(d², threshold)`.
 /// - `confidence_ellipse(P, k)`: the semi-axes and orientation of the `k`-sigma ellipse of a 2 x 2 covariance (a
@@ -42,7 +43,7 @@
 ///
 /// **Tests and demos.** `tests/tracking/gaussian_test.cpp`, `demos/tracking/gaussian_demo.cpp`.
 ///
-/// **Dependencies.** `<numbers>`, `linalg/fixed.hpp`, `math/constexpr_math.hpp`, `result.hpp`.
+/// **Dependencies.** `<numbers>`, `linalg/fixed.hpp`, `math/constexpr_math.hpp`, `metric/minkowski.hpp`, `result.hpp`.
 ///
 /// **Known issues.** None known.
 ///
@@ -53,6 +54,7 @@
 
 #include <snicholls/core/linalg/fixed.hpp>
 #include <snicholls/core/math/constexpr_math.hpp>
+#include <snicholls/core/metric/minkowski.hpp>
 #include <snicholls/core/result.hpp>
 
 #include <cstddef>
@@ -131,7 +133,7 @@ namespace snicholls::tracking {
     template <linalg::scalar T, std::size_t N>
     [[nodiscard]] constexpr T euclidean(const linalg::fixed_vector<T, N>& a, const linalg::fixed_vector<T, N>& b) noexcept(linalg::detail::nothrow_scalar<T>)
     {
-        return linalg::norm(a - b);
+        return metric::euclidean{}(a, b);
     }
 
     /// \brief The weighted Euclidean distance `√(Σ wᵢ (aᵢ - bᵢ)²)`. \tparam T The number type.
@@ -140,10 +142,7 @@ namespace snicholls::tracking {
     template <linalg::scalar T, std::size_t N>
     [[nodiscard]] constexpr T euclidean_weighted(const linalg::fixed_vector<T, N>& a, const linalg::fixed_vector<T, N>& b, const linalg::fixed_vector<T, N>& w) noexcept(linalg::detail::nothrow_scalar<T>)
     {
-        T s(0);
-        for (std::size_t i = 0; i < N; ++i)
-            s += w[i] * (a[i] - b[i]) * (a[i] - b[i]);
-        return static_cast<T>(math::sqrt(s));
+        return metric::weighted<2>(w)(a, b);
     }
 
     /// \brief The squared Hellinger distance between two Gaussians, in `[0, 1]`:
