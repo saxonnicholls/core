@@ -24,12 +24,16 @@ sockets or codecs; those are the business of the libraries above it.
 ## What is here
 
 - **Vocabulary types:** `overloaded` and `first_match`, `fixed_string`, `function_ref`, `result<V, E>` and
-  `traced<E>`, `strong<T, Tag>`, `uuid`, `decimal`, `uint256`, checked arithmetic, UTC time and RFC 3339.
+  `traced<E>`, `strong<T, Tag>`, `uuid`, `decimal`, `uint256`, `inplace_string<N>`, checked arithmetic, UTC time and
+  RFC 3339, ISO 8601 week dates.
 - **Compile-time loops and types:** `constexpr_for` and `constexpr_nest`, `type_list` (filter, products,
   permutations), `thread_apply`, `zip`, enum reflection, and reflection over plain aggregates.
 - **Containers:** `inplace_vector`, `static_map`, `perfect_map`, `md_array` and `md_span` (row-major, column-major
   and strided views, `submdspan`), `byte_map` (byte strings to 32-bit values, for a BPE vocabulary), allocation-free
   id maps and pools, and the platform-free half of mapped storage (`index_pool`, `mapped_header`, `offset_ptr`).
+- **Market conventions:** day counts (ACT/360, ACT/365F, 30/360, 30E/360, ACT/ACT ISDA) with exact year fractions,
+  business-day rules over the caller's holiday calendar, and the check digits of ISIN, IBAN, LEI, CUSIP, SEDOL and
+  Luhn.
 - **Linear algebra:** an interface resolved at compile time (BLAS operations, LU, Cholesky, LDLT, QR, least squares,
   the symmetric eigenproblem, SVD, batched solves with a status per system) over `md_span` views, a
   standard-library reference backend, and a conformance suite for backends in other libraries. On top of it, the

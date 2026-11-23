@@ -3,6 +3,49 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+Day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits and `inplace_string<N>`.
+
+### Added
+
+- **`finance/day_count.hpp`: the day-count conventions as types.** `act_360`, `act_365_fixed`, `thirty_360` (30/360
+  Bond Basis, ISDA 2006 4.16(f)), `thirty_e_360` (30E/360) and `act_act_isda`, each with `day_count(start, end)` and
+  an exact `year_fraction(start, end)`. Tested against QuantLib 1.44 (`scripts/generate_finance_fixtures.py`).
+- **`finance/year_fraction.hpp`: `finance::year_fraction`**, an exact, normalised ratio of two 64-bit integers;
+  `to_double()` for display.
+- **`finance/business_day.hpp`: the business-day rules** (`following`, `modified_following`, `preceding`,
+  `modified_preceding`, `unadjusted`) as `adjust(day, convention, calendar)` over any `holiday_calendar`, returning
+  `result` with `business_day_errc::no_business_day` rather than searching forever. Holidays stay the caller's run-time
+  data: `weekend_calendar` is the reference calendar and `weekends_and_holidays{predicate}` makes one from the
+  caller's holiday test. Tested against QuantLib 1.44's `WeekendsOnly` and `TARGET`.
+- Two capabilities in the `concepts/` + `interfaces/` layout, each with adapters both ways, a conformance kit and
+  unit tests for both:
+  - `concepts/day_count.hpp` (`day_count_convention`), `interfaces/day_count.hpp` (`day_count_interface`,
+    `day_count_model<T>`), `interfaces/day_count_conformance.hpp` (`check_day_count`);
+  - `concepts/holiday_calendar.hpp` (`holiday_calendar`), `interfaces/holiday_calendar.hpp`
+    (`holiday_calendar_interface`, `holiday_calendar_model<T>`), `interfaces/holiday_calendar_conformance.hpp`
+    (`check_holiday_calendar`).
+- **`time/week_date.hpp`: ISO 8601 week dates.** `to_iso_week_date`, `to_sys_days`, `make_iso_week_date` (validated,
+  `week_date_errc`) and `iso_weeks_in_year`, constexpr. Tested against Python's `datetime.isocalendar()` and
+  `fromisocalendar()` (`scripts/generate_week_date_fixtures.py`) and round-tripped over every day from 1600 to 2400.
+- **`time/names.hpp`: English month and weekday names as presentation attributes.** `month_of_year` and
+  `day_of_week` (ISO numbering) carry a `label` and an `abbreviation` (a new display attribute, exported by
+  `write_enum_json`); `month_name`, `month_abbreviation`, `weekday_name` and `weekday_abbreviation` read them for
+  `std::chrono::month` and `weekday`.
+- **`ids/check_digits.hpp`, a new `ids/` area: identifier check digits, constexpr.** `validate_<scheme>` returns
+  `result<void, identifier_errc>` and `<scheme>_check_digit(s)` computes them, for Luhn, ISIN (ISO 6166), IBAN
+  (ISO 13616 MOD 97-10), LEI (ISO 17442), CUSIP and SEDOL. Structure only: the IBAN registry's per-country lengths
+  are run-time data and are not in core. Tested against python-stdnum 2.2
+  (`scripts/generate_check_digit_fixtures.py`).
+- **`containers/inplace_string.hpp`: `inplace_string<N>`**, a bounded string stored in place: constexpr, trivially
+  copyable, structural, compared and hashed (FNV-1a 64, `std::hash`) by its text, across capacities. `make`
+  refuses a text that does not fit with `inplace_string_errc::too_long`; it never truncates.
+- Benchmarks with fairness checks: `finance/day_count_benchmark.cpp`, `ids/check_digits_benchmark.cpp`,
+  `containers/inplace_string_benchmark.cpp`.
+- CTests `generated.finance_fixtures_up_to_date`, `generated.check_digit_fixtures_up_to_date` (skipped without
+  QuantLib 1.44 or python-stdnum 2.2) and `generated.week_date_fixtures_up_to_date`.
+
 ## 0.22.0 - 2026-11-23
 
 Money, currencies and chains as compile-time types; capability concepts beside their virtual interfaces.
