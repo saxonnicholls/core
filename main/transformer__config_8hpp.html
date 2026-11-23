@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -275,7 +275,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="keyword">constexpr</span> ml::transformer_config oss{.d_model = 2880, .n_heads = 64, .n_kv_heads = 8, .head_dim = 64, .d_ff = 2880,</div>
 <div class="line">                                         .mlp = ml::mlp_kind::swiglu_oai, .rope = ml::rope_kind::half, .rope_base = 150000};</div>
 <div class="line">    <span class="keyword">static_assert</span>(ml::valid(oss) &amp;&amp; ml::gated(oss.mlp) &amp;&amp; !ml::gated(ml::mlp_kind::gelu_quick));</div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">float</span> alpha = ml::glu_alpha_v&lt;oss, float&gt;, limit = ml::glu_limit_v&lt;oss, float&gt;;</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">float</span> alpha = ml::glu_alpha_v&lt;oss, float&gt;, <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a> = ml::glu_limit_v&lt;oss, float&gt;;</div>
 </div><!-- fragment --><p> <b>Linear-time sequence mixers</b> (TRAINING.md T15), one group of fields after the others, every default leaving a model as it was: the mixer a layer uses in place of attention (<span class="tt">mixer</span>: Mamba-2 or the gated delta rule as layers; gated linear attention and RWKV as ops), its heads, channels, groups, convolution and chunk, and the hybrid stack's pattern (<span class="tt">hybrid_period</span>, <span class="tt">hybrid_attention_offset</span>, read by <span class="tt">layer_is_attention</span>). <span class="tt">valid_mixer</span> checks them; <span class="tt">mixer_state_size</span> is a sequence's state; <span class="tt">tiny_mamba2</span> and <span class="tt">tiny_gated_deltanet</span> set them.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Qwen3-Next&#39;s hybrid stack in miniature: gated delta rule layers, one attention layer in every four</span></div>
 <div class="line">    <span class="keyword">constexpr</span> ml::transformer_config hybrid = ml::tiny_gated_deltanet;</div>

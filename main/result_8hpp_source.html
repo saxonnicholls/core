@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -2288,11 +2288,11 @@ $(function(){initNavTree('result_8hpp_source.html','',''); });
 <div class="line"><a id="l02513" name="l02513"></a><span class="lineno"> 2513</span></div>
 <div class="line"><a id="l02524" name="l02524"></a><span class="lineno"> 2524</span><span class="preprocessor">#if SNICHOLLS_RESULT_HAS_STATEMENT_EXPRESSIONS</span></div>
 <div class="line"><a id="l02525" name="l02525"></a><span class="lineno"> 2525</span><span class="preprocessor">#define SNICHOLLS_TRY(...) \</span></div>
-<div class="line"><a id="l02526" name="l02526"></a><span class="lineno"> 2526</span><span class="preprocessor">    SNICHOLLS_RESULT_TRY_EXPR_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, __COUNTER__), #__VA_ARGS__, __VA_ARGS__)</span></div>
+<div class="line"><a id="l02526" name="l02526"></a><span class="lineno"> 2526</span><span class="preprocessor">    SNICHOLLS_RESULT_TRY_EXPR_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, SNICHOLLS_RESULT_TRY_UNIQUE_), #__VA_ARGS__, __VA_ARGS__)</span></div>
 <div class="line"><a id="l02527" name="l02527"></a><span class="lineno"> 2527</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l02528" name="l02528"></a><span class="lineno"> 2528</span> </div>
-<div class="line"><a id="l02529" name="l02529"></a><span class="lineno"> 2529</span><span class="comment">// The TRY macros name their temporary uniquely (__COUNTER__, which GCC, Clang and MSVC all have), so a TRY nested</span></div>
-<div class="line"><a id="l02530" name="l02530"></a><span class="lineno"> 2530</span><span class="comment">// in another&#39;s expression, or two on one line, never shadow each other (-Wshadow). The expression text is taken</span></div>
+<div class="line"><a id="l02529" name="l02529"></a><span class="lineno"> 2529</span><span class="comment">// The TRY macros name their temporary uniquely (SNICHOLLS_RESULT_TRY_UNIQUE_, below), so a TRY nested in another&#39;s</span></div>
+<div class="line"><a id="l02530" name="l02530"></a><span class="lineno"> 2530</span><span class="comment">// expression never shadows it (-Wshadow). The expression text is taken</span></div>
 <div class="line"><a id="l02531" name="l02531"></a><span class="lineno"> 2531</span><span class="comment">// before expansion, by the public macro, so the &quot;propagated&quot; frame shows what the caller wrote.</span></div>
 <div class="line"><a id="l02532" name="l02532"></a><span class="lineno"> 2532</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_EXPR_(name, text, ...)                                                                    \</span></div>
 <div class="line"><a id="l02533" name="l02533"></a><span class="lineno"> 2533</span><span class="preprocessor">    __extension__({                                                                                                    \</span></div>
@@ -2303,34 +2303,42 @@ $(function(){initNavTree('result_8hpp_source.html','',''); });
 <div class="line"><a id="l02538" name="l02538"></a><span class="lineno"> 2538</span><span class="preprocessor">        static_cast&lt;decltype(name)&amp;&amp;&gt;(name).unwrap_unchecked();                                                        \</span></div>
 <div class="line"><a id="l02539" name="l02539"></a><span class="lineno"> 2539</span><span class="preprocessor">    })</span></div>
 <div class="line"><a id="l02540" name="l02540"></a><span class="lineno"> 2540</span> </div>
-<div class="line"><a id="l02541" name="l02541"></a><span class="lineno"> 2541</span><span class="preprocessor">#define SNICHOLLS_RESULT_CAT_(a, b) a##b</span></div>
-<div class="line"><a id="l02542" name="l02542"></a><span class="lineno"> 2542</span><span class="preprocessor">#define SNICHOLLS_RESULT_CAT(a, b) SNICHOLLS_RESULT_CAT_(a, b)</span></div>
-<div class="line"><a id="l02543" name="l02543"></a><span class="lineno"> 2543</span></div>
-<div class="foldopen" id="foldopen02550" data-start="" data-end="">
-<div class="line"><a id="l02550" name="l02550"></a><span class="lineno"><a class="line" href="group__core.html#ga3e52450eb4a98b8c99819e0b78252705"> 2550</a></span><span class="preprocessor">#define SNICHOLLS_TRY_ASSIGN(decl, ...)                                                                                     \</span></div>
-<div class="line"><a id="l02551" name="l02551"></a><span class="lineno"> 2551</span><span class="preprocessor">    SNICHOLLS_RESULT_TRY_ASSIGN_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, __COUNTER__), decl, #__VA_ARGS__, __VA_ARGS__)</span></div>
+<div class="line"><a id="l02541" name="l02541"></a><span class="lineno"> 2541</span><span class="comment">// A unique suffix for each TRY&#39;s temporary. __COUNTER__ where it is quiet; Clang 23 and later report it under</span></div>
+<div class="line"><a id="l02542" name="l02542"></a><span class="lineno"> 2542</span><span class="comment">// -Wpedantic as a C2y extension (-Wc2y-extensions), so there __LINE__ is used: TRY_ASSIGN is one per line by contract</span></div>
+<div class="line"><a id="l02543" name="l02543"></a><span class="lineno"> 2543</span><span class="comment">// and TRY_VOID opens its own scope, so __LINE__ is unique enough; two SNICHOLLS_TRY on one line then shadow (-Wshadow).</span></div>
+<div class="line"><a id="l02544" name="l02544"></a><span class="lineno"> 2544</span><span class="preprocessor">#if defined(__clang__) &amp;&amp; __clang_major__ &gt;= 23</span></div>
+<div class="line"><a id="l02545" name="l02545"></a><span class="lineno"> 2545</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_UNIQUE_ __LINE__</span></div>
+<div class="line"><a id="l02546" name="l02546"></a><span class="lineno"> 2546</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l02547" name="l02547"></a><span class="lineno"> 2547</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_UNIQUE_ __COUNTER__</span></div>
+<div class="line"><a id="l02548" name="l02548"></a><span class="lineno"> 2548</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l02549" name="l02549"></a><span class="lineno"> 2549</span><span class="preprocessor">#define SNICHOLLS_RESULT_CAT_(a, b) a##b</span></div>
+<div class="line"><a id="l02550" name="l02550"></a><span class="lineno"> 2550</span><span class="preprocessor">#define SNICHOLLS_RESULT_CAT(a, b) SNICHOLLS_RESULT_CAT_(a, b)</span></div>
+<div class="line"><a id="l02551" name="l02551"></a><span class="lineno"> 2551</span></div>
+<div class="foldopen" id="foldopen02558" data-start="" data-end="">
+<div class="line"><a id="l02558" name="l02558"></a><span class="lineno"><a class="line" href="group__core.html#ga3e52450eb4a98b8c99819e0b78252705"> 2558</a></span><span class="preprocessor">#define SNICHOLLS_TRY_ASSIGN(decl, ...)                                                                                     \</span></div>
+<div class="line"><a id="l02559" name="l02559"></a><span class="lineno"> 2559</span><span class="preprocessor">    SNICHOLLS_RESULT_TRY_ASSIGN_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, SNICHOLLS_RESULT_TRY_UNIQUE_), decl, #__VA_ARGS__, __VA_ARGS__)</span></div>
 </div>
-<div class="line"><a id="l02552" name="l02552"></a><span class="lineno"> 2552</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_ASSIGN_(name, decl, text, ...)                                                            \</span></div>
-<div class="line"><a id="l02553" name="l02553"></a><span class="lineno"> 2553</span><span class="preprocessor">    auto&amp;&amp; name = (__VA_ARGS__);                                                                                       \</span></div>
-<div class="line"><a id="l02554" name="l02554"></a><span class="lineno"> 2554</span><span class="preprocessor">    if (!name.is_ok()) [[unlikely]]                                                                                    \</span></div>
-<div class="line"><a id="l02555" name="l02555"></a><span class="lineno"> 2555</span><span class="preprocessor">        return ::snicholls::result_impl::propagate(static_cast&lt;decltype(name)&amp;&amp;&gt;(name), text,                          \</span></div>
-<div class="line"><a id="l02556" name="l02556"></a><span class="lineno"> 2556</span><span class="preprocessor">                                                   ::snicholls::source_location::current());                          \</span></div>
-<div class="line"><a id="l02557" name="l02557"></a><span class="lineno"> 2557</span><span class="preprocessor">    decl = static_cast&lt;decltype(name)&amp;&amp;&gt;(name).unwrap_unchecked()</span></div>
-<div class="line"><a id="l02558" name="l02558"></a><span class="lineno"> 2558</span></div>
-<div class="foldopen" id="foldopen02564" data-start="" data-end="">
-<div class="line"><a id="l02564" name="l02564"></a><span class="lineno"><a class="line" href="group__core.html#gaa1583aa0ec8823339a420408e653e40a"> 2564</a></span><span class="preprocessor">#define SNICHOLLS_TRY_VOID(...)                                                                                             \</span></div>
-<div class="line"><a id="l02565" name="l02565"></a><span class="lineno"> 2565</span><span class="preprocessor">    SNICHOLLS_RESULT_TRY_VOID_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, __COUNTER__), #__VA_ARGS__, __VA_ARGS__)</span></div>
+<div class="line"><a id="l02560" name="l02560"></a><span class="lineno"> 2560</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_ASSIGN_(name, decl, text, ...)                                                            \</span></div>
+<div class="line"><a id="l02561" name="l02561"></a><span class="lineno"> 2561</span><span class="preprocessor">    auto&amp;&amp; name = (__VA_ARGS__);                                                                                       \</span></div>
+<div class="line"><a id="l02562" name="l02562"></a><span class="lineno"> 2562</span><span class="preprocessor">    if (!name.is_ok()) [[unlikely]]                                                                                    \</span></div>
+<div class="line"><a id="l02563" name="l02563"></a><span class="lineno"> 2563</span><span class="preprocessor">        return ::snicholls::result_impl::propagate(static_cast&lt;decltype(name)&amp;&amp;&gt;(name), text,                          \</span></div>
+<div class="line"><a id="l02564" name="l02564"></a><span class="lineno"> 2564</span><span class="preprocessor">                                                   ::snicholls::source_location::current());                          \</span></div>
+<div class="line"><a id="l02565" name="l02565"></a><span class="lineno"> 2565</span><span class="preprocessor">    decl = static_cast&lt;decltype(name)&amp;&amp;&gt;(name).unwrap_unchecked()</span></div>
+<div class="line"><a id="l02566" name="l02566"></a><span class="lineno"> 2566</span></div>
+<div class="foldopen" id="foldopen02572" data-start="" data-end="">
+<div class="line"><a id="l02572" name="l02572"></a><span class="lineno"><a class="line" href="group__core.html#gaa1583aa0ec8823339a420408e653e40a"> 2572</a></span><span class="preprocessor">#define SNICHOLLS_TRY_VOID(...)                                                                                             \</span></div>
+<div class="line"><a id="l02573" name="l02573"></a><span class="lineno"> 2573</span><span class="preprocessor">    SNICHOLLS_RESULT_TRY_VOID_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, SNICHOLLS_RESULT_TRY_UNIQUE_), #__VA_ARGS__, __VA_ARGS__)</span></div>
 </div>
-<div class="line"><a id="l02566" name="l02566"></a><span class="lineno"> 2566</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_VOID_(name, text, ...)                                                                    \</span></div>
-<div class="line"><a id="l02567" name="l02567"></a><span class="lineno"> 2567</span><span class="preprocessor">    do                                                                                                                 \</span></div>
-<div class="line"><a id="l02568" name="l02568"></a><span class="lineno"> 2568</span><span class="preprocessor">    {                                                                                                                  \</span></div>
-<div class="line"><a id="l02569" name="l02569"></a><span class="lineno"> 2569</span><span class="preprocessor">        auto&amp;&amp; name = (__VA_ARGS__);                                                                                   \</span></div>
-<div class="line"><a id="l02570" name="l02570"></a><span class="lineno"> 2570</span><span class="preprocessor">        if (!name.is_ok()) [[unlikely]]                                                                                \</span></div>
-<div class="line"><a id="l02571" name="l02571"></a><span class="lineno"> 2571</span><span class="preprocessor">            return ::snicholls::result_impl::propagate(static_cast&lt;decltype(name)&amp;&amp;&gt;(name), text,                      \</span></div>
-<div class="line"><a id="l02572" name="l02572"></a><span class="lineno"> 2572</span><span class="preprocessor">                                                       ::snicholls::source_location::current());                      \</span></div>
-<div class="line"><a id="l02573" name="l02573"></a><span class="lineno"> 2573</span><span class="preprocessor">    } while (false)</span></div>
-<div class="line"><a id="l02574" name="l02574"></a><span class="lineno"> 2574</span> </div>
-<div class="line"><a id="l02575" name="l02575"></a><span class="lineno"> 2575</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_result_hpp */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l02574" name="l02574"></a><span class="lineno"> 2574</span><span class="preprocessor">#define SNICHOLLS_RESULT_TRY_VOID_(name, text, ...)                                                                    \</span></div>
+<div class="line"><a id="l02575" name="l02575"></a><span class="lineno"> 2575</span><span class="preprocessor">    do                                                                                                                 \</span></div>
+<div class="line"><a id="l02576" name="l02576"></a><span class="lineno"> 2576</span><span class="preprocessor">    {                                                                                                                  \</span></div>
+<div class="line"><a id="l02577" name="l02577"></a><span class="lineno"> 2577</span><span class="preprocessor">        auto&amp;&amp; name = (__VA_ARGS__);                                                                                   \</span></div>
+<div class="line"><a id="l02578" name="l02578"></a><span class="lineno"> 2578</span><span class="preprocessor">        if (!name.is_ok()) [[unlikely]]                                                                                \</span></div>
+<div class="line"><a id="l02579" name="l02579"></a><span class="lineno"> 2579</span><span class="preprocessor">            return ::snicholls::result_impl::propagate(static_cast&lt;decltype(name)&amp;&amp;&gt;(name), text,                      \</span></div>
+<div class="line"><a id="l02580" name="l02580"></a><span class="lineno"> 2580</span><span class="preprocessor">                                                       ::snicholls::source_location::current());                      \</span></div>
+<div class="line"><a id="l02581" name="l02581"></a><span class="lineno"> 2581</span><span class="preprocessor">    } while (false)</span></div>
+<div class="line"><a id="l02582" name="l02582"></a><span class="lineno"> 2582</span> </div>
+<div class="line"><a id="l02583" name="l02583"></a><span class="lineno"> 2583</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_result_hpp */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aclasssnicholls_1_1bad__result__access_3_01void_01_4_html_ad40220c5533d929564503034a48708ce"><div class="ttname"><a href="classsnicholls_1_1bad__result__access_3_01void_01_4.html#ad40220c5533d929564503034a48708ce">snicholls::bad_result_access&lt; void &gt;::bad_result_access</a></div><div class="ttdeci">bad_result_access(const std::string &amp;what)</div><div class="ttdoc">Constructs it.</div><div class="ttdef"><b>Definition</b> <a href="#l00429">result.hpp:429</a></div></div>
 <div class="ttc" id="aclasssnicholls_1_1bad__result__access_html"><div class="ttname"><a href="classsnicholls_1_1bad__result__access.html">snicholls::bad_result_access</a></div><div class="ttdoc">Thrown by unwrap() / expect() on an error (SNICHOLLS_RESULT_THROW=1), carrying the error.</div><div class="ttdef"><b>Definition</b> <a href="#l00437">result.hpp:441</a></div></div>
 <div class="ttc" id="aclasssnicholls_1_1bad__result__access_html_a05892a63c945df4d59d13c7280c08cf6"><div class="ttname"><a href="classsnicholls_1_1bad__result__access.html#a05892a63c945df4d59d13c7280c08cf6">snicholls::bad_result_access::error</a></div><div class="ttdeci">E &amp; error() &amp;noexcept</div><div class="ttdoc">The error.</div><div class="ttdef"><b>Definition</b> <a href="#l00453">result.hpp:453</a></div></div>

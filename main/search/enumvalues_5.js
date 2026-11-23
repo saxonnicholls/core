@@ -8,9 +8,10 @@ var searchData=
   ['final_5fpunctuation_5',['final_punctuation',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a56ba9dd830a516cd4ac2d23ce88bdc1f',1,'snicholls::ml']]],
   ['finite_6',['finite',['../group__core.html#gga496958a9ba19eac987ca03b8f7968a5aaf08d9f9dd085b62425e34097fc724a5f',1,'snicholls::ml']]],
   ['finite_5fnan_7',['finite_nan',['../group__core.html#gga496958a9ba19eac987ca03b8f7968a5aac18e15d805ffcd01f1572d7ad47e68d5',1,'snicholls::ml']]],
-  ['format_8',['format',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a1ddcb92ade31c8fbd370001f9b29a7d9',1,'snicholls::ml']]],
-  ['forward_9',['forward',['../group__core.html#ggaa73f6883ceef7d1e7fa5cb6b54dc8198a965dbaac085fc891bfbbd4f9d145bbc8',1,'snicholls::signal']]],
-  ['free_10',['free',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3aaa2d6e4f578eb0cfaba23beef76c2194',1,'snicholls::optim']]],
-  ['full_11',['full',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faae9dc924f238fa6cc29465942875fe8f0',1,'fullsnicholls::containers'],['../group__core.html#gga45fd4185752724f72d05367df5e61921ae9dc924f238fa6cc29465942875fe8f0',1,'snicholls::signal::full']]],
-  ['future_12',['future',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8cada907a1b8f74e6922d93b025eecfb852',1,'snicholls']]]
+  ['floor_8',['floor',['../namespacesnicholls.html#a910d3f54886f387dee39fc21ad61a1fca7515875808ef6219fa6fd725e2105588',1,'snicholls']]],
+  ['format_9',['format',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a1ddcb92ade31c8fbd370001f9b29a7d9',1,'snicholls::ml']]],
+  ['forward_10',['forward',['../group__core.html#ggaa73f6883ceef7d1e7fa5cb6b54dc8198a965dbaac085fc891bfbbd4f9d145bbc8',1,'snicholls::signal']]],
+  ['free_11',['free',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3aaa2d6e4f578eb0cfaba23beef76c2194',1,'snicholls::optim']]],
+  ['full_12',['full',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faae9dc924f238fa6cc29465942875fe8f0',1,'fullsnicholls::containers'],['../group__core.html#gga45fd4185752724f72d05367df5e61921ae9dc924f238fa6cc29465942875fe8f0',1,'snicholls::signal::full']]],
+  ['future_13',['future',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8cada907a1b8f74e6922d93b025eecfb852',1,'snicholls']]]
 ];

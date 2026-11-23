@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -203,7 +203,7 @@ requires std::is_integral_v&lt;Rep2&gt; &amp;&amp; std::is_signed_v&lt;Rep2&gt;<
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a9decdc461195688569cb523753abc73b" id="r_a9decdc461195688569cb523753abc73b"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9decdc461195688569cb523753abc73b">fraction_digits</a> = detail::utc_fraction_digits&lt;<a class="el" href="#adfab4e7860c36229cc293e7c73e234c3">period</a>&gt;</td></tr>
-<tr class="memdesc:a9decdc461195688569cb523753abc73b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction digits written by <a class="el" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e" title="Writes t as RFC 3339 text into [first, last) with precision fraction digits.">snicholls::to_chars</a>: 9 for ns, 6 for us, 3 for ms, 0 for s and coarser.  <br /></td></tr>
+<tr class="memdesc:a9decdc461195688569cb523753abc73b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction digits written by <a class="el" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8" title="Write an amount&#39;s number, without its code, into [first, last).">snicholls::to_chars</a>: 9 for ns, 6 for us, 3 for ms, 0 for s and coarser.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -219,7 +219,7 @@ class snicholls::utc&lt; Duration &gt;</div><p>A UTC instant: exactly one <span 
 <p>See the file description above.</p>
 <dl class="section user"><dt>Relationships</dt><dd></dd></dl>
 <ul>
-<li>Text: <span class="tt"><a class="el" href="rfc3339_8hpp.html" title="RFC 3339 text for snicholls::utc: to_chars / from_chars style, exact round trips.">time/rfc3339.hpp</a></span> (<span class="tt"><a class="el" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e" title="Writes t as RFC 3339 text into [first, last) with precision fraction digits.">to_chars</a></span>, <span class="tt"><a class="el" href="namespacesnicholls.html#aa15c01d0f0d9f2bf66b95f2bebb1cfa1" title="Converts from chars.">from_chars</a></span>, <span class="tt"><a class="el" href="group__core.html#gaeff645ac56469d875d61894ef61f6c6c" title="The whole string as an RFC 3339 timestamp.">parse_utc</a></span>); format: <span class="tt"><a class="el" href="utc__format_8hpp.html" title="std::format support for snicholls::utc.">utc_format.hpp</a></span>; calendar: <span class="tt"><a class="el" href="civil_8hpp.html" title="Proleptic Gregorian calendar arithmetic on plain integers.">civil.hpp</a></span>, <span class="tt"><a class="el" href="business__days_8hpp.html" title="Weekday arithmetic on std::chrono calendar types.">business_days.hpp</a></span>; clocks, time zones, JSON and SQL mappings belong in the consuming library.</li>
+<li>Text: <span class="tt"><a class="el" href="rfc3339_8hpp.html" title="RFC 3339 text for snicholls::utc: to_chars / from_chars style, exact round trips.">time/rfc3339.hpp</a></span> (<span class="tt"><a class="el" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8" title="Write an amount&#39;s number, without its code, into [first, last).">to_chars</a></span>, <span class="tt"><a class="el" href="namespacesnicholls.html#aa15c01d0f0d9f2bf66b95f2bebb1cfa1" title="Converts from chars.">from_chars</a></span>, <span class="tt"><a class="el" href="group__core.html#gaeff645ac56469d875d61894ef61f6c6c" title="The whole string as an RFC 3339 timestamp.">parse_utc</a></span>); format: <span class="tt"><a class="el" href="utc__format_8hpp.html" title="std::format support for snicholls::utc.">utc_format.hpp</a></span>; calendar: <span class="tt"><a class="el" href="civil_8hpp.html" title="Proleptic Gregorian calendar arithmetic on plain integers.">civil.hpp</a></span>, <span class="tt"><a class="el" href="business__days_8hpp.html" title="Weekday arithmetic on std::chrono calendar types.">business_days.hpp</a></span>; clocks, time zones, JSON and SQL mappings belong in the consuming library.</li>
 <li>Group: <a class="el" href="group__core.html">snicholls-core</a>.</li>
 </ul>
 <dl class="section user"><dt>Implementations and variants</dt><dd></dd></dl>
@@ -282,7 +282,7 @@ class snicholls::utc&lt; Duration &gt;</div><p>A UTC instant: exactly one <span 
 <div class="line">    check(<span class="stringliteral">&quot;sys_seconds -&gt; utc&lt;&gt; implicitly&quot;</span>, utc&lt;&gt;(sys_seconds(10s)).unix_seconds() == 10);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Calendar, in std::chrono types.</span></div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;date &quot;</span> &lt;&lt; <a class="code hl_function" href="group__core.html#gacc27c22653e826ed72a03ec964afbf49">snicholls::to_string</a>(massive.date()) &lt;&lt; <span class="stringliteral">&quot;, weekday &quot;</span> &lt;&lt; massive.weekday().c_encoding()</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;date &quot;</span> &lt;&lt; <a class="code hl_function" href="namespacesnicholls.html#a436febd483a240a3ef46b988e4a7af27">snicholls::to_string</a>(massive.date()) &lt;&lt; <span class="stringliteral">&quot;, weekday &quot;</span> &lt;&lt; massive.weekday().c_encoding()</div>
 <div class="line">              &lt;&lt; <span class="stringliteral">&quot;, hour &quot;</span> &lt;&lt; massive.time_of_day().hours().count() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">    check(<span class="stringliteral">&quot;date / weekday / days / time_of_day&quot;</span>, massive.date() == 2024y / April / 30 &amp;&amp; massive.weekday() == Tuesday &amp;&amp;</div>
 <div class="line">                                                    massive.days() == sys_days{2024y / April / 30} &amp;&amp;</div>
@@ -311,7 +311,7 @@ class snicholls::utc&lt; Duration &gt;</div><p>A UTC instant: exactly one <span 
 <div class="line">    <span class="keywordflow">return</span> failures == 0 ? 0 : 1;</div>
 <div class="line">}</div>
 </div><!-- fragment --><dl class="section user"><dt>Performance</dt><dd></dd></dl>
-<p>Release, 4096 instants in 2000..2030, median of 10, ns per value (macOS AppleClang 17 / Ubuntu clang 18; date not recorded): <span class="tt"><a class="el" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e" title="Writes t as RFC 3339 text into [first, last) with precision fraction digits.">snicholls::to_chars</a></span> 29 / 22 (<span class="tt">std::format_to_n</span> 1310 / 339); <span class="tt"><a class="el" href="group__core.html#gacc27c22653e826ed72a03ec964afbf49" title="Allocating convenience.">snicholls::to_string</a></span> 73-85 / 33-39 (<span class="tt">std::format</span> 1492 / 361); <span class="tt"><a class="el" href="namespacesnicholls.html#aa15c01d0f0d9f2bf66b95f2bebb1cfa1" title="Converts from chars.">snicholls::from_chars</a></span> (strict, validated) 29-32 / 27 (<span class="tt">sscanf</span> + <span class="tt">timegm</span> 6674 / 461); Unix ms round trip 3.1 vs raw <span class="tt">std::chrono</span> 3.1 (zero overhead). The benchmark is benchmarks/time/utc_benchmark.cpp (not on Windows: its baselines are POSIX).</p>
+<p>Release, 4096 instants in 2000..2030, median of 10, ns per value (macOS AppleClang 17 / Ubuntu clang 18; date not recorded): <span class="tt"><a class="el" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8" title="Write an amount&#39;s number, without its code, into [first, last).">snicholls::to_chars</a></span> 29 / 22 (<span class="tt">std::format_to_n</span> 1310 / 339); <span class="tt"><a class="el" href="namespacesnicholls.html#a436febd483a240a3ef46b988e4a7af27" title="The amount&#39;s number as a string: &quot;1000.5&quot;.">snicholls::to_string</a></span> 73-85 / 33-39 (<span class="tt">std::format</span> 1492 / 361); <span class="tt"><a class="el" href="namespacesnicholls.html#aa15c01d0f0d9f2bf66b95f2bebb1cfa1" title="Converts from chars.">snicholls::from_chars</a></span> (strict, validated) 29-32 / 27 (<span class="tt">sscanf</span> + <span class="tt">timegm</span> 6674 / 461); Unix ms round trip 3.1 vs raw <span class="tt">std::chrono</span> 3.1 (zero overhead). The benchmark is benchmarks/time/utc_benchmark.cpp (not on Windows: its baselines are POSIX).</p>
 <dl class="section user"><dt>Tests and demos</dt><dd></dd></dl>
 <ul>
 <li>Tests: tests/time/utc_test.cpp, tests/time/utc_format_test.cpp.</li>
@@ -1663,7 +1663,7 @@ template&lt;utc_duration Duration = std::chrono::nanoseconds&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Fraction digits written by <a class="el" href="group__core.html#gaddf00cf2543f994c39ea153900158b7e" title="Writes t as RFC 3339 text into [first, last) with precision fraction digits.">snicholls::to_chars</a>: 9 for ns, 6 for us, 3 for ms, 0 for s and coarser. </p>
+<p>Fraction digits written by <a class="el" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8" title="Write an amount&#39;s number, without its code, into [first, last).">snicholls::to_chars</a>: 9 for ns, 6 for us, 3 for ms, 0 for s and coarser. </p>
 
 <p class="definition">Definition at line <a class="el" href="utc_8hpp_source.html#l00168">168</a> of file <a class="el" href="utc_8hpp_source.html">utc.hpp</a>.</p>
 

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -302,11 +302,11 @@ $(function(){initNavTree('ssd_8hpp_source.html','',''); });
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>                <span class="keyword">const</span> T total = math::exp(la[len - 1]);   <span class="comment">// the state passed on</span></div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                <span class="keywordflow">for</span> (std::size_t q = 0; q &lt; N; ++q)</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                    <span class="keywordflow">for</span> (std::size_t p = 0; p &lt; P; ++p) {</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                        T add = T(0);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                        T <a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a> = T(0);</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>                        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; len; ++i)</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                            add += math::exp(la[len - 1] - la[i]) * in.dt[(first + i) * H + h] * in.b[((first + i) * G + grp) * N + q]</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                            <a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a> += math::exp(la[len - 1] - la[i]) * in.dt[(first + i) * H + h] * in.b[((first + i) * G + grp) * N + q]</div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                                   * in.x[((first + i) * H + h) * P + p];</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                        s[q * P + p] = total * s[q * P + p] + add;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                        s[q * P + p] = total * s[q * P + p] + <a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>;</div>
 <div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                    }</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>            }</div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>        }</div>
@@ -351,6 +351,7 @@ $(function(){initNavTree('ssd_8hpp_source.html','',''); });
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span><span class="preprocessor">#endif </span><span class="comment">// snicholls_core_ml_ssd_hpp</span></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...</div></div>
 <div class="ttc" id="ajepa_8hpp_html_aad33c437f963d49acaaba7c70f7f347a"><div class="ttname"><a href="jepa_8hpp.html#aad33c437f963d49acaaba7c70f7f347a">snicholls::ml::valid</a></div><div class="ttdeci">constexpr bool valid(const jepa_predictor_config &amp;c) noexcept</div><div class="ttdoc">Whether a predictor&#39;s configuration is consistent: a valid, non-causal block, a depth,...</div><div class="ttdef"><b>Definition</b> <a href="jepa_8hpp_source.html#l00119">jepa.hpp:119</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_a872b1a407b105277d5f34e11de94a684"><div class="ttname"><a href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">snicholls::add</a></div><div class="ttdeci">constexpr result&lt; money, money_errc &gt; add(const money &amp;a, const money &amp;b) noexcept</div><div class="ttdoc">The sum of two amounts of the same asset.</div><div class="ttdef"><b>Definition</b> <a href="money_8hpp_source.html#l00298">money.hpp:298</a></div></div>
 <div class="ttc" id="arecurrence_8hpp_html"><div class="ttname"><a href="recurrence_8hpp.html">recurrence.hpp</a></div><div class="ttdoc">snicholls::ml recurrences over a sequence: a step and its backward pass give the sequence forward wit...</div></div>
 <div class="ttc" id="arecurrence_8hpp_html_a5fc6feadfcfb72d61acb2135cfa0f626"><div class="ttname"><a href="recurrence_8hpp.html#a5fc6feadfcfb72d61acb2135cfa0f626">snicholls::ml::recurrence_backward</a></div><div class="ttdeci">constexpr void recurrence_backward(const R &amp;r, std::size_t n, std::size_t sequences, std::size_t chunk, std::span&lt; const typename R::value_type &gt; checkpoints, std::span&lt; typename R::value_type &gt; dstates, std::span&lt; typename R::value_type &gt; work)</div><div class="ttdoc">Backpropagation through time from the checkpoints of a forward pass: each chunk&#39;s states recomputed f...</div><div class="ttdef"><b>Definition</b> <a href="recurrence_8hpp_source.html#l00137">recurrence.hpp:137</a></div></div>
 <div class="ttc" id="arecurrence_8hpp_html_af10dbef8de8df6db001135568276c1c7"><div class="ttname"><a href="recurrence_8hpp.html#af10dbef8de8df6db001135568276c1c7">snicholls::ml::recurrence_backward_work</a></div><div class="ttdeci">constexpr std::size_t recurrence_backward_work(std::size_t chunk) noexcept</div><div class="ttdoc">The working space recurrence_backward needs: a chunk&#39;s states and the step&#39;s own.</div><div class="ttdef"><b>Definition</b> <a href="recurrence_8hpp_source.html#l00098">recurrence.hpp:98</a></div></div>

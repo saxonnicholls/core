@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -154,7 +154,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <li><span class="tt">attention_keys(mask, pos, length, window, block)</span>: the same for every <span class="tt">attention_mask</span>: <span class="tt">causal</span> (the above), <span class="tt">bidirectional</span> (every valid key of the sequence: a ViT, the encoders and predictors of I-JEPA and V-JEPA) and <span class="tt">block_causal</span> (whole blocks of <span class="tt">block</span> tokens, each seeing itself and the blocks before it: V-JEPA 2-AC's frame-causal predictor), within the sequence's first <span class="tt">length</span> tokens (a key-padding mask: a query at or past <span class="tt">length</span> sees nothing).</li>
 </ul>
 <div class="fragment"><div class="line">    <span class="keyword">const</span> ml::key_range <a class="code hl_enumvalue" href="#a7efe7e832432e7fe9563bb4144f4d8feabb19f3e14eeb058560e7a79f01b90a09">causal</a> = ml::attention_keys(ml::attention_mask::causal, 2, 6);                <span class="comment">// [0, 3)</span></div>
-<div class="line">    <span class="keyword">const</span> ml::key_range all = ml::attention_keys(ml::attention_mask::bidirectional, 2, 6);            <span class="comment">// [0, 6): every valid key</span></div>
+<div class="line">    <span class="keyword">const</span> ml::key_range <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a> = ml::attention_keys(ml::attention_mask::bidirectional, 2, 6);            <span class="comment">// [0, 6): every valid key</span></div>
 <div class="line">    <span class="keyword">const</span> ml::key_range blocks = ml::attention_keys(ml::attention_mask::block_causal, 2, 6, 0, 4);    <span class="comment">// [0, 4): its block of 4</span></div>
 <div class="line">    <span class="keyword">const</span> ml::key_range padding = ml::attention_keys(ml::attention_mask::bidirectional, 7, 6);        <span class="comment">// a padding query: none</span></div>
 </div><!-- fragment --><p>Multi-head and grouped-query attention are loops over heads: each query head attends to the key and value head it shares. Rotate queries and keys with <span class="tt"><a class="el" href="rope_8hpp.html" title="snicholls::ml rotary position embedding: the frequencies, a table of cosines and sines the compiler c...">ml/rope.hpp</a></span> first.</p>
@@ -179,7 +179,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">        <span class="keywordtype">float</span> s = 0.0f;</div>
 <div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; d; ++i)</div>
 <div class="line">            s += q[i] * keys[j * d + i];</div>
-<div class="line">        (j &lt; n / 2 ? a : b).add(scale * s, std::span&lt;const float&gt;(values).subspan(j * d, d));</div>
+<div class="line">        (j &lt; n / 2 ? a : b).<a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>(scale * s, std::span&lt;const float&gt;(values).subspan(j * d, d));</div>
 <div class="line">    }</div>
 <div class="line">    a.merge(b);</div>
 <div class="line">    std::array&lt;float, d&gt; merged{};</div>

@@ -11,7 +11,12 @@ var searchData=
   ['yarn_5findex_5framp_8',['yarn_index_ramp',['../group__core.html#gga1b1f83a6f20af477f93e246c8d25a67da94b941dedc33c2a74d8bcbb3a9011556',1,'snicholls::ml']]],
   ['yarn_5fmscale_9',['yarn_mscale',['../structsnicholls_1_1ml_1_1transformer__config.html#a4f5144efd1e184508b71488ee3761de9',1,'snicholls::ml::transformer_config']]],
   ['yarn_5framp_10',['yarn_ramp',['../rope_8hpp.html#a4f2a480e2b03741114ddebd767897c58',1,'snicholls::ml']]],
-  ['year_11',['year',['../structsnicholls_1_1civil__date.html#a27c9e0d2b87540484b13e7e9bb9961b3',1,'snicholls::civil_date']]],
-  ['yellow_12',['yellow',['../colour_8hpp.html#a65b9d7740f9a22023e2889b5ada6bd8a',1,'snicholls::colours::yellow'],['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9ad487dd0b55dfcacdd920ccbdaeafa351',1,'snicholls::yellow']]],
-  ['yp_13',['yp',['../structsnicholls_1_1ml_1_1moe__activations.html#a64da0a5429ecc4e7ae5d99002b36e59c',1,'snicholls::ml::moe_activations']]]
+  ['ydd_11',['YDD',['../structsnicholls_1_1currency_1_1YDD.html',1,'snicholls::currency']]],
+  ['year_12',['year',['../structsnicholls_1_1civil__date.html#a27c9e0d2b87540484b13e7e9bb9961b3',1,'snicholls::civil_date']]],
+  ['yellow_13',['yellow',['../colour_8hpp.html#a65b9d7740f9a22023e2889b5ada6bd8a',1,'snicholls::colours::yellow'],['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9ad487dd0b55dfcacdd920ccbdaeafa351',1,'snicholls::yellow']]],
+  ['yer_14',['YER',['../structsnicholls_1_1currency_1_1YER.html',1,'snicholls::currency']]],
+  ['yp_15',['yp',['../structsnicholls_1_1ml_1_1moe__activations.html#a64da0a5429ecc4e7ae5d99002b36e59c',1,'snicholls::ml::moe_activations']]],
+  ['yud_16',['YUD',['../structsnicholls_1_1currency_1_1YUD.html',1,'snicholls::currency']]],
+  ['yum_17',['YUM',['../structsnicholls_1_1currency_1_1YUM.html',1,'snicholls::currency']]],
+  ['yun_18',['YUN',['../structsnicholls_1_1currency_1_1YUN.html',1,'snicholls::currency']]]
 ];

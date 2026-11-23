@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -110,6 +110,7 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="invoke__with_8hpp_source.html">snicholls/core/invoke_with.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="iterate_8hpp_source.html">snicholls/core/iterate.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="overloaded_8hpp_source.html">snicholls/core/overloaded.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="phone__number_8hpp_source.html">snicholls/core/phone_number.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="result_8hpp_source.html">snicholls/core/result.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="secret_8hpp_source.html">snicholls/core/secret.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="strong_8hpp_source.html">snicholls/core/strong.hpp</a>&gt;</code><br />
@@ -119,10 +120,17 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="uuid_8hpp_source.html">snicholls/core/uuid.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="version_8hpp_source.html">snicholls/core/version.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="zip_8hpp_source.html">snicholls/core/zip.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="chains_8hpp_source.html">snicholls/core/chain/chains.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="assignment_8hpp_source.html">snicholls/core/combinatorics/assignment.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="partition_8hpp_source.html">snicholls/core/combinatorics/partition.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="permutations_8hpp_source.html">snicholls/core/combinatorics/permutations.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="subsets_8hpp_source.html">snicholls/core/combinatorics/subsets.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2asset_8hpp_source.html">snicholls/core/concepts/asset.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2chain_8hpp_source.html">snicholls/core/concepts/chain.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2key__value__store_8hpp_source.html">snicholls/core/concepts/key_value_store.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2kv__backup_8hpp_source.html">snicholls/core/concepts/kv_backup.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2kv__health_8hpp_source.html">snicholls/core/concepts/kv_health.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2named_8hpp_source.html">snicholls/core/concepts/named.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="ann__forest_8hpp_source.html">snicholls/core/containers/ann_forest.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="bloom__filter_8hpp_source.html">snicholls/core/containers/bloom_filter.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="byte__map_8hpp_source.html">snicholls/core/containers/byte_map.hpp</a>&gt;</code><br />
@@ -168,6 +176,17 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="sha2_8hpp_source.html">snicholls/core/hash/sha2.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="sha3_8hpp_source.html">snicholls/core/hash/sha3.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="wyhash_8hpp_source.html">snicholls/core/hash/wyhash.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2asset_8hpp_source.html">snicholls/core/interfaces/asset.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="asset__conformance_8hpp_source.html">snicholls/core/interfaces/asset_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2chain_8hpp_source.html">snicholls/core/interfaces/chain.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="chain__conformance_8hpp_source.html">snicholls/core/interfaces/chain_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2key__value__store_8hpp_source.html">snicholls/core/interfaces/key_value_store.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="key__value__store__conformance_8hpp_source.html">snicholls/core/interfaces/key_value_store_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="key__value__store__reference_8hpp_source.html">snicholls/core/interfaces/key_value_store_reference.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2kv__backup_8hpp_source.html">snicholls/core/interfaces/kv_backup.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2kv__health_8hpp_source.html">snicholls/core/interfaces/kv_health.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2named_8hpp_source.html">snicholls/core/interfaces/named.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="named__conformance_8hpp_source.html">snicholls/core/interfaces/named_conformance.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="backend_8hpp_source.html">snicholls/core/linalg/backend.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="batched_8hpp_source.html">snicholls/core/linalg/batched.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="fixed_8hpp_source.html">snicholls/core/linalg/fixed.hpp</a>&gt;</code><br />
@@ -276,6 +295,11 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="unicode_8hpp_source.html">snicholls/core/ml/unicode.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="unigram_8hpp_source.html">snicholls/core/ml/unigram.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="wordpiece_8hpp_source.html">snicholls/core/ml/wordpiece.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="money_2asset_8hpp_source.html">snicholls/core/money/asset.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="iso4217_8hpp_source.html">snicholls/core/money/iso4217.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="money_8hpp_source.html">snicholls/core/money/money.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="native_8hpp_source.html">snicholls/core/money/native.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="rate_8hpp_source.html">snicholls/core/money/rate.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="cones_8hpp_source.html">snicholls/core/optim/cones.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="lbfgs_8hpp_source.html">snicholls/core/optim/lbfgs.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="line__search_8hpp_source.html">snicholls/core/optim/line_search.hpp</a>&gt;</code><br />

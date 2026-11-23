@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -356,7 +356,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>            <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">krylov_status::converged</a>, 0, T(0)};</div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        }</div>
 <div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>        <span class="keyword">const</span> T threshold = detail::krylov_threshold(options, bnorm);</div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>        <span class="keyword">const</span> std::size_t limit = options.max_iterations != 0 ? options.max_iterations : 2 * n;</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>        <span class="keyword">const</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a> = options.max_iterations != 0 ? options.max_iterations : 2 * n;</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        op.apply(std::span&lt;const T&gt;(x), q);</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>            r[i] = b[i] - q[i];</div>
@@ -370,7 +370,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>            <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a0c465cebd957857d21f91945cc2127ee">krylov_status::breakdown</a>, 0, rnorm};</div>
 <div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>            p[i] = z[i];</div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        <span class="keywordflow">for</span> (std::size_t k = 1; k &lt;= limit; ++k) {</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        <span class="keywordflow">for</span> (std::size_t k = 1; k &lt;= <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a>; ++k) {</div>
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>            op.apply(std::span&lt;const T&gt;(p), q);</div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>            <span class="keyword">const</span> T pq = detail::krylov_dot(std::span&lt;const T&gt;(p), std::span&lt;const T&gt;(q));</div>
 <div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            <span class="keywordflow">if</span> (!(pq &gt; T(0)))</div>
@@ -393,7 +393,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>                p[i] = z[i] + beta * p[i];</div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>        }</div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>        <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a9b7f0e4566f0d9d3e6563474a5d6aad1">krylov_status::iteration_limit</a>, limit, rnorm};</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>        <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a9b7f0e4566f0d9d3e6563474a5d6aad1">krylov_status::iteration_limit</a>, <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a>, rnorm};</div>
 <div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    }</div>
 </div>
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span></div>
@@ -422,7 +422,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>            <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">krylov_status::converged</a>, 0, T(0)};</div>
 <div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>        }</div>
 <div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>        <span class="keyword">const</span> T threshold = detail::krylov_threshold(options, <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(math::sqrt(bb)));</div>
-<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span>        <span class="keyword">const</span> std::size_t limit = options.max_iterations != 0 ? options.max_iterations : 2 * n;</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span>        <span class="keyword">const</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a> = options.max_iterations != 0 ? options.max_iterations : 2 * n;</div>
 <div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>        op.apply(cspan(x), y);</div>
 <div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span>            r1[i] = r2[i] = b[i] - y[i];</div>
@@ -436,7 +436,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>            w[i] = w2[i] = T(0);</div>
 <div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>        T oldb(0), beta = beta1, dbar(0), epsln(0), phibar = beta1, cs(-1), sn(0);</div>
-<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>        <span class="keywordflow">for</span> (std::size_t k = 1; k &lt;= limit; ++k) {</div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>        <span class="keywordflow">for</span> (std::size_t k = 1; k &lt;= <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a>; ++k) {</div>
 <div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>            <span class="comment">// Lanczos: v = y / β, y = A v - (β / β_old) r1 - (α / β) r2, then r1 ← r2, r2 ← y, y ← M⁻¹ r2</span></div>
 <div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>            <span class="keyword">const</span> T s = T(1) / beta;</div>
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
@@ -482,7 +482,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>            <span class="keywordflow">if</span> (phibar &lt;= threshold)</div>
 <div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>                <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">krylov_status::converged</a>, k, phibar};</div>
 <div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>        }</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>        <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a9b7f0e4566f0d9d3e6563474a5d6aad1">krylov_status::iteration_limit</a>, limit, phibar};</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>        <span class="keywordflow">return</span> result_t{<a class="code hl_enumvalue" href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a9b7f0e4566f0d9d3e6563474a5d6aad1">krylov_status::iteration_limit</a>, <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">limit</a>, phibar};</div>
 <div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>    }</div>
 </div>
 <div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span> </div>
@@ -513,6 +513,7 @@ $(function(){initNavTree('krylov_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2"><div class="ttname"><a href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2">snicholls::linalg::krylov_status::converged</a></div><div class="ttdeci">@ converged</div><div class="ttdoc">The residual met the tolerance.</div><div class="ttdef"><b>Definition</b> <a href="#l00316">krylov.hpp:316</a></div></div>
 <div class="ttc" id="agroup__core_html_gga1e088b8ad1cec39db5d1b87ae3c97680a9b7f0e4566f0d9d3e6563474a5d6aad1"><div class="ttname"><a href="group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a9b7f0e4566f0d9d3e6563474a5d6aad1">snicholls::linalg::krylov_status::iteration_limit</a></div><div class="ttdeci">@ iteration_limit</div><div class="ttdoc">max_iterations ran out first; x is the last iterate.</div><div class="ttdef"><b>Definition</b> <a href="#l00317">krylov.hpp:317</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e"><div class="ttname"><a href="group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e">snicholls::decimal_syntax::plain</a></div><div class="ttdeci">@ plain</div><div class="ttdoc">Also trailing fractional zeros and a leading &quot;+&quot; (&quot;72.50&quot;, &quot;+6930.0&quot;); still no exponent.</div><div class="ttdef"><b>Definition</b> <a href="decimal_8hpp_source.html#l00031">decimal.hpp:31</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc"><div class="ttname"><a href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9aaa9f73eea60a006820d0f8768bc8a3fc">snicholls::kv_errc::limit</a></div><div class="ttdeci">@ limit</div><div class="ttdoc">a key, value or batch the backend cannot represent (size, encoding)</div><div class="ttdef"><b>Definition</b> <a href="concepts_2key__value__store_8hpp_source.html#l00123">key_value_store.hpp:123</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1linalg_1_1csc__operator_html"><div class="ttname"><a href="structsnicholls_1_1linalg_1_1csc__operator.html">snicholls::linalg::csc_operator</a></div><div class="ttdoc">A CSC matrix as a linear_operator: y = A x by sparse::spmv.</div><div class="ttdef"><b>Definition</b> <a href="#l00134">krylov.hpp:134</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1linalg_1_1csc__operator_html_a1b18259f1a3023c3289da6fb09b1f22e"><div class="ttname"><a href="structsnicholls_1_1linalg_1_1csc__operator.html#a1b18259f1a3023c3289da6fb09b1f22e">snicholls::linalg::csc_operator::apply</a></div><div class="ttdeci">constexpr void apply(std::span&lt; const T &gt; x, std::span&lt; T &gt; y) const noexcept</div><div class="ttdoc">y = A x.</div><div class="ttdef"><b>Definition</b> <a href="#l00143">krylov.hpp:143</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1linalg_1_1csc__operator_html_a6e31aa45fab8d653f52a0b200630564c"><div class="ttname"><a href="structsnicholls_1_1linalg_1_1csc__operator.html#a6e31aa45fab8d653f52a0b200630564c">snicholls::linalg::csc_operator::value_type</a></div><div class="ttdeci">T value_type</div><div class="ttdoc">The value type.</div><div class="ttdef"><b>Definition</b> <a href="#l00135">krylov.hpp:135</a></div></div>

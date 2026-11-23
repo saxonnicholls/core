@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -198,7 +198,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">          up(f, d, true, 0.3f, 0, r), bup(1, f, false, 0, 0, r), down(d, f, true, 0.05f, 0, r), bdown(1, d, false, 0, 0, r)</div>
 <div class="line">    {</div>
 <div class="line">    }</div>
-<div class="line">    std::array&lt;tensor*, 16&gt; all() { <span class="keywordflow">return</span> {&amp;n1w, &amp;n1b, &amp;wq, &amp;wk, &amp;wv, &amp;wo, &amp;bq, &amp;bk, &amp;bv, &amp;bo, &amp;n2w, &amp;n2b, &amp;up, &amp;bup, &amp;down, &amp;bdown}; }</div>
+<div class="line">    std::array&lt;tensor*, 16&gt; <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a>() { <span class="keywordflow">return</span> {&amp;n1w, &amp;n1b, &amp;wq, &amp;wk, &amp;wv, &amp;wo, &amp;bq, &amp;bk, &amp;bv, &amp;bo, &amp;n2w, &amp;n2b, &amp;up, &amp;bup, &amp;down, &amp;bdown}; }</div>
 <div class="line">    ml::block_weights&lt;ml::dense_weights&lt;float&gt;&gt; weights()<span class="keyword"> const</span></div>
 <div class="line"><span class="keyword">    </span>{</div>
 <div class="line">        <span class="keywordflow">return</span> {n1w.w, n1b.w, {wq.dense(), wk.dense(), wv.dense(), wo.dense(), bq.w, bk.w, bv.w, bo.w}, n2w.w, n2b.w,</div>
@@ -257,10 +257,10 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">            ml::embedding_backward(std::span&lt;const float&gt;(x).subspan(p * d, d), p, wpe.g);</div>
 <div class="line">        }</div>
 <div class="line"> </div>
-<div class="line">        std::vector&lt;tensor*&gt; all{&amp;wte, &amp;wpe, &amp;lnfw, &amp;lnfb};</div>
+<div class="line">        std::vector&lt;tensor*&gt; <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a>{&amp;wte, &amp;wpe, &amp;lnfw, &amp;lnfb};</div>
 <div class="line">        <span class="keywordflow">for</span> (block&amp; b : blocks)</div>
 <div class="line">            <span class="keywordflow">for</span> (tensor* e : b.all())</div>
-<div class="line">                all.push_back(e);</div>
+<div class="line">                <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a>.push_back(e);</div>
 <div class="line">        <span class="keywordflow">for</span> (tensor* e : all) {</div>
 <div class="line">            <span class="keywordflow">if</span> (e-&gt;muon)</div>
 <div class="line">                ml::muon_step(la::reference, std::span&lt;float&gt;(e-&gt;w), std::span&lt;const float&gt;(e-&gt;g), std::span&lt;float&gt;(e-&gt;m), e-&gt;rows,</div>

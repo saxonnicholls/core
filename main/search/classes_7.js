@@ -11,6 +11,12 @@ var searchData=
   ['hellinger_8',['hellinger',['../structsnicholls_1_1metric_1_1hellinger.html',1,'snicholls::metric']]],
   ['hierarchical_5fbitset_9',['hierarchical_bitset',['../classsnicholls_1_1containers_1_1hierarchical__bitset.html',1,'snicholls::containers']]],
   ['histogram_10',['histogram',['../structsnicholls_1_1stats_1_1histogram.html',1,'snicholls::stats']]],
-  ['hmac_11',['hmac',['../classsnicholls_1_1hmac.html',1,'snicholls']]],
-  ['hybrid_5fcache_12',['hybrid_cache',['../structsnicholls_1_1ml_1_1hybrid__cache.html',1,'snicholls::ml']]]
+  ['hkd_11',['HKD',['../structsnicholls_1_1currency_1_1HKD.html',1,'snicholls::currency']]],
+  ['hmac_12',['hmac',['../classsnicholls_1_1hmac.html',1,'snicholls']]],
+  ['hnl_13',['HNL',['../structsnicholls_1_1currency_1_1HNL.html',1,'snicholls::currency']]],
+  ['hrd_14',['HRD',['../structsnicholls_1_1currency_1_1HRD.html',1,'snicholls::currency']]],
+  ['hrk_15',['HRK',['../structsnicholls_1_1currency_1_1HRK.html',1,'snicholls::currency']]],
+  ['htg_16',['HTG',['../structsnicholls_1_1currency_1_1HTG.html',1,'snicholls::currency']]],
+  ['huf_17',['HUF',['../structsnicholls_1_1currency_1_1HUF.html',1,'snicholls::currency']]],
+  ['hybrid_5fcache_18',['hybrid_cache',['../structsnicholls_1_1ml_1_1hybrid__cache.html',1,'snicholls::ml']]]
 ];

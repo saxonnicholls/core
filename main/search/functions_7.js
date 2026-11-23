@@ -15,7 +15,7 @@ var searchData=
   ['has_5fvalue_12',['has_value',['../classsnicholls_1_1parse__result.html#adf9376d0be4c7feb1faf48d4cb4d5afa',1,'snicholls::parse_result']]],
   ['hash_13',['hash',['../classsnicholls_1_1keccak__xof.html#adaa7ec0b6df35eb1bf4121e0ed458c3e',1,'snicholls::keccak_xof::hash()'],['../classsnicholls_1_1result__throws_1_1result.html#a401358d0375b9951858d6a26f8834864',1,'snicholls::result_throws::result::hash()']]],
   ['hash_5fcombine_14',['hash_combine',['../group__core.html#gace89d770a926ae46bba7e0481738a6fb',1,'snicholls']]],
-  ['hash_5fvalue_15',['hash_value',['../group__core.html#ga2b3a361d268f95f0ea152b7357e3690e',1,'snicholls']]],
+  ['hash_5fvalue_15',['hash_value',['../group__core.html#gabcccfdb81915461937699bbebfaeaf35',1,'snicholls::hash_value(const phone_number &amp;p) noexcept'],['../group__core.html#ga2b3a361d268f95f0ea152b7357e3690e',1,'snicholls::hash_value(const uuid &amp;u) noexcept']]],
   ['hashes_16',['hashes',['../classsnicholls_1_1containers_1_1bloom__filter.html#a5d97958403e5e389a3061c66d68e3de3',1,'snicholls::containers::bloom_filter']]],
   ['hausdorff_17',['hausdorff',['../group__core.html#gad82ff4d4f22666c01c5b77b39646a701',1,'snicholls::metric']]],
   ['height_18',['height',['../classsnicholls_1_1containers_1_1intrusive__avl__tree.html#a0911e2096c3420eb62ea4b3bae273837',1,'snicholls::containers::intrusive_avl_tree']]],

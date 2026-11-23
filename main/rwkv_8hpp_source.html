@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -129,7 +129,7 @@ $(function(){initNavTree('rwkv_8hpp_source.html','',''); });
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="keywordflow">for</span> (std::size_t c = 0; c &lt; d; ++c) {</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                <span class="keyword">const</span> std::size_t t = s * n + i;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                <span class="keyword">const</span> T prev = i &gt; 0 ? xs[(t - 1) * d + c] : states.empty() ? T(0) : states[s * d + c];</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                <span class="keyword">const</span> T prev = i &gt; 0 ? xs[(t - 1) * d + c] : states.<a class="code hl_enumvalue" href="group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9">empty</a>() ? T(0) : states[s * d + c];</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                out[t * d + c] = (prev - xs[t * d + c]) * mu[c] + xs[t * d + c];</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            }</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">if</span> (!states.empty() &amp;&amp; n &gt; 0)</div>
@@ -154,7 +154,7 @@ $(function(){initNavTree('rwkv_8hpp_source.html','',''); });
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i)</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            <span class="keywordflow">for</span> (std::size_t c = 0; c &lt; d; ++c) {</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                <span class="keyword">const</span> std::size_t t = s * n + i;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                <span class="keyword">const</span> T prev = i &gt; 0 ? xs[(t - 1) * d + c] : initial.empty() ? T(0) : initial[s * d + c];</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                <span class="keyword">const</span> T prev = i &gt; 0 ? xs[(t - 1) * d + c] : initial.<a class="code hl_enumvalue" href="group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9">empty</a>() ? T(0) : initial[s * d + c];</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                <span class="keyword">const</span> T g = dout[t * d + c];</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                dmu[c] += (prev - xs[t * d + c]) * g;</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                dxs[t * d + c] = g - g * mu[c] + (i + 1 &lt; n ? dout[(t + 1) * d + c] * mu[c] : T(0));</div>
@@ -476,6 +476,7 @@ $(function(){initNavTree('rwkv_8hpp_source.html','',''); });
 <div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
 <div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span><span class="preprocessor">#endif </span><span class="comment">// snicholls_core_ml_rwkv_hpp</span></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...</div></div>
+<div class="ttc" id="agroup__core_html_gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9"><div class="ttname"><a href="group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9">snicholls::phone_errc::empty</a></div><div class="ttdeci">@ empty</div><div class="ttdoc">nothing but separators</div><div class="ttdef"><b>Definition</b> <a href="phone__number_8hpp_source.html#l00059">phone_number.hpp:59</a></div></div>
 <div class="ttc" id="arecurrence_8hpp_html"><div class="ttname"><a href="recurrence_8hpp.html">recurrence.hpp</a></div><div class="ttdoc">snicholls::ml recurrences over a sequence: a step and its backward pass give the sequence forward wit...</div></div>
 <div class="ttc" id="arecurrence_8hpp_html_a5fc6feadfcfb72d61acb2135cfa0f626"><div class="ttname"><a href="recurrence_8hpp.html#a5fc6feadfcfb72d61acb2135cfa0f626">snicholls::ml::recurrence_backward</a></div><div class="ttdeci">constexpr void recurrence_backward(const R &amp;r, std::size_t n, std::size_t sequences, std::size_t chunk, std::span&lt; const typename R::value_type &gt; checkpoints, std::span&lt; typename R::value_type &gt; dstates, std::span&lt; typename R::value_type &gt; work)</div><div class="ttdoc">Backpropagation through time from the checkpoints of a forward pass: each chunk&#39;s states recomputed f...</div><div class="ttdef"><b>Definition</b> <a href="recurrence_8hpp_source.html#l00137">recurrence.hpp:137</a></div></div>
 <div class="ttc" id="arecurrence_8hpp_html_af10dbef8de8df6db001135568276c1c7"><div class="ttname"><a href="recurrence_8hpp.html#af10dbef8de8df6db001135568276c1c7">snicholls::ml::recurrence_backward_work</a></div><div class="ttdeci">constexpr std::size_t recurrence_backward_work(std::size_t chunk) noexcept</div><div class="ttdoc">The working space recurrence_backward needs: a chunk&#39;s states and the step&#39;s own.</div><div class="ttdef"><b>Definition</b> <a href="recurrence_8hpp_source.html#l00098">recurrence.hpp:98</a></div></div>

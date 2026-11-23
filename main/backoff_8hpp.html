@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -134,13 +134,13 @@ Functions</h2></td></tr>
 <div class="line">    <span class="comment">// Six connections that drop at once, then one that stays up: the attempt count resets.</span></div>
 <div class="line">    std::uint32_t attempt = 0;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> connection = 0; connection &lt; 7; ++connection) {</div>
-<div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> ceiling = <a class="code hl_function" href="group__core.html#ga3c586978c2822a884b577601ab19dfa8">snicholls::backoff_ceiling</a>(policy, attempt);</div>
+<div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_enumvalue" href="namespacesnicholls.html#a910d3f54886f387dee39fc21ad61a1fca246b2dd56164e25c82ee79e7bd631090">ceiling</a> = <a class="code hl_function" href="group__core.html#ga3c586978c2822a884b577601ab19dfa8">snicholls::backoff_ceiling</a>(policy, attempt);</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> delay = <a class="code hl_function" href="group__core.html#ga7e2785ae288572d14b9b94bff8e5a02f">snicholls::backoff_delay</a>(policy, attempt, rng);   <span class="comment">// uniform in [0, ceiling]</span></div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> session = connection &lt; 6 ? 50ms : 2min;                  <span class="comment">// how long it then stayed up</span></div>
 <div class="line">        std::printf(<span class="stringliteral">&quot;  attempt %u: ceiling %5lld ms, sleep %5lld ms, session %6lld ms\n&quot;</span>, attempt,</div>
-<div class="line">                    <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(ceiling.count()), <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(delay.count()),</div>
+<div class="line">                    <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(<a class="code hl_enumvalue" href="namespacesnicholls.html#a910d3f54886f387dee39fc21ad61a1fca246b2dd56164e25c82ee79e7bd631090">ceiling</a>.count()), <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(delay.count()),</div>
 <div class="line">                    <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(session).count()));</div>
-<div class="line">        <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= delay &gt;= 0ms &amp;&amp; delay &lt;= ceiling;</div>
+<div class="line">        <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= delay &gt;= 0ms &amp;&amp; delay &lt;= <a class="code hl_enumvalue" href="namespacesnicholls.html#a910d3f54886f387dee39fc21ad61a1fca246b2dd56164e25c82ee79e7bd631090">ceiling</a>;</div>
 <div class="line">        attempt = <a class="code hl_function" href="group__core.html#gaf46fef5836400f678bd2b686b8ff6aec">snicholls::next_attempt</a>(policy, attempt, session);</div>
 <div class="line">    }</div>
 </div><!-- fragment --><p>Everything here is a function of its arguments: the caller draws the random number, reads the clock and sleeps. That is what makes the schedule provable in a unit test, overflow included, without breaking a database to see it.</p>

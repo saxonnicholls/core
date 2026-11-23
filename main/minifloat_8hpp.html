@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -242,7 +242,7 @@ Variables</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment --><p><span class="tt">to_bfloat16_rows</span> and <span class="tt">to_float_rows</span> convert whole rows, as a step on a training backend (TRAINING.md T9, T10):</p>
 <div class="fragment"><div class="line">    <span class="comment">// Rows of float to bfloat16 and back, as a training backend&#39;s step (a payload sent in half the bytes)</span></div>
-<div class="line">    <span class="keyword">struct </span>host {} backend;</div>
+<div class="line">    <span class="keyword">struct </span>host {} <a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9ab43fdd98b1fd705ae4c3a10cf25aad8a">backend</a>;</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> row[4] = {1.0f, 3.14159265f, -0.1f, 65504.0f};</div>
 <div class="line">    ml::bfloat16 <a class="code hl_enumvalue" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">half</a>[4];</div>
 <div class="line">    <span class="keywordtype">float</span> back[4];</div>

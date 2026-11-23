@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -140,7 +140,7 @@ requires detail::threadable&lt;A&gt; &amp;&amp; detail::threadable&lt;B&gt;</td>
 <div class="textblock"><p><span class="tt">thread_apply</span> and <span class="tt">outer</span>: Mathematica's <span class="tt">Thread</span> and <span class="tt">Outer</span> over tuples and arrays, resolved per element at compile time. </p>
 <p><b>Overview.</b> <span class="tt">Thread[f[{a, b}, x]]</span> is <span class="tt">{f[a, x], f[b, x]}</span>: <span class="tt">f</span> is applied across its list arguments position by position, and an argument that is not a list is repeated. <span class="tt">thread_apply</span> is that for tuple-like values, so the elements may have different types, and each call is resolved on its own: an <span class="tt">overloaded</span> or <span class="tt">first_match</span> picks a branch per element.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Thread[f[{a, b}, {x, y}]] is {f[a, x], f[b, y}]: corresponding elements, whatever their types.</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b) { <span class="keywordflow">return</span> a + b; };</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a> = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b) { <span class="keywordflow">return</span> a + b; };</div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_function" href="group__core.html#ga968ca0f4473bef80d4a8db236c9a6673">snicholls::thread_apply</a>(add, std::tuple{1, 2.5}, std::tuple{10, 20}) == std::tuple{11, 22.5});</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Thread[f[{a, b}, x]] is {f[a, x], f[b, x]}: an argument that is not a list is repeated.</span></div>

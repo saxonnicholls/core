@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -236,7 +236,7 @@ $(function(){initNavTree('unigram_8hpp_source.html','',''); });
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> merge = options.remove_extra_whitespaces;</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    std::size_t at = 0;</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#ga8ef0bd6d53078be287d1c3d76a0592a2">fail</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keyword">const</span> <span class="keyword">auto</span> put = [&amp;](std::string_view s) {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_enumvalue" href="group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b">put</a> = [&amp;](std::string_view s) {</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <span class="keywordflow">if</span> (out.size() - at &lt; s.size()) {</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            <a class="code hl_function" href="group__core.html#ga8ef0bd6d53078be287d1c3d76a0592a2">fail</a> = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">return</span>;</div>
@@ -268,21 +268,21 @@ $(function(){initNavTree('unigram_8hpp_source.html','',''); });
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                <span class="keywordflow">if</span> (!in_word) {</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                    in_word = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                    <span class="keywordflow">if</span> ((prepend &amp;&amp; !prepended) || merge) {</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                        put(space);</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                        <a class="code hl_enumvalue" href="group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b">put</a>(space);</div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                        prepended = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>                    }</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>                }</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                put(std::string_view(&amp;c, 1));</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                <a class="code hl_enumvalue" href="group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b">put</a>(std::string_view(&amp;c, 1));</div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>            } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>                in_word = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                <span class="keywordflow">if</span> (!merge)</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                    put(space);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                    <a class="code hl_enumvalue" href="group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b">put</a>(space);</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            }</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        }</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        i += consumed;</div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    }</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keywordflow">if</span> (append)</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        put(space);</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        <a class="code hl_enumvalue" href="group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b">put</a>(space);</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__core.html#ga8ef0bd6d53078be287d1c3d76a0592a2">fail</a>)</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#ga8d76a562dc7f8e33e85297d6ea8406f2">err</a>(<a class="code hl_enumvalue" href="group__core.html#gga0c78d6e7cff5a43c80d42787657fbf23a43037d815f37811d9c8520506705a220">unigram_error::output_too_small</a>);</div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#ga453227af48b32afbc6c42c021156551f">ok</a>(at);</div>
@@ -381,6 +381,7 @@ $(function(){initNavTree('unigram_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ggabecc5bf55e610adea310edf529547519aacf0d09710ee2f2dd6c1124d35d8d842"><div class="ttname"><a href="group__core.html#ggabecc5bf55e610adea310edf529547519aacf0d09710ee2f2dd6c1124d35d8d842">snicholls::ml::token_kind::user_defined</a></div><div class="ttdeci">@ user_defined</div><div class="ttdoc">A user-defined token: matched in the raw text first, rendered as written.</div><div class="ttdef"><b>Definition</b> <a href="token__trie_8hpp_source.html#l00084">token_trie.hpp:84</a></div></div>
 <div class="ttc" id="agroup__core_html_ggabecc5bf55e610adea310edf529547519aad921d60486366258809553a3db49a4a"><div class="ttname"><a href="group__core.html#ggabecc5bf55e610adea310edf529547519aad921d60486366258809553a3db49a4a">snicholls::ml::token_kind::unknown</a></div><div class="ttdeci">@ unknown</div><div class="ttdoc">The unknown token (&lt;unk&gt;, [UNK]).</div><div class="ttdef"><b>Definition</b> <a href="token__trie_8hpp_source.html#l00082">token_trie.hpp:82</a></div></div>
 <div class="ttc" id="agroup__core_html_ggac39740c58513e4a66ae2f43a7ca3e28ea43037d815f37811d9c8520506705a220"><div class="ttname"><a href="group__core.html#ggac39740c58513e4a66ae2f43a7ca3e28ea43037d815f37811d9c8520506705a220">snicholls::ml::bpe_error::output_too_small</a></div><div class="ttdeci">@ output_too_small</div><div class="ttdoc">The output span is shorter than the piece (or than the decoded bytes).</div><div class="ttdef"><b>Definition</b> <a href="bpe_8hpp_source.html#l00097">bpe.hpp:97</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b"><div class="ttname"><a href="group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b">snicholls::kv_op::put</a></div><div class="ttdeci">@ put</div><div class="ttdoc">insert or overwrite</div><div class="ttdef"><b>Definition</b> <a href="concepts_2key__value__store_8hpp_source.html#l00285">key_value_store.hpp:285</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1"><div class="ttname"><a href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">snicholls::code_unit_category::text</a></div><div class="ttdeci">@ text</div><div class="ttdef"><b>Definition</b> <a href="string__traits_8hpp_source.html#l00092">string_traits.hpp:92</a></div></div>
 <div class="ttc" id="aresult_8hpp_html"><div class="ttname"><a href="result_8hpp.html">result.hpp</a></div><div class="ttdoc">snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...</div></div>
 <div class="ttc" id="asentencepiece_8hpp_html"><div class="ttname"><a href="sentencepiece_8hpp.html">sentencepiece.hpp</a></div><div class="ttdoc">snicholls::ml SentencePiece BPE (Llama 1 and 2, Mistral, Phi-3): spaces escaped to &quot;▁&quot; with the dummy...</div></div>

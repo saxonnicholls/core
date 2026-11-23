@@ -9,5 +9,6 @@ var searchData=
   ['power_6',['power',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3a62cd275989e78ee56a81f0265a87562e',1,'powersnicholls::optim'],['../group__core.html#gga9c327897414ff9ad46ed541f2ad0237aa62cd275989e78ee56a81f0265a87562e',1,'snicholls::signal::power']]],
   ['private_5fuse_7',['private_use',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a53b18de82a7edf20d01b347de1f92e22',1,'snicholls::ml']]],
   ['propagated_8',['propagated',['../group__core.html#ggabf150838e94b74b80e34a2e727ab66c1a77735406a7d7b36c2c1a0263212923ac',1,'snicholls']]],
-  ['psd_9',['psd',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3af6d7022d02ebecf3d3b12aacad4ef7a3',1,'snicholls::optim']]]
+  ['psd_9',['psd',['../group__core.html#gga40534a2a6a1825197f0f5b010b49f3d3af6d7022d02ebecf3d3b12aacad4ef7a3',1,'snicholls::optim']]],
+  ['put_10',['put',['../group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada8e13ffc9fd9d6a6761231a764bdf106b',1,'snicholls']]]
 ];

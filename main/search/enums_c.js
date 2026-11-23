@@ -7,5 +7,7 @@ var searchData=
   ['mixer_5fkind_4',['mixer_kind',['../transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18',1,'snicholls::ml']]],
   ['mlp_5fkind_5',['mlp_kind',['../transformer__config_8hpp.html#ac5e0175232c3baa3e799982b3ed61ca4',1,'snicholls::ml']]],
   ['moe_5fscoring_6',['moe_scoring',['../transformer__config_8hpp.html#a6ecd02f0374ce72ec8169a1bb8fce7cb',1,'snicholls::ml']]],
-  ['momentum_5fschedule_7',['momentum_schedule',['../jepa_8hpp.html#a58ab8c541dc0f8334bd67b40678d2a3b',1,'snicholls::ml']]]
+  ['momentum_5fschedule_7',['momentum_schedule',['../jepa_8hpp.html#a58ab8c541dc0f8334bd67b40678d2a3b',1,'snicholls::ml']]],
+  ['money_5fdigits_8',['money_digits',['../namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133c',1,'snicholls']]],
+  ['money_5ferrc_9',['money_errc',['../namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2',1,'snicholls']]]
 ];

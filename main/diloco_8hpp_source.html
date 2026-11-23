@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -163,15 +163,15 @@ $(function(){initNavTree('diloco_8hpp_source.html','',''); });
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>} <span class="comment">// namespace detail::diloco_</span></div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span></div>
 <div class="foldopen" id="foldopen00215" data-start="{" data-end="}">
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="diloco_8hpp.html#af936010a7f3e202a39a6cc0f4333d58c">  215</a></span><span class="keyword">constexpr</span> <span class="keywordtype">void</span> <a class="code hl_function" href="diloco_8hpp.html#af936010a7f3e202a39a6cc0f4333d58c">compress_bf16</a>(std::span&lt;const float&gt; delta, std::span&lt;float&gt; residual, std::span&lt;std::uint16_t&gt; out) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="diloco_8hpp.html#af936010a7f3e202a39a6cc0f4333d58c">  215</a></span><span class="keyword">constexpr</span> <span class="keywordtype">void</span> <a class="code hl_function" href="diloco_8hpp.html#af936010a7f3e202a39a6cc0f4333d58c">compress_bf16</a>(std::span&lt;const float&gt; delta, std::span&lt;float&gt; <a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>, std::span&lt;std::uint16_t&gt; out) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>{</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    assert(residual.size() == delta.size() &amp;&amp; out.size() == delta.size());</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    assert(<a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>.size() == delta.size() &amp;&amp; out.size() == delta.size());</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; delta.size(); ++i) {</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> v = delta[i] + residual[i];</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> v = delta[i] + <a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>[i];</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        <span class="keyword">const</span> <a class="code hl_typedef" href="minifloat_8hpp.html#a3c974300d8f215f9bf01db79ac48fc1c">bfloat16</a> b = <a class="code hl_function" href="minifloat_8hpp.html#a05501661e0a4392c3cbfdbc41a18633a">to_bfloat16</a>(v);</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        out[i] = b.<a class="code hl_variable" href="structsnicholls_1_1ml_1_1minifloat.html#ae50b375830c446056df7a3ec8916f26f">bits</a>;</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> back = <a class="code hl_function" href="minifloat_8hpp.html#ad2deec419e04719e82fff4a70aa218cb">to_float</a>(b);</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        residual[i] = detail::diloco_::finite(v) &amp;&amp; detail::diloco_::finite(back) ? v - back : 0.0f;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>[i] = detail::diloco_::finite(v) &amp;&amp; detail::diloco_::finite(back) ? v - back : 0.0f;</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    }</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>}</div>
 </div>
@@ -255,6 +255,7 @@ $(function(){initNavTree('diloco_8hpp_source.html','',''); });
 <div class="ttc" id="astructsnicholls_1_1ml_1_1diloco__config_html_aeb9e22294d5be7209d066a2676b07c23"><div class="ttname"><a href="structsnicholls_1_1ml_1_1diloco__config.html#aeb9e22294d5be7209d066a2676b07c23">snicholls::ml::diloco_config::outer_lr</a></div><div class="ttdeci">double outer_lr</div><div class="ttdoc">The outer learning rate: 0.7 in the paper; 1 with no momentum is plain averaging.</div><div class="ttdef"><b>Definition</b> <a href="#l00270">diloco.hpp:270</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1minifloat_html_ad0b028da7fb7bbd3cf82bd46e505c9df"><div class="ttname"><a href="structsnicholls_1_1ml_1_1minifloat.html#ad0b028da7fb7bbd3cf82bd46e505c9df">snicholls::ml::minifloat&lt; 8, 7 &gt;::from_bits</a></div><div class="ttdeci">static constexpr minifloat from_bits(std::uint32_t b) noexcept</div><div class="ttdef"><b>Definition</b> <a href="minifloat_8hpp_source.html#l00125">minifloat.hpp:125</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1minifloat_html_ae50b375830c446056df7a3ec8916f26f"><div class="ttname"><a href="structsnicholls_1_1ml_1_1minifloat.html#ae50b375830c446056df7a3ec8916f26f">snicholls::ml::minifloat::bits</a></div><div class="ttdeci">storage_type bits</div><div class="ttdoc">The sign, exponent and mantissa, the sign highest; public, so the type is structural.</div><div class="ttdef"><b>Definition</b> <a href="minifloat_8hpp_source.html#l00120">minifloat.hpp:120</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1residual_html"><div class="ttname"><a href="structsnicholls_1_1residual.html">snicholls::residual</a></div><div class="ttdoc">An exact signed fraction of one minor unit: what rounding left behind.</div><div class="ttdef"><b>Definition</b> <a href="rate_8hpp_source.html#l00170">rate.hpp:170</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -141,7 +141,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ga15e27c04c12808bebe47e5e44e1d8f5b template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga15e27c04c12808bebe47e5e44e1d8f5b">snicholls::stats::multinomial_resample</a> (std::span&lt; const T &gt; weights, std::span&lt; std::size_t &gt; indices, G &amp;g) noexcept(noexcept(g()))</td></tr>
 <tr class="memdesc:ga15e27c04c12808bebe47e5e44e1d8f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multinomial resampling: M independent draws, generated already sorted (normalised partial sums of exponentials), so no sort is needed.  <br /></td></tr>
 <tr class="memitem:gaf7746a6a800ce206fddfe6cd5a3422ff" id="r_gaf7746a6a800ce206fddfe6cd5a3422ff"><td class="memTemplParams" colspan="2">template&lt;typename T, full_range_generator G&gt; </td></tr>
-<tr class="memitem:gaf7746a6a800ce206fddfe6cd5a3422ff template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff">snicholls::stats::residual_resample</a> (std::span&lt; const T &gt; weights, std::span&lt; T &gt; residual, std::span&lt; std::size_t &gt; indices, G &amp;g, <a class="el" href="group__core.html#gaef6e42ba25e24139eab35f12ecd7873d">residual_method</a> method=<a class="el" href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248">residual_method::systematic</a>) noexcept(noexcept(g()))</td></tr>
+<tr class="memitem:gaf7746a6a800ce206fddfe6cd5a3422ff template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff">snicholls::stats::residual_resample</a> (std::span&lt; const T &gt; weights, std::span&lt; T &gt; <a class="el" href="structsnicholls_1_1residual.html">residual</a>, std::span&lt; std::size_t &gt; indices, G &amp;g, <a class="el" href="group__core.html#gaef6e42ba25e24139eab35f12ecd7873d">residual_method</a> method=<a class="el" href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248">residual_method::systematic</a>) noexcept(noexcept(g()))</td></tr>
 <tr class="memdesc:gaf7746a6a800ce206fddfe6cd5a3422ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Residual resampling: <span class="tt">⌊M wᵢ / Σw⌋</span> copies of each particle, the remaining draws by <span class="tt">method</span> on the residual weights.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -456,7 +456,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>        <span class="keywordflow">for</span> (std::size_t ibl = 0; ibl &lt; y.size(); ++ibl) {</div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>            std::array&lt;std::uint32_t, 16&gt; q2{};</div>
 <div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>            y[ibl].d = detail::quantize::fp16(0.0f);</div>
-<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>            <span class="keywordtype">float</span> max_scale = 0;</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>            <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = 0;</div>
 <div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* xbl = x.data() + 256 * ibl;</div>
 <div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> sigma2 = sum_squares(xbl, 256) / 256.0f;</div>
 <div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> ib = 0; ib &lt; 8; ++ib) {</div>
@@ -537,13 +537,13 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>                    q2[2 * ib + 1] |= std::uint32_t(block_signs[k]) &lt;&lt; (7 * k);</div>
 <div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>                }</div>
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>                scales[ib] = scale;</div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>                max_scale = fmax(max_scale, scale);</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>                <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = fmax(<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a>, scale);</div>
 <div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>            }</div>
-<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>            <span class="keywordflow">if</span> (max_scale == 0.0f) {</div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> == 0.0f) {</div>
 <div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>                y[ibl].qs = {};</div>
 <div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>            }</div>
-<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = max_scale / 31;</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> / 31;</div>
 <div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>            y[ibl].d = detail::quantize::fp16(d);</div>
 <div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> <span class="keywordtype">id</span> = 1 / d;</div>
 <div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> ib = 0; ib &lt; 8; ++ib)</div>
@@ -577,7 +577,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>            std::array&lt;std::uint16_t, 32&gt; q2{};</div>
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>            y[ibl] = Block{};</div>
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            y[ibl].d = detail::quantize::fp16(0.0f);</div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>            <span class="keywordtype">float</span> max_scale = 0;</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>            <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = 0;</div>
 <div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* xbl = x.data() + 256 * ibl;</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> sumx2 = sum_squares(xbl, 256);</div>
 <div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>            <span class="keywordtype">float</span> sigma2 = 0;</div>
@@ -674,14 +674,14 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>                    }</div>
 <div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>                }</div>
 <div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>                scales[ib] = scale;</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                max_scale = fmax(max_scale, scale);</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = fmax(<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a>, scale);</div>
 <div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            }</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            <span class="keywordflow">if</span> (max_scale == 0.0f) {</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> == 0.0f) {</div>
 <div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (!S)</div>
 <div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                    y[ibl].qs = {};</div>
 <div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            }</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = max_scale / 31;</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> / 31;</div>
 <div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (S) {</div>
 <div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                <span class="keyword">const</span> <span class="keywordtype">float</span> fudged = d * 0.9875f;</div>
 <div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                y[ibl].d = detail::quantize::fp16(fudged);</div>
@@ -722,7 +722,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>            std::array&lt;std::uint8_t, 104&gt; q3{};   <span class="comment">// IQ3_XXS: 64 grid indices, 8 words of scales and signs</span></div>
 <div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            y[ibl] = Block{};</div>
 <div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            y[ibl].d = detail::quantize::fp16(0.0f);</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            <span class="keywordtype">float</span> max_scale = 0;</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = 0;</div>
 <div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>            std::size_t qs_off = 0, signs_off = 0;</div>
 <div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            (void)qs_off, (<span class="keywordtype">void</span>)signs_off;</div>
 <div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* xbl = x.data() + 256 * ibl;</div>
@@ -825,11 +825,11 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>                                                         | (std::uint32_t(block_signs[3]) &lt;&lt; 21));</div>
 <div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>                }</div>
 <div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>                scales[ib] = scale;</div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>                max_scale = fmax(max_scale, scale);</div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>                <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = fmax(<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a>, scale);</div>
 <div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>            }</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>            <span class="keywordflow">if</span> (max_scale == 0.0f)</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> == 0.0f)</div>
 <div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>                <span class="keywordflow">continue</span>;   <span class="comment">// the block stays zero</span></div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = max_scale / 31;</div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> / 31;</div>
 <div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> fudged = d * (S ? 1.033f : 1.0125f);</div>
 <div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>            y[ibl].d = detail::quantize::fp16(fudged);</div>
 <div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> <span class="keywordtype">id</span> = 1 / d;</div>
@@ -912,7 +912,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>        <span class="keywordflow">for</span> (std::size_t ibl = 0; ibl &lt; y.size(); ++ibl) {</div>
 <div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>            y[ibl] = block_iq1_s{};</div>
 <div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>            y[ibl].d = detail::quantize::fp16(0.0f);</div>
-<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>            <span class="keywordtype">float</span> max_scale = 0;</div>
+<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>            <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = 0;</div>
 <div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* xbl = x.data() + 256 * ibl;</div>
 <div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> two = 2 * sum_squares(xbl, 256);</div>
 <div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> sigma2 = two / 256.0f;</div>
@@ -1012,11 +1012,11 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>                y[ibl].qh[ib] = h;</div>
 <div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>                scales[ib] = scale;</div>
 <div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>                shifts[ib] = <span class="keyword">static_cast&lt;</span>std::int8_t<span class="keyword">&gt;</span>(best_shift);</div>
-<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>                max_scale = fmax(max_scale, scale);</div>
+<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>                <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = fmax(<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a>, scale);</div>
 <div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>            }</div>
-<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>            <span class="keywordflow">if</span> (max_scale == 0.0f)</div>
+<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> == 0.0f)</div>
 <div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = max_scale / 15;</div>
+<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> / 15;</div>
 <div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> fudged = d * 1.125f;</div>
 <div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span>            y[ibl].d = detail::quantize::fp16(fudged);</div>
 <div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> <span class="keywordtype">id</span> = 1 / d;</div>
@@ -1054,7 +1054,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>        };</div>
 <div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>        <span class="keywordflow">for</span> (std::size_t ibl = 0; ibl &lt; y.size(); ++ibl) {</div>
 <div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>            y[ibl] = block_iq1_m{};</div>
-<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>            <span class="keywordtype">float</span> max_scale = 0;</div>
+<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>            <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = 0;</div>
 <div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* xbl = x.data() + 256 * ibl;</div>
 <div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> two = 2 * sum_squares(xbl, 256);</div>
 <div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> sigma2 = two / 256.0f;</div>
@@ -1171,12 +1171,12 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span>                y[ibl].qh[ib] = <span class="keyword">static_cast&lt;</span>std::uint8_t<span class="keyword">&gt;</span>((index[0] &gt;&gt; 8) | ((index[1] &gt;&gt; 8) &lt;&lt; 4));</div>
 <div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>                scales[ib] = scale;</div>
 <div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>                shifts[ib] = <span class="keyword">static_cast&lt;</span>std::int8_t<span class="keyword">&gt;</span>(best_k);</div>
-<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>                max_scale = fmax(max_scale, scale);</div>
+<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>                <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = fmax(<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a>, scale);</div>
 <div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span>            }</div>
-<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span>            <span class="keywordflow">if</span> (max_scale == 0.0f)</div>
+<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> == 0.0f)</div>
 <div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>            std::array&lt;std::uint16_t, 4&gt; sc{};</div>
-<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span>            <span class="keywordtype">float</span> d = max_scale / 15;</div>
+<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span>            <span class="keywordtype">float</span> d = <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> / 15;</div>
 <div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> <span class="keywordtype">id</span> = 1 / d;</div>
 <div class="line"><a id="l01165" name="l01165"></a><span class="lineno"> 1165</span>            <span class="keywordtype">float</span> sumqx = 0, sumq2 = 0;</div>
 <div class="line"><a id="l01166" name="l01166"></a><span class="lineno"> 1166</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> ib = 0; ib &lt; 16; ++ib) {</div>
@@ -1245,7 +1245,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; mid = iq4nl_mid;</div>
 <div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>        std::array&lt;float, 8&gt; scales{};</div>
 <div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>        std::array&lt;float, block_size&gt; weight{};</div>
-<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span>        <span class="keywordtype">float</span> max_scale = 0, amax_scale = 0;</div>
+<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span>        <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = 0, amax_scale = 0;</div>
 <div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> nb = super_block_size / block_size;</div>
 <div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> ib = 0; ib &lt; nb; ++ib) {</div>
 <div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* xb = x + ib * block_size;</div>
@@ -1304,12 +1304,12 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="line"><a id="l01288" name="l01288"></a><span class="lineno"> 1288</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> abs_d = detail::quantize::abs(d);</div>
 <div class="line"><a id="l01289" name="l01289"></a><span class="lineno"> 1289</span>            <span class="keywordflow">if</span> (abs_d &gt; amax_scale) {</div>
 <div class="line"><a id="l01290" name="l01290"></a><span class="lineno"> 1290</span>                amax_scale = abs_d;</div>
-<div class="line"><a id="l01291" name="l01291"></a><span class="lineno"> 1291</span>                max_scale = d;</div>
+<div class="line"><a id="l01291" name="l01291"></a><span class="lineno"> 1291</span>                <a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> = d;</div>
 <div class="line"><a id="l01292" name="l01292"></a><span class="lineno"> 1292</span>            }</div>
 <div class="line"><a id="l01293" name="l01293"></a><span class="lineno"> 1293</span>        }</div>
 <div class="line"><a id="l01294" name="l01294"></a><span class="lineno"> 1294</span>        <span class="keywordflow">if</span> (nb &gt; 1) {</div>
 <div class="line"><a id="l01295" name="l01295"></a><span class="lineno"> 1295</span>            *scales_h = 0;</div>
-<div class="line"><a id="l01296" name="l01296"></a><span class="lineno"> 1296</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = -max_scale / 32;</div>
+<div class="line"><a id="l01296" name="l01296"></a><span class="lineno"> 1296</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> d = -<a class="code hl_variable" href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">max_scale</a> / 32;</div>
 <div class="line"><a id="l01297" name="l01297"></a><span class="lineno"> 1297</span>            dh = detail::quantize::fp16(d);</div>
 <div class="line"><a id="l01298" name="l01298"></a><span class="lineno"> 1298</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> <span class="keywordtype">id</span> = d != 0.0f ? 1 / d : 0.0f;</div>
 <div class="line"><a id="l01299" name="l01299"></a><span class="lineno"> 1299</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> ib = 0; ib &lt; nb; ++ib) {</div>
@@ -1954,6 +1954,7 @@ $(function(){initNavTree('quant__iq_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gga9e0478b5793b0458c05dd05fe1c501ffadb036d319bdabc9eafff7c11fa2bac6d"><div class="ttname"><a href="group__core.html#gga9e0478b5793b0458c05dd05fe1c501ffadb036d319bdabc9eafff7c11fa2bac6d">snicholls::ml::ggml_type::iq4_nl</a></div><div class="ttdeci">@ iq4_nl</div><div class="ttdoc">block_iq4_nl.</div><div class="ttdef"><b>Definition</b> <a href="quantize_8hpp_source.html#l00137">quantize.hpp:137</a></div></div>
 <div class="ttc" id="aminifloat_8hpp_html_ad2deec419e04719e82fff4a70aa218cb"><div class="ttname"><a href="minifloat_8hpp.html#ad2deec419e04719e82fff4a70aa218cb">snicholls::ml::to_float</a></div><div class="ttdeci">constexpr float to_float(F f) noexcept</div><div class="ttdoc">The exact value of a minifloat, as a float (every format here fits in float exactly).</div><div class="ttdef"><b>Definition</b> <a href="minifloat_8hpp_source.html#l00307">minifloat.hpp:307</a></div></div>
 <div class="ttc" id="aminifloat_8hpp_html_afd5e1ae8f11fa94843002e72782a7963"><div class="ttname"><a href="minifloat_8hpp.html#afd5e1ae8f11fa94843002e72782a7963">snicholls::ml::float16</a></div><div class="ttdeci">minifloat&lt; 5, 10 &gt; float16</div><div class="ttdoc">IEEE 754 binary16.</div><div class="ttdef"><b>Definition</b> <a href="minifloat_8hpp_source.html#l00139">minifloat.hpp:139</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_a0f749662bc949dd33fdb23c637275089"><div class="ttname"><a href="namespacesnicholls.html#a0f749662bc949dd33fdb23c637275089">snicholls::max_scale</a></div><div class="ttdeci">constexpr unsigned max_scale</div><div class="ttdoc">The largest scale an asset may have: 36 decimal places.</div><div class="ttdef"><b>Definition</b> <a href="money_2asset_8hpp_source.html#l00073">asset.hpp:73</a></div></div>
 <div class="ttc" id="aquant__iq_8hpp_html_a17e1b835c02b7a047cc6b8958a21b016"><div class="ttname"><a href="quant__iq_8hpp.html#a17e1b835c02b7a047cc6b8958a21b016">snicholls::ml::dequantize_row</a></div><div class="ttdeci">constexpr void dequantize_row(std::span&lt; const block_iq2_xxs &gt; x, std::span&lt; float &gt; y)</div><div class="ttdoc">Dequantises IQ2_XXS blocks, as ggml&#39;s dequantize_row_iq2_xxs.</div><div class="ttdef"><b>Definition</b> <a href="#l01454">quant_iq.hpp:1454</a></div></div>
 <div class="ttc" id="aquant__iq_8hpp_html_ac210020d6bf98f79c32f49d1c83b635f"><div class="ttname"><a href="quant__iq_8hpp.html#ac210020d6bf98f79c32f49d1c83b635f">snicholls::ml::dot</a></div><div class="ttdeci">constexpr float dot(std::span&lt; const block_iq2_xxs &gt; x, std::span&lt; const block_q8_k &gt; y)</div><div class="ttdoc">The dot product of an IQ2_XXS row with a Q8_K row, as ggml&#39;s ggml_vec_dot_iq2_xxs_q8_K.</div><div class="ttdef"><b>Definition</b> <a href="#l01692">quant_iq.hpp:1692</a></div></div>
 <div class="ttc" id="aquant__iq_8hpp_html_aca42e0daa1512ef59053b1868212a78e"><div class="ttname"><a href="quant__iq_8hpp.html#aca42e0daa1512ef59053b1868212a78e">snicholls::ml::quantize_row</a></div><div class="ttdeci">constexpr void quantize_row(std::span&lt; const float &gt; x, std::span&lt; const float &gt; importance, std::span&lt; block_iq2_xxs &gt; y)</div><div class="ttdoc">Quantises one row to IQ2_XXS, as ggml&#39;s quantize_iq2_xxs: per 8 magnitudes the best of the 256-point ...</div><div class="ttdef"><b>Definition</b> <a href="#l01346">quant_iq.hpp:1346</a></div></div>

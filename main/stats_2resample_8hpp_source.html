@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -265,11 +265,11 @@ $(function(){initNavTree('stats_2resample_8hpp_source.html','',''); });
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span></div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, full_range_generator G&gt;</div>
 <div class="foldopen" id="foldopen00259" data-start="{" data-end="}">
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff">  259</a></span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff">residual_resample</a>(std::span&lt;const T&gt; weights, std::span&lt;T&gt; residual, std::span&lt;std::size_t&gt; indices, G&amp; g,</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff">  259</a></span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff">residual_resample</a>(std::span&lt;const T&gt; weights, std::span&lt;T&gt; <a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>, std::span&lt;std::size_t&gt; indices, G&amp; g,</div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>                                     <a class="code hl_enumeration" href="group__core.html#gaef6e42ba25e24139eab35f12ecd7873d">residual_method</a> method = <a class="code hl_enumvalue" href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248">residual_method::systematic</a>) <span class="keyword">noexcept</span>(<span class="keyword">noexcept</span>(g()))</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    {</div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        <span class="keyword">const</span> T <a class="code hl_struct" href="structsnicholls_1_1stats_1_1sum.html">sum</a> = detail::resample::total(weights);</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keywordflow">if</span> (!detail::resample::usable(<a class="code hl_struct" href="structsnicholls_1_1stats_1_1sum.html">sum</a>) || residual.size() &lt; weights.size())</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keywordflow">if</span> (!detail::resample::usable(<a class="code hl_struct" href="structsnicholls_1_1stats_1_1sum.html">sum</a>) || <a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>.size() &lt; weights.size())</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        <span class="keyword">const</span> T m = <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(indices.size());</div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        std::size_t k = 0;</div>
@@ -278,12 +278,12 @@ $(function(){initNavTree('stats_2resample_8hpp_source.html','',''); });
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>            <span class="keyword">const</span> <span class="keyword">auto</span> copies = <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(<a class="code hl_function" href="constexpr__math_8hpp.html#a543d2dddf4be3af0e891a0618029fa21">math::floor</a>(expected));</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>            <span class="keywordflow">for</span> (std::size_t c = 0; c &lt; copies &amp;&amp; k &lt; indices.size(); ++c)</div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>                indices[k++] = j;</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            residual[j] = expected - <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(copies);</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            <a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>[j] = expected - <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(copies);</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        }</div>
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        <span class="keyword">const</span> <span class="keyword">auto</span> rest = indices.subspan(k);</div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        <span class="keywordflow">if</span> (rest.empty())</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        <span class="keyword">const</span> std::span&lt;const T&gt; r(residual.data(), weights.size());</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        <span class="keyword">const</span> std::span&lt;const T&gt; r(<a class="code hl_struct" href="structsnicholls_1_1residual.html">residual</a>.data(), weights.size());</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        <span class="keywordflow">if</span> (!detail::resample::usable(detail::resample::total(r))) {</div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            <span class="comment">// Rounding left draws but no residual weight: give them to the heaviest particle</span></div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            std::size_t best = 0;</div>
@@ -325,6 +325,7 @@ $(function(){initNavTree('stats_2resample_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ggaef6e42ba25e24139eab35f12ecd7873da2cbb3f454375ac06336e0c6d6dc4cdc1"><div class="ttname"><a href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873da2cbb3f454375ac06336e0c6d6dc4cdc1">snicholls::stats::residual_method::stratified</a></div><div class="ttdeci">@ stratified</div><div class="ttdoc">One uniform per draw, each in its stratum.</div><div class="ttdef"><b>Definition</b> <a href="#l00073">resample.hpp:73</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248"><div class="ttname"><a href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248">snicholls::stats::residual_method::systematic</a></div><div class="ttdeci">@ systematic</div><div class="ttdoc">One uniform.</div><div class="ttdef"><b>Definition</b> <a href="#l00072">resample.hpp:72</a></div></div>
 <div class="ttc" id="arandom_8hpp_html"><div class="ttname"><a href="random_8hpp.html">random.hpp</a></div><div class="ttdoc">wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.</div></div>
+<div class="ttc" id="astructsnicholls_1_1residual_html"><div class="ttname"><a href="structsnicholls_1_1residual.html">snicholls::residual</a></div><div class="ttdoc">An exact signed fraction of one minor unit: what rounding left behind.</div><div class="ttdef"><b>Definition</b> <a href="rate_8hpp_source.html#l00170">rate.hpp:170</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1stats_1_1sum_html"><div class="ttname"><a href="structsnicholls_1_1stats_1_1sum.html">snicholls::stats::sum</a></div><div class="ttdoc">The sum.</div><div class="ttdef"><b>Definition</b> <a href="accumulators_8hpp_source.html#l00118">accumulators.hpp:118</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

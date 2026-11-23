@@ -9,5 +9,6 @@ var searchData=
   ['rope_5flayout_6',['rope_layout',['../group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f',1,'snicholls::ml']]],
   ['rope_5fmode_7',['rope_mode',['../group__core.html#ga08793641836b2c6f6c00d8e50cd21167',1,'snicholls::ml']]],
   ['rope_5fscaling_5fkind_8',['rope_scaling_kind',['../group__core.html#ga1b1f83a6f20af477f93e246c8d25a67d',1,'snicholls::ml']]],
-  ['rwkv_5ferror_9',['rwkv_error',['../group__core.html#gadbbd4f295b92b3cadd364f75eaf4a421',1,'snicholls::ml']]]
+  ['rounding_9',['rounding',['../namespacesnicholls.html#a910d3f54886f387dee39fc21ad61a1fc',1,'snicholls']]],
+  ['rwkv_5ferror_10',['rwkv_error',['../group__core.html#gadbbd4f295b92b3cadd364f75eaf4a421',1,'snicholls::ml']]]
 ];

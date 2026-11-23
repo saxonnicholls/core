@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.21.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -119,14 +119,14 @@ $(function(){initNavTree('values_8hpp_source.html','',''); });
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        }</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Compare, <span class="keyword">auto</span>... Vs&gt;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keyword">consteval</span> <span class="keywordtype">bool</span> adjacent_all(Compare compare) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keyword">consteval</span> <span class="keywordtype">bool</span> adjacent_all(Compare <a class="code hl_function" href="namespacesnicholls.html#afd5cd3c02228f17f7de36355e3423b06">compare</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        {</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<span class="keyword">sizeof</span>...(Vs) &lt; 2) {</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keyword">constexpr</span> <span class="keyword">auto</span> values = value_array&lt;Vs...&gt;();</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                <span class="keywordflow">for</span> (std::size_t i = 1; i &lt; values.size(); ++i)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    <span class="keywordflow">if</span> (!compare(values[i - 1], values[i]))</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacesnicholls.html#afd5cd3c02228f17f7de36355e3423b06">compare</a>(values[i - 1], values[i]))</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            }</div>
@@ -173,6 +173,7 @@ $(function(){initNavTree('values_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ga6870a74bad04d381c0241bb94768e7aa"><div class="ttname"><a href="group__core.html#ga6870a74bad04d381c0241bb94768e7aa">snicholls::decreasing_v</a></div><div class="ttdeci">constexpr bool decreasing_v</div><div class="ttdoc">Each value is at least the next.</div><div class="ttdef"><b>Definition</b> <a href="#l00107">values.hpp:107</a></div></div>
 <div class="ttc" id="agroup__core_html_gad824e986a5d855d8030f63a9f21ab5fa"><div class="ttname"><a href="group__core.html#gad824e986a5d855d8030f63a9f21ab5fa">snicholls::all_distinct_v</a></div><div class="ttdeci">constexpr bool all_distinct_v</div><div class="ttdoc">No two of the values are equal.</div><div class="ttdef"><b>Definition</b> <a href="#l00087">values.hpp:87</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_afd5cd3c02228f17f7de36355e3423b06"><div class="ttname"><a href="namespacesnicholls.html#afd5cd3c02228f17f7de36355e3423b06">snicholls::compare</a></div><div class="ttdeci">constexpr result&lt; std::strong_ordering, money_errc &gt; compare(const money &amp;a, const money &amp;b) noexcept</div><div class="ttdoc">Compare two amounts of the same asset.</div><div class="ttdef"><b>Definition</b> <a href="money_8hpp_source.html#l00366">money.hpp:366</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
