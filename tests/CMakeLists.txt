@@ -36,6 +36,8 @@ add_executable(snicholls_core_tests
     concepts/asset_test.cpp
     concepts/chain_test.cpp
     concepts/country_test.cpp
+    concepts/day_count_test.cpp
+    concepts/holiday_calendar_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
     concepts/kv_health_test.cpp
@@ -47,6 +49,7 @@ add_executable(snicholls_core_tests
     containers/flat_id_map_test.cpp
     containers/hierarchical_bitset_test.cpp
     containers/index_pool_test.cpp
+    containers/inplace_string_test.cpp
     containers/inplace_vector_test.cpp
     containers/intrusive_avl_tree_test.cpp
     containers/kd_tree_test.cpp
@@ -68,6 +71,9 @@ add_executable(snicholls_core_tests
     detail/unicode_tables_test.cpp
     detail/wide_mul_test.cpp
     finance/attribution_test.cpp
+    finance/business_day_test.cpp
+    finance/day_count_test.cpp
+    finance/year_fraction_test.cpp
     game/change_test.cpp
     game/coalition_test.cpp
     game/harsanyi_test.cpp
@@ -96,12 +102,17 @@ add_executable(snicholls_core_tests
     hash/sha2_test.cpp
     hash/sha3_test.cpp
     hash/wyhash_test.cpp
+    ids/check_digits_test.cpp
     interfaces/asset_conformance_test.cpp
     interfaces/asset_test.cpp
     interfaces/chain_conformance_test.cpp
     interfaces/chain_test.cpp
     interfaces/country_conformance_test.cpp
     interfaces/country_test.cpp
+    interfaces/day_count_conformance_test.cpp
+    interfaces/day_count_test.cpp
+    interfaces/holiday_calendar_conformance_test.cpp
+    interfaces/holiday_calendar_test.cpp
     interfaces/key_value_store_conformance_test.cpp
     interfaces/key_value_store_reference_test.cpp
     interfaces/key_value_store_test.cpp
@@ -261,10 +272,12 @@ add_executable(snicholls_core_tests
     stochastic/snell_test.cpp
     time/business_days_test.cpp
     time/civil_test.cpp
+    time/names_test.cpp
     time/rfc3339_test.cpp
     time/solar_test.cpp
     time/utc_format_test.cpp
     time/utc_test.cpp
+    time/week_date_test.cpp
     tracking/association_test.cpp
     tracking/discrete_test.cpp
     tracking/fusion_test.cpp
@@ -375,6 +388,21 @@ set_tests_properties(generated.hash_fixtures_up_to_date PROPERTIES LABELS bounda
 add_test(NAME generated.time_fixtures_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_time_fixtures.py --check)
 set_tests_properties(generated.time_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The day-count and business-day oracle fixtures (tests/fixtures/finance/) must be what
+# scripts/generate_finance_fixtures.py computes with QuantLib; skipped when QuantLib 1.44 is not installed.
+add_test(NAME generated.finance_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_finance_fixtures.py --check)
+set_tests_properties(generated.finance_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The check-digit oracle fixture (tests/fixtures/ids/check_digits.txt) must be what
+# scripts/generate_check_digit_fixtures.py computes with python-stdnum; skipped when python-stdnum 2.2 is not installed.
+add_test(NAME generated.check_digit_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_check_digit_fixtures.py --check)
+set_tests_properties(generated.check_digit_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The ISO week-date fixture (tests/fixtures/time/week_date.txt) must be what scripts/generate_week_date_fixtures.py
+# computes with Python's datetime.
+add_test(NAME generated.week_date_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_week_date_fixtures.py --check)
+set_tests_properties(generated.week_date_fixtures_up_to_date PROPERTIES LABELS boundary)
 
 # Compile-fail tests. Each case in compile_fail/ is one source built twice, as
 # an object library outside ALL: with SNICHOLLS_COMPILE_FAIL defined it must

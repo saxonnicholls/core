@@ -62,6 +62,8 @@
 #include <snicholls/core/concepts/asset.hpp>
 #include <snicholls/core/concepts/chain.hpp>
 #include <snicholls/core/concepts/country.hpp>
+#include <snicholls/core/concepts/day_count.hpp>
+#include <snicholls/core/concepts/holiday_calendar.hpp>
 #include <snicholls/core/concepts/key_value_store.hpp>
 #include <snicholls/core/concepts/kv_backup.hpp>
 #include <snicholls/core/concepts/kv_health.hpp>
@@ -73,6 +75,7 @@
 #include <snicholls/core/containers/flat_id_map.hpp>
 #include <snicholls/core/containers/hierarchical_bitset.hpp>
 #include <snicholls/core/containers/index_pool.hpp>
+#include <snicholls/core/containers/inplace_string.hpp>
 #include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/containers/intrusive_avl_tree.hpp>
 #include <snicholls/core/containers/kd_tree.hpp>
@@ -83,6 +86,9 @@
 #include <snicholls/core/containers/perfect_map.hpp>
 #include <snicholls/core/containers/static_map.hpp>
 #include <snicholls/core/finance/attribution.hpp>
+#include <snicholls/core/finance/business_day.hpp>
+#include <snicholls/core/finance/day_count.hpp>
+#include <snicholls/core/finance/year_fraction.hpp>
 #include <snicholls/core/game/change.hpp>
 #include <snicholls/core/game/coalition.hpp>
 #include <snicholls/core/game/harsanyi.hpp>
@@ -111,12 +117,17 @@
 #include <snicholls/core/hash/sha2.hpp>
 #include <snicholls/core/hash/sha3.hpp>
 #include <snicholls/core/hash/wyhash.hpp>
+#include <snicholls/core/ids/check_digits.hpp>
 #include <snicholls/core/interfaces/asset.hpp>
 #include <snicholls/core/interfaces/asset_conformance.hpp>
 #include <snicholls/core/interfaces/chain.hpp>
 #include <snicholls/core/interfaces/chain_conformance.hpp>
 #include <snicholls/core/interfaces/country.hpp>
 #include <snicholls/core/interfaces/country_conformance.hpp>
+#include <snicholls/core/interfaces/day_count.hpp>
+#include <snicholls/core/interfaces/day_count_conformance.hpp>
+#include <snicholls/core/interfaces/holiday_calendar.hpp>
+#include <snicholls/core/interfaces/holiday_calendar_conformance.hpp>
 #include <snicholls/core/interfaces/key_value_store.hpp>
 #include <snicholls/core/interfaces/key_value_store_conformance.hpp>
 #include <snicholls/core/interfaces/key_value_store_reference.hpp>
@@ -275,10 +286,12 @@
 #include <snicholls/core/stochastic/snell.hpp>
 #include <snicholls/core/time/business_days.hpp>
 #include <snicholls/core/time/civil.hpp>
+#include <snicholls/core/time/names.hpp>
 #include <snicholls/core/time/rfc3339.hpp>
 #include <snicholls/core/time/solar.hpp>
 #include <snicholls/core/time/utc.hpp>
 #include <snicholls/core/time/utc_format.hpp>
+#include <snicholls/core/time/week_date.hpp>
 #include <snicholls/core/tracking/association.hpp>
 #include <snicholls/core/tracking/discrete.hpp>
 #include <snicholls/core/tracking/fusion.hpp>
