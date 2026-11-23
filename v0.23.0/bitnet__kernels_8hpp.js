@@ -1,0 +1,27 @@
+var bitnet__kernels_8hpp =
+[
+    [ "snicholls::ml::i2_s_at", "bitnet__kernels_8hpp.html#a6fc8f29ab44cfe4bbf06eb15b8ef6f1b", null ],
+    [ "snicholls::ml::i2_s_bytes", "bitnet__kernels_8hpp.html#a612b690bb461407003e7cd7d69507362", null ],
+    [ "snicholls::ml::i2_s_dot", "bitnet__kernels_8hpp.html#a72a2f735904c38ec3c8335923ce77a52", null ],
+    [ "snicholls::ml::i2_s_dot_raw", "bitnet__kernels_8hpp.html#a715c3c38ad2619d9ce94fe83d276e694", null ],
+    [ "snicholls::ml::i2_s_scale", "bitnet__kernels_8hpp.html#a425b4f1e5e3da0623586776afd02652d", null ],
+    [ "snicholls::ml::lut_activation_quantize", "bitnet__kernels_8hpp.html#ab1758f990946ff8b98103236bea44762", null ],
+    [ "snicholls::ml::pack_i2_s", "bitnet__kernels_8hpp.html#af356d90ed535970baf093ef41bf6c880", null ],
+    [ "snicholls::ml::quantize_i2_s", "bitnet__kernels_8hpp.html#a91f7a6125fcf5ffda276a8069d5f7d0f", null ],
+    [ "snicholls::ml::tl1_code", "bitnet__kernels_8hpp.html#a11fe0478f393d00652b811068519e840", null ],
+    [ "snicholls::ml::tl1_encode", "bitnet__kernels_8hpp.html#a8eb22dce4635105dc0d09cb426cf5ffb", null ],
+    [ "snicholls::ml::tl1_gemv", "bitnet__kernels_8hpp.html#a20f178ccc26d0b414d609e85209fe208", null ],
+    [ "snicholls::ml::tl1_lut", "bitnet__kernels_8hpp.html#a4ff054dfe36401ddd0be087b9c7f15c8", null ],
+    [ "snicholls::ml::tl1_pack", "bitnet__kernels_8hpp.html#a87a92edf6fd6fdb6ccb06c337fdc1248", null ],
+    [ "snicholls::ml::tl1_packed_bytes", "bitnet__kernels_8hpp.html#a20c26cc799783b138a8d03b1367c01a3", null ],
+    [ "snicholls::ml::tl2_code", "bitnet__kernels_8hpp.html#a09b50bc24b620cad57a8673a70042701", null ],
+    [ "snicholls::ml::tl2_encode", "bitnet__kernels_8hpp.html#a0eec70a6d03b52a438e61787d542ac38", null ],
+    [ "snicholls::ml::tl2_gemv", "bitnet__kernels_8hpp.html#aa0a2a2252aaa8f00eaadb4606be7a050", null ],
+    [ "snicholls::ml::tl2_lut", "bitnet__kernels_8hpp.html#adf12a4787651b47f2c220f2ecfbec2c6", null ],
+    [ "snicholls::ml::tl2_pack", "bitnet__kernels_8hpp.html#a23efd65e8411d0457968a3d0e776bdcb", null ],
+    [ "snicholls::ml::tl2_packed_bytes", "bitnet__kernels_8hpp.html#a50435efacfba3fb4e0ade424765d96f3", null ],
+    [ "snicholls::ml::i2_s_block_arm", "bitnet__kernels_8hpp.html#a17355cd739ef907e7ab991c4aae2ebb2", null ],
+    [ "snicholls::ml::i2_s_block_x86", "bitnet__kernels_8hpp.html#a2cf7c7547ff8d445d055b2fa832d4b7c", null ],
+    [ "snicholls::ml::tl1_weights", "bitnet__kernels_8hpp.html#ac45646764c11f2cdbb662d44d0d5fdda", null ],
+    [ "snicholls::ml::tl2_weights", "bitnet__kernels_8hpp.html#aab1525b03cd84a1711bc0e13c1e89977", null ]
+];
