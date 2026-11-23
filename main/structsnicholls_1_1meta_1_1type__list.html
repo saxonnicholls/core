@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -140,7 +140,7 @@ struct snicholls::meta::type_list&lt; Ts &gt;</div><p>One compile-time type list
 <div class="line">    <span class="keyword">using </span>ccy = <a class="code hl_struct" href="structsnicholls_1_1meta_1_1type__list.html">type_list</a>&lt;<a class="code hl_struct" href="structsnicholls_1_1meta_1_1constant.html">constant</a>&lt;snicholls::fixed_string{<span class="stringliteral">&quot;AUD&quot;</span>}&gt;, <a class="code hl_struct" href="structsnicholls_1_1meta_1_1constant.html">constant</a>&lt;snicholls::fixed_string{<span class="stringliteral">&quot;USD&quot;</span>}&gt;&gt;;</div>
 <div class="line">    std::string pairs;</div>
 <div class="line">    <a class="code hl_function" href="group__core.html#ga8677cb25b37c3c96e7e1bdf87a723b3f">for_each_type&lt;cartesian_power_t&lt;ccy, 2&gt;</a>&gt;([&amp;]&lt;<span class="keyword">typename</span> P&gt;() {</div>
-<div class="line">        pairs += std::string(<a class="code hl_typedef" href="type__list_8hpp.html#a0d67849e7e5d3595f4764bd0df482e49">front_t&lt;P&gt;::value</a>.view()) + std::string(<a class="code hl_typedef" href="type__list_8hpp.html#ac10fc53ccf1008fff9654837ffa856ba">back_t&lt;P&gt;::value</a>.view()) + <span class="charliteral">&#39; &#39;</span>;</div>
+<div class="line">        pairs += std::string(<a class="code hl_typedef" href="type__list_8hpp.html#a0d67849e7e5d3595f4764bd0df482e49">front_t&lt;P&gt;::value</a>.<a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a>()) + std::string(<a class="code hl_typedef" href="type__list_8hpp.html#ac10fc53ccf1008fff9654837ffa856ba">back_t&lt;P&gt;::value</a>.<a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a>()) + <span class="charliteral">&#39; &#39;</span>;</div>
 <div class="line">    });</div>
 <div class="line">    std::printf(<span class="stringliteral">&quot;  currency pairs       %s\n&quot;</span>, pairs.c_str());</div>
 <div class="line">    <span class="comment">// The dot and outer products, permutations, and Mathematica&#39;s Thread. A scalar is repeated.</span></div>

@@ -8,6 +8,7 @@ var dir_b5e7cfac1d310247f32b46a8a9157390 =
     [ "index_pool.hpp", "index__pool_8hpp.html", "index__pool_8hpp" ],
     [ "inplace_vector.hpp", "inplace__vector_8hpp.html", "inplace__vector_8hpp" ],
     [ "intrusive_avl_tree.hpp", "intrusive__avl__tree_8hpp.html", "intrusive__avl__tree_8hpp" ],
+    [ "kd_tree.hpp", "kd__tree_8hpp.html", null ],
     [ "mapped_header.hpp", "mapped__header_8hpp.html", "mapped__header_8hpp" ],
     [ "md_array.hpp", "md__array_8hpp.html", "md__array_8hpp" ],
     [ "object_pool.hpp", "object__pool_8hpp.html", null ],

@@ -17,7 +17,9 @@ var searchData=
   ['const_5fiterator_14',['const_iterator',['../structsnicholls_1_1constexpr__map.html#a803035e87c9dd13536e5e80db31278d5',1,'snicholls::constexpr_map::const_iterator'],['../classsnicholls_1_1containers_1_1inplace__vector.html#ab528f937aca3fdc9799605401de48923',1,'snicholls::containers::inplace_vector::const_iterator'],['../classsnicholls_1_1containers_1_1intrusive__avl__tree.html#a6931d4110a2aa5b399e5e744b6604e06',1,'snicholls::containers::intrusive_avl_tree::const_iterator'],['../classsnicholls_1_1containers_1_1static__map.html#a52100f02826ab0cdbb18687dd515422a',1,'snicholls::containers::static_map::const_iterator'],['../classsnicholls_1_1containers_1_1static__set.html#a4702f4c7290a5bff1fa0bad7f0a568fa',1,'snicholls::containers::static_set::const_iterator']]],
   ['const_5fpointer_15',['const_pointer',['../classsnicholls_1_1containers_1_1inplace__vector.html#ace310d6bc22bb14e6ed4e7b25f43f5e4',1,'snicholls::containers::inplace_vector']]],
   ['const_5freference_16',['const_reference',['../classsnicholls_1_1containers_1_1inplace__vector.html#a73bb435e01dcda194d3a4e502c0c077f',1,'snicholls::containers::inplace_vector']]],
-  ['crc32_17',['crc32',['../group__core.html#gaffb8bfe488a552200f145c43535f88a9',1,'snicholls']]],
-  ['crc32c_18',['crc32c',['../group__core.html#ga65ce056d515cf219c80e35ef65567e2c',1,'snicholls']]],
-  ['crc64_5fxz_19',['crc64_xz',['../group__core.html#gab2ec03ca7328687d71fa6e75dc82bfc4',1,'snicholls']]]
+  ['constant_5facceleration_17',['constant_acceleration',['../group__core.html#gaa2b75dd697e4a97d6cfa4bb523ef5dce',1,'snicholls::tracking']]],
+  ['constant_5fvelocity_18',['constant_velocity',['../group__core.html#gaa95da3c5f535f93495427bad77597605',1,'snicholls::tracking']]],
+  ['crc32_19',['crc32',['../group__core.html#gaffb8bfe488a552200f145c43535f88a9',1,'snicholls']]],
+  ['crc32c_20',['crc32c',['../group__core.html#ga65ce056d515cf219c80e35ef65567e2c',1,'snicholls']]],
+  ['crc64_5fxz_21',['crc64_xz',['../group__core.html#gab2ec03ca7328687d71fa6e75dc82bfc4',1,'snicholls']]]
 ];

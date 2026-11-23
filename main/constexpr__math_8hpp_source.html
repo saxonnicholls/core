@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -1051,13 +1051,13 @@ $(function(){initNavTree('constexpr__math_8hpp_source.html','',''); });
 <div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>        <span class="keyword">const</span> T an = -T(i) * (T(i) - a);</div>
 <div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>        b += T(2.0);</div>
 <div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>        d = an * d + b;</div>
-<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>        d = <a class="code hl_function" href="constexpr__math_8hpp.html#a968fc181dca2fb773024a1127e56192f">abs</a>(d) &lt; tiny ? tiny : d;</div>
+<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>        d = abs(d) &lt; tiny ? tiny : d;</div>
 <div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>        c = b + an / c;</div>
-<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>        c = <a class="code hl_function" href="constexpr__math_8hpp.html#a968fc181dca2fb773024a1127e56192f">abs</a>(c) &lt; tiny ? tiny : c;</div>
+<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>        c = abs(c) &lt; tiny ? tiny : c;</div>
 <div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>        d = T(1.0) / d;</div>
 <div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>        <span class="keyword">const</span> T delta = d * c;</div>
 <div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>        h *= delta;</div>
-<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="constexpr__math_8hpp.html#a968fc181dca2fb773024a1127e56192f">abs</a>(delta - T(1.0)) &lt; <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(L::gamma_tolerance))</div>
+<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <span class="keywordflow">if</span> (abs(delta - T(1.0)) &lt; <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(L::gamma_tolerance))</div>
 <div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>    }</div>
 <div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>    <span class="keywordflow">return</span> T(1.0) - front * h;</div>
@@ -1091,9 +1091,50 @@ $(function(){initNavTree('constexpr__math_8hpp_source.html','',''); });
 <div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span>}</div>
 </div>
 <div class="line"><a id="l01165" name="l01165"></a><span class="lineno"> 1165</span> </div>
-<div class="line"><a id="l01166" name="l01166"></a><span class="lineno"> 1166</span>} <span class="comment">// namespace snicholls::math</span></div>
-<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span> </div>
-<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_math_constexpr_math_hpp */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l01166" name="l01166"></a><span class="lineno"> 1166</span><span class="keyword">namespace </span>detail</div>
+<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span>{</div>
+<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span><span class="comment">// The x with chi_square_cdf_c(x, k) = p: Wilson-Hilferty&#39;s cube for a start, then Newton&#39;s step on the CDF, kept</span></div>
+<div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span><span class="comment">// inside a bracket that shrinks to the root (bisection when a step would leave it)</span></div>
+<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span><span class="keyword">constexpr</span> T chi_square_quantile_c(T p, T k)</div>
+<div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>{</div>
+<div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>    <span class="keywordflow">if</span> (nan_(p) || nan_(k) || k &lt;= T(0.0) || p &lt; T(0.0) || p &gt; T(1.0)) <span class="keywordflow">return</span> std::numeric_limits&lt;T&gt;::quiet_NaN();</div>
+<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>    <span class="keywordflow">if</span> (p == T(0.0)) <span class="keywordflow">return</span> T(0.0);</div>
+<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span>    <span class="keywordflow">if</span> (p == T(1.0)) <span class="keywordflow">return</span> std::numeric_limits&lt;T&gt;::infinity();</div>
+<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>    <span class="keyword">const</span> T h = T(2.0) / (T(9.0) * k);</div>
+<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span>    <span class="keyword">const</span> T w = T(1.0) - h + normal_quantile_c(p) * sqrt_ct(h);</div>
+<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span>    T x = w &gt; T(0.0) ? k * w * w * w : k * T(1e-3);</div>
+<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span>    T lo = T(0.0), hi = T(0.0);</div>
+<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span>    <span class="keyword">const</span> T half = k / T(2.0);</div>
+<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span>    <span class="keyword">const</span> T log_norm = half * log_ct(T(2.0)) + lgamma_c(half);</div>
+<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 200; ++i) {</div>
+<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span>        <span class="keyword">const</span> T f = chi_square_cdf_c(x, k) - p;</div>
+<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>        <span class="keywordflow">if</span> (f == T(0.0)) <span class="keywordflow">return</span> x;</div>
+<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>        <span class="keywordflow">if</span> (f &lt; T(0.0)) lo = x; <span class="keywordflow">else</span> hi = x;</div>
+<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>        <span class="keyword">const</span> T pdf = exp_ct((half - T(1.0)) * log_ct(x) - x / T(2.0) - log_norm);</div>
+<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>        T next = pdf &gt; T(0.0) ? x - f / pdf : x;</div>
+<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> bracketed = hi &gt; T(0.0);</div>
+<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>        <span class="keywordflow">if</span> (!(next &gt; lo) || (bracketed &amp;&amp; !(next &lt; hi)) || pdf == T(0.0))</div>
+<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>            next = bracketed ? (lo + hi) / T(2.0) : x * T(2.0);</div>
+<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span>        <span class="keywordflow">if</span> (abs_(next - x) &lt;= T(4.0) * std::numeric_limits&lt;T&gt;::epsilon() * x) <span class="keywordflow">return</span> next;</div>
+<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>        x = next;</div>
+<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>    }</div>
+<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    <span class="keywordflow">return</span> x;</div>
+<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>}</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>} <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span></div>
+<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span><span class="keyword">template</span> &lt;math_argument P, math_argument K&gt;</div>
+<div class="foldopen" id="foldopen01212" data-start="{" data-end="}">
+<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"><a class="line" href="constexpr__math_8hpp.html#a53f5d8ce71bf35d3d615ceabdcbebe75"> 1212</a></span><span class="keyword">constexpr</span> <a class="code hl_typedef" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t&lt;std::common_type_t&lt;P, K&gt;</a>&gt; <a class="code hl_function" href="constexpr__math_8hpp.html#a53f5d8ce71bf35d3d615ceabdcbebe75">chi_square_quantile</a>(P p, K k)</div>
+<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>{</div>
+<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>    <span class="keyword">using </span>C = detail::compute_t&lt;real_t&lt;std::common_type_t&lt;P, K&gt;&gt;&gt;;</div>
+<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t&lt;std::common_type_t&lt;P, K&gt;</a><span class="keyword">&gt;</span>&gt;(detail::chi_square_quantile_c(<span class="keyword">static_cast&lt;</span>C<span class="keyword">&gt;</span>(p), <span class="keyword">static_cast&lt;</span>C<span class="keyword">&gt;</span>(k)));</div>
+<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span>}</div>
+</div>
+<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span> </div>
+<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>} <span class="comment">// namespace snicholls::math</span></div>
+<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span> </div>
+<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_math_constexpr_math_hpp */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aclasssnicholls_1_1result__throws_1_1result_html"><div class="ttname"><a href="classsnicholls_1_1result__throws_1_1result.html">snicholls::result</a></div><div class="ttdoc">Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l01087">result.hpp:1088</a></div></div>
 <div class="ttc" id="aconceptsnicholls_1_1math_1_1math__argument_html"><div class="ttname"><a href="conceptsnicholls_1_1math_1_1math__argument.html">snicholls::math::math_argument</a></div><div class="ttdoc">An argument the functions accept: an integer, or a math_number.</div><div class="ttdef"><b>Definition</b> <a href="#l00223">constexpr_math.hpp:223</a></div></div>
 <div class="ttc" id="aconceptsnicholls_1_1math_1_1math__number_html"><div class="ttname"><a href="conceptsnicholls_1_1math_1_1math__number.html">snicholls::math::math_number</a></div><div class="ttdoc">A number type the functions accept as it is: one with math_limits.</div><div class="ttdef"><b>Definition</b> <a href="#l00213">constexpr_math.hpp:213</a></div></div>
@@ -1112,6 +1153,7 @@ $(function(){initNavTree('constexpr__math_8hpp_source.html','',''); });
 <div class="ttc" id="aconstexpr__math_8hpp_html_a3e8bda2186060eb9bd89327f5468c5ff"><div class="ttname"><a href="constexpr__math_8hpp.html#a3e8bda2186060eb9bd89327f5468c5ff">snicholls::math::is_integral</a></div><div class="ttdeci">constexpr bool is_integral(X x)</div><div class="ttdoc">Whether x is a whole number small enough for pow to raise by repeated squaring (below 9e15 for a doub...</div><div class="ttdef"><b>Definition</b> <a href="#l00694">constexpr_math.hpp:694</a></div></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html_a4642935df26bbf8b758819ab151e1856"><div class="ttname"><a href="constexpr__math_8hpp.html#a4642935df26bbf8b758819ab151e1856">snicholls::math::is_inf</a></div><div class="ttdeci">constexpr bool is_inf(X x)</div><div class="ttdoc">Whether x is infinite.</div><div class="ttdef"><b>Definition</b> <a href="#l00659">constexpr_math.hpp:659</a></div></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html_a46f5b34a4052f936a0d6f3de0e857c0e"><div class="ttname"><a href="constexpr__math_8hpp.html#a46f5b34a4052f936a0d6f3de0e857c0e">snicholls::math::e_v</a></div><div class="ttdeci">constexpr double e_v</div><div class="ttdoc">e.</div><div class="ttdef"><b>Definition</b> <a href="#l00067">constexpr_math.hpp:67</a></div></div>
+<div class="ttc" id="aconstexpr__math_8hpp_html_a53f5d8ce71bf35d3d615ceabdcbebe75"><div class="ttname"><a href="constexpr__math_8hpp.html#a53f5d8ce71bf35d3d615ceabdcbebe75">snicholls::math::chi_square_quantile</a></div><div class="ttdeci">constexpr real_t&lt; std::common_type_t&lt; P, K &gt; &gt; chi_square_quantile(P p, K k)</div><div class="ttdoc">The chi-square quantile with k degrees of freedom: the x with chi_square_cdf(x, k) = p.</div><div class="ttdef"><b>Definition</b> <a href="#l01212">constexpr_math.hpp:1212</a></div></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html_a543d2dddf4be3af0e891a0618029fa21"><div class="ttname"><a href="constexpr__math_8hpp.html#a543d2dddf4be3af0e891a0618029fa21">snicholls::math::floor</a></div><div class="ttdeci">constexpr real_t&lt; X &gt; floor(X x)</div><div class="ttdoc">x rounded down.</div><div class="ttdef"><b>Definition</b> <a href="#l00677">constexpr_math.hpp:677</a></div></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html_a573ad74f20bfc03373b36f4cfec7c69e"><div class="ttname"><a href="constexpr__math_8hpp.html#a573ad74f20bfc03373b36f4cfec7c69e">snicholls::math::chi_square_cdf</a></div><div class="ttdeci">constexpr real_t&lt; std::common_type_t&lt; X, K &gt; &gt; chi_square_cdf(X x, K k)</div><div class="ttdoc">The chi-square distribution function with k degrees of freedom.</div><div class="ttdef"><b>Definition</b> <a href="#l01160">constexpr_math.hpp:1160</a></div></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html_a5ac28d54f4aab012d206622043d6d9e8"><div class="ttname"><a href="constexpr__math_8hpp.html#a5ac28d54f4aab012d206622043d6d9e8">snicholls::math::is_nan</a></div><div class="ttdeci">constexpr bool is_nan(X x)</div><div class="ttdoc">Whether x is NaN.</div><div class="ttdef"><b>Definition</b> <a href="#l00653">constexpr_math.hpp:653</a></div></div>

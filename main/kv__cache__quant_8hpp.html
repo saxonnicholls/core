@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -144,7 +144,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="fragment"><div class="line">    <span class="comment">// One layer, one key-value head of 64 channels, 16 slots: keys as Q8_0, values as Q4_0 (owning arrays)</span></div>
 <div class="line">    <span class="keyword">constexpr</span> ml::transformer_config c{.d_model = 64, .n_heads = 1, .n_kv_heads = 1, .head_dim = 64, .d_ff = 64, .rope = ml::rope_kind::half};</div>
 <div class="line">    ml::quantized_kv_cache&lt;c, 1, 16, ml::block_q8_0, ml::block_q4_0&gt; cache;</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> view = cache.view();</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a> = cache.view();</div>
 <div class="line">    std::vector&lt;float&gt; fk, fv;   <span class="comment">// the same rows in float, to compare</span></div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t p = 0; p &lt; 16; ++p) {</div>
 <div class="line">        std::array&lt;float, 64&gt; k{}, v{};</div>
@@ -152,7 +152,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">            k[i] = std::sin(0.1f * <span class="keywordtype">float</span>(i) + <span class="keywordtype">float</span>(p));</div>
 <div class="line">            v[i] = std::cos(0.05f * <span class="keywordtype">float</span>(i * p));</div>
 <div class="line">        }</div>
-<div class="line">        view.append(0, p, k, v);   <span class="comment">// quantised on the way in</span></div>
+<div class="line">        <a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a>.append(0, p, k, v);   <span class="comment">// quantised on the way in</span></div>
 <div class="line">        fk.insert(fk.end(), k.begin(), k.end());</div>
 <div class="line">        fv.insert(fv.end(), v.begin(), v.end());</div>
 <div class="line">    }</div>

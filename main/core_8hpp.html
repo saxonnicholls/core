@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -119,6 +119,7 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="uuid_8hpp_source.html">snicholls/core/uuid.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="version_8hpp_source.html">snicholls/core/version.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="zip_8hpp_source.html">snicholls/core/zip.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="assignment_8hpp_source.html">snicholls/core/combinatorics/assignment.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="partition_8hpp_source.html">snicholls/core/combinatorics/partition.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="permutations_8hpp_source.html">snicholls/core/combinatorics/permutations.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="subsets_8hpp_source.html">snicholls/core/combinatorics/subsets.hpp</a>&gt;</code><br />
@@ -130,6 +131,7 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="index__pool_8hpp_source.html">snicholls/core/containers/index_pool.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="inplace__vector_8hpp_source.html">snicholls/core/containers/inplace_vector.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="intrusive__avl__tree_8hpp_source.html">snicholls/core/containers/intrusive_avl_tree.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="kd__tree_8hpp_source.html">snicholls/core/containers/kd_tree.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="mapped__header_8hpp_source.html">snicholls/core/containers/mapped_header.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="md__array_8hpp_source.html">snicholls/core/containers/md_array.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="object__pool_8hpp_source.html">snicholls/core/containers/object_pool.hpp</a>&gt;</code><br />
@@ -144,6 +146,11 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="properties_8hpp_source.html">snicholls/core/game/properties.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="shapley_8hpp_source.html">snicholls/core/game/shapley.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="tabular_8hpp_source.html">snicholls/core/game/tabular.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="alignment_8hpp_source.html">snicholls/core/geometry/alignment.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="angle_8hpp_source.html">snicholls/core/geometry/angle.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="camera_8hpp_source.html">snicholls/core/geometry/camera.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="coordinates_8hpp_source.html">snicholls/core/geometry/coordinates.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="geodetic_8hpp_source.html">snicholls/core/geometry/geodetic.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="blake2_8hpp_source.html">snicholls/core/hash/blake2.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="blake3_8hpp_source.html">snicholls/core/hash/blake3.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="crc_8hpp_source.html">snicholls/core/hash/crc.hpp</a>&gt;</code><br />
@@ -161,6 +168,7 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="wyhash_8hpp_source.html">snicholls/core/hash/wyhash.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="backend_8hpp_source.html">snicholls/core/linalg/backend.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="batched_8hpp_source.html">snicholls/core/linalg/batched.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="fixed_8hpp_source.html">snicholls/core/linalg/fixed.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="randomized__svd_8hpp_source.html">snicholls/core/linalg/randomized_svd.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="reference_8hpp_source.html">snicholls/core/linalg/reference.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="types_8hpp_source.html">snicholls/core/linalg/types.hpp</a>&gt;</code><br />
@@ -268,7 +276,7 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="hilbert_8hpp_source.html">snicholls/core/signal/hilbert.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="iir_8hpp_source.html">snicholls/core/signal/iir.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="mel_8hpp_source.html">snicholls/core/signal/mel.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="resample_8hpp_source.html">snicholls/core/signal/resample.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="signal_2resample_8hpp_source.html">snicholls/core/signal/resample.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="stft_8hpp_source.html">snicholls/core/signal/stft.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="window_8hpp_source.html">snicholls/core/signal/window.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="accumulators_8hpp_source.html">snicholls/core/stats/accumulators.hpp</a>&gt;</code><br />
@@ -278,6 +286,8 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="normal_8hpp_source.html">snicholls/core/stats/normal.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="pivot_8hpp_source.html">snicholls/core/stats/pivot.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="random_8hpp_source.html">snicholls/core/stats/random.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="ransac_8hpp_source.html">snicholls/core/stats/ransac.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="stats_2resample_8hpp_source.html">snicholls/core/stats/resample.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="uniform__int_8hpp_source.html">snicholls/core/stats/uniform_int.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="martingale_8hpp_source.html">snicholls/core/stochastic/martingale.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="snell_8hpp_source.html">snicholls/core/stochastic/snell.hpp</a>&gt;</code><br />
@@ -287,6 +297,16 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="solar_8hpp_source.html">snicholls/core/time/solar.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utc_8hpp_source.html">snicholls/core/time/utc.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utc__format_8hpp_source.html">snicholls/core/time/utc_format.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="association_8hpp_source.html">snicholls/core/tracking/association.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="discrete_8hpp_source.html">snicholls/core/tracking/discrete.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="fusion_8hpp_source.html">snicholls/core/tracking/fusion.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="gaussian_8hpp_source.html">snicholls/core/tracking/gaussian.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="kalman_8hpp_source.html">snicholls/core/tracking/kalman.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="measurement_8hpp_source.html">snicholls/core/tracking/measurement.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="metrics_8hpp_source.html">snicholls/core/tracking/metrics.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="mixture_8hpp_source.html">snicholls/core/tracking/mixture.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="transition_8hpp_source.html">snicholls/core/tracking/transition.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="unscented_8hpp_source.html">snicholls/core/tracking/unscented.hpp</a>&gt;</code><br />
 </div>
 <p><a href="core_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">

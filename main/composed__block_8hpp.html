@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -198,8 +198,8 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 <div class="line">    {</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> w = ml::latent_moe_block_weights_in&lt;C&gt;(std::span&lt;const float&gt;(params));</div>
 <div class="line">        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> norm : {w.norm1_weight, w.norm2_weight, w.attention.q_norm, w.attention.kv_norm})   <span class="comment">// norms start at 1</span></div>
-<div class="line">            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; <a class="code hl_function" href="namespacesnicholls_1_1signal.html#a5e1e109326c706e556abaab94f370cb6">norm</a>.size(); ++i)</div>
-<div class="line">                params[std::size_t(<a class="code hl_function" href="namespacesnicholls_1_1signal.html#a5e1e109326c706e556abaab94f370cb6">norm</a>.data() - params.data()) + i] = 1.0f;</div>
+<div class="line">            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; <a class="code hl_function" href="group__core.html#gae09494fdd2dc08d0ab9ed4cea43daead">norm</a>.size(); ++i)</div>
+<div class="line">                params[std::size_t(<a class="code hl_function" href="group__core.html#gae09494fdd2dc08d0ab9ed4cea43daead">norm</a>.data() - params.data()) + i] = 1.0f;</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> act = ml::latent_moe_block_activations_in&lt;C&gt;(std::span&lt;float&gt;(values), std::span&lt;u32&gt;(indices), rows);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> g = ml::latent_moe_block_gradients_in&lt;C&gt;(std::span&lt;float&gt;(grads), std::span&lt;float&gt;(work), rows);</div>

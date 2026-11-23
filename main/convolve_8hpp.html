@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -180,7 +180,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> s::fft_plan&lt;double&gt; p16(16, st16);</div>
 <div class="line">    std::vector&lt;cd&gt; w16(s::fft_convolve_work_size(p16));</div>
 <div class="line">    s::fft_correlate(p16, std::span&lt;const double&gt;(signal), std::span&lt;const double&gt;(pattern), std::span&lt;double&gt;(corr_fft), std::span&lt;cd&gt;(w16));</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="fft_8hpp.html" title="snicholls::signal fast Fourier transforms of any length, at compile time and at run time: complex and...">signal/fft.hpp</a></span> (the plans); <span class="tt"><a class="el" href="fir_8hpp.html" title="snicholls::signal FIR filter design by the windowed sinc (scipy.signal.firwin): low-pass,...">signal/fir.hpp</a></span> (filters to apply); <span class="tt"><a class="el" href="resample_8hpp.html" title="snicholls::signal polyphase resampling by a rational factor up / down, as scipy.signal....">signal/resample.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="fft_8hpp.html" title="snicholls::signal fast Fourier transforms of any length, at compile time and at run time: complex and...">signal/fft.hpp</a></span> (the plans); <span class="tt"><a class="el" href="fir_8hpp.html" title="snicholls::signal FIR filter design by the windowed sinc (scipy.signal.firwin): low-pass,...">signal/fir.hpp</a></span> (filters to apply); <span class="tt"><a class="el" href="signal_2resample_8hpp.html" title="snicholls::signal polyphase resampling by a rational factor up / down, as scipy.signal....">signal/resample.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> Direct; FFT of the full length; overlap-add and overlap-save over blocks. For a kernel of fewer than about 32 taps the direct form is faster; above, overlap-save wins, and the full-length transform for two long sequences.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>; no allocation (work buffers from the caller: <span class="tt">fft_convolve_work_size(plan)</span>, <span class="tt">block_filter_work_size(plan)</span>). The FFT forms agree with the direct one within <span class="tt">4 eps ceil(log2 n) ||a||_2 ||b||_2</span>. Complexity: <span class="tt">O(n log n)</span> for <span class="tt">fft_convolve</span>, <span class="tt">O(N log n)</span> for a signal of <span class="tt">N</span> samples through the block forms.</p>
 <p><b>Errors.</b> Preconditions, asserted: the output's size is the mode's; the plan is long enough (<span class="tt">na + nb - 1</span>, or more than the filter for the block forms); <span class="tt">correlate</span> in <span class="tt">valid</span> mode needs <span class="tt">na &gt;= nb</span>. Empty inputs give empty outputs.</p>

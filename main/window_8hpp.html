@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -192,7 +192,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="comment">// Reconstruction conditions for an overlap-add at a hop.</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> cola = s::is_cola&lt;float&gt;(hann400, 200);   <span class="comment">// Hann at half overlap sums to a constant</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> nola = s::is_nola&lt;float&gt;(hann400, 160);   <span class="comment">// Whisper&#39;s hop is not COLA, but invertible</span></div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="stft_8hpp.html" title="snicholls::signal short-time Fourier transform and its inverse, as torch.stft and torch....">signal/stft.hpp</a></span>, <span class="tt"><a class="el" href="fir_8hpp.html" title="snicholls::signal FIR filter design by the windowed sinc (scipy.signal.firwin): low-pass,...">signal/fir.hpp</a></span> and <span class="tt"><a class="el" href="resample_8hpp.html" title="snicholls::signal polyphase resampling by a rational factor up / down, as scipy.signal....">signal/resample.hpp</a></span> take these windows; <span class="tt">math::bessel_i0</span> is Kaiser's. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="stft_8hpp.html" title="snicholls::signal short-time Fourier transform and its inverse, as torch.stft and torch....">signal/stft.hpp</a></span>, <span class="tt"><a class="el" href="fir_8hpp.html" title="snicholls::signal FIR filter design by the windowed sinc (scipy.signal.firwin): low-pass,...">signal/fir.hpp</a></span> and <span class="tt"><a class="el" href="signal_2resample_8hpp.html" title="snicholls::signal polyphase resampling by a rational factor up / down, as scipy.signal....">signal/resample.hpp</a></span> take these windows; <span class="tt">math::bessel_i0</span> is Kaiser's. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One formula per window, in <span class="tt">compute_t&lt;T&gt;</span> (<span class="tt">double</span> for <span class="tt">float</span>) and rounded once.</p>
 <p><b>Guarantees.</b> Every function is <span class="tt">constexpr</span> and <span class="tt">noexcept</span>; the window types are trivially copyable and structural. The cosine sums, Kaiser and Gaussian are symmetric to the bit in their symmetric form (<span class="tt">w(i)</span> is computed from <span class="tt">min(i, m - i)</span>); Tukey follows scipy's index arithmetic. Values agree with scipy's to a few units in the last place (scipy sums the cosines in another order). Complexity: linear in the length; <span class="tt">is_cola</span> and <span class="tt">is_nola</span> are linear in the window.</p>
 <p><b>Errors.</b> None; a Kaiser <span class="tt">beta</span> beyond about 700 overflows <span class="tt">I0</span> to infinity and gives NaN.</p>

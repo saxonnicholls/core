@@ -81,23 +81,25 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accumulators_8hpp.html",
-"classsnicholls_1_1containers_1_1layout__left_1_1mapping.html#a9f1ec807a178ae8b6cd09f046c195c78",
-"classsnicholls_1_1ml_1_1kv__cache__view.html#ac6d968b276989feac060e43c97ff7dcd",
-"classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html#a683eeee06e65136063d8cf9b982fb865",
-"conceptsnicholls_1_1string__view__like.html",
-"group__core.html#ga3491e0da79b7df84b82c9feba710e8d4",
-"group__core.html#gab64702f991c1102c4f17d2651d2035dd",
-"group__core.html#gga5110b25e21e03b544ccffbc194fadb3fa1f722b68953e7d3e5b6473693d91d5c3",
-"namespacemembers_func_u.html",
-"rope__modes_8hpp.html",
-"structsnicholls_1_1finance_1_1risk__contribution.html#a3cab901d4ba5dfbc79fcc4e29d264abc",
-"structsnicholls_1_1ml_1_1attentive__probe__weights.html#a6a7caa93036f4c250fafe261eada8fc2",
-"structsnicholls_1_1ml_1_1conv__shape.html#af2670c099bf29e23a6222b5141812043",
-"structsnicholls_1_1ml_1_1logit__bias__entry.html#a4043a600187efd5a149df6025ca17af2",
-"structsnicholls_1_1ml_1_1patch__grid.html#aee0452b795591877287c636acfd947c8",
-"structsnicholls_1_1ml_1_1token__trie_1_1cursor.html#aa26eca56c751d91a55437be14d4fba33",
-"structsnicholls_1_1rfc3339__text.html#ab5f0f906341421777ee583af00324160",
-"structsnicholls_1_1stochastic_1_1snell.html#a0d0c579b05b17beacf2b601ae71acf02"
+"classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#aeec6200e0b390a33a8f8bda2bd0f402d",
+"classsnicholls_1_1ml_1_1grammar__matcher.html#a1166b6599155a3081b62a202404a15ea",
+"classsnicholls_1_1signal_1_1static__fft__plan.html#acff27e87d9c2169089b91411276fe32a",
+"conceptsnicholls_1_1pipeline_1_1stage__spec.html",
+"group__core.html#ga1b1c78946b7bd882aeb3621f79c7a69f",
+"group__core.html#ga83d55e5898fe8abd1826b22e8bf61092",
+"group__core.html#gaddf00cf2543f994c39ea153900158b7e",
+"group__core.html#gga942e705a53af49295fe93a6314dd4e62aba1da3e5391b24a27839cc5f2dd5e080",
+"namespacesnicholls.html#a07bb5af6399aade0bed5cfe49480bc4c",
+"stages_8hpp.html",
+"structsnicholls_1_1first__match.html",
+"structsnicholls_1_1ml_1_1attentive__probe__activations.html#aa10f6dda8d0ac7a69a4682b3f75321de",
+"structsnicholls_1_1ml_1_1control__vector__view.html#a4a3d15d23c649c1276dd19934ad01d5f",
+"structsnicholls_1_1ml_1_1latent__block__activations.html#a42e6d4d93c2bfb859a0b1521c74b396a",
+"structsnicholls_1_1ml_1_1online__softmax.html#a6505b85be53133791c4db0bf82746478",
+"structsnicholls_1_1ml_1_1token__candidates.html#a452270f80929a050a095b36ae159c8c4",
+"structsnicholls_1_1pipeline_1_1filter__stage.html#a1c1e7b5e9fb21a74bbceb0e33a697252",
+"structsnicholls_1_1stats_1_1sum.html#a9d75f203dd90761bb95ed5a6bd270813",
+"subsets_8hpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

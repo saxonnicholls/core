@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -153,7 +153,7 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line"><span class="comment">// The compiler computes the digest and checks it against the published value</span></div>
 <div class="line"><span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1digest.html">snicholls::digest&lt;32&gt;</a> empty_sha256 = snicholls::sha256::hash(<span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><span class="keyword">static_assert</span>(empty_sha256 == <a class="code hl_function" href="structsnicholls_1_1digest.html#afb512adf477da3a75cd07fea13f154d5">snicholls::digest&lt;32&gt;::from_hex</a>(<span class="stringliteral">&quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;</span>));</div>
-<div class="line"><span class="keyword">static_assert</span>(empty_sha256.<a class="code hl_function" href="structsnicholls_1_1digest.html#a4c991efe92fac9dbb88178287fbdd1e7">hex</a>().view().starts_with(<span class="stringliteral">&quot;e3b0c442&quot;</span>));</div>
+<div class="line"><span class="keyword">static_assert</span>(empty_sha256.<a class="code hl_function" href="structsnicholls_1_1digest.html#a4c991efe92fac9dbb88178287fbdd1e7">hex</a>().<a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a>().starts_with(<span class="stringliteral">&quot;e3b0c442&quot;</span>));</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Any one-byte sequence is an input, and a digest is one too</span></div>
 <div class="line"><span class="keyword">const</span> std::vector&lt;std::uint8_t&gt; <a class="code hl_enumvalue" href="group__core.html#gga77f8481e10b420d8a8d6a9ce07770c29a4b3a6218bb3e3a7303e8a171a60fcf92">bytes</a>{<span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>, <span class="charliteral">&#39;c&#39;</span>};</div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -156,7 +156,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    <span class="comment">// With RoPE there is no position table: the token&#39;s row alone, or a view of it</span></div>
 <div class="line">    std::array&lt;float, channels&gt; token1{};</div>
 <div class="line">    ml::embed(wte, 1, token1);</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> view = ml::embedding_row(wte, 2, channels);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a> = ml::embedding_row(wte, 2, channels);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Backward: each position&#39;s gradient adds into its token&#39;s row, so token 3 collects two</span></div>
 <div class="line">    std::array&lt;float, 4 * channels&gt; dwte{};</div>

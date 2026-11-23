@@ -1,4 +1,4 @@
-var resample_8hpp =
+var signal_2resample_8hpp =
 [
     [ "snicholls::signal::resample_kernel", "namespacesnicholls_1_1signal.html#a09497148dda44856fda8e7b91fb69d9e", null ],
     [ "snicholls::signal::resample_kernel_size", "namespacesnicholls_1_1signal.html#abd9d62ed182f7f76354667e7b8d21a59", null ],

@@ -1,6 +1,10 @@
 var annotated_dup =
 [
     [ "snicholls", "namespacesnicholls.html", [
+      [ "combinatorics", null, [
+        [ "assignment", "structsnicholls_1_1combinatorics_1_1assignment.html", "structsnicholls_1_1combinatorics_1_1assignment" ],
+        [ "assignment_solver", "classsnicholls_1_1combinatorics_1_1assignment__solver.html", "classsnicholls_1_1combinatorics_1_1assignment__solver" ]
+      ] ],
       [ "containers", null, [
         [ "bloom_parameters", "structsnicholls_1_1containers_1_1bloom__parameters.html", "structsnicholls_1_1containers_1_1bloom__parameters" ],
         [ "bloom_filter", "classsnicholls_1_1containers_1_1bloom__filter.html", "classsnicholls_1_1containers_1_1bloom__filter" ],
@@ -16,6 +20,9 @@ var annotated_dup =
         [ "avl_hook", "structsnicholls_1_1containers_1_1avl__hook.html", "structsnicholls_1_1containers_1_1avl__hook" ],
         [ "member_avl_traits", "structsnicholls_1_1containers_1_1member__avl__traits.html", "structsnicholls_1_1containers_1_1member__avl__traits" ],
         [ "intrusive_avl_tree", "classsnicholls_1_1containers_1_1intrusive__avl__tree.html", "classsnicholls_1_1containers_1_1intrusive__avl__tree" ],
+        [ "kd_point_traits", "structsnicholls_1_1containers_1_1kd__point__traits.html", null ],
+        [ "kd_neighbour", "structsnicholls_1_1containers_1_1kd__neighbour.html", "structsnicholls_1_1containers_1_1kd__neighbour" ],
+        [ "kd_tree", "classsnicholls_1_1containers_1_1kd__tree.html", "classsnicholls_1_1containers_1_1kd__tree" ],
         [ "mapped_header", "structsnicholls_1_1containers_1_1mapped__header.html", "structsnicholls_1_1containers_1_1mapped__header" ],
         [ "md_array", "classsnicholls_1_1containers_1_1md__array.html", "classsnicholls_1_1containers_1_1md__array" ],
         [ "layout_right", "structsnicholls_1_1containers_1_1layout__right.html", "structsnicholls_1_1containers_1_1layout__right" ],
@@ -54,8 +61,18 @@ var annotated_dup =
         [ "lift_sampling", "structsnicholls_1_1game_1_1lift__sampling.html", "structsnicholls_1_1game_1_1lift__sampling" ],
         [ "interventional_game", "classsnicholls_1_1game_1_1interventional__game.html", "classsnicholls_1_1game_1_1interventional__game" ]
       ] ],
+      [ "geometry", null, [
+        [ "transform_2d", "structsnicholls_1_1geometry_1_1transform__2d.html", "structsnicholls_1_1geometry_1_1transform__2d" ],
+        [ "transform_3d", "structsnicholls_1_1geometry_1_1transform__3d.html", "structsnicholls_1_1geometry_1_1transform__3d" ],
+        [ "pinhole", "structsnicholls_1_1geometry_1_1pinhole.html", "structsnicholls_1_1geometry_1_1pinhole" ],
+        [ "plane_fix_result", "structsnicholls_1_1geometry_1_1plane__fix__result.html", "structsnicholls_1_1geometry_1_1plane__fix__result" ],
+        [ "ellipsoid", "structsnicholls_1_1geometry_1_1ellipsoid.html", "structsnicholls_1_1geometry_1_1ellipsoid" ],
+        [ "local_frame", "classsnicholls_1_1geometry_1_1local__frame.html", "classsnicholls_1_1geometry_1_1local__frame" ]
+      ] ],
       [ "linalg", null, [
         [ "inline_executor", "structsnicholls_1_1linalg_1_1inline__executor.html", "structsnicholls_1_1linalg_1_1inline__executor" ],
+        [ "fixed_matrix", "structsnicholls_1_1linalg_1_1fixed__matrix.html", "structsnicholls_1_1linalg_1_1fixed__matrix" ],
+        [ "eigen_decomposition", "structsnicholls_1_1linalg_1_1eigen__decomposition.html", "structsnicholls_1_1linalg_1_1eigen__decomposition" ],
         [ "truncated_svd_options", "structsnicholls_1_1linalg_1_1truncated__svd__options.html", "structsnicholls_1_1linalg_1_1truncated__svd__options" ],
         [ "gaussian_sketch", "structsnicholls_1_1linalg_1_1gaussian__sketch.html", "structsnicholls_1_1linalg_1_1gaussian__sketch" ],
         [ "rademacher_sketch", "structsnicholls_1_1linalg_1_1rademacher__sketch.html", "structsnicholls_1_1linalg_1_1rademacher__sketch" ],
@@ -372,6 +389,7 @@ var annotated_dup =
         [ "pivot", "classsnicholls_1_1stats_1_1pivot.html", null ],
         [ "pivot&lt; Row, meta::type_list&lt; Rs... &gt;, meta::type_list&lt; Cs... &gt;, measure&lt; Vs, As &gt;... &gt;", "classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html", "classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204" ],
         [ "wyrand", "classsnicholls_1_1stats_1_1wyrand.html", "classsnicholls_1_1stats_1_1wyrand" ],
+        [ "ransac_result", "structsnicholls_1_1stats_1_1ransac__result.html", "structsnicholls_1_1stats_1_1ransac__result" ],
         [ "uniform_int", "classsnicholls_1_1stats_1_1uniform__int.html", "classsnicholls_1_1stats_1_1uniform__int" ]
       ] ],
       [ "stochastic", null, [
@@ -380,6 +398,32 @@ var annotated_dup =
         [ "test_result", "structsnicholls_1_1stochastic_1_1test__result.html", "structsnicholls_1_1stochastic_1_1test__result" ],
         [ "fixed_snell", "structsnicholls_1_1stochastic_1_1fixed__snell.html", "structsnicholls_1_1stochastic_1_1fixed__snell" ],
         [ "snell", "structsnicholls_1_1stochastic_1_1snell.html", "structsnicholls_1_1stochastic_1_1snell" ]
+      ] ],
+      [ "tracking", null, [
+        [ "gaussian", "structsnicholls_1_1tracking_1_1gaussian.html", "structsnicholls_1_1tracking_1_1gaussian" ],
+        [ "ellipse", "structsnicholls_1_1tracking_1_1ellipse.html", "structsnicholls_1_1tracking_1_1ellipse" ],
+        [ "measurement_prediction", "structsnicholls_1_1tracking_1_1measurement__prediction.html", "structsnicholls_1_1tracking_1_1measurement__prediction" ],
+        [ "kalman_update", "structsnicholls_1_1tracking_1_1kalman__update.html", "structsnicholls_1_1tracking_1_1kalman__update" ],
+        [ "information_state", "structsnicholls_1_1tracking_1_1information__state.html", "structsnicholls_1_1tracking_1_1information__state" ],
+        [ "linear_gaussian", "structsnicholls_1_1tracking_1_1linear__gaussian.html", "structsnicholls_1_1tracking_1_1linear__gaussian" ],
+        [ "bearing", "structsnicholls_1_1tracking_1_1bearing.html", "structsnicholls_1_1tracking_1_1bearing" ],
+        [ "bearing_range", "structsnicholls_1_1tracking_1_1bearing__range.html", "structsnicholls_1_1tracking_1_1bearing__range" ],
+        [ "elevation_bearing", "structsnicholls_1_1tracking_1_1elevation__bearing.html", "structsnicholls_1_1tracking_1_1elevation__bearing" ],
+        [ "elevation_bearing_range", "structsnicholls_1_1tracking_1_1elevation__bearing__range.html", "structsnicholls_1_1tracking_1_1elevation__bearing__range" ],
+        [ "bearing_range_rate", "structsnicholls_1_1tracking_1_1bearing__range__rate.html", "structsnicholls_1_1tracking_1_1bearing__range__rate" ],
+        [ "gospa_result", "structsnicholls_1_1tracking_1_1gospa__result.html", "structsnicholls_1_1tracking_1_1gospa__result" ],
+        [ "set_metric_solver", "classsnicholls_1_1tracking_1_1set__metric__solver.html", "classsnicholls_1_1tracking_1_1set__metric__solver" ],
+        [ "weighted_gaussian", "structsnicholls_1_1tracking_1_1weighted__gaussian.html", "structsnicholls_1_1tracking_1_1weighted__gaussian" ],
+        [ "mixture_reduction", "structsnicholls_1_1tracking_1_1mixture__reduction.html", "structsnicholls_1_1tracking_1_1mixture__reduction" ],
+        [ "constant_nth_derivative", "structsnicholls_1_1tracking_1_1constant__nth__derivative.html", "structsnicholls_1_1tracking_1_1constant__nth__derivative" ],
+        [ "nth_derivative_decay", "structsnicholls_1_1tracking_1_1nth__derivative__decay.html", "structsnicholls_1_1tracking_1_1nth__derivative__decay" ],
+        [ "singer_approximate", "structsnicholls_1_1tracking_1_1singer__approximate.html", "structsnicholls_1_1tracking_1_1singer__approximate" ],
+        [ "known_turn_rate", "structsnicholls_1_1tracking_1_1known__turn__rate.html", "structsnicholls_1_1tracking_1_1known__turn__rate" ],
+        [ "constant_turn", "structsnicholls_1_1tracking_1_1constant__turn.html", "structsnicholls_1_1tracking_1_1constant__turn" ],
+        [ "combined", "structsnicholls_1_1tracking_1_1combined.html", "structsnicholls_1_1tracking_1_1combined" ],
+        [ "unscented_parameters", "structsnicholls_1_1tracking_1_1unscented__parameters.html", "structsnicholls_1_1tracking_1_1unscented__parameters" ],
+        [ "point_set", "structsnicholls_1_1tracking_1_1point__set.html", "structsnicholls_1_1tracking_1_1point__set" ],
+        [ "transformed", "structsnicholls_1_1tracking_1_1transformed.html", "structsnicholls_1_1tracking_1_1transformed" ]
       ] ],
       [ "colour_reset_t", "structsnicholls_1_1colour__reset__t.html", null ],
       [ "acout", "classsnicholls_1_1acout.html", "classsnicholls_1_1acout" ],

@@ -6,8 +6,10 @@ var searchData=
   ['deepseek_5fcoder_3',['deepseek_coder',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a8b2206fe0091b5892e702280a97302f3',1,'snicholls::ml']]],
   ['deepseek_5fllm_4',['deepseek_llm',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a428982986a9c973b8b67b39ca1f3b53e',1,'snicholls::ml']]],
   ['deepseek_5fv3_5',['deepseek_v3',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64a8b713563ea3ed86c8c7d63eedf437977',1,'snicholls::ml']]],
-  ['descending_6',['descending',['../tensor__ops_8hpp.html#adc92105e791e317a2c5e6ecc1c1e2755ab19e9805fd7727c52ca04dfa3d24a2e5',1,'snicholls::ml']]],
-  ['did_5fnot_5fconverge_7',['did_not_converge',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0aacda4b4490ccb13a5db5192c72bb6d68',1,'did_not_convergesnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151aacda4b4490ccb13a5db5192c72bb6d68',1,'did_not_convergesnicholls::linalg']]],
-  ['dimension_5fmismatch_8',['dimension_mismatch',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0afa5a1299c298ea39fb893169e211ceda',1,'dimension_mismatchsnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151afa5a1299c298ea39fb893169e211ceda',1,'dimension_mismatchsnicholls::linalg']]],
-  ['duplicate_9',['duplicate',['../byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8a24f1b0a79473250c195c7fb84e393392',1,'snicholls::containers']]]
+  ['degenerate_6',['degenerate',['../group__core.html#gga76b8decb4042450c1e2ff630a2348e2eaff412e499efcfbbb2da4c22b01b39ab5',1,'snicholls::geometry']]],
+  ['descending_7',['descending',['../tensor__ops_8hpp.html#adc92105e791e317a2c5e6ecc1c1e2755ab19e9805fd7727c52ca04dfa3d24a2e5',1,'snicholls::ml']]],
+  ['determinant_8',['determinant',['../group__core.html#ggaa8491777be1a32342edf0842eb626bd9ab97ef64ba4c276b535566cb84ab13199',1,'snicholls::tracking']]],
+  ['did_5fnot_5fconverge_9',['did_not_converge',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0aacda4b4490ccb13a5db5192c72bb6d68',1,'did_not_convergesnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151aacda4b4490ccb13a5db5192c72bb6d68',1,'did_not_convergesnicholls::linalg']]],
+  ['dimension_5fmismatch_10',['dimension_mismatch',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0afa5a1299c298ea39fb893169e211ceda',1,'dimension_mismatchsnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151afa5a1299c298ea39fb893169e211ceda',1,'dimension_mismatchsnicholls::linalg']]],
+  ['duplicate_11',['duplicate',['../byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8a24f1b0a79473250c195c7fb84e393392',1,'snicholls::containers']]]
 ];

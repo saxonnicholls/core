@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -157,7 +157,7 @@ make_fir&lt;float, 63&gt;(fir_band::lowpass, 0.25);</span> is computed by the co
 <div class="line">    s::fir_design(std::span&lt;double&gt;(band), s::fir_band::bandpass, 0.2, 0.4, s::kaiser{8.0});</div>
 <div class="line">    s::fir_design(std::span&lt;double&gt;(stop), s::fir_band::bandstop, 0.2, 0.4, s::kaiser{8.0});</div>
 <div class="line">    s::fir_design(std::span&lt;double&gt;(high), s::fir_band::highpass, 0.5);</div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="window_8hpp.html" title="snicholls::signal window functions - rectangular, Hann, Hamming, Blackman, Blackman-Harris,...">signal/window.hpp</a></span> (the windows), <span class="tt"><a class="el" href="convolve_8hpp.html" title="snicholls::signal convolution and correlation of real sequences, direct and through the FFT,...">signal/convolve.hpp</a></span> (FFT filtering for long filters), <span class="tt"><a class="el" href="resample_8hpp.html" title="snicholls::signal polyphase resampling by a rational factor up / down, as scipy.signal....">signal/resample.hpp</a></span> (its anti-aliasing filter is a <span class="tt">fir_design</span> low-pass). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="window_8hpp.html" title="snicholls::signal window functions - rectangular, Hann, Hamming, Blackman, Blackman-Harris,...">signal/window.hpp</a></span> (the windows), <span class="tt"><a class="el" href="convolve_8hpp.html" title="snicholls::signal convolution and correlation of real sequences, direct and through the FFT,...">signal/convolve.hpp</a></span> (FFT filtering for long filters), <span class="tt"><a class="el" href="signal_2resample_8hpp.html" title="snicholls::signal polyphase resampling by a rational factor up / down, as scipy.signal....">signal/resample.hpp</a></span> (its anti-aliasing filter is a <span class="tt">fir_design</span> low-pass). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> The windowed sinc only; least-squares and Parks-McClellan designs are not provided.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation. Taps are symmetric (linear phase). Computed in <span class="tt">compute_t&lt;T&gt;</span>. Complexity: <span class="tt">O(taps)</span> to design, <span class="tt">O(taps)</span> per output sample to filter.</p>
 <p><b>Errors.</b> Preconditions, asserted: <span class="tt">0 &lt; f1 &lt; 1</span> (and <span class="tt">f1 &lt; f2 &lt; 1</span> for the band forms); an odd number of taps for <span class="tt">highpass</span> and <span class="tt">bandstop</span>, as scipy requires.</p>

@@ -1,16 +1,18 @@
 var searchData=
 [
-  ['ncs_0',['ncs',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca020a8cfa922969a0b9035333f45988c3',1,'snicholls']]],
-  ['nearest_1',['nearest',['../spatial_8hpp.html#a52c78c8532e219c1dac5095d06685792ad879c351426770bc0b13c3628db1e636',1,'snicholls::ml']]],
-  ['neox_2',['neox',['../group__core.html#gga08793641836b2c6f6c00d8e50cd21167a28189d8022ae217a3be20a0abb1b18b8',1,'snicholls::ml']]],
-  ['never_3',['never',['../group__core.html#ggaf168b1291e2861199a712672e19db6f0ac7561db7a418dd39b2201dfe110ab4a4',1,'snicholls']]],
-  ['newlines_4',['newlines',['../group__core.html#gga0b8d6acb37d9fe9e3851efd0ca05da64aa7dc558cb5d9392bf36bdefe676004d8',1,'snicholls::ml']]],
-  ['none_5',['none',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'snicholls::none'],['../group__core.html#gga3c675a762d07d5a302c88c82acd7a06da334c4a4c42fdb79d7ebc3e73b517e6f8',1,'nonesnicholls::ml'],['../group__core.html#gga4cc5cd14ab2819308d20200209849b07a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'nonesnicholls::ml'],['../group__core.html#gga1b1f83a6f20af477f93e246c8d25a67da334c4a4c42fdb79d7ebc3e73b517e6f8',1,'nonesnicholls::ml'],['../transformer__config_8hpp.html#a8cbaf0209f9c7391b59294244380154ba334c4a4c42fdb79d7ebc3e73b517e6f8',1,'nonesnicholls::ml'],['../transformer__config_8hpp.html#adeaf53e2021a1addc2b68ff4fd427824a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'nonesnicholls::ml'],['../transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'nonesnicholls::ml'],['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'snicholls::none'],['../group__core.html#gga3ded4f1d6d653bd7e484fb152391171ba334c4a4c42fdb79d7ebc3e73b517e6f8',1,'snicholls::signal::none'],['../group__core.html#ggaa73f6883ceef7d1e7fa5cb6b54dc8198a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'snicholls::signal::none'],['../group__core.html#gga62378c4bef12bb7bcae65c0cd9e6f102a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'snicholls::signal::none']]],
-  ['nonspacing_5fmark_6',['nonspacing_mark',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a00271dc3e3856db1ee0560e488902004',1,'snicholls::ml']]],
-  ['normal_7',['normal',['../group__core.html#gga08793641836b2c6f6c00d8e50cd21167afea087517c26fadd409bd4b9dc642555',1,'normalsnicholls::ml'],['../group__core.html#ggabecc5bf55e610adea310edf529547519afea087517c26fadd409bd4b9dc642555',1,'normalsnicholls::ml']]],
-  ['not_5fformatted_8',['not_formatted',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faaacf74f1aa5c5cf82928e3cfe7f8369e3',1,'snicholls::containers']]],
-  ['not_5fpositive_5fdefinite_9',['not_positive_definite',['../group__core.html#gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964',1,'not_positive_definitesnicholls::linalg'],['../group__core.html#ggaf6d5e4acbd97a55c224ced751a3bb151a06b1e69e5f998b50580bad7ca8723964',1,'not_positive_definitesnicholls::linalg']]],
-  ['notch_10',['notch',['../group__core.html#gga33dd6a2f7027ff0f132f93c83b0603fea9ce862bf60cc175e6973adb48e7d48b3',1,'snicholls::signal']]],
-  ['ntk_11',['ntk',['../group__core.html#gga1b1f83a6f20af477f93e246c8d25a67dab933ce2550c84139419deebb29f405a5',1,'snicholls::ml']]],
-  ['nvfp4_12',['nvfp4',['../group__core.html#gga9e0478b5793b0458c05dd05fe1c501ffaa9c4c967c7f4c70efb9835e17066ce27',1,'snicholls::ml']]]
+  ['magenta_0',['magenta',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a4c2a4a7078da0ac6733464eacfd00f86',1,'snicholls']]],
+  ['magnitude_1',['magnitude',['../group__core.html#gga9c327897414ff9ad46ed541f2ad0237aa28c3d8f4b7e312af5e0d6b59a50efd1c',1,'snicholls::signal']]],
+  ['mamba2_2',['mamba2',['../transformer__config_8hpp.html#a8041a45fae39dc034df3344a21d5cd18a1e593dfef08605fd22783397eda59a69',1,'snicholls::ml']]],
+  ['math_5fsymbol_3',['math_symbol',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a61a93ff236498725d515b0fe355161f2',1,'snicholls::ml']]],
+  ['max_4',['max',['../spatial_8hpp.html#a612941c0ca7f39ffdf43df4c172dbca9a2ffe4e77325d9a7152f7086ea7aa5114',1,'snicholls::ml']]],
+  ['maximise_5',['maximise',['../group__core.html#gga28b472ba9c0c7281b6cb898f42b52b0fad8688e71334a5f32371d3a340fa1ffdf',1,'snicholls::combinatorics']]],
+  ['mean_6',['mean',['../group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a',1,'meansnicholls::ml'],['../group__core.html#gga3c675a762d07d5a302c88c82acd7a06dab93db188572fc4d76cce5660f3823b0a',1,'meansnicholls::ml']]],
+  ['microsoft_7',['microsoft',['../group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca5f532a3fc4f1ea403f37070f59a7a53a',1,'snicholls']]],
+  ['minimise_8',['minimise',['../group__core.html#gga28b472ba9c0c7281b6cb898f42b52b0faac5c0d5e2c75cf3d04a47fee8ac07402',1,'snicholls::combinatorics']]],
+  ['misaligned_9',['misaligned',['../group__core.html#gga6d9fcd0f98a61588c594db54709367faa4fd4dace003cbeba14751db739087a3b',1,'snicholls::containers']]],
+  ['modifier_5fletter_10',['modifier_letter',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a20e3c50d758e00bd2cf04abf62bf5b7c',1,'snicholls::ml']]],
+  ['modifier_5fsymbol_11',['modifier_symbol',['../group__core.html#gga224371c45ed55cc808c0072b60380b40a0a9a22258e30a54f39d1809e5f4912f0',1,'snicholls::ml']]],
+  ['mrope_12',['mrope',['../group__core.html#gga08793641836b2c6f6c00d8e50cd21167a772913db520f514c7cf6a06384f28903',1,'snicholls::ml']]],
+  ['multinomial_13',['multinomial',['../group__core.html#gga6637c07c34c92b444b0751e0ac2a418da1bcd41ce1bfa4863d733f4b943602386',1,'multinomialsnicholls::stats'],['../group__core.html#ggaef6e42ba25e24139eab35f12ecd7873da1bcd41ce1bfa4863d733f4b943602386',1,'multinomialsnicholls::stats']]],
+  ['mxfp4_14',['mxfp4',['../group__core.html#gga9e0478b5793b0458c05dd05fe1c501ffa5a769dd6809d04bd1b4fdca93113f5eb',1,'snicholls::ml']]]
 ];

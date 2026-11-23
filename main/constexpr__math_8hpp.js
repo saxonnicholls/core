@@ -11,6 +11,7 @@ var constexpr__math_8hpp =
     [ "snicholls::math::atan2", "constexpr__math_8hpp.html#af03ecff1523f26649e9aa76816fed52b", null ],
     [ "snicholls::math::bessel_i0", "constexpr__math_8hpp.html#aa98700131d4c70cd231a7fb0af6a6b39", null ],
     [ "snicholls::math::chi_square_cdf", "constexpr__math_8hpp.html#a573ad74f20bfc03373b36f4cfec7c69e", null ],
+    [ "snicholls::math::chi_square_quantile", "constexpr__math_8hpp.html#a53f5d8ce71bf35d3d615ceabdcbebe75", null ],
     [ "snicholls::math::cos", "constexpr__math_8hpp.html#ac806adedffbca57dbc0833bcbc12f583", null ],
     [ "snicholls::math::cosh", "constexpr__math_8hpp.html#a2b94e6bd02587a7cb61e69c1c16c04bb", null ],
     [ "snicholls::math::cot", "constexpr__math_8hpp.html#afdaa84ceb45bc18a020ecdb57c2e5b26", null ],

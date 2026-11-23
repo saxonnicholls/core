@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -213,7 +213,7 @@ Variables</h2></td></tr>
 </ul>
 <p>Overflow on conversion follows <span class="tt">overflow_policy</span>: <span class="tt">infinity</span> (the default for <span class="tt">ieee</span>: infinity; for <span class="tt">finite_nan</span>: NaN, OCP's non-saturating mode) or <span class="tt">saturate</span> (the default otherwise: the largest finite value, which is what FP8 training uses). An 8-bit or narrower format also has <span class="tt">decode_table&lt;F&gt;</span>, all its values in a table the compiler builds.</p>
 <div class="fragment"><div class="line">    <span class="comment">// pi in each format: the bits, and the value they hold. Conversions are constexpr.</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="constexpr__math_8hpp.html#af5d65b402a4a8dd83cf05e43064129f1">pi</a> = 3.14159265358979;</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="group__core.html#gacec13418b9c2329422df006bcb3b9c5e">pi</a> = 3.14159265358979;</div>
 <div class="line">    <span class="keyword">constexpr</span> ml::bfloat16 b = ml::to_minifloat&lt;ml::bfloat16&gt;(pi);</div>
 <div class="line">    <span class="keyword">constexpr</span> ml::float16 h = ml::to_minifloat&lt;ml::float16&gt;(pi);</div>
 <div class="line">    <span class="keyword">constexpr</span> ml::float8_e4m3 e4 = ml::to_minifloat&lt;ml::float8_e4m3&gt;(pi);</div>

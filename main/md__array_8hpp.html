@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -168,7 +168,7 @@ Variables</h2></td></tr>
 <div class="line">    std::array&lt;double, 6&gt; storage{1, 2, 3, 4, 5, 6};</div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1containers_1_1md__span.html">md_span&lt;double, 2&gt;</a> rows(storage.data(), {2, 3});                            <span class="comment">// row-major: 1 2 3 / 4 5 6</span></div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1containers_1_1md__span.html">md_span&lt;double, 2, layout_left&gt;</a> columns(storage.data(), {2, 3});            <span class="comment">// column-major: 1 3 5 / 2 4 6</span></div>
-<div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1containers_1_1md__span.html">md_span&lt;double, 2, layout_stride&gt;</a> transpose(storage.data(), {3, 2}, {1, 3});   <span class="comment">// rows, transposed</span></div>
+<div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1containers_1_1md__span.html">md_span&lt;double, 2, layout_stride&gt;</a> <a class="code hl_function" href="group__core.html#gac376efdc0d79ffb0b286577a9ab212df">transpose</a>(storage.data(), {3, 2}, {1, 3});   <span class="comment">// rows, transposed</span></div>
 <div class="line">    <span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1containers_1_1md__span.html">md_span&lt;const double, 2, layout_stride&gt;</a> any = columns;                      <span class="comment">// converts, as std::mdspan&#39;s do</span></div>
 </div><!-- fragment --><p><span class="tt">submdspan(s, slices...)</span> takes a sub-view: an index fixes a dimension (the rank drops by one), <span class="tt">full_extent</span> keeps it, and a <span class="tt">std::pair{first, last}</span> keeps <span class="tt">[first, last)</span>. The result is a <span class="tt">layout_stride</span> view of the same storage, so one system of a batch, a row or a column is a view, never a copy.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Three 2 x 2 systems, stored one after another; the second system, its first column, and a block of rows.</span></div>

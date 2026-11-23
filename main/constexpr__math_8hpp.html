@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.18.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.19.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -238,6 +238,9 @@ requires math_number&lt;T&gt;</td></tr>
 <tr class="memitem:a573ad74f20bfc03373b36f4cfec7c69e" id="r_a573ad74f20bfc03373b36f4cfec7c69e"><td class="memTemplParams" colspan="2">template&lt;math_argument X, math_argument K&gt; </td></tr>
 <tr class="memitem:a573ad74f20bfc03373b36f4cfec7c69e template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; std::common_type_t&lt; X, K &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a573ad74f20bfc03373b36f4cfec7c69e">snicholls::math::chi_square_cdf</a> (X x, K k)</td></tr>
 <tr class="memdesc:a573ad74f20bfc03373b36f4cfec7c69e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The chi-square distribution function with <span class="tt">k</span> degrees of freedom.  <br /></td></tr>
+<tr class="memitem:a53f5d8ce71bf35d3d615ceabdcbebe75" id="r_a53f5d8ce71bf35d3d615ceabdcbebe75"><td class="memTemplParams" colspan="2">template&lt;math_argument P, math_argument K&gt; </td></tr>
+<tr class="memitem:a53f5d8ce71bf35d3d615ceabdcbebe75 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#gaee5ee36a464f42353d5a712baf4ba54b">real_t</a>&lt; std::common_type_t&lt; P, K &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53f5d8ce71bf35d3d615ceabdcbebe75">snicholls::math::chi_square_quantile</a> (P p, K k)</td></tr>
+<tr class="memdesc:a53f5d8ce71bf35d3d615ceabdcbebe75"><td class="mdescLeft">&#160;</td><td class="mdescRight">The chi-square quantile with <span class="tt">k</span> degrees of freedom: the <span class="tt">x</span> with <span class="tt">chi_square_cdf(x, k) = p</span>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -279,7 +282,7 @@ Variables</h2></td></tr>
 <p><b>Performance.</b> At run time, <span class="tt">&lt;cmath&gt;</span>'s. <span class="tt">normal_quantile</span> costs a logarithm, a square root and an <span class="tt">erfc</span>.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/math/constexpr_math_test.cpp</span>, <span class="tt">demos/math/constexpr_math_demo.cpp</span>.</p>
 <p><b>Dependencies.</b> <span class="tt">&lt;bit&gt;</span>, <span class="tt">&lt;cmath&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;type_traits&gt;</span>.</p>
-<p><b>Known issues.</b> At compile time <span class="tt">sin</span> and <span class="tt">cos</span> reduce arguments with three parts of pi/2, accurate for |x| up to about 1e9; beyond that compile-time results drift. <span class="tt">lgamma</span>, <span class="tt">gamma_p</span> and <span class="tt">chi_square_cdf</span> use Lanczos' coefficients and are good to about 15 digits in every type. <span class="tt">long double</span> is <span class="tt">double</span> on Apple ARM and MSVC; its limits follow <span class="tt">std::numeric_limits</span>, so it is right either way. A type of the caller's needs arithmetic, comparisons, conversion to and from <span class="tt">long long</span> and <span class="tt">double</span>, <span class="tt">std::numeric_limits</span>, and, for run time, <span class="tt">exp</span>, <span class="tt">log</span>, ... in its own namespace.</p>
+<p><b>Known issues.</b> At compile time <span class="tt">sin</span> and <span class="tt">cos</span> reduce arguments with three parts of pi/2, accurate for |x| up to about 1e9; beyond that compile-time results drift. <span class="tt">lgamma</span>, <span class="tt">gamma_p</span>, <span class="tt">chi_square_cdf</span> and <span class="tt">chi_square_quantile</span> use Lanczos' coefficients and are good to about 15 digits in every type. <span class="tt">long double</span> is <span class="tt">double</span> on Apple ARM and MSVC; its limits follow <span class="tt">std::numeric_limits</span>, so it is right either way. A type of the caller's needs arithmetic, comparisons, conversion to and from <span class="tt">long long</span> and <span class="tt">double</span>, <span class="tt">std::numeric_limits</span>, and, for run time, <span class="tt">exp</span>, <span class="tt">log</span>, ... in its own namespace.</p>
 <p><b>Status.</b> New in 0.5.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
@@ -601,6 +604,62 @@ template&lt;math_argument X, math_argument K&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">P(X &lt;= x)</span>. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01160">1160</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a53f5d8ce71bf35d3d615ceabdcbebe75" name="a53f5d8ce71bf35d3d615ceabdcbebe75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53f5d8ce71bf35d3d615ceabdcbebe75">&#9670;&#160;</a></span>chi_square_quantile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;math_argument P, math_argument K&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real_t&lt; std::common_type_t&lt; P, K &gt; &gt; snicholls::math::chi_square_quantile </td>
+          <td>(</td>
+          <td class="paramtype">P</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">K</td>          <td class="paramname"><span class="paramname"><em>k</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The chi-square quantile with <span class="tt">k</span> degrees of freedom: the <span class="tt">x</span> with <span class="tt">chi_square_cdf(x, k) = p</span>. </p>
+<p>A gate's threshold: a squared Mahalanobis distance of an <span class="tt">m</span>-dimensional innovation exceeds <span class="tt">chi_square_quantile(0.99, m)</span> with probability 0.01. Wilson-Hilferty's approximation starts a safeguarded Newton iteration on <span class="tt">chi_square_cdf</span>, so the result is as accurate as the CDF allows: about 14 digits, except in the far upper tail, where the CDF's absolute rounding (about 1e-16) costs a relative <span class="tt">1e-16 / (1 - p)</span>.</p>
+<div class="fragment"><div class="line">    <span class="comment">// A tracker&#39;s gates, fixed when the program is compiled: a correct 2-D position measurement falls outside</span></div>
+<div class="line">    <span class="comment">// the first with probability 1%, a 3-D bearing-elevation-range one outside the second with probability 0.1%.</span></div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> gate_2d = math::chi_square_quantile(0.99, 2);</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> gate_3d = math::chi_square_quantile(0.999, 3);</div>
+<div class="line">    <span class="keyword">static_assert</span>(math::near(gate_2d, 9.210340371976182, 1e-12));   <span class="comment">// -2 log 0.01, the closed form for k = 2</span></div>
+</div><!-- fragment --> <dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">P</td><td>An integer or a <span class="tt">math_number</span>. </td></tr>
+    <tr><td class="paramname">K</td><td>An integer or a <span class="tt">math_number</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>The probability, in <span class="tt">[0, 1]</span>. </td></tr>
+    <tr><td class="paramname">k</td><td>The degrees of freedom, above zero. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The quantile: 0 at <span class="tt">p = 0</span>, infinity at <span class="tt">p = 1</span>, NaN outside the domain. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="constexpr__math_8hpp_source.html#l01212">1212</a> of file <a class="el" href="constexpr__math_8hpp_source.html">constexpr_math.hpp</a>.</p>
 
 </div>
 </div>
