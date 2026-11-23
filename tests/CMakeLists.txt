@@ -26,10 +26,14 @@ add_executable(snicholls_core_tests
     uuid_test.cpp
     version_test.cpp
     zip_test.cpp
+    chain/chains_test.cpp
     combinatorics/assignment_test.cpp
     combinatorics/partition_test.cpp
     combinatorics/permutations_test.cpp
     combinatorics/subsets_test.cpp
+    concepts/asset_test.cpp
+    concepts/chain_test.cpp
+    concepts/named_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
@@ -48,6 +52,8 @@ add_executable(snicholls_core_tests
     containers/static_map_test.cpp
     detail/forward_like_test.cpp
     detail/hash_engine_test.cpp
+    detail/iso4217_table_test.cpp
+    detail/mul_div_test.cpp
     detail/pp_for_each_test.cpp
     detail/sobol_directions_test.cpp
     detail/struct_binders_test.cpp
@@ -82,6 +88,12 @@ add_executable(snicholls_core_tests
     hash/sha2_test.cpp
     hash/sha3_test.cpp
     hash/wyhash_test.cpp
+    interfaces/asset_conformance_test.cpp
+    interfaces/asset_test.cpp
+    interfaces/chain_conformance_test.cpp
+    interfaces/chain_test.cpp
+    interfaces/named_conformance_test.cpp
+    interfaces/named_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp
@@ -191,6 +203,11 @@ add_executable(snicholls_core_tests
     ml/unicode_test.cpp
     ml/unigram_test.cpp
     ml/wordpiece_test.cpp
+    money/asset_test.cpp
+    money/iso4217_test.cpp
+    money/money_test.cpp
+    money/native_test.cpp
+    money/rate_test.cpp
     optim/cones_test.cpp
     optim/lbfgs_test.cpp
     optim/line_search_test.cpp
@@ -241,7 +258,8 @@ add_executable(snicholls_core_tests
     tracking/measurement_test.cpp
     tracking/mixture_test.cpp
     tracking/transition_test.cpp
-    tracking/unscented_test.cpp)
+    tracking/unscented_test.cpp
+)
 target_link_libraries(snicholls_core_tests PRIVATE snicholls::core snicholls::core_conformance GTest::gtest_main GTest::gmock)
 # The portability fixtures (tests/fixtures/), read at run time by the same tests on every platform
 target_compile_definitions(snicholls_core_tests PRIVATE SNICHOLLS_CORE_FIXTURE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/fixtures")
@@ -300,6 +318,16 @@ set_tests_properties(generated.struct_binders_up_to_date PROPERTIES LABELS bound
 add_test(NAME generated.unicode_tables_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_unicode_tables.py --check)
 set_tests_properties(generated.unicode_tables_up_to_date PROPERTIES LABELS boundary)
+# The ISO 4217 table (detail/iso4217_table.hpp) must be exactly what scripts/generate_iso4217.py writes from SIX's
+# lists committed under scripts/data/iso4217/.
+add_test(NAME generated.iso4217_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_iso4217.py --check)
+set_tests_properties(generated.iso4217_up_to_date PROPERTIES LABELS boundary)
+# The money fixtures (tests/fixtures/money/) must be what scripts/generate_money_fixtures.py computes with Python's
+# decimal.
+add_test(NAME generated.money_fixtures_up_to_date
+    COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_money_fixtures.py --check)
+set_tests_properties(generated.money_fixtures_up_to_date PROPERTIES LABELS boundary)
 # The hash oracle fixtures (tests/fixtures/hash/oracle_*.txt) must be what scripts/generate_hash_fixtures.py
 # computes from Python's hashlib, hmac and zlib; cases whose oracle package is not installed are skipped.
 add_test(NAME generated.hash_fixtures_up_to_date

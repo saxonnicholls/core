@@ -2523,11 +2523,11 @@ struct std::hash<snicholls::result_impl::void_value>
 /// \param ... the expression (may contain commas).
 #if SNICHOLLS_RESULT_HAS_STATEMENT_EXPRESSIONS
 #define SNICHOLLS_TRY(...) \
-    SNICHOLLS_RESULT_TRY_EXPR_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, __COUNTER__), #__VA_ARGS__, __VA_ARGS__)
+    SNICHOLLS_RESULT_TRY_EXPR_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, SNICHOLLS_RESULT_TRY_UNIQUE_), #__VA_ARGS__, __VA_ARGS__)
 #endif
 
-// The TRY macros name their temporary uniquely (__COUNTER__, which GCC, Clang and MSVC all have), so a TRY nested
-// in another's expression, or two on one line, never shadow each other (-Wshadow). The expression text is taken
+// The TRY macros name their temporary uniquely (SNICHOLLS_RESULT_TRY_UNIQUE_, below), so a TRY nested in another's
+// expression never shadows it (-Wshadow). The expression text is taken
 // before expansion, by the public macro, so the "propagated" frame shows what the caller wrote.
 #define SNICHOLLS_RESULT_TRY_EXPR_(name, text, ...)                                                                    \
     __extension__({                                                                                                    \
@@ -2538,6 +2538,14 @@ struct std::hash<snicholls::result_impl::void_value>
         static_cast<decltype(name)&&>(name).unwrap_unchecked();                                                        \
     })
 
+// A unique suffix for each TRY's temporary. __COUNTER__ where it is quiet; Clang 23 and later report it under
+// -Wpedantic as a C2y extension (-Wc2y-extensions), so there __LINE__ is used: TRY_ASSIGN is one per line by contract
+// and TRY_VOID opens its own scope, so __LINE__ is unique enough; two SNICHOLLS_TRY on one line then shadow (-Wshadow).
+#if defined(__clang__) && __clang_major__ >= 23
+#define SNICHOLLS_RESULT_TRY_UNIQUE_ __LINE__
+#else
+#define SNICHOLLS_RESULT_TRY_UNIQUE_ __COUNTER__
+#endif
 #define SNICHOLLS_RESULT_CAT_(a, b) a##b
 #define SNICHOLLS_RESULT_CAT(a, b) SNICHOLLS_RESULT_CAT_(a, b)
 
@@ -2548,7 +2556,7 @@ struct std::hash<snicholls::result_impl::void_value>
 /// \param decl the declaration (or an assignable lvalue) receiving the value.
 /// \param ... the expression (a `snicholls::result` with a non-void value).
 #define SNICHOLLS_TRY_ASSIGN(decl, ...)                                                                                     \
-    SNICHOLLS_RESULT_TRY_ASSIGN_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, __COUNTER__), decl, #__VA_ARGS__, __VA_ARGS__)
+    SNICHOLLS_RESULT_TRY_ASSIGN_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, SNICHOLLS_RESULT_TRY_UNIQUE_), decl, #__VA_ARGS__, __VA_ARGS__)
 #define SNICHOLLS_RESULT_TRY_ASSIGN_(name, decl, text, ...)                                                            \
     auto&& name = (__VA_ARGS__);                                                                                       \
     if (!name.is_ok()) [[unlikely]]                                                                                    \
@@ -2562,7 +2570,7 @@ struct std::hash<snicholls::result_impl::void_value>
 /// `SNICHOLLS_TRY_VOID(validate(order));` - the familiar `RETURN_IF_ERR`. See `SNICHOLLS_TRY` for the conversion rules.
 /// \param ... the expression (any `snicholls::result`).
 #define SNICHOLLS_TRY_VOID(...)                                                                                             \
-    SNICHOLLS_RESULT_TRY_VOID_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, __COUNTER__), #__VA_ARGS__, __VA_ARGS__)
+    SNICHOLLS_RESULT_TRY_VOID_(SNICHOLLS_RESULT_CAT(snicholls_try_result_, SNICHOLLS_RESULT_TRY_UNIQUE_), #__VA_ARGS__, __VA_ARGS__)
 #define SNICHOLLS_RESULT_TRY_VOID_(name, text, ...)                                                                    \
     do                                                                                                                 \
     {                                                                                                                  \

@@ -153,7 +153,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
   a few headers. `core.hpp` is the umbrella. `detail/` holds internals (`namespace snicholls::detail`): not public
   API, still tested, not demonstrated.
-- Areas: `interfaces/` for the contracts of capabilities ("The family", rule 4); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
+- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
@@ -377,7 +377,13 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   from `ml/unicode.hpp` (generated tables, `scripts/generate_unicode_tables.py`), never a locale or `<cwctype>`; a
   vocabulary is a `token_trie` (or any lookup callable); expected tokens come from llama.cpp itself
   (`scripts/generate_tokenizer_fixtures.cpp`), never from core's own output.
-- `uint256` for EVM amounts: never `std::uint64_t` (18 decimals overflow it at 18 tokens) and never `double`.
+- Money is `money` (an asset at run time) or `money_of<T>` (the asset in the type): a sign and a `uint256`
+  magnitude of minor units.
+  - Never `double`, never an `int64` amount, never `decimal` for a balance.
+  - Currencies are types (`currency::AUD`, generated from SIX), as are native assets (`native::ETH`) and chains
+    (`chain::base`). A product declares its tokens the same way; never a string constant or a magic chain id.
+  - Conversion goes through `rate` and `convert` with a named `rounding` mode, and the residual is kept.
+- `uint256` for raw EVM integers: never `std::uint64_t` (18 decimals overflow it at 18 tokens) and never `double`.
   Checked arithmetic and parsing return `std::optional`, the one place core prefers it to `result`, so the type
   stays light.
 - `backoff_policy` with `backoff_ceiling` / `backoff_delay` / `next_attempt` for any retry loop; the caller owns
