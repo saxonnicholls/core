@@ -42,10 +42,16 @@ add_executable(snicholls_core_tests
     concepts/day_count_test.cpp
     concepts/error_sink_test.cpp
     concepts/holiday_calendar_test.cpp
+    concepts/http_handler_test.cpp
+    concepts/key_store_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
     concepts/kv_health_test.cpp
+    concepts/message_sender_test.cpp
     concepts/named_test.cpp
+    concepts/onramp_provider_test.cpp
+    concepts/payment_provider_test.cpp
+    concepts/signer_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
@@ -119,13 +125,31 @@ add_executable(snicholls_core_tests
     interfaces/error_sink_test.cpp
     interfaces/holiday_calendar_conformance_test.cpp
     interfaces/holiday_calendar_test.cpp
+    interfaces/http_handler_conformance_test.cpp
+    interfaces/http_handler_reference_test.cpp
+    interfaces/http_handler_test.cpp
+    interfaces/key_store_conformance_test.cpp
+    interfaces/key_store_reference_test.cpp
+    interfaces/key_store_test.cpp
     interfaces/key_value_store_conformance_test.cpp
     interfaces/key_value_store_reference_test.cpp
     interfaces/key_value_store_test.cpp
     interfaces/kv_backup_test.cpp
     interfaces/kv_health_test.cpp
+    interfaces/message_sender_conformance_test.cpp
+    interfaces/message_sender_reference_test.cpp
+    interfaces/message_sender_test.cpp
     interfaces/named_conformance_test.cpp
     interfaces/named_test.cpp
+    interfaces/onramp_provider_conformance_test.cpp
+    interfaces/onramp_provider_reference_test.cpp
+    interfaces/onramp_provider_test.cpp
+    interfaces/payment_provider_conformance_test.cpp
+    interfaces/payment_provider_reference_test.cpp
+    interfaces/payment_provider_test.cpp
+    interfaces/signer_conformance_test.cpp
+    interfaces/signer_reference_test.cpp
+    interfaces/signer_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp
