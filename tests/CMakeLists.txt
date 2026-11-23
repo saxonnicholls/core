@@ -84,10 +84,13 @@ add_executable(snicholls_core_tests
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp
+    linalg/krylov_test.cpp
     linalg/randomized_svd_test.cpp
     linalg/reference_test.cpp
     linalg/types_test.cpp
     math/constexpr_math_test.cpp
+    math/roots_test.cpp
+    math/special_test.cpp
     meta/assignable_test.cpp
     meta/attributes_test.cpp
     meta/callable_traits_test.cpp
@@ -187,6 +190,11 @@ add_executable(snicholls_core_tests
     ml/unicode_test.cpp
     ml/unigram_test.cpp
     ml/wordpiece_test.cpp
+    optim/cones_test.cpp
+    optim/lbfgs_test.cpp
+    optim/line_search_test.cpp
+    optim/prox_test.cpp
+    optim/scaling_test.cpp
     pipeline/stages_test.cpp
     reflect/member_count_test.cpp
     reflect/string_access_test.cpp
@@ -203,6 +211,9 @@ add_executable(snicholls_core_tests
     signal/resample_test.cpp
     signal/stft_test.cpp
     signal/window_test.cpp
+    sparse/csc_test.cpp
+    sparse/ldl_test.cpp
+    sparse/ordering_test.cpp
     stats/accumulators_test.cpp
     stats/bootstrap_test.cpp
     stats/covariance_test.cpp

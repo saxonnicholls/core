@@ -143,11 +143,13 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - Areas: `interfaces/` for the contracts of capabilities ("The family", rule 4); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
-  `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
+  `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
   `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `game/` (`snicholls::game`); `finance/`
-  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`; `snicholls::linalg`);
+  (`snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
+  `sparse/` (`csc`, `ordering`, `ldl`; `snicholls::sparse`); `optim/` (`cones`, `prox`, `scaling`, `line_search`, `lbfgs`;
+  `snicholls::optim`, the primitives of the convex-optimisation solvers above core);
   `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`; `snicholls::geometry`); `tracking/` (`gaussian`,
   `transition`, `measurement`, `kalman`, `unscented`, `association`, `mixture`, `fusion`, `discrete`, `metrics`;
   `snicholls::tracking`, the primitives of the Stone Soup port);
@@ -432,6 +434,13 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   (`containers::kd_tree<P, K, Metric>`, `containers::ann_forest<P, D, Metric>`, `metric::set_metric_solver`), never a
   hard-wired Euclidean. Exact neighbours in a few dimensions: `kd_tree`; approximate neighbours in many (embeddings):
   `ann_forest`.
+- Optimisation primitives: sparse matrices are `sparse::csc_view` over the caller's storage (never a hand-rolled
+  CSC loop); a symmetric indefinite (KKT) system is `sparse::amd` + `symmetric_permute_upper` + `ldl_symbolic` once
+  and `ldl_numeric` per new value set (the pattern never changes, so neither does the symbolic work); iterative solves
+  take a `linalg::linear_operator`, so the device can supply one; projections and proxes are `optim::` (`cones`,
+  `prox`), equilibration `optim::ruiz_equilibrate`, smooth minimisation `optim::lbfgs_minimize`, one-dimensional
+  roots `math::brent`. The solvers that assemble these (OSQP-, Clarabel-, PDLP-style) live in the optimisation library
+  above core, never here.
 - Randomness: `stats::wyrand` and `stats::uniform_index`, never `std::uniform_int_distribution` (its output differs
   between standard libraries, so a seed would not reproduce). To agree with another program's draws, name its
   library: `stats::uniform_int<T, draw::libstdcxx>` or `<T, draw::libcxx>`, the same on every platform. Resampling: `stats::bootstrap_moments` for anything

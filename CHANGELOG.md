@@ -3,6 +3,56 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.21.0 - 2026-11-23
+
+The numerical primitives of convex-optimisation solvers: sparse matrices and their factorisation, Krylov methods,
+cones, proximal operators, equilibration, line searches, L-BFGS, root finding and the special functions of the
+modelling atoms. The solvers that assemble them live in the optimisation library above core.
+
+### Added
+
+- `sparse/` (new area, `snicholls::sparse`):
+  - `csc.hpp`: `csc_view` over the caller's storage and the fixed-capacity `csc_matrix`; `from_triplets` (any order,
+    duplicates summed), `is_valid`; `spmv`, `spmv_transpose`, `spmv_symmetric_upper`; `transpose`,
+    `symmetric_permute_upper` (with a value map for refactorising); `scale`, the column, row and symmetric norms;
+    `to_dense`.
+  - `ordering.hpp`: `amd` (approximate minimum degree on the quotient graph, with aggressive absorption and dense
+    rows ordered last; within about 2% of exact minimum degree on the test matrices), `reverse_cuthill_mckee`,
+    `is_permutation`, `inverse_permutation`, `permute`, `inverse_permute`.
+  - `ldl.hpp`: the quasi-definite LDLᵀ without pivoting:
+    - `etree` and `ldl_symbolic`, done once per pattern;
+    - `ldl_numeric` and `ldl_refactor`, with expected pivot signs and static regularisation, as KKT systems need;
+    - `ldl_solve` and `ldl_refine`;
+    - `ldl_fixed`, which analyses and factorises in a constant expression.
+- `linalg/krylov.hpp`: the `linear_operator` and `preconditioner` concepts, with adapters for CSC, symmetric CSC,
+  dense and callable operators; `conjugate_gradient` (preconditioned, with Jacobi) and `minres`.
+- `optim/` (new area, `snicholls::optim`):
+  - `cones.hpp`: projections, dual projections and membership tests for:
+    - the zero cone, the non-negative orthant and boxes;
+    - the second-order and rotated second-order cones;
+    - the PSD cone, in scaled `svec` form;
+    - the exponential cone (Friberg) and the power cone (Hien);
+    - the simplex and ℓ1 ball (Condat), the ℓ∞ ball and the capped simplex.
+
+    Also the Nesterov-Todd scaling of the orthant and the second-order cone, and products of cones (`cone_kind`).
+  - `prox.hpp`: proximal operators for the ℓ1, ℓ2, group-ℓ2, ℓ∞ and Huber norms, the squared norm, boxes and the
+    orthant, the elastic net, negative entropy, the log barrier and separable quadratics; `moreau_envelope`,
+    `prox_conjugate`.
+  - `scaling.hpp`: `ruiz_equilibrate` (OSQP's modified Ruiz, with cost scaling) and `ruiz_equilibrate_rectangular`,
+    with the unscaling helpers.
+  - `line_search.hpp`: `backtracking_armijo` and `strong_wolfe`.
+  - `lbfgs.hpp`: `lbfgs_history`, `two_loop` and `lbfgs_minimize`.
+- `math/roots.hpp`: `bisect`, `brent`, `newton_safeguarded`, `bracket`, all `constexpr`.
+- `math/special.hpp`: `lambert_w0` and `lambert_wm1`, `softplus`, `logistic`, `log_logistic`, `log_normcdf` (accurate
+  to the far tail: finite down to about -1e154), `entr`, `rel_entr`, `kl_div`, `huber`, `xlogy`.
+- Benchmarks: `sparse/ldl` (symbolic, numeric and solve, AMD against natural order), `linalg/krylov` (CG against
+  the same loop written by hand: equal within noise).
+
+### Known issues
+
+- MSVC (not a blocking leg): the `tracking/kalman` benchmark's bit-for-bit fairness check fails there (core and the
+  hand-written loop differ in the last bits on MSVC), so its smoke run reports a failure. Every test passes on MSVC.
+
 ## 0.20.0 - 2026-11-23
 
 Distances as plug-in values over any point type, a generic k-d tree and set metrics on them, and approximate nearest

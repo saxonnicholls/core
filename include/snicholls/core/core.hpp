@@ -103,10 +103,13 @@
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
 #include <snicholls/core/linalg/fixed.hpp>
+#include <snicholls/core/linalg/krylov.hpp>
 #include <snicholls/core/linalg/randomized_svd.hpp>
 #include <snicholls/core/linalg/reference.hpp>
 #include <snicholls/core/linalg/types.hpp>
 #include <snicholls/core/math/constexpr_math.hpp>
+#include <snicholls/core/math/roots.hpp>
+#include <snicholls/core/math/special.hpp>
 #include <snicholls/core/meta/assignable.hpp>
 #include <snicholls/core/meta/attributes.hpp>
 #include <snicholls/core/meta/callable_traits.hpp>
@@ -205,6 +208,11 @@
 #include <snicholls/core/ml/unicode.hpp>
 #include <snicholls/core/ml/unigram.hpp>
 #include <snicholls/core/ml/wordpiece.hpp>
+#include <snicholls/core/optim/cones.hpp>
+#include <snicholls/core/optim/lbfgs.hpp>
+#include <snicholls/core/optim/line_search.hpp>
+#include <snicholls/core/optim/prox.hpp>
+#include <snicholls/core/optim/scaling.hpp>
 #include <snicholls/core/pipeline/stages.hpp>
 #include <snicholls/core/reflect/member_count.hpp>
 #include <snicholls/core/reflect/string_access.hpp>
@@ -221,6 +229,9 @@
 #include <snicholls/core/signal/resample.hpp>
 #include <snicholls/core/signal/stft.hpp>
 #include <snicholls/core/signal/window.hpp>
+#include <snicholls/core/sparse/csc.hpp>
+#include <snicholls/core/sparse/ldl.hpp>
+#include <snicholls/core/sparse/ordering.hpp>
 #include <snicholls/core/stats/accumulators.hpp>
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/covariance.hpp>
