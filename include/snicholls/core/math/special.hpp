@@ -73,6 +73,10 @@ inline constexpr T nan_t = std::numeric_limits<T>::quiet_NaN();
 template <typename T>
 inline constexpr T inf_t = std::numeric_limits<T>::infinity();
 
+// Halley's stopping tolerance: 1e-16, as for double, unless the type is wider (80-bit, quad), where twice its epsilon
+template <typename T>
+constexpr T halley_tolerance_() { return std::numeric_limits<T>::epsilon() < T(5e-17) ? T(2) * std::numeric_limits<T>::epsilon() : T(1e-16); }
+
 // The tolerance at -1/e: a rounded -1/e may fall an ulp below it. 1e-12 in double and wider; a float's epsilon for a
 // float argument, whose nearest value to -1/e lies 9e-9 below it.
 template <typename X>
@@ -103,7 +107,9 @@ constexpr T lambert_w0_c(T z, T fuzz)
         // al. 1996, eq. 4.22): W = -1 + p - p^2/3 + 11 p^3/72 - 43 p^4/540
         const T p = sqrt(p2);
         w = T(-1) + p * (T(1) + p * (T(-1) / T(3) + p * (T(11) / T(72) - p * T(43) / T(540))));
-        if (p < T(1e-5))   // series already ~1e-25: Halley below would divide by ~0
+        // The series' error is about p^5: 1e-25 at p = 1e-5, below double's and 80-bit's rounding; a quad needs p < 1e-8
+        // (Halley below would divide by about 0)
+        if (p < (std::numeric_limits<T>::epsilon() < T(1e-20) ? T(1e-8) : T(1e-5)))
             return w;
     } else if (z < T(3)) {
         w = z >= T(0) ? log(T(1) + z) : z * (T(1) - z);   // crude, Halley finishes
@@ -126,7 +132,7 @@ constexpr T lambert_w0_c(T z, T fuzz)
         const T denom = ew * wp1 - (w + T(2)) * f / (T(2) * wp1);
         const T step = f / denom;
         w -= step;
-        if (abs(step) <= T(1e-16) * (abs(w) + T(1e-300)))
+        if (abs(step) <= halley_tolerance_<T>() * (abs(w) + T(1e-300)))
             break;
     }
     return w;
@@ -167,7 +173,7 @@ constexpr T lambert_wm1_c(T z, T fuzz)
         w -= step;
         if (!(w < T(-1)))                 // never cross onto the principal branch
             w = (before + T(-1)) / T(2);
-        if (abs(step) <= T(1e-16) * abs(w))
+        if (abs(step) <= halley_tolerance_<T>() * abs(w))
             break;
     }
     return w;

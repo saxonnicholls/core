@@ -54,7 +54,9 @@ double rel(double got, double want) { return std::abs(got - want) / std::abs(wan
 long double rel_l(long double got, long double want) { return std::abs(got - want) / std::abs(want); }
 
 constexpr double eps = std::numeric_limits<double>::epsilon();
-constexpr long double eps_l = std::numeric_limits<long double>::epsilon();   // equal to double's on Apple ARM and MSVC
+// long double is held to 80-bit accuracy where the platform's is wider (quad on Linux ARM64): core's long-double
+// constants carry about 20 digits, so 2^-63 is what they promise. Equal to double's epsilon on Apple ARM and MSVC.
+constexpr long double eps_l = std::numeric_limits<long double>::epsilon() < 0x1p-63L ? 0x1p-63L : std::numeric_limits<long double>::epsilon();
 
 // W's relative condition number, 1 / |1 + W|: a rounded z moves W by this many units of z's rounding
 template <typename T>

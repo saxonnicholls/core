@@ -388,7 +388,10 @@ namespace snicholls::geometry {
         const double c = static_cast<double>(volume(hull(a, b)));
         if (!(c > 0))
             return u > 0 ? i / u : 1.0;  // degenerate (zero-volume) boxes: equal points are a perfect match
-        return (u > 0 ? i / u : 0.0) - (c - u) / c;
+        // (c - u) / c is never negative in exact arithmetic; rounding of u can make it so, which would put GIoU
+        // above IoU, so it is clamped
+        const double penalty = (c - u) / c;
+        return (u > 0 ? i / u : 0.0) - (penalty > 0 ? penalty : 0.0);
     }
 
     /// \brief Greedy non-maximum suppression: the boxes in descending score, each kept unless its IoU with a kept box

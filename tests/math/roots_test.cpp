@@ -242,9 +242,9 @@ TEST(RootsTypes, FloatAndLongDouble)
     EXPECT_NEAR(rf.x, 1.41421356f, 2e-7f);
     EXPECT_NEAR(m::bisect([](float x) { return x * x - 2.0f; }, 0.0f, 2.0f, 1e-3).x, 1.41421356f, 1e-3f);   // a double tolerance
     const auto rl = m::brent([](long double x) { return x * x - 2.0L; }, 0.0L, 2.0L);
-    EXPECT_LE(std::abs(rl.x - 1.41421356237309504880168872420969808L), 2 * std::numeric_limits<long double>::epsilon());
+    EXPECT_LE(std::abs(rl.x - 1.41421356237309504880168872420969808L), 4 * std::numeric_limits<long double>::epsilon());   // a few ulp: quad's roots round in its last bits
     const auto nl = m::newton_safeguarded([](long double x) { return std::pair{x * x - 2.0L, 2 * x}; }, 0.0L, 2.0L, 1.0L);
-    EXPECT_LE(std::abs(nl.x - 1.41421356237309504880168872420969808L), 2 * std::numeric_limits<long double>::epsilon());
+    EXPECT_LE(std::abs(nl.x - 1.41421356237309504880168872420969808L), 4 * std::numeric_limits<long double>::epsilon());   // a few ulp: quad's roots round in its last bits
     constexpr auto ct = m::brent([](float x) { return x * x * x - 8.0f; }, 0.0f, 5.0f);
     static_assert(ct.x == 2.0f);
 }

@@ -325,7 +325,8 @@ void psd_random(st::wyrand& g)
     }
     // The fixed form gives the same
     std::array<double, k> f{};
-    std::copy(x0.begin(), x0.end(), f.begin());
+    for (std::size_t i = 0; i < k; ++i)  // a loop: std::copy into a one-element array trips GCC's -Warray-bounds
+        f[i] = x0[i];
     ASSERT_TRUE(op::project_psd_fixed<N>(std::span<double, k>(f)));
     for (std::size_t i = 0; i < k; ++i) {
         EXPECT_NEAR(f[i], x[i], 1e-11) << N;
