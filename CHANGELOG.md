@@ -9,6 +9,9 @@ ISO 3166 countries and currency metadata, day-count conventions, business-day ru
 
 ### Added
 
+- **`asset` is ordered** (`operator<=>`: by code, then scale) for sorted reports and ordered maps, and
+  **`checked_asset(code, scale)`** builds an asset with no type of its own in a constant expression, a bad code being
+  a compile error.
 - **`concepts/error_sink.hpp`: `error_sink_like`, the concept twin of `snicholls::error_sink`**, and the adapter
   `error_sink_model<S>`. `error_sink` and `text_error_sink` move to `interfaces/error_sink.hpp`, which `traced.hpp`
   still includes, so code that includes `traced.hpp` is unchanged.
