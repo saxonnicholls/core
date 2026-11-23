@@ -6,8 +6,8 @@
 //
 
 /// \file
-/// \brief Check digits of financial identifiers, validated and computed at compile time: Luhn, ISIN (ISO 6166),
-/// IBAN (ISO 13616, MOD 97-10), LEI (ISO 17442, MOD 97-10), CUSIP and SEDOL.
+/// \brief Check digits of financial and retail identifiers, validated and computed at compile time: Luhn, ISIN
+/// (ISO 6166), IBAN (ISO 13616, MOD 97-10), LEI (ISO 17442, MOD 97-10), CUSIP, SEDOL and GTIN (EAN-13, EAN-8, UPC-A).
 /// \ingroup core
 ///
 /// **Overview.** An identifier typed, pasted or received is checked before it is trusted: one wrong character
@@ -21,7 +21,10 @@
 /// - LEI: eighteen letters or digits and two check digits, the whole 1 modulo 97 (ISO 7064 MOD 97-10);
 /// - CUSIP: eight letters, digits, `*`, `@` or `#` and one check digit (doubling every second value);
 /// - SEDOL: six digits or consonants and one check digit (weights 1, 3, 1, 7, 3, 9); a SEDOL starting with a digit
-///   is digits throughout.
+///   is digits throughout;
+/// - GTIN (GS1): EAN-8, UPC-A (GTIN-12), EAN-13 (GTIN-13) or GTIN-14, digits whose last is the GS1 mod-10 check digit
+///   (weights 3 and 1 from the right). The barcode on a retail product or a bill-payment slip; drawing the bars is
+///   not core's.
 ///
 /// Text is strict: upper case only, no spaces or separators. Strip and upper-case before validating.
 ///
@@ -373,6 +376,45 @@ namespace snicholls {
         if (!detail::check_digits::digit(text[6]))
             return err(identifier_errc::invalid_format);
         if (*check != text[6])
+            return err(identifier_errc::invalid_check_digit);
+        return ok();
+    }
+
+    // ---- GTIN (EAN-13, EAN-8, UPC-A, GTIN-14) -----------------------------------------------------------------------
+
+    /// \brief The GS1 check digit of a GTIN body: EAN-8 (7 digits), UPC-A (11), EAN-13 (12) or GTIN-14 (13).
+    /// \ingroup core
+    ///
+    /// GS1's mod-10: from the right, the digits are weighted 3, 1, 3, 1, ...; the check digit brings the sum to a
+    /// multiple of ten. One rule for every length, so a UPC-A padded with a leading 0 is the same EAN-13.
+    /// \param payload The digits, without the check digit.
+    /// \return The check digit, or `wrong_length` or `invalid_character`.
+    [[nodiscard]] constexpr result<char, identifier_errc> gtin_check_digit(std::string_view payload) noexcept
+    {
+        if (payload.size() != 7 && payload.size() != 11 && payload.size() != 12 && payload.size() != 13)
+            return err(identifier_errc::wrong_length);
+        if (!detail::check_digits::all_digits(payload))
+            return err(identifier_errc::invalid_character);
+        int sum = 0;
+        for (std::size_t i = 0; i < payload.size(); ++i)
+            sum += (payload[payload.size() - 1 - i] - '0') * (i % 2 == 0 ? 3 : 1);
+        return ok(static_cast<char>('0' + (10 - sum % 10) % 10));
+    }
+
+    /// \brief Check a GTIN: an EAN-13 (`"4006381333931"`), EAN-8 (`"96385074"`), UPC-A (`"036000291452"`) or GTIN-14.
+    /// \ingroup core
+    /// \param text 8, 12, 13 or 14 digits, the last the check digit.
+    /// \return Success, or `wrong_length`, `invalid_character` or `invalid_check_digit`.
+    [[nodiscard]] constexpr result<void, identifier_errc> validate_gtin(std::string_view text) noexcept
+    {
+        if (text.empty())
+            return err(identifier_errc::wrong_length);
+        const auto check = gtin_check_digit(text.substr(0, text.size() - 1));
+        if (!check)
+            return err(check.unwrap_err_unchecked());
+        if (!detail::check_digits::digit(text.back()))
+            return err(identifier_errc::invalid_character);
+        if (*check != text.back())
             return err(identifier_errc::invalid_check_digit);
         return ok();
     }

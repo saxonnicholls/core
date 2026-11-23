@@ -9,6 +9,9 @@ ISO 3166 countries and currency metadata, the major tokens as types, day-count c
 
 ### Added
 
+- **GTIN check digits** in `ids/check_digits.hpp`: `validate_gtin` and `gtin_check_digit` for EAN-13, EAN-8, UPC-A
+  and GTIN-14 (GS1 mod-10), constexpr, tested against python-stdnum 2.2's `stdnum.ean`. The barcode of a retail
+  product or a bill-payment slip; drawing it is not core's.
 - **`snicholls_core.hpp`, the single include: the whole library in one file**, generated from `core.hpp` by
   snicholls-tooling's `single_include.py` (`third_party/tooling` at `v0.2.1`, build-time only). It is never committed:
   every build generates it and compiles it alone, the CTest `check.single_include` fails while a header is missing

@@ -163,7 +163,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
-  `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL); `game/` (`snicholls::game`); `finance/`
+  `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL, GTIN / EAN-13); `game/` (`snicholls::game`); `finance/`
   (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
   `sparse/` (`csc`, `ordering`, `ldl`; `snicholls::sparse`); `optim/` (`cones`, `prox`, `scaling`, `line_search`, `lbfgs`;
   `snicholls::optim`, the primitives of the convex-optimisation solvers above core);
