@@ -30,6 +30,9 @@ add_executable(snicholls_core_tests
     combinatorics/partition_test.cpp
     combinatorics/permutations_test.cpp
     combinatorics/subsets_test.cpp
+    concepts/key_value_store_test.cpp
+    concepts/kv_backup_test.cpp
+    concepts/kv_health_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
@@ -82,6 +85,11 @@ add_executable(snicholls_core_tests
     hash/sha2_test.cpp
     hash/sha3_test.cpp
     hash/wyhash_test.cpp
+    interfaces/key_value_store_test.cpp
+    interfaces/key_value_store_conformance_test.cpp
+    interfaces/key_value_store_reference_test.cpp
+    interfaces/kv_backup_test.cpp
+    interfaces/kv_health_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp

@@ -3,6 +3,36 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- The key-value store contract, the first capability in the mirrored `concepts/` + `interfaces/` layout (the concept
+  for static dispatch, its pure virtual twin, adapters both ways, a reference implementation, a conformance kit):
+  - `concepts/key_value_store.hpp`: the concepts `kv_readable`, `kv_writable` and `key_value_store` (`read`,
+    `contains`, `scan`, `sequence`; `put`, `insert`, `erase`, `erase_range`, `apply`; `snapshot`), errors as
+    `result<V, kv_errc>`; keys and values as `std::span<const std::byte>` in unsigned byte-wise order; `kv_range`
+    (`all`, `from`, `between`, `prefixed`, and `after` for chunked scans; no allocation); batches of `kv_write`
+    (`put`, `insert`, `erase`), all or nothing, a batch `insert` of a present key failing the batch with
+    `kv_errc::conflict`; the owning `kv_write_batch`; the conveniences `kv_get`, `kv_read`, `kv_contains`,
+    `kv_put`, `kv_insert`, `kv_erase`, `kv_scan`, `kv_scan_prefix`, `kv_count`, over any one-byte sequence; and
+    `kv_digest_v1`, the stable `crtp.kv.digest.v1` digest of a range (SHA-256 over length-prefixed pairs).
+  - `interfaces/key_value_store.hpp`: `kv_reader_interface`, `key_value_store_interface`, `kv_reader_adapter` and
+    `key_value_store_adapter` (owning or referring), which let no exception of the adapted store through.
+  - `interfaces/key_value_store_reference.hpp`: `reference_key_value_store` and `reference_kv_snapshot`, a
+    `std::map` with copy-on-write snapshots and in-memory checkpoints, and the controls of a test fake
+    (`inject_failure`, `set_unavailable`).
+  - `interfaces/key_value_store_conformance.hpp`: `run_kv_conformance` (25 checks, among them the append-once
+    ledger entry, batch conflicts, chunked scans, sequence, snapshots, the digest's golden vector and that no
+    exception crosses), `kv_check_failure_changes_nothing`, `kv_check_no_exception_escapes`,
+    `run_kv_health_conformance`, `run_kv_backup_conformance`.
+  - `concepts/kv_health.hpp`, `interfaces/kv_health.hpp`: `ping` and `diagnostics` (`kv_diagnostics`, plain data),
+    `kv_health_interface`, `kv_health_adapter`.
+  - `concepts/kv_backup.hpp`, `interfaces/kv_backup.hpp`: `checkpoint` and `verify` (`kv_checkpoint_info`,
+    `kv_verify_report`), `kv_backup_interface`, `kv_backup_adapter`.
+  - Benchmark `benchmarks/interfaces/key_value_store_benchmark.cpp`: a hand-written `std::map`, the concept path and
+    the virtual path on the reference store.
+
 ## 0.21.0 - 2026-11-23
 
 The numerical primitives of convex-optimisation solvers: sparse matrices and their factorisation, Krylov methods,

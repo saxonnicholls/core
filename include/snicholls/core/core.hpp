@@ -56,6 +56,9 @@
 #include <snicholls/core/combinatorics/partition.hpp>
 #include <snicholls/core/combinatorics/permutations.hpp>
 #include <snicholls/core/combinatorics/subsets.hpp>
+#include <snicholls/core/concepts/key_value_store.hpp>
+#include <snicholls/core/concepts/kv_backup.hpp>
+#include <snicholls/core/concepts/kv_health.hpp>
 #include <snicholls/core/containers/ann_forest.hpp>
 #include <snicholls/core/containers/bloom_filter.hpp>
 #include <snicholls/core/containers/byte_map.hpp>
@@ -101,6 +104,11 @@
 #include <snicholls/core/hash/sha2.hpp>
 #include <snicholls/core/hash/sha3.hpp>
 #include <snicholls/core/hash/wyhash.hpp>
+#include <snicholls/core/interfaces/key_value_store.hpp>
+#include <snicholls/core/interfaces/key_value_store_conformance.hpp>
+#include <snicholls/core/interfaces/key_value_store_reference.hpp>
+#include <snicholls/core/interfaces/kv_backup.hpp>
+#include <snicholls/core/interfaces/kv_health.hpp>
 #include <snicholls/core/linalg/backend.hpp>
 #include <snicholls/core/linalg/batched.hpp>
 #include <snicholls/core/linalg/fixed.hpp>
