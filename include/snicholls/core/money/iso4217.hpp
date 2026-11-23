@@ -75,6 +75,26 @@
 
 namespace snicholls {
 
+    namespace detail {
+        // The row of an alphabetic code, or iso4217_rows.size(). An index, not a pointer: GCC cannot compare a
+        // pointer into the table with nullptr in a constant expression.
+        constexpr std::size_t iso4217_index(std::string_view code) noexcept
+        {
+            std::size_t lo = 0, hi = iso4217_rows.size();
+            while (lo < hi) {
+                const std::size_t mid = lo + (hi - lo) / 2;
+                const std::string_view c = iso4217_rows[mid].code;
+                if (c == code)
+                    return mid;
+                if (c < code)
+                    lo = mid + 1;
+                else
+                    hi = mid;
+            }
+            return iso4217_rows.size();
+        }
+    } // namespace detail
+
     /// \brief One ISO 4217 code: `code`, `name`, `numeric`, `scale` (-1 where ISO gives none) and `withdrawn`
     /// (the date SIX gives, such as "2025-03" or "1989 to 1990", for a historic code; empty for a current one).
     using iso4217_entry = detail::iso4217_row;
@@ -91,18 +111,8 @@ namespace snicholls {
     /// \return The entry, or `nullptr` if ISO 4217 has no such code.
     [[nodiscard]] constexpr const iso4217_entry* find_iso4217(std::string_view code) noexcept
     {
-        std::size_t lo = 0, hi = detail::iso4217_rows.size();
-        while (lo < hi) {
-            const std::size_t mid = lo + (hi - lo) / 2;
-            const std::string_view c = detail::iso4217_rows[mid].code;
-            if (c == code)
-                return &detail::iso4217_rows[mid];
-            if (c < code)
-                lo = mid + 1;
-            else
-                hi = mid;
-        }
-        return nullptr;
+        const std::size_t i = detail::iso4217_index(code);
+        return i < detail::iso4217_rows.size() ? &detail::iso4217_rows[i] : nullptr;
     }
 
     /// \brief The current entry with this numeric code (a historic one if no current code has it).
@@ -126,10 +136,10 @@ namespace snicholls {
     /// \return The asset, or `std::nullopt` for an unknown code or one ISO gives no minor units.
     [[nodiscard]] constexpr std::optional<asset> iso4217_asset(std::string_view code) noexcept
     {
-        const iso4217_entry* e = find_iso4217(code);
-        if (e == nullptr || e->scale < 0)
+        const std::size_t i = detail::iso4217_index(code);
+        if (i >= detail::iso4217_rows.size() || detail::iso4217_rows[i].scale < 0)
             return std::nullopt;
-        return make_asset(e->code, static_cast<unsigned>(e->scale));
+        return make_asset(detail::iso4217_rows[i].code, static_cast<unsigned>(detail::iso4217_rows[i].scale));
     }
 
     namespace literals {

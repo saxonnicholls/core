@@ -29,7 +29,7 @@ static_assert(currency::ANG::withdrawn() == "2025-03", "historic codes resolve")
 static_assert(currency::XCG::scale() == 2, "the Caribbean guilder, which replaced ANG");
 static_assert(currency::TRY::code() == "TRY", "capitals: lowercase would be the keyword try");
 static_assert("AUD"_iso4217 == asset_v<currency::AUD>);
-static_assert(find_iso4217("EUR")->numeric == 978);
+static_assert(iso4217_asset("EUR")->scale() == 2);
 static_assert(iso4217_published.size() == 10);
 
 TEST(Iso4217Table, IsSortedAndComplete)

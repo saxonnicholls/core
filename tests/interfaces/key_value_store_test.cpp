@@ -201,7 +201,7 @@ TEST(KvAdapter, TranslatesEveryExceptionOfTheModel)
 {
     key_value_store_adapter<throwing_store> adapter{throwing_store{}};
     key_value_store_interface& s = adapter;
-    for (const auto [mode, expected] : {std::pair{throwing_store::mode::runtime_error, kv_errc::backend},
+    for (const auto& [mode, expected] : {std::pair{throwing_store::mode::runtime_error, kv_errc::backend},
                                         std::pair{throwing_store::mode::bad_alloc, kv_errc::out_of_memory}}) {
         adapter.get().throws = mode;
         const auto k = kv_bytes_of("k");
