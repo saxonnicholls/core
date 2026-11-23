@@ -3,6 +3,41 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **Tokens as compile-time types.** The major tokens are types now, as the chains became types in 0.22.0.
+  - **`concepts/token.hpp`: `token_like`.** An `asset_like` that also answers `chain()` (a `chain_like` value),
+    `contract()` and `symbol()`. Its code is `SYMBOL:chainid` (`USDC:1`, `USDT:728126428`); an issuer's
+    single-supply token may keep its bare symbol.
+  - **`token/basic_token.hpp`: `basic_token<Chain, Address, Decimals, Symbol>`.** A product declares its own token in
+    one line. The compiler checks the address: EIP-55 for an EVM chain, using core's Keccak-256, and base58check
+    `T...` for TRON, using SHA-256. It also checks the decimals and the code.
+  - **`interfaces/token.hpp` and `interfaces/token_conformance.hpp`.** `token_interface` is the virtual twin, and
+    `token_model<T>` adapts a type to it. `check_token` checks the asset, the chain, the code's shape, the address
+    form and checksum, and that each answer is stable.
+  - **`token/tokens.hpp`: the curated set, `token::<chain>::<SYMBOL>`.**
+    - Ethereum: USDT, USDC, DAI, WETH, WBTC, EURC.
+    - Optimism, BNB Smart Chain, Base and Avalanche: USDT and USDC. Both have 18 decimals on BNB Smart Chain,
+      where they are Binance-Peg tokens, not Tether's or Circle's.
+    - Polygon and Arbitrum One: USDT0 and USDC.
+    - Each type says who stands behind it on its chain: `issuer()`, `kind()` (`token::issuance`: native,
+      bridged, pegged or wrapped) and `source()`, the first-party page that lists its address.
+    - TRON: USDT.
+    - `token::all` lists every one of them as a type list.
+  - **The data.** `scripts/generate_tokens.py` generates the types and a test fixture from
+    `scripts/data/tokens/issuers.json`, which holds only first-party data: every address from its issuer's own page
+    (Circle, Tether, Sky) or, for a bridged, pegged or wrapped token, the bridge operator's, the pegging party's or
+    the canonical contract's (USDT0, Optimism's Superchain token list, Binance, ethereum.org, the WBTC DAO), each
+    with its URL.
+
+    The tests check every address case-exactly, and every decimals value, kind and chain, against that data. The
+    CTest `generated.tokens_up_to_date` fails if the header or the fixture drifts from the data. Uniswap Labs'
+    default token list is a cross-check only and nothing from it is committed: `scripts/generate_tokens.py
+    --cross-check`, and the opt-in CTest `external.tokens_cross_check` (`-DSNICHOLLS_CORE_NETWORK_TESTS=ON`),
+    download the pinned npm release into a temporary directory and compare.
+
 ## 0.22.0 - 2026-11-23
 
 Money, currencies and chains as compile-time types; capability concepts beside their virtual interfaces.

@@ -97,6 +97,7 @@ option(SNICHOLLS_CORE_BUILD_TESTS "Build the snicholls-core unit tests and demos
 option(SNICHOLLS_CORE_BUILD_BENCHMARKS "Build the snicholls-core benchmarks (Google Benchmark)" OFF)
 option(SNICHOLLS_CORE_BUILD_DOCS "Build the Doxygen documentation; warnings are errors" OFF)
 option(SNICHOLLS_CORE_WERROR "Treat warnings as errors in everything this project compiles (CI turns this on)" OFF)
+option(SNICHOLLS_CORE_NETWORK_TESTS "Run the CTests that need the network (external.*); otherwise they are skipped" OFF)
 set(SNICHOLLS_CORE_SANITIZE "" CACHE STRING "Sanitizers for the tests and demos, e.g. address,undefined")
 
 # Warning flags go on the things this project compiles, never on the INTERFACE
