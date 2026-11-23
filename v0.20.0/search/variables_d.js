@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['o_0',['o',['../structsnicholls_1_1ml_1_1attention__weights.html#a82a119bc2e3cf97b2e0868d3e57402ae',1,'snicholls::ml::attention_weights::o'],['../structsnicholls_1_1ml_1_1latent__attention__weights.html#aebcb8b4d694477b69aca67518fa02dfd',1,'snicholls::ml::latent_attention_weights::o'],['../structsnicholls_1_1ml_1_1latent__attention__gradients.html#a66dcade550bdf4727d86cf47e0f7bdd2',1,'snicholls::ml::latent_attention_gradients::o']]],
+  ['o_5fbias_1',['o_bias',['../structsnicholls_1_1ml_1_1attention__weights.html#a6d469cf555e461dd6b93fc58c743e346',1,'snicholls::ml::attention_weights::o_bias'],['../structsnicholls_1_1ml_1_1attention__gradients.html#aea8b615a434d39b658be5ec14e12f2ff',1,'snicholls::ml::attention_gradients::o_bias']]],
+  ['off_5flen_2',['off_len',['../structsnicholls_1_1containers_1_1byte__map__slot.html#a0d141da364336daf209e0dab0519d477',1,'snicholls::containers::byte_map_slot']]],
+  ['offset_3',['offset',['../structsnicholls_1_1containers_1_1ann__node.html#a6416c641067b6b90c5b2b804bdfec098',1,'snicholls::containers::ann_node::offset'],['../structsnicholls_1_1signal_1_1log__compression.html#a16ccf4e7b736acd7e66027814468e5b7',1,'snicholls::signal::log_compression::offset']]],
+  ['offsets_4',['offsets',['../structsnicholls_1_1ml_1_1moe__activations.html#ab33f84ff2785fc0cd83fbce048fcf672',1,'snicholls::ml::moe_activations']]],
+  ['oid_5',['oid',['../uuid_8hpp.html#a2aafdafd3db26c86f2c43e84d51fd54d',1,'snicholls::uuid_namespace']]],
+  ['olmoe_5f1b_5f7b_6',['olmoe_1b_7b',['../transformer__config_8hpp.html#ad13a6c20023157d990015341199addd0',1,'snicholls::ml']]],
+  ['omega_7',['omega',['../structsnicholls_1_1tracking_1_1known__turn__rate.html#a98c2a4d019f0b0ce6457c382f87182ce',1,'snicholls::tracking::known_turn_rate']]],
+  ['online_8',['online',['../structsnicholls_1_1ml_1_1ema__segment.html#a6285899bf52a6af928f2abfa0169af0b',1,'snicholls::ml::ema_segment']]],
+  ['orange_9',['orange',['../colour_8hpp.html#a15786382263e81e631c9883b4d80ecef',1,'snicholls::colours']]],
+  ['order_10',['order',['../structsnicholls_1_1ml_1_1merge__table.html#a1a036f4e5fb3584832a005e98c29b0d8',1,'snicholls::ml::merge_table::order'],['../structsnicholls_1_1ml_1_1moe__activations.html#a84150b2b612d98580a0dc68f31c2cfcc',1,'snicholls::ml::moe_activations::order'],['../structsnicholls_1_1ml_1_1token__trie.html#a3b14675498e00fce022f0ecb6d33fd76',1,'snicholls::ml::token_trie::order'],['../structsnicholls_1_1ml_1_1static__token__trie.html#ac73068be8802ede52f5f5ad8f98de4a7',1,'snicholls::ml::static_token_trie::order']]],
+  ['original_5fcontext_11',['original_context',['../structsnicholls_1_1ml_1_1rope__scaling.html#ac2501dc47d6133bbf5c2b375555c45ac',1,'snicholls::ml::rope_scaling']]],
+  ['out_12',['out',['../structsnicholls_1_1ml_1_1rank__head__weights.html#aa88cc04ca2efed397f6d4a089b0a7258',1,'snicholls::ml::rank_head_weights']]],
+  ['out_5fbias_13',['out_bias',['../structsnicholls_1_1ml_1_1rank__head__weights.html#ace62941f4f128869aa51b2074838f346',1,'snicholls::ml::rank_head_weights']]],
+  ['out_5fchannels_14',['out_channels',['../structsnicholls_1_1ml_1_1conv__shape.html#a39c04eb9b3d4f162790347c9b06e970e',1,'snicholls::ml::conv_shape::out_channels'],['../structsnicholls_1_1ml_1_1conv__transpose__shape.html#a636e10eb7ebfa041efe60dd2bbc5e693',1,'snicholls::ml::conv_transpose_shape::out_channels']]],
+  ['out_5fproj_15',['out_proj',['../structsnicholls_1_1ml_1_1mamba2__weights.html#a68790a6c9e9459dfa602b9ba7460876b',1,'snicholls::ml::mamba2_weights::out_proj'],['../structsnicholls_1_1ml_1_1gated__deltanet__weights.html#a34bd5f3dbed2b73f345fd5ff4ba1c1c9',1,'snicholls::ml::gated_deltanet_weights::out_proj'],['../structsnicholls_1_1ml_1_1mixer__gradients.html#a0706f20ba0e5dcf975d8714a6b638d06',1,'snicholls::ml::mixer_gradients::out_proj']]],
+  ['outer_5flr_16',['outer_lr',['../structsnicholls_1_1ml_1_1diloco__config.html#aeb9e22294d5be7209d066a2676b07c23',1,'snicholls::ml::diloco_config']]],
+  ['output_17',['output',['../structsnicholls_1_1ml_1_1mtp__activations.html#a0aea180050c86acfe5975852640dff82',1,'snicholls::ml::mtp_activations::output'],['../structsnicholls_1_1ml_1_1mtp__gradients.html#afdf58bab61ce446e8e9baadb8bc3676f',1,'snicholls::ml::mtp_gradients::output']]],
+  ['output_5fnorm_18',['output_norm',['../structsnicholls_1_1ml_1_1mtp__weights.html#a37e5430303c7027036489fbccea84eb9',1,'snicholls::ml::mtp_weights::output_norm'],['../structsnicholls_1_1ml_1_1mtp__gradients.html#a3ab1a4d3891e3ee85618509b5c657275',1,'snicholls::ml::mtp_gradients::output_norm']]],
+  ['oversample_19',['oversample',['../structsnicholls_1_1linalg_1_1truncated__svd__options.html#ab2c1152d70d17f6fcac4caaa1c50632a',1,'snicholls::linalg::truncated_svd_options']]],
+  ['owning_20',['owning',['../structsnicholls_1_1string__traits.html#abd9ab901521f986e68f86dc4a54ed9cb',1,'snicholls::string_traits']]]
+];
