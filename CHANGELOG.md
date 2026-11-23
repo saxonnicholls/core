@@ -9,6 +9,25 @@ ISO 3166 countries and currency metadata, day-count conventions, business-day ru
 
 ### Added
 
+- **Six capability contracts lifted from the servers library: `message_sender`, `signer`, `key_store`,
+  `payment_provider`, `onramp_provider` and `http_handler`.** Each is `concepts/<cap>.hpp` (the concept and its value
+  types), `interfaces/<cap>.hpp` (the pure virtual twin, `<cap>_adapter<T>` owning or borrowing, the `<cap>_ref`
+  handle), `interfaces/<cap>_reference.hpp` (standard-library reference: `memory_message_sender`,
+  `memory_signer` = `memory_key_store` on `hmac<sha256>`, `memory_payment_provider`, `memory_onramp_provider`,
+  `route_table`) and `interfaces/<cap>_conformance.hpp` (`run_<cap>_conformance<Probe>()`, plain functions, no test
+  framework), with mirrored tests, demos, and benchmarks for HTTP dispatch, HS256 signing and webhook verification.
+  - Namespace `snicholls`; amounts are core's `money`, `asset` and `rate`; time is `utc_s`; E.164 is
+    `phone_number.hpp`'s (`is_canonical_e164`); webhook signatures are `hmac<sha256>` compared in constant time.
+  - Identifiers are bounded `inplace_string`s (`capability_ids.hpp`): `provider_id` 96, `fact_id` 128, `event_id`
+    64, `provider_account` 64, `client_id` 64, `provider_name` 32, `short_text` 255; `make_id<Id>` refuses rather
+    than truncates.
+- **`capability_error.hpp`: one error for every capability.** `capability_errc` (13 codes; names through
+  `meta/enums.hpp`), `is_retryable`, `capability_error{code, provider_code, message}` (trivially copyable, 99 bytes,
+  no `std::string`), `capability_result<V>`, `fail(...)` and `provider_error(...)`. **The redaction rule:** `message`
+  is made from a string literal only; `provider_code` is the provider's short code (1 to 32 of
+  `A-Z a-z 0-9 _ - . :`), and anything else a provider returns is dropped. Every kit checks it with a provider
+  response carrying a marker (`interfaces/capability_conformance.hpp`).
+- **`http_header.hpp`**: `http_header`, `ascii_iequals` and `find_header`.
 - **`asset` is ordered** (`operator<=>`: by code, then scale) for sorted reports and ordered maps, and
   **`checked_asset(code, scale)`** builds an asset with no type of its own in a constant expression, a bad code being
   a compile error.
