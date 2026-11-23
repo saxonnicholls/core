@@ -23,18 +23,25 @@ BUILD    ?= build
 CONFIG   ?= Release
 CMAKE_FLAGS ?=
 
-.PHONY: all test test-werror asan docs check ubuntu demos benchmarks clean
+.PHONY: all test test-werror asan docs check single-include ubuntu demos benchmarks clean
 
 all: test
 
 check:
 	python3 scripts/check_version.py
 	python3 scripts/check_mirror.py
+	python3 third_party/tooling/scripts/check_interfaces.py
+	python3 third_party/tooling/scripts/single_include.py --check
+
+# single_include/snicholls_core.hpp, the whole library in one file: rewritten before every test run, so a local gate
+# never runs stale (tooling STANDARDS section 2); CI fails while the committed one is stale
+single-include:
+	python3 third_party/tooling/scripts/single_include.py
 
 $(BUILD)/CMakeCache.txt:
 	cmake -B $(BUILD) -DCMAKE_BUILD_TYPE=$(CONFIG) -DCMAKE_CXX_COMPILER=$(CXX) $(CMAKE_FLAGS)
 
-test: check $(BUILD)/CMakeCache.txt
+test: single-include check $(BUILD)/CMakeCache.txt
 	cmake --build $(BUILD) --parallel
 	ctest --test-dir $(BUILD) --output-on-failure
 

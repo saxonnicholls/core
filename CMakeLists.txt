@@ -177,6 +177,17 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     set_target_properties(snicholls_core_cpp17_check PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
     snicholls_core_compile_options(snicholls_core_cpp17_check)
 
+    # tooling (third_party/tooling, a test-only submodule pinned to a tag): single_include/snicholls_core.hpp compiles on
+    # its own, and the CTests check.single_include (fresh and complete) and check.interfaces (every interface has its
+    # concept twin), from tooling.conf
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/tooling/cmake/SnichollsTooling.cmake)
+        message(FATAL_ERROR "third_party/tooling is empty - run: git submodule update --init --recursive")
+    endif()
+    include(${CMAKE_CURRENT_SOURCE_DIR}/third_party/tooling/cmake/SnichollsTooling.cmake)
+    snicholls_single_include_check(snicholls_core_single_include)
+    snicholls_core_compile_options(snicholls_core_single_include)
+    snicholls_tooling_add_checks(SINGLE_INCLUDE INTERFACES)
+
     # GoogleTest, vendored as a shallow submodule pinned to a release tag
     # (CLAUDE.md "Dependencies"). For the tests only: the library has none.
     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/googletest/CMakeLists.txt)

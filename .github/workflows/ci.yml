@@ -69,6 +69,12 @@ jobs:
       - name: Every header has a registered test and demo
         run: python3 scripts/check_mirror.py
 
+      - name: The single include is fresh and complete
+        run: python3 third_party/tooling/scripts/single_include.py --check
+
+      - name: Every interface has its concept, and the reverse
+        run: python3 third_party/tooling/scripts/check_interfaces.py
+
       - name: Configure (Release, warnings are errors, benchmarks smoke-run)
         run: >
           cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -136,6 +142,12 @@ jobs:
 
       - name: Every header has a registered test and demo
         run: python3 scripts/check_mirror.py
+
+      - name: The single include is fresh and complete
+        run: python3 third_party/tooling/scripts/single_include.py --check
+
+      - name: Every interface has its concept, and the reverse
+        run: python3 third_party/tooling/scripts/check_interfaces.py
 
       - name: Configure (warnings are errors)
         run: cmake -B build -DSNICHOLLS_CORE_WERROR=ON -DSNICHOLLS_CORE_BUILD_BENCHMARKS=ON

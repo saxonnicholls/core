@@ -9,6 +9,11 @@ ISO 3166 countries and currency metadata, the major tokens as types, day-count c
 
 ### Added
 
+- **`single_include/snicholls_core.hpp`: the whole library in one file**, generated from `core.hpp` by
+  snicholls-tooling's `single_include.py` (`third_party/tooling` at `v0.2.0`, build-time only). `make test` rewrites
+  it; the CTest `check.single_include` and CI fail while it is stale or incomplete, and it is compiled alone.
+  `core.hpp` now also includes `detail/forward_like.hpp` and `detail/pp_for_each.hpp`. The interface check
+  (`check.interfaces`) runs too.
 - **`asset` is ordered** (`operator<=>`: by code, then scale) for sorted reports and ordered maps, and
   **`checked_asset(code, scale)`** builds an asset with no type of its own in a constant expression, a bad code being
   a compile error.

@@ -6,3 +6,7 @@
 	path = third_party/benchmark
 	url = https://github.com/google/benchmark.git
 	shallow = true
+[submodule "third_party/tooling"]
+	path = third_party/tooling
+	url = https://github.com/saxonnicholls/tooling.git
+	shallow = true
