@@ -5,7 +5,7 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ## 0.23.0 - 2026-11-24
 
-ISO 3166 countries and currency metadata, the major tokens as types, day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits and `inplace_string<N>`.
+ISO 3166 countries and currency metadata, the major tokens as types, day-count conventions, business-day rules, ISO 8601 week dates, identifier check digits (now GTIN too), `inplace_string<N>`, the capability contracts from servers (message_sender, signer, key_store, payment_provider, onramp_provider, http_handler) and the single include.
 
 ### Added
 
