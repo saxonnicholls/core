@@ -180,10 +180,11 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - Header guards are named, `snicholls_core_<path>_hpp`, not `#pragma once`: a consumer can test the guard to prove
   an include resolved to core rather than to another root with the same file name. Every header includes what it uses.
 - Macros carry the `SNICHOLLS_` prefix; `SNICHOLLS_CORE_` is reserved for the library's own metadata.
-- `single_include/snicholls_core.hpp` is the whole library in one file, generated from `core.hpp` by tooling's
-  `single_include.py` (`make single-include`; `make test` rewrites it first). It is committed and never edited by
-  hand: the CTest `check.single_include` and CI fail while it is stale, or while a header is missing from
-  `core.hpp`, and `snicholls_core_single_include` compiles it alone. A new header therefore joins `core.hpp`.
+- `snicholls_core.hpp`, the single include, is the whole library in one file, generated from `core.hpp` by tooling's
+  `single_include.py`. It is **never committed** (`single_include/` holds only its README): every build generates and
+  compiles it alone (`snicholls_core_single_include`), the CTest `check.single_include` fails while a header is
+  missing from `core.hpp`, and every release tag attaches it to the GitHub release. A new header therefore joins
+  `core.hpp`. `make single-include` writes it locally.
 - `tests/`, `demos/` and `benchmarks/` mirror `include/snicholls/core/` (below). `scripts/` holds the CI checks.
   `third_party/` holds the test-only submodules.
 
@@ -601,7 +602,7 @@ do not own beyond what ADL-scoped helpers need.
 |---|---|---|---|
 | GoogleTest / GoogleMock | `third_party/googletest` | `v1.18.0` | tests only |
 | Google Benchmark | `third_party/benchmark` | `v1.9.5` | benchmarks only |
-| snicholls-tooling | `third_party/tooling` | `v0.2.0` | the single include and the interface check (build-time only) |
+| snicholls-tooling | `third_party/tooling` | `v0.2.1` | the single include and the interface check (build-time only) |
 
 The rules: pin to a release tag, never a branch tip; HTTPS URLs; `shallow = true`; never edit a file
 inside a submodule; consume via `add_subdirectory(... EXCLUDE_FROM_ALL)` with the dependency's tests and install

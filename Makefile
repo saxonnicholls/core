@@ -33,15 +33,15 @@ check:
 	python3 third_party/tooling/scripts/check_interfaces.py
 	python3 third_party/tooling/scripts/single_include.py --check
 
-# single_include/snicholls_core.hpp, the whole library in one file: rewritten before every test run, so a local gate
-# never runs stale (tooling STANDARDS section 2); CI fails while the committed one is stale
+# single_include/snicholls_core.hpp, the whole library in one file, for this commit (git-ignored: a release's is
+# attached to the release; every build also generates and compiles its own, tooling STANDARDS section 2)
 single-include:
 	python3 third_party/tooling/scripts/single_include.py
 
 $(BUILD)/CMakeCache.txt:
 	cmake -B $(BUILD) -DCMAKE_BUILD_TYPE=$(CONFIG) -DCMAKE_CXX_COMPILER=$(CXX) $(CMAKE_FLAGS)
 
-test: single-include check $(BUILD)/CMakeCache.txt
+test: check $(BUILD)/CMakeCache.txt
 	cmake --build $(BUILD) --parallel
 	ctest --test-dir $(BUILD) --output-on-failure
 

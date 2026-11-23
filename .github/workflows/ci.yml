@@ -69,7 +69,7 @@ jobs:
       - name: Every header has a registered test and demo
         run: python3 scripts/check_mirror.py
 
-      - name: The single include is fresh and complete
+      - name: The single include holds every public header
         run: python3 third_party/tooling/scripts/single_include.py --check
 
       - name: Every interface has its concept, and the reverse
@@ -143,7 +143,7 @@ jobs:
       - name: Every header has a registered test and demo
         run: python3 scripts/check_mirror.py
 
-      - name: The single include is fresh and complete
+      - name: The single include holds every public header
         run: python3 third_party/tooling/scripts/single_include.py --check
 
       - name: Every interface has its concept, and the reverse
@@ -223,3 +223,40 @@ jobs:
           git -C "$site" -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
             commit -q -m "docs: $DEST ($GITHUB_SHA)"
           git -C "$site" push origin gh-pages
+
+  # The single include is never committed, so it cannot be stale: on a release tag it is generated from the tagged
+  # commit, compiled alone with warnings as errors, and attached to the GitHub release, once the gating legs are green
+  single-include:
+    name: Release the single include
+    needs: [build-and-test, docs]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Generate it from the tagged commit
+        run: |
+          set -euo pipefail
+          python3 third_party/tooling/scripts/single_include.py --check
+          python3 third_party/tooling/scripts/single_include.py --out "$RUNNER_TEMP/single_include"
+          ls -l "$RUNNER_TEMP/single_include"
+
+      - name: It compiles alone, warnings as errors
+        run: |
+          printf '#include "snicholls_core.hpp"\n' > "$RUNNER_TEMP/use.cpp"
+          g++ -std=c++20 -Wall -Wextra -Wpedantic -Werror -fsyntax-only -I"$RUNNER_TEMP/single_include" "$RUNNER_TEMP/use.cpp"
+
+      - name: Attach it to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          gh release view "$TAG" >/dev/null 2>&1 \
+            || gh release create "$TAG" --verify-tag --title "snicholls-core $TAG" --notes "See CHANGELOG.md for $TAG."
+          gh release upload "$TAG" "$RUNNER_TEMP/single_include/snicholls_core.hpp" --clobber
