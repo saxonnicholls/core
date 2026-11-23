@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,8 +100,6 @@ $(function(){initNavTree('traced_8hpp.html','',''); });
 <code>#include &lt;format&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
@@ -110,6 +108,7 @@ $(function(){initNavTree('traced_8hpp.html','',''); });
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;<a class="el" href="meta_2concepts_8hpp_source.html">snicholls/core/meta/concepts.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="result_8hpp_source.html">snicholls/core/result.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2error__sink_8hpp_source.html">snicholls/core/interfaces/error_sink.hpp</a>&gt;</code><br />
 </div>
 <p><a href="traced_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -131,10 +130,6 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">rethrow()</span> of a traced error throws its inner error (<span class="tt"><a class="el" href="group__core.html#gaec1214c77a17b911a13797c9fb0cfbb9" title="Throws E as an exception: snicholls::error_exception&lt;E&gt;::raise, else the defaults described there.">snicholls::throw_error</a></span>).  <a href="structsnicholls_1_1error__exception_3_01traced_3_01X_01_4_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:snicholls_3A_3Aerror_5Freport" id="r_snicholls_3A_3Aerror_5Freport"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1error__report.html">snicholls::error_report</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Everything known about one error, ready to be logged: std types only.  <a href="structsnicholls_1_1error__report.html#details">More...</a><br /></td></tr>
-<tr class="memitem:snicholls_3A_3Aerror_5Fsink" id="r_snicholls_3A_3Aerror_5Fsink"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1error__sink.html">snicholls::error_sink</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Where errors are logged: receives a structured <span class="tt"><a class="el" href="structsnicholls_1_1error__report.html" title="Everything known about one error, ready to be logged: std types only.">snicholls::error_report</a></span> at a level.  <a href="classsnicholls_1_1error__sink.html#details">More...</a><br /></td></tr>
-<tr class="memitem:snicholls_3A_3Atext_5Ferror_5Fsink" id="r_snicholls_3A_3Atext_5Ferror_5Fsink"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1text__error__sink.html">snicholls::text_error_sink</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <span class="tt"><a class="el" href="classsnicholls_1_1error__sink.html" title="Where errors are logged: receives a structured snicholls::error_report at a level.">snicholls::error_sink</a></span> writing <span class="tt"><a class="el" href="group__core.html#ga8edf3b17e31d2de59f2e8b8f715c361d" title="The report as human-readable text.">format_error_report</a></span> text, one error per block, to a <span class="tt">std::ostream</span>.  <a href="classsnicholls_1_1text__error__sink.html#details">More...</a><br /></td></tr>
 <tr class="memitem:std_3A_3Ahash_3C_20snicholls_3A_3Atraced_3C_20E_20_3E_20_3E" id="r_std_3A_3Ahash_3C_20snicholls_3A_3Atraced_3C_20E_20_3E_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01snicholls_1_1traced_3_01E_01_4_01_4.html">std::hash&lt; snicholls::traced&lt; E &gt; &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">std::hash</span> of a <span class="tt"><a class="el" href="classsnicholls_1_1traced.html" title="An error E with the source_location where it was created, a chain of context frames,...">snicholls::traced</a>&lt;E&gt;</span>: the hash of the inner error (enabled when <span class="tt">std::hash&lt;E&gt;</span> is).  <a href="structstd_1_1hash_3_01snicholls_1_1traced_3_01E_01_4_01_4.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -216,7 +211,7 @@ Variables</h2></td></tr>
 <div class="line">}</div>
 <div class="line"><span class="keyword">auto</span> r = load_book(<span class="stringliteral">&quot;desk-7&quot;</span>).with_field(<span class="stringliteral">&quot;desk&quot;</span>, <span class="stringliteral">&quot;desk-7&quot;</span>).log_err(sink, <a class="code hl_enumvalue" href="group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282">snicholls::error_level::error</a>);</div>
 <div class="ttc" id="aclasssnicholls_1_1result__throws_1_1result_html"><div class="ttname"><a href="classsnicholls_1_1result__throws_1_1result.html">snicholls::result</a></div><div class="ttdoc">Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l01087">result.hpp:1088</a></div></div>
-<div class="ttc" id="agroup__core_html_gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282"><div class="ttname"><a href="group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282">snicholls::error_level::error</a></div><div class="ttdeci">@ error</div><div class="ttdoc">ERROR (the default of log_err)</div><div class="ttdef"><b>Definition</b> <a href="traced_8hpp_source.html#l00055">traced.hpp:55</a></div></div>
+<div class="ttc" id="agroup__core_html_gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282"><div class="ttname"><a href="group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282">snicholls::error_level::error</a></div><div class="ttdeci">@ error</div><div class="ttdoc">ERROR (the default of log_err)</div><div class="ttdef"><b>Definition</b> <a href="traced_8hpp_source.html#l00053">traced.hpp:53</a></div></div>
 </div><!-- fragment --><p>Opt-in: a plain <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span> stays zero cost. Standard library only; a super-log adapter belongs in the consuming library. Design: <a class="el" href="md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html">RESULT_PLAN.md</a>. </p>
 
 <p class="definition">Definition in file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>

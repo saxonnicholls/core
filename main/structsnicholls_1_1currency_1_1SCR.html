@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -108,11 +108,18 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8f9b27c64d91c2fb235709c2d47a9a8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The numeric code.  <br /></td></tr>
 <tr class="memitem:ab7bcea0b022c0e623a03c910259f51df" id="r_ab7bcea0b022c0e623a03c910259f51df"><td class="memItemLeft" align="right" valign="top">static constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7bcea0b022c0e623a03c910259f51df">scale</a> () noexcept</td></tr>
 <tr class="memdesc:ab7bcea0b022c0e623a03c910259f51df"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minor units: the scale of an amount.  <br /></td></tr>
+<tr class="memitem:ad9813e61fb27fb017274912257a012ea" id="r_ad9813e61fb27fb017274912257a012ea"><td class="memItemLeft" align="right" valign="top">static constexpr std::span&lt; const std::string_view &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9813e61fb27fb017274912257a012ea">countries</a> () noexcept</td></tr>
+<tr class="memdesc:ad9813e61fb27fb017274912257a012ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">The countries using it, by ISO 3166-1 alpha-2, from SIX's list one.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:ad8bf6b2a393ad8501959a3d931a5229a" id="r_ad8bf6b2a393ad8501959a3d931a5229a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8bf6b2a393ad8501959a3d931a5229a">attributes</a> (const <a class="el" href="structsnicholls_1_1currency_1_1SCR.html">SCR</a> &amp;) noexcept</td></tr>
+<tr class="memdesc:ad8bf6b2a393ad8501959a3d931a5229a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Presentation, found by ADL: the label "SCR" (CLDR's root-locale symbol, or the code where CLDR gives none) and 2 minor units.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ISO 4217 <a class="el" href="structsnicholls_1_1currency_1_1SCR.html" title="ISO 4217 SCR: Seychelles Rupee, numeric 690, 2 minor units.">SCR</a>: Seychelles Rupee, numeric 690, 2 minor units. </p>
 
-<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l03515">3515</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04624">4624</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="afea3d71b0fc54a4a29b539c05b0d813f" name="afea3d71b0fc54a4a29b539c05b0d813f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afea3d71b0fc54a4a29b539c05b0d813f">&#9670;&#160;</a></span>code()</h2>
@@ -140,7 +147,37 @@ Static Public Member Functions</h2></td></tr>
 <p>The alphabetic code. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">"<a class="el" href="structsnicholls_1_1currency_1_1SCR.html" title="ISO 4217 SCR: Seychelles Rupee, numeric 690, 2 minor units.">SCR</a>"</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l03518">3518</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04627">4627</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad9813e61fb27fb017274912257a012ea" name="ad9813e61fb27fb017274912257a012ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9813e61fb27fb017274912257a012ea">&#9670;&#160;</a></span>countries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::span&lt; const std::string_view &gt; snicholls::currency::SCR::countries </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The countries using it, by ISO 3166-1 alpha-2, from SIX's list one. </p>
+<dl class="section return"><dt>Returns</dt><dd>1 code, sorted. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04639">4639</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
 
 </div>
 </div>
@@ -170,7 +207,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The currency's name, as SIX publishes it. </p>
 <dl class="section return"><dt>Returns</dt><dd>The name. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l03521">3521</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04630">4630</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
 
 </div>
 </div>
@@ -200,7 +237,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The numeric code. </p>
 <dl class="section return"><dt>Returns</dt><dd>690. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l03524">3524</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04633">4633</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
 
 </div>
 </div>
@@ -230,7 +267,38 @@ Static Public Member Functions</h2></td></tr>
 <p>The minor units: the scale of an amount. </p>
 <dl class="section return"><dt>Returns</dt><dd>2. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l03527">3527</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04636">4636</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="ad8bf6b2a393ad8501959a3d931a5229a" name="ad8bf6b2a393ad8501959a3d931a5229a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8bf6b2a393ad8501959a3d931a5229a">&#9670;&#160;</a></span>attributes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto attributes </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsnicholls_1_1currency_1_1SCR.html">SCR</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Presentation, found by ADL: the label "SCR" (CLDR's root-locale symbol, or the code where CLDR gives none) and 2 minor units. </p>
+<dl class="section return"><dt>Returns</dt><dd>The attribute set. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="iso4217__table_8hpp_source.html#l04642">4642</a> of file <a class="el" href="iso4217__table_8hpp_source.html">iso4217_table.hpp</a>.</p>
 
 </div>
 </div>

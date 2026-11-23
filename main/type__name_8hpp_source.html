@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -152,21 +152,21 @@ $(function(){initNavTree('type__name_8hpp_source.html','',''); });
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        {</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="keyword">constexpr</span> std::string_view sig = raw_type_signature&lt;T&gt;();</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">#if defined(__clang__)</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keyword">constexpr</span> std::string_view head = <span class="stringliteral">&quot;[T = &quot;</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keyword">constexpr</span> std::string_view <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> = <span class="stringliteral">&quot;[T = &quot;</span>;</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keyword">constexpr</span> std::string_view tail = <span class="stringliteral">&quot;]&quot;</span>;</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="preprocessor">#elif defined(__GNUC__)</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keyword">constexpr</span> std::string_view head = <span class="stringliteral">&quot;[with T = &quot;</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keyword">constexpr</span> std::string_view <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> = <span class="stringliteral">&quot;[with T = &quot;</span>;</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keyword">constexpr</span> std::string_view tail = <span class="stringliteral">&quot;;&quot;</span>;</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#elif defined(_MSC_VER)</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keyword">constexpr</span> std::string_view head = <span class="stringliteral">&quot;raw_type_signature&lt;&quot;</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keyword">constexpr</span> std::string_view <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> = <span class="stringliteral">&quot;raw_type_signature&lt;&quot;</span>;</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keyword">constexpr</span> std::string_view tail = <span class="stringliteral">&quot;&gt;(void)&quot;</span>;</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keywordflow">return</span> sig;</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="keyword">const</span> std::size_t start = sig.find(head);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="keyword">const</span> std::size_t start = sig.find(<a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a>);</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            <span class="keywordflow">if</span> (start == std::string_view::npos)</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                <span class="keywordflow">return</span> sig;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <span class="keyword">const</span> std::size_t from = start + head.size();</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <span class="keyword">const</span> std::size_t from = start + <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a>.size();</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            std::size_t <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">end</a> = sig.find(tail, from);</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="keywordflow">if</span> (end == std::string_view::npos)</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">end</a> = sig.size();</div>
@@ -230,6 +230,7 @@ $(function(){initNavTree('type__name_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ga415e6ad88baf1bb6438b965dfff7b18a"><div class="ttname"><a href="group__core.html#ga415e6ad88baf1bb6438b965dfff7b18a">snicholls::type_name</a></div><div class="ttdeci">constexpr std::string_view type_name() noexcept</div><div class="ttdoc">The name of T as the compiler spells it, normalised, as a constant expression.</div><div class="ttdef"><b>Definition</b> <a href="#l00159">type_name.hpp:159</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53"><div class="ttname"><a href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">snicholls::ml::grammar_element_type::end</a></div><div class="ttdeci">@ end</div><div class="ttdoc">The end of a rule.</div><div class="ttdef"><b>Definition</b> <a href="grammar_8hpp_source.html#l00113">grammar.hpp:113</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaaa3a7ee305c1e7219fb9191d683f3516a94a08da1fecbb6e8b46990538c7b50b2"><div class="ttname"><a href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a94a08da1fecbb6e8b46990538c7b50b2">snicholls::ml::grammar_element_type::token</a></div><div class="ttdeci">@ token</div><div class="ttdoc">The token with id value (&lt;[id]&gt;).</div><div class="ttdef"><b>Definition</b> <a href="grammar_8hpp_source.html#l00121">grammar.hpp:121</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">snicholls::http_method::head</a></div><div class="ttdeci">@ head</div><div class="ttdoc">HEAD.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00069">http_handler.hpp:69</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

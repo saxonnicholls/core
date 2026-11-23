@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -164,8 +164,8 @@ Functions</h2></td></tr>
 <p>Here <span class="tt">π_w</span> is <span class="tt">log π_θ(y_w | x)</span>, <span class="tt">ref_w</span> the reference's, and <span class="tt">π̄</span> a mean over the response's tokens (<span class="tt">logprob_reduction::mean</span>). ORPO's <span class="tt">odds(p̄) = P / (1 - P)</span> with <span class="tt">P = e^π̄</span> (its eq. 3 and appendix A: the geometric mean of the tokens' probabilities), so <span class="tt">log odds = π̄ - log(-expm1(π̄))</span>; its SFT term is the chosen response's mean negative log-likelihood, <span class="tt">-π̄_w</span>. Each loss is computed through <span class="tt">softplus</span>, so it never takes <span class="tt">log(0)</span>.</p>
 <p>Every overload returns a <span class="tt">pair_loss</span>: the loss, its derivatives in the policy's two log-probabilities, and the implicit rewards the training logs report (DPO: <span class="tt">β (π - ref)</span>, its section 5; IPO: <span class="tt">τ (π - ref)</span>, as TRL reports it; SimPO: <span class="tt">β π̄</span>; ORPO: <span class="tt">λ π̄</span>). <span class="tt">preference_metrics</span> adds pairs and merges across workers: the mean loss, the rewards, the margin and the accuracy (the fraction of pairs whose chosen reward is strictly the larger).</p>
 <div class="fragment"><div class="line">    <span class="comment">// Sequence log-probabilities (sums over the response) of the policy and of the frozen reference</span></div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> chosen = -12.0, rejected = -15.0, ref_chosen = -13.0, ref_rejected = -14.0;</div>
-<div class="line">    <span class="keyword">const</span> ml::pair_loss&lt;double&gt; d = ml::preference_loss(ml::dpo{.beta = 0.1}, chosen, rejected, ref_chosen, ref_rejected);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> chosen = -12.0, <a class="code hl_enumvalue" href="group__core.html#gga997cdf403bc1fdb65d339be4800d8bacac7537d6d48ecf261749c09a9f284bd45">rejected</a> = -15.0, ref_chosen = -13.0, ref_rejected = -14.0;</div>
+<div class="line">    <span class="keyword">const</span> ml::pair_loss&lt;double&gt; d = ml::preference_loss(ml::dpo{.beta = 0.1}, chosen, <a class="code hl_enumvalue" href="group__core.html#gga997cdf403bc1fdb65d339be4800d8bacac7537d6d48ecf261749c09a9f284bd45">rejected</a>, ref_chosen, ref_rejected);</div>
 <div class="line">    <span class="comment">// d.loss = -log sigma(0.1 ((-12 + 13) - (-15 + 14))) = -log sigma(0.2); d.d_chosen = -0.1 sigma(-0.2)</span></div>
 </div><!-- fragment --><p><span class="tt">preference_loss_rows(backend, params, ...)</span> is the batch on the backend (TRAINING.md T9): every pair's loss, the gradients of the mean written per pair, the metrics added.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A batch of three pairs: the losses, the gradients of the mean, and the metrics, on the backend</span></div>

@@ -9,6 +9,9 @@ var searchData=
   ['pop_5fback_5ft_6',['pop_back_t',['../type__list_8hpp.html#aca3bb5d63c5d17c49724da7d5bf00209',1,'snicholls::meta']]],
   ['pop_5ffront_5ft_7',['pop_front_t',['../type__list_8hpp.html#ad98a3e6bbc4c305af90adfacad6fd8ef',1,'snicholls::meta']]],
   ['product_5fwith_5ft_8',['product_with_t',['../group__core.html#ga995f47949917aa6a56dbcc2bddbe7eda',1,'snicholls::meta']]],
-  ['push_5fback_5ft_9',['push_back_t',['../type__list_8hpp.html#a8bbe1f44142ab5210aede12c1c38e6ce',1,'snicholls::meta']]],
-  ['push_5ffront_5ft_10',['push_front_t',['../type__list_8hpp.html#a43b25108d0b9c44ab67891f341a4c14a',1,'snicholls::meta']]]
+  ['provider_5faccount_9',['provider_account',['../group__core.html#gabbd7687836818900bb89013d8b6d3030',1,'snicholls']]],
+  ['provider_5fid_10',['provider_id',['../group__core.html#gac9ca69ce6c24fe720e14c02409c4de3e',1,'snicholls']]],
+  ['provider_5fname_11',['provider_name',['../group__core.html#gaec6431da4f8686a3d1a8bb31f87d9546',1,'snicholls']]],
+  ['push_5fback_5ft_12',['push_back_t',['../type__list_8hpp.html#a8bbe1f44142ab5210aede12c1c38e6ce',1,'snicholls::meta']]],
+  ['push_5ffront_5ft_13',['push_front_t',['../type__list_8hpp.html#a43b25108d0b9c44ab67891f341a4c14a',1,'snicholls::meta']]]
 ];

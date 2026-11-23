@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,14 +96,15 @@ $(function(){initNavTree('classsnicholls_1_1error__sink.html','','classsnicholls
 <p>Where errors are logged: receives a structured <span class="tt"><a class="el" href="structsnicholls_1_1error__report.html" title="Everything known about one error, ready to be logged: std types only.">snicholls::error_report</a></span> at a level.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="traced_8hpp_source.html">snicholls/core/traced.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="interfaces_2error__sink_8hpp_source.html">snicholls/core/interfaces/error_sink.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for snicholls::error_sink:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classsnicholls_1_1error__sink.png" usemap="#snicholls_3A_3Aerror_5Fsink_map" alt=""/>
   <map id="snicholls_3A_3Aerror_5Fsink_map" name="snicholls_3A_3Aerror_5Fsink_map">
-<area href="classsnicholls_1_1text__error__sink.html" title="A snicholls::error_sink writing format_error_report text, one error per block, to a std::ostream." alt="snicholls::text_error_sink" shape="rect" coords="0,56,151,80"/>
+<area href="classsnicholls_1_1error__sink__model.html" title="Any error_sink_like type behind snicholls::error_sink, for a sink chosen at run time." alt="snicholls::error_sink_model&lt; S &gt;" shape="rect" coords="0,56,197,80"/>
+<area href="classsnicholls_1_1text__error__sink.html" title="A snicholls::error_sink writing format_error_report text, one error per block, to a std::ostream." alt="snicholls::text_error_sink" shape="rect" coords="207,56,404,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -138,6 +139,7 @@ Protected Member Functions</h2></td></tr>
 <p>The log hook of <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a></span>: <span class="tt">r.log_err(sink)</span> / <span class="tt">r.log_err(sink, level)</span> call <span class="tt"><a class="el" href="#acd88dbb762ca742a5d781d44430ef695" title="Builds the report of e and writes it at level. Never throws.">log_error</a></span>, which builds the report and calls <span class="tt"><a class="el" href="#a1d0cc240c6920e99147593a67b553657" title="Receives one error.">write</a></span> once. Implement <span class="tt"><a class="el" href="#a1d0cc240c6920e99147593a67b553657" title="Receives one error.">write</a></span> to send it anywhere; the core stays free of logging libraries.</p>
 <dl class="section user"><dt>Relationships</dt><dd></dd></dl>
 <ul>
+<li><span class="tt"><a class="el" href="conceptsnicholls_1_1error__sink__like.html" title="A type whose objects accept write(level, report) with an error_level and a const error_report.">snicholls::error_sink_like</a></span> (<span class="tt"><a class="el" href="concepts_2error__sink_8hpp.html" title="snicholls::error_sink_like: anything that receives a structured error report at a level.">concepts/error_sink.hpp</a></span>), its concept twin; <span class="tt"><a class="el" href="classsnicholls_1_1error__sink__model.html" title="Any error_sink_like type behind snicholls::error_sink, for a sink chosen at run time.">snicholls::error_sink_model</a></span>, the adapter.</li>
 <li><span class="tt">snicholls::result::log_err</span>, <span class="tt"><a class="el" href="structsnicholls_1_1error__report.html" title="Everything known about one error, ready to be logged: std types only.">snicholls::error_report</a></span>, <span class="tt"><a class="el" href="classsnicholls_1_1traced.html" title="An error E with the source_location where it was created, a chain of context frames,...">snicholls::traced</a></span>.</li>
 <li>Module: <a class="el" href="group__core.html">snicholls-core</a>.</li>
 </ul>
@@ -166,7 +168,7 @@ Protected Member Functions</h2></td></tr>
 <p>Not benchmarked (error path only).</p>
 <dl class="section user"><dt>Tests and demos</dt><dd></dd></dl>
 <ul>
-<li>Tests: tests/traced_test.cpp (GoogleMock sink, <span class="tt"><a class="el" href="classsnicholls_1_1text__error__sink.html" title="A snicholls::error_sink writing format_error_report text, one error per block, to a std::ostream.">text_error_sink</a></span>), tests/support/snicholls/core/conformance/error_sink.hpp.</li>
+<li>Tests: tests/interfaces/error_sink_test.cpp, tests/traced_test.cpp (GoogleMock sink, <span class="tt"><a class="el" href="classsnicholls_1_1text__error__sink.html" title="A snicholls::error_sink writing format_error_report text, one error per block, to a std::ostream.">text_error_sink</a></span>), tests/support/snicholls/core/conformance/error_sink.hpp.</li>
 <li>Demo: demos/traced_demo.cpp.</li>
 </ul>
 <dl class="section user"><dt>Dependencies</dt><dd></dd></dl>
@@ -176,7 +178,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section user"><dt>Status</dt><dd></dd></dl>
 <p>Experimental, pre-1.0. Design: <a class="el" href="md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html">RESULT_PLAN.md</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00793">793</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interfaces_2error__sink_8hpp_source.html#l00098">98</a> of file <a class="el" href="interfaces_2error__sink_8hpp_source.html">error_sink.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a5477008fd86fb3222884e38e1f34d73c" name="a5477008fd86fb3222884e38e1f34d73c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5477008fd86fb3222884e38e1f34d73c">&#9670;&#160;</a></span>log_error() <span class="overload">[1/2]</span></h2>
@@ -216,7 +218,7 @@ template&lt;class E&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00828">828</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interfaces_2error__sink_8hpp_source.html#l00133">133</a> of file <a class="el" href="interfaces_2error__sink_8hpp_source.html">error_sink.hpp</a>.</p>
 
 </div>
 </div>
@@ -264,7 +266,7 @@ template&lt;class E&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="traced_8hpp_source.html#l00809">809</a> of file <a class="el" href="traced_8hpp_source.html">traced.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interfaces_2error__sink_8hpp_source.html#l00114">114</a> of file <a class="el" href="interfaces_2error__sink_8hpp_source.html">error_sink.hpp</a>.</p>
 
 </div>
 </div>
@@ -332,12 +334,12 @@ template&lt;class E&gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classsnicholls_1_1text__error__sink.html#a0d8ad428c2620a0e9667985364e2741b">snicholls::text_error_sink</a>.</p>
+<p>Implemented in <a class="el" href="classsnicholls_1_1error__sink__model.html#a3cd4428c762244c3598d3b892e8b8a14">snicholls::error_sink_model&lt; S &gt;</a>, and <a class="el" href="classsnicholls_1_1text__error__sink.html#a0d8ad428c2620a0e9667985364e2741b">snicholls::text_error_sink</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>snicholls/core/<a class="el" href="traced_8hpp_source.html">traced.hpp</a></li>
+<li>snicholls/core/interfaces/<a class="el" href="interfaces_2error__sink_8hpp_source.html">error_sink.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

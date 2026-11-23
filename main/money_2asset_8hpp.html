@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -97,6 +97,7 @@ $(function(){initNavTree('money_2asset_8hpp.html','',''); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="concepts_2asset_8hpp_source.html">snicholls/core/concepts/asset.hpp</a>&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
+<code>#include &lt;compare&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
@@ -124,6 +125,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:af1b2c6e34f933b32838b1ad8b3b9ae1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">code</span> is a valid asset code: 1 to 24 allowed characters.  <br /></td></tr>
 <tr class="memitem:a8bf6c4246f5068ee085c9e0b9895c62c" id="r_a8bf6c4246f5068ee085c9e0b9895c62c"><td class="memItemLeft" align="right" valign="top">constexpr std::optional&lt; <a class="el" href="structsnicholls_1_1asset.html">asset</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html#a8bf6c4246f5068ee085c9e0b9895c62c">snicholls::make_asset</a> (std::string_view code, unsigned <a class="el" href="structsnicholls_1_1scale.html">scale</a>) noexcept</td></tr>
 <tr class="memdesc:a8bf6c4246f5068ee085c9e0b9895c62c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The asset with this code and scale, if both are valid.  <br /></td></tr>
+<tr class="memitem:a59b12fce9b45261a0eb00a83e0769e2b" id="r_a59b12fce9b45261a0eb00a83e0769e2b"><td class="memItemLeft" align="right" valign="top">consteval <a class="el" href="structsnicholls_1_1asset.html">asset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html#a59b12fce9b45261a0eb00a83e0769e2b">snicholls::checked_asset</a> (std::string_view code, unsigned <a class="el" href="structsnicholls_1_1scale.html">scale</a>)</td></tr>
+<tr class="memdesc:a59b12fce9b45261a0eb00a83e0769e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The asset with this code and scale, checked by the compiler: <span class="tt"><a class="el" href="namespacesnicholls.html#a59b12fce9b45261a0eb00a83e0769e2b" title="The asset with this code and scale, checked by the compiler: checked_asset(&quot;USDC:8453&quot;,...">checked_asset</a>("USDC:8453", 6)</span>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -149,9 +152,12 @@ Variables</h2></td></tr>
 <div class="line">        <span class="keyword">static</span> <span class="keyword">constexpr</span> std::uint8_t scale() noexcept { <span class="keywordflow">return</span> 18; }</div>
 <div class="line">    };</div>
 <div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1asset.html">asset</a> aud = <a class="code hl_variable" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8">asset_v&lt;currency::AUD&gt;</a>;       <span class="comment">// checked by the compiler</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1asset.html">asset</a> <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a94a08da1fecbb6e8b46990538c7b50b2">token</a> = <a class="code hl_variable" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8">asset_v&lt;eeau&gt;</a>;</div>
+<div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1asset.html">asset</a> token = <a class="code hl_variable" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8">asset_v&lt;eeau&gt;</a>;</div>
 <div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1asset.html">asset</a> gold = <a class="code hl_variable" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8">asset_v&lt;with_scale&lt;currency::XAU, 18&gt;</a>&gt;;   <span class="comment">// ISO gives XAU no minor units</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> usdc_bsc = <a class="code hl_function" href="namespacesnicholls.html#a8bf6c4246f5068ee085c9e0b9895c62c">make_asset</a>(<span class="stringliteral">&quot;USDC:56&quot;</span>, 18);     <span class="comment">// at run time, from data</span></div>
+</div><!-- fragment --> <div class="fragment"><div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1asset.html">asset</a> usdc_base = <a class="code hl_function" href="namespacesnicholls.html#a59b12fce9b45261a0eb00a83e0769e2b">checked_asset</a>(<span class="stringliteral">&quot;USDC:8453&quot;</span>, 6);   <span class="comment">// a bad code here would not compile</span></div>
+<div class="line">    std::array held{<a class="code hl_function" href="namespacesnicholls.html#a59b12fce9b45261a0eb00a83e0769e2b">checked_asset</a>(<span class="stringliteral">&quot;USDC:56&quot;</span>, 6), usdc_base, <a class="code hl_variable" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8">asset_v&lt;currency::AUD&gt;</a>};</div>
+<div class="line">    std::ranges::sort(held);   <span class="comment">// by code, then scale: deterministic reports</span></div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="concepts_2asset_8hpp.html" title="snicholls::asset_like and snicholls::currency_like: what an amount can be of, as concepts.">concepts/asset.hpp</a></span> (the concepts), <span class="tt"><a class="el" href="interfaces_2asset_8hpp.html" title="snicholls::asset_interface and snicholls::currency_interface: the virtual twins of asset_like and cur...">interfaces/asset.hpp</a></span> (the virtual interface and its adapters), <span class="tt"><a class="el" href="iso4217_8hpp.html" title="ISO 4217: every currency as a type (snicholls::currency::AUD) and as a constexpr table,...">money/iso4217.hpp</a></span>, <span class="tt"><a class="el" href="native_8hpp.html" title="The native assets of the major chains as types: snicholls::native::ETH, BTC, SOL, TRX,...">money/native.hpp</a></span>, <span class="tt"><a class="el" href="money_8hpp.html" title="snicholls::money and snicholls::money_of&lt;T&gt;: an exact amount of one asset, a sign and 256 bits of min...">money/money.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> The value <span class="tt">asset</span> is the capability's reference implementation; every currency and native type is another, and <span class="tt"><a class="el" href="interfaces_2asset_8hpp.html" title="snicholls::asset_interface and snicholls::currency_interface: the virtual twins of asset_like and cur...">interfaces/asset.hpp</a></span> adapts any of them to <span class="tt">asset_interface</span>.</p>
 <p><b>Guarantees.</b> constexpr throughout, <span class="tt">noexcept</span>, no allocation. <span class="tt">asset</span> is trivially copyable, standard layout and structural (usable as a template argument); equality compares code and scale.</p>

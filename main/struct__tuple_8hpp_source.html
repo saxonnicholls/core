@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -129,7 +129,7 @@ $(function(){initNavTree('struct__tuple_8hpp_source.html','',''); });
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keyword">constexpr</span> <span class="keyword">decltype</span>(<span class="keyword">auto</span>) element(Tup&amp;&amp; tup) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>{</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keyword">using </span>std::get;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> get&lt;I&gt;(<span class="keyword">static_cast&lt;</span>Tup&amp;&amp;<span class="keyword">&gt;</span>(tup));</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;I&gt;</a>(<span class="keyword">static_cast&lt;</span>Tup&amp;&amp;<span class="keyword">&gt;</span>(tup));</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">// Leaves of a tie are references; nested tuples of references stay tuples.</span></div>
@@ -261,6 +261,7 @@ $(function(){initNavTree('struct__tuple_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ga3be52bff97bb886f69cbc21e23283839"><div class="ttname"><a href="group__core.html#ga3be52bff97bb886f69cbc21e23283839">snicholls::member_count_v</a></div><div class="ttdeci">constexpr std::size_t member_count_v</div><div class="ttdoc">The member count of a plain aggregate struct, detected at compile time.</div><div class="ttdef"><b>Definition</b> <a href="member__count_8hpp_source.html#l00135">member_count.hpp:135</a></div></div>
 <div class="ttc" id="agroup__core_html_gab6e85e5ecfec81aca2e8a6fd6285e870"><div class="ttname"><a href="group__core.html#gab6e85e5ecfec81aca2e8a6fd6285e870">snicholls::to_tuple</a></div><div class="ttdeci">constexpr auto to_tuple(S &amp;&amp;s) noexcept(std::is_nothrow_constructible_v&lt; detail::value_of_t&lt; decltype(detail::tie_struct(std::declval&lt; S &amp; &gt;()))&gt;, detail::struct_tie_t&lt; S &amp;&amp; &gt; &gt;)</div><div class="ttdoc">Values of every member (plain structs). Moves from rvalues.</div><div class="ttdef"><b>Definition</b> <a href="#l00237">struct_tuple.hpp:237</a></div></div>
 <div class="ttc" id="agroup__core_html_gacb18d330a80f99a42e228bbfd9073bbe"><div class="ttname"><a href="group__core.html#gacb18d330a80f99a42e228bbfd9073bbe">snicholls::tie</a></div><div class="ttdeci">constexpr auto tie(S &amp;s) noexcept</div><div class="ttdoc">References to every member of a plain struct: a std::tuple of references.</div><div class="ttdef"><b>Definition</b> <a href="#l00225">struct_tuple.hpp:225</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">snicholls::http_method::get</a></div><div class="ttdeci">@ get</div><div class="ttdoc">GET.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00068">http_handler.hpp:68</a></div></div>
 <div class="ttc" id="amember__count_8hpp_html"><div class="ttname"><a href="member__count_8hpp.html">member_count.hpp</a></div><div class="ttdoc">snicholls::member_count_v&lt;S&gt;: the member count of a plain aggregate struct.</div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

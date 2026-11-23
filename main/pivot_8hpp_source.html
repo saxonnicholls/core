@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -136,7 +136,7 @@ $(function(){initNavTree('pivot_8hpp_source.html','',''); });
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="structsnicholls_1_1stats_1_1by__type.html#acc76cec6066177e2c4d13087e7d161dd">  104</a></span>        <span class="keyword">constexpr</span> <span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="keyword">operator</span>()(<span class="keyword">const</span> Row&amp; row) <span class="keyword">const</span></div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        {</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keyword">using </span>std::get;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="keywordflow">return</span> get&lt;T&gt;(row);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;T&gt;</a>(row);</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        }</div>
 </div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    };</div>
@@ -146,20 +146,20 @@ $(function(){initNavTree('pivot_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00116" data-start="{" data-end="};">
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="structsnicholls_1_1stats_1_1by__name.html">  116</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsnicholls_1_1stats_1_1by__name.html">by_name</a> {</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Row&gt;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="keyword">requires</span> <span class="keyword">requires</span>(<span class="keyword">const</span> Row&amp; r) { get&lt;Name&gt;(r); }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="keyword">requires</span> <span class="keyword">requires</span>(<span class="keyword">const</span> Row&amp; r) { <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;Name&gt;</a>(r); }</div>
 <div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="structsnicholls_1_1stats_1_1by__name.html#a6923c6e25c854079941a8a93f6593e21">  123</a></span>        <span class="keyword">constexpr</span> <span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="keyword">operator</span>()(<span class="keyword">const</span> Row&amp; row) <span class="keyword">const</span></div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        {</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordflow">return</span> get&lt;Name&gt;(row);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;Name&gt;</a>(row);</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        }</div>
 </div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span></div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Row&gt;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            <span class="keyword">requires</span>(!<span class="keyword">requires</span>(<span class="keyword">const</span> Row&amp; r) { get&lt;Name&gt;(r); }) &amp;&amp; <span class="keyword">requires</span>(<span class="keyword">const</span> Row&amp; r) { r.template get&lt;Name&gt;(); }</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            <span class="keyword">requires</span>(!<span class="keyword">requires</span>(<span class="keyword">const</span> Row&amp; r) { <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;Name&gt;</a>(r); }) &amp;&amp; <span class="keyword">requires</span>(<span class="keyword">const</span> Row&amp; r) { r.template <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;Name&gt;</a>(); }</div>
 <div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="structsnicholls_1_1stats_1_1by__name.html#abbf7e42ac408b480f2c051f8994aff56">  133</a></span>        <span class="keyword">constexpr</span> <span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="keyword">operator</span>()(<span class="keyword">const</span> Row&amp; row) <span class="keyword">const</span></div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        {</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">return</span> row.template get&lt;Name&gt;();</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">return</span> row.template <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;Name&gt;</a>();</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        }</div>
 </div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    };</div>
@@ -725,6 +725,7 @@ $(function(){initNavTree('pivot_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gac9ccdf4eaddcfeea9ce3e01da6d128f6"><div class="ttname"><a href="group__core.html#gac9ccdf4eaddcfeea9ce3e01da6d128f6">snicholls::splitmix64</a></div><div class="ttdeci">constexpr std::uint64_t splitmix64(std::uint64_t x) noexcept</div><div class="ttdoc">The splitmix64 integer mixer: a 64-bit permutation with good avalanche, for seeds and ids.</div><div class="ttdef"><b>Definition</b> <a href="wyhash_8hpp_source.html#l00103">wyhash.hpp:103</a></div></div>
 <div class="ttc" id="agroup__core_html_gaf5f83e19d833505c326617980ef0578d"><div class="ttname"><a href="group__core.html#gaf5f83e19d833505c326617980ef0578d">snicholls::print_to</a></div><div class="ttdeci">void print_to(std::ostream &amp;os, const T &amp;value)</div><div class="ttdoc">Write any value as text to a stream: the engine behind acout&#39;s operator&lt;&lt;.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00910">acout.hpp:910</a></div></div>
 <div class="ttc" id="agroup__core_html_gafe10d0dc62abe084db35c73dcea36b44"><div class="ttname"><a href="group__core.html#gafe10d0dc62abe084db35c73dcea36b44">snicholls::stats::make_pivot</a></div><div class="ttdeci">pivot&lt; Row, Rows, Columns, Measures... &gt; make_pivot(const R &amp;rows)</div><div class="ttdoc">A pivot of rows in one pass: make_pivot&lt;trade, rows, columns, measures...&gt;(trades).</div><div class="ttdef"><b>Definition</b> <a href="#l00710">pivot.hpp:710</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">snicholls::http_method::get</a></div><div class="ttdeci">@ get</div><div class="ttdoc">GET.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00068">http_handler.hpp:68</a></div></div>
 <div class="ttc" id="ameta_2concepts_8hpp_html"><div class="ttname"><a href="meta_2concepts_8hpp.html">concepts.hpp</a></div><div class="ttdoc">The small concepts the family keeps re-declaring: streamable, printable, enumeration,...</div></div>
 <div class="ttc" id="anamespacesnicholls_html_a872b1a407b105277d5f34e11de94a684"><div class="ttname"><a href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">snicholls::add</a></div><div class="ttdeci">constexpr result&lt; money, money_errc &gt; add(const money &amp;a, const money &amp;b) noexcept</div><div class="ttdoc">The sum of two amounts of the same asset.</div><div class="ttdef"><b>Definition</b> <a href="money_8hpp_source.html#l00298">money.hpp:298</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf"><div class="ttname"><a href="namespacesnicholls.html#ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf">snicholls::chain_kind::other</a></div><div class="ttdeci">@ other</div><div class="ttdoc">anything else</div><div class="ttdef"><b>Definition</b> <a href="concepts_2chain_8hpp_source.html#l00060">chain.hpp:60</a></div></div>

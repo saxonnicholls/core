@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -117,10 +117,10 @@ $(function(){initNavTree('chain__conformance_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="namespacesnicholls.html#a0f62997d98d4e7938f3cf1dc724ae087">   59</a></span>    [[nodiscard]] <span class="keyword">constexpr</span> std::optional&lt;std::string_view&gt; <a class="code hl_function" href="namespacesnicholls.html#a0f62997d98d4e7938f3cf1dc724ae087">check_chain</a>(<span class="keyword">const</span> T&amp; t) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> failed = <a class="code hl_function" href="namespacesnicholls.html#a8017c84503f32e33423ad16483572ed5">check_named</a>(t))</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">return</span> failed;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> failed = <a class="code hl_function" href="namespacesnicholls.html#a31ec20574005c3c2c9e80d4c07dbb5cb">check_asset</a>(t.native_asset()))</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordflow">return</span> failed;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a> = <a class="code hl_function" href="namespacesnicholls.html#a8017c84503f32e33423ad16483572ed5">check_named</a>(t))</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a> = <a class="code hl_function" href="namespacesnicholls.html#a31ec20574005c3c2c9e80d4c07dbb5cb">check_asset</a>(t.native_asset()))</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a>;</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <span class="keywordtype">id</span> = detail::chain_id_of(t); <span class="keywordtype">id</span> &amp;&amp; *<span class="keywordtype">id</span> == 0)</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="keywordflow">return</span> <span class="stringliteral">&quot;chain: chain_id() is zero&quot;</span>;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">return</span> std::nullopt;</div>
@@ -132,6 +132,7 @@ $(function(){initNavTree('chain__conformance_8hpp_source.html','',''); });
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#endif </span><span class="comment">// snicholls_core_interfaces_chain_conformance_hpp</span></div>
 <div class="ttc" id="aasset__conformance_8hpp_html"><div class="ttname"><a href="asset__conformance_8hpp.html">asset_conformance.hpp</a></div><div class="ttdoc">snicholls::check_asset and snicholls::check_currency: the conformance kit of the asset capability.</div></div>
 <div class="ttc" id="aconcepts_2chain_8hpp_html"><div class="ttname"><a href="concepts_2chain_8hpp.html">chain.hpp</a></div><div class="ttdoc">snicholls::chain_like and snicholls::evm_chain_like: a blockchain as a concept.</div></div>
+<div class="ttc" id="agroup__core_html_ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284"><div class="ttname"><a href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">snicholls::withdrawal_status::failed</a></div><div class="ttdeci">@ failed</div><div class="ttdoc">will not arrive</div><div class="ttdef"><b>Definition</b> <a href="concepts_2onramp__provider_8hpp_source.html#l00180">onramp_provider.hpp:180</a></div></div>
 <div class="ttc" id="ainterfaces_2chain_8hpp_html"><div class="ttname"><a href="interfaces_2chain_8hpp.html">chain.hpp</a></div><div class="ttdoc">snicholls::chain_interface: the virtual twin of chain_like, and the adapters between them.</div></div>
 <div class="ttc" id="anamed__conformance_8hpp_html"><div class="ttname"><a href="named__conformance_8hpp.html">named_conformance.hpp</a></div><div class="ttdoc">snicholls::check_named: the conformance kit of the has_name capability.</div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>

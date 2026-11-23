@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -153,7 +153,7 @@ Enumerations</h2></td></tr>
 <div class="line">    <span class="comment">// For new work: core&#39;s own draw (the default), the fastest, and also the same everywhere.</span></div>
 <div class="line">    stats::wyrand g(2026);</div>
 <div class="line">    stats::uniform_int&lt;int&gt; die(1, 6);</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_function" href="spatial_8hpp.html#a1b557267acfa745f4ff7e873f7ee61da">roll</a> = die(g);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">int</span> roll = die(g);</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span> (<span class="tt">uniform_index</span>, <span class="tt">wyrand</span>, <span class="tt">full_range_generator</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span> (with a <span class="tt">constexpr</span> generator such as <span class="tt">wyrand</span>), no allocation, <span class="tt">noexcept</span> exactly when the generator's call is. The same generator state gives the same draws on every platform and compiler. <span class="tt">uniform_int</span> is two <span class="tt">T</span>s, trivially copyable, and stateless between draws: <span class="tt">reset()</span> does nothing, as in both libraries.</p>
 <p><b>Errors.</b> None. <span class="tt">a &lt;= b</span> is a precondition (asserted), as for the standard distribution.</p>

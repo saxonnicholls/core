@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -98,6 +98,8 @@ $(function(){initNavTree('namespacesnicholls_1_1literals.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:abb2c68ace8fc33235e616ba55cf3956e" id="r_abb2c68ace8fc33235e616ba55cf3956e"><td class="memItemLeft" align="right" valign="top">consteval <a class="el" href="namespacesnicholls.html#aadda26d638b1cb0ccf181c6d7423a8ee">country_entry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb2c68ace8fc33235e616ba55cf3956e">operator&quot;&quot;_country</a> (const char *s, std::size_t n)</td></tr>
+<tr class="memdesc:abb2c68ace8fc33235e616ba55cf3956e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">"AU"_country</span> or <span class="tt">"AUS"_country</span>: a country's entry, checked by the compiler.  <br /></td></tr>
 <tr class="memitem:a33f1ac43e290c9ae12e0d0504614d0fd" id="r_a33f1ac43e290c9ae12e0d0504614d0fd"><td class="memItemLeft" align="right" valign="top">consteval std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33f1ac43e290c9ae12e0d0504614d0fd">operator&quot;&quot;_fnv64</a> (const char *s, std::size_t n) noexcept</td></tr>
 <tr class="memdesc:a33f1ac43e290c9ae12e0d0504614d0fd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">"text"_fnv64</span> is <span class="tt"><a class="el" href="namespacesnicholls.html#a030e6ffbce86be4fc9d818732e8fbdb4" title="64-bit FNV-1a of the bytes of s, continuing from h.">fnv1a_64</a>("text")</span>, as a constant.  <br /></td></tr>
 <tr class="memitem:a06daea734e69b1b45dc0f29cf0a0466c" id="r_a06daea734e69b1b45dc0f29cf0a0466c"><td class="memItemLeft" align="right" valign="top">consteval std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06daea734e69b1b45dc0f29cf0a0466c">operator&quot;&quot;_fnv32</a> (const char *s, std::size_t n) noexcept</td></tr>
@@ -117,6 +119,47 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Literals for compile-time string hashes: <span class="tt">"GET"_fnv64</span>, <span class="tt">"GET"_fnv32</span>. </p>
 <p>For <span class="tt">switch</span> on a string: the labels are constant expressions, and the subject is <span class="tt">fnv1a_64(s)</span> at run time. Check the matched string too if a collision would matter. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="abb2c68ace8fc33235e616ba55cf3956e" name="abb2c68ace8fc33235e616ba55cf3956e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb2c68ace8fc33235e616ba55cf3956e">&#9670;&#160;</a></span>operator&quot;&quot;_country()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesnicholls.html#aadda26d638b1cb0ccf181c6d7423a8ee">country_entry</a> snicholls::literals::operator&quot;&quot;_country </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel consteval">consteval</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt">"AU"_country</span> or <span class="tt">"AUS"_country</span>: a country's entry, checked by the compiler. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>The alpha-2 or alpha-3 code. </td></tr>
+    <tr><td class="paramname">n</td><td>Its length. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The entry; an unknown code is a compile error. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="country_8hpp_source.html#l00148">148</a> of file <a class="el" href="country_8hpp_source.html">country.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a06daea734e69b1b45dc0f29cf0a0466c" name="a06daea734e69b1b45dc0f29cf0a0466c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06daea734e69b1b45dc0f29cf0a0466c">&#9670;&#160;</a></span>operator&quot;&quot;_fnv32()</h2>
 
@@ -236,7 +279,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The asset; an unknown code, or one with no ISO scale, is a compile error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="iso4217_8hpp_source.html#l00150">150</a> of file <a class="el" href="iso4217_8hpp_source.html">iso4217.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="iso4217_8hpp_source.html#l00176">176</a> of file <a class="el" href="iso4217_8hpp_source.html">iso4217.hpp</a>.</p>
 
 </div>
 </div>

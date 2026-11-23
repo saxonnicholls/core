@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -155,7 +155,7 @@ Functions</h2></td></tr>
 </table>
 <p>Each is <span class="tt">constexpr</span>: a table of iterates (a recurrence, a schedule of rates, Newton's steps) can be built by the compiler. For types, <span class="tt">meta::nest_list_t</span> and <span class="tt">meta::fold_list_t</span>. <span class="tt">Accumulate</span>, <span class="tt">Differences</span> and <span class="tt">Range</span> are C++20's <span class="tt">constexpr</span> <span class="tt">std::partial_sum</span>, <span class="tt">std::adjacent_difference</span> and <span class="tt">std::iota</span>.</p>
 <div class="fragment"><div class="line">    <span class="comment">// NestList: a balance compounding at 5% a year for five years.</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> balances = <a class="code hl_function" href="group__core.html#gad4400e728bb4fc00b31d13f718f9e7b9">snicholls::nest_list&lt;5&gt;</a>([](<span class="keywordtype">double</span> b) { <span class="keywordflow">return</span> b * 1.05; }, 1000.0);</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#gaf6582d862887588f1c6b755cab5c7b70">balances</a> = <a class="code hl_function" href="group__core.html#gad4400e728bb4fc00b31d13f718f9e7b9">snicholls::nest_list&lt;5&gt;</a>([](<span class="keywordtype">double</span> b) { <span class="keywordflow">return</span> b * 1.05; }, 1000.0);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// FoldList: the running P&amp;L of a week&#39;s trades.</span></div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> running = <a class="code hl_function" href="group__core.html#gaaadca775a5c214cfc3da894373e427d8">snicholls::fold_list</a>([](<span class="keywordtype">double</span> total, <span class="keywordtype">double</span> pnl) { <span class="keywordflow">return</span> total + pnl; }, 0.0,</div>

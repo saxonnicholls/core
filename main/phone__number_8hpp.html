@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -174,7 +174,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacesnicholls_1_1literals.html">snicholls::literals</a>;  <span class="keyword">constexpr</span> <span class="keyword">auto</span> n = <span class="stringliteral">&quot;+61412345678&quot;</span>_e164;   <span class="comment">// checked at compile time</span></div>
 <div class="ttc" id="agroup__core_html_ga415a8f2b3872e1cc152d061e432be3db"><div class="ttname"><a href="group__core.html#ga415a8f2b3872e1cc152d061e432be3db">snicholls::parse_phone_number</a></div><div class="ttdeci">constexpr result&lt; phone_number, phone_errc &gt; parse_phone_number(std::string_view text) noexcept</div><div class="ttdoc">Parses an E.164 number from the ways people write one.</div><div class="ttdef"><b>Definition</b> <a href="phone__number_8hpp_source.html#l00338">phone_number.hpp:338</a></div></div>
 <div class="ttc" id="agroup__core_html_ga5f499c0e40384a8149183332eb4ca539"><div class="ttname"><a href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a></div><div class="ttdeci">constexpr phone_number_text to_text(const phone_number &amp;p) noexcept</div><div class="ttdoc">The canonical text in a small value (no allocation).</div><div class="ttdef"><b>Definition</b> <a href="phone__number_8hpp_source.html#l00288">phone_number.hpp:288</a></div></div>
-<div class="ttc" id="anamespacesnicholls_1_1literals_html"><div class="ttname"><a href="namespacesnicholls_1_1literals.html">snicholls::literals</a></div><div class="ttdoc">Literals for compile-time string hashes: &quot;GET&quot;_fnv64, &quot;GET&quot;_fnv32.</div><div class="ttdef"><b>Definition</b> <a href="fnv_8hpp_source.html#l00122">fnv.hpp:122</a></div></div>
+<div class="ttc" id="anamespacesnicholls_1_1literals_html"><div class="ttname"><a href="namespacesnicholls_1_1literals.html">snicholls::literals</a></div><div class="ttdoc">Literals for compile-time string hashes: &quot;GET&quot;_fnv64, &quot;GET&quot;_fnv32.</div><div class="ttdef"><b>Definition</b> <a href="country_8hpp_source.html#l00143">country.hpp:143</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1phone__number__text_html_a881bb0aa605b73007367f81105f286de"><div class="ttname"><a href="structsnicholls_1_1phone__number__text.html#a881bb0aa605b73007367f81105f286de">snicholls::phone_number_text::view</a></div><div class="ttdeci">constexpr std::string_view view() const noexcept</div><div class="ttdoc">The text.</div><div class="ttdef"><b>Definition</b> <a href="phone__number_8hpp_source.html#l00080">phone_number.hpp:80</a></div></div>
 </div><!-- fragment --><p>Semantics:</p><ul>
 <li>An aggregate holding one std::uint64_t: sizeof 8, trivially copyable, standard layout, structural (usable as a template argument). Value-initialised is the empty number, which no parse produces.</li>

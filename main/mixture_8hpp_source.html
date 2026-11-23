@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -183,7 +183,7 @@ $(function(){initNavTree('mixture_8hpp_source.html','',''); });
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span></div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keyword">template</span> &lt;linalg::scalar T, std::<span class="keywordtype">size_t</span> N&gt;</div>
 <div class="foldopen" id="foldopen00148" data-start="{" data-end="}">
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="group__core.html#ga5f9f2aae6c21f27ce985c6e1edfa291d">  148</a></span>    <span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="group__core.html#ga5f9f2aae6c21f27ce985c6e1edfa291d">reduce_mixture</a>(std::span&lt;<a class="code hl_struct" href="structsnicholls_1_1tracking_1_1weighted__gaussian.html">weighted_gaussian&lt;T, N&gt;</a>&gt; components, <span class="keyword">const</span> <a class="code hl_struct" href="structsnicholls_1_1tracking_1_1mixture__reduction.html">mixture_reduction&lt;T&gt;</a>&amp; options = {}) <span class="keyword">noexcept</span>(linalg::detail::nothrow_scalar&lt;T&gt;)</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="group__core.html#ga5f9f2aae6c21f27ce985c6e1edfa291d">  148</a></span>    <span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="group__core.html#ga5f9f2aae6c21f27ce985c6e1edfa291d">reduce_mixture</a>(std::span&lt;<a class="code hl_struct" href="structsnicholls_1_1tracking_1_1weighted__gaussian.html">weighted_gaussian&lt;T, N&gt;</a>&gt; components, <span class="keyword">const</span> <a class="code hl_struct" href="structsnicholls_1_1tracking_1_1mixture__reduction.html">mixture_reduction&lt;T&gt;</a>&amp; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">options</a> = {}) <span class="keyword">noexcept</span>(linalg::detail::nothrow_scalar&lt;T&gt;)</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    {</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        std::size_t n = components.size();</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">if</span> (n == 0)</div>
@@ -192,7 +192,7 @@ $(function(){initNavTree('mixture_8hpp_source.html','',''); });
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        T pruned(0);</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        std::size_t kept = 0;</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; n; ++i) {</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="keywordflow">if</span> (components[i].weight &lt; options.prune_threshold)</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="keywordflow">if</span> (components[i].weight &lt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">options</a>.prune_threshold)</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                pruned += components[i].weight;</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                components[kept++] = components[i];</div>
@@ -207,7 +207,7 @@ $(function(){initNavTree('mixture_8hpp_source.html','',''); });
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                components[j] = components[j - 1];</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                components[j - 1] = t;</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            }</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">if</span> (n &gt; 1 &amp;&amp; options.merge_threshold &gt; T(0)) {</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">if</span> (n &gt; 1 &amp;&amp; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">options</a>.merge_threshold &gt; T(0)) {</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <span class="comment">// components[0, done) are merged results; [done, n) remain, heaviest first. Stone Soup pops the</span></div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            <span class="comment">// heaviest and then tests the rest from the lightest up; the order matters because the merged</span></div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <span class="comment">// component moves as it absorbs.</span></div>
@@ -219,7 +219,7 @@ $(function(){initNavTree('mixture_8hpp_source.html','',''); });
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                <span class="keywordflow">for</span> (std::size_t i = n; i-- &gt; rest;) {</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; c = components[i];</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    <span class="keyword">const</span> <span class="keyword">auto</span> d2 = <a class="code hl_function" href="group__core.html#ga1dcf54f5df9cd748d887a338418cae33">squared_mahalanobis</a>(best.state.mean - c.state.mean, c.state.covariance);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    <span class="keywordflow">if</span> (d2 &amp;&amp; *d2 &lt; options.merge_threshold)</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    <span class="keywordflow">if</span> (d2 &amp;&amp; *d2 &lt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">options</a>.merge_threshold)</div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                        best = <a class="code hl_function" href="group__core.html#gabec99234cbf72c6b25286507c4ca5272">merge_pair</a>(best, c);</div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                        components[--write] = components[i];</div>
@@ -240,7 +240,7 @@ $(function(){initNavTree('mixture_8hpp_source.html','',''); });
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                    components[j - 1] = t;</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                }</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        }</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <span class="keywordflow">return</span> n &lt; options.max_components ? n : options.max_components;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <span class="keywordflow">return</span> n &lt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">options</a>.max_components ? n : <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">options</a>.max_components;</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
 </div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
@@ -262,6 +262,7 @@ $(function(){initNavTree('mixture_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gaaf4fcc309bc53944ce274f2a5fde1071"><div class="ttname"><a href="group__core.html#gaaf4fcc309bc53944ce274f2a5fde1071">snicholls::linalg::symmetrise</a></div><div class="ttdeci">constexpr fixed_matrix&lt; T, N, N &gt; symmetrise(const fixed_matrix&lt; T, N, N &gt; &amp;a) noexcept(detail::fixed::nt&lt; T &gt;)</div><div class="ttdoc">(A + Aᵀ) / 2.</div><div class="ttdef"><b>Definition</b> <a href="fixed_8hpp_source.html#l00366">fixed.hpp:366</a></div></div>
 <div class="ttc" id="agroup__core_html_gabec99234cbf72c6b25286507c4ca5272"><div class="ttname"><a href="group__core.html#gabec99234cbf72c6b25286507c4ca5272">snicholls::tracking::merge_pair</a></div><div class="ttdeci">constexpr weighted_gaussian&lt; T, N &gt; merge_pair(const weighted_gaussian&lt; T, N &gt; &amp;a, const weighted_gaussian&lt; T, N &gt; &amp;b) noexcept(linalg::detail::nothrow_scalar&lt; T &gt;)</div><div class="ttdoc">Two components merged with their moments preserved; the weight is min(w_a + w_b, 1).</div><div class="ttdef"><b>Definition</b> <a href="#l00101">mixture.hpp:101</a></div></div>
 <div class="ttc" id="agroup__core_html_gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964"><div class="ttname"><a href="group__core.html#gga5022bc05054efff84b4729afa44d90a0a06b1e69e5f998b50580bad7ca8723964">snicholls::linalg::error::not_positive_definite</a></div><div class="ttdeci">@ not_positive_definite</div><div class="ttdoc">Cholesky met a diagonal at or below the tolerance: the matrix is not (numerically) positive definite.</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00098">types.hpp:98</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15">snicholls::http_method::options</a></div><div class="ttdeci">@ options</div><div class="ttdoc">OPTIONS.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00074">http_handler.hpp:74</a></div></div>
 <div class="ttc" id="aresult_8hpp_html"><div class="ttname"><a href="result_8hpp.html">result.hpp</a></div><div class="ttdoc">snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...</div></div>
 <div class="ttc" id="astructsnicholls_1_1tracking_1_1gaussian_html"><div class="ttname"><a href="structsnicholls_1_1tracking_1_1gaussian.html">snicholls::tracking::gaussian</a></div><div class="ttdoc">A Gaussian: mean and covariance.</div><div class="ttdef"><b>Definition</b> <a href="gaussian_8hpp_source.html#l00070">gaussian.hpp:70</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1tracking_1_1gaussian_html_a354fe67ae896469ac4a0e67e9705d6e3"><div class="ttname"><a href="structsnicholls_1_1tracking_1_1gaussian.html#a354fe67ae896469ac4a0e67e9705d6e3">snicholls::tracking::gaussian::covariance</a></div><div class="ttdeci">linalg::fixed_matrix&lt; T, N, N &gt; covariance</div><div class="ttdoc">The covariance, symmetric positive (semi-)definite.</div><div class="ttdef"><b>Definition</b> <a href="gaussian_8hpp_source.html#l00074">gaussian.hpp:74</a></div></div>

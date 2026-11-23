@@ -6,5 +6,6 @@ var iso4217_8hpp =
     [ "snicholls::iso4217_asset", "namespacesnicholls.html#a7ec221895456abf70f0286a2aebf6f8f", null ],
     [ "snicholls::iso4217_entries", "namespacesnicholls.html#af55d27e7a39469b5ab0068da818dd3a4", null ],
     [ "snicholls::literals::operator\"\"_iso4217", "namespacesnicholls_1_1literals.html#aa66aa11c30c88ab182ceee21f11646d7", null ],
+    [ "snicholls::iso4217_cldr_version", "namespacesnicholls.html#a7f9966671cefbc34f0295e00dbf04c72", null ],
     [ "snicholls::iso4217_published", "namespacesnicholls.html#ae3786bf347ab12dd183088a22de55f61", null ]
 ];

@@ -7,6 +7,7 @@ var dir_b5e7cfac1d310247f32b46a8a9157390 =
     [ "flat_id_map.hpp", "flat__id__map_8hpp.html", null ],
     [ "hierarchical_bitset.hpp", "hierarchical__bitset_8hpp.html", null ],
     [ "index_pool.hpp", "index__pool_8hpp.html", "index__pool_8hpp" ],
+    [ "inplace_string.hpp", "inplace__string_8hpp.html", "inplace__string_8hpp" ],
     [ "inplace_vector.hpp", "inplace__vector_8hpp.html", "inplace__vector_8hpp" ],
     [ "intrusive_avl_tree.hpp", "intrusive__avl__tree_8hpp.html", "intrusive__avl__tree_8hpp" ],
     [ "kd_tree.hpp", "kd__tree_8hpp.html", null ],

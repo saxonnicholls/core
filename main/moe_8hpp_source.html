@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -415,16 +415,16 @@ $(function(){initNavTree('moe_8hpp_source.html','',''); });
 <div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>    <span class="keyword">requires</span>(C.experts &gt; 0)</div>
 <div class="foldopen" id="foldopen00498" data-start="{" data-end="}">
 <div class="line"><a id="l00498" name="l00498"></a><span class="lineno"><a class="line" href="moe_8hpp.html#a502306c82e31d609eaf4b32798f05327">  498</a></span><span class="keyword">constexpr</span> <span class="keywordtype">void</span> <a class="code hl_function" href="moe_8hpp.html#a502306c82e31d609eaf4b32798f05327">moe_permutation</a>(<span class="keyword">const</span> B&amp;, std::span&lt;const std::uint32_t&gt; experts, std::span&lt;const std::uint32_t&gt; offsets,</div>
-<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>                               std::span&lt;std::uint32_t&gt; order, std::span&lt;std::uint32_t&gt; inverse)</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>                               std::span&lt;std::uint32_t&gt; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>, std::span&lt;std::uint32_t&gt; inverse)</div>
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>{</div>
-<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>    assert(offsets.size() == C.experts + 1 &amp;&amp; offsets[C.experts] == experts.size() &amp;&amp; order.size() == experts.size()</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>    assert(offsets.size() == C.experts + 1 &amp;&amp; offsets[C.experts] == experts.size() &amp;&amp; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.size() == experts.size()</div>
 <div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>           &amp;&amp; inverse.size() == experts.size());</div>
 <div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>    std::array&lt;std::uint32_t, C.experts&gt; next{};</div>
 <div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>    <span class="keywordflow">for</span> (std::size_t e = 0; e &lt; C.experts; ++e)</div>
 <div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>        next[e] = offsets[e];</div>
 <div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>    <span class="keywordflow">for</span> (std::size_t j = 0; j &lt; experts.size(); ++j) {</div>
 <div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>        <span class="keyword">const</span> std::uint32_t p = next[experts[j]]++;</div>
-<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>        order[p] = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(j);</div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>        <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[p] = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(j);</div>
 <div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>        inverse[j] = p;</div>
 <div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>    }</div>
 <div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>}</div>
@@ -435,12 +435,12 @@ $(function(){initNavTree('moe_8hpp_source.html','',''); });
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span><span class="keyword">template</span> &lt;transformer_config C, <span class="keyword">typename</span> B, math::math_number T&gt;</div>
 <div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>    <span class="keyword">requires</span>(C.experts &gt; 0)</div>
 <div class="foldopen" id="foldopen00525" data-start="{" data-end="}">
-<div class="line"><a id="l00525" name="l00525"></a><span class="lineno"><a class="line" href="moe_8hpp.html#a5681993a5678409715006a6bd5dc718a">  525</a></span><span class="keyword">constexpr</span> <span class="keywordtype">void</span> <a class="code hl_function" href="moe_8hpp.html#a5681993a5678409715006a6bd5dc718a">moe_gather_rows</a>(<span class="keyword">const</span> B&amp;, std::type_identity_t&lt;std::span&lt;const T&gt;&gt; xs, std::span&lt;const std::uint32_t&gt; order, std::span&lt;T&gt; xp)</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno"><a class="line" href="moe_8hpp.html#a5681993a5678409715006a6bd5dc718a">  525</a></span><span class="keyword">constexpr</span> <span class="keywordtype">void</span> <a class="code hl_function" href="moe_8hpp.html#a5681993a5678409715006a6bd5dc718a">moe_gather_rows</a>(<span class="keyword">const</span> B&amp;, std::type_identity_t&lt;std::span&lt;const T&gt;&gt; xs, std::span&lt;const std::uint32_t&gt; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>, std::span&lt;T&gt; xp)</div>
 <div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>{</div>
 <div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>    <span class="keyword">constexpr</span> std::size_t d = C.d_model, K = C.top_k;</div>
-<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>    assert(xs.size() * K == order.size() * d &amp;&amp; xp.size() == order.size() * d);</div>
-<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>    <span class="keywordflow">for</span> (std::size_t p = 0; p &lt; order.size(); ++p) {</div>
-<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>        <span class="keyword">const</span> std::size_t r = order[p] / K;</div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>    assert(xs.size() * K == <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.size() * d &amp;&amp; xp.size() == <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.size() * d);</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>    <span class="keywordflow">for</span> (std::size_t p = 0; p &lt; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.size(); ++p) {</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>        <span class="keyword">const</span> std::size_t r = <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[p] / K;</div>
 <div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; d; ++i)</div>
 <div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>            xp[p * d + i] = xs[r * d + i];</div>
 <div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>    }</div>
@@ -1213,6 +1213,7 @@ $(function(){initNavTree('moe_8hpp_source.html','',''); });
 <div class="ttc" id="astructsnicholls_1_1ml_1_1moe__weights_html_a5d69faa592c103ee9765edb4a3abb83d"><div class="ttname"><a href="structsnicholls_1_1ml_1_1moe__weights.html#a5d69faa592c103ee9765edb4a3abb83d">snicholls::ml::moe_weights::router</a></div><div class="ttdeci">dense_weights&lt; T &gt; router</div><div class="ttdoc">E x d_model, no bias.</div><div class="ttdef"><b>Definition</b> <a href="#l00992">moe.hpp:992</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1moe__weights_html_a924d4a194b56aaba75eb2d3d89c73ed7"><div class="ttname"><a href="structsnicholls_1_1ml_1_1moe__weights.html#a924d4a194b56aaba75eb2d3d89c73ed7">snicholls::ml::moe_weights::experts</a></div><div class="ttdeci">mlp_weights&lt; grouped_weights&lt; T &gt;, T &gt; experts</div><div class="ttdoc">The routed experts&#39; MLPs, E of expert_d_ff.</div><div class="ttdef"><b>Definition</b> <a href="#l00994">moe.hpp:994</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1transformer__config_html"><div class="ttname"><a href="structsnicholls_1_1ml_1_1transformer__config.html">snicholls::ml::transformer_config</a></div><div class="ttdoc">The architecture of a transformer layer: a structural aggregate, passed as a template parameter.</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00185">transformer_config.hpp:186</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1order_html"><div class="ttname"><a href="structsnicholls_1_1order.html">snicholls::order</a></div><div class="ttdoc">An order, as the venue reports it.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2onramp__provider_8hpp_source.html#l00148">onramp_provider.hpp:148</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1scale_html"><div class="ttname"><a href="structsnicholls_1_1scale.html">snicholls::scale</a></div><div class="ttdoc">A number divided by factor before it is formatted, then suffix: scale{1e6, &quot;m&quot;} prints 1250000 as 1....</div><div class="ttdef"><b>Definition</b> <a href="display_8hpp_source.html#l00161">display.hpp:161</a></div></div>
 <div class="ttc" id="atransformer__config_8hpp_html"><div class="ttname"><a href="transformer__config_8hpp.html">transformer_config.hpp</a></div><div class="ttdoc">snicholls::ml::transformer_config: the architecture of a transformer layer as one compile-time value,...</div></div>
 <div class="ttc" id="atransformer__config_8hpp_html_a1d82c3c1b954c574a5b2876d2ccab547"><div class="ttname"><a href="transformer__config_8hpp.html#a1d82c3c1b954c574a5b2876d2ccab547">snicholls::ml::route_scale_v</a></div><div class="ttdeci">constexpr T route_scale_v</div><div class="ttdoc">C.route_scale in T, evaluated at compile time (see Known issues).</div><div class="ttdef"><b>Definition</b> <a href="transformer__config_8hpp_source.html#l00466">transformer_config.hpp:466</a></div></div>

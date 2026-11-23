@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -181,7 +181,7 @@ $(function(){initNavTree('tokenizer_8hpp_source.html','',''); });
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span></div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Token&gt;</div>
 <div class="foldopen" id="foldopen00157" data-start="{" data-end="}">
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="tokenizer_8hpp.html#a2d8dcf12ae3be810fa134cfa539bfb19">  157</a></span><span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1ml_1_1byte__fallback.html">byte_fallback</a> <a class="code hl_function" href="tokenizer_8hpp.html#a2d8dcf12ae3be810fa134cfa539bfb19">make_byte_level_fallback</a>(Token&amp;&amp; <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a94a08da1fecbb6e8b46990538c7b50b2">token</a>)</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="tokenizer_8hpp.html#a2d8dcf12ae3be810fa134cfa539bfb19">  157</a></span><span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1ml_1_1byte__fallback.html">byte_fallback</a> <a class="code hl_function" href="tokenizer_8hpp.html#a2d8dcf12ae3be810fa134cfa539bfb19">make_byte_level_fallback</a>(Token&amp;&amp; token)</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>{</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <a class="code hl_struct" href="structsnicholls_1_1ml_1_1byte__fallback.html">byte_fallback</a> f;</div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordflow">for</span> (std::size_t b = 0; b &lt; 256; ++b) {</div>
@@ -313,7 +313,7 @@ $(function(){initNavTree('tokenizer_8hpp_source.html','',''); });
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                }</div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                std::size_t count = 0;</div>
 <div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                <a class="code hl_enumeration" href="group__core.html#gac39740c58513e4a66ae2f43a7ca3e28e">bpe_error</a> failure{};</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                <span class="keywordtype">bool</span> failed = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                <span class="keywordtype">bool</span> <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                <a class="code hl_function" href="pretokenize_8hpp.html#a998a8386a1b8d36a32ccbe3d01488100">snicholls::ml::pretokenize</a>(v.pre, source, [&amp;](std::string_view piece) {</div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                    if (failed)</div>
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                        return;</div>
@@ -338,7 +338,7 @@ $(function(){initNavTree('tokenizer_8hpp_source.html','',''); });
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                    }</div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                    count += r.unwrap();</div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                });</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                <span class="keywordflow">if</span> (failed)</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a>)</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                    <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#ga8d76a562dc7f8e33e85297d6ea8406f2">err</a>(from(failure));</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#ga453227af48b32afbc6c42c021156551f">ok</a>(count);</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            }</div>
@@ -374,7 +374,7 @@ $(function(){initNavTree('tokenizer_8hpp_source.html','',''); });
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                                                        <span class="keyword">const</span> <a class="code hl_struct" href="structsnicholls_1_1ml_1_1tokenizer__scratch.html">tokenizer_scratch</a>&amp; scratch)</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>{</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    std::size_t count = 0;</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    <span class="keywordtype">bool</span> first = <span class="keyword">true</span>, failed = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    <span class="keywordtype">bool</span> first = <span class="keyword">true</span>, <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    <a class="code hl_enumeration" href="group__core.html#ga203307f5919509dbcbb9ef37edc2657e">tokenizer_error</a> failure{};</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <a class="code hl_function" href="pretokenize_8hpp.html#a4be2cf98c9d8c544e4b6dd30dc0ecabd">split_added_tokens</a>(</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        <a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>, vocab.<a class="code hl_variable" href="structsnicholls_1_1ml_1_1tokenizer__vocab.html#a51bcd616a942b23914bdd6b80a4d0154">added</a>,</div>
@@ -394,7 +394,7 @@ $(function(){initNavTree('tokenizer_8hpp_source.html','',''); });
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            <span class="keywordflow">if</span> (failed)</div>
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            <span class="keywordflow">if</span> (count == out.size()) {</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>                failed = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>                <a class="code hl_enumvalue" href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">failed</a> = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                failure = tokenizer_error::output_too_small;</div>
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            }</div>
@@ -509,6 +509,7 @@ $(function(){initNavTree('tokenizer_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gga942e705a53af49295fe93a6314dd4e62a4ee5c5ed45ab6ee9afa19ac0b6e089a7"><div class="ttname"><a href="group__core.html#gga942e705a53af49295fe93a6314dd4e62a4ee5c5ed45ab6ee9afa19ac0b6e089a7">snicholls::ml::wordpiece_error::scratch_too_small</a></div><div class="ttdeci">@ scratch_too_small</div><div class="ttdoc">A normalised word does not fit in the scratch.</div><div class="ttdef"><b>Definition</b> <a href="wordpiece_8hpp_source.html#l00081">wordpiece.hpp:81</a></div></div>
 <div class="ttc" id="agroup__core_html_gga942e705a53af49295fe93a6314dd4e62aba1da3e5391b24a27839cc5f2dd5e080"><div class="ttname"><a href="group__core.html#gga942e705a53af49295fe93a6314dd4e62aba1da3e5391b24a27839cc5f2dd5e080">snicholls::ml::wordpiece_error::unknown_id</a></div><div class="ttdeci">@ unknown_id</div><div class="ttdoc">Decoding: an id piece does not know.</div><div class="ttdef"><b>Definition</b> <a href="wordpiece_8hpp_source.html#l00082">wordpiece.hpp:82</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaaa3a7ee305c1e7219fb9191d683f3516a94a08da1fecbb6e8b46990538c7b50b2"><div class="ttname"><a href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a94a08da1fecbb6e8b46990538c7b50b2">snicholls::ml::grammar_element_type::token</a></div><div class="ttdeci">@ token</div><div class="ttdoc">The token with id value (&lt;[id]&gt;).</div><div class="ttdef"><b>Definition</b> <a href="grammar_8hpp_source.html#l00121">grammar.hpp:121</a></div></div>
+<div class="ttc" id="agroup__core_html_ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284"><div class="ttname"><a href="group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284">snicholls::withdrawal_status::failed</a></div><div class="ttdeci">@ failed</div><div class="ttdoc">will not arrive</div><div class="ttdef"><b>Definition</b> <a href="concepts_2onramp__provider_8hpp_source.html#l00180">onramp_provider.hpp:180</a></div></div>
 <div class="ttc" id="agroup__core_html_ggabecc5bf55e610adea310edf529547519aacf0d09710ee2f2dd6c1124d35d8d842"><div class="ttname"><a href="group__core.html#ggabecc5bf55e610adea310edf529547519aacf0d09710ee2f2dd6c1124d35d8d842">snicholls::ml::token_kind::user_defined</a></div><div class="ttdeci">@ user_defined</div><div class="ttdoc">A user-defined token: matched in the raw text first, rendered as written.</div><div class="ttdef"><b>Definition</b> <a href="token__trie_8hpp_source.html#l00084">token_trie.hpp:84</a></div></div>
 <div class="ttc" id="agroup__core_html_ggabecc5bf55e610adea310edf529547519aad921d60486366258809553a3db49a4a"><div class="ttname"><a href="group__core.html#ggabecc5bf55e610adea310edf529547519aad921d60486366258809553a3db49a4a">snicholls::ml::token_kind::unknown</a></div><div class="ttdeci">@ unknown</div><div class="ttdoc">The unknown token (&lt;unk&gt;, [UNK]).</div><div class="ttdef"><b>Definition</b> <a href="token__trie_8hpp_source.html#l00082">token_trie.hpp:82</a></div></div>
 <div class="ttc" id="agroup__core_html_ggabecc5bf55e610adea310edf529547519afc5364bf9dbfa34954526becad136d4b"><div class="ttname"><a href="group__core.html#ggabecc5bf55e610adea310edf529547519afc5364bf9dbfa34954526becad136d4b">snicholls::ml::token_kind::control</a></div><div class="ttdeci">@ control</div><div class="ttdoc">A control token (&lt;s&gt;, &lt;/s&gt;, [CLS]): never produced from text, rendered as nothing.</div><div class="ttdef"><b>Definition</b> <a href="token__trie_8hpp_source.html#l00083">token_trie.hpp:83</a></div></div>

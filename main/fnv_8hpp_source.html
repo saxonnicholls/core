@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -151,21 +151,18 @@ $(function(){initNavTree('fnv_8hpp_source.html','',''); });
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}</div>
 </div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span></div>
-<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="namespacesnicholls_1_1literals.html">  122</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesnicholls_1_1literals.html">literals</a> {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="keyword">namespace </span>literals {</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span></div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="namespacesnicholls_1_1literals.html#a33f1ac43e290c9ae12e0d0504614d0fd">  128</a></span><span class="keyword">consteval</span> std::uint64_t <span class="keyword">operator</span><span class="stringliteral">&quot;&quot;</span>_fnv64(<span class="keyword">const</span> <span class="keywordtype">char</span>* s, std::size_t n) <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacesnicholls.html#a030e6ffbce86be4fc9d818732e8fbdb4">fnv1a_64</a>({s, n}); }</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span></div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="namespacesnicholls_1_1literals.html#a06daea734e69b1b45dc0f29cf0a0466c">  134</a></span><span class="keyword">consteval</span> std::uint32_t <span class="keyword">operator</span><span class="stringliteral">&quot;&quot;</span>_fnv32(<span class="keyword">const</span> <span class="keywordtype">char</span>* s, std::size_t n) <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> <a class="code hl_function" href="namespacesnicholls.html#a902a90c503ab18cf1819502d360f8beb">fnv1a_32</a>({s, n}); }</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>} <span class="comment">// namespace literals</span></div>
-</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>} <span class="comment">// namespace snicholls</span></div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_hash_fnv_hpp */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aendian_8hpp_html"><div class="ttname"><a href="endian_8hpp.html">endian.hpp</a></div><div class="ttdoc">Explicit byte order: load_le, store_le, load_be, store_be, byteswap.</div></div>
-<div class="ttc" id="anamespacesnicholls_1_1literals_html"><div class="ttname"><a href="namespacesnicholls_1_1literals.html">snicholls::literals</a></div><div class="ttdoc">Literals for compile-time string hashes: &quot;GET&quot;_fnv64, &quot;GET&quot;_fnv32.</div><div class="ttdef"><b>Definition</b> <a href="#l00122">fnv.hpp:122</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a030e6ffbce86be4fc9d818732e8fbdb4"><div class="ttname"><a href="namespacesnicholls.html#a030e6ffbce86be4fc9d818732e8fbdb4">snicholls::fnv1a_64</a></div><div class="ttdeci">constexpr std::uint64_t fnv1a_64(std::string_view s, std::uint64_t h=fnv1a_64_basis) noexcept</div><div class="ttdoc">64-bit FNV-1a of the bytes of s, continuing from h.</div><div class="ttdef"><b>Definition</b> <a href="#l00076">fnv.hpp:76</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a0c8b379315156b57fad821abac08b8af"><div class="ttname"><a href="namespacesnicholls.html#a0c8b379315156b57fad821abac08b8af">snicholls::fnv1a_64_append</a></div><div class="ttdeci">constexpr std::uint64_t fnv1a_64_append(std::uint64_t h, T v) noexcept</div><div class="ttdoc">Fold a value into a running 64-bit FNV-1a hash through its little-endian bytes.</div><div class="ttdef"><b>Definition</b> <a href="#l00107">fnv.hpp:107</a></div></div>

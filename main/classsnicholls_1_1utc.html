@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -282,7 +282,7 @@ class snicholls::utc&lt; Duration &gt;</div><p>A UTC instant: exactly one <span 
 <div class="line">    check(<span class="stringliteral">&quot;sys_seconds -&gt; utc&lt;&gt; implicitly&quot;</span>, utc&lt;&gt;(sys_seconds(10s)).unix_seconds() == 10);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Calendar, in std::chrono types.</span></div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;date &quot;</span> &lt;&lt; <a class="code hl_function" href="namespacesnicholls.html#a436febd483a240a3ef46b988e4a7af27">snicholls::to_string</a>(massive.date()) &lt;&lt; <span class="stringliteral">&quot;, weekday &quot;</span> &lt;&lt; massive.weekday().c_encoding()</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;date &quot;</span> &lt;&lt; <a class="code hl_function" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb">snicholls::to_string</a>(massive.date()) &lt;&lt; <span class="stringliteral">&quot;, weekday &quot;</span> &lt;&lt; massive.weekday().c_encoding()</div>
 <div class="line">              &lt;&lt; <span class="stringliteral">&quot;, hour &quot;</span> &lt;&lt; massive.time_of_day().hours().count() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">    check(<span class="stringliteral">&quot;date / weekday / days / time_of_day&quot;</span>, massive.date() == 2024y / April / 30 &amp;&amp; massive.weekday() == Tuesday &amp;&amp;</div>
 <div class="line">                                                    massive.days() == sys_days{2024y / April / 30} &amp;&amp;</div>
@@ -311,7 +311,7 @@ class snicholls::utc&lt; Duration &gt;</div><p>A UTC instant: exactly one <span 
 <div class="line">    <span class="keywordflow">return</span> failures == 0 ? 0 : 1;</div>
 <div class="line">}</div>
 </div><!-- fragment --><dl class="section user"><dt>Performance</dt><dd></dd></dl>
-<p>Release, 4096 instants in 2000..2030, median of 10, ns per value (macOS AppleClang 17 / Ubuntu clang 18; date not recorded): <span class="tt"><a class="el" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8" title="Write an amount&#39;s number, without its code, into [first, last).">snicholls::to_chars</a></span> 29 / 22 (<span class="tt">std::format_to_n</span> 1310 / 339); <span class="tt"><a class="el" href="namespacesnicholls.html#a436febd483a240a3ef46b988e4a7af27" title="The amount&#39;s number as a string: &quot;1000.5&quot;.">snicholls::to_string</a></span> 73-85 / 33-39 (<span class="tt">std::format</span> 1492 / 361); <span class="tt"><a class="el" href="namespacesnicholls.html#aa15c01d0f0d9f2bf66b95f2bebb1cfa1" title="Converts from chars.">snicholls::from_chars</a></span> (strict, validated) 29-32 / 27 (<span class="tt">sscanf</span> + <span class="tt">timegm</span> 6674 / 461); Unix ms round trip 3.1 vs raw <span class="tt">std::chrono</span> 3.1 (zero overhead). The benchmark is benchmarks/time/utc_benchmark.cpp (not on Windows: its baselines are POSIX).</p>
+<p>Release, 4096 instants in 2000..2030, median of 10, ns per value (macOS AppleClang 17 / Ubuntu clang 18; date not recorded): <span class="tt"><a class="el" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8" title="Write an amount&#39;s number, without its code, into [first, last).">snicholls::to_chars</a></span> 29 / 22 (<span class="tt">std::format_to_n</span> 1310 / 339); <span class="tt"><a class="el" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb" title="The method&#39;s token on the wire (RFC 9110), not the enumerator&#39;s name.">snicholls::to_string</a></span> 73-85 / 33-39 (<span class="tt">std::format</span> 1492 / 361); <span class="tt"><a class="el" href="namespacesnicholls.html#aa15c01d0f0d9f2bf66b95f2bebb1cfa1" title="Converts from chars.">snicholls::from_chars</a></span> (strict, validated) 29-32 / 27 (<span class="tt">sscanf</span> + <span class="tt">timegm</span> 6674 / 461); Unix ms round trip 3.1 vs raw <span class="tt">std::chrono</span> 3.1 (zero overhead). The benchmark is benchmarks/time/utc_benchmark.cpp (not on Windows: its baselines are POSIX).</p>
 <dl class="section user"><dt>Tests and demos</dt><dd></dd></dl>
 <ul>
 <li>Tests: tests/time/utc_test.cpp, tests/time/utc_format_test.cpp.</li>

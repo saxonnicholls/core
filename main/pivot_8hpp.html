@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -148,7 +148,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="comment">// (read by getters), every cell filled in one pass over the fills.</span></div>
 <div class="line">    <span class="keyword">using </span>by_currency_and_index = <a class="code hl_class" href="classsnicholls_1_1stats_1_1pivot.html">stats::pivot&lt;fill, snicholls::meta::type_list&lt;currency&gt;</a>, <a class="code hl_struct" href="structsnicholls_1_1meta_1_1type__list.html">snicholls::meta::type_list&lt;equity_index&gt;</a>,</div>
 <div class="line">                                               <a class="code hl_struct" href="structsnicholls_1_1stats_1_1measure.html">stats::measure&lt;pnl_of, stats::sum&lt;double&gt;</a>&gt;, <a class="code hl_struct" href="structsnicholls_1_1stats_1_1measure.html">stats::measure&lt;ret_of, stats::mean&lt;double&gt;</a>&gt;&gt;;</div>
-<div class="line">    <span class="keyword">const</span> std::vector&lt;fill&gt; fills{{currency::usd, equity_index::spx, {120}, {0.012}},</div>
+<div class="line">    <span class="keyword">const</span> std::vector&lt;fill&gt; <a class="code hl_enumvalue" href="group__core.html#gga315226356b911c3adfb29a2f8378463eab3b8c36b183ca5767c7df7a16e194d92">fills</a>{{currency::usd, equity_index::spx, {120}, {0.012}},</div>
 <div class="line">                                  {currency::eur, equity_index::sx5e, {-40}, {-0.004}},</div>
 <div class="line">                                  {currency::usd, equity_index::spx, {30}, {0.003}},</div>
 <div class="line">                                  {currency::gbp, equity_index::ukx, {15}, {0.002}}};</div>
@@ -160,7 +160,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="comment">// In parallel: each worker pivots its share, then the pivots merge.</span></div>
 <div class="line">    by_currency_and_index worker_a, worker_b;</div>
 <div class="line">    worker_a.add(fills[0]);</div>
-<div class="line">    worker_b.add_all(std::vector&lt;fill&gt;(fills.begin() + 1, fills.end()));</div>
+<div class="line">    worker_b.add_all(std::vector&lt;fill&gt;(<a class="code hl_enumvalue" href="group__core.html#gga315226356b911c3adfb29a2f8378463eab3b8c36b183ca5767c7df7a16e194d92">fills</a>.begin() + 1, <a class="code hl_enumvalue" href="group__core.html#gga315226356b911c3adfb29a2f8378463eab3b8c36b183ca5767c7df7a16e194d92">fills</a>.end()));</div>
 <div class="line">    worker_a.merge(worker_b);</div>
 </div><!-- fragment --><p>Keys and cells print with their display attributes (<span class="tt"><a class="el" href="display_8hpp.html" title="Display attributes: colour, sign_colours (P&amp;L green and red), label, number_format,...">display.hpp</a></span>): declared once beside the key types and the measure's getter, the grid shows each currency in its colour and every P&amp;L green or red through <span class="tt">acout</span>:</p>
 <div class="fragment"><div class="line"><span class="comment">// Declared once, beside the types: every printer (acout, the pivot grid, imgui and React through the JSON) shows a</span></div>

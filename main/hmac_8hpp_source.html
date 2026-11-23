@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -161,19 +161,19 @@ $(function(){initNavTree('hmac_8hpp_source.html','',''); });
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span></div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keyword">template</span> &lt;hash_input K, hash_input S&gt;</div>
 <div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classsnicholls_1_1hmac.html#aebe48bad56972e47cd576da9f3a798cf">  123</a></span>    [[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_typedef" href="classsnicholls_1_1hmac.html#adf8317c4c38bb97f4b3d60b4238cc8b0">digest_type</a> <a class="code hl_function" href="classsnicholls_1_1hmac.html#aebe48bad56972e47cd576da9f3a798cf">mac</a>(<span class="keyword">const</span> K&amp; key, <span class="keyword">const</span> S&amp; message) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classsnicholls_1_1hmac.html#aebe48bad56972e47cd576da9f3a798cf">  123</a></span>    [[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_typedef" href="classsnicholls_1_1hmac.html#adf8317c4c38bb97f4b3d60b4238cc8b0">digest_type</a> <a class="code hl_function" href="classsnicholls_1_1hmac.html#aebe48bad56972e47cd576da9f3a798cf">mac</a>(<span class="keyword">const</span> K&amp; key, <span class="keyword">const</span> S&amp; <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    {</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <a class="code hl_function" href="classsnicholls_1_1hmac.html#aeda62146116538d9e79b128017b46a82">hmac</a> m{key};</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        m.update(message);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        m.update(<a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>);</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">return</span> m.<a class="code hl_function" href="classsnicholls_1_1hmac.html#a293cba8639ea81875c6044fb2e9b5a89">finish</a>();</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
 </div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span></div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keyword">template</span> &lt;hash_input K, hash_input S, hash_input T&gt;</div>
 <div class="foldopen" id="foldopen00136" data-start="{" data-end="}">
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classsnicholls_1_1hmac.html#ac94dbff47f71874f8079920a5244fa53">  136</a></span>    [[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsnicholls_1_1hmac.html#ac94dbff47f71874f8079920a5244fa53">verify</a>(<span class="keyword">const</span> K&amp; key, <span class="keyword">const</span> S&amp; message, <span class="keyword">const</span> T&amp; tag) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classsnicholls_1_1hmac.html#ac94dbff47f71874f8079920a5244fa53">  136</a></span>    [[nodiscard]] <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsnicholls_1_1hmac.html#ac94dbff47f71874f8079920a5244fa53">verify</a>(<span class="keyword">const</span> K&amp; key, <span class="keyword">const</span> S&amp; <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>, <span class="keyword">const</span> T&amp; tag) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    {</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gaa8e05c041a3377752720801cc269f7cf">constant_time_equal</a>(<a class="code hl_function" href="classsnicholls_1_1hmac.html#aebe48bad56972e47cd576da9f3a798cf">mac</a>(key, message), tag);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gaa8e05c041a3377752720801cc269f7cf">constant_time_equal</a>(<a class="code hl_function" href="classsnicholls_1_1hmac.html#aebe48bad56972e47cd576da9f3a798cf">mac</a>(key, <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>), tag);</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    }</div>
 </div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
@@ -209,6 +209,7 @@ $(function(){initNavTree('hmac_8hpp_source.html','',''); });
 <div class="ttc" id="asecure_8hpp_html"><div class="ttname"><a href="secure_8hpp.html">secure.hpp</a></div><div class="ttdoc">secure_wipe, which the optimiser may not remove, and constant_time_equal for MACs and digests.</div></div>
 <div class="ttc" id="astructsnicholls_1_1digest_html"><div class="ttname"><a href="structsnicholls_1_1digest.html">snicholls::digest</a></div><div class="ttdoc">N bytes produced by a hash: compared, ordered, printed and parsed as hexadecimal, all constexpr.</div><div class="ttdef"><b>Definition</b> <a href="digest_8hpp_source.html#l00104">digest.hpp:105</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1digest_html_a14391932379790ad7cbf96e16277967e"><div class="ttname"><a href="structsnicholls_1_1digest.html#a14391932379790ad7cbf96e16277967e">snicholls::digest::bytes</a></div><div class="ttdeci">std::array&lt; std::byte, N &gt; bytes</div><div class="ttdoc">The bytes. Public, so a digest is structural and an aggregate.</div><div class="ttdef"><b>Definition</b> <a href="digest_8hpp_source.html#l00107">digest.hpp:107</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1message_html"><div class="ttname"><a href="structsnicholls_1_1message.html">snicholls::message</a></div><div class="ttdoc">One message to send, borrowed for the call: a sender that keeps any of it (a queue,...</div><div class="ttdef"><b>Definition</b> <a href="concepts_2message__sender_8hpp_source.html#l00087">message_sender.hpp:87</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -254,9 +254,9 @@ Variables</h2></td></tr>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Into a message, mixed with streaming, emitted when it goes out of scope.</span></div>
 <div class="line">    {</div>
-<div class="line">        <a class="code hl_class" href="classsnicholls_1_1acout.html">snicholls::acout</a> message;</div>
-<div class="line">        message &lt;&lt; <span class="stringliteral">&quot;  order &quot;</span> &lt;&lt; 42 &lt;&lt; <span class="stringliteral">&quot;: &quot;</span>;</div>
-<div class="line">        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#acdb1775fd8a34d8c1183344677c315c3">print</a>(<span class="stringliteral">&quot;{} @ {:.2f}&quot;</span>, <span class="stringliteral">&quot;AAPL&quot;</span>, 189.25).<a class="code hl_function" href="classsnicholls_1_1acout.html#a560d403a955a746313cb9aabfad3f223">println</a>(<span class="stringliteral">&quot; {}&quot;</span>, <span class="stringliteral">&quot;filled&quot;</span>);</div>
+<div class="line">        <a class="code hl_class" href="classsnicholls_1_1acout.html">snicholls::acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>;</div>
+<div class="line">        <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a> &lt;&lt; <span class="stringliteral">&quot;  order &quot;</span> &lt;&lt; 42 &lt;&lt; <span class="stringliteral">&quot;: &quot;</span>;</div>
+<div class="line">        <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>.print(<span class="stringliteral">&quot;{} @ {:.2f}&quot;</span>, <span class="stringliteral">&quot;AAPL&quot;</span>, 189.25).println(<span class="stringliteral">&quot; {}&quot;</span>, <span class="stringliteral">&quot;filled&quot;</span>);</div>
 <div class="line">    }</div>
 </div><!-- fragment --><p>Formatting is <span class="tt">std::format</span>, with the format string checked at compile time. The <span class="tt">{fmt}</span> library itself cannot enter core (standard library only); its API is this one.</p>
 <p>A type that knows how to print itself gives it one member, and that is the whole contract (<span class="tt"><a class="el" href="conceptsnicholls_1_1printable.html" title="A type that prints itself, in either form: the member is the whole contract.">snicholls::printable</a></span>): the classic <span class="tt">print(std::ostream&amp;) const</span>, or the better <span class="tt">print(<a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">snicholls::acout</a>&amp;) const</span>, inside which format strings and streaming both work and the whole object is written in one call. <span class="tt">acout</span> streams either through the member, <span class="tt">print(value)</span> and <span class="tt">println(value)</span> write one in one line, and <span class="tt">using snicholls::print_operators::operator&lt;&lt;;</span> lends both to any plain stream, the way magic_enum's <span class="tt">iostream_operators</span> does for enumerations:</p>

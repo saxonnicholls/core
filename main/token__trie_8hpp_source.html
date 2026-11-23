@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -166,23 +166,23 @@ $(function(){initNavTree('token__trie_8hpp_source.html','',''); });
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span></div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Keep&gt;</div>
 <div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">  133</a></span><span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">build_token_index</a>(std::span&lt;const std::string_view&gt; pieces, std::span&lt;std::uint32_t&gt; order, Keep&amp;&amp; keep)</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">  133</a></span><span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">build_token_index</a>(std::span&lt;const std::string_view&gt; pieces, std::span&lt;std::uint32_t&gt; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>, Keep&amp;&amp; keep)</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>{</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    assert(order.size() &gt;= pieces.size());</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    assert(<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.size() &gt;= pieces.size());</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    std::size_t n = 0;</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordflow">for</span> (std::size_t <span class="keywordtype">id</span> = 0; <span class="keywordtype">id</span> &lt; pieces.size(); ++id)</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="keywordflow">if</span> (keep(<span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(<span class="keywordtype">id</span>)))</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            order[n++] = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(id);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[n++] = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(id);</div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keyword">const</span> <span class="keyword">auto</span> before = [&amp;](std::uint32_t a, std::uint32_t b) { <span class="keywordflow">return</span> pieces[a] &lt; pieces[b] || (pieces[a] == pieces[b] &amp;&amp; a &gt; b); };</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    detail::vocab_index::sort(order.first(n), before);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    detail::vocab_index::sort(<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.first(n), before);</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">return</span> n;</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>}</div>
 </div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span></div>
 <div class="foldopen" id="foldopen00149" data-start="{" data-end="}">
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="token__trie_8hpp.html#ae351b39642f3a4bb1a47c18540abb8dc">  149</a></span><span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">build_token_index</a>(std::span&lt;const std::string_view&gt; pieces, std::span&lt;std::uint32_t&gt; order)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="token__trie_8hpp.html#ae351b39642f3a4bb1a47c18540abb8dc">  149</a></span><span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">build_token_index</a>(std::span&lt;const std::string_view&gt; pieces, std::span&lt;std::uint32_t&gt; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>)</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>{</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">build_token_index</a>(pieces, order, [](std::uint32_t) { <span class="keywordflow">return</span> <span class="keyword">true</span>; });</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">build_token_index</a>(pieces, <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>, [](std::uint32_t) { <span class="keywordflow">return</span> <span class="keyword">true</span>; });</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>}</div>
 </div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span></div>
@@ -328,6 +328,7 @@ $(function(){initNavTree('token__trie_8hpp_source.html','',''); });
 <div class="ttc" id="astructsnicholls_1_1ml_1_1token__trie_html_a9e369d123dafade615707cef0dbfb69c"><div class="ttname"><a href="structsnicholls_1_1ml_1_1token__trie.html#a9e369d123dafade615707cef0dbfb69c">snicholls::ml::token_trie::advance</a></div><div class="ttdeci">constexpr bool advance(cursor &amp;c, char byte) const noexcept</div><div class="ttdoc">Walks one byte down: narrows c to the pieces whose next byte is byte.</div><div class="ttdef"><b>Definition</b> <a href="#l00181">token_trie.hpp:181</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1token__trie_html_ad193ddbd2d7faf9d15a4b9628c1a5780"><div class="ttname"><a href="structsnicholls_1_1ml_1_1token__trie.html#ad193ddbd2d7faf9d15a4b9628c1a5780">snicholls::ml::token_trie::find</a></div><div class="ttdeci">constexpr std::uint32_t find(std::string_view bytes) const noexcept</div><div class="ttdoc">The token whose piece is bytes.</div><div class="ttdef"><b>Definition</b> <a href="#l00222">token_trie.hpp:222</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1token__trie_html_adcad9509b99950c32d509328a64efc87"><div class="ttname"><a href="structsnicholls_1_1ml_1_1token__trie.html#adcad9509b99950c32d509328a64efc87">snicholls::ml::token_trie::root</a></div><div class="ttdeci">constexpr cursor root() const noexcept</div><div class="ttdoc">The root: every piece, nothing walked.</div><div class="ttdef"><b>Definition</b> <a href="#l00175">token_trie.hpp:175</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1order_html"><div class="ttname"><a href="structsnicholls_1_1order.html">snicholls::order</a></div><div class="ttdoc">An order, as the venue reports it.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2onramp__provider_8hpp_source.html#l00148">onramp_provider.hpp:148</a></div></div>
 <div class="ttc" id="atoken__trie_8hpp_html_a381d809a7002507f268a7a2e0c1f57a2"><div class="ttname"><a href="token__trie_8hpp.html#a381d809a7002507f268a7a2e0c1f57a2">snicholls::ml::no_token</a></div><div class="ttdeci">constexpr std::uint32_t no_token</div><div class="ttdoc">The id a lookup returns for bytes that are not a token.</div><div class="ttdef"><b>Definition</b> <a href="#l00074">token_trie.hpp:74</a></div></div>
 <div class="ttc" id="atoken__trie_8hpp_html_a589e9de84f9eae92ebd84b3857d1ffce"><div class="ttname"><a href="token__trie_8hpp.html#a589e9de84f9eae92ebd84b3857d1ffce">snicholls::ml::build_token_index</a></div><div class="ttdeci">constexpr std::size_t build_token_index(std::span&lt; const std::string_view &gt; pieces, std::span&lt; std::uint32_t &gt; order, Keep &amp;&amp;keep)</div><div class="ttdoc">Fills order with the ids that keep accepts, sorted by piece (bytes compared unsigned),...</div><div class="ttdef"><b>Definition</b> <a href="#l00133">token_trie.hpp:133</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

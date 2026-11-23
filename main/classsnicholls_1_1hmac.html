@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -122,11 +122,11 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aebe48bad56972e47cd576da9f3a798cf" id="r_aebe48bad56972e47cd576da9f3a798cf"><td class="memTemplParams" colspan="2">template&lt;hash_input K, hash_input S&gt; </td></tr>
-<tr class="memitem:aebe48bad56972e47cd576da9f3a798cf template"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#adf8317c4c38bb97f4b3d60b4238cc8b0">digest_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebe48bad56972e47cd576da9f3a798cf">mac</a> (const K &amp;key, const S &amp;message) noexcept</td></tr>
-<tr class="memdesc:aebe48bad56972e47cd576da9f3a798cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-shot: the tag of <span class="tt">message</span> under <span class="tt">key</span>.  <br /></td></tr>
+<tr class="memitem:aebe48bad56972e47cd576da9f3a798cf template"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#adf8317c4c38bb97f4b3d60b4238cc8b0">digest_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebe48bad56972e47cd576da9f3a798cf">mac</a> (const K &amp;key, const S &amp;<a class="el" href="structsnicholls_1_1message.html">message</a>) noexcept</td></tr>
+<tr class="memdesc:aebe48bad56972e47cd576da9f3a798cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-shot: the tag of <span class="tt"><a class="el" href="structsnicholls_1_1message.html" title="One message to send, borrowed for the call: a sender that keeps any of it (a queue,...">message</a></span> under <span class="tt">key</span>.  <br /></td></tr>
 <tr class="memitem:ac94dbff47f71874f8079920a5244fa53" id="r_ac94dbff47f71874f8079920a5244fa53"><td class="memTemplParams" colspan="2">template&lt;hash_input K, hash_input S, hash_input T&gt; </td></tr>
-<tr class="memitem:ac94dbff47f71874f8079920a5244fa53 template"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac94dbff47f71874f8079920a5244fa53">verify</a> (const K &amp;key, const S &amp;message, const T &amp;tag) noexcept</td></tr>
-<tr class="memdesc:ac94dbff47f71874f8079920a5244fa53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">tag</span> is the tag of <span class="tt">message</span> under <span class="tt">key</span>, compared in constant time.  <br /></td></tr>
+<tr class="memitem:ac94dbff47f71874f8079920a5244fa53 template"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac94dbff47f71874f8079920a5244fa53">verify</a> (const K &amp;key, const S &amp;<a class="el" href="structsnicholls_1_1message.html">message</a>, const T &amp;tag) noexcept</td></tr>
+<tr class="memdesc:ac94dbff47f71874f8079920a5244fa53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">tag</span> is the tag of <span class="tt"><a class="el" href="structsnicholls_1_1message.html" title="One message to send, borrowed for the call: a sender that keeps any of it (a queue,...">message</a></span> under <span class="tt">key</span>, compared in constant time.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -291,7 +291,7 @@ template&lt;hash_input K, hash_input S&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>One-shot: the tag of <span class="tt">message</span> under <span class="tt">key</span>. </p>
+<p>One-shot: the tag of <span class="tt"><a class="el" href="structsnicholls_1_1message.html" title="One message to send, borrowed for the call: a sender that keeps any of it (a queue,...">message</a></span> under <span class="tt">key</span>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key. </td></tr>
@@ -341,7 +341,7 @@ template&lt;hash_input K, hash_input S, hash_input T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Whether <span class="tt">tag</span> is the tag of <span class="tt">message</span> under <span class="tt">key</span>, compared in constant time. </p>
+<p>Whether <span class="tt">tag</span> is the tag of <span class="tt"><a class="el" href="structsnicholls_1_1message.html" title="One message to send, borrowed for the call: a sender that keeps any of it (a queue,...">message</a></span> under <span class="tt">key</span>, compared in constant time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key. </td></tr>

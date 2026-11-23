@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -119,11 +119,14 @@ Friends</h2></td></tr>
 <tr class="memitem:a754c651ec2c1afab7d0dfae3f4450f73" id="r_a754c651ec2c1afab7d0dfae3f4450f73"><td class="memItemLeft" align="right" valign="top"><a id="a754c651ec2c1afab7d0dfae3f4450f73" name="a754c651ec2c1afab7d0dfae3f4450f73"></a>
 constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="structsnicholls_1_1asset.html">asset</a> &amp;, const <a class="el" href="structsnicholls_1_1asset.html">asset</a> &amp;) noexcept=default</td></tr>
 <tr class="memdesc:a754c651ec2c1afab7d0dfae3f4450f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality: the same code and the same scale. <br /></td></tr>
+<tr class="memitem:a575e6ff616f11aa7045f54a7f3a9acf0" id="r_a575e6ff616f11aa7045f54a7f3a9acf0"><td class="memItemLeft" align="right" valign="top"><a id="a575e6ff616f11aa7045f54a7f3a9acf0" name="a575e6ff616f11aa7045f54a7f3a9acf0"></a>
+constexpr std::strong_ordering&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;=&gt;</b> (const <a class="el" href="structsnicholls_1_1asset.html">asset</a> &amp;, const <a class="el" href="structsnicholls_1_1asset.html">asset</a> &amp;) noexcept=default</td></tr>
+<tr class="memdesc:a575e6ff616f11aa7045f54a7f3a9acf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ordering: by code (byte-wise, a prefix first), then by scale. For sorted reports and ordered maps; it means nothing about value. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An asset as a value: its code and its scale. 26 bytes, trivially copyable, structural. </p>
 
-<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00101">101</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00103">103</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a0562bc4fae97419232f7d8361b7ef8ad" name="a0562bc4fae97419232f7d8361b7ef8ad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0562bc4fae97419232f7d8361b7ef8ad">&#9670;&#160;</a></span>code()</h2>
@@ -151,7 +154,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <p>The code. </p>
 <dl class="section return"><dt>Returns</dt><dd>A view of the code, valid while this asset lives. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00111">111</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00113">113</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
 
 </div>
 </div>
@@ -181,7 +184,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <p>The scale: the decimal places a minor unit stands for. </p>
 <dl class="section return"><dt>Returns</dt><dd>The scale. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00115">115</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00117">117</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
 
 </div>
 </div>
@@ -200,7 +203,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>The code's characters, padded with NULs. Public so that the type is structural; use <span class="tt"><a class="el" href="#a0562bc4fae97419232f7d8361b7ef8ad" title="The code.">code()</a></span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00103">103</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00105">105</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
 
 </div>
 </div>
@@ -218,7 +221,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>The code's length. Public so that the type is structural. </p>
 
-<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00105">105</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00107">107</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +239,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>The scale. Public so that the type is structural; use <span class="tt"><a class="el" href="#aeea4d7d2572a93c06d8cc686d82a24ab" title="The scale: the decimal places a minor unit stands for.">scale()</a></span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00107">107</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_2asset_8hpp_source.html#l00109">109</a> of file <a class="el" href="money_2asset_8hpp_source.html">asset.hpp</a>.</p>
 
 </div>
 </div>

@@ -3,6 +3,8 @@ var group__core =
     [ "acout.hpp", "acout_8hpp.html", null ],
     [ "backoff.hpp", "backoff_8hpp.html", null ],
     [ "basic_type_registry.hpp", "basic__type__registry_8hpp.html", null ],
+    [ "capability_error.hpp", "capability__error_8hpp.html", null ],
+    [ "capability_ids.hpp", "capability__ids_8hpp.html", null ],
     [ "chains.hpp", "chains_8hpp.html", null ],
     [ "checked.hpp", "checked_8hpp.html", null ],
     [ "colour.hpp", "colour_8hpp.html", null ],
@@ -12,10 +14,21 @@ var group__core =
     [ "subsets.hpp", "subsets_8hpp.html", null ],
     [ "asset.hpp", "concepts_2asset_8hpp.html", null ],
     [ "chain.hpp", "concepts_2chain_8hpp.html", null ],
+    [ "country.hpp", "concepts_2country_8hpp.html", null ],
+    [ "day_count.hpp", "concepts_2day__count_8hpp.html", null ],
+    [ "error_sink.hpp", "concepts_2error__sink_8hpp.html", null ],
+    [ "holiday_calendar.hpp", "concepts_2holiday__calendar_8hpp.html", null ],
+    [ "http_handler.hpp", "concepts_2http__handler_8hpp.html", null ],
+    [ "key_store.hpp", "concepts_2key__store_8hpp.html", null ],
     [ "key_value_store.hpp", "concepts_2key__value__store_8hpp.html", null ],
     [ "kv_backup.hpp", "concepts_2kv__backup_8hpp.html", null ],
     [ "kv_health.hpp", "concepts_2kv__health_8hpp.html", null ],
+    [ "message_sender.hpp", "concepts_2message__sender_8hpp.html", null ],
     [ "named.hpp", "concepts_2named_8hpp.html", null ],
+    [ "onramp_provider.hpp", "concepts_2onramp__provider_8hpp.html", null ],
+    [ "payment_provider.hpp", "concepts_2payment__provider_8hpp.html", null ],
+    [ "signer.hpp", "concepts_2signer_8hpp.html", null ],
+    [ "token.hpp", "concepts_2token_8hpp.html", null ],
     [ "constexpr_for.hpp", "constexpr__for_8hpp.html", null ],
     [ "constexpr_map.hpp", "constexpr__map_8hpp.html", null ],
     [ "ann_forest.hpp", "ann__forest_8hpp.html", null ],
@@ -25,6 +38,7 @@ var group__core =
     [ "flat_id_map.hpp", "flat__id__map_8hpp.html", null ],
     [ "hierarchical_bitset.hpp", "hierarchical__bitset_8hpp.html", null ],
     [ "index_pool.hpp", "index__pool_8hpp.html", null ],
+    [ "inplace_string.hpp", "inplace__string_8hpp.html", null ],
     [ "inplace_vector.hpp", "inplace__vector_8hpp.html", null ],
     [ "intrusive_avl_tree.hpp", "intrusive__avl__tree_8hpp.html", null ],
     [ "kd_tree.hpp", "kd__tree_8hpp.html", null ],
@@ -35,6 +49,7 @@ var group__core =
     [ "perfect_map.hpp", "perfect__map_8hpp.html", null ],
     [ "static_map.hpp", "static__map_8hpp.html", null ],
     [ "core.hpp", "core_8hpp.html", null ],
+    [ "country.hpp", "country_8hpp.html", null ],
     [ "decimal.hpp", "decimal_8hpp.html", null ],
     [ "e164_country_codes.hpp", "e164__country__codes_8hpp.html", null ],
     [ "unicode_tables.hpp", "unicode__tables_8hpp.html", null ],
@@ -42,6 +57,9 @@ var group__core =
     [ "display.hpp", "display_8hpp.html", null ],
     [ "endian.hpp", "endian_8hpp.html", null ],
     [ "attribution.hpp", "attribution_8hpp.html", null ],
+    [ "business_day.hpp", "business__day_8hpp.html", null ],
+    [ "day_count.hpp", "finance_2day__count_8hpp.html", null ],
+    [ "year_fraction.hpp", "year__fraction_8hpp.html", null ],
     [ "fixed_string.hpp", "fixed__string_8hpp.html", null ],
     [ "function_ref.hpp", "function__ref_8hpp.html", null ],
     [ "change.hpp", "change_8hpp.html", null ],
@@ -72,17 +90,47 @@ var group__core =
     [ "sha2.hpp", "sha2_8hpp.html", null ],
     [ "sha3.hpp", "sha3_8hpp.html", null ],
     [ "wyhash.hpp", "wyhash_8hpp.html", null ],
+    [ "http_header.hpp", "http__header_8hpp.html", null ],
+    [ "check_digits.hpp", "check__digits_8hpp.html", null ],
     [ "asset.hpp", "interfaces_2asset_8hpp.html", null ],
     [ "asset_conformance.hpp", "asset__conformance_8hpp.html", null ],
+    [ "capability_conformance.hpp", "capability__conformance_8hpp.html", null ],
     [ "chain.hpp", "interfaces_2chain_8hpp.html", null ],
     [ "chain_conformance.hpp", "chain__conformance_8hpp.html", null ],
+    [ "country.hpp", "interfaces_2country_8hpp.html", null ],
+    [ "country_conformance.hpp", "country__conformance_8hpp.html", null ],
+    [ "day_count.hpp", "interfaces_2day__count_8hpp.html", null ],
+    [ "day_count_conformance.hpp", "day__count__conformance_8hpp.html", null ],
+    [ "error_sink.hpp", "interfaces_2error__sink_8hpp.html", null ],
+    [ "holiday_calendar.hpp", "interfaces_2holiday__calendar_8hpp.html", null ],
+    [ "holiday_calendar_conformance.hpp", "holiday__calendar__conformance_8hpp.html", null ],
+    [ "http_handler.hpp", "interfaces_2http__handler_8hpp.html", null ],
+    [ "http_handler_conformance.hpp", "http__handler__conformance_8hpp.html", null ],
+    [ "http_handler_reference.hpp", "http__handler__reference_8hpp.html", null ],
+    [ "key_store.hpp", "interfaces_2key__store_8hpp.html", null ],
+    [ "key_store_conformance.hpp", "key__store__conformance_8hpp.html", null ],
+    [ "key_store_reference.hpp", "key__store__reference_8hpp.html", null ],
     [ "key_value_store.hpp", "interfaces_2key__value__store_8hpp.html", null ],
     [ "key_value_store_conformance.hpp", "key__value__store__conformance_8hpp.html", null ],
     [ "key_value_store_reference.hpp", "key__value__store__reference_8hpp.html", null ],
     [ "kv_backup.hpp", "interfaces_2kv__backup_8hpp.html", null ],
     [ "kv_health.hpp", "interfaces_2kv__health_8hpp.html", null ],
+    [ "message_sender.hpp", "interfaces_2message__sender_8hpp.html", null ],
+    [ "message_sender_conformance.hpp", "message__sender__conformance_8hpp.html", null ],
+    [ "message_sender_reference.hpp", "message__sender__reference_8hpp.html", null ],
     [ "named.hpp", "interfaces_2named_8hpp.html", null ],
     [ "named_conformance.hpp", "named__conformance_8hpp.html", null ],
+    [ "onramp_provider.hpp", "interfaces_2onramp__provider_8hpp.html", null ],
+    [ "onramp_provider_conformance.hpp", "onramp__provider__conformance_8hpp.html", null ],
+    [ "onramp_provider_reference.hpp", "onramp__provider__reference_8hpp.html", null ],
+    [ "payment_provider.hpp", "interfaces_2payment__provider_8hpp.html", null ],
+    [ "payment_provider_conformance.hpp", "payment__provider__conformance_8hpp.html", null ],
+    [ "payment_provider_reference.hpp", "payment__provider__reference_8hpp.html", null ],
+    [ "signer.hpp", "interfaces_2signer_8hpp.html", null ],
+    [ "signer_conformance.hpp", "signer__conformance_8hpp.html", null ],
+    [ "signer_reference.hpp", "signer__reference_8hpp.html", null ],
+    [ "token.hpp", "interfaces_2token_8hpp.html", null ],
+    [ "token_conformance.hpp", "token__conformance_8hpp.html", null ],
     [ "invoke_with.hpp", "invoke__with_8hpp.html", null ],
     [ "iterate.hpp", "iterate_8hpp.html", null ],
     [ "backend.hpp", "backend_8hpp.html", null ],
@@ -242,10 +290,14 @@ var group__core =
     [ "thread_apply.hpp", "thread__apply_8hpp.html", null ],
     [ "business_days.hpp", "business__days_8hpp.html", null ],
     [ "civil.hpp", "civil_8hpp.html", null ],
+    [ "names.hpp", "names_8hpp.html", null ],
     [ "rfc3339.hpp", "rfc3339_8hpp.html", null ],
     [ "solar.hpp", "solar_8hpp.html", null ],
     [ "utc.hpp", "utc_8hpp.html", null ],
     [ "utc_format.hpp", "utc__format_8hpp.html", null ],
+    [ "week_date.hpp", "week__date_8hpp.html", null ],
+    [ "basic_token.hpp", "basic__token_8hpp.html", null ],
+    [ "tokens.hpp", "tokens_8hpp.html", null ],
     [ "traced.hpp", "traced_8hpp.html", null ],
     [ "association.hpp", "association_8hpp.html", null ],
     [ "discrete.hpp", "discrete_8hpp.html", null ],
@@ -262,12 +314,18 @@ var group__core =
     [ "zip.hpp", "zip_8hpp.html", null ],
     [ "snicholls::print_operators", "namespacesnicholls_1_1print__operators.html", null ],
     [ "snicholls::printable_any", "conceptsnicholls_1_1printable__any.html", null ],
+    [ "snicholls::http_handler", "conceptsnicholls_1_1http__handler.html", null ],
+    [ "snicholls::key_store", "conceptsnicholls_1_1key__store.html", null ],
     [ "snicholls::kv_byte_source", "conceptsnicholls_1_1kv__byte__source.html", null ],
     [ "snicholls::kv_readable", "conceptsnicholls_1_1kv__readable.html", null ],
     [ "snicholls::kv_writable", "conceptsnicholls_1_1kv__writable.html", null ],
     [ "snicholls::key_value_store", "conceptsnicholls_1_1key__value__store.html", null ],
     [ "snicholls::kv_backup", "conceptsnicholls_1_1kv__backup.html", null ],
     [ "snicholls::kv_health", "conceptsnicholls_1_1kv__health.html", null ],
+    [ "snicholls::message_sender", "conceptsnicholls_1_1message__sender.html", null ],
+    [ "snicholls::onramp_provider", "conceptsnicholls_1_1onramp__provider.html", null ],
+    [ "snicholls::payment_provider", "conceptsnicholls_1_1payment__provider.html", null ],
+    [ "snicholls::signer", "conceptsnicholls_1_1signer.html", null ],
     [ "snicholls::containers::avl_traits", "conceptsnicholls_1_1containers_1_1avl__traits.html", null ],
     [ "snicholls::number_like", "conceptsnicholls_1_1number__like.html", null ],
     [ "snicholls::has_display_attributes", "conceptsnicholls_1_1has__display__attributes.html", null ],
@@ -379,6 +437,29 @@ var group__core =
       [ "type", "structsnicholls_1_1named.html#acfd129091cea0177474706743fad2760", null ]
     ] ],
     [ "snicholls::basic_type_registry&lt; Bindings &gt;", "structsnicholls_1_1basic__type__registry.html", null ],
+    [ "snicholls::provider_code", "classsnicholls_1_1provider__code.html", [
+      [ "provider_code", "classsnicholls_1_1provider__code.html#abf13751be2bccdf8f4a3574f7d999cd9", null ],
+      [ "provider_code", "classsnicholls_1_1provider__code.html#adcfc9869d3245e023bc62762a48c7a4c", null ],
+      [ "empty", "classsnicholls_1_1provider__code.html#a57af3aeb96b5f829c902add2d575217a", null ],
+      [ "view", "classsnicholls_1_1provider__code.html#a4b7f8b5ef7e8ec5e3d13c79e51b2ad68", null ],
+      [ "operator==", "classsnicholls_1_1provider__code.html#ac6ae2bc8f53a556fea1fbf6b3c751ad4", null ],
+      [ "operator==", "classsnicholls_1_1provider__code.html#afc1542b9f3216994f2e1cde0960d0e33", null ]
+    ] ],
+    [ "snicholls::capability_message", "classsnicholls_1_1capability__message.html", [
+      [ "capability_message", "classsnicholls_1_1capability__message.html#aa5746e91629d6a4b115005e9e7dff67b", null ],
+      [ "capability_message", "classsnicholls_1_1capability__message.html#aebc295e5e39ac11fd7838abfb145d29b", null ],
+      [ "empty", "classsnicholls_1_1capability__message.html#ad3d2e5db2793ba43d7488b174462f573", null ],
+      [ "view", "classsnicholls_1_1capability__message.html#a12511646edf1766e41a18999c48833e9", null ],
+      [ "operator==", "classsnicholls_1_1capability__message.html#aa6f71074711df5b8114a1b315fac7169", null ],
+      [ "operator==", "classsnicholls_1_1capability__message.html#a203388c7263123fd933db91144f8a815", null ]
+    ] ],
+    [ "snicholls::capability_error", "structsnicholls_1_1capability__error.html", [
+      [ "retryable", "structsnicholls_1_1capability__error.html#a80f2bf3d228b6c43a0b3afe068b5d6ac", null ],
+      [ "operator==", "structsnicholls_1_1capability__error.html#a7863be79057a30184c8d6c9dd33ff7a1", null ],
+      [ "code", "structsnicholls_1_1capability__error.html#aa2db33a38e362c69166f9e9eabed0ae1", null ],
+      [ "message", "structsnicholls_1_1capability__error.html#a2f7a966ac2d43e7472f07ffd17f2821a", null ],
+      [ "provider_code", "structsnicholls_1_1capability__error.html#a91ab342ccf0b0723bb9befc95d7bf65a", null ]
+    ] ],
     [ "snicholls::colour", "structsnicholls_1_1colour.html", [
       [ "operator==", "structsnicholls_1_1colour.html#a773c6aad952af0051b02b5d7672a70dd", null ],
       [ "ansi", "structsnicholls_1_1colour.html#af7f1b186c0985f4bdd2706b191d5d932", null ],
@@ -401,6 +482,36 @@ var group__core =
       [ "solve", "classsnicholls_1_1combinatorics_1_1assignment__solver.html#ac262339a46c58230bf3c20d0d4bb61d7", null ]
     ] ],
     [ "snicholls::permutation_count&lt; N, R &gt;", "structsnicholls_1_1permutation__count.html", null ],
+    [ "snicholls::http_request", "structsnicholls_1_1http__request.html", [
+      [ "operator==", "structsnicholls_1_1http__request.html#a20643f3c600556bb9522d25df9632b3f", null ],
+      [ "body", "structsnicholls_1_1http__request.html#a13b93a81ccca44961a96f1f8b396ca74", null ],
+      [ "headers", "structsnicholls_1_1http__request.html#a34457b237b6689742b82c3dd37d6bd5e", null ],
+      [ "method", "structsnicholls_1_1http__request.html#a5b5480075aea96c16c4ad7ab839e90a2", null ],
+      [ "path", "structsnicholls_1_1http__request.html#affd4eb3d96b3854a8b8af351acd74515", null ],
+      [ "query", "structsnicholls_1_1http__request.html#abb8707816d89437028bb51572653fc46", null ],
+      [ "remote_address", "structsnicholls_1_1http__request.html#ac431629078af57d5ffe78ed27dce0957", null ],
+      [ "request_id", "structsnicholls_1_1http__request.html#a1c90c062febb240b973366ac0eff4730", null ]
+    ] ],
+    [ "snicholls::http_response", "structsnicholls_1_1http__response.html", [
+      [ "operator==", "structsnicholls_1_1http__response.html#a2f37a0713c96f3fdd6b0bfd8f1bf3b4b", null ],
+      [ "body", "structsnicholls_1_1http__response.html#ab6468511b435ea8569f09fe6057cb950", null ],
+      [ "headers", "structsnicholls_1_1http__response.html#a6344202b628517b09c3c39cf65a432c9", null ],
+      [ "status", "structsnicholls_1_1http__response.html#a77079255c0c7d679ddb9a6b1136d4bc1", null ]
+    ] ],
+    [ "snicholls::key_spec", "structsnicholls_1_1key__spec.html", [
+      [ "operator==", "structsnicholls_1_1key__spec.html#a43b78b99fd26526873f4ffc83a5d1fcd", null ],
+      [ "algorithm", "structsnicholls_1_1key__spec.html#a6cf2dcefdc3b692660f154f74ad6f84e", null ],
+      [ "label", "structsnicholls_1_1key__spec.html#ad2b723ad327d93e86156ebf3c7ea5ecd", null ]
+    ] ],
+    [ "snicholls::key_info", "structsnicholls_1_1key__info.html", [
+      [ "operator==", "structsnicholls_1_1key__info.html#aacce2490bbf2c55b07bc4060181ee360", null ],
+      [ "algorithm", "structsnicholls_1_1key__info.html#ad8411afaa56945b31fff5abc2f2d1911", null ],
+      [ "created_at", "structsnicholls_1_1key__info.html#a8d6a893d328c22d4200c2f248f29737e", null ],
+      [ "key_id", "structsnicholls_1_1key__info.html#a089a1395fd1b56e53fa5920a521cbac2", null ],
+      [ "label", "structsnicholls_1_1key__info.html#ae2d84319bdb3563598d281874b38dba0", null ],
+      [ "state", "structsnicholls_1_1key__info.html#a9cdfa6ecfa986687c29549431acfe938", null ],
+      [ "version", "structsnicholls_1_1key__info.html#ad688e05c08cf9187516301933fb3976b", null ]
+    ] ],
     [ "snicholls::kv_range", "classsnicholls_1_1kv__range.html", [
       [ "after", "classsnicholls_1_1kv__range.html#acc05ef17d98e2ae90156337d23bc8e1a", null ],
       [ "beyond", "classsnicholls_1_1kv__range.html#abfa953ab6df88bd18c8afabe8ef11ef4", null ],
@@ -443,6 +554,310 @@ var group__core =
       [ "persistent", "structsnicholls_1_1kv__diagnostics.html#a4fac9f40755aa724289e12ab3ae1caf1", null ],
       [ "read_only", "structsnicholls_1_1kv__diagnostics.html#a1b3b8a4299727cb3d2d86627922d72ce", null ],
       [ "sequence", "structsnicholls_1_1kv__diagnostics.html#a1ded4b0f651052944b52f145c1625c7d", null ]
+    ] ],
+    [ "snicholls::message", "structsnicholls_1_1message.html", [
+      [ "operator==", "structsnicholls_1_1message.html#aa1b79709a90cb0873eaf8f3cb99d18e3", null ],
+      [ "html", "structsnicholls_1_1message.html#aa2e9a7afbf5fca21d090467dd4177112", null ],
+      [ "idempotency_key", "structsnicholls_1_1message.html#a88ea0b29428862b9c48dcf188bb839c3", null ],
+      [ "subject", "structsnicholls_1_1message.html#acb3de6e455786356c02d3c935d673518", null ],
+      [ "text", "structsnicholls_1_1message.html#aa6e808da66f91b2f7cbddb39bd9d9345", null ],
+      [ "to", "structsnicholls_1_1message.html#ac7c2e27e94e8d4b4242268d65e0978b1", null ],
+      [ "via", "structsnicholls_1_1message.html#a79b3c20225ab3f41ae38fe1ae1ae3478", null ]
+    ] ],
+    [ "snicholls::send_receipt", "structsnicholls_1_1send__receipt.html", [
+      [ "operator==", "structsnicholls_1_1send__receipt.html#a955be9c5a31ee45f260d4f9d36eb2802", null ],
+      [ "message_id", "structsnicholls_1_1send__receipt.html#a989f3c8ad7f23aff7b99630e47d402d2", null ],
+      [ "via", "structsnicholls_1_1send__receipt.html#a4cfa96c9c567403fcc1fbcda0e4c2a1a", null ]
+    ] ],
+    [ "snicholls::onramp_asset", "structsnicholls_1_1onramp__asset.html", [
+      [ "operator==", "structsnicholls_1_1onramp__asset.html#a8102141ec357a69da8119f4a200df956", null ],
+      [ "chain_ids", "structsnicholls_1_1onramp__asset.html#a6345425ea334239d83f11b3e666e23d0", null ],
+      [ "peg", "structsnicholls_1_1onramp__asset.html#aab167a4223c2beaa79a06aacb80686f7", null ],
+      [ "stablecoin", "structsnicholls_1_1onramp__asset.html#ac796f87760a2482b585d9b3409f32101", null ],
+      [ "unit", "structsnicholls_1_1onramp__asset.html#af55c07a832091c0f1e2d274181b89914", null ]
+    ] ],
+    [ "snicholls::onramp_quote_request", "structsnicholls_1_1onramp__quote__request.html", [
+      [ "operator==", "structsnicholls_1_1onramp__quote__request.html#add4936186e0111a3f91a033f99ff95cb", null ],
+      [ "amount", "structsnicholls_1_1onramp__quote__request.html#accefdd06bc589fa5c580fdac8eb30928", null ],
+      [ "quote_currency", "structsnicholls_1_1onramp__quote__request.html#a041bc3fde47b3aff64602a5ae8df1ae6", null ],
+      [ "unit", "structsnicholls_1_1onramp__quote__request.html#a0608b3115fd8c9d8ac8a2b918713f711", null ]
+    ] ],
+    [ "snicholls::onramp_quote", "structsnicholls_1_1onramp__quote.html", [
+      [ "operator==", "structsnicholls_1_1onramp__quote.html#ace2e3f7ce8683b6a3fd4da1df3fbebc6", null ],
+      [ "expires_at", "structsnicholls_1_1onramp__quote.html#a2f71180eb8fedb1b5f1b0b74f2150410", null ],
+      [ "fee", "structsnicholls_1_1onramp__quote.html#a4cdaab5be3ea28537e2d6adfd284d93f", null ],
+      [ "observed_at", "structsnicholls_1_1onramp__quote.html#a89ed6909a8e1717f16ac29b55587be35", null ],
+      [ "price", "structsnicholls_1_1onramp__quote.html#acfb1fe19430b05e80e31f18c5e805035", null ],
+      [ "receive", "structsnicholls_1_1onramp__quote.html#a1fe970f907b739e4bd1fca6d19c1e686", null ],
+      [ "spend", "structsnicholls_1_1onramp__quote.html#afed290dc9778d1d4c9765d087e9fd827", null ]
+    ] ],
+    [ "snicholls::buy_request", "structsnicholls_1_1buy__request.html", [
+      [ "operator==", "structsnicholls_1_1buy__request.html#a786586fc6102fae6cac31f0e085e76a3", null ],
+      [ "amount", "structsnicholls_1_1buy__request.html#a3ed99a63a8488d56fcf0982a6bf87caa", null ],
+      [ "client_order_id", "structsnicholls_1_1buy__request.html#a22a58e7e0af8c40d04f5aed7e2744784", null ],
+      [ "max_price", "structsnicholls_1_1buy__request.html#a13dbd4f7f706d10330795dab8b7cc2fc", null ],
+      [ "quote_currency", "structsnicholls_1_1buy__request.html#a44675ac4f8d11c720ab7e86f96d94068", null ],
+      [ "unit", "structsnicholls_1_1buy__request.html#ad60df1a9acba332cec30b3dd4324c911", null ]
+    ] ],
+    [ "snicholls::order", "structsnicholls_1_1order.html", [
+      [ "operator==", "structsnicholls_1_1order.html#acef5320d2834c060124d406bf85fa012", null ],
+      [ "client_order_id", "structsnicholls_1_1order.html#aa6a5fe1e62df0e0260b907ee4712593c", null ],
+      [ "fee", "structsnicholls_1_1order.html#a5165ee1e240487c5f338b1c1c1efd36d", null ],
+      [ "filled", "structsnicholls_1_1order.html#a1cce1fc6661b14754cf48618824c97f2", null ],
+      [ "order_id", "structsnicholls_1_1order.html#a7027ec4d5a645ab77c569b0fbe503fa3", null ],
+      [ "spent", "structsnicholls_1_1order.html#a298811b4fc198253ed575be20defff44", null ],
+      [ "status", "structsnicholls_1_1order.html#a212ad558858c88ebc020cd590e454914", null ],
+      [ "updated_at", "structsnicholls_1_1order.html#a2cf0cc37811a1957dd93601396764397", null ]
+    ] ],
+    [ "snicholls::withdraw_request", "structsnicholls_1_1withdraw__request.html", [
+      [ "operator==", "structsnicholls_1_1withdraw__request.html#a94600cb3cc202869e09c9ebd25a87308", null ],
+      [ "address", "structsnicholls_1_1withdraw__request.html#ab43f1d1e213cecb7aee3a392a0431d50", null ],
+      [ "amount", "structsnicholls_1_1withdraw__request.html#a90f86e799b7da221c0a2d1caeb29f555", null ],
+      [ "chain_id", "structsnicholls_1_1withdraw__request.html#a1949b1672d2a63720382f7637128cf28", null ],
+      [ "client_reference", "structsnicholls_1_1withdraw__request.html#abf41bd91520ab9761ced8eb509677fd0", null ],
+      [ "memo", "structsnicholls_1_1withdraw__request.html#a17f9da35b1bccb6274df10b93c9db548", null ]
+    ] ],
+    [ "snicholls::withdrawal", "structsnicholls_1_1withdrawal.html", [
+      [ "operator==", "structsnicholls_1_1withdrawal.html#a0363d28460fafebb6e56c232e60bcdc0", null ],
+      [ "address", "structsnicholls_1_1withdrawal.html#a4c4cead3ef4978c80b5518f7261ead37", null ],
+      [ "amount", "structsnicholls_1_1withdrawal.html#a59c774d2aabec97b1d6dbf63a892d7d6", null ],
+      [ "chain_id", "structsnicholls_1_1withdrawal.html#a9955b5bdbd00b8c6c1c2e4a423d2b29a", null ],
+      [ "client_reference", "structsnicholls_1_1withdrawal.html#aeea15c44e28e3358ab9d9c832b326bac", null ],
+      [ "fee", "structsnicholls_1_1withdrawal.html#a95401ff3e6fe592d788a0196af76e687", null ],
+      [ "status", "structsnicholls_1_1withdrawal.html#a33d772a0442956c12bda308b1a9b5c0b", null ],
+      [ "transaction_hash", "structsnicholls_1_1withdrawal.html#a644ed2a5c6790860fc0afe77b65e9cb9", null ],
+      [ "updated_at", "structsnicholls_1_1withdrawal.html#a33bfc6896d42bcb27f047b3f939c355b", null ],
+      [ "withdrawal_id", "structsnicholls_1_1withdrawal.html#a33d03e668fb0a318683d2aeb0c47b37c", null ]
+    ] ],
+    [ "snicholls::venue_balance", "structsnicholls_1_1venue__balance.html", [
+      [ "operator==", "structsnicholls_1_1venue__balance.html#a6a0d796c490c9fdcf82c4271c4adf034", null ],
+      [ "account", "structsnicholls_1_1venue__balance.html#ace7946e6243893562b77fcbf5c70fdaf", null ],
+      [ "available", "structsnicholls_1_1venue__balance.html#a1fe2bcec726217682f3ae76bf8af3357", null ],
+      [ "total", "structsnicholls_1_1venue__balance.html#a0cd8517da1853160dd53b33f792d825a", null ]
+    ] ],
+    [ "snicholls::onramp_fact", "structsnicholls_1_1onramp__fact.html", [
+      [ "operator==", "structsnicholls_1_1onramp__fact.html#ad0fa3d1f9ab190e277821be0cb439d87", null ],
+      [ "account", "structsnicholls_1_1onramp__fact.html#acdee28dfb62ebe9b96f2be80bee3573d", null ],
+      [ "address", "structsnicholls_1_1onramp__fact.html#a62f74a9b58b3aec5d2ea70d2a887504c", null ],
+      [ "chain_id", "structsnicholls_1_1onramp__fact.html#a9f64f5f8d7714358d83b1c4ae6a08c78", null ],
+      [ "client_order_id", "structsnicholls_1_1onramp__fact.html#ad519662c55273a4a23e701a3c43eaf2c", null ],
+      [ "client_reference", "structsnicholls_1_1onramp__fact.html#ac09afc7c272e1caf77751cfe9376fb6f", null ],
+      [ "credit", "structsnicholls_1_1onramp__fact.html#a9ba9274bb499c94e5aae371e4bff6209", null ],
+      [ "debit", "structsnicholls_1_1onramp__fact.html#a6460b82719610917611c14611adcfbba", null ],
+      [ "fact_id", "structsnicholls_1_1onramp__fact.html#aa02741ba0dcb7d1bad57321a07f92896", null ],
+      [ "fee", "structsnicholls_1_1onramp__fact.html#affed36b43275e64065c681460b9ca332", null ],
+      [ "kind", "structsnicholls_1_1onramp__fact.html#a073be43fb61bdf0d429eddc461eec8f0", null ],
+      [ "occurred_at", "structsnicholls_1_1onramp__fact.html#a6b73ebf8e04a688c420181d0f45fedab", null ],
+      [ "order_id", "structsnicholls_1_1onramp__fact.html#aeba59476216e717865a09b5ba533cb98", null ],
+      [ "price", "structsnicholls_1_1onramp__fact.html#aade1b9f33f37b6425dc30efcf7ce2eee", null ],
+      [ "provider_account", "structsnicholls_1_1onramp__fact.html#a4bc68250c76cd30896cf9270c9e764a7", null ],
+      [ "source", "structsnicholls_1_1onramp__fact.html#ab3cd07bf39583fd08e041b3f51cb8b57", null ],
+      [ "to_account", "structsnicholls_1_1onramp__fact.html#aa6503c62824f8bb2fb513b31aabdfab8", null ],
+      [ "transaction_hash", "structsnicholls_1_1onramp__fact.html#a90afdfe28d2551c287aa85db8826424f", null ],
+      [ "withdrawal_id", "structsnicholls_1_1onramp__fact.html#a67e7f81d6aded7a2257aae68fd3b6886", null ]
+    ] ],
+    [ "snicholls::onramp_statement_query", "structsnicholls_1_1onramp__statement__query.html", [
+      [ "operator==", "structsnicholls_1_1onramp__statement__query.html#a5b01173d1ae9aa0944ee4e3dd43c8183", null ],
+      [ "cursor", "structsnicholls_1_1onramp__statement__query.html#a9cfe1306ea47bd888e6cd5719d6f15d3", null ],
+      [ "limit", "structsnicholls_1_1onramp__statement__query.html#a2ead507dc56cfa83eaac62722cd1bef9", null ],
+      [ "source", "structsnicholls_1_1onramp__statement__query.html#a93910f14c988ad4b82ae8b92b229f888", null ]
+    ] ],
+    [ "snicholls::onramp_statement_page", "structsnicholls_1_1onramp__statement__page.html", [
+      [ "operator==", "structsnicholls_1_1onramp__statement__page.html#ae52bc6764b4f02292521373e794176b4", null ],
+      [ "facts", "structsnicholls_1_1onramp__statement__page.html#a8c0d81b68a044f84666ba8074fe37c7c", null ],
+      [ "next_cursor", "structsnicholls_1_1onramp__statement__page.html#ae87072e40874ab90ac78face08e73cce", null ]
+    ] ],
+    [ "snicholls::bank_details", "structsnicholls_1_1bank__details.html", [
+      [ "operator==", "structsnicholls_1_1bank__details.html#a299b5bb93801418b4ec80f99a6ab627b", null ],
+      [ "account_name", "structsnicholls_1_1bank__details.html#ac17e23bc9d8a9ed7cfb7b3b7006e90e0", null ],
+      [ "account_number", "structsnicholls_1_1bank__details.html#a6bdb0dde54be27e3b19f600c6f563afd", null ],
+      [ "bank_name", "structsnicholls_1_1bank__details.html#a6810d5f9980cee36f0cc6500dec5e43a", null ],
+      [ "iban", "structsnicholls_1_1bank__details.html#a6236909f810e4c30bea47d53c9029b4d", null ],
+      [ "reference", "structsnicholls_1_1bank__details.html#aa81ad81549af4f0057f8cd0a566f0645", null ],
+      [ "routing_code", "structsnicholls_1_1bank__details.html#ae0cf2cfa28aa3259be0f18e93a600822", null ],
+      [ "swift", "structsnicholls_1_1bank__details.html#abb31e61516a22c3fe11cae2dc7bf5f6e", null ]
+    ] ],
+    [ "snicholls::next_step", "structsnicholls_1_1next__step.html", [
+      [ "operator==", "structsnicholls_1_1next__step.html#a59ff64d512e9ffbaa1b15127702f7034", null ],
+      [ "bank", "structsnicholls_1_1next__step.html#a40806d1dccb0e2360fca9c98501892e3", null ],
+      [ "client_secret", "structsnicholls_1_1next__step.html#a64f7b3da0d7c4ab4b9308e8b2cbd6962", null ],
+      [ "kind", "structsnicholls_1_1next__step.html#aad8573692cea5e206f6adc517b748b0d", null ],
+      [ "url", "structsnicholls_1_1next__step.html#a85a7d42fc7d9cc53b729709e3d3cea9c", null ]
+    ] ],
+    [ "snicholls::collection_request", "structsnicholls_1_1collection__request.html", [
+      [ "amount", "structsnicholls_1_1collection__request.html#a921856be28bc23783b0bce2be785d236", null ],
+      [ "cancel_url", "structsnicholls_1_1collection__request.html#aa2c24fa57abbc53c1d9e755c4c763c18", null ],
+      [ "idempotency_key", "structsnicholls_1_1collection__request.html#aaa6be6a252abbea31cfcbc59f5fab6cf", null ],
+      [ "metadata", "structsnicholls_1_1collection__request.html#a16278617bb29a46690ee47858cc053b8", null ],
+      [ "method", "structsnicholls_1_1collection__request.html#a3265ce09110b1f3a36f1040a92ca274b", null ],
+      [ "our_reference", "structsnicholls_1_1collection__request.html#a6720ea4ce8ba4e2f37e5774373c851fb", null ],
+      [ "payer_reference", "structsnicholls_1_1collection__request.html#a0c74fb5aa524b9b336337c3d9641b6a5", null ],
+      [ "return_url", "structsnicholls_1_1collection__request.html#aa7ad32bbc1e703904d68a21670039b20", null ]
+    ] ],
+    [ "snicholls::payout_request", "structsnicholls_1_1payout__request.html", [
+      [ "operator==", "structsnicholls_1_1payout__request.html#a01eac03abc47c65d9d931cc01d49840e", null ],
+      [ "amount", "structsnicholls_1_1payout__request.html#a504b78dbdd5c5d59e26729f27c6cac5b", null ],
+      [ "beneficiary_id", "structsnicholls_1_1payout__request.html#a7d8f437613d067d244181dce0207b591", null ],
+      [ "idempotency_key", "structsnicholls_1_1payout__request.html#abdb4f233a8cda65dd1fa35f8eebf7734", null ],
+      [ "our_reference", "structsnicholls_1_1payout__request.html#a8673fce54ae721d40c95822c88827927", null ],
+      [ "quote_id", "structsnicholls_1_1payout__request.html#a5a397049224a102d209fd1423b3a7e1d", null ],
+      [ "reference", "structsnicholls_1_1payout__request.html#a92feb3f952be9d068e6d0972477c22a4", null ]
+    ] ],
+    [ "snicholls::refund_request", "structsnicholls_1_1refund__request.html", [
+      [ "operator==", "structsnicholls_1_1refund__request.html#a3a0e28e72e2d13c43d7f07c9cb898a09", null ],
+      [ "amount", "structsnicholls_1_1refund__request.html#a139e1ec6bca87cfb0e70e2dd18727db7", null ],
+      [ "idempotency_key", "structsnicholls_1_1refund__request.html#a1ef6e76e45b442c052560355af3734aa", null ],
+      [ "payment_id", "structsnicholls_1_1refund__request.html#af3e31b022ccb0fa13ba8f22c8eb4d281", null ],
+      [ "reason", "structsnicholls_1_1refund__request.html#ac27f83177463ecb970b992e8f1e5cf09", null ]
+    ] ],
+    [ "snicholls::quote_request", "structsnicholls_1_1quote__request.html", [
+      [ "operator==", "structsnicholls_1_1quote__request.html#ac97961f5ec298e3e87530883d022558c", null ],
+      [ "amount", "structsnicholls_1_1quote__request.html#a654dc0d7028352d645b5cbff6de1dd03", null ],
+      [ "amount_is_source", "structsnicholls_1_1quote__request.html#acb767eea39a58ffc9c8b91e444c1bb06", null ],
+      [ "other", "structsnicholls_1_1quote__request.html#ac56f767563283f6654fac2356a93c090", null ]
+    ] ],
+    [ "snicholls::fx_quote", "structsnicholls_1_1fx__quote.html", [
+      [ "operator==", "structsnicholls_1_1fx__quote.html#a88efef39295451f7ceb047bfd06661ff", null ],
+      [ "expires_at", "structsnicholls_1_1fx__quote.html#a25e4c23dd31188deb2bd31ea327ed66b", null ],
+      [ "fee", "structsnicholls_1_1fx__quote.html#a663579cf3876b7dfbbda5b88c1c8c5b3", null ],
+      [ "quote_id", "structsnicholls_1_1fx__quote.html#abd1feb705d981c8dae57d14d300dec77", null ],
+      [ "rate", "structsnicholls_1_1fx__quote.html#a65f3cc81d66f7ea65e292a853d25270e", null ],
+      [ "source", "structsnicholls_1_1fx__quote.html#ac268952cf0d6037183422e9ac4012477", null ],
+      [ "target", "structsnicholls_1_1fx__quote.html#a7fefe34317149eba584880f470c82a29", null ]
+    ] ],
+    [ "snicholls::payment", "structsnicholls_1_1payment.html", [
+      [ "operator==", "structsnicholls_1_1payment.html#a4102ecbbce72de4e35efc4786156ca5e", null ],
+      [ "amount", "structsnicholls_1_1payment.html#a99eae0553c8b617d817665211a8219c3", null ],
+      [ "failure_code", "structsnicholls_1_1payment.html#a3739301b42a32b187715b99c53aae4ca", null ],
+      [ "fee", "structsnicholls_1_1payment.html#a38eb29eeec6db2ace8a377d32deb225f", null ],
+      [ "kind", "structsnicholls_1_1payment.html#a735221f7da393995ad9806ac015816e7", null ],
+      [ "method", "structsnicholls_1_1payment.html#aa201f6323ad3e4ea24b2df01f3545a47", null ],
+      [ "our_reference", "structsnicholls_1_1payment.html#aec1498f11800e9fb57143f825a4ca601", null ],
+      [ "payment_id", "structsnicholls_1_1payment.html#af1e88f22a099413447789517a51d4e3f", null ],
+      [ "received", "structsnicholls_1_1payment.html#a6272b18ca3a3959b0ee12ee186809503", null ],
+      [ "refunded", "structsnicholls_1_1payment.html#a46f09b3acc5e7c9016e2c7e086c84c52", null ],
+      [ "status", "structsnicholls_1_1payment.html#abd7a8673840a7c6d2bdf02af77f28fa5", null ],
+      [ "updated_at", "structsnicholls_1_1payment.html#a52f30d58e935e85fa1530439813e6eef", null ]
+    ] ],
+    [ "snicholls::collection", "structsnicholls_1_1collection.html", [
+      [ "operator==", "structsnicholls_1_1collection.html#ae086611ee57da530b615226b2043af53", null ],
+      [ "next", "structsnicholls_1_1collection.html#aaf3d465cef0086ae648f2beac9c587b7", null ],
+      [ "pay", "structsnicholls_1_1collection.html#a74e52bdb5dbbbe30e432bdcf374d251c", null ]
+    ] ],
+    [ "snicholls::credit", "structsnicholls_1_1credit.html", [
+      [ "operator==", "structsnicholls_1_1credit.html#ac57624ec3780889256498ee614ec76e9", null ],
+      [ "credit_id", "structsnicholls_1_1credit.html#af4c3b20e9826c218a69404d06459f409", null ],
+      [ "fee", "structsnicholls_1_1credit.html#aaf5f1c17c3f324a085cc327647114935", null ],
+      [ "net", "structsnicholls_1_1credit.html#a71424aa43fef2d68d3ad299e90c9fb90", null ],
+      [ "occurred_at", "structsnicholls_1_1credit.html#a4a3e15c5e9a6125e133590d5ed007b4b", null ],
+      [ "reference", "structsnicholls_1_1credit.html#aad08742ce3daab537244c55e4222e5b2", null ],
+      [ "sender", "structsnicholls_1_1credit.html#adcf274d9e7a86c512522dfc57418f6a0", null ]
+    ] ],
+    [ "snicholls::credit_query", "structsnicholls_1_1credit__query.html", [
+      [ "operator==", "structsnicholls_1_1credit__query.html#a03a0e19f44346fb255dc7bb3f5f4b58b", null ],
+      [ "currency", "structsnicholls_1_1credit__query.html#accbf080bd44265ba0e30ed25eef796ab", null ],
+      [ "from", "structsnicholls_1_1credit__query.html#a153272d7257f8659c95ad2bf5e3b9a09", null ],
+      [ "to", "structsnicholls_1_1credit__query.html#a5323500a2b502c3d44523c9c85196bb2", null ]
+    ] ],
+    [ "snicholls::webhook_delivery", "structsnicholls_1_1webhook__delivery.html", [
+      [ "body", "structsnicholls_1_1webhook__delivery.html#a73b698dfde88e522ec7278aea41fa1ca", null ],
+      [ "headers", "structsnicholls_1_1webhook__delivery.html#ae48ab8696017c8ed4565cd5bbd2743f5", null ],
+      [ "received_at", "structsnicholls_1_1webhook__delivery.html#ac7d46767e70272f6606c4dfeb4393fd8", null ]
+    ] ],
+    [ "snicholls::owned_delivery", "structsnicholls_1_1owned__delivery.html", [
+      [ "view", "structsnicholls_1_1owned__delivery.html#ad4092cdb573d6c6b32c1f28b87f152a2", null ],
+      [ "body", "structsnicholls_1_1owned__delivery.html#a2f3d62703becd8c25fd0df04b241c5b4", null ],
+      [ "headers", "structsnicholls_1_1owned__delivery.html#a94328c5126be1a8e91d359812887fc0c", null ],
+      [ "received_at", "structsnicholls_1_1owned__delivery.html#a3a0d59c30f79e2bd37a79090b882b01f", null ]
+    ] ],
+    [ "snicholls::webhook_event", "structsnicholls_1_1webhook__event.html", [
+      [ "dedup_key", "structsnicholls_1_1webhook__event.html#af2a418211efd5a9cf8e734147aed99fe", null ],
+      [ "operator==", "structsnicholls_1_1webhook__event.html#a775f57a76208e5ed41c48e618a7f3b81", null ],
+      [ "event_id", "structsnicholls_1_1webhook__event.html#abfe93f01ffeb5487987ca346286d3b92", null ],
+      [ "fact_id", "structsnicholls_1_1webhook__event.html#a96ab05041a04f12c2400e58b60e18db6", null ],
+      [ "kind", "structsnicholls_1_1webhook__event.html#a349a5047b1d07b0f385bde639124bf69", null ],
+      [ "needs_lookup", "structsnicholls_1_1webhook__event.html#a43db24da1ea72e322b78199d795fc881", null ],
+      [ "occurred_at", "structsnicholls_1_1webhook__event.html#a873de1df5af6552542627868ae66bd77", null ],
+      [ "our_reference", "structsnicholls_1_1webhook__event.html#a9504913f5541323c6721477cf40b2186", null ],
+      [ "payment_id", "structsnicholls_1_1webhook__event.html#adfbd50c8deb2f0f903f3e9ee521f8507", null ],
+      [ "provider_account", "structsnicholls_1_1webhook__event.html#a93398750463c33653fdb2cd70dad16b4", null ],
+      [ "reference", "structsnicholls_1_1webhook__event.html#a0261d45eb6524aaacfe39143b555a232", null ],
+      [ "source", "structsnicholls_1_1webhook__event.html#af00523b0aa7964f713da0a9209174054", null ],
+      [ "type", "structsnicholls_1_1webhook__event.html#a7045b7926a7f27de4e90fbf0331a5fd7", null ]
+    ] ],
+    [ "snicholls::settlement", "structsnicholls_1_1settlement.html", [
+      [ "operator==", "structsnicholls_1_1settlement.html#a3f878d80219355c7e90b6cc08705ed05", null ],
+      [ "fee", "structsnicholls_1_1settlement.html#ae54bbe5b56d5631117c5701dd5756e5d", null ],
+      [ "gross", "structsnicholls_1_1settlement.html#ae616164992b4de5a9f9965b88b1291db", null ],
+      [ "net", "structsnicholls_1_1settlement.html#aaae75a6057f6c58682f0dfee52e96489", null ]
+    ] ],
+    [ "snicholls::fact_refs", "structsnicholls_1_1fact__refs.html", [
+      [ "operator==", "structsnicholls_1_1fact__refs.html#aaba65a61b87b519c4c687df753793cc3", null ],
+      [ "charge", "structsnicholls_1_1fact__refs.html#a99063309e242713d32e8026adba2e8b1", null ],
+      [ "dispute", "structsnicholls_1_1fact__refs.html#acda71a87621bf57d59281dbf88158a0c", null ],
+      [ "payment_intent", "structsnicholls_1_1fact__refs.html#aa1878c9de9fb9b96b1311c78364e2367", null ],
+      [ "payout", "structsnicholls_1_1fact__refs.html#ad20612b731cd2e961857a79e492c563b", null ],
+      [ "refund", "structsnicholls_1_1fact__refs.html#a488588d38118246f10af6402e401ec99", null ]
+    ] ],
+    [ "snicholls::payment_fact", "structsnicholls_1_1payment__fact.html", [
+      [ "operator==", "structsnicholls_1_1payment__fact.html#a78888d2d6911725d618d7abe58163697", null ],
+      [ "event_id", "structsnicholls_1_1payment__fact.html#afaaee46cfd97dedd384fdce011af379c", null ],
+      [ "exchange_rate", "structsnicholls_1_1payment__fact.html#a0ebf0f266b08e2247b13f83247266e5c", null ],
+      [ "fact_id", "structsnicholls_1_1payment__fact.html#ac1d85351b63949acb5ea043fb3d40bad", null ],
+      [ "kind", "structsnicholls_1_1payment__fact.html#a39ac5df180de487b4cf5501682df413c", null ],
+      [ "occurred_at", "structsnicholls_1_1payment__fact.html#a4eae1855dc2aeda770e67a534615e940", null ],
+      [ "party", "structsnicholls_1_1payment__fact.html#a5537944aa2f9c743093fd34cab6536b2", null ],
+      [ "presentment", "structsnicholls_1_1payment__fact.html#a1ff319fa89a1e242c726cb64792a04f1", null ],
+      [ "provider_account", "structsnicholls_1_1payment__fact.html#abb76d0eafc5f0a77f19ea309970ac574", null ],
+      [ "refs", "structsnicholls_1_1payment__fact.html#af1ec059173e351935de642b5b3584cce", null ],
+      [ "settled", "structsnicholls_1_1payment__fact.html#a413ea027179ed590f17b239bf773fb75", null ],
+      [ "source", "structsnicholls_1_1payment__fact.html#a5a505fcdeca2e77e67ff2983fdf75e9d", null ]
+    ] ],
+    [ "snicholls::statement_query", "structsnicholls_1_1statement__query.html", [
+      [ "operator==", "structsnicholls_1_1statement__query.html#a728a7bff2b257714c3fdd858ac11b804", null ],
+      [ "currency", "structsnicholls_1_1statement__query.html#a4210b34c8cef574e34bfe095fd4741df", null ],
+      [ "cursor", "structsnicholls_1_1statement__query.html#aa907d9e2300806fa71effc5ed7fd01e9", null ],
+      [ "limit", "structsnicholls_1_1statement__query.html#a9df467e4232da0754c4a3aa394f610f9", null ],
+      [ "payout_id", "structsnicholls_1_1statement__query.html#a17b0c4fe6a03c95e11d7759234ee7aa2", null ]
+    ] ],
+    [ "snicholls::statement_page", "structsnicholls_1_1statement__page.html", [
+      [ "operator==", "structsnicholls_1_1statement__page.html#ac70649d639e5092a0b4c86af5692e425", null ],
+      [ "facts", "structsnicholls_1_1statement__page.html#a5250739bdbecbb1cebc16e17521dc786", null ],
+      [ "next_cursor", "structsnicholls_1_1statement__page.html#ad63a9467f7698ec81b8a8aeb35ee560e", null ]
+    ] ],
+    [ "snicholls::provider_capabilities", "structsnicholls_1_1provider__capabilities.html", [
+      [ "operator==", "structsnicholls_1_1provider__capabilities.html#a52c985933ed59fb88aa9fe89f38651b7", null ],
+      [ "credits", "structsnicholls_1_1provider__capabilities.html#a3ee365e55385922b0131ba3dc11f9cc0", null ],
+      [ "currencies", "structsnicholls_1_1provider__capabilities.html#ae47e40fa6fd316344f83abbb226fc153", null ],
+      [ "methods", "structsnicholls_1_1provider__capabilities.html#a954cfad6a31b23cba32668bb6b390f42", null ],
+      [ "payouts", "structsnicholls_1_1provider__capabilities.html#aac3e14e8754faab5e31483a9c678e1a4", null ],
+      [ "provider_account", "structsnicholls_1_1provider__capabilities.html#ac381387e34c5cd32bd58da52c462261f", null ],
+      [ "quotes", "structsnicholls_1_1provider__capabilities.html#a25da0b18f9c89613718e476a8c1e604e", null ],
+      [ "refunds", "structsnicholls_1_1provider__capabilities.html#a53488203af0e29aeafab1079317da4c5", null ]
+    ] ],
+    [ "snicholls::key_ref", "structsnicholls_1_1key__ref.html", [
+      [ "operator==", "structsnicholls_1_1key__ref.html#a519ee51e797cc2a7760633c9826afcd7", null ],
+      [ "key_id", "structsnicholls_1_1key__ref.html#a7bc460564f8af0a1fb773d8e877ba495", null ],
+      [ "version", "structsnicholls_1_1key__ref.html#ad7b121f9cfdac585edbc399873999593", null ]
+    ] ],
+    [ "snicholls::sign_request", "structsnicholls_1_1sign__request.html", [
+      [ "key_id", "structsnicholls_1_1sign__request.html#aa732adc03c8a424b0067e14b65ec1a98", null ],
+      [ "kind", "structsnicholls_1_1sign__request.html#a6ec683b0a7a0957cad0e9f277464c896", null ],
+      [ "payload", "structsnicholls_1_1sign__request.html#acd6a524d168feb8d230d133d2012dc9c", null ]
+    ] ],
+    [ "snicholls::signature", "structsnicholls_1_1signature.html", [
+      [ "operator==", "structsnicholls_1_1signature.html#af6f24394f63d4b4d26d349ced59f9e1c", null ],
+      [ "algorithm", "structsnicholls_1_1signature.html#a344aa7e75e3ff82a5b64b2bb13b10086", null ],
+      [ "bytes", "structsnicholls_1_1signature.html#a9c048c6fa298003abe2a89bb32826f26", null ],
+      [ "key_id", "structsnicholls_1_1signature.html#ad12a1263a9740282eaff187deec15c4f", null ],
+      [ "key_version", "structsnicholls_1_1signature.html#a39c1d7b0acb7f5f92946db6f9045bb72", null ]
+    ] ],
+    [ "snicholls::public_key", "structsnicholls_1_1public__key.html", [
+      [ "operator==", "structsnicholls_1_1public__key.html#aebaa02bb947e29977d0fd20b4a7bb12b", null ],
+      [ "algorithm", "structsnicholls_1_1public__key.html#a0fbed7da7201615249a93c1db7dc064a", null ],
+      [ "bytes", "structsnicholls_1_1public__key.html#a49d545f7714a5ab53497708419bbd02b", null ],
+      [ "key_id", "structsnicholls_1_1public__key.html#adf16fa8afb07aa8cd2ea522496bc2e92", null ],
+      [ "key_version", "structsnicholls_1_1public__key.html#a3ac2c2380101d71a476450c8fa910a22", null ]
     ] ],
     [ "snicholls::constexpr_map&lt; Key, Value, N &gt;", "structsnicholls_1_1constexpr__map.html", [
       [ "const_iterator", "structsnicholls_1_1constexpr__map.html#a803035e87c9dd13536e5e80db31278d5", null ],
@@ -615,6 +1030,22 @@ var group__core =
       [ "operator[]", "classsnicholls_1_1containers_1_1index__pool.html#a5d351cb4055320b48dd908110f9e6034", null ],
       [ "operator[]", "classsnicholls_1_1containers_1_1index__pool.html#adc1854f5d99011eb2f75d63af6a7ecc7", null ],
       [ "rebase", "classsnicholls_1_1containers_1_1index__pool.html#ae538c8d05f07e7bfd3259660b3e5db8c", null ]
+    ] ],
+    [ "snicholls::inplace_string&lt; N &gt;", "structsnicholls_1_1inplace__string.html", [
+      [ "size_type", "structsnicholls_1_1inplace__string.html#aa186c0dbbb1aeb38b04bc67f1c07e8bc", null ],
+      [ "inplace_string", "structsnicholls_1_1inplace__string.html#a97325b5dfef73384af224bf47b0662d6", null ],
+      [ "inplace_string", "structsnicholls_1_1inplace__string.html#a3cbcbb5d4ec170bf1dc85203e870fdea", null ],
+      [ "data", "structsnicholls_1_1inplace__string.html#a81334dd3782be59a154ddbee9cc6b73e", null ],
+      [ "empty", "structsnicholls_1_1inplace__string.html#adbc155128dac8bd5a8037096b7e3a68a", null ],
+      [ "hash", "structsnicholls_1_1inplace__string.html#a9c9249e2ce299fc56d2f5068bd4a084a", null ],
+      [ "size", "structsnicholls_1_1inplace__string.html#a8f6eb398ee4e63d4f3453fd0c7f8f655", null ],
+      [ "view", "structsnicholls_1_1inplace__string.html#a4cfb28ce5d5cae143a327160e7f1416f", null ],
+      [ "operator<=>", "structsnicholls_1_1inplace__string.html#aa5d2d4f05703121e44e1ebbce0b72b9d", null ],
+      [ "operator<=>", "structsnicholls_1_1inplace__string.html#a344adc741c83a1b1ede350ae007da2c6", null ],
+      [ "operator==", "structsnicholls_1_1inplace__string.html#a24cd689c37fa8a1279109739f105676d", null ],
+      [ "operator==", "structsnicholls_1_1inplace__string.html#a3018dfd9a251141ea2cba34af5c747b9", null ],
+      [ "chars_", "structsnicholls_1_1inplace__string.html#a3095976dcd3e22ba3b196f172c9f2639", null ],
+      [ "size_", "structsnicholls_1_1inplace__string.html#acb228b80c607a4ad12c670d4a0d048af", null ]
     ] ],
     [ "snicholls::containers::inplace_vector&lt; T, N &gt;", "classsnicholls_1_1containers_1_1inplace__vector.html", [
       [ "const_iterator", "classsnicholls_1_1containers_1_1inplace__vector.html#ab528f937aca3fdc9799605401de48923", null ],
@@ -982,6 +1413,25 @@ var group__core =
       [ "variance", "structsnicholls_1_1finance_1_1risk__contribution.html#a3cab901d4ba5dfbc79fcc4e29d264abc", null ],
       [ "volatility", "structsnicholls_1_1finance_1_1risk__contribution.html#adc5bdb5a6c1956e75d97b2ecc685aeb2", null ]
     ] ],
+    [ "snicholls::finance::weekend_calendar", "structsnicholls_1_1finance_1_1weekend__calendar.html", null ],
+    [ "snicholls::finance::weekends_and_holidays&lt; F &gt;", "structsnicholls_1_1finance_1_1weekends__and__holidays.html", [
+      [ "is_business_day", "structsnicholls_1_1finance_1_1weekends__and__holidays.html#ac09656bd22b4c2771cd9c54178c6af6d", null ],
+      [ "is_holiday", "structsnicholls_1_1finance_1_1weekends__and__holidays.html#a83e0f60c1d231c425f8a825d3f566ffe", null ]
+    ] ],
+    [ "snicholls::finance::act_360", "structsnicholls_1_1finance_1_1act__360.html", null ],
+    [ "snicholls::finance::act_365_fixed", "structsnicholls_1_1finance_1_1act__365__fixed.html", null ],
+    [ "snicholls::finance::thirty_360", "structsnicholls_1_1finance_1_1thirty__360.html", null ],
+    [ "snicholls::finance::thirty_e_360", "structsnicholls_1_1finance_1_1thirty__e__360.html", null ],
+    [ "snicholls::finance::act_act_isda", "structsnicholls_1_1finance_1_1act__act__isda.html", null ],
+    [ "snicholls::finance::year_fraction", "classsnicholls_1_1finance_1_1year__fraction.html", [
+      [ "year_fraction", "classsnicholls_1_1finance_1_1year__fraction.html#a45194fa22a561aa792e4d7a3742621b6", null ],
+      [ "year_fraction", "classsnicholls_1_1finance_1_1year__fraction.html#a5bceab9a6f313fb949ff0fa85ce34d47", null ],
+      [ "denominator", "classsnicholls_1_1finance_1_1year__fraction.html#aa8f837d175493518c1f31f5513bf8e0c", null ],
+      [ "numerator", "classsnicholls_1_1finance_1_1year__fraction.html#a2c6997f0325abed7e7214cea3c3f4cf2", null ],
+      [ "to_double", "classsnicholls_1_1finance_1_1year__fraction.html#a1cb9f7a505bb1491bdd80ebc6a37b0fb", null ],
+      [ "operator<=>", "classsnicholls_1_1finance_1_1year__fraction.html#a62d6388176602245f22a1dd13c88cb04", null ],
+      [ "operator==", "classsnicholls_1_1finance_1_1year__fraction.html#a0ab1f2df7d2e2474e7255846538761d7", null ]
+    ] ],
     [ "snicholls::basic_fixed_string&lt; CharT, N &gt;", "structsnicholls_1_1basic__fixed__string.html", [
       [ "size_type", "structsnicholls_1_1basic__fixed__string.html#a6c4a0a17ad81b5f242f65142a09cd022", null ],
       [ "value_type", "structsnicholls_1_1basic__fixed__string.html#a048cbb663b3932114ea4c06b33636d64", null ],
@@ -1212,6 +1662,109 @@ var group__core =
       [ "finish", "classsnicholls_1_1keccak__xof.html#afb2dd6584f6d42f83ef2ca04f91f479a", null ],
       [ "squeeze", "classsnicholls_1_1keccak__xof.html#a2c538b030f916387a0f4ed6148fc9ef3", null ]
     ] ],
+    [ "snicholls::http_header", "structsnicholls_1_1http__header.html", [
+      [ "operator==", "structsnicholls_1_1http__header.html#ac2d4f252ff81037f9fc2b0162366ca51", null ],
+      [ "name", "structsnicholls_1_1http__header.html#adb2d76b47bd5d7a6503d3d3e1f8a9b80", null ],
+      [ "value", "structsnicholls_1_1http__header.html#a9996eb5b1a3e709cbeaa2cb273f279e4", null ]
+    ] ],
+    [ "snicholls::capability_conformance_failure", "structsnicholls_1_1capability__conformance__failure.html", [
+      [ "check", "structsnicholls_1_1capability__conformance__failure.html#a01e08a2a66db5cfcfa6a705e3bf70ff2", null ],
+      [ "expectation", "structsnicholls_1_1capability__conformance__failure.html#af68ea4aa1f04ee6e7f4d714adef97f28", null ]
+    ] ],
+    [ "snicholls::capability_conformance_report", "structsnicholls_1_1capability__conformance__report.html", [
+      [ "failed", "structsnicholls_1_1capability__conformance__report.html#ae0a5081d1573e367275b07c95981fd87", null ],
+      [ "ok", "structsnicholls_1_1capability__conformance__report.html#ae82a42bc531d0f313992754ee9c54d29", null ],
+      [ "checks", "structsnicholls_1_1capability__conformance__report.html#a639a0eb971a027882de82beddd0f1f71", null ],
+      [ "failures", "structsnicholls_1_1capability__conformance__report.html#a961d64032c66257726a6573c76d1de0e", null ]
+    ] ],
+    [ "snicholls::error_sink", "classsnicholls_1_1error__sink.html", [
+      [ "~error_sink", "classsnicholls_1_1error__sink.html#a5f2bc3c0bb5222d67f5c676ceda3b629", null ],
+      [ "error_sink", "classsnicholls_1_1error__sink.html#a26179d847dedb37e87029028a299e596", null ],
+      [ "error_sink", "classsnicholls_1_1error__sink.html#a9df12e08df7a4b41b2ec69d3a0a9976f", null ],
+      [ "log_error", "classsnicholls_1_1error__sink.html#a5477008fd86fb3222884e38e1f34d73c", null ],
+      [ "log_error", "classsnicholls_1_1error__sink.html#acd88dbb762ca742a5d781d44430ef695", null ],
+      [ "operator=", "classsnicholls_1_1error__sink.html#a9c99939a5c9eac5bcc641433c2a9def2", null ],
+      [ "write", "classsnicholls_1_1error__sink.html#a1d0cc240c6920e99147593a67b553657", null ]
+    ] ],
+    [ "snicholls::text_error_sink", "classsnicholls_1_1text__error__sink.html", [
+      [ "text_error_sink", "classsnicholls_1_1text__error__sink.html#af3768e6080e06df9d49d6da0db67e069", null ],
+      [ "write", "classsnicholls_1_1text__error__sink.html#a0d8ad428c2620a0e9667985364e2741b", null ]
+    ] ],
+    [ "snicholls::error_sink_model&lt; S &gt;", "classsnicholls_1_1error__sink__model.html", [
+      [ "error_sink_model", "classsnicholls_1_1error__sink__model.html#ab74a9d0f255d2d7131694cf237a27075", null ],
+      [ "error_sink_model", "classsnicholls_1_1error__sink__model.html#a2073162641f65f424f6de3853839b8ba", null ],
+      [ "get", "classsnicholls_1_1error__sink__model.html#a8bb6d3a4d0575c3c57792c73fa7f1f06", null ],
+      [ "get", "classsnicholls_1_1error__sink__model.html#aa75ece49ef0baf2817a4a66c48f5143e", null ],
+      [ "write", "classsnicholls_1_1error__sink__model.html#a3cd4428c762244c3598d3b892e8b8a14", null ]
+    ] ],
+    [ "snicholls::http_handler_interface", "classsnicholls_1_1http__handler__interface.html", [
+      [ "~http_handler_interface", "classsnicholls_1_1http__handler__interface.html#a973a27691f987c771c874090d4e01f59", null ],
+      [ "http_handler_interface", "classsnicholls_1_1http__handler__interface.html#af56df26c324fd2ddd48a4156a9a210b1", null ],
+      [ "http_handler_interface", "classsnicholls_1_1http__handler__interface.html#a63d1711a34dc13dab60ae9b333710c07", null ],
+      [ "handle", "classsnicholls_1_1http__handler__interface.html#ade1171293b34c65b3d4053c0291fb5d1", null ],
+      [ "operator=", "classsnicholls_1_1http__handler__interface.html#a6ac022868866991f31bf8ab273e04513", null ]
+    ] ],
+    [ "snicholls::http_handler_adapter&lt; H &gt;", "classsnicholls_1_1http__handler__adapter.html", [
+      [ "http_handler_adapter", "classsnicholls_1_1http__handler__adapter.html#ace710edb63e41397d053c97450ecea05", null ],
+      [ "get", "classsnicholls_1_1http__handler__adapter.html#a3ce7310135d57b4e2ef3a7796ad0b694", null ],
+      [ "handle", "classsnicholls_1_1http__handler__adapter.html#ab61baf356388dee50c2a82bd9ff1cd27", null ]
+    ] ],
+    [ "snicholls::http_handler_ref", "classsnicholls_1_1http__handler__ref.html", [
+      [ "http_handler_ref", "classsnicholls_1_1http__handler__ref.html#a725341db2835e9a6191ebc66263a6f2e", null ],
+      [ "handle", "classsnicholls_1_1http__handler__ref.html#a300b694203fa5a6fe11b8034330e666b", null ]
+    ] ],
+    [ "snicholls::route_table", "classsnicholls_1_1route__table.html", [
+      [ "handler", "classsnicholls_1_1route__table.html#ab08c79acc8fb7129e9a2204957e430b6", null ],
+      [ "add", "classsnicholls_1_1route__table.html#a0eb7eb19b070ac5420889383bdd8325d", null ],
+      [ "handle", "classsnicholls_1_1route__table.html#a383f265c6c95c197d5dddea2eb9c4cf2", null ],
+      [ "size", "classsnicholls_1_1route__table.html#a72096420fd7d84985fb46d0c7eda2fb8", null ]
+    ] ],
+    [ "snicholls::key_store_interface", "classsnicholls_1_1key__store__interface.html", [
+      [ "~key_store_interface", "classsnicholls_1_1key__store__interface.html#ac56eb9fe88641e8d576b5161c148a820", null ],
+      [ "key_store_interface", "classsnicholls_1_1key__store__interface.html#a2549b7d3fcffb51d7725901dafcef672", null ],
+      [ "key_store_interface", "classsnicholls_1_1key__store__interface.html#ad2bc68630e0d5ab1da2385a9b9e2ad34", null ],
+      [ "create", "classsnicholls_1_1key__store__interface.html#a824c4fde0b9f7926339319d62f022215", null ],
+      [ "destroy", "classsnicholls_1_1key__store__interface.html#aff01fbbf80fd9fb12bf82a863e52953e", null ],
+      [ "info", "classsnicholls_1_1key__store__interface.html#a7bc2852d20b1c0f81d855a4c5d370273", null ],
+      [ "list", "classsnicholls_1_1key__store__interface.html#a9265d2fedea5e08919c9f6b5b65377c8", null ],
+      [ "operator=", "classsnicholls_1_1key__store__interface.html#a38b58fc8b8ee87f29f9554dcc312e088", null ],
+      [ "retire", "classsnicholls_1_1key__store__interface.html#a02afacf61f6b2aed9ec95b7de2989765", null ],
+      [ "rotate", "classsnicholls_1_1key__store__interface.html#a4cdc7612d9236aab941471fdecf498c0", null ]
+    ] ],
+    [ "snicholls::key_store_adapter&lt; K &gt;", "classsnicholls_1_1key__store__adapter.html", [
+      [ "key_store_adapter", "classsnicholls_1_1key__store__adapter.html#adafe06cd4111d171c6dcb1be9f3ed17b", null ],
+      [ "create", "classsnicholls_1_1key__store__adapter.html#a65e11311e15346a6d01daa30efa2d7bb", null ],
+      [ "destroy", "classsnicholls_1_1key__store__adapter.html#adae957c29769543b533dc5e4e237ac86", null ],
+      [ "get", "classsnicholls_1_1key__store__adapter.html#add83412618e3e34fd189d265d8c20251", null ],
+      [ "info", "classsnicholls_1_1key__store__adapter.html#a43a2820c7df7e8e733e8ad0f37bb51e9", null ],
+      [ "list", "classsnicholls_1_1key__store__adapter.html#a08a35661df018b67cd24b8c0c0cfd203", null ],
+      [ "retire", "classsnicholls_1_1key__store__adapter.html#a917f283f9b2b843d0413828c5c756ac8", null ],
+      [ "rotate", "classsnicholls_1_1key__store__adapter.html#ac8d5810c74e531abcab5a764ef7c0bc4", null ]
+    ] ],
+    [ "snicholls::key_store_ref", "classsnicholls_1_1key__store__ref.html", [
+      [ "key_store_ref", "classsnicholls_1_1key__store__ref.html#aa4c8a45967ccc55d0d9c16ea35bf03a0", null ],
+      [ "create", "classsnicholls_1_1key__store__ref.html#ad42191d3b9c70861cd9cd73f52fe963c", null ],
+      [ "destroy", "classsnicholls_1_1key__store__ref.html#ae485db04bb8afbc9cec08db3758d9e74", null ],
+      [ "info", "classsnicholls_1_1key__store__ref.html#a1c7c95ddc29d67f684fbadf88be3fbe6", null ],
+      [ "list", "classsnicholls_1_1key__store__ref.html#ad21b08360ab965b48af11591a85480fc", null ],
+      [ "retire", "classsnicholls_1_1key__store__ref.html#a828ca7a87ac911099135d1484ff3d7b9", null ],
+      [ "rotate", "classsnicholls_1_1key__store__ref.html#a9aa2085685d1be080998f799f4b3174f", null ]
+    ] ],
+    [ "snicholls::memory_key_store", "classsnicholls_1_1memory__key__store.html", [
+      [ "clock_source", "classsnicholls_1_1memory__key__store.html#ab6bd068d78e1fff4d26f400a1bc8d4cb", null ],
+      [ "random_source", "classsnicholls_1_1memory__key__store.html#aa2f7a2a7ee82c3523a6ea41eeb4aa16f", null ],
+      [ "memory_key_store", "classsnicholls_1_1memory__key__store.html#aac5d8625cd8e9fd0efb61d08bf4769b6", null ],
+      [ "create", "classsnicholls_1_1memory__key__store.html#a88ad021ec705fb822ffa2de2aa90a9b4", null ],
+      [ "destroy", "classsnicholls_1_1memory__key__store.html#a2f1dfcb71376c23f92e15ea7afae80f1", null ],
+      [ "fail_next", "classsnicholls_1_1memory__key__store.html#aa904e443cb87626578df8155f6bceb1e", null ],
+      [ "info", "classsnicholls_1_1memory__key__store.html#ae8db95da309f80a6ebf523b18a519d13", null ],
+      [ "list", "classsnicholls_1_1memory__key__store.html#af2cf05a9327ab7083aabe45d11710ca6", null ],
+      [ "public_key_of", "classsnicholls_1_1memory__key__store.html#a10ac8c675cfccaba658132be4e69a805", null ],
+      [ "retire", "classsnicholls_1_1memory__key__store.html#aaa2fa78abd84890c9fd76d96ca10bb25", null ],
+      [ "rotate", "classsnicholls_1_1memory__key__store.html#a1551850904e350710e1b13154abc402c", null ],
+      [ "sign", "classsnicholls_1_1memory__key__store.html#a65cb3f5a4a94fbbd17d7bf2290aad024", null ],
+      [ "verify", "classsnicholls_1_1memory__key__store.html#ad977dd09b4863146c259b46f763dc997", null ]
+    ] ],
     [ "snicholls::kv_reader_interface", "classsnicholls_1_1kv__reader__interface.html", [
       [ "~kv_reader_interface", "classsnicholls_1_1kv__reader__interface.html#af5522c96f3d40b25ef6fb6db9409e443", null ],
       [ "kv_reader_interface", "classsnicholls_1_1kv__reader__interface.html#acac5b08d16b79771957c83b0a66ca272", null ],
@@ -1320,6 +1873,191 @@ var group__core =
       [ "diagnostics", "classsnicholls_1_1kv__health__adapter.html#a84f3ce629fe87033ede4b65b1bd79971", null ],
       [ "get", "classsnicholls_1_1kv__health__adapter.html#a77287b3e9788e0547a4ca63a66463e93", null ],
       [ "ping", "classsnicholls_1_1kv__health__adapter.html#ac27ec4faca7efe2fe6d1183bcb65d4ef", null ]
+    ] ],
+    [ "snicholls::message_sender_interface", "classsnicholls_1_1message__sender__interface.html", [
+      [ "~message_sender_interface", "classsnicholls_1_1message__sender__interface.html#a81c73f320838922818ce515829f55776", null ],
+      [ "message_sender_interface", "classsnicholls_1_1message__sender__interface.html#a3847fb607aae808bddc9f1a47e39d352", null ],
+      [ "message_sender_interface", "classsnicholls_1_1message__sender__interface.html#a9a0ab04eed1998a5a5bc81eb0241ed2f", null ],
+      [ "operator=", "classsnicholls_1_1message__sender__interface.html#a0e28efc55bcbffba34269c2620ad2fdb", null ],
+      [ "send", "classsnicholls_1_1message__sender__interface.html#aa55aae6b8d1c2fd3938a4ac5457b9ecd", null ],
+      [ "supports", "classsnicholls_1_1message__sender__interface.html#a8505bac69d4c96dc981ca1b184efe2ad", null ]
+    ] ],
+    [ "snicholls::message_sender_adapter&lt; S &gt;", "classsnicholls_1_1message__sender__adapter.html", [
+      [ "message_sender_adapter", "classsnicholls_1_1message__sender__adapter.html#a5fcf55d83ea735cb6e936c93956ecd82", null ],
+      [ "get", "classsnicholls_1_1message__sender__adapter.html#adb00d33c4b69b2663133f981be6a8a39", null ],
+      [ "send", "classsnicholls_1_1message__sender__adapter.html#a2c32f4b91001a21da8002a1e72180deb", null ],
+      [ "supports", "classsnicholls_1_1message__sender__adapter.html#ad7df393719b8ac63016ff7c9729e6975", null ]
+    ] ],
+    [ "snicholls::message_sender_ref", "classsnicholls_1_1message__sender__ref.html", [
+      [ "message_sender_ref", "classsnicholls_1_1message__sender__ref.html#a66f8d570ee1dc31c5df41f6d531f3243", null ],
+      [ "send", "classsnicholls_1_1message__sender__ref.html#ab24a247d8046609d37957a18faf4c0aa", null ],
+      [ "supports", "classsnicholls_1_1message__sender__ref.html#a8944e5bcbd6aced5fa720ac4e9b9a312", null ]
+    ] ],
+    [ "snicholls::memory_message_sender", "classsnicholls_1_1memory__message__sender.html", [
+      [ "kept_message", "structsnicholls_1_1memory__message__sender_1_1kept__message.html", [
+        [ "view", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#a5717e21c2a7cb60d8ad396a561e896e3", null ],
+        [ "operator==", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#acc77276e34b32233e640c5ae7bf64869", null ],
+        [ "html", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#a4d15712f9c524eb6fc67a29612da4f5c", null ],
+        [ "idempotency_key", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#a941b232b9392951ce4c404376b0ee857", null ],
+        [ "subject", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#a68018581de0161df57fabdf5fefe6788", null ],
+        [ "text", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#a830b86b188a1c3e6de36d961e674c447", null ],
+        [ "to", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#af3f85ea4d5e2b453dca64f6eb4ceef2e", null ],
+        [ "via", "structsnicholls_1_1memory__message__sender_1_1kept__message.html#ab48d838dcbfd3c8958d9a7e4a570631b", null ]
+      ] ],
+      [ "sent", "structsnicholls_1_1memory__message__sender_1_1sent.html", [
+        [ "operator==", "structsnicholls_1_1memory__message__sender_1_1sent.html#a03769edd0e8b50447182fbdbd1882a2c", null ],
+        [ "msg", "structsnicholls_1_1memory__message__sender_1_1sent.html#ab1f3d473082ed152d87fd83574fbda1d", null ],
+        [ "receipt", "structsnicholls_1_1memory__message__sender_1_1sent.html#afe9e970e5740213f7cb8e6ec7a2ee563", null ]
+      ] ],
+      [ "memory_message_sender", "classsnicholls_1_1memory__message__sender.html#a43061417ab0ea2756798c8c474269c71", null ],
+      [ "memory_message_sender", "classsnicholls_1_1memory__message__sender.html#a49e58499771ca39625522211afb1d716", null ],
+      [ "fail_next", "classsnicholls_1_1memory__message__sender.html#ad6ac9aa34bbb682656ab82ee3e659ce6", null ],
+      [ "outbox", "classsnicholls_1_1memory__message__sender.html#a73af5a211f8a763f501b89eb3e5aaf5a", null ],
+      [ "send", "classsnicholls_1_1memory__message__sender.html#a37508664e7d6a1793d003689ddcf2599", null ],
+      [ "supports", "classsnicholls_1_1memory__message__sender.html#ad09c1c83501df7e1f7e8706756adedf8", null ]
+    ] ],
+    [ "snicholls::onramp_provider_interface", "classsnicholls_1_1onramp__provider__interface.html", [
+      [ "~onramp_provider_interface", "classsnicholls_1_1onramp__provider__interface.html#ae8f567c7dd56c14251dc0d1365a703bc", null ],
+      [ "onramp_provider_interface", "classsnicholls_1_1onramp__provider__interface.html#a96a898b6308fb6f66684ff6c83383a5a", null ],
+      [ "onramp_provider_interface", "classsnicholls_1_1onramp__provider__interface.html#a68869e163423e4b08d96e99c08b94110", null ],
+      [ "assets", "classsnicholls_1_1onramp__provider__interface.html#a7e7e45f9600bdec9501c11fd6703b2c4", null ],
+      [ "balances", "classsnicholls_1_1onramp__provider__interface.html#a91eafc48ae68e3c4afdbbc01b37ec305", null ],
+      [ "buy", "classsnicholls_1_1onramp__provider__interface.html#a63785670889fcaf8c40f9a2f12ad7044", null ],
+      [ "operator=", "classsnicholls_1_1onramp__provider__interface.html#a78e7bd4912cd33a2c66d72e967209e53", null ],
+      [ "order_status", "classsnicholls_1_1onramp__provider__interface.html#a779681fa7a7e132f81e6af9e904e9ae2", null ],
+      [ "quote", "classsnicholls_1_1onramp__provider__interface.html#ae91d59fbadde3df4c33b515ddf8eba7b", null ],
+      [ "statement", "classsnicholls_1_1onramp__provider__interface.html#ae4b38960c732920eae993dc2eebe4e29", null ],
+      [ "withdraw", "classsnicholls_1_1onramp__provider__interface.html#a17f6677eba2e54a88e3e2f99a545a995", null ],
+      [ "withdrawal_status", "classsnicholls_1_1onramp__provider__interface.html#a4ee6dac125d3aa63b3d5cbff78cff6d4", null ]
+    ] ],
+    [ "snicholls::onramp_provider_adapter&lt; O &gt;", "classsnicholls_1_1onramp__provider__adapter.html", [
+      [ "onramp_provider_adapter", "classsnicholls_1_1onramp__provider__adapter.html#a40a7bf8022cb1baf093d24e2bee176f8", null ],
+      [ "assets", "classsnicholls_1_1onramp__provider__adapter.html#adf5fa60d07c6781562c7c611734f227f", null ],
+      [ "balances", "classsnicholls_1_1onramp__provider__adapter.html#a0e08092e1446ba3b6e2a8eaa49a4bde3", null ],
+      [ "buy", "classsnicholls_1_1onramp__provider__adapter.html#a3c116809d566dccdd0589a661d0e86ce", null ],
+      [ "get", "classsnicholls_1_1onramp__provider__adapter.html#a6789d5b28ee1351c196ac1c496091704", null ],
+      [ "order_status", "classsnicholls_1_1onramp__provider__adapter.html#a5be6179fe55a71edd28595741ce47443", null ],
+      [ "quote", "classsnicholls_1_1onramp__provider__adapter.html#a8b13890ce235ab9087e0b62f8519029b", null ],
+      [ "statement", "classsnicholls_1_1onramp__provider__adapter.html#a03456208b8741900c13d416d0527d2f8", null ],
+      [ "withdraw", "classsnicholls_1_1onramp__provider__adapter.html#a6a8951482bf89f7da93a6734617ac9dc", null ],
+      [ "withdrawal_status", "classsnicholls_1_1onramp__provider__adapter.html#a1dd3f9d3df49566d6883e169376137cb", null ]
+    ] ],
+    [ "snicholls::onramp_provider_ref", "classsnicholls_1_1onramp__provider__ref.html", [
+      [ "onramp_provider_ref", "classsnicholls_1_1onramp__provider__ref.html#a9245093669770df0e8b13c70a6f65cb8", null ],
+      [ "assets", "classsnicholls_1_1onramp__provider__ref.html#acf954ce884b7787caffa74b692a9a9a4", null ],
+      [ "balances", "classsnicholls_1_1onramp__provider__ref.html#a44ea476aae0111ab16620b76b7e71e82", null ],
+      [ "buy", "classsnicholls_1_1onramp__provider__ref.html#aff7c2f36861448b03d1c228a04c68707", null ],
+      [ "order_status", "classsnicholls_1_1onramp__provider__ref.html#ad1392ee727c7c0ff65f53a7e7aa0b130", null ],
+      [ "quote", "classsnicholls_1_1onramp__provider__ref.html#afe527bb8291853c07908edde619dfae5", null ],
+      [ "statement", "classsnicholls_1_1onramp__provider__ref.html#a47fc9e079a047d3af8c6708c26faee57", null ],
+      [ "withdraw", "classsnicholls_1_1onramp__provider__ref.html#af110e76240705b1916d2ce8154d76503", null ],
+      [ "withdrawal_status", "classsnicholls_1_1onramp__provider__ref.html#adfa18eae024325a6ef2f8fffaa086162", null ]
+    ] ],
+    [ "snicholls::memory_onramp_provider", "classsnicholls_1_1memory__onramp__provider.html", [
+      [ "clock_source", "classsnicholls_1_1memory__onramp__provider.html#ac27f7be2ebbadadee9cb2724bfd559bf", null ],
+      [ "memory_onramp_provider", "classsnicholls_1_1memory__onramp__provider.html#a692f5308f4afd0dac0f7f5d248c01a02", null ],
+      [ "assets", "classsnicholls_1_1memory__onramp__provider.html#a7edd42eaf567b78e477f633dbff6bb76", null ],
+      [ "balances", "classsnicholls_1_1memory__onramp__provider.html#aa744f9ec24884f7ecce5b780a9efa60c", null ],
+      [ "buy", "classsnicholls_1_1memory__onramp__provider.html#a57def74f1f0bd6cd6701915eb18e90c9", null ],
+      [ "confirm", "classsnicholls_1_1memory__onramp__provider.html#a4a0efd01c644aef2d07613fe515de0c6", null ],
+      [ "deposit", "classsnicholls_1_1memory__onramp__provider.html#a9b6a286b97df58af7b4e93271bb14c31", null ],
+      [ "fail_next", "classsnicholls_1_1memory__onramp__provider.html#a7a0007ec1e15b28c86e0a4c9122b0a9d", null ],
+      [ "order_status", "classsnicholls_1_1memory__onramp__provider.html#a658b4e114bb5f51a80ff30115b7e61b4", null ],
+      [ "quote", "classsnicholls_1_1memory__onramp__provider.html#a16214e2e37b77d241cee602d72c086aa", null ],
+      [ "set_fee_bps", "classsnicholls_1_1memory__onramp__provider.html#ac9062b74d988814bfdaee89a71b09555", null ],
+      [ "set_price", "classsnicholls_1_1memory__onramp__provider.html#ab9294ac1400ceccbac01768f42ea14d7", null ],
+      [ "set_withdrawal_fee", "classsnicholls_1_1memory__onramp__provider.html#ac7ff1b6f22c1fef8d3f1b811ef8c01bc", null ],
+      [ "statement", "classsnicholls_1_1memory__onramp__provider.html#a85b08091105f0cb52f833507554768d1", null ],
+      [ "withdraw", "classsnicholls_1_1memory__onramp__provider.html#a8407e6041d50c0f1064c8da1d0026b00", null ],
+      [ "withdrawal_status", "classsnicholls_1_1memory__onramp__provider.html#a4ea65df1e5626d8f913bfcaffde8dbaa", null ]
+    ] ],
+    [ "snicholls::payment_provider_interface", "classsnicholls_1_1payment__provider__interface.html", [
+      [ "~payment_provider_interface", "classsnicholls_1_1payment__provider__interface.html#a93144775a68a2426e3aa064d773ff946", null ],
+      [ "payment_provider_interface", "classsnicholls_1_1payment__provider__interface.html#a3c067e0b1c2d2ad5470db7faf64be638", null ],
+      [ "payment_provider_interface", "classsnicholls_1_1payment__provider__interface.html#a919a3abf578f21905f51faf8ac86be3b", null ],
+      [ "balances", "classsnicholls_1_1payment__provider__interface.html#a683d5c760a9cfbad1127bea96112799c", null ],
+      [ "capabilities", "classsnicholls_1_1payment__provider__interface.html#af53b85c5382150a2ad7529b90526d606", null ],
+      [ "collect", "classsnicholls_1_1payment__provider__interface.html#a3d4ae06fe92fa7df1b6fa3ceb04e3205", null ],
+      [ "credits", "classsnicholls_1_1payment__provider__interface.html#a5f09cd02535abd3a41cdeed380ba7d79", null ],
+      [ "operator=", "classsnicholls_1_1payment__provider__interface.html#ac20bb8f2286a82575ac095268efe31fc", null ],
+      [ "payout", "classsnicholls_1_1payment__provider__interface.html#a66ab842ddf3b42795b09c39048c287fd", null ],
+      [ "quote", "classsnicholls_1_1payment__provider__interface.html#a294dd54b49d87cd4f849597c78247b78", null ],
+      [ "refund", "classsnicholls_1_1payment__provider__interface.html#a7c2c139065608fd4921f22d7367872e0", null ],
+      [ "resolve", "classsnicholls_1_1payment__provider__interface.html#a16d07f6a8864e54e706fab0a403438e6", null ],
+      [ "statement", "classsnicholls_1_1payment__provider__interface.html#afe3a3a4d4f0e9a4ae4db257775c80231", null ],
+      [ "status", "classsnicholls_1_1payment__provider__interface.html#a90d69575dba162dda60698480dacadb2", null ],
+      [ "verify_webhook", "classsnicholls_1_1payment__provider__interface.html#a19c6f8edc16366614b6529bc760b02e6", null ]
+    ] ],
+    [ "snicholls::payment_provider_adapter&lt; P &gt;", "classsnicholls_1_1payment__provider__adapter.html", [
+      [ "payment_provider_adapter", "classsnicholls_1_1payment__provider__adapter.html#aad57564081a6972013598ab513275b4b", null ],
+      [ "balances", "classsnicholls_1_1payment__provider__adapter.html#ab094c052bc8b011c3ea40b4ddc8e1057", null ],
+      [ "capabilities", "classsnicholls_1_1payment__provider__adapter.html#add7b4647f454f5efe8d2943091625842", null ],
+      [ "collect", "classsnicholls_1_1payment__provider__adapter.html#af190ed93b857009684ada06fbfbab644", null ],
+      [ "credits", "classsnicholls_1_1payment__provider__adapter.html#a260b2162f16cf8238a544a1edfa33764", null ],
+      [ "get", "classsnicholls_1_1payment__provider__adapter.html#a872251d52903e5a995cf90de924ae309", null ],
+      [ "payout", "classsnicholls_1_1payment__provider__adapter.html#adae34f3e309294ba31a76599a43870f0", null ],
+      [ "quote", "classsnicholls_1_1payment__provider__adapter.html#ad3daffbd4c1bd40d7a31a2917c72a53b", null ],
+      [ "refund", "classsnicholls_1_1payment__provider__adapter.html#ac8e1dd4ed14cf387296f70c2f087dc41", null ],
+      [ "resolve", "classsnicholls_1_1payment__provider__adapter.html#acfb148dd84d3a0ae93665d9a83acff1b", null ],
+      [ "statement", "classsnicholls_1_1payment__provider__adapter.html#a809603d4bab93ae397388ecb7371cca9", null ],
+      [ "status", "classsnicholls_1_1payment__provider__adapter.html#a1083f318ab4a16641222e51e0f2faceb", null ],
+      [ "verify_webhook", "classsnicholls_1_1payment__provider__adapter.html#a7e46d32ce1104e85c85ab4d1052460fd", null ]
+    ] ],
+    [ "snicholls::payment_provider_ref", "classsnicholls_1_1payment__provider__ref.html", [
+      [ "payment_provider_ref", "classsnicholls_1_1payment__provider__ref.html#a454faea62f4da9a3a5f771125836fd46", null ],
+      [ "balances", "classsnicholls_1_1payment__provider__ref.html#a55f475d22e64d09bd503dc623253a2d2", null ],
+      [ "capabilities", "classsnicholls_1_1payment__provider__ref.html#a94ec063a2ea3465b968191bb9fa9f977", null ],
+      [ "collect", "classsnicholls_1_1payment__provider__ref.html#a03b6996347ab339b6bcabb009ae01a74", null ],
+      [ "credits", "classsnicholls_1_1payment__provider__ref.html#ac0e98c012dd186712efe45d72b17281f", null ],
+      [ "payout", "classsnicholls_1_1payment__provider__ref.html#a0956efc05b1ed63122f3b2924006078d", null ],
+      [ "quote", "classsnicholls_1_1payment__provider__ref.html#a50e6d9bf2138e8236b0535de3de49e75", null ],
+      [ "refund", "classsnicholls_1_1payment__provider__ref.html#a9ddec2878a9b37b584d5df5d6ab44d6b", null ],
+      [ "resolve", "classsnicholls_1_1payment__provider__ref.html#a119ca0efd4e13f298b1fec2e89044677", null ],
+      [ "statement", "classsnicholls_1_1payment__provider__ref.html#a321b9c0b4543dcfe7c5da941e747ee83", null ],
+      [ "status", "classsnicholls_1_1payment__provider__ref.html#ade257791a622392b48400920d55b4b71", null ],
+      [ "verify_webhook", "classsnicholls_1_1payment__provider__ref.html#a9839c04bd7f45fd8e513f3190a341c6f", null ]
+    ] ],
+    [ "snicholls::memory_payment_provider", "classsnicholls_1_1memory__payment__provider.html", [
+      [ "clock_source", "classsnicholls_1_1memory__payment__provider.html#a569e2c88fecb8dafcb9c6971f902f802", null ],
+      [ "memory_payment_provider", "classsnicholls_1_1memory__payment__provider.html#a926e348257f5d07bcee16bdd38dea942", null ],
+      [ "add_beneficiary", "classsnicholls_1_1memory__payment__provider.html#aa0f6d7af6b38d929859a8a37af7b7a43", null ],
+      [ "balances", "classsnicholls_1_1memory__payment__provider.html#a062a7a287e3b834631cf409df57d626e", null ],
+      [ "capabilities", "classsnicholls_1_1memory__payment__provider.html#a52963037c5e83e35c582dca783280342", null ],
+      [ "collect", "classsnicholls_1_1memory__payment__provider.html#a4bac8d71881e8765fbcab41936517713", null ],
+      [ "complete", "classsnicholls_1_1memory__payment__provider.html#a877b3e1976a4576df6847989a728b817", null ],
+      [ "credits", "classsnicholls_1_1memory__payment__provider.html#af82541846f57557f8018aa020015910d", null ],
+      [ "decline", "classsnicholls_1_1memory__payment__provider.html#aa624980a1fcd6d69eef14e3262b806d4", null ],
+      [ "fail_next", "classsnicholls_1_1memory__payment__provider.html#ab458605f3ae99e0db70ccff4ea874a8f", null ],
+      [ "payout", "classsnicholls_1_1memory__payment__provider.html#afc4bfab96bbd51bb869c44d038a9c0ac", null ],
+      [ "quote", "classsnicholls_1_1memory__payment__provider.html#ae7ac3e56969b981b33e4209bcec9dfb5", null ],
+      [ "receive_credit", "classsnicholls_1_1memory__payment__provider.html#a157fcf69a409b94ff7605e195dd5f546", null ],
+      [ "refund", "classsnicholls_1_1memory__payment__provider.html#a1567998473f0a3e24e5f6713496eb94e", null ],
+      [ "resolve", "classsnicholls_1_1memory__payment__provider.html#a63b66c5f41e83dc2c7cf2c18e0b7fc2f", null ],
+      [ "set_fee_bps", "classsnicholls_1_1memory__payment__provider.html#ad52fadae4db2d8f7934c357b984d6caf", null ],
+      [ "set_rate", "classsnicholls_1_1memory__payment__provider.html#a904daf715b6345c893047aebef58f197", null ],
+      [ "signed_webhook", "classsnicholls_1_1memory__payment__provider.html#aa7c426d26f4be3f27d845335db78a519", null ],
+      [ "statement", "classsnicholls_1_1memory__payment__provider.html#a77e06868383cfd6ca293c1a2ae7c0a66", null ],
+      [ "status", "classsnicholls_1_1memory__payment__provider.html#a1d025b8da2d8e901cee9c078c7166eb4", null ],
+      [ "verify_webhook", "classsnicholls_1_1memory__payment__provider.html#a5508b47b71dc6e67e48f3c9741136068", null ]
+    ] ],
+    [ "snicholls::signer_interface", "classsnicholls_1_1signer__interface.html", [
+      [ "~signer_interface", "classsnicholls_1_1signer__interface.html#afb620c9863c03e107a06238d0d23d413", null ],
+      [ "signer_interface", "classsnicholls_1_1signer__interface.html#a03be2d2ff0361040da7128963a152f5f", null ],
+      [ "signer_interface", "classsnicholls_1_1signer__interface.html#a0c08556f829456e383c5e11d96c41d23", null ],
+      [ "operator=", "classsnicholls_1_1signer__interface.html#af5d5f8bf2534bfb165d65cf47dc4ad87", null ],
+      [ "public_key_of", "classsnicholls_1_1signer__interface.html#a02da1fa88a4242595b62ae16c1cc2dd8", null ],
+      [ "sign", "classsnicholls_1_1signer__interface.html#a8e3fc77353c2509738d456403b5d6693", null ]
+    ] ],
+    [ "snicholls::signer_adapter&lt; S &gt;", "classsnicholls_1_1signer__adapter.html", [
+      [ "signer_adapter", "classsnicholls_1_1signer__adapter.html#a9654c22e3377b77b3766f6e7833823cb", null ],
+      [ "get", "classsnicholls_1_1signer__adapter.html#aa03522378883a42eb6fe64559147a5bf", null ],
+      [ "public_key_of", "classsnicholls_1_1signer__adapter.html#a1b7289db3783368ba3736df692a04b35", null ],
+      [ "sign", "classsnicholls_1_1signer__adapter.html#aab2b3733e9e51c99c08bef4f8bb45f00", null ]
+    ] ],
+    [ "snicholls::signer_ref", "classsnicholls_1_1signer__ref.html", [
+      [ "signer_ref", "classsnicholls_1_1signer__ref.html#a54afd955e94eca07ce9a1e43c43fce4d", null ],
+      [ "public_key_of", "classsnicholls_1_1signer__ref.html#a0d99bbe22daf45750aaf3e4974ef40ec", null ],
+      [ "sign", "classsnicholls_1_1signer__ref.html#a74b630f3e7c1a58f3d41ee9b57288a37", null ]
     ] ],
     [ "snicholls::any_source", "structsnicholls_1_1any__source.html", [
       [ "get", "structsnicholls_1_1any__source.html#a40e8677a08d98b63bb9a2dd657005238", null ],
@@ -3124,6 +3862,7 @@ var group__core =
     [ "snicholls::asset", "structsnicholls_1_1asset.html", [
       [ "code", "structsnicholls_1_1asset.html#a0562bc4fae97419232f7d8361b7ef8ad", null ],
       [ "scale", "structsnicholls_1_1asset.html#aeea4d7d2572a93c06d8cc686d82a24ab", null ],
+      [ "operator<=>", "structsnicholls_1_1asset.html#a575e6ff616f11aa7045f54a7f3a9acf0", null ],
       [ "operator==", "structsnicholls_1_1asset.html#a754c651ec2c1afab7d0dfae3f4450f73", null ],
       [ "chars", "structsnicholls_1_1asset.html#a45171aa750ac65bd3615681e617e8958", null ],
       [ "length", "structsnicholls_1_1asset.html#a999ab19d914f6250f7c60c75414ee971", null ],
@@ -3894,6 +4633,9 @@ var group__core =
       [ "month", "structsnicholls_1_1civil__date.html#a346adfc041800c3daa2ae604d6dd7eee", null ],
       [ "year", "structsnicholls_1_1civil__date.html#a27c9e0d2b87540484b13e7e9bb9961b3", null ]
     ] ],
+    [ "snicholls::abbreviation", "structsnicholls_1_1abbreviation.html", [
+      [ "text", "structsnicholls_1_1abbreviation.html#a4bb0213cd5ae8a020a7634a2027e521c", null ]
+    ] ],
     [ "snicholls::utc_error", "structsnicholls_1_1utc__error.html", [
       [ "utc_error", "structsnicholls_1_1utc__error.html#a3d3c83893132ba10c0e0b3236838e135", null ],
       [ "code", "structsnicholls_1_1utc__error.html#aede587d3a4b352c4c672d9b981029b15", null ]
@@ -3954,6 +4696,13 @@ var group__core =
       [ "operator<=>", "classsnicholls_1_1utc.html#a8b0f587c2a8f8a2c62172bb76953d3cf", null ],
       [ "operator==", "classsnicholls_1_1utc.html#a5765b779457048b3a59f6d54262a36da", null ]
     ] ],
+    [ "snicholls::iso_week_date", "structsnicholls_1_1iso__week__date.html", [
+      [ "operator<=>", "structsnicholls_1_1iso__week__date.html#aa29176ba84169fc752333361e5b01ec9", null ],
+      [ "operator==", "structsnicholls_1_1iso__week__date.html#a195983750140da156c2d18e29f2db4f0", null ],
+      [ "week", "structsnicholls_1_1iso__week__date.html#a1e6303fa36994755d22c6ca056126e80", null ],
+      [ "weekday", "structsnicholls_1_1iso__week__date.html#afafe85993cb50dd1a62d87ccb5075f8a", null ],
+      [ "year", "structsnicholls_1_1iso__week__date.html#aeda5b484ffe4492e5fd9a41bfab734bb", null ]
+    ] ],
     [ "snicholls::context_frame", "structsnicholls_1_1context__frame.html", [
       [ "kind", "structsnicholls_1_1context__frame.html#a12395a34bb9b7fa88abb90c2c64afdac", null ],
       [ "message", "structsnicholls_1_1context__frame.html#aa3db51c7da55412c8c2bfe9dab57ab8e", null ],
@@ -3999,19 +4748,6 @@ var group__core =
       [ "message", "structsnicholls_1_1error__report.html#ac682dc7581def8e07bbbd7a72a2356af", null ],
       [ "stack", "structsnicholls_1_1error__report.html#aa77419ba5923f99343d521f3fb7f164e", null ],
       [ "where", "structsnicholls_1_1error__report.html#ac00ecc8fa8d7911330366bb29a1a89f6", null ]
-    ] ],
-    [ "snicholls::error_sink", "classsnicholls_1_1error__sink.html", [
-      [ "~error_sink", "classsnicholls_1_1error__sink.html#a5f2bc3c0bb5222d67f5c676ceda3b629", null ],
-      [ "error_sink", "classsnicholls_1_1error__sink.html#a26179d847dedb37e87029028a299e596", null ],
-      [ "error_sink", "classsnicholls_1_1error__sink.html#a9df12e08df7a4b41b2ec69d3a0a9976f", null ],
-      [ "log_error", "classsnicholls_1_1error__sink.html#a5477008fd86fb3222884e38e1f34d73c", null ],
-      [ "log_error", "classsnicholls_1_1error__sink.html#acd88dbb762ca742a5d781d44430ef695", null ],
-      [ "operator=", "classsnicholls_1_1error__sink.html#a9c99939a5c9eac5bcc641433c2a9def2", null ],
-      [ "write", "classsnicholls_1_1error__sink.html#a1d0cc240c6920e99147593a67b553657", null ]
-    ] ],
-    [ "snicholls::text_error_sink", "classsnicholls_1_1text__error__sink.html", [
-      [ "text_error_sink", "classsnicholls_1_1text__error__sink.html#af3768e6080e06df9d49d6da0db67e069", null ],
-      [ "write", "classsnicholls_1_1text__error__sink.html#a0d8ad428c2620a0e9667985364e2741b", null ]
     ] ],
     [ "std::hash&lt; snicholls::traced&lt; E &gt; &gt;", "structstd_1_1hash_3_01snicholls_1_1traced_3_01E_01_4_01_4.html", [
       [ "operator()", "structstd_1_1hash_3_01snicholls_1_1traced_3_01E_01_4_01_4.html#ae8e53545411905da0f5bf4f2f03e6d70", null ]
@@ -4290,9 +5026,11 @@ var group__core =
     [ "snicholls::blake2s_256", "group__core.html#gaa85671fb3c4365a8f14c970fbb48ee35", null ],
     [ "snicholls::callable_arguments_t", "group__core.html#ga890b884310f8fbbd1cf1589b8cfc413e", null ],
     [ "snicholls::callable_result_t", "group__core.html#ga2a13d6d205d8982a985e5212b3677d90", null ],
+    [ "snicholls::capability_result", "group__core.html#ga2a89bcb050e9fe9a48f6678e83cd99b2", null ],
     [ "snicholls::meta::cartesian_power_t", "group__core.html#ga3b996690055e68158049d9418fcb4546", null ],
     [ "snicholls::meta::cartesian_product_t", "group__core.html#gacf2752d6b536ec4c80abe750fce93b2f", null ],
     [ "snicholls::char_traits_t", "group__core.html#gaed120115e22bd99baf9c39f98a8f942f", null ],
+    [ "snicholls::client_id", "group__core.html#ga2fa4eef8aa3782d54dbf1bdf248154bc", null ],
     [ "snicholls::game::coalition", "group__core.html#ga544c9a8168cfdb2145b7b24b85759dcc", null ],
     [ "snicholls::code_unit_t", "group__core.html#ga6d4904d03735012430f69815baed610c", null ],
     [ "snicholls::signal::compute_t", "group__core.html#gae7051ad943f04105814ee13ec52ba708", null ],
@@ -4307,6 +5045,8 @@ var group__core =
     [ "snicholls::meta::dot_with_t", "group__core.html#ga32ab16a08cbe4ac2e096e4dff6c6c1d4", null ],
     [ "snicholls::game::dynamic_attribution", "group__core.html#ga47ec5d9a0135d90fa9eb0046eea80240", null ],
     [ "snicholls::metric::euclidean", "group__core.html#ga95efe6e6d33779e6a50cd6c5d70b8660", null ],
+    [ "snicholls::event_id", "group__core.html#ga6d8d5b779184f012add3b191ecc5d57b", null ],
+    [ "snicholls::fact_id", "group__core.html#gaface2b9c7d4d30b9872222f8f8708485", null ],
     [ "snicholls::meta::find_if_t", "group__core.html#ga9f60574231a1c29ce7052d1b59355369", null ],
     [ "snicholls::game::fixed_attribution", "group__core.html#ga523e93c2b27c4b66e1fb58e2396a1a5e", null ],
     [ "snicholls::linalg::fixed_vector", "group__core.html#ga97ac816b3c130c658daa96ef4cf5d5a5", null ],
@@ -4327,6 +5067,7 @@ var group__core =
     [ "snicholls::metric::manhattan", "group__core.html#ga9c8b2bbab8e512b744c3f0d513da34dc", null ],
     [ "snicholls::meta::map_indexed_t", "group__core.html#ga232f46c7233011ecb779502e0c0967ae", null ],
     [ "snicholls::linalg::matrix_view", "group__core.html#gad57508b817350326f8dc379ffb98e74a", null ],
+    [ "snicholls::memory_signer", "group__core.html#ga26ca2ac5ca6522d777cd9838bb4ddc1a", null ],
     [ "snicholls::meta::nest_list_t", "group__core.html#gaaa56dac36f792fa12ee0b28e72f4e3c2", null ],
     [ "snicholls::meta::nest_t", "group__core.html#ga55afc3cdd8328a9f53c9ff908002a8c2", null ],
     [ "snicholls::tracking::ornstein_uhlenbeck", "group__core.html#ga1225470a66780430354366ef744643f9", null ],
@@ -4337,6 +5078,9 @@ var group__core =
     [ "snicholls::meta::permutations_with_t", "group__core.html#ga496b5dc1aa2f304fb6d217751f1111f2", null ],
     [ "snicholls::linalg::pivot_index", "group__core.html#gafd1890d6e796465f8c62adeb9608334d", null ],
     [ "snicholls::meta::product_with_t", "group__core.html#ga995f47949917aa6a56dbcc2bddbe7eda", null ],
+    [ "snicholls::provider_account", "group__core.html#gabbd7687836818900bb89013d8b6d3030", null ],
+    [ "snicholls::provider_id", "group__core.html#gac9ca69ce6c24fe720e14c02409c4de3e", null ],
+    [ "snicholls::provider_name", "group__core.html#gaec6431da4f8686a3d1a8bb31f87d9546", null ],
     [ "snicholls::tracking::random_walk", "group__core.html#gae4343f037a255df2ed85e2e5a209f9c9", null ],
     [ "snicholls::meta::range_t", "group__core.html#ga9aa0c13965181d4fd8ff5f3e39a10b9b", null ],
     [ "snicholls::math::real_t", "group__core.html#gaee5ee36a464f42353d5a712baf4ba54b", null ],
@@ -4358,6 +5102,7 @@ var group__core =
     [ "snicholls::sha512_256", "group__core.html#ga34ecc1db70f6cad03173ae262b78b750", null ],
     [ "snicholls::shake128", "group__core.html#gab9b18ecdd549799909c7cb7cbe8f3d04", null ],
     [ "snicholls::shake256", "group__core.html#ga2fa5758adf4b0bfaf98e17dd6a49d952", null ],
+    [ "snicholls::short_text", "group__core.html#gae6bc645e0f10541fc897bf5a8bd5b6a6", null ],
     [ "snicholls::tracking::singer", "group__core.html#gaf9fbc6d5611c56ab7c238b512eeaf76a", null ],
     [ "snicholls::stack_trace_hook", "group__core.html#ga3f5a2e0c57237fbcb64acce668e9be98", null ],
     [ "snicholls::meta::subsets_of_size_t", "group__core.html#ga38c339dc7678a2fef15b76d91c6a8d3a", null ],
@@ -4428,9 +5173,38 @@ var group__core =
       [ "snicholls::ml::bpe_error::scratch_too_small", "group__core.html#ggac39740c58513e4a66ae2f43a7ca3e28ea4ee5c5ed45ab6ee9afa19ac0b6e089a7", null ],
       [ "snicholls::ml::bpe_error::unknown_bytes", "group__core.html#ggac39740c58513e4a66ae2f43a7ca3e28ea5727ce3754c37bbc1cfcb1fc8a79a701", null ]
     ] ],
+    [ "snicholls::finance::business_day_convention", "group__core.html#ga1ffa040ab09d4d82bd0d7c0e6fe8e5a1", [
+      [ "snicholls::finance::business_day_convention::unadjusted", "group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1a60d5f7d0f17bb143d5c058501cab70c5", null ],
+      [ "snicholls::finance::business_day_convention::following", "group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1a2511fc6cb0bb2431c0b43d6793d0cbc1", null ],
+      [ "snicholls::finance::business_day_convention::modified_following", "group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1aefe72c8fc7c1c573b0e5c94d798b5862", null ],
+      [ "snicholls::finance::business_day_convention::preceding", "group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1a6d9f62fff979484532be6b4663d0e2d2", null ],
+      [ "snicholls::finance::business_day_convention::modified_preceding", "group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1aa13c3d1ad76b1d3956bba62860ee4ce3", null ]
+    ] ],
+    [ "snicholls::finance::business_day_errc", "group__core.html#ga119ff0e6dd8773cd298d2052f4831a76", [
+      [ "snicholls::finance::business_day_errc::no_business_day", "group__core.html#gga119ff0e6dd8773cd298d2052f4831a76a4c3d2adf5eec5ddf815e97159d631cfc", null ]
+    ] ],
     [ "snicholls::geometry::camera_error", "group__core.html#ga4c4839e1b8255cf78efac2112acb4bf0", [
       [ "snicholls::geometry::camera_error::behind_camera", "group__core.html#gga4c4839e1b8255cf78efac2112acb4bf0a96c793532ea10cb2227b87e57dc68946", null ],
       [ "snicholls::geometry::camera_error::parallel_to_plane", "group__core.html#gga4c4839e1b8255cf78efac2112acb4bf0aac956da8e2f470cbdd279c0db7023c02", null ]
+    ] ],
+    [ "snicholls::capability_errc", "group__core.html#ga997cdf403bc1fdb65d339be4800d8bac", [
+      [ "snicholls::capability_errc::unavailable", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca7060e0481896e00b3f7d20f1e8e2749a", null ],
+      [ "snicholls::capability_errc::timeout", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca90272dda245ae1fb3cf197e91a8689dc", null ],
+      [ "snicholls::capability_errc::rate_limited", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca63e9ba602869a8b58bbb80c843831cde", null ],
+      [ "snicholls::capability_errc::rejected", "group__core.html#gga997cdf403bc1fdb65d339be4800d8bacac7537d6d48ecf261749c09a9f284bd45", null ],
+      [ "snicholls::capability_errc::invalid_argument", "group__core.html#gga997cdf403bc1fdb65d339be4800d8bacae55d43eabeefe5a8271b4a3c898bd18f", null ],
+      [ "snicholls::capability_errc::conflict", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca981f1875779561e79585a2ae43a196fb", null ],
+      [ "snicholls::capability_errc::not_found", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca7500611bf7030bc99d25c354e7b64714", null ],
+      [ "snicholls::capability_errc::unauthorized", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca36fd540552b3b1b34e8f0bd8897cbf1e", null ],
+      [ "snicholls::capability_errc::internal", "group__core.html#gga997cdf403bc1fdb65d339be4800d8bacad1efad72dc5b17dc66a46767c32fff40", null ],
+      [ "snicholls::capability_errc::insufficient_funds", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca695c9713c870681ffae14296ea6cd060", null ],
+      [ "snicholls::capability_errc::signature_invalid", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca415f4b5347d46f8e7c431f762bfee6b2", null ],
+      [ "snicholls::capability_errc::stale", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca36f34fd8319cf30f8e132ef294c616af", null ],
+      [ "snicholls::capability_errc::unsupported", "group__core.html#gga997cdf403bc1fdb65d339be4800d8baca723c25877a86786664edc4b643c08a6f", null ]
+    ] ],
+    [ "snicholls::channel", "group__core.html#ga7abe1f8229a39c9ada5daef347c4f6aa", [
+      [ "snicholls::channel::email", "group__core.html#gga7abe1f8229a39c9ada5daef347c4f6aaa0c83f57c786a0b4a39efab23731c7ebc", null ],
+      [ "snicholls::channel::sms", "group__core.html#gga7abe1f8229a39c9ada5daef347c4f6aaa18b43c6a536a8fe1362f7a3887936be6", null ]
     ] ],
     [ "snicholls::tracking::ci_criterion", "group__core.html#gaa8491777be1a32342edf0842eb626bd9", [
       [ "snicholls::tracking::ci_criterion::trace", "group__core.html#ggaa8491777be1a32342edf0842eb626bd9a04a75036e9d520bb983c5ed03b8d0182", null ],
@@ -4461,6 +5235,15 @@ var group__core =
     [ "snicholls::tracking::covariance_form", "group__core.html#gade615ec86abc23c5e632793de408cbbe", [
       [ "snicholls::tracking::covariance_form::standard", "group__core.html#ggade615ec86abc23c5e632793de408cbbeac00f0c4675b91fb8b918e4079a0b1bac", null ],
       [ "snicholls::tracking::covariance_form::joseph", "group__core.html#ggade615ec86abc23c5e632793de408cbbeacb07901c53218323c4ceacdea4b23c98", null ]
+    ] ],
+    [ "snicholls::calendar::day_of_week", "group__core.html#gaebe9b203bc36d752130e3306d6683dc7", [
+      [ "snicholls::calendar::day_of_week::monday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7a944ba223a5c1b5f4b495708e7cd5ee37", null ],
+      [ "snicholls::calendar::day_of_week::tuesday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7a1a31a6f65cc993ff6bd9a5b85f0520b0", null ],
+      [ "snicholls::calendar::day_of_week::wednesday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7aaae446086f8e81194ed115b566bf2e3d", null ],
+      [ "snicholls::calendar::day_of_week::thursday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7ac395246f710b0e2c86b7ed82f7f56ce3", null ],
+      [ "snicholls::calendar::day_of_week::friday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7af6f7fec07f372b7bd5eb196bbca0f3f4", null ],
+      [ "snicholls::calendar::day_of_week::saturday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7a6036c3d913f49f28f35d734589840310", null ],
+      [ "snicholls::calendar::day_of_week::sunday", "group__core.html#ggaebe9b203bc36d752130e3306d6683dc7a787c74a2e618a696e34e025adda33ad3", null ]
     ] ],
     [ "snicholls::signal::dct_norm", "group__core.html#ga3ded4f1d6d653bd7e484fb152391171b", [
       [ "snicholls::signal::dct_norm::none", "group__core.html#gga3ded4f1d6d653bd7e484fb152391171ba334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
@@ -4500,6 +5283,31 @@ var group__core =
       [ "snicholls::error_level::warning", "group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0a7b83d3f08fa392b79e3f553b585971cd", null ],
       [ "snicholls::error_level::error", "group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0acb5e100e5a9a3e7f6d1fd97512215282", null ],
       [ "snicholls::error_level::critical", "group__core.html#gga05ce5db02909d4d9bfc0fb741a19b8f0a7e85bcb66fb9a809d5ab4f62a8b8bea8", null ]
+    ] ],
+    [ "snicholls::event_kind", "group__core.html#gaa9db2a8c7ae7cec7290d8a69bf4c6535", [
+      [ "snicholls::event_kind::payment_updated", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a925c37c2d98644077857b68a140cf995", null ],
+      [ "snicholls::event_kind::credit_received", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a91b34bb0e6c74b3a7cc4ec143ba6cd14", null ],
+      [ "snicholls::event_kind::payout_updated", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a9074558d78aa2c9455425e06c66fe5dd", null ],
+      [ "snicholls::event_kind::refund_updated", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535abc27a5476bcb9b182e08f1306a190211", null ],
+      [ "snicholls::event_kind::other", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a795f3202b17cb6bc3d4b771d8c6c9eaf", null ]
+    ] ],
+    [ "snicholls::fact_kind", "group__core.html#ga1ad62f983a8aea632dc3d5eb6490519e", [
+      [ "snicholls::fact_kind::payment", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eaf83c2a85d972a89238f31296c63f0dbc", null ],
+      [ "snicholls::fact_kind::refund", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eadf6f85687a0d5820baa1a069a04eff2d", null ],
+      [ "snicholls::fact_kind::refund_failed", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea153dc3973f152526a16472cb67d4c114", null ],
+      [ "snicholls::fact_kind::dispute_hold", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eaf10d3ad3dbbff6d092a1c5dfe3c66c3b", null ],
+      [ "snicholls::fact_kind::dispute_release", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea86f37b7f1387202ac532377199863318", null ],
+      [ "snicholls::fact_kind::dispute_loss", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea9e2b1f4688d52e72f7a7acb6ca85d65a", null ],
+      [ "snicholls::fact_kind::payout", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eae8225e82fbd904637b3940fceca39cfa", null ],
+      [ "snicholls::fact_kind::payout_failed", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ead1b4835230b164ce526df41bd62b7bb9", null ],
+      [ "snicholls::fact_kind::bank_credit", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea17c3f9eb696bb526d48de8179113cbcb", null ],
+      [ "snicholls::fact_kind::fee", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ead4319fefc66c701f24c875afda6360d6", null ],
+      [ "snicholls::fact_kind::conversion", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea8a496e4dcb443b1c529e75d7ec2888df", null ],
+      [ "snicholls::fact_kind::transfer", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea84a0f3455dcca894ace136be62efa292", null ],
+      [ "snicholls::fact_kind::adjustment", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea0e914cc98cda08103685107f54ecd01c", null ],
+      [ "snicholls::fact_kind::card_spend", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea05ab4c767b72e8451c12612155f958ec", null ],
+      [ "snicholls::fact_kind::other", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519ea795f3202b17cb6bc3d4b771d8c6c9eaf", null ],
+      [ "snicholls::fact_kind::agent_collection", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eac18f8448dc0aba8f804165cf66e00b79", null ]
     ] ],
     [ "snicholls::signal::fft_norm", "group__core.html#gaa73f6883ceef7d1e7fa5cb6b54dc8198", [
       [ "snicholls::signal::fft_norm::backward", "group__core.html#ggaa73f6883ceef7d1e7fa5cb6b54dc8198a195fe59b6f103787a914aead0f3db502", null ],
@@ -4589,6 +5397,21 @@ var group__core =
     [ "snicholls::tracking::hmm_error", "group__core.html#ga6bd82d9fd4957f9d2056a1a8edd1624c", [
       [ "snicholls::tracking::hmm_error::zero_probability", "group__core.html#gga6bd82d9fd4957f9d2056a1a8edd1624ca2fb327e54f5d429f4b5d13e976e45928", null ]
     ] ],
+    [ "snicholls::http_method", "group__core.html#gaf656d96853bb5b22c8bdf16bb58e73d4", [
+      [ "snicholls::http_method::get", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f", null ],
+      [ "snicholls::http_method::head", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f", null ],
+      [ "snicholls::http_method::post", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a42b90196b487c54069097a68fe98ab6f", null ],
+      [ "snicholls::http_method::put", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a8e13ffc9fd9d6a6761231a764bdf106b", null ],
+      [ "snicholls::http_method::patch", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ae5c5e6dae38b284e8cf0bd1fb0efac03", null ],
+      [ "snicholls::http_method::del", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ad2bcc286168bf8e040885c5cb7b6df13", null ],
+      [ "snicholls::http_method::options", "group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a93da65a9fd0004d9477aeac024e08e15", null ]
+    ] ],
+    [ "snicholls::identifier_errc", "group__core.html#gae9442fdcc84c24b91ccfd8ed3fb46461", [
+      [ "snicholls::identifier_errc::wrong_length", "group__core.html#ggae9442fdcc84c24b91ccfd8ed3fb46461a4d6c8252d968abfb3db7af47583fb85d", null ],
+      [ "snicholls::identifier_errc::invalid_character", "group__core.html#ggae9442fdcc84c24b91ccfd8ed3fb46461add83009b482779fb2e0b1bd7a064f4b8", null ],
+      [ "snicholls::identifier_errc::invalid_format", "group__core.html#ggae9442fdcc84c24b91ccfd8ed3fb46461a8e40c21d17487b141e798359ee241411", null ],
+      [ "snicholls::identifier_errc::invalid_check_digit", "group__core.html#ggae9442fdcc84c24b91ccfd8ed3fb46461adfe4c3a49b16a82d58183ff9d8ce46f9", null ]
+    ] ],
     [ "snicholls::signal::iir_band", "group__core.html#gaace42a6d9f100c7ad0763ae721f87e43", [
       [ "snicholls::signal::iir_band::lowpass", "group__core.html#ggaace42a6d9f100c7ad0763ae721f87e43af4264a824899ff8f0fc5962ff60b9cef", null ],
       [ "snicholls::signal::iir_band::highpass", "group__core.html#ggaace42a6d9f100c7ad0763ae721f87e43aaf9a252c01dadf6eb482a6ce44a9c43b", null ],
@@ -4603,6 +5426,9 @@ var group__core =
       [ "snicholls::containers::index_pool_error::layout_mismatch", "group__core.html#gga6d9fcd0f98a61588c594db54709367faa2b65a2a34243483bf5c6380eed6a41cd", null ],
       [ "snicholls::containers::index_pool_error::corrupt", "group__core.html#gga6d9fcd0f98a61588c594db54709367faabc2f39d437ff13dff05f5cfda14327cc", null ]
     ] ],
+    [ "snicholls::inplace_string_errc", "group__core.html#ga5da4ade106232b27cee67f164b53dbd5", [
+      [ "snicholls::inplace_string_errc::too_long", "group__core.html#gga5da4ade106232b27cee67f164b53dbd5a7900eea4c53fb2d1db1dc2ffa23b3daf", null ]
+    ] ],
     [ "snicholls::kdf_error", "group__core.html#ga5110b25e21e03b544ccffbc194fadb3f", [
       [ "snicholls::kdf_error::output_too_long", "group__core.html#gga5110b25e21e03b544ccffbc194fadb3fa33152d78144608933ddf0342720a4e61", null ],
       [ "snicholls::kdf_error::empty_output", "group__core.html#gga5110b25e21e03b544ccffbc194fadb3fa1f722b68953e7d3e5b6473693d91d5c3", null ],
@@ -4610,6 +5436,11 @@ var group__core =
       [ "snicholls::kdf_error::invalid_cost", "group__core.html#gga5110b25e21e03b544ccffbc194fadb3fa915037d4dbc6dc98e5cad5ae86023c49", null ],
       [ "snicholls::kdf_error::invalid_block_parameters", "group__core.html#gga5110b25e21e03b544ccffbc194fadb3fa258f7cb9a533fcf47db41be3f98d1f07", null ],
       [ "snicholls::kdf_error::insufficient_work_memory", "group__core.html#gga5110b25e21e03b544ccffbc194fadb3fa6044a5b1985ed525ff805e63d620a22d", null ]
+    ] ],
+    [ "snicholls::key_state", "group__core.html#ga1bd9cafcc1c899d658e91e900e9df863", [
+      [ "snicholls::key_state::active", "group__core.html#gga1bd9cafcc1c899d658e91e900e9df863ac76a5e84e4bdee527e274ea30c680d79", null ],
+      [ "snicholls::key_state::retired", "group__core.html#gga1bd9cafcc1c899d658e91e900e9df863aa5597e8979d5ae6e4c58a4bc14cefd05", null ],
+      [ "snicholls::key_state::destroyed", "group__core.html#gga1bd9cafcc1c899d658e91e900e9df863aff9a344674366cee6d23a1e3bda6c176", null ]
     ] ],
     [ "snicholls::linalg::krylov_status", "group__core.html#ga1e088b8ad1cec39db5d1b87ae3c97680", [
       [ "snicholls::linalg::krylov_status::converged", "group__core.html#gga1e088b8ad1cec39db5d1b87ae3c97680a7de33615d7fbc1cb7bc608d12f1993d2", null ],
@@ -4682,9 +5513,52 @@ var group__core =
       [ "snicholls::ml::minifloat_kind::finite_nan", "group__core.html#gga496958a9ba19eac987ca03b8f7968a5aac18e15d805ffcd01f1572d7ad47e68d5", null ],
       [ "snicholls::ml::minifloat_kind::finite", "group__core.html#gga496958a9ba19eac987ca03b8f7968a5aaf08d9f9dd085b62425e34097fc724a5f", null ]
     ] ],
+    [ "snicholls::calendar::month_of_year", "group__core.html#ga214996c78e99561fc1ab571ffd41050b", [
+      [ "snicholls::calendar::month_of_year::january", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba467b6140fe3bb958f2332983914de787", null ],
+      [ "snicholls::calendar::month_of_year::february", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba8eb8e307a6d649bc7fb51443a06a216f", null ],
+      [ "snicholls::calendar::month_of_year::march", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba4061838f4395ef541fb1b3f07e42bc21", null ],
+      [ "snicholls::calendar::month_of_year::april", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba37d153a06c79e99e4de5889dbe2e7c57", null ],
+      [ "snicholls::calendar::month_of_year::may", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba9a4b6f884971dcb4a5172876b335baab", null ],
+      [ "snicholls::calendar::month_of_year::june", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba11501255f17710952e79563ddc090a4d", null ],
+      [ "snicholls::calendar::month_of_year::july", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba3785a4f12840727f9fc71676c104ac0d", null ],
+      [ "snicholls::calendar::month_of_year::august", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba61a590f1b9b5548efbae70fd7bcf45b3", null ],
+      [ "snicholls::calendar::month_of_year::september", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba110cea74cf52e41ead691dccdf75f27b", null ],
+      [ "snicholls::calendar::month_of_year::october", "group__core.html#gga214996c78e99561fc1ab571ffd41050bae60a95f3f443e37f5a47210d9b340a05", null ],
+      [ "snicholls::calendar::month_of_year::november", "group__core.html#gga214996c78e99561fc1ab571ffd41050ba4d04cedd6d05b1f16a4404ff5a1fa4af", null ],
+      [ "snicholls::calendar::month_of_year::december", "group__core.html#gga214996c78e99561fc1ab571ffd41050baf962bed5616612c8c7053f6e97e72b12", null ]
+    ] ],
+    [ "snicholls::movement", "group__core.html#ga206ebcdf06aa09bcf7e7e3ef13c2dc48", [
+      [ "snicholls::movement::collection", "group__core.html#gga206ebcdf06aa09bcf7e7e3ef13c2dc48adb6d9b451b818ccc9a449383f2f0c450", null ],
+      [ "snicholls::movement::payout", "group__core.html#gga206ebcdf06aa09bcf7e7e3ef13c2dc48ae8225e82fbd904637b3940fceca39cfa", null ],
+      [ "snicholls::movement::refund", "group__core.html#gga206ebcdf06aa09bcf7e7e3ef13c2dc48adf6f85687a0d5820baa1a069a04eff2d", null ]
+    ] ],
+    [ "snicholls::next_step_kind", "group__core.html#ga81bcf2032ffb886430a3d3c6ac460e22", [
+      [ "snicholls::next_step_kind::none", "group__core.html#gga81bcf2032ffb886430a3d3c6ac460e22a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "snicholls::next_step_kind::redirect", "group__core.html#gga81bcf2032ffb886430a3d3c6ac460e22af17ca2c829680ada2fec9fc87bc5f606", null ],
+      [ "snicholls::next_step_kind::client_confirm", "group__core.html#gga81bcf2032ffb886430a3d3c6ac460e22a4dc888d30bc25a5daf99022749204b60", null ],
+      [ "snicholls::next_step_kind::bank_transfer", "group__core.html#gga81bcf2032ffb886430a3d3c6ac460e22a7d87aa57c4de77fc4e060ba9d88e2288", null ]
+    ] ],
     [ "snicholls::combinatorics::objective", "group__core.html#ga28b472ba9c0c7281b6cb898f42b52b0f", [
       [ "snicholls::combinatorics::objective::minimise", "group__core.html#gga28b472ba9c0c7281b6cb898f42b52b0faac5c0d5e2c75cf3d04a47fee8ac07402", null ],
       [ "snicholls::combinatorics::objective::maximise", "group__core.html#gga28b472ba9c0c7281b6cb898f42b52b0fad8688e71334a5f32371d3a340fa1ffdf", null ]
+    ] ],
+    [ "snicholls::onramp_fact_kind", "group__core.html#ga5e40b59cdcadeea11f23f6eed2b29115", [
+      [ "snicholls::onramp_fact_kind::trade_fill", "group__core.html#gga5e40b59cdcadeea11f23f6eed2b29115a49e1eb4f429b6513f2c2bcb37e0dbf22", null ],
+      [ "snicholls::onramp_fact_kind::withdrawal", "group__core.html#gga5e40b59cdcadeea11f23f6eed2b29115a40e5644d1bfd64fce40252cf7ba31694", null ],
+      [ "snicholls::onramp_fact_kind::withdrawal_reversed", "group__core.html#gga5e40b59cdcadeea11f23f6eed2b29115ab3ec114022d417530d1f347a3116a94b", null ],
+      [ "snicholls::onramp_fact_kind::internal_transfer", "group__core.html#gga5e40b59cdcadeea11f23f6eed2b29115aed2fdb591fae194b1985c899287bee13", null ]
+    ] ],
+    [ "snicholls::onramp_statement_source", "group__core.html#ga315226356b911c3adfb29a2f8378463e", [
+      [ "snicholls::onramp_statement_source::fills", "group__core.html#gga315226356b911c3adfb29a2f8378463eab3b8c36b183ca5767c7df7a16e194d92", null ],
+      [ "snicholls::onramp_statement_source::withdrawals", "group__core.html#gga315226356b911c3adfb29a2f8378463eae8b79ee63bd5060c582d7b93a43ec3dd", null ]
+    ] ],
+    [ "snicholls::order_status", "group__core.html#gabedb3d1a4c8697539579f11c79d82974", [
+      [ "snicholls::order_status::open", "group__core.html#ggabedb3d1a4c8697539579f11c79d82974a7cef8a734855777c2a9d0caf42666e69", null ],
+      [ "snicholls::order_status::partially_filled", "group__core.html#ggabedb3d1a4c8697539579f11c79d82974a62d82d7d763b37fb9d6a1c1f498ea562", null ],
+      [ "snicholls::order_status::filled", "group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc", null ],
+      [ "snicholls::order_status::cancelled", "group__core.html#ggabedb3d1a4c8697539579f11c79d82974a38881e0a24039dc2621e1d6f86cb71f7", null ],
+      [ "snicholls::order_status::rejected", "group__core.html#ggabedb3d1a4c8697539579f11c79d82974ac7537d6d48ecf261749c09a9f284bd45", null ],
+      [ "snicholls::order_status::filled_partially_final", "group__core.html#ggabedb3d1a4c8697539579f11c79d82974ad3a45f5fcf8fd1051177b9e0feded8f8", null ]
     ] ],
     [ "snicholls::ml::overflow_policy", "group__core.html#ga60477dd069f3cda9d37a9c3df1bf3508", [
       [ "snicholls::ml::overflow_policy::infinity", "group__core.html#gga60477dd069f3cda9d37a9c3df1bf3508af2fdee93271556e428dd9507b3da7235", null ],
@@ -4697,6 +5571,26 @@ var group__core =
     [ "snicholls::signal::pad_mode", "group__core.html#gaf6e0ccaab90fcbf33d0a3e54e328f481", [
       [ "snicholls::signal::pad_mode::reflect", "group__core.html#ggaf6e0ccaab90fcbf33d0a3e54e328f481ac361ee72f1559105051ffb9bac309c5a", null ],
       [ "snicholls::signal::pad_mode::constant", "group__core.html#ggaf6e0ccaab90fcbf33d0a3e54e328f481a617ac08757d38a5a7ed91c224f0e90a0", null ]
+    ] ],
+    [ "snicholls::payload_kind", "group__core.html#ga316ffc14d2907623d2fa44507c30d13f", [
+      [ "snicholls::payload_kind::message", "group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3", null ],
+      [ "snicholls::payload_kind::digest", "group__core.html#gga316ffc14d2907623d2fa44507c30d13fac10f77963a2b21079156a0e5c5a4bb3c", null ]
+    ] ],
+    [ "snicholls::payment_method", "group__core.html#gaa1c5e6722e5f9abd1edf2eb6e706e1d8", [
+      [ "snicholls::payment_method::card", "group__core.html#ggaa1c5e6722e5f9abd1edf2eb6e706e1d8a5dd2199ad68327cc76d583b057aee7d5", null ],
+      [ "snicholls::payment_method::wallet_pay", "group__core.html#ggaa1c5e6722e5f9abd1edf2eb6e706e1d8a6db6d96ab02b4374c8db6dbf2cb78c42", null ],
+      [ "snicholls::payment_method::bank_debit", "group__core.html#ggaa1c5e6722e5f9abd1edf2eb6e706e1d8aa3360cb79cc71efc0872397db51857eb", null ],
+      [ "snicholls::payment_method::bank_transfer", "group__core.html#ggaa1c5e6722e5f9abd1edf2eb6e706e1d8a7d87aa57c4de77fc4e060ba9d88e2288", null ]
+    ] ],
+    [ "snicholls::payment_status", "group__core.html#gaa65cd2f5138f3d3809c542e22bca5f34", [
+      [ "snicholls::payment_status::pending", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34a7c6c2e5d48ab37a007cbf70d3ea25fa4", null ],
+      [ "snicholls::payment_status::requires_action", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34a130113c6d34315b7ceb0380ab2df32d1", null ],
+      [ "snicholls::payment_status::processing", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34a4374990dedc873c6a9417a355a2ac4cf", null ],
+      [ "snicholls::payment_status::succeeded", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34a9b1751bd331d17d4f91c2c61c1d43560", null ],
+      [ "snicholls::payment_status::failed", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34a26934eb377001f66e37289a5c93fe284", null ],
+      [ "snicholls::payment_status::cancelled", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34a38881e0a24039dc2621e1d6f86cb71f7", null ],
+      [ "snicholls::payment_status::refunded", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34aad32204fca182b862a5f97a5534c03a2", null ],
+      [ "snicholls::payment_status::partially_refunded", "group__core.html#ggaa65cd2f5138f3d3809c542e22bca5f34ae83770d7e9c58e01e2a8d26df48c3fc1", null ]
     ] ],
     [ "snicholls::phone_errc", "group__core.html#ga75b1c852a5f0d917ca5f891fcee8de27", [
       [ "snicholls::phone_errc::empty", "group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9", null ],
@@ -4784,6 +5678,13 @@ var group__core =
     [ "snicholls::metric::set_metric_error", "group__core.html#ga9122a8666f507697ba17248e8d216d76", [
       [ "snicholls::metric::set_metric_error::too_large", "group__core.html#gga9122a8666f507697ba17248e8d216d76a7a45a1d1bfe36a2c1205fbd1b450d80a", null ],
       [ "snicholls::metric::set_metric_error::invalid_parameters", "group__core.html#gga9122a8666f507697ba17248e8d216d76a8bc8c1eda9c0b500e5135e568c83a86e", null ]
+    ] ],
+    [ "snicholls::signature_algorithm", "group__core.html#ga6eb5f7f01814b60efa928c73a8a62b15", [
+      [ "snicholls::signature_algorithm::es256", "group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15a34f9b495caec6651a5bae4f17690cf93", null ],
+      [ "snicholls::signature_algorithm::eddsa", "group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15a833fd22af574f9aa5e73a33bb2fef1cd", null ],
+      [ "snicholls::signature_algorithm::es256k", "group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15a8fc7e988423b5bcfa8d7e50f4c7c66ca", null ],
+      [ "snicholls::signature_algorithm::hs256", "group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15a59b2ee8d99ffea68cecc48a56f303d65", null ],
+      [ "snicholls::signature_algorithm::rs256", "group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15ac6c8af91c7283ecabafb203afa2d1a44", null ]
     ] ],
     [ "snicholls::sparse::sparse_error", "group__core.html#gae9e48606db87d81008d96463dfe73fe1", [
       [ "snicholls::sparse::sparse_error::insufficient_capacity", "group__core.html#ggae9e48606db87d81008d96463dfe73fe1a92a9a105117d2909aa1faa58af16355b", null ],
@@ -4880,9 +5781,20 @@ var group__core =
       [ "snicholls::uuid_variant::microsoft", "group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8ca5f532a3fc4f1ea403f37070f59a7a53a", null ],
       [ "snicholls::uuid_variant::future", "group__core.html#ggafd9c16133382d23495d3d6b1fdeb0c8cada907a1b8f74e6922d93b025eecfb852", null ]
     ] ],
+    [ "snicholls::week_date_errc", "group__core.html#ga887a37faff21e8d235403cae26fe9091", [
+      [ "snicholls::week_date_errc::invalid_week", "group__core.html#gga887a37faff21e8d235403cae26fe9091afd00201aa4ff597d3f09b57873c6a1f8", null ],
+      [ "snicholls::week_date_errc::invalid_weekday", "group__core.html#gga887a37faff21e8d235403cae26fe9091a0ac537a54eaf86dadd2b110fc67d51fc", null ]
+    ] ],
     [ "snicholls::signal::window_symmetry", "group__core.html#ga42b5bc0f8bf380136fe2eb13b7237b8a", [
       [ "snicholls::signal::window_symmetry::periodic", "group__core.html#gga42b5bc0f8bf380136fe2eb13b7237b8aae6ffdec5e14fce371eb7ae99edebbbee", null ],
       [ "snicholls::signal::window_symmetry::symmetric", "group__core.html#gga42b5bc0f8bf380136fe2eb13b7237b8aafeca3c730601be7fd57f1f0b668b4637", null ]
+    ] ],
+    [ "snicholls::withdrawal_status", "group__core.html#gabd064cb0ad57d4373601f3c05445c9b1", [
+      [ "snicholls::withdrawal_status::pending", "group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a7c6c2e5d48ab37a007cbf70d3ea25fa4", null ],
+      [ "snicholls::withdrawal_status::broadcast", "group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1ab605ea609b9dfcf295cfd5a7803dcd37", null ],
+      [ "snicholls::withdrawal_status::confirmed", "group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1aeda721c5f8c61daee37ca15ce3c4d881", null ],
+      [ "snicholls::withdrawal_status::failed", "group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a26934eb377001f66e37289a5c93fe284", null ],
+      [ "snicholls::withdrawal_status::cancelled", "group__core.html#ggabd064cb0ad57d4373601f3c05445c9b1a38881e0a24039dc2621e1d6f86cb71f7", null ]
     ] ],
     [ "snicholls::ml::wordpiece_error", "group__core.html#ga942e705a53af49295fe93a6314dd4e62", [
       [ "snicholls::ml::wordpiece_error::output_too_small", "group__core.html#gga942e705a53af49295fe93a6314dd4e62a43037d815f37811d9c8520506705a220", null ],
@@ -4893,6 +5805,7 @@ var group__core =
     [ "snicholls::metric::accumulate_within", "group__core.html#gac4da62933c6b8545d14faa52e97fe8c4", null ],
     [ "snicholls::add_business_days", "group__core.html#gaaafaa28be41f67f2cda2f304eb7b58f4", null ],
     [ "snicholls::add_months", "group__core.html#gad6360e74d9f1e2edd46ce6da7e8bf7b3", null ],
+    [ "snicholls::finance::adjust", "group__core.html#ga8a30427db04499ec77d4e40abb86d25b", null ],
     [ "snicholls::geometry::align_2d", "group__core.html#gab02e0798fd8802e1956d5a99fa4dda8a", null ],
     [ "snicholls::geometry::align_3d", "group__core.html#ga2db7bccc738981eb5cf593875b05934c", null ],
     [ "snicholls::tracking::alpha_beta_update", "group__core.html#ga3256a54286d7626bfdd5646f19724adc", null ],
@@ -4904,6 +5817,7 @@ var group__core =
     [ "snicholls::linalg::as_column", "group__core.html#ga2ff595850cb4f4ccfc45904d64fbdae6", null ],
     [ "snicholls::finance::as_taylor_model", "group__core.html#ga1cde246bbd635a427f376dd278f909ed", null ],
     [ "snicholls::linalg::as_vector", "group__core.html#ga6943f185f8cc68ed349d153cbee308c4", null ],
+    [ "snicholls::ascii_iequals", "group__core.html#gaaf0ac55b1d0545adf81f5a1e395c041b", null ],
     [ "snicholls::game::attribute_change", "group__core.html#gafc4bb2e658c2a44aeb783033722ac6e3", null ],
     [ "snicholls::game::attribute_change", "group__core.html#gacfc919e6f74ca5d44dcd6ab472a9bf00", null ],
     [ "snicholls::attribute_or", "group__core.html#gad714ad3c9e1655b65fc777eeb06d533c", null ],
@@ -4915,6 +5829,7 @@ var group__core =
     [ "snicholls::backoff_delay", "group__core.html#ga7e2785ae288572d14b9b94bff8e5a02f", null ],
     [ "snicholls::backoff_delay", "group__core.html#gab7abca8b803bf65f3a1472bb4ddc107e", null ],
     [ "snicholls::optim::backtracking_armijo", "group__core.html#ga17076996efebc228ce21f1dc202c8b9b", null ],
+    [ "snicholls::balances", "group__core.html#gaf6582d862887588f1c6b755cab5c7b70", null ],
     [ "snicholls::game::banzhaf", "group__core.html#gaec989b86979afc1da6bbce5cc3274073", null ],
     [ "snicholls::game::banzhaf_from_dividends", "group__core.html#gaebd197bed6c894b78275aa4e277843d9", null ],
     [ "snicholls::game::binomial", "group__core.html#gad3729ecf6b293cde9a3030801a481ab4", null ],
@@ -4931,6 +5846,7 @@ var group__core =
     [ "snicholls::business_days_between", "group__core.html#ga8d27e22f780a6f16ff339f9de00babf1", null ],
     [ "snicholls::by_sign", "group__core.html#ga7686fde70e2d2f311be0404cca14603d", null ],
     [ "snicholls::c_str_of", "group__core.html#ga15a446064a1d5ae25b8f92d9af221224", null ],
+    [ "snicholls::capability_error_leaks", "group__core.html#ga2fef9e6bb78f6282a00c63e5fcf4a759", null ],
     [ "snicholls::capture_stack_trace", "group__core.html#ga388d56b50737a89a046217e9310cb400", null ],
     [ "snicholls::geometry::cart_to_angles", "group__core.html#ga9954fd5b68dd6fdbd88493e1edd78eb8", null ],
     [ "snicholls::geometry::cart_to_az_el_range", "group__core.html#ga33e1d8671ce3a77c31396711c27d685e", null ],
@@ -4971,6 +5887,7 @@ var group__core =
     [ "snicholls::tracking::cubature_predict", "group__core.html#ga6655d512b9dbd84b3518ee2bb6f220be", null ],
     [ "snicholls::tracking::cubature_predict_measurement", "group__core.html#ga909c302329c4bb240cc2f825f360010f", null ],
     [ "snicholls::current_colour_mode", "group__core.html#ga2d0ba6620dca57c302abbcfa66d84b89", null ],
+    [ "snicholls::cusip_check_digit", "group__core.html#gaf68707c12aa8db19942c54832fb03697", null ],
     [ "snicholls::days_from_civil", "group__core.html#gab3812a029dd9e9668e84d68ac79c8264", null ],
     [ "snicholls::containers::decode_header", "group__core.html#ga9e8d83ec71b486513e2619bcdac2ff49", null ],
     [ "snicholls::geometry::degrees", "group__core.html#ga2589258e70111f780cbcd837e7c95456", null ],
@@ -5011,9 +5928,11 @@ var group__core =
     [ "snicholls::finance::explain", "group__core.html#gaac8f181eb3fffe8fadeeb3a113bf2a87", null ],
     [ "snicholls::finance::explain", "group__core.html#ga11277882bc1ab6ad99bab45c08ed4f82", null ],
     [ "snicholls::geometry::extent", "group__core.html#gaa38982b8f52540438d337e19510b753d", null ],
+    [ "snicholls::fail", "group__core.html#gae7a96680635c6f39f92f52e7f2634565", null ],
     [ "snicholls::fail", "group__core.html#ga8ef0bd6d53078be287d1c3d76a0592a2", null ],
     [ "snicholls::tracking::fast_ci_weights", "group__core.html#gaa0d6ab01d1985efe17ffaeaabd46f77a", null ],
     [ "snicholls::game::find_core_violation", "group__core.html#ga2e76656d33eeef8390984f7300bc2a26", null ],
+    [ "snicholls::find_header", "group__core.html#ga50c4256dc2a97d2f075d9a2df8c1c1a8", null ],
     [ "snicholls::game::find_interaction", "group__core.html#ga893c38cdcfad10ec821400cad51ae166", null ],
     [ "snicholls::game::find_monotonicity_violation", "group__core.html#gab77e5f578727ba6437e1e2de24d4ed17", null ],
     [ "snicholls::game::find_submodularity_violation", "group__core.html#gaca701dcff6ba1109a6c19f4cc16652fb", null ],
@@ -5061,8 +5980,10 @@ var group__core =
     [ "snicholls::geometry::giou", "group__core.html#gaf73f109e3504e074a969e6f8db14758b", null ],
     [ "snicholls::game::grand_coalition", "group__core.html#ga36a6731b4a94100d1615f3a864450fb5", null ],
     [ "snicholls::geometry::grazing_angle", "group__core.html#ga18ac432659e9c59aa4bd4f8d003249e6", null ],
+    [ "snicholls::gtin_check_digit", "group__core.html#ga72d994a2bd3bc75aec7a7bc8aef3d276", null ],
     [ "snicholls::game::harsanyi_dividends", "group__core.html#gaab05e13c59ffcdff9ed23774b50478c3", null ],
     [ "snicholls::game::harsanyi_dividends", "group__core.html#gab385b61316b98da3628c2d1029d5c05d", null ],
+    [ "snicholls::has_line_break", "group__core.html#gad0d7c5b7807a37557c077f912938512e", null ],
     [ "snicholls::hash_combine", "group__core.html#gace89d770a926ae46bba7e0481738a6fb", null ],
     [ "snicholls::hash_value", "group__core.html#gabcccfdb81915461937699bbebfaeaf35", null ],
     [ "snicholls::hash_value", "group__core.html#ga2b3a361d268f95f0ea152b7357e3690e", null ],
@@ -5078,8 +5999,10 @@ var group__core =
     [ "snicholls::tracking::hmm_predict", "group__core.html#gabd08dc98cb379c97f58124ae0bb3439e", null ],
     [ "snicholls::tracking::hmm_predict_measurement", "group__core.html#ga617cfdee27af20da835f77b0829a6741", null ],
     [ "snicholls::tracking::hmm_update", "group__core.html#ga8caa17739656b46413789e941f6c096d", null ],
+    [ "snicholls::http_handler_adapter", "group__core.html#gaf406ebae20947900c18b53e39d4e0f29", null ],
     [ "snicholls::math::huber", "group__core.html#gaa7d81518bb2160792d3f6c440cafcfc3", null ],
     [ "snicholls::geometry::hull", "group__core.html#gab3af579609ddbcc1fa7a96c97b23c66f", null ],
+    [ "snicholls::iban_check_digits", "group__core.html#ga6c83a9db2059ae72d6475bf939724eff", null ],
     [ "snicholls::optim::in_box", "group__core.html#gab12367b62e4d5a76cdd918f15fa2f641", null ],
     [ "snicholls::optim::in_capped_simplex", "group__core.html#ga7cc91ca481a0f25fed72714a1d07f630", null ],
     [ "snicholls::optim::in_cone", "group__core.html#ga0d608d926af2f7915edec3cb4613ea61", null ],
@@ -5114,20 +6037,30 @@ var group__core =
     [ "snicholls::invoke_with", "group__core.html#ga4d7db73c9cddf303c1b5fb95d37368d7", null ],
     [ "snicholls::geometry::iou", "group__core.html#gaaf567361742fd0657eb37fa03a9c47a5", null ],
     [ "snicholls::game::is_additive", "group__core.html#ga85592955631aab66552db875ec791aef", null ],
+    [ "snicholls::is_asymmetric", "group__core.html#ga4bcc59d134141b0fc06d4e6d47720c5a", null ],
     [ "snicholls::is_business_day", "group__core.html#ga85ce93e4106ca53bf53a8b052684b785", null ],
+    [ "snicholls::is_canonical_e164", "group__core.html#ga287b9df33ba4578616fed4e8e577e513", null ],
     [ "snicholls::is_e164_country_code", "group__core.html#ga7fcab930fd083520d59dd4e05187ef4d", null ],
+    [ "snicholls::is_email_address", "group__core.html#ga8f6a052f54cef987401a98ce176366ed", null ],
+    [ "snicholls::is_evm_address", "group__core.html#ga2ff7ad5d306914c6b61a221999239e0c", null ],
     [ "snicholls::game::is_monotone", "group__core.html#ga9ce27e082ec6cd1a2c7516a5fcdc23c6", null ],
     [ "snicholls::game::is_partition_of", "group__core.html#ga9010d1530f6b24d1992d43994ad30875", null ],
     [ "snicholls::sparse::is_permutation", "group__core.html#gaa2bfaec1be270df515436cfdefaed320", null ],
     [ "snicholls::is_reserved_error_field", "group__core.html#gae81174d3664c6e77d648b84acf5e7876", null ],
+    [ "snicholls::is_retryable", "group__core.html#gaaf74b8dd0ba2fb54d98091afefd24b75", null ],
     [ "snicholls::is_secret_key", "group__core.html#gabb577c7b50c434ff8dc6a06dfd4484f6", null ],
     [ "snicholls::game::is_submodular", "group__core.html#gab4391774d145d5da10c1e1a7f6765fd8", null ],
     [ "snicholls::game::is_superadditive", "group__core.html#gad809bf0d6e3d5271e612b04fa8de9b48", null ],
     [ "snicholls::game::is_supermodular", "group__core.html#gadeff15bcd1adf58af186880029274567", null ],
+    [ "snicholls::is_terminal", "group__core.html#ga3907fc1197ce235fd9ec188288453e6b", null ],
     [ "snicholls::sparse::is_valid", "group__core.html#ga4dd7b635947e2dcdd7ef62d8500f5262", null ],
+    [ "snicholls::isin_check_digit", "group__core.html#ga67825ed13bc0899e701e81f47150147d", null ],
+    [ "snicholls::iso_weeks_in_year", "group__core.html#gae326b20fc0050a445cbc024ad4069e67", null ],
     [ "snicholls::stats::jackknife", "group__core.html#ga7ea6adec1c5ff9a2dc320166be800139", null ],
+    [ "snicholls::jose_name", "group__core.html#ga1764e54d5d254bd5ff3397678fa9e3f8", null ],
     [ "snicholls::tracking::jpda_marginals", "group__core.html#ga83c8493759d981c259208b50712b494a", null ],
     [ "snicholls::keccak_f1600", "group__core.html#ga45cf6f4321304909754013d683496a2f", null ],
+    [ "snicholls::key_store_adapter", "group__core.html#gae20bbba04a444f43baed676a13711ca0", null ],
     [ "snicholls::key_value_store_adapter", "group__core.html#ga416cbcbdfd2e09c7161dfbd1dc5f42c3", null ],
     [ "snicholls::math::kl_div", "group__core.html#gad6f7f57ff9d7138df2643b8c6401f45a", null ],
     [ "snicholls::tracking::kl_divergence", "group__core.html#gaaa4ac84a5e14df4272baafb55873dc56", null ],
@@ -5169,6 +6102,7 @@ var group__core =
     [ "snicholls::linalg::least_squares", "group__core.html#ga856338f26ed54ec4e18e966930f55d7e", null ],
     [ "snicholls::game::leave_one_out", "group__core.html#gaad44969baa71dd452935c87cb811cd78", null ],
     [ "snicholls::stats::ledoit_wolf", "group__core.html#ga2d0ddbcfa95cd97a02100d7818c45148", null ],
+    [ "snicholls::lei_check_digits", "group__core.html#gaa652df44ea5ed791aa9237a15cd0d908", null ],
     [ "snicholls::length_of", "group__core.html#ga57d8b51bfef692cb9cef24c86d80c7b1", null ],
     [ "snicholls::combinatorics::linear_assignment", "group__core.html#ga7a842ff21188a2f23f74dd2dd59eb146", null ],
     [ "snicholls::stochastic::ljung_box", "group__core.html#ga1a8796ffd5bd8dd716d8121912324f1c", null ],
@@ -5185,6 +6119,7 @@ var group__core =
     [ "snicholls::linalg::lu_log_det", "group__core.html#ga12b1543e501a04cc918730cc5df8f2fd", null ],
     [ "snicholls::linalg::lu_solve", "group__core.html#ga7a7014ddb7bec26a66a2bd39bd47f28e", null ],
     [ "snicholls::linalg::lu_solve_batched", "group__core.html#ga6648116b39752d632b7c3e729bfa9cdb", null ],
+    [ "snicholls::luhn_check_digit", "group__core.html#ga5cd64d4f448892922cc9b319152cc3fb", null ],
     [ "snicholls::tracking::mahalanobis", "group__core.html#ga9354d741cea05c06f65ace266b8f1f98", null ],
     [ "snicholls::meta::make_array", "group__core.html#ga0989f826c7760d012df9c6cec79004a4", null ],
     [ "snicholls::make_constexpr_map", "group__core.html#ga00579d41dc20c2414e00edf8785ed8d6", null ],
@@ -5193,6 +6128,8 @@ var group__core =
     [ "snicholls::linalg::make_dense_operator", "group__core.html#gab6b5785ebb0cfdad16ca71cd5f7c9438", null ],
     [ "snicholls::make_error_report", "group__core.html#gaa85b628aaaba9214e44844c6e7c67d20", null ],
     [ "snicholls::linalg::make_function_operator", "group__core.html#gad1f793ea6e57db283c7ccb6024230303", null ],
+    [ "snicholls::make_id", "group__core.html#gad7708a161da02e1d2a8ae2578be0c9b9", null ],
+    [ "snicholls::make_iso_week_date", "group__core.html#gacb5c685966139f851e6e901c65691ce5", null ],
     [ "snicholls::metric::make_mahalanobis", "group__core.html#gad19dd362c6413b06691719f86cf5c115", null ],
     [ "snicholls::stats::make_pivot", "group__core.html#gafe10d0dc62abe084db35c73dcea36b44", null ],
     [ "snicholls::tracking::make_sigma_points", "group__core.html#gaed019fa17cc164e835b1bf26f84776e8", null ],
@@ -5207,9 +6144,12 @@ var group__core =
     [ "snicholls::stochastic::martingale_transform", "group__core.html#ga3f17b5c34a7f37377251685636e5f00f", null ],
     [ "snicholls::mask_url_credentials", "group__core.html#gad77ce23dfe8ea2198c2377454c0de766", null ],
     [ "snicholls::tracking::merge_pair", "group__core.html#gabec99234cbf72c6b25286507c4ca5272", null ],
+    [ "snicholls::message_sender_adapter", "group__core.html#ga692d303373087b9e86c031d87dba3e7b", null ],
     [ "snicholls::linalg::minres", "group__core.html#gacb9df14b4012cda8d6dd5bcaca7ade05", null ],
     [ "snicholls::linalg::minres_workspace", "group__core.html#ga3a07e7cf30e9c853999c4cec91699bb5", null ],
     [ "snicholls::stats::moments_of", "group__core.html#gaaf495d3b8f8cd5ff3615cba6b61f86b0", null ],
+    [ "snicholls::month_abbreviation", "group__core.html#ga86dc10a6b83524d7f78896b90791dc03", null ],
+    [ "snicholls::month_name", "group__core.html#gab30c6e2e1b907c7359a956ff12ef452b", null ],
     [ "snicholls::optim::moreau_envelope_box", "group__core.html#ga20e907babfabd8dadf8f526c540d53e0", null ],
     [ "snicholls::optim::moreau_envelope_huber", "group__core.html#gae6cee736b5b6b7072adf55a068022af8", null ],
     [ "snicholls::optim::moreau_envelope_l1", "group__core.html#gae4181116a7dfd50ca8d6e31aa175a2a3", null ],
@@ -5243,6 +6183,7 @@ var group__core =
     [ "snicholls::ok", "group__core.html#ga453227af48b32afbc6c42c021156551f", null ],
     [ "snicholls::ok", "group__core.html#gab1366a52fc6758364b5de782e34cab51", null ],
     [ "snicholls::game::one_at_a_time", "group__core.html#gab098ca038d69970a00c0768c71459fb5", null ],
+    [ "snicholls::onramp_provider_adapter", "group__core.html#ga5cca5f18c21b4247e9edf762790b7583", null ],
     [ "snicholls::literals::operator\"\"_e164", "group__core.html#ga2c3f624236452fe28b775467c20f6675", null ],
     [ "snicholls::literals::operator\"\"_utc", "group__core.html#ga20895a4de958d3244a1de0628b1b82e0", null ],
     [ "snicholls::literals::operator\"\"_uuid", "group__core.html#gaec73774253a4d1d18969e8384f363635", null ],
@@ -5267,6 +6208,7 @@ var group__core =
     [ "snicholls::game::owen", "group__core.html#gaeda81433945c5f240f0cbead72aac0d5", null ],
     [ "snicholls::game::owen", "group__core.html#ga7c3a713f5d7318444fe5ebbfdd28bb2c", null ],
     [ "snicholls::parse_date", "group__core.html#gabc807155f8747b4a496d834478550a5b", null ],
+    [ "snicholls::parse_http_method", "group__core.html#gac87aa3dd4d5326b004685ba4009898b4", null ],
     [ "snicholls::parse_number", "group__core.html#ga252e477d9583fba6cd1160437643e6b4", null ],
     [ "snicholls::parse_phone_number", "group__core.html#ga415a8f2b3872e1cc152d061e432be3db", null ],
     [ "snicholls::parse_unix", "group__core.html#ga778dc191ace7552e3507ede432fcffd5", null ],
@@ -5277,6 +6219,7 @@ var group__core =
     [ "snicholls::partition_cyclic", "group__core.html#ga2371498db5fbf0102a324a5383fb572c", null ],
     [ "snicholls::partition_overhang_count", "group__core.html#ga10df166ec3f74951b53b56fff5d39b88", null ],
     [ "snicholls::partition_padded", "group__core.html#gafe3b2b558cc1f17aa87c61e15ce53349", null ],
+    [ "snicholls::payment_provider_adapter", "group__core.html#ga6d10bdfa6f4e77e1a3a5230f401b2038", null ],
     [ "snicholls::pbkdf2_hmac", "group__core.html#ga0fcfefda60de9cb722751f0dcfdf33b7", null ],
     [ "snicholls::pbkdf2_hmac", "group__core.html#ga6d72dd6bb3115693c6d2a44bfc4bbdcc", null ],
     [ "snicholls::tracking::pda_update", "group__core.html#gaa374f0ae85f2706d01bb143eddae1915", null ],
@@ -5337,6 +6280,7 @@ var group__core =
     [ "snicholls::optim::project_simplex", "group__core.html#ga7927c01afa672674a68e626d56b963b7", null ],
     [ "snicholls::optim::project_simplex", "group__core.html#gaeb4ab2aa70e633c1ff0a3f25eed99813", null ],
     [ "snicholls::optim::project_zero", "group__core.html#ga8063914853e9c7e9036c425474e0372f", null ],
+    [ "snicholls::provider_error", "group__core.html#ga67b9cfb81a885edfa8c1ddeced0fc032", null ],
     [ "snicholls::optim::prox_box", "group__core.html#ga3587997fc5bcef8533b5b2321707a8ec", null ],
     [ "snicholls::optim::prox_conjugate", "group__core.html#ga2056b1355e4d714bc0f6459f6e9b89b6", null ],
     [ "snicholls::optim::prox_elastic_net", "group__core.html#ga35f763d13a7db1fce2ab79627313c063", null ],
@@ -5370,6 +6314,7 @@ var group__core =
     [ "snicholls::math::rel_entr", "group__core.html#ga43745d4f5ac5cd06826b3fe11f759186", null ],
     [ "snicholls::geometry::residual", "group__core.html#gac7dcae0ad0eb804b3bb93ebcf40b2e07", null ],
     [ "snicholls::stats::residual_resample", "group__core.html#gaf7746a6a800ce206fddfe6cd5a3422ff", null ],
+    [ "snicholls::respond", "group__core.html#ga49b4a7109ca628b161327d2af894ff59", null ],
     [ "snicholls::result_throws::result_from_exceptions", "group__core.html#gac821548c92aeccd2cb668764c78e96ec", null ],
     [ "snicholls::result_throws::result_from_exceptions", "group__core.html#gade9e41c408234a24b418688801614e1e", null ],
     [ "snicholls::sparse::reverse_cuthill_mckee", "group__core.html#gacf34fc1da36270fa0ed7f5f34bec3290", null ],
@@ -5388,10 +6333,17 @@ var group__core =
     [ "snicholls::optim::ruiz_equilibrate_rectangular", "group__core.html#gadb66dfd4461deb0451f98d3906da70c1", null ],
     [ "snicholls::optim::ruiz_rectangular_workspace", "group__core.html#ga0a192f9052b8526b8ab7074a0502253c", null ],
     [ "snicholls::optim::ruiz_workspace", "group__core.html#ga1478a634bdfd6f3ae0a172d0bfc804cc", null ],
+    [ "snicholls::run_http_handler_conformance", "group__core.html#ga83945489aeedc4f80cd015006068e7db", null ],
+    [ "snicholls::run_key_store_conformance", "group__core.html#gafcc6679d57932a31283e9883b0b9fd7e", null ],
     [ "snicholls::run_kv_backup_conformance", "group__core.html#gaaf5d1de6754d4085b911d79927c85181", null ],
     [ "snicholls::run_kv_conformance", "group__core.html#ga63c0b8680e070331c2a5df65c00b6a52", null ],
     [ "snicholls::run_kv_health_conformance", "group__core.html#gada33cf45dcda15ac1b57339ef20974ae", null ],
+    [ "snicholls::run_message_sender_conformance", "group__core.html#ga92c1acfcec2a9ea47496e54cc501d24d", null ],
+    [ "snicholls::run_onramp_provider_conformance", "group__core.html#ga24b711ccb418c2c449b24ca8fa8df20c", null ],
+    [ "snicholls::run_payment_provider_conformance", "group__core.html#ga50fb0e493435c3af252d63d7955b4f61", null ],
+    [ "snicholls::run_signer_conformance", "group__core.html#ga178f74e9622649037ce3c2ee4f169680", null ],
     [ "snicholls::tracking::runnalls_cost", "group__core.html#ga4ab3a5ba7befbb1ccdb193d4d8eab014", null ],
+    [ "snicholls::same_value", "group__core.html#gad1ce3ffa86d8b4eaf304d5d5561f4fa1", null ],
     [ "snicholls::stats::sample_covariance", "group__core.html#gab8ce89b755917f6b12a7ef03b979e9a2", null ],
     [ "snicholls::linalg::sandwich", "group__core.html#gac81d1d2bf46c355c1599d35b70c3cf79", null ],
     [ "snicholls::saturating_add", "group__core.html#ga61307fd47d3b7d910eadb9f6c33dda0a", null ],
@@ -5405,6 +6357,7 @@ var group__core =
     [ "snicholls::scrypt_work_words", "group__core.html#ga3f1aee75d9575b88a665d368b8b17ca2", null ],
     [ "snicholls::secure_wipe", "group__core.html#gaf184a8a7aee0e8f640007bb595ebdd4e", null ],
     [ "snicholls::secure_wipe", "group__core.html#gadd5c8718100bf23b5c2c6801f56bf5d9", null ],
+    [ "snicholls::sedol_check_digit", "group__core.html#ga815d831fcde8b77bbe73f1c0c35f20f6", null ],
     [ "snicholls::geometry::sensor_rotation", "group__core.html#ga9e290ad6d8f701087f03efb4653e794c", null ],
     [ "snicholls::game::sequential", "group__core.html#gae1389c1a9f213f9afb6e4b54e502d9fa", null ],
     [ "snicholls::linalg::set_block", "group__core.html#gaece9d518368bb28057c928d0add14e9c", null ],
@@ -5420,6 +6373,7 @@ var group__core =
     [ "snicholls::game::shapley_sampled_lifts", "group__core.html#gaf6124ef0b361d0cbe71cbe6bf3a179f5", null ],
     [ "snicholls::game::shapley_sampled_lifts", "group__core.html#ga5ab93a8c170ec9459625fbf8b3c7138e", null ],
     [ "snicholls::stats::shuffle", "group__core.html#gaebe3960a0286178c3f247a80dab15130", null ],
+    [ "snicholls::signer_adapter", "group__core.html#ga64325d61e23aef878789cf4e04410aab", null ],
     [ "snicholls::game::singleton", "group__core.html#ga33f0c370de756e03527f1f53c4a5a148", null ],
     [ "snicholls::optim::smat", "group__core.html#ga13b328f590e7a1b2ed78fd48e6a6d57b", null ],
     [ "snicholls::stochastic::snell_envelope", "group__core.html#gaa10f976fb5ab62084f9cabf936be719b", null ],
@@ -5469,15 +6423,20 @@ var group__core =
     [ "snicholls::to_chars", "group__core.html#gaddf00cf2543f994c39ea153900158b7e", null ],
     [ "snicholls::to_chars", "group__core.html#gacdac82231d3fb4ffea32c03f0051deb9", null ],
     [ "snicholls::geometry::to_cxcywh", "group__core.html#ga61556f3c923f7b7a47e166dca6fad371", null ],
+    [ "snicholls::to_day_of_week", "group__core.html#gaf3239e4bca308b40107439dc6c0f81dc", null ],
     [ "snicholls::sparse::to_dense", "group__core.html#ga33faad2e1669aaf39a9b9b16c47f1674", null ],
     [ "snicholls::game::to_dividends", "group__core.html#gada14fed64c28ce2054612039ae42b9bc", null ],
     [ "snicholls::tracking::to_information", "group__core.html#ga4c218069dc056eb28e6b335a172e5b69", null ],
+    [ "snicholls::to_iso_week_date", "group__core.html#ga7f6d0a8508ad9c8f2a384f512cf05e2b", null ],
+    [ "snicholls::to_month_of_year", "group__core.html#gacada8b75700e03c5cd08ee0f47d4168e", null ],
     [ "snicholls::linalg::to_status", "group__core.html#ga6b0f6b1926f86138e053d45c09e56c67", null ],
     [ "snicholls::to_string", "group__core.html#gaae89c32a0d103625412ed901d931ff25", null ],
     [ "snicholls::to_string", "group__core.html#gac7d6811ca6d1a3e41080b84400864228", null ],
     [ "snicholls::to_string", "group__core.html#gacc27c22653e826ed72a03ec964afbf49", null ],
     [ "snicholls::to_string", "group__core.html#ga08bab2b1f1ae6750ee252872bbd2cae5", null ],
+    [ "snicholls::to_string", "group__core.html#gaf4c267cf24e307377d94e4d3541930fb", null ],
     [ "snicholls::to_string_view", "group__core.html#ga6a230c9cfc193a7942e8bffbb076531d", null ],
+    [ "snicholls::to_sys_days", "group__core.html#ga67acbb45ecb9a9eb4a73601e2bb447da", null ],
     [ "snicholls::to_text", "group__core.html#ga5f499c0e40384a8149183332eb4ca539", null ],
     [ "snicholls::to_tuple", "group__core.html#gab6e85e5ecfec81aca2e8a6fd6285e870", null ],
     [ "snicholls::geometry::to_xywh", "group__core.html#gabcb8d639aba8d1f022ffd2fa33b9163c", null ],
@@ -5512,7 +6471,17 @@ var group__core =
     [ "snicholls::tracking::unscented_predict_measurement", "group__core.html#ga56da8b26648929bcd2cc8180a9cd55ca", null ],
     [ "snicholls::tracking::update", "group__core.html#ga70dba0f98f03149e31ad82e61a69d2d7", null ],
     [ "snicholls::tracking::update", "group__core.html#gafa9a0c5c319ce2b1e3c3c82a5634df40", null ],
+    [ "snicholls::validate", "group__core.html#gaeed51e6ecd2f88dc9087277f04a82e34", null ],
+    [ "snicholls::validate", "group__core.html#ga3d8d04b1f3ea569f322dc25ead160102", null ],
+    [ "snicholls::validate", "group__core.html#ga3433e2c2a1d8413eade9678a9bf84464", null ],
+    [ "snicholls::validate_cusip", "group__core.html#gad5c0b43e907fab0132cabed18b172c35", null ],
+    [ "snicholls::validate_gtin", "group__core.html#gad2e2e14c3037031802254cfd368be492", null ],
     [ "snicholls::containers::validate_header", "group__core.html#gad8c1465a2418eac84f0618c4ab3d5a3c", null ],
+    [ "snicholls::validate_iban", "group__core.html#ga1a06745746e51ed2a196644cd20e2156", null ],
+    [ "snicholls::validate_isin", "group__core.html#ga8df0d3151f1931f1185ef0bc715d6e1b", null ],
+    [ "snicholls::validate_lei", "group__core.html#ga262472c39b8b377515c38a11b3b03fb5", null ],
+    [ "snicholls::validate_luhn", "group__core.html#ga8a6d8f9556f62dc27a0b5c3e74fec395", null ],
+    [ "snicholls::validate_sedol", "group__core.html#ga81d19e2c100b1e8bf41bb9e2fc30c3e5", null ],
     [ "snicholls::stochastic::variance_ratio_test", "group__core.html#gabff0b8868eeca87833bd416169ad49fd", null ],
     [ "snicholls::core::version", "group__core.html#ga3f96282a1da786108d1b05820da0cc71", null ],
     [ "snicholls::core::version_major", "group__core.html#ga2a13fce9ccbd4d1ba5768f8b327060b2", null ],
@@ -5522,7 +6491,9 @@ var group__core =
     [ "snicholls::linalg::view", "group__core.html#ga326501e860f35e7ea7812576d9788b62", null ],
     [ "snicholls::linalg::view", "group__core.html#gaa103227eeacac114b1412c5aa8723471", null ],
     [ "snicholls::geometry::volume", "group__core.html#gacbb2177ad645771fa5caceaa82637989", null ],
+    [ "snicholls::weekday_abbreviation", "group__core.html#ga6daa5847a36b459fb681396a917df04f", null ],
     [ "snicholls::weekday_from_days", "group__core.html#ga87a35e841558f1438ffbfcaf28eac522", null ],
+    [ "snicholls::weekday_name", "group__core.html#ga1ca9a8cebdd9a46cf817f9d0b33da2c9", null ],
     [ "snicholls::metric::weighted", "group__core.html#gac17e0437fcabde744a091db1bee41c68", null ],
     [ "snicholls::geometry::weighted_mean", "group__core.html#ga82bbc65f05edfe5cd1b24a8a083b81cb", null ],
     [ "snicholls::tracking::whitened_squared_norm", "group__core.html#ga75eaf8c9c9ca276fb057e04bebb8113c", null ],
@@ -5549,6 +6520,8 @@ var group__core =
     [ "snicholls::ansi_reset", "group__core.html#ga0d4912d07bdaead8635f61f29da6ff3e", null ],
     [ "snicholls::bell_v", "group__core.html#ga9706d5808dd051957ad876a9df6422b0", null ],
     [ "snicholls::callable_arity_v", "group__core.html#ga9598384612036e40f37ea09bdbce51c2", null ],
+    [ "snicholls::capability_provider_response", "group__core.html#ga3ec970e2bfed39861b4cd2f66c491fd3", null ],
+    [ "snicholls::capability_redaction_marker", "group__core.html#gaaf84d2ff8ec8177c2ef35aed257c18ec", null ],
     [ "snicholls::colour_reset", "group__core.html#ga0258313d4a620f334275357bbb68066f", null ],
     [ "snicholls::combination_count_v", "group__core.html#gabf1dc0477fd7afd609381bdf41d7fa11", null ],
     [ "snicholls::decreasing_v", "group__core.html#ga6870a74bad04d381c0241bb94768e7aa", null ],
@@ -5572,7 +6545,11 @@ var group__core =
     [ "snicholls::kv_digest_v1_kit_vector", "group__core.html#ga5eeed23b103858067fd9fe0d9ef1d5b2", null ],
     [ "snicholls::kv_digest_v1_tag", "group__core.html#gab727a396c95beb73e180507d60079d7f", null ],
     [ "snicholls::masked_field_text", "group__core.html#gab7d49e9c55e334375b515cb783784c61", null ],
+    [ "snicholls::finance::max_business_day_search", "group__core.html#gaa3e239b78aa0331b9ce4868e0e967daf", null ],
     [ "snicholls::max_chars_v", "group__core.html#ga8a1b6ca79ba5f539d511d45f53a8954c", null ],
+    [ "snicholls::max_email_length", "group__core.html#ga382a27f6f781ff6a53db5886a3ac0325", null ],
+    [ "snicholls::max_sms_length", "group__core.html#gafc38b7a3377b491c6c04943f111eaa3d", null ],
+    [ "snicholls::max_subject_length", "group__core.html#ga5c9da02e88471bc695756ced8ff34b1b", null ],
     [ "snicholls::game::max_table_players", "group__core.html#ga8837217b25a936fad1128e459e55d8a8", null ],
     [ "snicholls::member_count_v", "group__core.html#ga3be52bff97bb886f69cbc21e23283839", null ],
     [ "snicholls::game::no_player", "group__core.html#gaef46c88a9736ec7c58acbd2356653a90", null ],

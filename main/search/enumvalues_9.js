@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['joseph_0',['joseph',['../group__core.html#ggade615ec86abc23c5e632793de408cbbeacb07901c53218323c4ceacdea4b23c98',1,'snicholls::tracking']]]
+  ['january_0',['january',['../group__core.html#gga214996c78e99561fc1ab571ffd41050ba467b6140fe3bb958f2332983914de787',1,'snicholls::calendar']]],
+  ['joseph_1',['joseph',['../group__core.html#ggade615ec86abc23c5e632793de408cbbeacb07901c53218323c4ceacdea4b23c98',1,'snicholls::tracking']]],
+  ['july_2',['july',['../group__core.html#gga214996c78e99561fc1ab571ffd41050ba3785a4f12840727f9fc71676c104ac0d',1,'snicholls::calendar']]],
+  ['june_3',['june',['../group__core.html#gga214996c78e99561fc1ab571ffd41050ba11501255f17710952e79563ddc090a4d',1,'snicholls::calendar']]]
 ];

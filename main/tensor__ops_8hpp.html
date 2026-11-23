@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -146,7 +146,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <tr class="memitem:ab5bd09793b4f2eb3555147aa710cd564 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5bd09793b4f2eb3555147aa710cd564">snicholls::ml::cumsum_backward</a> (const DY &amp;dy, DX &amp;&amp;dx)</td></tr>
 <tr class="memdesc:ab5bd09793b4f2eb3555147aa710cd564"><td class="mdescLeft">&#160;</td><td class="mdescRight">The backward pass of <span class="tt"><a class="el" href="#aee5c2551b47c8d8f8f7f7b4e56231795" title="The running sum, y_0 = x_0, y_i = y_{i-1} + x_i (ggml&#39;s ggml_cumsum); y may be x.">cumsum</a></span>: the reverse running sum, <span class="tt">dx_i = Σ_{j &gt;= i} dy_j</span>, from the end; <span class="tt">dx</span> may be <span class="tt">dy</span>.  <br /></td></tr>
 <tr class="memitem:aaba910d8c1650344814bc6d5028c15d6" id="r_aaba910d8c1650344814bc6d5028c15d6"><td class="memTemplParams" colspan="2">template&lt;row X&gt; </td></tr>
-<tr class="memitem:aaba910d8c1650344814bc6d5028c15d6 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaba910d8c1650344814bc6d5028c15d6">snicholls::ml::argsort</a> (const X &amp;x, std::span&lt; std::size_t &gt; indices, <a class="el" href="#adc92105e791e317a2c5e6ecc1c1e2755">sort_order</a> order=<a class="el" href="#adc92105e791e317a2c5e6ecc1c1e2755a9c9ab624360885fcf93b7643c93b6748">sort_order::ascending</a>)</td></tr>
+<tr class="memitem:aaba910d8c1650344814bc6d5028c15d6 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaba910d8c1650344814bc6d5028c15d6">snicholls::ml::argsort</a> (const X &amp;x, std::span&lt; std::size_t &gt; indices, <a class="el" href="#adc92105e791e317a2c5e6ecc1c1e2755">sort_order</a> <a class="el" href="structsnicholls_1_1order.html">order</a>=<a class="el" href="#adc92105e791e317a2c5e6ecc1c1e2755a9c9ab624360885fcf93b7643c93b6748">sort_order::ascending</a>)</td></tr>
 <tr class="memdesc:aaba910d8c1650344814bc6d5028c15d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The indices that sort a row, equal values in index order.  <br /></td></tr>
 <tr class="memitem:a4f07a046d8c09413dced8e925dec95d9" id="r_a4f07a046d8c09413dced8e925dec95d9"><td class="memTemplParams" colspan="2">template&lt;row X, mutable_row Y&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;X&gt;, <a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;Y&gt;&gt;</td></tr>

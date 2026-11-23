@@ -5,7 +5,7 @@ var searchData=
   ['yarn_5fbeta_5ffast_2',['yarn_beta_fast',['../structsnicholls_1_1ml_1_1transformer__config.html#a39aaaebe18bae9744916e16d1d664eb1',1,'snicholls::ml::transformer_config']]],
   ['yarn_5fbeta_5fslow_3',['yarn_beta_slow',['../structsnicholls_1_1ml_1_1transformer__config.html#a409b65cb01d4b24acb5e0a025a80ddf3',1,'snicholls::ml::transformer_config']]],
   ['yarn_5fmscale_4',['yarn_mscale',['../structsnicholls_1_1ml_1_1transformer__config.html#a4f5144efd1e184508b71488ee3761de9',1,'snicholls::ml::transformer_config']]],
-  ['year_5',['year',['../structsnicholls_1_1civil__date.html#a27c9e0d2b87540484b13e7e9bb9961b3',1,'snicholls::civil_date']]],
+  ['year_5',['year',['../structsnicholls_1_1civil__date.html#a27c9e0d2b87540484b13e7e9bb9961b3',1,'snicholls::civil_date::year'],['../structsnicholls_1_1iso__week__date.html#aeda5b484ffe4492e5fd9a41bfab734bb',1,'snicholls::iso_week_date::year']]],
   ['yellow_6',['yellow',['../colour_8hpp.html#a65b9d7740f9a22023e2889b5ada6bd8a',1,'snicholls::colours']]],
   ['yp_7',['yp',['../structsnicholls_1_1ml_1_1moe__activations.html#a64da0a5429ecc4e7ae5d99002b36e59c',1,'snicholls::ml::moe_activations']]]
 ];

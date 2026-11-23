@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -160,13 +160,13 @@ requires (C.experts &gt; 0)</td></tr>
 <tr class="memdesc:a59af031c2a0ada1d6e989021e8e04508"><td class="mdescLeft">&#160;</td><td class="mdescRight">The exclusive prefix sum of the counts: expert <span class="tt">e</span>'s rows are <span class="tt">[offsets[e], offsets[e + 1])</span> of the permuted rows, and <span class="tt">offsets[E]</span> is <span class="tt">rows · K</span>.  <br /></td></tr>
 <tr class="memitem:a502306c82e31d609eaf4b32798f05327" id="r_a502306c82e31d609eaf4b32798f05327"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B&gt; <br />
 requires (C.experts &gt; 0)</td></tr>
-<tr class="memitem:a502306c82e31d609eaf4b32798f05327 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a502306c82e31d609eaf4b32798f05327">snicholls::ml::moe_permutation</a> (const B &amp;, std::span&lt; const std::uint32_t &gt; experts, std::span&lt; const std::uint32_t &gt; offsets, std::span&lt; std::uint32_t &gt; order, std::span&lt; std::uint32_t &gt; inverse)</td></tr>
+<tr class="memitem:a502306c82e31d609eaf4b32798f05327 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a502306c82e31d609eaf4b32798f05327">snicholls::ml::moe_permutation</a> (const B &amp;, std::span&lt; const std::uint32_t &gt; experts, std::span&lt; const std::uint32_t &gt; offsets, std::span&lt; std::uint32_t &gt; <a class="el" href="structsnicholls_1_1order.html">order</a>, std::span&lt; std::uint32_t &gt; inverse)</td></tr>
 <tr class="memdesc:a502306c82e31d609eaf4b32798f05327"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stable permutation of the <span class="tt">(<a class="el" href="conceptsnicholls_1_1ml_1_1row.html" title="A row of numbers: a contiguous, sized range whose elements are a math::math_number.">row</a>, slot)</span> pairs into expert order, and its inverse.  <br /></td></tr>
 <tr id="func-members-2" class="groupHeader"><td colspan="2"><div class="groupHeader">3. Gather and combine</div></td></tr>
 <tr class="memitem:a5681993a5678409715006a6bd5dc718a" id="r_a5681993a5678409715006a6bd5dc718a"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; <br />
 requires (C.experts &gt; 0)</td></tr>
-<tr class="memitem:a5681993a5678409715006a6bd5dc718a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5681993a5678409715006a6bd5dc718a">snicholls::ml::moe_gather_rows</a> (const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::span&lt; const std::uint32_t &gt; order, std::span&lt; T &gt; xp)</td></tr>
-<tr class="memdesc:a5681993a5678409715006a6bd5dc718a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The token rows in expert order: <span class="tt">xp[p] = xs[order[p] / K]</span>.  <br /></td></tr>
+<tr class="memitem:a5681993a5678409715006a6bd5dc718a template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5681993a5678409715006a6bd5dc718a">snicholls::ml::moe_gather_rows</a> (const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; xs, std::span&lt; const std::uint32_t &gt; <a class="el" href="structsnicholls_1_1order.html">order</a>, std::span&lt; T &gt; xp)</td></tr>
+<tr class="memdesc:a5681993a5678409715006a6bd5dc718a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The token rows in expert order: <span class="tt">xp[p] = xs[<a class="el" href="structsnicholls_1_1order.html" title="An order, as the venue reports it.">order</a>[p] / K]</span>.  <br /></td></tr>
 <tr class="memitem:a01b3bcfe89d1782d445e707273e54dc3" id="r_a01b3bcfe89d1782d445e707273e54dc3"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, typename B, math::math_number T&gt; <br />
 requires (C.experts &gt; 0)</td></tr>
 <tr class="memitem:a01b3bcfe89d1782d445e707273e54dc3 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01b3bcfe89d1782d445e707273e54dc3">snicholls::ml::moe_gather_rows_backward</a> (const B &amp;, std::type_identity_t&lt; std::span&lt; const T &gt; &gt; dxp, std::span&lt; const std::uint32_t &gt; inverse, std::span&lt; T &gt; dxs)</td></tr>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -167,9 +167,9 @@ Variables</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> rubbish = <a class="code hl_function" href="group__core.html#ga880bef97fa33dbdf6b8ce423ea9da5e2">snicholls::enum_cast&lt;oms::status&gt;</a>(<span class="stringliteral">&quot;filed&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Every enumerator, in order of value.</span></div>
-<div class="line">    std::string <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a>;</div>
+<div class="line">    std::string all;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> oms::status s : <a class="code hl_variable" href="group__core.html#ga8f03ca14809538b3fb24f921f963956a">snicholls::enum_values_v&lt;oms::status&gt;</a>)</div>
-<div class="line">        <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a> += std::string(<a class="code hl_function" href="group__core.html#ga32a56d8545bb19c61020152ad7cc9699">snicholls::enum_name</a>(s)) + <span class="charliteral">&#39; &#39;</span>;</div>
+<div class="line">        all += std::string(<a class="code hl_function" href="group__core.html#ga32a56d8545bb19c61020152ad7cc9699">snicholls::enum_name</a>(s)) + <span class="charliteral">&#39; &#39;</span>;</div>
 </div><!-- fragment --><p>The values from <span class="tt">enum_range&lt;E&gt;</span> are tried, -128 to 127 by default, cut to the underlying type. Specialise <span class="tt">enum_range</span> for an enumeration with values outside it: <span class="tt">template &lt;&gt; struct <a class="el" href="structsnicholls_1_1enum__range.html" title="The values tried when reflecting E: specialise it for enumerators outside -128 .. 127.">snicholls::enum_range</a>&lt;venue&gt; { static constexpr long long min = 0, max = 1000; };</span>.</p>
 <p><b>Relationships.</b> <span class="tt"><a class="el" href="type__name_8hpp.html" title="snicholls::type_name&lt;T&gt;(): a type&#39;s name as a compile-time string, for messages and printed type list...">meta/type_name.hpp</a></span>, the same technique for types; <span class="tt"><a class="el" href="acout_8hpp.html" title="snicholls::acout, acerr, print, println: thread-safe printing, one write per message,...">acout.hpp</a></span> prints a reflectable enumeration by its name; <span class="tt"><a class="el" href="constexpr__map_8hpp.html" title="snicholls::constexpr_map: a fixed table of key-value pairs, looked up at compile time or run time.">constexpr_map.hpp</a></span> for names chosen by hand. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> Everything is <span class="tt">constexpr</span> and <span class="tt">noexcept</span>; the tables are computed once per enumeration at compile time and live in static storage. Lookup by value is O(1), by name O(n).</p>

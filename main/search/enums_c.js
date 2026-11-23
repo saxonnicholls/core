@@ -9,5 +9,7 @@ var searchData=
   ['moe_5fscoring_6',['moe_scoring',['../transformer__config_8hpp.html#a6ecd02f0374ce72ec8169a1bb8fce7cb',1,'snicholls::ml']]],
   ['momentum_5fschedule_7',['momentum_schedule',['../jepa_8hpp.html#a58ab8c541dc0f8334bd67b40678d2a3b',1,'snicholls::ml']]],
   ['money_5fdigits_8',['money_digits',['../namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133c',1,'snicholls']]],
-  ['money_5ferrc_9',['money_errc',['../namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2',1,'snicholls']]]
+  ['money_5ferrc_9',['money_errc',['../namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2',1,'snicholls']]],
+  ['month_5fof_5fyear_10',['month_of_year',['../group__core.html#ga214996c78e99561fc1ab571ffd41050b',1,'snicholls::calendar::month_of_year'],['../namespacesnicholls.html#a214996c78e99561fc1ab571ffd41050b',1,'snicholls::month_of_year']]],
+  ['movement_11',['movement',['../group__core.html#ga206ebcdf06aa09bcf7e7e3ef13c2dc48',1,'snicholls']]]
 ];

@@ -24,8 +24,9 @@ var searchData=
   ['green_21',['green',['../colour_8hpp.html#ab2d82094fb152ac1d14594aa1257a11b',1,'snicholls::colours']]],
   ['grey_22',['grey',['../colour_8hpp.html#ae1ab49dc56b1aecb11706638d08138e3',1,'snicholls::colours']]],
   ['grid_23',['grid',['../structsnicholls_1_1ml_1_1ijepa__mask__config.html#a75abc52762c9a05a81a5d944d35f7cb0',1,'snicholls::ml::ijepa_mask_config::grid'],['../structsnicholls_1_1ml_1_1vjepa__mask__config.html#a925f5345469a941cafa4cb7a6dd06fed',1,'snicholls::ml::vjepa_mask_config::grid']]],
-  ['group_5fscales_24',['group_scales',['../structsnicholls_1_1ml_1_1nf4__weights.html#a5bcf6613ab8d61e22616d5e3477c8c34',1,'snicholls::ml::nf4_weights']]],
-  ['group_5fsize_25',['group_size',['../structsnicholls_1_1ml_1_1rollout__view.html#a7e2f37a4a171e8406a7fe4d6603c6c1c',1,'snicholls::ml::rollout_view']]],
-  ['group_5ftop_5fk_26',['group_top_k',['../structsnicholls_1_1ml_1_1transformer__config.html#a547d3249486220a3c63f77053d1f4d21',1,'snicholls::ml::transformer_config']]],
-  ['groups_27',['groups',['../structsnicholls_1_1ml_1_1conv__shape.html#aa04da9f3dddcaa62282d12dcbc375b26',1,'snicholls::ml::conv_shape::groups'],['../structsnicholls_1_1ml_1_1conv__transpose__shape.html#ad3507f4bcb64651885f176dd643d731f',1,'snicholls::ml::conv_transpose_shape::groups']]]
+  ['gross_24',['gross',['../structsnicholls_1_1settlement.html#ae616164992b4de5a9f9965b88b1291db',1,'snicholls::settlement']]],
+  ['group_5fscales_25',['group_scales',['../structsnicholls_1_1ml_1_1nf4__weights.html#a5bcf6613ab8d61e22616d5e3477c8c34',1,'snicholls::ml::nf4_weights']]],
+  ['group_5fsize_26',['group_size',['../structsnicholls_1_1ml_1_1rollout__view.html#a7e2f37a4a171e8406a7fe4d6603c6c1c',1,'snicholls::ml::rollout_view']]],
+  ['group_5ftop_5fk_27',['group_top_k',['../structsnicholls_1_1ml_1_1transformer__config.html#a547d3249486220a3c63f77053d1f4d21',1,'snicholls::ml::transformer_config']]],
+  ['groups_28',['groups',['../structsnicholls_1_1ml_1_1conv__shape.html#aa04da9f3dddcaa62282d12dcbc375b26',1,'snicholls::ml::conv_shape::groups'],['../structsnicholls_1_1ml_1_1conv__transpose__shape.html#ad3507f4bcb64651885f176dd643d731f',1,'snicholls::ml::conv_transpose_shape::groups']]]
 ];

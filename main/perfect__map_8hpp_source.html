@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -144,27 +144,27 @@ $(function(){initNavTree('perfect__map_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsnicholls_1_1containers_1_1perfect__map.html#a8c9c9ec103029dceb9d74bb7a0bad605">   90</a></span>        <span class="keyword">consteval</span> <span class="keyword">explicit</span> <a class="code hl_function" href="classsnicholls_1_1containers_1_1perfect__map.html#a8c9c9ec103029dceb9d74bb7a0bad605">perfect_map</a>(<span class="keyword">const</span> std::array&lt;std::pair&lt;Key, Value&gt;, N&gt;&amp; items)</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        {</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            std::array&lt;std::size_t, N&gt; order{}, home{};   <span class="comment">// items grouped by bucket, the fullest first; each key hashed once</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            std::array&lt;std::size_t, N&gt; <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>{}, home{};   <span class="comment">// items grouped by bucket, the fullest first; each key hashed once</span></div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            std::array&lt;std::size_t, buckets&gt; fill{};</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; N; ++i) {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                order[i] = i;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[i] = i;</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                home[i] = bucket(items[i].first);</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                ++fill[home[i]];</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            }</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            std::sort(order.begin(), order.end(), [&amp;](std::size_t a, std::size_t b) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            std::sort(<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.begin(), <a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>.end(), [&amp;](std::size_t a, std::size_t b) {</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                return fill[home[a]] != fill[home[b]] ? fill[home[a]] &gt; fill[home[b]] : home[a] &lt; home[b];</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            });</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            std::array&lt;std::size_t, N&gt; at{};   <span class="comment">// the trial slots of the bucket being placed</span></div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keywordflow">for</span> (std::size_t start = 0; start &lt; N;) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                <span class="keyword">const</span> std::size_t b = home[order[start]], end = start + fill[b];</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                <span class="keyword">const</span> std::size_t b = home[<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[start]], end = start + fill[b];</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                <span class="keywordflow">for</span> (std::size_t i = start; i &lt; end; ++i)   <span class="comment">// equal keys always share a bucket</span></div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                    <span class="keywordflow">for</span> (std::size_t j = start; j &lt; i; ++j)</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                        <span class="keywordflow">if</span> (items[order[i]].first == items[order[j]].first)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                        <span class="keywordflow">if</span> (items[<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[i]].first == items[<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[j]].first)</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                            <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;snicholls::containers::perfect_map: a key appears twice&quot;</span>);</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                <span class="keywordflow">for</span> (std::uint32_t d = 1;; ++d) {   <span class="comment">// the first displacement that puts the whole bucket in free slots</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                    <span class="keywordtype">bool</span> fits = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                    <span class="keywordflow">for</span> (std::size_t i = start; i &lt; end &amp;&amp; fits; ++i) {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                        at[i] = slot(items[order[i]].first, d);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                        at[i] = slot(items[<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[i]].first, d);</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                        fits = !used_[at[i]];</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                        <span class="keywordflow">for</span> (std::size_t j = start; j &lt; i &amp;&amp; fits; ++j)</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                            fits = at[j] != at[i];</div>
@@ -174,7 +174,7 @@ $(function(){initNavTree('perfect__map_8hpp_source.html','',''); });
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                    displacement_[b] = d;</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                    <span class="keywordflow">for</span> (std::size_t i = start; i &lt; end; ++i) {</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                        used_[at[i]] = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                        table_[at[i]] = items[order[i]];</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                        table_[at[i]] = items[<a class="code hl_struct" href="structsnicholls_1_1order.html">order</a>[i]];</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                    }</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                }</div>
@@ -229,6 +229,7 @@ $(function(){initNavTree('perfect__map_8hpp_source.html','',''); });
 <div class="ttc" id="aclasssnicholls_1_1containers_1_1perfect__map_html_ae36ede2181e7598a04974ad41e0d2d42"><div class="ttname"><a href="classsnicholls_1_1containers_1_1perfect__map.html#ae36ede2181e7598a04974ad41e0d2d42">snicholls::containers::perfect_map::find</a></div><div class="ttdeci">constexpr const Value * find(const K &amp;key) const noexcept</div><div class="ttdoc">The value of key, or null: two hashes and one comparison.</div><div class="ttdef"><b>Definition</b> <a href="#l00135">perfect_map.hpp:135</a></div></div>
 <div class="ttc" id="agroup__core_html_ga7487e6b4783fa99b2d77330121239cab"><div class="ttname"><a href="group__core.html#ga7487e6b4783fa99b2d77330121239cab">snicholls::wyhash</a></div><div class="ttdeci">constexpr std::uint64_t wyhash(std::string_view s, std::uint64_t seed=0) noexcept</div><div class="ttdoc">wyhash of the characters of s.</div><div class="ttdef"><b>Definition</b> <a href="wyhash_8hpp_source.html#l00251">wyhash.hpp:251</a></div></div>
 <div class="ttc" id="agroup__core_html_gac9ccdf4eaddcfeea9ce3e01da6d128f6"><div class="ttname"><a href="group__core.html#gac9ccdf4eaddcfeea9ce3e01da6d128f6">snicholls::splitmix64</a></div><div class="ttdeci">constexpr std::uint64_t splitmix64(std::uint64_t x) noexcept</div><div class="ttdoc">The splitmix64 integer mixer: a 64-bit permutation with good avalanche, for seeds and ids.</div><div class="ttdef"><b>Definition</b> <a href="wyhash_8hpp_source.html#l00103">wyhash.hpp:103</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1order_html"><div class="ttname"><a href="structsnicholls_1_1order.html">snicholls::order</a></div><div class="ttdoc">An order, as the venue reports it.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2onramp__provider_8hpp_source.html#l00148">onramp_provider.hpp:148</a></div></div>
 <div class="ttc" id="awyhash_8hpp_html"><div class="ttname"><a href="wyhash_8hpp.html">wyhash.hpp</a></div><div class="ttdoc">wyhash final version 4.3: a fast 64-bit hash, usable at compile time and the same on every machine.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -551,9 +551,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>        <span class="keywordtype">void</span> print_to_chain(std::ostream&amp; os, <span class="keyword">const</span> <span class="keyword">auto</span>&amp; value, <span class="keywordtype">bool</span> nested);</div>
 <div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span> </div>
 <div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>        <span class="keywordtype">void</span> print_elements(std::ostream&amp; os, <span class="keyword">const</span> Range&amp; range, <span class="keywordtype">char</span> open, <span class="keywordtype">char</span> close)</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>        <span class="keywordtype">void</span> print_elements(std::ostream&amp; os, <span class="keyword">const</span> Range&amp; range, <span class="keywordtype">char</span> <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a7cef8a734855777c2a9d0caf42666e69">open</a>, <span class="keywordtype">char</span> close)</div>
 <div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>        {</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>            os &lt;&lt; open;</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>            os &lt;&lt; <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a7cef8a734855777c2a9d0caf42666e69">open</a>;</div>
 <div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            <span class="keyword">const</span> <span class="keywordtype">char</span>* separator = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; element : range) {</div>
 <div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                os &lt;&lt; separator;</div>
@@ -566,9 +566,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>        <span class="comment">// The acout form, written into a nested message and copied out: no lock is taken here,</span></div>
 <div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>        <span class="comment">// because os is either the enclosing message&#39;s buffer or a stream the caller owns.</span></div>
 <div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>        <span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> print_acout_form = [](std::ostream&amp; os, <span class="keyword">const</span> printable_to_acout <span class="keyword">auto</span>&amp; v, bool) -&gt; <span class="keywordtype">void</span> {</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            acout message(os);</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            v.print(message);</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            message.copy_into(os);</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            acout <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(os);</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            v.print(<a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>);</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>.copy_into(os);</div>
 <div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>        };</div>
 <div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>        <span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> print_stream_form = [](std::ostream&amp; os, <span class="keyword">const</span> printable_to_stream <span class="keyword">auto</span>&amp; v, bool) -&gt; <span class="keywordtype">void</span> {</div>
 <div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>            v.print(os);</div>
@@ -697,7 +697,7 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>            <span class="keyword">requires</span>(Set::template has&lt;label&gt;)</div>
 <div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>        <span class="keywordtype">void</span> write_displayed(std::ostream&amp; os, <span class="keyword">const</span> Set&amp; s, <span class="keyword">const</span> T&amp;, <span class="keywordtype">bool</span>, display::rank&lt;1&gt;)</div>
 <div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>        {</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>            os &lt;&lt; s.template get&lt;label&gt;().text;</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>            os &lt;&lt; s.template <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;label&gt;</a>().text;</div>
 <div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>        }</div>
 <div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Set, <span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>        <span class="keywordtype">void</span> write_displayed(std::ostream&amp; os, <span class="keyword">const</span> Set&amp;, <span class="keyword">const</span> T&amp; v, <span class="keywordtype">bool</span> nested, display::rank&lt;0&gt;)</div>
@@ -725,9 +725,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>            <a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>.print(os);</div>
 <div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>        }</div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(os);</div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#abbce151f7a9ea26bf5f923b624cefdef">coloured</a>(*c, <a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>);</div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a6c4b5cbeff2a7aa8ad9a944aa2a8873c">copy_into</a>(os);</div>
+<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(os);</div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.coloured(*c, <a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>);</div>
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.copy_into(os);</div>
 <div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>    }</div>
 </div>
 <div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span> </div>
@@ -799,9 +799,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00953" data-start="{" data-end="}">
 <div class="line"><a id="l00953" name="l00953"></a><span class="lineno"><a class="line" href="group__core.html#ga4d5765970652fa087401b85451916240">  953</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga4d5765970652fa087401b85451916240">print</a>(std::ostream&amp; target, <span class="keyword">const</span> T&amp; value)</div>
 <div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>    {</div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>        message &lt;&lt; value;</div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; value;</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>    }</div>
 </div>
 <div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span></div>
@@ -809,9 +809,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00967" data-start="{" data-end="}">
 <div class="line"><a id="l00967" name="l00967"></a><span class="lineno"><a class="line" href="group__core.html#ga5c036ca9618b45cc67d90b09e5d918f4">  967</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga4d5765970652fa087401b85451916240">print</a>(std::FILE* target, <span class="keyword">const</span> T&amp; value)</div>
 <div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>    {</div>
-<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>        message &lt;&lt; value;</div>
-<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; value;</div>
+<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>    }</div>
 </div>
 <div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span></div>
@@ -827,9 +827,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00992" data-start="{" data-end="}">
 <div class="line"><a id="l00992" name="l00992"></a><span class="lineno"><a class="line" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">  992</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">println</a>(std::ostream&amp; target, <span class="keyword">const</span> T&amp; value)</div>
 <div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>    {</div>
-<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>        message &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>    }</div>
 </div>
 <div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span></div>
@@ -837,9 +837,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01006" data-start="{" data-end="}">
 <div class="line"><a id="l01006" name="l01006"></a><span class="lineno"><a class="line" href="group__core.html#gadab0b4e7d0b9e67cd0fb8200503fb718"> 1006</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">println</a>(std::FILE* target, <span class="keyword">const</span> T&amp; value)</div>
 <div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>    {</div>
-<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>        message &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; value &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>    }</div>
 </div>
 <div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span></div>
@@ -855,10 +855,10 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01032" data-start="{" data-end="}">
 <div class="line"><a id="l01032" name="l01032"></a><span class="lineno"><a class="line" href="group__core.html#ga616a9da7d36e9557384a40dc5e651026"> 1032</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga4d5765970652fa087401b85451916240">print</a>(<a class="code hl_struct" href="structsnicholls_1_1colour.html">colour</a> c, std::format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args)</div>
 <div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>    {</div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message;</div>
-<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>        message &lt;&lt; c;</div>
-<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#acdb1775fd8a34d8c1183344677c315c3">print</a>(fmt, std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>;</div>
+<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; c;</div>
+<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.print(fmt, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>    }</div>
 </div>
 <div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span></div>
@@ -866,11 +866,11 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01048" data-start="{" data-end="}">
 <div class="line"><a id="l01048" name="l01048"></a><span class="lineno"><a class="line" href="group__core.html#ga10f813ec03767553851ac6c25e653cc5"> 1048</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">println</a>(<a class="code hl_struct" href="structsnicholls_1_1colour.html">colour</a> c, std::format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args)</div>
 <div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>    {</div>
-<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message;</div>
-<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>        message &lt;&lt; c;</div>
-<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#acdb1775fd8a34d8c1183344677c315c3">print</a>(fmt, std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>        message &lt;&lt; <a class="code hl_variable" href="group__core.html#ga0258313d4a620f334275357bbb68066f">colour_reset</a> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>;</div>
+<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; c;</div>
+<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.print(fmt, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a> &lt;&lt; <a class="code hl_variable" href="group__core.html#ga0258313d4a620f334275357bbb68066f">colour_reset</a> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>    }</div>
 </div>
 <div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span></div>
@@ -878,9 +878,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01065" data-start="{" data-end="}">
 <div class="line"><a id="l01065" name="l01065"></a><span class="lineno"><a class="line" href="group__core.html#ga9e9d6cb0cb9a42c0b6352af975cd09a2"> 1065</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga4d5765970652fa087401b85451916240">print</a>(std::ostream&amp; target, std::format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args)</div>
 <div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>    {</div>
-<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#acdb1775fd8a34d8c1183344677c315c3">print</a>(fmt, std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.print(fmt, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>    }</div>
 </div>
 <div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span></div>
@@ -888,9 +888,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01080" data-start="{" data-end="}">
 <div class="line"><a id="l01080" name="l01080"></a><span class="lineno"><a class="line" href="group__core.html#ga3afcc2c293af29243d01e94be777dff6"> 1080</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga4d5765970652fa087401b85451916240">print</a>(std::FILE* target, std::format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args)</div>
 <div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>    {</div>
-<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#acdb1775fd8a34d8c1183344677c315c3">print</a>(fmt, std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.print(fmt, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    }</div>
 </div>
 <div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span></div>
@@ -906,9 +906,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01107" data-start="{" data-end="}">
 <div class="line"><a id="l01107" name="l01107"></a><span class="lineno"><a class="line" href="group__core.html#ga1333ab74d11169e1c3a099897d92a6da"> 1107</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">println</a>(std::ostream&amp; target, std::format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args)</div>
 <div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>    {</div>
-<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a560d403a955a746313cb9aabfad3f223">println</a>(fmt, std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.println(fmt, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>    }</div>
 </div>
 <div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span></div>
@@ -916,9 +916,9 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen01122" data-start="{" data-end="}">
 <div class="line"><a id="l01122" name="l01122"></a><span class="lineno"><a class="line" href="group__core.html#ga475297ebd82fb4d9a8ccdfd020d9b1e7"> 1122</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">println</a>(std::FILE* target, std::format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args)</div>
 <div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>    {</div>
-<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> message(target);</div>
-<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a560d403a955a746313cb9aabfad3f223">println</a>(fmt, std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>        message.<a class="code hl_function" href="classsnicholls_1_1acout.html#a588f6e4f6a21b409261e0fa21c4400bc">emit</a>();</div>
+<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <a class="code hl_class" href="classsnicholls_1_1acout.html">acout</a> <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>(target);</div>
+<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.println(fmt, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>        <a class="code hl_struct" href="structsnicholls_1_1message.html">message</a>.emit();</div>
 <div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>    }</div>
 </div>
 <div class="line"><a id="l01128" name="l01128"></a><span class="lineno"> 1128</span></div>
@@ -973,9 +973,12 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_gaf168b1291e2861199a712672e19db6f0"><div class="ttname"><a href="group__core.html#gaf168b1291e2861199a712672e19db6f0">snicholls::colour_mode</a></div><div class="ttdeci">colour_mode</div><div class="ttdoc">When a message writes the escape codes for the colours it is given.</div><div class="ttdef"><b>Definition</b> <a href="#l00188">acout.hpp:188</a></div></div>
 <div class="ttc" id="agroup__core_html_gaf5f83e19d833505c326617980ef0578d"><div class="ttname"><a href="group__core.html#gaf5f83e19d833505c326617980ef0578d">snicholls::print_to</a></div><div class="ttdeci">void print_to(std::ostream &amp;os, const T &amp;value)</div><div class="ttdoc">Write any value as text to a stream: the engine behind acout&#39;s operator&lt;&lt;.</div><div class="ttdef"><b>Definition</b> <a href="#l00910">acout.hpp:910</a></div></div>
 <div class="ttc" id="agroup__core_html_gaf9e662bb3458495d593214b6b18bfccc"><div class="ttname"><a href="group__core.html#gaf9e662bb3458495d593214b6b18bfccc">snicholls::numeric_of</a></div><div class="ttdeci">constexpr T numeric_of(T x) noexcept</div><div class="ttdoc">The number in a number_like value.</div><div class="ttdef"><b>Definition</b> <a href="display_8hpp_source.html#l00245">display.hpp:245</a></div></div>
+<div class="ttc" id="agroup__core_html_gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3"><div class="ttname"><a href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">snicholls::payload_kind::message</a></div><div class="ttdeci">@ message</div><div class="ttdoc">the bytes to sign; the signer hashes as its algorithm requires (a JWS signing input)</div><div class="ttdef"><b>Definition</b> <a href="concepts_2signer_8hpp_source.html#l00109">signer.hpp:109</a></div></div>
+<div class="ttc" id="agroup__core_html_ggabedb3d1a4c8697539579f11c79d82974a7cef8a734855777c2a9d0caf42666e69"><div class="ttname"><a href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a7cef8a734855777c2a9d0caf42666e69">snicholls::order_status::open</a></div><div class="ttdeci">@ open</div><div class="ttdoc">accepted, not filled</div><div class="ttdef"><b>Definition</b> <a href="concepts_2onramp__provider_8hpp_source.html#l00138">onramp_provider.hpp:138</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaf168b1291e2861199a712672e19db6f0a2bd9c0ed00116be1258e0cc66617d7c8"><div class="ttname"><a href="group__core.html#ggaf168b1291e2861199a712672e19db6f0a2bd9c0ed00116be1258e0cc66617d7c8">snicholls::colour_mode::automatic</a></div><div class="ttdeci">@ automatic</div><div class="ttdoc">To std::cout, std::cerr, std::clog, stdout and stderr, unless the environment says not to; never to a...</div><div class="ttdef"><b>Definition</b> <a href="#l00189">acout.hpp:189</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaf168b1291e2861199a712672e19db6f0ac7561db7a418dd39b2201dfe110ab4a4"><div class="ttname"><a href="group__core.html#ggaf168b1291e2861199a712672e19db6f0ac7561db7a418dd39b2201dfe110ab4a4">snicholls::colour_mode::never</a></div><div class="ttdeci">@ never</div><div class="ttdoc">To no target: colours are ignored.</div><div class="ttdef"><b>Definition</b> <a href="#l00191">acout.hpp:191</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaf168b1291e2861199a712672e19db6f0af9f90eeaf400d228facde6bc48da5cfb"><div class="ttname"><a href="group__core.html#ggaf168b1291e2861199a712672e19db6f0af9f90eeaf400d228facde6bc48da5cfb">snicholls::colour_mode::always</a></div><div class="ttdeci">@ always</div><div class="ttdoc">To every target, a file or a string stream included.</div><div class="ttdef"><b>Definition</b> <a href="#l00190">acout.hpp:190</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">snicholls::http_method::get</a></div><div class="ttdeci">@ get</div><div class="ttdoc">GET.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00068">http_handler.hpp:68</a></div></div>
 <div class="ttc" id="ameta_2concepts_8hpp_html"><div class="ttname"><a href="meta_2concepts_8hpp.html">concepts.hpp</a></div><div class="ttdoc">The small concepts the family keeps re-declaring: streamable, printable, enumeration,...</div></div>
 <div class="ttc" id="anamespacesnicholls_1_1print__operators_html"><div class="ttname"><a href="namespacesnicholls_1_1print__operators.html">snicholls::print_operators</a></div><div class="ttdoc">The stream operators core lends to a plain std::ostream, to bring into scope: using snicholls::print_...</div><div class="ttdef"><b>Definition</b> <a href="#l00923">acout.hpp:923</a></div></div>
 <div class="ttc" id="anamespacesnicholls_1_1print__operators_html_a670a618204e381448bf488b8d3cdeab8"><div class="ttname"><a href="namespacesnicholls_1_1print__operators.html#a670a618204e381448bf488b8d3cdeab8">snicholls::print_operators::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const T &amp;value)</div><div class="ttdoc">Print a printable, container, pair, tuple, optional, variant, result or type_list to a plain stream.</div><div class="ttdef"><b>Definition</b> <a href="#l00935">acout.hpp:935</a></div></div>
@@ -987,6 +990,7 @@ $(function(){initNavTree('acout_8hpp_source.html','',''); });
 <div class="ttc" id="astructsnicholls_1_1acerr_html_a588f31b92f4f179b814d6f8461e27775"><div class="ttname"><a href="structsnicholls_1_1acerr.html#a588f31b92f4f179b814d6f8461e27775">snicholls::acerr::acerr</a></div><div class="ttdeci">acerr() noexcept</div><div class="ttdoc">A message to std::cerr.</div><div class="ttdef"><b>Definition</b> <a href="#l00586">acout.hpp:586</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1colour__reset__t_html"><div class="ttname"><a href="structsnicholls_1_1colour__reset__t.html">snicholls::colour_reset_t</a></div><div class="ttdoc">The type of snicholls::colour_reset.</div><div class="ttdef"><b>Definition</b> <a href="#l00341">acout.hpp:341</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1colour_html"><div class="ttname"><a href="structsnicholls_1_1colour.html">snicholls::colour</a></div><div class="ttdoc">A display colour: RGB for UIs and an optional 16-colour ANSI code for terminals.</div><div class="ttdef"><b>Definition</b> <a href="colour_8hpp_source.html#l00079">colour.hpp:80</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1message_html"><div class="ttname"><a href="structsnicholls_1_1message.html">snicholls::message</a></div><div class="ttdoc">One message to send, borrowed for the call: a sender that keeps any of it (a queue,...</div><div class="ttdef"><b>Definition</b> <a href="concepts_2message__sender_8hpp_source.html#l00087">message_sender.hpp:87</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1sign__colours_html"><div class="ttname"><a href="structsnicholls_1_1sign__colours.html">snicholls::sign_colours</a></div><div class="ttdoc">The colours of a number by its sign: P&amp;L green when positive, red when negative, grey within the dead...</div><div class="ttdef"><b>Definition</b> <a href="display_8hpp_source.html#l00086">display.hpp:86</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1styled__value_html"><div class="ttname"><a href="structsnicholls_1_1styled__value.html">snicholls::styled_value</a></div><div class="ttdoc">A value and a colour to print it in; what snicholls::styled returns.</div><div class="ttdef"><b>Definition</b> <a href="#l00595">acout.hpp:595</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1styled__value_html_a014b903a8061f59dd19d0cb6ab3587b8"><div class="ttname"><a href="structsnicholls_1_1styled__value.html#a014b903a8061f59dd19d0cb6ab3587b8">snicholls::styled_value::tint</a></div><div class="ttdeci">colour tint</div><div class="ttdoc">The colour.</div><div class="ttdef"><b>Definition</b> <a href="#l00596">acout.hpp:596</a></div></div>

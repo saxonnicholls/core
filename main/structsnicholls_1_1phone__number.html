@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -202,7 +202,7 @@ Friends</h2></td></tr>
 <div class="line">          <span class="stringliteral">&quot;to_chars into a buffer&quot;</span>);</div>
 <div class="line">    check(<a class="code hl_function" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8">snicholls::to_chars</a>(buf.data(), buf.data() + 4, rome).ec == std::errc::value_too_large,</div>
 <div class="line">          <span class="stringliteral">&quot;to_chars: buffer too small&quot;</span>);</div>
-<div class="line">    check(<a class="code hl_function" href="namespacesnicholls.html#a436febd483a240a3ef46b988e4a7af27">snicholls::to_string</a>(rome) == <span class="stringliteral">&quot;+390669884444&quot;</span> &amp;&amp; std::string(<a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(rome).c_str()).size() == 13 &amp;&amp;</div>
+<div class="line">    check(<a class="code hl_function" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb">snicholls::to_string</a>(rome) == <span class="stringliteral">&quot;+390669884444&quot;</span> &amp;&amp; std::string(<a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(rome).c_str()).size() == 13 &amp;&amp;</div>
 <div class="line">              <a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(rome).size() == 13 &amp;&amp; std::string_view(<a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(rome)) == <span class="stringliteral">&quot;+390669884444&quot;</span>,</div>
 <div class="line">          <span class="stringliteral">&quot;to_text / to_string agree&quot;</span>);</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  printed: &quot;</span>;</div>

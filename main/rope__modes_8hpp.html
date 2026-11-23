@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -199,9 +199,9 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    <span class="comment">// A vision encoder&#39;s table over a 2 x 3 grid of patches, positions (row, column), sections d/4 each</span></div>
 <div class="line">    std::array&lt;ml::rope_position, 6&gt; grid{};</div>
 <div class="line">    ml::vision_rope_positions(2, 3, grid);</div>
-<div class="line">    <span class="keyword">constexpr</span> std::size_t head = 16;</div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> = 16;</div>
 <div class="line">    <span class="keyword">const</span> ml::rope_mode_table&lt;float, 6, head&gt; <a class="code hl_enumvalue" href="group__core.html#gga08793641836b2c6f6c00d8e50cd21167af42087059b37ae7f4d9f0d3a475801a8">vision</a>(std::span&lt;const ml::rope_position, 6&gt;(grid), 10000.0f, ml::rope_mode::vision,</div>
-<div class="line">                                                     ml::rope_sections{head / 4, head / 4, head / 4, head / 4});</div>
+<div class="line">                                                     ml::rope_sections{<a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> / 4, <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> / 4, <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> / 4, <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a> / 4});</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// LongRoPE (Phi-3): long factors past the trained context, and the amplitude its converter writes</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 8&gt; shorts{1, 1, 1, 1, 1, 1, 1, 1}, longs{1, 1, 2, 4, 8, 16, 32, 64};</div>

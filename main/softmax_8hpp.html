@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -189,9 +189,9 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    std::array&lt;ml::online_softmax&lt;double&gt;, 4&gt; worker{};</div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; big.size(); ++i)</div>
 <div class="line">        worker[i * 4 / big.size()].add(big[i]);</div>
-<div class="line">    ml::online_softmax&lt;double&gt; <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a>;</div>
+<div class="line">    ml::online_softmax&lt;double&gt; all;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; w : worker)</div>
-<div class="line">        <a class="code hl_enumvalue" href="namespacesnicholls.html#aafc1a46abf1c154a79914f5e4860133caa181a603769c1f98ad927e7367c7aa51">all</a>.merge(w);</div>
+<div class="line">        all.merge(w);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Bits per byte: 1,000 tokens with a mean loss of 2.1 nats, encoding 4,200 bytes of text.</span></div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> bpb = ml::bits_per_byte(2.1 * 1000, 4200);</div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -218,8 +218,8 @@ o_i = Σ_j softmax_j(q_i · k_{j,i} · scale) v_{j,i},   u = W^O [o_1; ...; o_{n
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> C = ml::tiny_mla;</div>
 <div class="line">    <span class="keyword">constexpr</span> std::size_t d = C.d_model, h = C.n_heads, dqk = C.head_dim, dr = C.qk_rope_dim, dv = C.v_head_dim;</div>
 <div class="line">    <span class="keyword">constexpr</span> std::size_t dc = C.kv_lora_rank, dq = C.q_lora_rank, kvw = C.qk_nope_dim() + dv, n = 5, sequences = 2, rows = n * sequences;</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> q_down = filled(dq * d, 0.1f), q_up = filled(h * dqk * dq, 0.2f), kv_down = filled((dc + dr) * d, 0.3f),</div>
-<div class="line">               kv_up = filled(h * kvw * dc, 0.4f), o = filled(d * h * dv, 0.5f);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> q_down = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(dq * d, 0.1f), q_up = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(h * dqk * dq, 0.2f), kv_down = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>((dc + dr) * d, 0.3f),</div>
+<div class="line">               kv_up = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(h * kvw * dc, 0.4f), o = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(d * h * dv, 0.5f);</div>
 <div class="line">    <span class="keyword">const</span> ml::latent_attention_weights&lt;ml::dense_weights&lt;float&gt;, <span class="keywordtype">float</span>&gt; w{</div>
 <div class="line">        {q_down, dq, d}, {}, {q_up, h * dqk, dq}, {kv_down, dc + dr, d}, {}, {kv_up, h * kvw, dc}, {o, d, h * dv}, {}};</div>
 <div class="line">    <span class="keyword">static</span> <span class="keyword">const</span> ml::rope_table&lt;float, 16, dr&gt; <a class="code hl_function" href="rope_8hpp.html#a259404fa5d176778ce040fad45125e13">rope</a>{ml::rope_base_v&lt;C, float&gt;};   <span class="comment">// the rotary channels only</span></div>
@@ -228,7 +228,7 @@ o_i = Σ_j softmax_j(q_i · k_{j,i} · scale) v_{j,i},   u = W^O [o_1; ...; o_{n
 <div class="line">    std::vector&lt;float&gt; cq_raw(rows * dq), cq(rows * dq), q(rows * h * dqk), ckv_raw(rows * (dc + dr)), ckv(rows * dc), k_rope(rows * dr),</div>
 <div class="line">        kv(rows * h * kvw), y(rows * h * dv), lse(rows * h);</div>
 <div class="line">    <span class="keyword">const</span> ml::latent_attention_activations&lt;float&gt; act{cq_raw, cq, q, ckv_raw, ckv, k_rope, kv, y, lse, {}};</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> xs = filled(rows * d, 1.0f);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> xs = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(rows * d, 1.0f);</div>
 <div class="line">    std::vector&lt;float&gt; out(rows * d);</div>
 <div class="line">    ml::latent_attention_forward_sequence&lt;C&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, w, xs, rope, act, out, sequences);</div>
 <div class="line"> </div>
@@ -238,7 +238,7 @@ o_i = Σ_j softmax_j(q_i · k_{j,i} · scale) v_{j,i},   u = W^O [o_1; ...; o_{n
 <div class="line">        w_cq(cq.size()), w_cq_raw(cq.size()), dxs(xs.size());</div>
 <div class="line">    <span class="keyword">const</span> ml::latent_attention_gradients&lt;float&gt; grads{g_q_down, {}, g_q_up, g_kv_down, {}, g_kv_up, g_o, {},</div>
 <div class="line">                                                      w_y,      w_q, w_kv,   w_kr,      w_ckv, w_ckv_raw, w_cq, w_cq_raw};</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> dout = filled(rows * d, 2.0f);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> dout = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(rows * d, 2.0f);</div>
 <div class="line">    ml::latent_attention_backward&lt;C&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, w, xs, rope, act, dout, dxs, grads, sequences);</div>
 </div><!-- fragment --><p><b>Decoding: the absorbed form.</b> <span class="tt">latent_attention_forward(w, x, pos, cache, layer, rope_src, out)</span> appends the token's latent and rotary key to a <span class="tt">latent_kv_cache_view</span> and attends without forming any head's keys or values: since <span class="tt">q^C_i · (W^UK_i c_j) = ((W^UK_i)ᵀ q^C_i) · c_j</span> and <span class="tt">Σ_j p_j W^UV_i c_j = W^UV_i Σ_j p_j c_j</span>, each head's query is taken into the latent space (<span class="tt">W^UK</span> absorbed on the query side), every head attends to the same cached rows <span class="tt">[c_j; k^R_j]</span> as one multi-query attention, and <span class="tt">W^UV</span> is applied after the weighted sum, before <span class="tt">W^O</span> (V2 section 2.1.2; DeepSeek-V3's <span class="tt">attn_impl = "absorb"</span>). The two forms are the same algebra summed in another order: equal within rounding (the scores differ by reassociating <span class="tt">d_h · d_c</span> products, about <span class="tt">(d_h + d_c) · ε</span> relative to the sum of their magnitudes; tested at 1e-12 in double and 2e-5 in float on <span class="tt">tiny_mla</span>). Pre-multiplying <span class="tt">W^UK</span> into <span class="tt">W^UQ</span> and <span class="tt">W^UV</span> into <span class="tt">W^O</span> is the same algebra again, with larger matrices (<span class="tt">n_h · d_c · d_c'</span>); it is not built.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Decoding: each token&#39;s latent and rotary key (8 + 2 numbers) cached, each head&#39;s query taken into the latent space</span></div>

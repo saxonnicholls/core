@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -98,15 +98,19 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <div class="textblock"><code>#include &lt;<a class="el" href="acout_8hpp_source.html">snicholls/core/acout.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="backoff_8hpp_source.html">snicholls/core/backoff.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="basic__type__registry_8hpp_source.html">snicholls/core/basic_type_registry.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="capability__error_8hpp_source.html">snicholls/core/capability_error.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="capability__ids_8hpp_source.html">snicholls/core/capability_ids.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="checked_8hpp_source.html">snicholls/core/checked.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="colour_8hpp_source.html">snicholls/core/colour.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="constexpr__for_8hpp_source.html">snicholls/core/constexpr_for.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="constexpr__map_8hpp_source.html">snicholls/core/constexpr_map.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="country_8hpp_source.html">snicholls/core/country.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="decimal_8hpp_source.html">snicholls/core/decimal.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="display_8hpp_source.html">snicholls/core/display.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="endian_8hpp_source.html">snicholls/core/endian.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="fixed__string_8hpp_source.html">snicholls/core/fixed_string.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="function__ref_8hpp_source.html">snicholls/core/function_ref.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="http__header_8hpp_source.html">snicholls/core/http_header.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="invoke__with_8hpp_source.html">snicholls/core/invoke_with.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="iterate_8hpp_source.html">snicholls/core/iterate.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="overloaded_8hpp_source.html">snicholls/core/overloaded.hpp</a>&gt;</code><br />
@@ -127,10 +131,21 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="subsets_8hpp_source.html">snicholls/core/combinatorics/subsets.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2asset_8hpp_source.html">snicholls/core/concepts/asset.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2chain_8hpp_source.html">snicholls/core/concepts/chain.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2country_8hpp_source.html">snicholls/core/concepts/country.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2day__count_8hpp_source.html">snicholls/core/concepts/day_count.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2error__sink_8hpp_source.html">snicholls/core/concepts/error_sink.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2holiday__calendar_8hpp_source.html">snicholls/core/concepts/holiday_calendar.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2http__handler_8hpp_source.html">snicholls/core/concepts/http_handler.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2key__store_8hpp_source.html">snicholls/core/concepts/key_store.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2key__value__store_8hpp_source.html">snicholls/core/concepts/key_value_store.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2kv__backup_8hpp_source.html">snicholls/core/concepts/kv_backup.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2kv__health_8hpp_source.html">snicholls/core/concepts/kv_health.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2message__sender_8hpp_source.html">snicholls/core/concepts/message_sender.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2named_8hpp_source.html">snicholls/core/concepts/named.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2onramp__provider_8hpp_source.html">snicholls/core/concepts/onramp_provider.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2payment__provider_8hpp_source.html">snicholls/core/concepts/payment_provider.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2signer_8hpp_source.html">snicholls/core/concepts/signer.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2token_8hpp_source.html">snicholls/core/concepts/token.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="ann__forest_8hpp_source.html">snicholls/core/containers/ann_forest.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="bloom__filter_8hpp_source.html">snicholls/core/containers/bloom_filter.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="byte__map_8hpp_source.html">snicholls/core/containers/byte_map.hpp</a>&gt;</code><br />
@@ -138,6 +153,7 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="flat__id__map_8hpp_source.html">snicholls/core/containers/flat_id_map.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="hierarchical__bitset_8hpp_source.html">snicholls/core/containers/hierarchical_bitset.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="index__pool_8hpp_source.html">snicholls/core/containers/index_pool.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="inplace__string_8hpp_source.html">snicholls/core/containers/inplace_string.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="inplace__vector_8hpp_source.html">snicholls/core/containers/inplace_vector.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="intrusive__avl__tree_8hpp_source.html">snicholls/core/containers/intrusive_avl_tree.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="kd__tree_8hpp_source.html">snicholls/core/containers/kd_tree.hpp</a>&gt;</code><br />
@@ -147,7 +163,12 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="offset__ptr_8hpp_source.html">snicholls/core/containers/offset_ptr.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="perfect__map_8hpp_source.html">snicholls/core/containers/perfect_map.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="static__map_8hpp_source.html">snicholls/core/containers/static_map.hpp</a>&gt;</code><br />
+<code>#include &lt;snicholls/core/detail/forward_like.hpp&gt;</code><br />
+<code>#include &lt;snicholls/core/detail/pp_for_each.hpp&gt;</code><br />
 <code>#include &lt;<a class="el" href="attribution_8hpp_source.html">snicholls/core/finance/attribution.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="business__day_8hpp_source.html">snicholls/core/finance/business_day.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="finance_2day__count_8hpp_source.html">snicholls/core/finance/day_count.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="year__fraction_8hpp_source.html">snicholls/core/finance/year_fraction.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="change_8hpp_source.html">snicholls/core/game/change.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="coalition_8hpp_source.html">snicholls/core/game/coalition.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="harsanyi_8hpp_source.html">snicholls/core/game/harsanyi.hpp</a>&gt;</code><br />
@@ -176,17 +197,46 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="sha2_8hpp_source.html">snicholls/core/hash/sha2.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="sha3_8hpp_source.html">snicholls/core/hash/sha3.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="wyhash_8hpp_source.html">snicholls/core/hash/wyhash.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="check__digits_8hpp_source.html">snicholls/core/ids/check_digits.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2asset_8hpp_source.html">snicholls/core/interfaces/asset.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="asset__conformance_8hpp_source.html">snicholls/core/interfaces/asset_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="capability__conformance_8hpp_source.html">snicholls/core/interfaces/capability_conformance.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2chain_8hpp_source.html">snicholls/core/interfaces/chain.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="chain__conformance_8hpp_source.html">snicholls/core/interfaces/chain_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2country_8hpp_source.html">snicholls/core/interfaces/country.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="country__conformance_8hpp_source.html">snicholls/core/interfaces/country_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2day__count_8hpp_source.html">snicholls/core/interfaces/day_count.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="day__count__conformance_8hpp_source.html">snicholls/core/interfaces/day_count_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2error__sink_8hpp_source.html">snicholls/core/interfaces/error_sink.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2holiday__calendar_8hpp_source.html">snicholls/core/interfaces/holiday_calendar.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="holiday__calendar__conformance_8hpp_source.html">snicholls/core/interfaces/holiday_calendar_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2http__handler_8hpp_source.html">snicholls/core/interfaces/http_handler.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="http__handler__conformance_8hpp_source.html">snicholls/core/interfaces/http_handler_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="http__handler__reference_8hpp_source.html">snicholls/core/interfaces/http_handler_reference.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2key__store_8hpp_source.html">snicholls/core/interfaces/key_store.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="key__store__conformance_8hpp_source.html">snicholls/core/interfaces/key_store_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="key__store__reference_8hpp_source.html">snicholls/core/interfaces/key_store_reference.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2key__value__store_8hpp_source.html">snicholls/core/interfaces/key_value_store.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="key__value__store__conformance_8hpp_source.html">snicholls/core/interfaces/key_value_store_conformance.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="key__value__store__reference_8hpp_source.html">snicholls/core/interfaces/key_value_store_reference.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2kv__backup_8hpp_source.html">snicholls/core/interfaces/kv_backup.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2kv__health_8hpp_source.html">snicholls/core/interfaces/kv_health.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2message__sender_8hpp_source.html">snicholls/core/interfaces/message_sender.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="message__sender__conformance_8hpp_source.html">snicholls/core/interfaces/message_sender_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="message__sender__reference_8hpp_source.html">snicholls/core/interfaces/message_sender_reference.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2named_8hpp_source.html">snicholls/core/interfaces/named.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="named__conformance_8hpp_source.html">snicholls/core/interfaces/named_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2onramp__provider_8hpp_source.html">snicholls/core/interfaces/onramp_provider.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="onramp__provider__conformance_8hpp_source.html">snicholls/core/interfaces/onramp_provider_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="onramp__provider__reference_8hpp_source.html">snicholls/core/interfaces/onramp_provider_reference.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2payment__provider_8hpp_source.html">snicholls/core/interfaces/payment_provider.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="payment__provider__conformance_8hpp_source.html">snicholls/core/interfaces/payment_provider_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="payment__provider__reference_8hpp_source.html">snicholls/core/interfaces/payment_provider_reference.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2signer_8hpp_source.html">snicholls/core/interfaces/signer.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="signer__conformance_8hpp_source.html">snicholls/core/interfaces/signer_conformance.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="signer__reference_8hpp_source.html">snicholls/core/interfaces/signer_reference.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="interfaces_2token_8hpp_source.html">snicholls/core/interfaces/token.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="token__conformance_8hpp_source.html">snicholls/core/interfaces/token_conformance.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="backend_8hpp_source.html">snicholls/core/linalg/backend.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="batched_8hpp_source.html">snicholls/core/linalg/batched.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="fixed_8hpp_source.html">snicholls/core/linalg/fixed.hpp</a>&gt;</code><br />
@@ -338,10 +388,14 @@ $(function(){initNavTree('core_8hpp.html','',''); });
 <code>#include &lt;<a class="el" href="snell_8hpp_source.html">snicholls/core/stochastic/snell.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="business__days_8hpp_source.html">snicholls/core/time/business_days.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="civil_8hpp_source.html">snicholls/core/time/civil.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="names_8hpp_source.html">snicholls/core/time/names.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="rfc3339_8hpp_source.html">snicholls/core/time/rfc3339.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="solar_8hpp_source.html">snicholls/core/time/solar.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utc_8hpp_source.html">snicholls/core/time/utc.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utc__format_8hpp_source.html">snicholls/core/time/utc_format.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="week__date_8hpp_source.html">snicholls/core/time/week_date.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="basic__token_8hpp_source.html">snicholls/core/token/basic_token.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="tokens_8hpp_source.html">snicholls/core/token/tokens.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="association_8hpp_source.html">snicholls/core/tracking/association.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="discrete_8hpp_source.html">snicholls/core/tracking/discrete.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="fusion_8hpp_source.html">snicholls/core/tracking/fusion.hpp</a>&gt;</code><br />

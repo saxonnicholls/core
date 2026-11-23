@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -149,9 +149,9 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; rope_source&lt;R&gt;</td></
 <div class="fragment"><div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> C = ml::tiny_mla;</div>
 <div class="line">    <span class="keyword">constexpr</span> std::size_t d = C.d_model, f = C.d_ff, h = C.n_heads, dqk = C.head_dim, dr = C.qk_rope_dim, dv = C.v_head_dim;</div>
 <div class="line">    <span class="keyword">constexpr</span> std::size_t dc = C.kv_lora_rank, dq = C.q_lora_rank, kvw = C.qk_nope_dim() + dv, n = 6;</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> q_down = filled(dq * d, 0.1f), q_up = filled(h * dqk * dq, 0.2f), kv_down = filled((dc + dr) * d, 0.3f),</div>
-<div class="line">               kv_up = filled(h * kvw * dc, 0.4f), o = filled(d * h * dv, 0.5f), up = filled(f * d, 0.6f), gate = filled(f * d, 0.7f),</div>
-<div class="line">               down = filled(d * f, 0.8f);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> q_down = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(dq * d, 0.1f), q_up = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(h * dqk * dq, 0.2f), kv_down = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>((dc + dr) * d, 0.3f),</div>
+<div class="line">               kv_up = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(h * kvw * dc, 0.4f), o = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(d * h * dv, 0.5f), up = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(f * d, 0.6f), gate = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(f * d, 0.7f),</div>
+<div class="line">               down = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(d * f, 0.8f);</div>
 <div class="line">    <span class="keyword">const</span> ml::latent_block_weights&lt;ml::dense_weights&lt;float&gt;, <span class="keywordtype">float</span>&gt; w{</div>
 <div class="line">        {}, {}, {{q_down, dq, d}, {}, {q_up, h * dqk, dq}, {kv_down, dc + dr, d}, {}, {kv_up, h * kvw, dc}, {o, d, h * dv}, {}},</div>
 <div class="line">        {}, {}, {{up, f, d}, {gate, f, d}, {down, d, f}}};</div>
@@ -162,7 +162,7 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; rope_source&lt;R&gt;</td></
 <div class="line">    std::vector&lt;float&gt; cq_raw(n * dq), cq(n * dq), q(n * h * dqk), ckv_raw(n * (dc + dr)), ckv(n * dc), kr(n * dr), kv(n * h * kvw),</div>
 <div class="line">        y(n * h * dv), lse(n * h);</div>
 <div class="line">    <span class="keyword">const</span> ml::latent_block_activations&lt;float&gt; act{x0, h1, x1, h2, {cq_raw, cq, q, ckv_raw, ckv, kr, kv, y, lse, {}}, mup, mgate, mhidden};</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> input = filled(n * d, 1.0f);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> input = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(n * d, 1.0f);</div>
 <div class="line">    <span class="keyword">auto</span> xs = input;</div>
 <div class="line">    ml::block_forward_sequence&lt;C&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, w, std::span&lt;float&gt;(xs), rope, act);</div>
 <div class="line"> </div>
@@ -177,7 +177,7 @@ requires linalg::blas_backend&lt;B, T&gt; &amp;&amp; rope_source&lt;R&gt;</td></
 <div class="line">    mg.scratch = g_scratch;</div>
 <div class="line">    <span class="keyword">const</span> ml::latent_block_gradients&lt;float&gt; grads{</div>
 <div class="line">        {}, {}, {}, {}, {g_q_down, {}, g_q_up, g_kv_down, {}, g_kv_up, g_o, {}, w_y, w_q, w_kv, w_kr, w_ckv, w_ckv_raw, w_cq, w_cq_raw}, mg, scratch};</div>
-<div class="line">    <span class="keyword">auto</span> dxs = filled(n * d, 2.0f);   <span class="comment">// the gradient in the block&#39;s output, replaced by the gradient in its input</span></div>
+<div class="line">    <span class="keyword">auto</span> dxs = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(n * d, 2.0f);   <span class="comment">// the gradient in the block&#39;s output, replaced by the gradient in its input</span></div>
 <div class="line">    ml::block_backward&lt;C&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, w, rope, act, std::span&lt;float&gt;(dxs), grads);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Decoding: the same block one token at a time, its attention absorbed, its cache 10 numbers a token</span></div>

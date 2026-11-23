@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.22.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -185,7 +185,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="comment">// A reranker: the first token&#39;s row through a dense layer, tanh, and a one-score projection</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; dense{1, 0, 0, 1};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 2&gt; <a class="code hl_function" href="group__core.html#ga8e3849482b0bd2a1b8a5d2fba4ad4160">project</a>{2, -1};</div>
-<div class="line">    <span class="keyword">const</span> ml::rank_head_weights&lt;float, float&gt; head{.cls = {dense, 2, 2}, .out = {<a class="code hl_function" href="group__core.html#ga8e3849482b0bd2a1b8a5d2fba4ad4160">project</a>, 1, 2}};</div>
+<div class="line">    <span class="keyword">const</span> ml::rank_head_weights&lt;float, float&gt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a>{.cls = {dense, 2, 2}, .out = {<a class="code hl_function" href="group__core.html#ga8e3849482b0bd2a1b8a5d2fba4ad4160">project</a>, 1, 2}};</div>
 <div class="line">    std::array&lt;float, 2&gt; scratch{};</div>
 <div class="line">    std::array&lt;float, 1&gt; score{};</div>
 <div class="line">    ml::rank_head(head, std::span&lt;const float&gt;(cls).first(2), scratch, score);</div>
