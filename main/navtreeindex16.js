@@ -1,5 +1,7 @@
 var NAVTREEINDEX16 =
 {
+"structsnicholls_1_1containers_1_1ann__euclidean__split.html":[6,0,468],
+"structsnicholls_1_1containers_1_1ann__frontier.html":[6,0,467],
 "structsnicholls_1_1containers_1_1ann__frontier.html#a60a404d760516aa00ef686baaafad6d9":[6,0,467,0],
 "structsnicholls_1_1containers_1_1ann__frontier.html#aa18600619d84ca0ff472294083d27412":[6,0,467,1],
 "structsnicholls_1_1containers_1_1ann__layout.html":[6,0,465],
@@ -247,7 +249,5 @@ var NAVTREEINDEX16 =
 "structsnicholls_1_1country_1_1PM.html":[9,0,0,3,179],
 "structsnicholls_1_1country_1_1PN.html":[9,0,0,3,180],
 "structsnicholls_1_1country_1_1PR.html":[9,0,0,3,181],
-"structsnicholls_1_1country_1_1PS.html":[9,0,0,3,182],
-"structsnicholls_1_1country_1_1PT.html":[9,0,0,3,183],
-"structsnicholls_1_1country_1_1PW.html":[9,0,0,3,184]
+"structsnicholls_1_1country_1_1PS.html":[9,0,0,3,182]
 };

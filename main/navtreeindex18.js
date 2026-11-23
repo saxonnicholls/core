@@ -1,5 +1,7 @@
 var NAVTREEINDEX18 =
 {
+"structsnicholls_1_1currency_1_1ESA.html#a726a5b1dae688bb310a948841c8ef21a":[9,0,0,4,85,0],
+"structsnicholls_1_1currency_1_1ESB.html":[9,0,0,4,86],
 "structsnicholls_1_1currency_1_1ESB.html#a32f4c54c34dd1850f68fe6e2dcbd2de8":[9,0,0,4,86,0],
 "structsnicholls_1_1currency_1_1ESP.html":[9,0,0,4,87],
 "structsnicholls_1_1currency_1_1ESP.html#a563bdf7d4f55dc75da11cc14f3bde2e3":[9,0,0,4,87,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX18 =
 "structsnicholls_1_1currency_1_1RWF.html#a3ffc9ab8b564b15bfcafe6184df99f8c":[9,0,0,4,208,0],
 "structsnicholls_1_1currency_1_1SAR.html":[9,0,0,4,209],
 "structsnicholls_1_1currency_1_1SAR.html#a494724aeca30be48335ad0cb155911c6":[9,0,0,4,209,0],
-"structsnicholls_1_1currency_1_1SBD.html":[9,0,0,4,210],
-"structsnicholls_1_1currency_1_1SBD.html#a3519e2ac9f096ced9fc1daff8a0bcfcb":[9,0,0,4,210,0],
-"structsnicholls_1_1currency_1_1SCR.html":[9,0,0,4,211]
+"structsnicholls_1_1currency_1_1SBD.html":[9,0,0,4,210]
 };

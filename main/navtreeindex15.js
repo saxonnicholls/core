@@ -1,5 +1,7 @@
 var NAVTREEINDEX15 =
 {
+"quant__k_8hpp.html":[6,0,212],
+"quant__ternary_8hpp.html":[6,0,213],
 "quantize_8hpp.html":[6,0,214],
 "random_8hpp.html":[6,0,280],
 "randomized__svd_8hpp.html":[6,0,137],
@@ -247,7 +249,5 @@ var NAVTREEINDEX15 =
 "structsnicholls_1_1containers_1_1ann__default__split_3_01metric_1_1hamming_01_4.html":[6,0,476],
 "structsnicholls_1_1containers_1_1ann__default__split_3_01metric_1_1hamming_01_4.html#a9ff15ca93bbf44eed663cd2d3ebf29a6":[6,0,476,0],
 "structsnicholls_1_1containers_1_1ann__default__split_3_01metric_1_1inner__product_01_4.html":[6,0,475],
-"structsnicholls_1_1containers_1_1ann__default__split_3_01metric_1_1inner__product_01_4.html#a524f10da39f866e951e8aaa6f625db02":[6,0,475,0],
-"structsnicholls_1_1containers_1_1ann__euclidean__split.html":[6,0,468],
-"structsnicholls_1_1containers_1_1ann__frontier.html":[6,0,467]
+"structsnicholls_1_1containers_1_1ann__default__split_3_01metric_1_1inner__product_01_4.html#a524f10da39f866e951e8aaa6f625db02":[6,0,475,0]
 };

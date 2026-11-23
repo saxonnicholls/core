@@ -1,5 +1,7 @@
 var NAVTREEINDEX24 =
 {
+"structsnicholls_1_1ml_1_1ijepa__mask__config.html#aacec209644f11e44c45949b2695416c8":[6,0,727,1],
+"structsnicholls_1_1ml_1_1ijepa__mask__config.html#ad47b88689d541d7db2fe88b56f98b413":[6,0,727,4],
 "structsnicholls_1_1ml_1_1ipo.html":[6,0,766],
 "structsnicholls_1_1ml_1_1ipo.html#a650cbec2283b135abe76cba8e5263a41":[6,0,766,0],
 "structsnicholls_1_1ml_1_1jepa__predictor__config.html":[6,0,701],
@@ -247,7 +249,5 @@ var NAVTREEINDEX24 =
 "structsnicholls_1_1ml_1_1moe__gradients.html#aa6063dbaacef4a843daece4a063a6c5f":[6,0,744,2],
 "structsnicholls_1_1ml_1_1moe__gradients.html#aeb9c52a0c69910da680669a2205c9195":[6,0,744,4],
 "structsnicholls_1_1ml_1_1moe__load.html":[6,0,741],
-"structsnicholls_1_1ml_1_1moe__load.html#a0462e0f0ed06f6c89f84ad5bd8ad17f2":[6,0,741,2],
-"structsnicholls_1_1ml_1_1moe__load.html#a0bc03e14a33d2ce547f3be8d22448faf":[6,0,741,6],
-"structsnicholls_1_1ml_1_1moe__load.html#a14105c1c3f3af184a303f106762f0496":[6,0,741,1]
+"structsnicholls_1_1ml_1_1moe__load.html#a0462e0f0ed06f6c89f84ad5bd8ad17f2":[6,0,741,2]
 };

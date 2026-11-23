@@ -10,5 +10,6 @@ var searchData=
   ['jose_5fname_7',['jose_name',['../group__core.html#ga1764e54d5d254bd5ff3397678fa9e3f8',1,'snicholls']]],
   ['jpda_5fmarginals_8',['jpda_marginals',['../group__core.html#ga83c8493759d981c259208b50712b494a',1,'snicholls::tracking']]],
   ['json_5fschema_5fgrammar_9',['json_schema_grammar',['../json__schema_8hpp.html#aa1bd18e9a9def32c06d68722dcbd6aba',1,'snicholls::ml']]],
-  ['json_5fschema_5fto_5fgbnf_10',['json_schema_to_gbnf',['../json__schema_8hpp.html#a86222555df2d6445d9d685f383cde4b5',1,'snicholls::ml']]]
+  ['json_5fschema_5fto_5fgbnf_10',['json_schema_to_gbnf',['../json__schema_8hpp.html#a86222555df2d6445d9d685f383cde4b5',1,'snicholls::ml']]],
+  ['jwa_5fconcat_5fkdf_11',['jwa_concat_kdf',['../group__core.html#ga2b515ba49594731b806ad3082696f29a',1,'snicholls']]]
 ];

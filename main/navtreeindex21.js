@@ -1,5 +1,7 @@
 var NAVTREEINDEX21 =
 {
+"structsnicholls_1_1kv__checkpoint__info.html":[6,0,423],
+"structsnicholls_1_1kv__checkpoint__info.html#a995a476eade99943314b0cd989343186":[6,0,423,1],
 "structsnicholls_1_1kv__checkpoint__info.html#af534734070437a3a0bf006cf88b366e7":[6,0,423,0],
 "structsnicholls_1_1kv__conformance__failure.html":[6,0,584],
 "structsnicholls_1_1kv__conformance__failure.html#a3d122edd29cb7981027c2530bbc5ef13":[6,0,584,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX21 =
 "structsnicholls_1_1metric_1_1squared__euclidean.html#ad82243eed8fa154937640bb57a8e8a40":[6,0,655,4],
 "structsnicholls_1_1metric_1_1squared__euclidean.html#adb7033d86d5e10359e6546915c8c9ef8":[6,0,655,5],
 "structsnicholls_1_1metric_1_1squared__euclidean.html#af36581062656ffd4c75a892335c00485":[6,0,655,2],
-"structsnicholls_1_1metric_1_1squared__hellinger.html":[6,0,661],
-"structsnicholls_1_1metric_1_1squared__hellinger.html#ab2bffa1393b2daf64f76dbe63d320e64":[6,0,661,0],
-"structsnicholls_1_1metric_1_1weighted__minkowski.html":[6,0,656]
+"structsnicholls_1_1metric_1_1squared__hellinger.html":[6,0,661]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"structsnicholls_1_1metric_1_1squared__hellinger.html#ab2bffa1393b2daf64f76dbe63d320e64":[6,0,661,0],
+"structsnicholls_1_1metric_1_1weighted__minkowski.html":[6,0,656],
 "structsnicholls_1_1metric_1_1weighted__minkowski.html#a0b618c4f9927de7da1e36d7dbd37cc99":[6,0,656,2],
 "structsnicholls_1_1metric_1_1weighted__minkowski.html#a0b85b3aa4159412224b451e4607e7a9e":[6,0,656,3],
 "structsnicholls_1_1metric_1_1weighted__minkowski.html#a1f9365930c03715065e520530fb85738":[6,0,656,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "structsnicholls_1_1ml_1_1block__q8__k.html":[6,0,814],
 "structsnicholls_1_1ml_1_1block__q8__k.html#a60272be8cc71a8fd2514f24851543cbd":[6,0,814,1],
 "structsnicholls_1_1ml_1_1block__q8__k.html#a6e3d6e44eefcb3ce1190b479213b7edf":[6,0,814,3],
-"structsnicholls_1_1ml_1_1block__q8__k.html#aa6beea92017a1f8661ebe7d509ad5ad8":[6,0,814,0],
-"structsnicholls_1_1ml_1_1block__q8__k.html#aac48661b0204d83b7e49a12000441848":[6,0,814,2],
-"structsnicholls_1_1ml_1_1block__sampler.html":[6,0,724]
+"structsnicholls_1_1ml_1_1block__q8__k.html#aa6beea92017a1f8661ebe7d509ad5ad8":[6,0,814,0]
 };

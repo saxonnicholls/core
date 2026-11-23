@@ -30,5 +30,6 @@ var searchData=
   ['json_5fschema_5foptions_27',['json_schema_options',['../structsnicholls_1_1ml_1_1json__schema__options.html',1,'snicholls::ml']]],
   ['json_5fschema_5fto_5fgbnf_28',['json_schema_to_gbnf',['../json__schema_8hpp.html#a86222555df2d6445d9d685f383cde4b5',1,'snicholls::ml']]],
   ['july_29',['july',['../group__core.html#gga214996c78e99561fc1ab571ffd41050ba3785a4f12840727f9fc71676c104ac0d',1,'snicholls::calendar']]],
-  ['june_30',['june',['../group__core.html#gga214996c78e99561fc1ab571ffd41050ba11501255f17710952e79563ddc090a4d',1,'snicholls::calendar']]]
+  ['june_30',['june',['../group__core.html#gga214996c78e99561fc1ab571ffd41050ba11501255f17710952e79563ddc090a4d',1,'snicholls::calendar']]],
+  ['jwa_5fconcat_5fkdf_31',['jwa_concat_kdf',['../group__core.html#ga2b515ba49594731b806ad3082696f29a',1,'snicholls']]]
 ];

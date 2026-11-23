@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -263,7 +263,7 @@ Files</h2></td></tr>
 <tr class="memitem:hmac_2Ehpp" id="r_hmac_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hmac_8hpp.html">hmac.hpp</a></td></tr>
 <tr class="memdesc:hmac_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">HMAC (RFC 2104, FIPS 198-1) over any hash in core, usable at compile time. <br /></td></tr>
 <tr class="memitem:kdf_2Ehpp" id="r_kdf_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kdf_8hpp.html">kdf.hpp</a></td></tr>
-<tr class="memdesc:kdf_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">HKDF (RFC 5869) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory. <br /></td></tr>
+<tr class="memdesc:kdf_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">HKDF (RFC 5869), the Concat KDF (NIST SP 800-56A; JOSE ECDH-ES) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory. <br /></td></tr>
 <tr class="memitem:ripemd160_2Ehpp" id="r_ripemd160_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ripemd160_8hpp.html">ripemd160.hpp</a></td></tr>
 <tr class="memdesc:ripemd160_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">RIPEMD-160 (Dobbertin, Bosselaers and Preneel, 1996), usable at compile time: Bitcoin's <span class="tt">hash160</span>. <br /></td></tr>
 <tr class="memitem:scrypt_2Ehpp" id="r_scrypt_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scrypt_8hpp.html">scrypt.hpp</a></td></tr>
@@ -2181,7 +2181,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;23</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1e7069d6d9a404d68423cd8a030af191" id="r_ga1e7069d6d9a404d68423cd8a030af191"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(major,  minor,  patch)</td></tr>
 <tr class="memdesc:ga1e7069d6d9a404d68423cd8a030af191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode a version as one integer the preprocessor can compare.  <br /></td></tr>
@@ -3941,6 +3941,12 @@ requires std::is_arithmetic_v&lt;T&gt;</td></tr>
 <tr class="memitem:gae51f6f30136efdcf84d763a6e304cd44" id="r_gae51f6f30136efdcf84d763a6e304cd44"><td class="memTemplParams" colspan="2">template&lt;hash_function H, std::size_t L, hash_input S, hash_input K, hash_input I&gt; </td></tr>
 <tr class="memitem:gae51f6f30136efdcf84d763a6e304cd44 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1digest.html">digest</a>&lt; L &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gae51f6f30136efdcf84d763a6e304cd44">snicholls::hkdf</a> (const S &amp;salt, const K &amp;ikm, const I &amp;info) noexcept</td></tr>
 <tr class="memdesc:gae51f6f30136efdcf84d763a6e304cd44"><td class="mdescLeft">&#160;</td><td class="mdescRight">HKDF (RFC 5869) to a fixed length, checked at compile time.  <br /></td></tr>
+<tr class="memitem:ga74e4c29097eedd9efdd8e93e06b0581a" id="r_ga74e4c29097eedd9efdd8e93e06b0581a"><td class="memTemplParams" colspan="2">template&lt;hash_function H, hash_input Z, hash_input O&gt; </td></tr>
+<tr class="memitem:ga74e4c29097eedd9efdd8e93e06b0581a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga74e4c29097eedd9efdd8e93e06b0581a">snicholls::concat_kdf</a> (const Z &amp;z, const O &amp;other_info, std::span&lt; std::byte &gt; out) noexcept</td></tr>
+<tr class="memdesc:ga74e4c29097eedd9efdd8e93e06b0581a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Concatenation KDF (NIST SP 800-56A rev. 3, 5.8.2.1.1, single-step with a hash): <span class="tt">out.size()</span> bytes of <span class="tt">H(1 || Z || other_info) || H(2 || Z || other_info) || ...</span>, each counter 32-bit big-endian.  <br /></td></tr>
+<tr class="memitem:ga2b515ba49594731b806ad3082696f29a" id="r_ga2b515ba49594731b806ad3082696f29a"><td class="memTemplParams" colspan="2">template&lt;hash_function H, hash_input Z, hash_input A, hash_input U, hash_input V&gt; </td></tr>
+<tr class="memitem:ga2b515ba49594731b806ad3082696f29a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2b515ba49594731b806ad3082696f29a">snicholls::jwa_concat_kdf</a> (const Z &amp;z, const A &amp;algorithm, const U &amp;party_u, const V &amp;party_v, std::span&lt; std::byte &gt; out) noexcept</td></tr>
+<tr class="memdesc:ga2b515ba49594731b806ad3082696f29a"><td class="mdescLeft">&#160;</td><td class="mdescRight">JOSE's Concat KDF (RFC 7518 4.6.2): the key for ECDH-ES, its OtherInfo built from the header's fields.  <br /></td></tr>
 <tr class="memitem:ga6d72dd6bb3115693c6d2a44bfc4bbdcc" id="r_ga6d72dd6bb3115693c6d2a44bfc4bbdcc"><td class="memTemplParams" colspan="2">template&lt;hash_function H, hash_input P, hash_input S&gt; </td></tr>
 <tr class="memitem:ga6d72dd6bb3115693c6d2a44bfc4bbdcc template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6d72dd6bb3115693c6d2a44bfc4bbdcc">snicholls::pbkdf2_hmac</a> (const P &amp;password, const S &amp;salt, std::uint32_t iterations, std::span&lt; std::byte &gt; out) noexcept</td></tr>
 <tr class="memdesc:ga6d72dd6bb3115693c6d2a44bfc4bbdcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">PBKDF2 with HMAC-H as its pseudorandom function (RFC 8018 5.2), into <span class="tt">out</span>.  <br /></td></tr>
@@ -5659,7 +5665,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;0</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -9670,7 +9676,7 @@ template&lt;template&lt; typename... &gt; class F, typename L1, typename L2&gt; 
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00076">76</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00084">84</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -15326,6 +15332,62 @@ template&lt;transition_model M, transition_model... Ms&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The combination. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="transition_8hpp_source.html#l00521">521</a> of file <a class="el" href="transition_8hpp_source.html">transition.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ga74e4c29097eedd9efdd8e93e06b0581a" name="ga74e4c29097eedd9efdd8e93e06b0581a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga74e4c29097eedd9efdd8e93e06b0581a">&#9670;&#160;</a></span>concat_kdf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;hash_function H, hash_input Z, hash_input O&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt; snicholls::concat_kdf </td>
+          <td>(</td>
+          <td class="paramtype">const Z &amp;</td>          <td class="paramname"><span class="paramname"><em>z</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const O &amp;</td>          <td class="paramname"><span class="paramname"><em>other_info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; std::byte &gt;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The Concatenation KDF (NIST SP 800-56A rev. 3, 5.8.2.1.1, single-step with a hash): <span class="tt">out.size()</span> bytes of <span class="tt">H(1 || Z || other_info) || H(2 || Z || other_info) || ...</span>, each counter 32-bit big-endian. </p>
+<p>Derives a key from a Diffie-Hellman shared secret <span class="tt">Z</span>, bound to <span class="tt">other_info</span>. JOSE's ECDH-ES (RFC 7518 4.6) uses it with SHA-256; <span class="tt"><a class="el" href="#ga2b515ba49594731b806ad3082696f29a" title="JOSE&#39;s Concat KDF (RFC 7518 4.6.2): the key for ECDH-ES, its OtherInfo built from the header&#39;s fields...">jwa_concat_kdf</a></span> builds JOSE's OtherInfo for you. Like HKDF, never use it on a password.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">H</td><td>The hash. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">z</td><td>The shared secret. </td></tr>
+    <tr><td class="paramname">other_info</td><td>The fixed information (FixedInfo), already encoded; may be empty. </td></tr>
+    <tr><td class="paramname">out</td><td>Where to write, 1 to <span class="tt">(2^32 - 1) * HashLen</span> bytes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Success, or <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fa33152d78144608933ddf0342720a4e61" title="More output than the function can produce.">kdf_error::output_too_long</a></span> / <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fa1f722b68953e7d3e5b6473693d91d5c3" title="An empty output span.">kdf_error::empty_output</a></span> with nothing written. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00233">233</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -21304,7 +21366,7 @@ template&lt;hash_function H, std::size_t L, hash_input S, hash_input K, hash_inp
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The output keying material. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00170">170</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00178">178</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -21365,7 +21427,7 @@ template&lt;hash_function H, hash_input S, hash_input K, hash_input I&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Success, or the error of <span class="tt"><a class="el" href="#ga35ab7afcc5215335721267c534dc829a" title="HKDF-Expand (RFC 5869 2.3): out.size() bytes of output keying material from prk and info.">hkdf_expand</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00153">153</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00161">161</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -21415,7 +21477,7 @@ template&lt;hash_function H, std::size_t L, hash_input P, hash_input I&gt; </div
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The output keying material. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00136">136</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00144">144</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -21470,7 +21532,7 @@ template&lt;hash_function H, hash_input P, hash_input I&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Success, or <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fa33152d78144608933ddf0342720a4e61" title="More output than the function can produce.">kdf_error::output_too_long</a></span> / <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fa1f722b68953e7d3e5b6473693d91d5c3" title="An empty output span.">kdf_error::empty_output</a></span> with nothing written. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00105">105</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00113">113</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -21519,7 +21581,7 @@ template&lt;hash_function H, hash_input S, hash_input K&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pseudorandom key. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00092">92</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00100">100</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -24678,6 +24740,74 @@ template&lt;std::size_t MaxTracks, std::size_t MaxDetections, linalg::scalar T&g
 <dl class="section return"><dt>Returns</dt><dd>Whether the marginals were formed. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="association_8hpp_source.html#l00166">166</a> of file <a class="el" href="association_8hpp_source.html">association.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ga2b515ba49594731b806ad3082696f29a" name="ga2b515ba49594731b806ad3082696f29a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2b515ba49594731b806ad3082696f29a">&#9670;&#160;</a></span>jwa_concat_kdf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;hash_function H, hash_input Z, hash_input A, hash_input U, hash_input V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt; snicholls::jwa_concat_kdf </td>
+          <td>(</td>
+          <td class="paramtype">const Z &amp;</td>          <td class="paramname"><span class="paramname"><em>z</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const A &amp;</td>          <td class="paramname"><span class="paramname"><em>algorithm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const U &amp;</td>          <td class="paramname"><span class="paramname"><em>party_u</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const V &amp;</td>          <td class="paramname"><span class="paramname"><em>party_v</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; std::byte &gt;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>JOSE's Concat KDF (RFC 7518 4.6.2): the key for ECDH-ES, its OtherInfo built from the header's fields. </p>
+<p>OtherInfo is <span class="tt">AlgorithmID || PartyUInfo || PartyVInfo || SuppPubInfo</span>: each of the first three is its length as a 32-bit big-endian count of bytes and then the bytes, and SuppPubInfo is the key length in <em>bits</em>, 32-bit big-endian (<span class="tt">out.size() * 8</span>). No buffer is built: the fields are fed to the hash directly.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">H</td><td>The hash (<span class="tt"><a class="el" href="#gac287f13c089ece72c38dc88fda4218d8" title="SHA-256 (FIPS 180-4): 32 bytes of output over 64-byte blocks.">sha256</a></span> for every JWA algorithm). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">z</td><td>The ECDH shared secret. </td></tr>
+    <tr><td class="paramname">algorithm</td><td>The <span class="tt">enc</span> value for direct key agreement (<span class="tt">"A128GCM"</span>), else the <span class="tt">alg</span> value (<span class="tt">"ECDH-ES+A256KW"</span>). </td></tr>
+    <tr><td class="paramname">party_u</td><td>The <span class="tt">apu</span> header value, base64url-decoded (may be empty). </td></tr>
+    <tr><td class="paramname">party_v</td><td>The <span class="tt">apv</span> header value, base64url-decoded (may be empty). </td></tr>
+    <tr><td class="paramname">out</td><td>Where to write the key: its size is the key length. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Success, or the error of <span class="tt"><a class="el" href="#ga74e4c29097eedd9efdd8e93e06b0581a" title="The Concatenation KDF (NIST SP 800-56A rev. 3, 5.8.2.1.1, single-step with a hash): out....">concat_kdf</a></span>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00252">252</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -32355,7 +32485,7 @@ template&lt;hash_function H, std::size_t L, hash_input P, hash_input S&gt; </div
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The derived key, or <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fadccaf28b2a563c08b6992043d0adec7a" title="PBKDF2 with no iterations.">kdf_error::zero_iterations</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00249">249</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00340">340</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>
@@ -32416,7 +32546,7 @@ template&lt;hash_function H, hash_input P, hash_input S&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Success, or <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fadccaf28b2a563c08b6992043d0adec7a" title="PBKDF2 with no iterations.">kdf_error::zero_iterations</a></span> / <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fa1f722b68953e7d3e5b6473693d91d5c3" title="An empty output span.">kdf_error::empty_output</a></span> / <span class="tt"><a class="el" href="#gga5110b25e21e03b544ccffbc194fadb3fa33152d78144608933ddf0342720a4e61" title="More output than the function can produce.">kdf_error::output_too_long</a></span> with nothing written. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00223">223</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kdf_8hpp_source.html#l00314">314</a> of file <a class="el" href="kdf_8hpp_source.html">kdf.hpp</a>.</p>
 
 </div>
 </div>

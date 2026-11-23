@@ -1,5 +1,7 @@
 var NAVTREEINDEX17 =
 {
+"structsnicholls_1_1country_1_1PT.html":[9,0,0,3,183],
+"structsnicholls_1_1country_1_1PW.html":[9,0,0,3,184],
 "structsnicholls_1_1country_1_1PY.html":[9,0,0,3,185],
 "structsnicholls_1_1country_1_1QA.html":[9,0,0,3,186],
 "structsnicholls_1_1country_1_1RE.html":[9,0,0,3,187],
@@ -247,7 +249,5 @@ var NAVTREEINDEX17 =
 "structsnicholls_1_1currency_1_1EGP.html#a4405282340d64cf67d11ae37c169fb63":[9,0,0,4,83,0],
 "structsnicholls_1_1currency_1_1ERN.html":[9,0,0,4,84],
 "structsnicholls_1_1currency_1_1ERN.html#a79675421fb4b7e228e48b39d3f9d47fb":[9,0,0,4,84,0],
-"structsnicholls_1_1currency_1_1ESA.html":[9,0,0,4,85],
-"structsnicholls_1_1currency_1_1ESA.html#a726a5b1dae688bb310a948841c8ef21a":[9,0,0,4,85,0],
-"structsnicholls_1_1currency_1_1ESB.html":[9,0,0,4,86]
+"structsnicholls_1_1currency_1_1ESA.html":[9,0,0,4,85]
 };

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,7 +93,7 @@ $(function(){initNavTree('kdf_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>HKDF (RFC 5869) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory.  
+<p>HKDF (RFC 5869), the Concat KDF (NIST SP 800-56A; JOSE ECDH-ES) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="digest_8hpp_source.html">snicholls/core/hash/digest.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="hmac_8hpp_source.html">snicholls/core/hash/hmac.hpp</a>&gt;</code><br />
@@ -142,6 +142,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gae51f6f30136efdcf84d763a6e304cd44" id="r_gae51f6f30136efdcf84d763a6e304cd44"><td class="memTemplParams" colspan="2">template&lt;hash_function H, std::size_t L, hash_input S, hash_input K, hash_input I&gt; </td></tr>
 <tr class="memitem:gae51f6f30136efdcf84d763a6e304cd44 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1digest.html">digest</a>&lt; L &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gae51f6f30136efdcf84d763a6e304cd44">snicholls::hkdf</a> (const S &amp;salt, const K &amp;ikm, const I &amp;info) noexcept</td></tr>
 <tr class="memdesc:gae51f6f30136efdcf84d763a6e304cd44"><td class="mdescLeft">&#160;</td><td class="mdescRight">HKDF (RFC 5869) to a fixed length, checked at compile time.  <br /></td></tr>
+<tr class="memitem:ga74e4c29097eedd9efdd8e93e06b0581a" id="r_ga74e4c29097eedd9efdd8e93e06b0581a"><td class="memTemplParams" colspan="2">template&lt;hash_function H, hash_input Z, hash_input O&gt; </td></tr>
+<tr class="memitem:ga74e4c29097eedd9efdd8e93e06b0581a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga74e4c29097eedd9efdd8e93e06b0581a">snicholls::concat_kdf</a> (const Z &amp;z, const O &amp;other_info, std::span&lt; std::byte &gt; out) noexcept</td></tr>
+<tr class="memdesc:ga74e4c29097eedd9efdd8e93e06b0581a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Concatenation KDF (NIST SP 800-56A rev. 3, 5.8.2.1.1, single-step with a hash): <span class="tt">out.size()</span> bytes of <span class="tt">H(1 || Z || other_info) || H(2 || Z || other_info) || ...</span>, each counter 32-bit big-endian.  <br /></td></tr>
+<tr class="memitem:ga2b515ba49594731b806ad3082696f29a" id="r_ga2b515ba49594731b806ad3082696f29a"><td class="memTemplParams" colspan="2">template&lt;hash_function H, hash_input Z, hash_input A, hash_input U, hash_input V&gt; </td></tr>
+<tr class="memitem:ga2b515ba49594731b806ad3082696f29a template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga2b515ba49594731b806ad3082696f29a">snicholls::jwa_concat_kdf</a> (const Z &amp;z, const A &amp;algorithm, const U &amp;party_u, const V &amp;party_v, std::span&lt; std::byte &gt; out) noexcept</td></tr>
+<tr class="memdesc:ga2b515ba49594731b806ad3082696f29a"><td class="mdescLeft">&#160;</td><td class="mdescRight">JOSE's Concat KDF (RFC 7518 4.6.2): the key for ECDH-ES, its OtherInfo built from the header's fields.  <br /></td></tr>
 <tr class="memitem:ga6d72dd6bb3115693c6d2a44bfc4bbdcc" id="r_ga6d72dd6bb3115693c6d2a44bfc4bbdcc"><td class="memTemplParams" colspan="2">template&lt;hash_function H, hash_input P, hash_input S&gt; </td></tr>
 <tr class="memitem:ga6d72dd6bb3115693c6d2a44bfc4bbdcc template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga5110b25e21e03b544ccffbc194fadb3f">kdf_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga6d72dd6bb3115693c6d2a44bfc4bbdcc">snicholls::pbkdf2_hmac</a> (const P &amp;password, const S &amp;salt, std::uint32_t iterations, std::span&lt; std::byte &gt; out) noexcept</td></tr>
 <tr class="memdesc:ga6d72dd6bb3115693c6d2a44bfc4bbdcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">PBKDF2 with HMAC-H as its pseudorandom function (RFC 8018 5.2), into <span class="tt">out</span>.  <br /></td></tr>
@@ -150,10 +156,21 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga0fcfefda60de9cb722751f0dcfdf33b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">PBKDF2-HMAC-H to a fixed length.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>HKDF (RFC 5869) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory. </p>
-<p><b>Overview.</b> Two key derivation functions, for two different jobs.</p>
+<div class="textblock"><p>HKDF (RFC 5869), the Concat KDF (NIST SP 800-56A; JOSE ECDH-ES) and PBKDF2-HMAC (RFC 8018) over any hash in core, writing into the caller's memory. </p>
+<p><b>Overview.</b> Three key derivation functions, for two different jobs.</p>
 <ul>
 <li><b>HKDF</b> turns key material that is already strong but not uniform (a Diffie-Hellman shared secret, a master key) into as many independent keys as a protocol needs: <span class="tt">hkdf_extract</span> concentrates the material into a pseudorandom key, <span class="tt">hkdf_expand</span> stretches that into output bound to an <span class="tt">info</span> label, and <span class="tt">hkdf</span> does both. TLS 1.3, Signal, Noise, HPKE and MLS use it. It is fast: never use it on a password.</li>
+<li><b>The Concat KDF</b> (NIST SP 800-56A's single-step KDF) does the same job for a Diffie-Hellman secret with one hash and a counter: <span class="tt">concat_kdf</span> over encoded FixedInfo, and <span class="tt">jwa_concat_kdf</span>, which is JOSE's ECDH-ES (RFC 7518 4.6) with its OtherInfo built from <span class="tt">enc</span> or <span class="tt">alg</span>, <span class="tt">apu</span>, <span class="tt">apv</span> and the key length.</li>
+</ul>
+<div class="fragment"><div class="line"><span class="comment">// JOSE ECDH-ES (RFC 7518 4.6): the content key from the ECDH shared secret, bound to enc, apu, apv and its length</span></div>
+<div class="line">std::array&lt;std::byte, 16&gt; ecdh_es_key(std::span&lt;const std::uint8_t, 32&gt; shared_secret)</div>
+<div class="line">{</div>
+<div class="line">    std::array&lt;std::byte, 16&gt; key{};   <span class="comment">// A128GCM: 128 bits</span></div>
+<div class="line">    (void)<a class="code hl_function" href="group__core.html#ga2b515ba49594731b806ad3082696f29a">snicholls::jwa_concat_kdf&lt;snicholls::sha256&gt;</a>(shared_secret, std::string_view(<span class="stringliteral">&quot;A128GCM&quot;</span>), std::string_view(<span class="stringliteral">&quot;Alice&quot;</span>),</div>
+<div class="line">                                                       std::string_view(<span class="stringliteral">&quot;Bob&quot;</span>), key);   <span class="comment">// 16 bytes: cannot fail</span></div>
+<div class="line">    <span class="keywordflow">return</span> key;</div>
+<div class="line">}</div>
+</div><!-- fragment --><ul>
 <li><b>PBKDF2-HMAC</b> stretches a <em>password</em> by iterating HMAC, so that each guess costs an attacker the same <span class="tt">iterations</span> HMACs it costs you. BIP-39 seeds are PBKDF2-HMAC-SHA512 with 2048 iterations; OWASP's 2023 guidance is 600,000 iterations of SHA-256 or 210,000 of SHA-512. Prefer <span class="tt">scrypt</span> (<span class="tt"><a class="el" href="scrypt_8hpp.html" title="scrypt (RFC 7914), the memory-hard password KDF, in working memory the caller supplies.">hash/scrypt.hpp</a></span>) for a new password store, since PBKDF2 costs a GPU little memory.</li>
 </ul>
 <div class="fragment"><div class="line"><span class="comment">// HKDF: one shared secret, independent keys bound to their purpose by `info`</span></div>
@@ -181,7 +198,7 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> <span class="tt">kdf_error::output_too_long</span> when HKDF is asked for more than <span class="tt">255 * HashLen</span> bytes or PBKDF2 for more than <span class="tt">(2^32 - 1) * HashLen</span>; <span class="tt">kdf_error::empty_output</span> for an empty output span; and from PBKDF2, <span class="tt">kdf_error::zero_iterations</span>.</p>
 <p><b>Examples.</b> Above; <span class="tt">demos/hash/kdf_demo.cpp</span>.</p>
 <p><b>Performance.</b> <span class="tt">benchmarks/hash/kdf_benchmark.cpp</span>: PBKDF2-HMAC-SHA256 and -SHA512 against a hand-written loop and OpenSSL's <span class="tt">PKCS5_PBKDF2_HMAC</span> (when installed), after a fairness check. Release, Apple clang 17, Xeon W-3245, 2026-11-20, 1,000 iterations, 64 bytes: SHA-256 core 1.13 ms, hand 1.13 ms, OpenSSL 0.80 ms; SHA-512 core 0.79 ms, hand 0.74 ms, OpenSSL 0.55 ms (OpenSSL's SHA-2 is faster, see <span class="tt"><a class="el" href="sha2_8hpp.html" title="SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 (FIPS 180-4), usable at compile time.">hash/sha2.hpp</a></span>).</p>
-<p><b>Tests and demos.</b> <span class="tt">tests/hash/kdf_test.cpp</span> (RFC 5869's test cases 1 to 7, RFC 6070's PBKDF2-HMAC-SHA1 vectors, RFC 7914's PBKDF2-HMAC-SHA256 vectors, Python's <span class="tt">hashlib.pbkdf2_hmac</span> on random inputs, the BIP-39 test seed, errors), <span class="tt">demos/hash/kdf_demo.cpp</span>.</p>
+<p><b>Tests and demos.</b> <span class="tt">tests/hash/kdf_test.cpp</span> (RFC 5869's test cases 1 to 7, RFC 6070's PBKDF2-HMAC-SHA1 vectors, RFC 7914's PBKDF2-HMAC-SHA256 vectors, Python's <span class="tt">hashlib.pbkdf2_hmac</span> on random inputs, the BIP-39 test seed, RFC 7518 Appendix C's ECDH-ES key and <span class="tt">hashlib</span> over several Concat KDF blocks, errors), <span class="tt">demos/hash/kdf_demo.cpp</span>. The Concat KDF is not benchmarked: one hash per block.</p>
 <p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt"><a class="el" href="hmac_8hpp.html" title="HMAC (RFC 2104, FIPS 198-1) over any hash in core, usable at compile time.">hash/hmac.hpp</a></span>, <span class="tt"><a class="el" href="result_8hpp.html" title="snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...">result.hpp</a></span> (larger than it looks: about 2,500 lines).</p>
 <p><b>Known issues.</b> RFC 6070's 16,777,216-iteration vector is run by the tests only in Release builds.</p>
 <p><b>Status.</b> New in 0.17.0. Experimental. </p>
