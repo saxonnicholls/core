@@ -289,6 +289,7 @@ add_executable(snicholls_core_tests
     signal/dct_test.cpp
     signal/fft_test.cpp
     signal/fir_test.cpp
+    signal/goertzel_test.cpp
     signal/hilbert_test.cpp
     signal/iir_test.cpp
     signal/mel_test.cpp
@@ -457,6 +458,11 @@ set_tests_properties(generated.check_digit_fixtures_up_to_date PROPERTIES LABELS
 add_test(NAME generated.week_date_fixtures_up_to_date
     COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_week_date_fixtures.py --check)
 set_tests_properties(generated.week_date_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The Goertzel oracle fixture (tests/fixtures/signal/goertzel.txt) must be what scripts/generate_goertzel_fixtures.py
+# computes with numpy; skipped when numpy 2.2.5 is not installed.
+add_test(NAME generated.goertzel_fixtures_up_to_date
+    COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_goertzel_fixtures.py --check)
+set_tests_properties(generated.goertzel_fixtures_up_to_date PROPERTIES LABELS boundary)
 
 # Compile-fail tests. Each case in compile_fail/ is one source built twice, as
 # an object library outside ALL: with SNICHOLLS_COMPILE_FAIL defined it must
