@@ -223,6 +223,10 @@ Installed: `find_package(snicholls_core 0.5 REQUIRED)` provides the same target 
 versions, inside one build or across separately built projects:
 
 1. **Pin a tag, as a submodule at `third_party/core`.** Never a branch tip, a copy, or `FetchContent` of a branch.
+   **Every library that uses core pins it itself**, in its own `third_party/`, even when another of its dependencies
+   already pins core: never core through another library's `third_party/` (`third_party/x/third_party/core`), a
+   sibling checkout or a system install. The same holds for every library in the family (tooling's STANDARDS §2;
+   tooling's pin check enforces it).
 2. **The top-level project's pin is the version.** A library in the middle keeps its own pin only to build and test
    itself; when it is consumed, core is already added by the top level and its copy is skipped (rule 1). It states
    what it needs with `snicholls_core_require(<minimum>)`, never by forcing its pin.
