@@ -164,7 +164,9 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
   `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL, GTIN / EAN-13); `game/` (`snicholls::game`); `finance/`
-  (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
+  (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `fsm/` (`state_machine`, `persist`,
+  `diagram`, `lifecycle`; `snicholls::fsm`, state machines in boost-ext/sml's notation with states as values);
+  `linalg/` (`types`, `backend`, `batched`, `reference`, `fixed`, `krylov`; `snicholls::linalg`);
   `sparse/` (`csc`, `ordering`, `ldl`; `snicholls::sparse`); `optim/` (`cones`, `prox`, `scaling`, `line_search`, `lbfgs`;
   `snicholls::optim`, the primitives of the convex-optimisation solvers above core);
   `geometry/` (`angle`, `coordinates`, `geodetic`, `camera`, `alignment`, `box`; `snicholls::geometry`); `tracking/` (`gaussian`,
@@ -397,6 +399,15 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   stays light.
 - `backoff_policy` with `backoff_ceiling` / `backoff_delay` / `next_attempt` for any retry loop; the caller owns
   the clock, the randomness and the sleep.
+- **A lifecycle is an fsm table; never a hand-written switch over states.** `fsm::sm<Def>` with `Def` returning
+  `make_transition_table(*state + event<E> [guard] / action = target, ...)`, boost-ext/sml's notation
+  (`fsm/state_machine.hpp`). States are values: `enum_state<E::pending>` (or `using state_enum = E;`) gives
+  `current()` and `restore()`, so the state is a field of the object and the machine is rebuilt from it;
+  `fsm::save` / `fsm::load` (`fsm/persist.hpp`) keep it in any `key_value_store`, versioned with compare-and-set.
+  An event that is not taken is a value (`process_event` -> `bool`, `try_process_event` -> `result<void, fsm_errc>`),
+  never an exception. A payment's state is `fsm::lifecycle_state` (requested, pending, confirmed, settled, failed,
+  canceled, expired, reversed); a provider's own states map to it. Diagrams come from the table (`fsm/diagram.hpp`:
+  `to_mermaid`, `to_dot`, `to_plantuml`), never drawn by hand.
 - `acout{} << ...`, `acerr{}`, `print(...)` / `println(...)` for anything printed from more than one thread, or
   from one thread that must not be interleaved by another: one message, one write. Never a bare `std::cout <<`
   chain in threaded code, and never a mutex around printing.

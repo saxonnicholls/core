@@ -3,6 +3,41 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **State machines, `fsm/`, in boost-ext/sml's notation and with its semantics** (API and semantics modelled on
+  boost-ext/sml, BSL-1.0; an independent C++20 implementation). `fsm/state_machine.hpp`: `sm<Def, Policies...>` over
+  `make_transition_table(*state<A> + event<E> [guard] / action = state<B>, ...)`, with string states and events
+  (`"idle"_s`, `"e1"_e`), the reversed notation (`B <= A + event<E>`), guard algebra and action sequences, `wrap`,
+  `eval`, anonymous, internal and self transitions, `on_entry` / `on_exit`, `X`, `defer` and `process` (fixed-capacity
+  built-in queues), composite machines, orthogonal regions, history (`(H)`), `unexpected_event` and `exception` rows,
+  dependency injection by type, the `logger`, `dispatch` (`fold_expr`, `jump_table`), `queue_capacity` and `testing`
+  policies, `visit_current_states`, `make_dispatch_table`.
+  - **States are values**: `enum_state<E::pending>`, or `using state_enum = E;` mapping type and string states by
+    name, gives `current()` and `restore()` (refusing an enumerator that is not a state); `snapshot()` /
+    `restore_snapshot()` give every region of every level as numbers and names.
+  - **No exceptions across the boundary**: `process_event` is `noexcept` and returns `bool`; `try_process_event`
+    returns `result<void, fsm_errc>` (`no_transition`, `guard_rejected`, `action_failed`, `queue_full`,
+    `anonymous_loop`, `queued_event_unhandled`).
+  - **Checked at compile time**: a row shadowed by an earlier unguarded one, an unreachable state, a row leaving `X`,
+    a state without an enumerator, a table with no initial state; `table_diagnostics<Def>` reports the same as values.
+  - **Zero overhead**: a machine with stateless guards and actions is one byte per region and trivially copyable;
+    benchmarked against a hand-written `switch` (`benchmarks/fsm/state_machine_benchmark.cpp`).
+- `fsm/persist.hpp`: `save(store, key, machine, version)` and `load(store, key, machine)` over any
+  `key_value_store`, the `snicholls.fsm.v1` text record, compare-and-set from the contract's `insert` in an atomic
+  batch (a stale writer gets `fsm_errc::stale`), every version kept (`load_version`), records valid across appended
+  enumerators.
+- `fsm/diagram.hpp`: `to_mermaid`, `to_dot` and `to_plantuml` from the table (sml's plant_uml example reproduced).
+- `fsm/lifecycle.hpp`: `lifecycle_state` (requested, pending, confirmed, settled, failed, canceled, expired,
+  reversed) with its colours, labels and tooltips, `is_final`, and the reference machine `lifecycle`.
+- Demos replicating sml's examples (`demos/fsm/state_machine_<example>_demo.cpp`: hello_world, events, states,
+  actions_guards, transitions, defer_and_process, orthogonal_regions, composite, history, logging, error_handling,
+  nested, dependencies, data, testing, plant_uml, dispatch_table, eval, visitor, in_place, dispatch_policy), a
+  persisted payment lifecycle with a crash and a stale writer, and a chain transaction confirmed after N blocks.
+- `scripts/check_mirror.py` accepts companion demos (`<name>_<aspect>_demo.cpp`), as it does companion tests.
+
 ## 0.23.1 - 2026-11-24
 
 ### Added
