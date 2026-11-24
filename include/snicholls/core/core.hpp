@@ -102,6 +102,7 @@
 #include <snicholls/core/finance/business_day.hpp>
 #include <snicholls/core/finance/day_count.hpp>
 #include <snicholls/core/finance/year_fraction.hpp>
+#include <snicholls/core/fsm/state_machine.hpp>
 #include <snicholls/core/game/change.hpp>
 #include <snicholls/core/game/coalition.hpp>
 #include <snicholls/core/game/harsanyi.hpp>

@@ -87,6 +87,8 @@ add_executable(snicholls_core_tests
     finance/business_day_test.cpp
     finance/day_count_test.cpp
     finance/year_fraction_test.cpp
+    fsm/state_machine_test.cpp
+    fsm/state_machine_hierarchy_test.cpp
     game/change_test.cpp
     game/coalition_test.cpp
     game/harsanyi_test.cpp
@@ -481,7 +483,13 @@ set(_compile_fail_cases
     "thread_t_position|snicholls::meta::thread_t: the position specification does not fit"
     "thread_apply_lengths|snicholls::thread_apply: the threaded tuples must all be the same length"
     "thread_apply_mixed_void|snicholls::thread_apply: the calls must all return void or all return a value"
-    "linalg_backend_missing_member|snicholls::linalg::lu_factor: the backend has no member")
+    "linalg_backend_missing_member|snicholls::linalg::lu_factor: the backend has no member"
+    "fsm_shadowed_row|snicholls::fsm: a row can never run: an earlier row leaves the same state"
+    "fsm_unreachable_state|snicholls::fsm: no row reaches this state"
+    "fsm_exit_from_terminal|leaves X, the terminal state"
+    "fsm_missing_enumerator|has no enumerator of the machine's state enumeration"
+    "fsm_no_initial_state|snicholls::fsm: the table has no initial state"
+    "fsm_constructor_argument|snicholls::fsm: a constructor argument is neither the definition nor a dependency")
 foreach(_case_and_regex IN LISTS _compile_fail_cases)
     string(REPLACE "|" ";" _parts "${_case_and_regex}")
     list(GET _parts 0 _case)
