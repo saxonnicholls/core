@@ -5,6 +5,7 @@ var dir_13e0ffe23526c2f7274e59203307fa6f =
     [ "dct.hpp", "dct_8hpp.html", "dct_8hpp" ],
     [ "fft.hpp", "fft_8hpp.html", "fft_8hpp" ],
     [ "fir.hpp", "fir_8hpp.html", "fir_8hpp" ],
+    [ "goertzel.hpp", "goertzel_8hpp.html", null ],
     [ "hilbert.hpp", "hilbert_8hpp.html", "hilbert_8hpp" ],
     [ "iir.hpp", "iir_8hpp.html", "iir_8hpp" ],
     [ "mel.hpp", "mel_8hpp.html", "mel_8hpp" ],

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -160,7 +160,7 @@ Functions</h2></td></tr>
 <div class="line">    tr::gaussian&lt;double, 4&gt; ukf{{{-500, 0, 300, 0}}, la::fixed_matrix&lt;double, 4, 4&gt;::identity() * 400}, ckf = ukf;</div>
 <div class="line">    <span class="keywordtype">double</span> ukf_error = 0, ckf_error = 0;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 1; k &lt;= steps; ++k) {</div>
-<div class="line">        <span class="keyword">const</span> state truth{{-500 + 12.0 * k, 12, 300, 0}};</div>
+<div class="line">        <span class="keyword">const</span> <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a> truth{{-500 + 12.0 * k, 12, 300, 0}};</div>
 <div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> clean = radar.measure(truth);</div>
 <div class="line">        <span class="keyword">const</span> la::fixed_vector&lt;double, 2&gt; z{{ge::wrap_pi(clean[0] + 0.5 * deg * <a class="code hl_enumvalue" href="group__core.html#gga08793641836b2c6f6c00d8e50cd21167afea087517c26fadd409bd4b9dc642555">normal</a>(g)), clean[1] + 2 * <a class="code hl_enumvalue" href="group__core.html#gga08793641836b2c6f6c00d8e50cd21167afea087517c26fadd409bd4b9dc642555">normal</a>(g)}};</div>
 <div class="line"> </div>

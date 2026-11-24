@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -272,7 +272,7 @@ $(function(){initNavTree('string__traits_8hpp_source.html','',''); });
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> carrier kind = carrier::span;</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keyword">using </span>element = E;</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> owning = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="group__core.html#gaa38982b8f52540438d337e19510b753d">extent</a> = X;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_function" href="group__core.html#gaa38982b8f52540438d337e19510b753d">extent</a> = <a class="code hl_variable" href="group__core.html#ga7d0cac194de047a92f78f3c194765172">X</a>;</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>};</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="comment">// Checked only when no standard carrier matched, so naming e.g. std::basic_string&lt;std::byte&gt; (invalid on libc++)</span></div>
@@ -498,6 +498,7 @@ $(function(){initNavTree('string__traits_8hpp_source.html','',''); });
 <div class="ttc" id="aconceptsnicholls_1_1string__view__like_html"><div class="ttname"><a href="conceptsnicholls_1_1string__view__like.html">snicholls::string_view_like</a></div><div class="ttdef"><b>Definition</b> <a href="#l00424">string_traits.hpp:424</a></div></div>
 <div class="ttc" id="afixed__string_8hpp_html"><div class="ttname"><a href="fixed__string_8hpp.html">fixed_string.hpp</a></div><div class="ttdoc">snicholls::basic_fixed_string and snicholls::fixed_string: compile-time strings usable as template pa...</div></div>
 <div class="ttc" id="agroup__core_html_ga6d4904d03735012430f69815baed610c"><div class="ttname"><a href="group__core.html#ga6d4904d03735012430f69815baed610c">snicholls::code_unit_t</a></div><div class="ttdeci">typename code_unit&lt; S &gt;::type code_unit_t</div><div class="ttdoc">The cv-unqualified code unit: char for const char*, std::byte for span&lt;const std::byte&gt;.</div><div class="ttdef"><b>Definition</b> <a href="#l00379">string_traits.hpp:379</a></div></div>
+<div class="ttc" id="agroup__core_html_ga7d0cac194de047a92f78f3c194765172"><div class="ttname"><a href="group__core.html#ga7d0cac194de047a92f78f3c194765172">snicholls::fsm::X</a></div><div class="ttdeci">constexpr state_t&lt; detail::terminate_state &gt; X</div><div class="ttdoc">X: the terminal state (sml&#39;s X, named &quot;terminate&quot;).</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l00685">state_machine.hpp:685</a></div></div>
 <div class="ttc" id="agroup__core_html_gaa38982b8f52540438d337e19510b753d"><div class="ttname"><a href="group__core.html#gaa38982b8f52540438d337e19510b753d">snicholls::geometry::extent</a></div><div class="ttdeci">constexpr T extent(const box&lt; T, D &gt; &amp;b, std::size_t axis) noexcept</div><div class="ttdoc">The box&#39;s length along an axis.</div><div class="ttdef"><b>Definition</b> <a href="box_8hpp_source.html#l00176">box.hpp:176</a></div></div>
 <div class="ttc" id="agroup__core_html_gabc0f7023593dc226e39f57b7e2d80dc1"><div class="ttname"><a href="group__core.html#gabc0f7023593dc226e39f57b7e2d80dc1">snicholls::enumerator_name</a></div><div class="ttdeci">constexpr std::string_view enumerator_name(code_unit_category c) noexcept</div><div class="ttdoc">Lower-case enumerator spelling, for tables and diagnostics.</div><div class="ttdef"><b>Definition</b> <a href="#l00116">string_traits.hpp:116</a></div></div>
 <div class="ttc" id="agroup__core_html_gaed120115e22bd99baf9c39f98a8f942f"><div class="ttname"><a href="group__core.html#gaed120115e22bd99baf9c39f98a8f942f">snicholls::char_traits_t</a></div><div class="ttdeci">typename decltype(detail::classify&lt; S &gt;::traits_tag())::type char_traits_t</div><div class="ttdoc">The character traits of a text sequence.</div><div class="ttdef"><b>Definition</b> <a href="#l00446">string_traits.hpp:446</a></div></div>

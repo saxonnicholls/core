@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -203,7 +203,7 @@ requires has_attributes&lt;E&gt;</td></tr>
 </ul>
 <p><span class="tt">acout</span> prints a value in its colour, with its label or format; <span class="tt">stats::pivot</span> does the same for its keys and cells. <span class="tt">write_json</span> and <span class="tt">write_enum_json</span> render the same attributes as JSON for imgui and React, from a small program run at build time, so the C++ declaration is the only place a colour or a tooltip is written. A caller's own attribute joins the JSON by specialising <span class="tt">attribute_json</span>.</p>
 <div class="fragment"><div class="line"><span class="keyword">enum class</span> currency : std::uint8_t { usd, eur, jpy };</div>
-<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> attributes(currency c)</div>
+<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#ga57cc099815c21facc446e0c1c92fd5fe">attributes</a>(currency c)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>snicholls;</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gabf98fed933bb9eb45625b63188533c21">per_enumerator</a>(c, [] { <span class="keywordflow">return</span> std::array{<a class="code hl_function" href="group__core.html#gafeaa33a96a80efe6cb353859b9086189">attrs</a>(colours::cyan, label{<span class="stringliteral">&quot;USD&quot;</span>}, tooltip{<span class="stringliteral">&quot;US dollar, 2 decimals&quot;</span>}, minor_units{2}),</div>
@@ -214,7 +214,7 @@ requires has_attributes&lt;E&gt;</td></tr>
 <div class="line"><span class="keyword">struct </span>pnl {</div>
 <div class="line">    <span class="keywordtype">double</span> value;</div>
 <div class="line">};</div>
-<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> attributes(<span class="keyword">const</span> pnl&amp;) { <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gafeaa33a96a80efe6cb353859b9086189">snicholls::attrs</a>(snicholls::sign_colours{}, snicholls::number_format{<span class="stringliteral">&quot;{:+.2f}&quot;</span>}); }</div>
+<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#ga57cc099815c21facc446e0c1c92fd5fe">attributes</a>(<span class="keyword">const</span> pnl&amp;) { <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gafeaa33a96a80efe6cb353859b9086189">snicholls::attrs</a>(snicholls::sign_colours{}, snicholls::number_format{<span class="stringliteral">&quot;{:+.2f}&quot;</span>}); }</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="attributes_8hpp.html" title="attribute_set, attrs and attributes_of: compile-time attributes declared beside a type,...">meta/attributes.hpp</a></span>, <span class="tt"><a class="el" href="colour_8hpp.html" title="snicholls::colour: one display colour, as RGB for user interfaces and an ANSI code for terminals.">colour.hpp</a></span>, <span class="tt"><a class="el" href="acout_8hpp.html" title="snicholls::acout, acerr, print, println: thread-safe printing, one write per message,...">acout.hpp</a></span>, <span class="tt"><a class="el" href="pivot_8hpp.html" title="stats::pivot: a pivot table whose rows, columns and measures are types, filled in one pass.">stats/pivot.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> The attributes are literal types, <span class="tt">constexpr</span> throughout; choosing a colour by sign is one comparison. NaN has no sign colour. <span class="tt">rgba</span> gives imgui's four floats from a colour, <span class="tt">constexpr</span>.</p>
 <p><b>Errors.</b> None: the JSON writer sets the stream's state on a failed write, as any <span class="tt">operator&lt;&lt;</span> does.</p>

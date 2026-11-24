@@ -12,10 +12,11 @@ var searchData=
   ['unknown_5fcountry_5fcode_9',['unknown_country_code',['../group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27a7c0111d2129097349c1fd46670448df7',1,'snicholls']]],
   ['unknown_5fid_10',['unknown_id',['../group__core.html#gga942e705a53af49295fe93a6314dd4e62aba1da3e5391b24a27839cc5f2dd5e080',1,'snicholls::ml']]],
   ['unknown_5fname_11',['unknown_name',['../group__core.html#ggae0b4ee988826a8795617573afb5c6160a6273eb68ea8e0a89d7119aa5bd50c00e',1,'snicholls::ml']]],
-  ['unsupported_12',['unsupported',['../group__core.html#gga997cdf403bc1fdb65d339be4800d8baca723c25877a86786664edc4b643c08a6f',1,'snicholls']]],
-  ['unused_13',['unused',['../group__core.html#ggabecc5bf55e610adea310edf529547519afd94c6a26d6b6571e8d9398446227ae8',1,'snicholls::ml']]],
-  ['upper_14',['upper',['../group__core.html#gga04587c556fd6ca8c8d13ca465bf59921a0122b4c2c01ee1c698ecc309d2b8eb5a',1,'uppersnicholls::linalg'],['../tensor__ops_8hpp.html#a9bab05b097328a850c05d5c486636a7ba0122b4c2c01ee1c698ecc309d2b8eb5a',1,'uppersnicholls::ml']]],
-  ['upper_5fdiag_15',['upper_diag',['../tensor__ops_8hpp.html#a9bab05b097328a850c05d5c486636a7bab74eaf0456c9c8b2c6695b7c8c129964',1,'snicholls::ml']]],
-  ['uppercase_5fletter_16',['uppercase_letter',['../group__core.html#gga224371c45ed55cc808c0072b60380b40aa92a8b24aac043acc8fdcba8b1623f64',1,'snicholls::ml']]],
-  ['user_5fdefined_17',['user_defined',['../group__core.html#ggabecc5bf55e610adea310edf529547519aacf0d09710ee2f2dd6c1124d35d8d842',1,'snicholls::ml']]]
+  ['unknown_5fstate_12',['unknown_state',['../group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a3bde62cc0a1d38ab7517d24de8fa0404',1,'snicholls::fsm']]],
+  ['unsupported_13',['unsupported',['../group__core.html#gga997cdf403bc1fdb65d339be4800d8baca723c25877a86786664edc4b643c08a6f',1,'snicholls']]],
+  ['unused_14',['unused',['../group__core.html#ggabecc5bf55e610adea310edf529547519afd94c6a26d6b6571e8d9398446227ae8',1,'snicholls::ml']]],
+  ['upper_15',['upper',['../group__core.html#gga04587c556fd6ca8c8d13ca465bf59921a0122b4c2c01ee1c698ecc309d2b8eb5a',1,'uppersnicholls::linalg'],['../tensor__ops_8hpp.html#a9bab05b097328a850c05d5c486636a7ba0122b4c2c01ee1c698ecc309d2b8eb5a',1,'uppersnicholls::ml']]],
+  ['upper_5fdiag_16',['upper_diag',['../tensor__ops_8hpp.html#a9bab05b097328a850c05d5c486636a7bab74eaf0456c9c8b2c6695b7c8c129964',1,'snicholls::ml']]],
+  ['uppercase_5fletter_17',['uppercase_letter',['../group__core.html#gga224371c45ed55cc808c0072b60380b40aa92a8b24aac043acc8fdcba8b1623f64',1,'snicholls::ml']]],
+  ['user_5fdefined_18',['user_defined',['../group__core.html#ggabecc5bf55e610adea310edf529547519aacf0d09710ee2f2dd6c1124d35d8d842',1,'snicholls::ml']]]
 ];

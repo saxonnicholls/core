@@ -15,5 +15,6 @@ var searchData=
   ['gradient_5fconverged_12',['gradient_converged',['../group__core.html#ggaa2c0c4883f89903f6820ae4a8e58def2a246e930cdd613c1215b38cdbbfdfb510',1,'snicholls::optim']]],
   ['green_13',['green',['../group__core.html#ggadc161e1bb4e3c95fb1f92903c8e89da9a9f27410725ab8cc8854a2769c7a516b8',1,'snicholls']]],
   ['group_5fstd_14',['group_std',['../group__core.html#gga4cc5cd14ab2819308d20200209849b07a7c2a98362786b9d7ce63a74f37731b4d',1,'snicholls::ml']]],
-  ['guaranteed_15',['guaranteed',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6a7e5b79961b9faf85819de779b895a452',1,'snicholls']]]
+  ['guaranteed_15',['guaranteed',['../namespacesnicholls.html#aa9beb166bd6c96613d69b8bf1e13cfc6a7e5b79961b9faf85819de779b895a452',1,'snicholls']]],
+  ['guard_5frejected_16',['guard_rejected',['../group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a10e5b3d59a4b55073f37dbd3eab432e9',1,'snicholls::fsm']]]
 ];

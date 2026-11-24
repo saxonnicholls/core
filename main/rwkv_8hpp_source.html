@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -259,7 +259,7 @@ $(function(){initNavTree('rwkv_8hpp_source.html','',''); });
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="keyword">        </span>{</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            <span class="keywordflow">for</span> (std::size_t h = 0; h &lt; H; ++h) {</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                <span class="keyword">const</span> std::size_t base = (row * H + h) * N;</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                <span class="keyword">const</span> <span class="keyword">auto</span> s = state.subspan(h * N * N, N * N);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                <span class="keyword">const</span> <span class="keyword">auto</span> s = <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>.subspan(h * N * N, N * N);</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                std::array&lt;T, N&gt; out{};</div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                <span class="keywordflow">for</span> (std::size_t n = 0; n &lt; N; ++n) {</div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                    <span class="keyword">const</span> T k = in.k[base + n], r = in.r[base + n], u = in.u[h * N + n], w = math::exp(in.lw[base + n]);</div>
@@ -325,7 +325,7 @@ $(function(){initNavTree('rwkv_8hpp_source.html','',''); });
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="keyword">        </span>{</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            <span class="keywordflow">for</span> (std::size_t h = 0; h &lt; H; ++h) {</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>                <span class="keyword">const</span> std::size_t base = (row * H + h) * N;</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                <span class="keyword">const</span> <span class="keyword">auto</span> s = state.subspan(h * N * N, N * N);</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                <span class="keyword">const</span> <span class="keyword">auto</span> s = <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>.subspan(h * N * N, N * N);</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                std::array&lt;T, N&gt; sa{}, out{};</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                <span class="keywordflow">for</span> (std::size_t n = 0; n &lt; N; ++n)</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                    <span class="keywordflow">for</span> (std::size_t p = 0; p &lt; N; ++p)</div>
@@ -476,6 +476,7 @@ $(function(){initNavTree('rwkv_8hpp_source.html','',''); });
 <div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
 <div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span><span class="preprocessor">#endif </span><span class="comment">// snicholls_core_ml_rwkv_hpp</span></div>
 <div class="ttc" id="aconstexpr__math_8hpp_html"><div class="ttname"><a href="constexpr__math_8hpp.html">constexpr_math.hpp</a></div><div class="ttdoc">snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...</div></div>
+<div class="ttc" id="agroup__core_html_gae75e00b6fc9a2e79e7741ae131fe4178"><div class="ttname"><a href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">snicholls::fsm::state</a></div><div class="ttdeci">constexpr state_t&lt; S &gt; state</div><div class="ttdoc">state&lt;T&gt;: the state whose identity is the type T (sml&#39;s state&lt;idle&gt;, or a composite state&lt;sub&gt;).</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l00675">state_machine.hpp:675</a></div></div>
 <div class="ttc" id="agroup__core_html_gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9"><div class="ttname"><a href="group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9">snicholls::phone_errc::empty</a></div><div class="ttdeci">@ empty</div><div class="ttdoc">nothing but separators</div><div class="ttdef"><b>Definition</b> <a href="phone__number_8hpp_source.html#l00059">phone_number.hpp:59</a></div></div>
 <div class="ttc" id="arecurrence_8hpp_html"><div class="ttname"><a href="recurrence_8hpp.html">recurrence.hpp</a></div><div class="ttdoc">snicholls::ml recurrences over a sequence: a step and its backward pass give the sequence forward wit...</div></div>
 <div class="ttc" id="arecurrence_8hpp_html_a5fc6feadfcfb72d61acb2135cfa0f626"><div class="ttname"><a href="recurrence_8hpp.html#a5fc6feadfcfb72d61acb2135cfa0f626">snicholls::ml::recurrence_backward</a></div><div class="ttdeci">constexpr void recurrence_backward(const R &amp;r, std::size_t n, std::size_t sequences, std::size_t chunk, std::span&lt; const typename R::value_type &gt; checkpoints, std::span&lt; typename R::value_type &gt; dstates, std::span&lt; typename R::value_type &gt; work)</div><div class="ttdoc">Backpropagation through time from the checkpoints of a forward pass: each chunk&#39;s states recomputed f...</div><div class="ttdef"><b>Definition</b> <a href="recurrence_8hpp_source.html#l00137">recurrence.hpp:137</a></div></div>

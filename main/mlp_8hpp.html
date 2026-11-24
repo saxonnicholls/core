@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -216,7 +216,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// A sequence of tokens at once: the products through a linalg backend, the hidden rows saved for the backward</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; xs{2.0f, -1.0f, 2.0f, -1.0f};   <span class="comment">// the same token twice</span></div>
 <div class="line">    std::array&lt;float, 4&gt; ys{}, sup{}, shidden{}, dxs{}, dup2{}, ddown2{}, scratch{};</div>
-<div class="line">    <span class="keyword">const</span> ml::mlp_activations&lt;float&gt; save{sup, {}, shidden};</div>
+<div class="line">    <span class="keyword">const</span> ml::mlp_activations&lt;float&gt; <a class="code hl_function" href="group__core.html#gaf6a6996b85c2abd14023936459040102">save</a>{sup, {}, shidden};</div>
 <div class="line">    ml::mlp_forward_sequence&lt;relu2&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, relu_w, xs, ys, save);</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; dys{1.0f, 0.0f, 1.0f, 0.0f};</div>
 <div class="line">    ml::mlp_backward_sequence&lt;relu2&gt;(<a class="code hl_variable" href="group__core.html#gaec3c1e6de4213cbdbf5312e26266dbb9">snicholls::linalg::reference</a>, relu_w, xs, save, dys, dxs,</div>

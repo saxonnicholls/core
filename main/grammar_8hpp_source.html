@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -256,7 +256,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                failed = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                error = {pos, <a class="code hl_enumvalue" href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">message</a>};</div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            }</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        }</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        <span class="keyword">constexpr</span> std::uint32_t symbol_id(std::string_view name, std::size_t pos)</div>
@@ -408,7 +408,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>            ++pos;</div>
 <div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>            <span class="keyword">const</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">end</a> = parse_int(pos);</div>
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>            <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">end</a> == npos)</div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                <span class="keywordflow">return</span> {0, <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>};</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                <span class="keywordflow">return</span> {0, npos};</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>            <span class="keyword">const</span> std::uint64_t <span class="keywordtype">id</span> = int_value(pos, <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">end</a>);</div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>            <span class="keywordflow">if</span> (<span class="keywordtype">id</span> &gt; std::numeric_limits&lt;std::uint32_t&gt;::max())</div>
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                <span class="keywordflow">return</span> {0, fail(pos, <span class="stringliteral">&quot;token id is too big&quot;</span>)};</div>
@@ -429,7 +429,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                pos = parse_sequence(parse_space(pos + 1, <span class="keyword">true</span>), rule_name, rule, nested, depth);</div>
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>            }</div>
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>            <span class="keywordflow">if</span> (pos == npos)</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>            rule.push_back({<a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a7f021a1415b86f2d013b2618fb31ae53">grammar_element_type::end</a>, 0});</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            add_rule(rule_id, rule);</div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>            <span class="keywordflow">return</span> pos;</div>
@@ -498,7 +498,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>                            <span class="keywordflow">return</span> fail(pos, <span class="stringliteral">&quot;unexpected end of input&quot;</span>);</div>
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>                        <span class="keyword">const</span> <span class="keyword">auto</span> ch = parse_char(pos);</div>
 <div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>                        <span class="keywordflow">if</span> (ch.next == npos)</div>
-<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>                            <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>                            <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>                        pos = ch.next;</div>
 <div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>                        rule.push_back({<a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a599e41d8cd8cf1ea79e494df54ede29a">grammar_element_type::chr</a>, ch.value});</div>
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>                    }</div>
@@ -517,7 +517,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>                            <span class="keywordflow">return</span> fail(pos, <span class="stringliteral">&quot;unexpected end of input&quot;</span>);</div>
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>                        <span class="keyword">const</span> <span class="keyword">auto</span> ch = parse_char(pos);</div>
 <div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>                        <span class="keywordflow">if</span> (ch.next == npos)</div>
-<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>                            <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>                            <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>                        pos = ch.next;</div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>                        rule.push_back({last_sym_start &lt; rule.size() ? <a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a061626eba58367340026ea8760b6d2a7">grammar_element_type::chr_alt</a> : start_type, ch.value});</div>
 <div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>                        <span class="keywordflow">if</span> (at(pos) == <span class="charliteral">&#39;-&#39;</span> &amp;&amp; at(pos + 1) != <span class="charliteral">&#39;]&#39;</span>) {</div>
@@ -525,7 +525,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>                                <span class="keywordflow">return</span> fail(pos + 1, <span class="stringliteral">&quot;unexpected end of input&quot;</span>);</div>
 <div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>                            <span class="keyword">const</span> <span class="keyword">auto</span> upper = parse_char(pos + 1);</div>
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>                            <span class="keywordflow">if</span> (upper.next == npos)</div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>                                <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>                                <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>                            pos = upper.next;</div>
 <div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>                            rule.push_back({<a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516abb9021bb8a89dd11e2c3d027944d3d61">grammar_element_type::chr_range_upper</a>, upper.value});</div>
 <div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>                        }</div>
@@ -539,7 +539,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>                    }</div>
 <div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>                    <span class="keyword">const</span> <span class="keyword">auto</span> t = parse_token(pos);</div>
 <div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>                    <span class="keywordflow">if</span> (t.next == npos)</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>                        <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>                        <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>                    last_sym_start = rule.size();</div>
 <div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>                    n_prev_rules = 1;</div>
 <div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>                    rule.push_back({type, t.value});</div>
@@ -560,7 +560,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>                    <span class="keyword">const</span> std::uint32_t sub = generate_symbol_id(rule_name, <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a7cef8a734855777c2a9d0caf42666e69">open</a>);</div>
 <div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>                    pos = parse_alternates(pos, rule_name, sub, <span class="keyword">true</span>, depth + 1);</div>
 <div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>                    <span class="keywordflow">if</span> (pos == npos)</div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>                        <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>                        <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>                    n_prev_rules = std::max&lt;std::uint64_t&gt;(1, names.size() - n_before);</div>
 <div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>                    last_sym_start = rule.size();</div>
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>                    rule.push_back({<a class="code hl_enumvalue" href="group__core.html#ggaaa3a7ee305c1e7219fb9191d683f3516a57be1d07700ec4eb46f29b17b11475f9">grammar_element_type::rule_ref</a>, sub});</div>
@@ -577,7 +577,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>                    pos = parse_space(pos + 1, nested);</div>
 <div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>                    <span class="keyword">const</span> std::uint64_t lo = c == <span class="charliteral">&#39;+&#39;</span> ? 1 : 0, hi = c == <span class="charliteral">&#39;?&#39;</span> ? 1 : no_max;</div>
 <div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>                    <span class="keywordflow">if</span> (!repeat(rule, last_sym_start, n_prev_rules, rule_name, lo, hi, at_op))</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>                        <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>                        <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;{&#39;</span>) {</div>
 <div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>                    <span class="keyword">const</span> std::size_t at_op = pos;</div>
 <div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>                    pos = parse_space(pos + 1, nested);</div>
@@ -608,7 +608,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>                    <span class="keywordflow">if</span> (max_times != no_max &amp;&amp; max_times &gt; max_repetition)</div>
 <div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>                        max_times = no_max;</div>
 <div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>                    <span class="keywordflow">if</span> (!repeat(rule, last_sym_start, n_prev_rules, rule_name, min_times, max_times, at_op))</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>                        <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>                        <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>                } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>                }</div>
@@ -620,7 +620,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>        {</div>
 <div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>            <span class="keyword">const</span> std::size_t name_end = parse_name(pos);</div>
 <div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>            <span class="keywordflow">if</span> (name_end == npos)</div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>                <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>            <span class="keyword">const</span> std::string name(src.substr(pos, name_end - pos));</div>
 <div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>            <span class="keyword">const</span> std::uint32_t <span class="keywordtype">id</span> = symbol_id(name, pos);</div>
 <div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>            pos = parse_space(name_end, <span class="keyword">false</span>);</div>
@@ -628,7 +628,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>                <span class="keywordflow">return</span> fail(pos, <span class="stringliteral">&quot;expecting ::=&quot;</span>);</div>
 <div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>            pos = parse_alternates(parse_space(pos + 3, <span class="keyword">true</span>), name, <span class="keywordtype">id</span>, <span class="keyword">false</span>, 0);</div>
 <div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>            <span class="keywordflow">if</span> (pos == npos)</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>                <span class="keywordflow">return</span> npos;</div>
 <div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>            <span class="keywordflow">if</span> (at(pos) == <span class="charliteral">&#39;\r&#39;</span>)</div>
 <div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>                pos += at(pos + 1) == <span class="charliteral">&#39;\n&#39;</span> ? 2 : 1;</div>
 <div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (at(pos) == <span class="charliteral">&#39;\n&#39;</span>)</div>
@@ -653,7 +653,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>            <span class="keywordflow">if</span> (depth &gt; recursion_limit)</div>
 <div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>            state[index] = 1;</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>            <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>[index] = 1;</div>
 <div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; rule = rules[index];</div>
 <div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>            <span class="keywordtype">bool</span> at_start = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; e : rule) {</div>
@@ -679,7 +679,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>                    recurse = end_of_sequence(e);</div>
 <div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>                }</div>
 <div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>            }</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>            state[index] = 2;</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>            <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>[index] = 2;</div>
 <div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>        }</div>
 <div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span> </div>
@@ -708,7 +708,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>                }</div>
 <div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            <span class="keywordflow">if</span> (!has_root)</div>
 <div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#ga8d76a562dc7f8e33e85297d6ea8406f2">err</a>(grammar_error{src.size(), <span class="stringliteral">&quot;the grammar has no root rule&quot;</span>});</div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            std::vector&lt;char&gt; state(rules.size(), 0), may_be_empty(rules.size(), 0);</div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            std::vector&lt;char&gt; <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>(rules.size(), 0), may_be_empty(rules.size(), 0);</div>
 <div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; rules.size(); ++i) {</div>
 <div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>                <span class="keywordflow">if</span> (state[i] == 2)</div>
 <div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>                    <span class="keywordflow">continue</span>;</div>
@@ -1150,7 +1150,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>    <span class="comment">// Whether a stack can take some completion of an unfinished sequence (any stack, when none is unfinished)</span></div>
 <div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> keeps_partial(<span class="keyword">const</span> <a class="code hl_typedef" href="classsnicholls_1_1ml_1_1grammar__matcher.html#a3ef7dac88fe42487f4bdc7f7c0e8d64c">stack</a>&amp; s, grammar_utf8_state state)<span class="keyword"> const</span></div>
 <div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>        <span class="keywordflow">return</span> state.remaining == 0 || (!s.empty() &amp;&amp; !is_token(g_.elements[s.back()]) &amp;&amp; match_partial_char(s.back(), state));</div>
+<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>.remaining == 0 || (!s.empty() &amp;&amp; !is_token(g_.elements[s.back()]) &amp;&amp; match_partial_char(s.back(), state));</div>
 <div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>    }</div>
 <div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span> </div>
 <div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span>    <span class="comment">// The stacks that one stack becomes after the code points</span></div>
@@ -1236,6 +1236,7 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ga8d76a562dc7f8e33e85297d6ea8406f2"><div class="ttname"><a href="group__core.html#ga8d76a562dc7f8e33e85297d6ea8406f2">snicholls::err</a></div><div class="ttdeci">constexpr err_t&lt; std::decay_t&lt; E &gt; &gt; err(E &amp;&amp;e) noexcept(std::is_nothrow_constructible_v&lt; std::decay_t&lt; E &gt;, E &gt;)</div><div class="ttdoc">Rust&#39;s Err(e): an error tag holding e (decayed, moved or copied).</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l00221">result.hpp:221</a></div></div>
 <div class="ttc" id="agroup__core_html_gaaa3a7ee305c1e7219fb9191d683f3516"><div class="ttname"><a href="group__core.html#gaaa3a7ee305c1e7219fb9191d683f3516">snicholls::ml::grammar_element_type</a></div><div class="ttdeci">grammar_element_type</div><div class="ttdoc">The kind of a grammar element, with llama.cpp&#39;s llama_gretype values.</div><div class="ttdef"><b>Definition</b> <a href="#l00111">grammar.hpp:112</a></div></div>
 <div class="ttc" id="agroup__core_html_gab1366a52fc6758364b5de782e34cab51"><div class="ttname"><a href="group__core.html#gab1366a52fc6758364b5de782e34cab51">snicholls::ok</a></div><div class="ttdeci">constexpr ok_t&lt; std::decay_t&lt; V &gt; &gt; ok(V &amp;&amp;v) noexcept(std::is_nothrow_constructible_v&lt; std::decay_t&lt; V &gt;, V &gt;)</div><div class="ttdoc">Rust&#39;s Ok(v): a success tag holding v (decayed, moved or copied).</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l00206">result.hpp:206</a></div></div>
+<div class="ttc" id="agroup__core_html_gae75e00b6fc9a2e79e7741ae131fe4178"><div class="ttname"><a href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">snicholls::fsm::state</a></div><div class="ttdeci">constexpr state_t&lt; S &gt; state</div><div class="ttdoc">state&lt;T&gt;: the state whose identity is the type T (sml&#39;s state&lt;idle&gt;, or a composite state&lt;sub&gt;).</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l00675">state_machine.hpp:675</a></div></div>
 <div class="ttc" id="agroup__core_html_gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3"><div class="ttname"><a href="group__core.html#gga316ffc14d2907623d2fa44507c30d13fa78e731027d8fd50ed642340b7c9a63b3">snicholls::payload_kind::message</a></div><div class="ttdeci">@ message</div><div class="ttdoc">the bytes to sign; the signer hashes as its algorithm requires (a JWS signing input)</div><div class="ttdef"><b>Definition</b> <a href="concepts_2signer_8hpp_source.html#l00109">signer.hpp:109</a></div></div>
 <div class="ttc" id="agroup__core_html_gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51"><div class="ttname"><a href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">snicholls::ml::pooling_kind::last</a></div><div class="ttdeci">@ last</div><div class="ttdoc">The last row.</div><div class="ttdef"><b>Definition</b> <a href="pooling_8hpp_source.html#l00082">pooling.hpp:82</a></div></div>
 <div class="ttc" id="agroup__core_html_gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9"><div class="ttname"><a href="group__core.html#gga75b1c852a5f0d917ca5f891fcee8de27aa2e4822a98337283e39f7b60acf85ec9">snicholls::phone_errc::empty</a></div><div class="ttdeci">@ empty</div><div class="ttdoc">nothing but separators</div><div class="ttdef"><b>Definition</b> <a href="phone__number_8hpp_source.html#l00059">phone_number.hpp:59</a></div></div>
@@ -1281,7 +1282,6 @@ $(function(){initNavTree('grammar_8hpp_source.html','',''); });
 <div class="ttc" id="astructsnicholls_1_1ml_1_1grammar_html_ada72661388986b6d8b1c81f4b2a351f3"><div class="ttname"><a href="structsnicholls_1_1ml_1_1grammar.html#ada72661388986b6d8b1c81f4b2a351f3">snicholls::ml::grammar::root</a></div><div class="ttdeci">std::uint32_t root</div><div class="ttdoc">The id of the start rule.</div><div class="ttdef"><b>Definition</b> <a href="#l00178">grammar.hpp:178</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1grammar_html_adb1dd99eb29be8584b6916133b3a73fb"><div class="ttname"><a href="structsnicholls_1_1ml_1_1grammar.html#adb1dd99eb29be8584b6916133b3a73fb">snicholls::ml::grammar::find</a></div><div class="ttdeci">constexpr std::uint32_t find(std::string_view name) const</div><div class="ttdoc">The id of a rule by name.</div><div class="ttdef"><b>Definition</b> <a href="#l00187">grammar.hpp:187</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1ml_1_1grammar_html_adbfc38234157ea94c8254bd6a85a0573"><div class="ttname"><a href="structsnicholls_1_1ml_1_1grammar.html#adbfc38234157ea94c8254bd6a85a0573">snicholls::ml::grammar::rules</a></div><div class="ttdeci">std::vector&lt; std::uint32_t &gt; rules</div><div class="ttdoc">The first element of each rule.</div><div class="ttdef"><b>Definition</b> <a href="#l00176">grammar.hpp:176</a></div></div>
-<div class="ttc" id="atype__list_8hpp_html_a6304abdc12dad14e0882c211a5cc9e55"><div class="ttname"><a href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">snicholls::meta::npos</a></div><div class="ttdeci">constexpr std::size_t npos</div><div class="ttdoc">&quot;Not found&quot; for index_of_v.</div><div class="ttdef"><b>Definition</b> <a href="type__list_8hpp_source.html#l00107">type_list.hpp:107</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

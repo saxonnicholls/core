@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -847,7 +847,7 @@ $(function(){initNavTree('type__list_8hpp_source.html','',''); });
 <div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>};</div>
 <div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span> </div>
 <div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Arg, <span class="keywordtype">bool</span> Threaded&gt;</div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span><span class="keyword">inline</span> <span class="keyword">constexpr</span> std::size_t thread_length_v = <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span><span class="keyword">inline</span> <span class="keyword">constexpr</span> std::size_t thread_length_v = npos;</div>
 <div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Arg&gt;</div>
 <div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span><span class="keyword">inline</span> <span class="keyword">constexpr</span> std::size_t thread_length_v&lt;Arg, true&gt; = rename_t&lt;Arg, type_list&gt;::size;</div>
 <div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span> </div>
@@ -867,9 +867,9 @@ $(function(){initNavTree('type__list_8hpp_source.html','',''); });
 <div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span> </div>
 <div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>    <span class="keyword">static</span> <span class="keyword">consteval</span> std::size_t shortest() noexcept</div>
 <div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>    {</div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>        std::size_t shortest_length = <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a>;</div>
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>        std::size_t shortest_length = npos;</div>
 <div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>        ((shortest_length = thread_length_v&lt;Args, threads&lt;Args, Ps&gt;&gt; &lt; shortest_length ? thread_length_v&lt;Args, threads&lt;Args, Ps&gt;&gt; : shortest_length), ...);</div>
-<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>        <span class="keywordflow">return</span> shortest_length == <a class="code hl_variable" href="type__list_8hpp.html#a6304abdc12dad14e0882c211a5cc9e55">npos</a> ? 0 : shortest_length;</div>
+<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>        <span class="keywordflow">return</span> shortest_length == npos ? 0 : shortest_length;</div>
 <div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>    }</div>
 <div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::size_t length = shortest();</div>
 <div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>    <span class="keyword">static_assert</span>((<span class="keyword">true</span> &amp;&amp; ... &amp;&amp; (!threads&lt;Args, Ps&gt; || thread_length_v&lt;Args, threads&lt;Args, Ps&gt;&gt; == length)),</div>

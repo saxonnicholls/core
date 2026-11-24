@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -143,7 +143,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> ml::short_conv_weights&lt;float&gt; w{taps, channels, width, bias};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, n * channels&gt; prompt{4, 1, 8, 2, 4, 4, 0, 8, 4, 16};</div>
 <div class="line">    std::array&lt;float, n * channels&gt; y{};</div>
-<div class="line">    std::array&lt;float, ml::short_conv_state_size(channels, width)&gt; state{};   <span class="comment">// zeros: a new sequence</span></div>
+<div class="line">    std::array&lt;float, ml::short_conv_state_size(channels, width)&gt; <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>{};   <span class="comment">// zeros: a new sequence</span></div>
 <div class="line">    ml::short_conv_forward(backend, w, std::span&lt;const float&gt;(prompt), std::span&lt;float&gt;(y), 1, std::span&lt;float&gt;(state));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Decoding: the state holds the prompt&#39;s last three tokens</span></div>

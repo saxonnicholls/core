@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -321,7 +321,7 @@ requires (C.experts &gt; 0) &amp;&amp; std::same_as&lt;<a class="el" href="group
 <div class="line">        <span class="keywordflow">for</span> (std::size_t e = 0; e &lt; 8; ++e)</div>
 <div class="line">            skewed[t * 8 + e] += 0.4f * (3.5f - <span class="keywordtype">float</span>(e));</div>
 <div class="line">    std::vector&lt;float&gt; b(8, 0.0f), wts(tokens * 2);</div>
-<div class="line">    std::vector&lt;u32&gt; chosen(tokens * 2), load(8);</div>
+<div class="line">    std::vector&lt;u32&gt; chosen(tokens * 2), <a class="code hl_function" href="group__core.html#ga45b0d84db57e05d7b870a2272646f25e">load</a>(8);</div>
 <div class="line">    ml::moe_load&lt;8&gt; before, after;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> s = 0; s &lt;= 300; ++s) {</div>
 <div class="line">        ml::moe_route_rows&lt;ds&gt;(backend, skewed, b, chosen, std::span&lt;float&gt;(wts));</div>

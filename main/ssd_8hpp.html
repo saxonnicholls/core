@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -151,15 +151,15 @@ Functions</h2></td></tr>
 </ul>
 <div class="fragment"><div class="line">    <span class="comment">// tiny_mamba2: 2 heads of 4 channels sharing one group of 4 state channels, chunks of 4</span></div>
 <div class="line">    <span class="keyword">constexpr</span> ml::transformer_config C = ml::tiny_mamba2;</div>
-<div class="line">    <span class="keyword">constexpr</span> std::size_t n = 10, H = C.mixer_heads, P = C.mixer_head_dim, N = C.mixer_state;</div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t n = 10, <a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a> = C.mixer_heads, P = C.mixer_head_dim, N = C.mixer_state;</div>
 <div class="line">    std::array&lt;double, n * H * P&gt; x{};</div>
 <div class="line">    std::array&lt;double, n * H&gt; dt{};</div>
 <div class="line">    std::array&lt;double, n * N&gt; b{}, c{};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;double, H&gt; a{-0.5, -2.0};   <span class="comment">// A: the second head forgets faster</span></div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t t = 0; t &lt; n; ++t) {</div>
-<div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; H * P; ++i)</div>
+<div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; <a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a> * P; ++i)</div>
 <div class="line">            x[t * H * P + i] = std::sin(0.3 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(t + i));</div>
-<div class="line">        <span class="keywordflow">for</span> (std::size_t h = 0; h &lt; H; ++h)</div>
+<div class="line">        <span class="keywordflow">for</span> (std::size_t h = 0; h &lt; <a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a>; ++h)</div>
 <div class="line">            dt[t * H + h] = 0.1 + 0.05 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(h + t % 3);</div>
 <div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; N; ++i) {</div>
 <div class="line">            b[t * N + i] = std::cos(0.2 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(t * N + i));</div>
@@ -177,7 +177,7 @@ Functions</h2></td></tr>
 <div class="line">    ml::ssd_forward_chunked&lt;C&gt;(backend, in, std::span&lt;double&gt;(y_chunked), 1, std::span&lt;double&gt;(state_chunked), std::span&lt;double&gt;(checkpoints));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Decoding: one token at a time, the same S numbers whatever the length</span></div>
-<div class="line">    std::array&lt;double, S&gt; state{};</div>
+<div class="line">    std::array&lt;double, S&gt; <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>{};</div>
 <div class="line">    std::array&lt;double, H * P&gt; y_t{};</div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t t = 0; t &lt; n; ++t)</div>
 <div class="line">        ml::ssd_step&lt;C&gt;(ml::ssd_inputs&lt;double&gt;{std::span&lt;const double&gt;(x).subspan(t * H * P, H * P), std::span&lt;const double&gt;(dt).subspan(t * H, H), a,</div>

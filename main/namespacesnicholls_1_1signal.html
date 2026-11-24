@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -112,6 +112,16 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A plan for real transforms of one length, over tables in memory the caller owns.  <a href="classsnicholls_1_1signal_1_1rfft__plan.html#details">More...</a><br /></td></tr>
 <tr class="memitem:static_5Frfft_5Fplan" id="r_static_5Frfft_5Fplan"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1signal_1_1static__rfft__plan.html">static_rfft_plan</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A real-transform plan for a length known at compile time, every table computed by the compiler.  <a href="classsnicholls_1_1signal_1_1static__rfft__plan.html#details">More...</a><br /></td></tr>
+<tr class="memitem:goertzel_5Fcoefficients" id="r_goertzel_5Fcoefficients"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1signal_1_1goertzel__coefficients.html">goertzel_coefficients</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What a Goertzel detector knows before it sees a sample: the coefficient <span class="tt">2 cos w</span>, <span class="tt">cos w</span>, <span class="tt">sin w</span>, the block's phase factor and the bin.  <a href="structsnicholls_1_1signal_1_1goertzel__coefficients.html#details">More...</a><br /></td></tr>
+<tr class="memitem:goertzel_5Fstate" id="r_goertzel_5Fstate"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1signal_1_1goertzel__state.html">goertzel_state</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Goertzel recurrence's state: two values and a count, trivially copyable.  <a href="structsnicholls_1_1signal_1_1goertzel__state.html#details">More...</a><br /></td></tr>
+<tr class="memitem:goertzel" id="r_goertzel"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1signal_1_1goertzel.html">goertzel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Goertzel detector for a frequency chosen at run time: the coefficients and the state.  <a href="classsnicholls_1_1signal_1_1goertzel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:static_5Fgoertzel" id="r_static_5Fgoertzel"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1signal_1_1static__goertzel.html">static_goertzel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Goertzel detector whose frequency, sample rate, block length and window are template parameters: every constant computed by the compiler, the object the state alone.  <a href="classsnicholls_1_1signal_1_1static__goertzel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:goertzel_5Fbank" id="r_goertzel_5Fbank"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1signal_1_1goertzel__bank.html">goertzel_bank</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">K</span> Goertzel detectors over the same block, every state updated by each sample in one pass.  <a href="classsnicholls_1_1signal_1_1goertzel__bank.html#details">More...</a><br /></td></tr>
 <tr class="memitem:biquad" id="r_biquad"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1signal_1_1biquad.html">biquad</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One second-order section, normalised so <span class="tt">a0 = 1</span>.  <a href="structsnicholls_1_1signal_1_1biquad.html#details">More...</a><br /></td></tr>
 <tr class="memitem:biquad_5Fstate" id="r_biquad_5Fstate"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsnicholls_1_1signal_1_1biquad__state.html">biquad_state</a></td></tr>

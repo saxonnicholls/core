@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -186,7 +186,7 @@ $(function(){initNavTree('hmac_8hpp_source.html','',''); });
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    }</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    H inner_{};</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    H outer_{};</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a> outer_{};</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>};</div>
 </div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
@@ -203,6 +203,7 @@ $(function(){initNavTree('hmac_8hpp_source.html','',''); });
 <div class="ttc" id="aclasssnicholls_1_1hmac_html_af95f93da453d71a346c999fd88c9c1ce"><div class="ttname"><a href="classsnicholls_1_1hmac.html#af95f93da453d71a346c999fd88c9c1ce">snicholls::hmac::digest_size</a></div><div class="ttdeci">static constexpr std::size_t digest_size</div><div class="ttdoc">The tag&#39;s size in bytes: the hash&#39;s digest size.</div><div class="ttdef"><b>Definition</b> <a href="#l00078">hmac.hpp:78</a></div></div>
 <div class="ttc" id="adigest_8hpp_html"><div class="ttname"><a href="digest_8hpp.html">digest.hpp</a></div><div class="ttdoc">digest&lt;N&gt;, the value every hash in core returns, and the concepts the hashes share.</div></div>
 <div class="ttc" id="agroup__core_html_gaa8e05c041a3377752720801cc269f7cf"><div class="ttname"><a href="group__core.html#gaa8e05c041a3377752720801cc269f7cf">snicholls::constant_time_equal</a></div><div class="ttdeci">constexpr bool constant_time_equal(const A &amp;a, const B &amp;b) noexcept</div><div class="ttdoc">Whether a and b hold the same bytes, in time independent of where they differ.</div><div class="ttdef"><b>Definition</b> <a href="secure_8hpp_source.html#l00098">secure.hpp:98</a></div></div>
+<div class="ttc" id="agroup__core_html_gabf4bd97f5161c5ad18e5b83759d0ad9b"><div class="ttname"><a href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">snicholls::fsm::H</a></div><div class="ttdeci">constexpr history_t H</div><div class="ttdoc">The history marker, written as sml writes it: state&lt;idle&gt;(H).</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l00219">state_machine.hpp:219</a></div></div>
 <div class="ttc" id="agroup__core_html_gacc13f6fdd974f6821c202e99e5e75a6b"><div class="ttname"><a href="group__core.html#gacc13f6fdd974f6821c202e99e5e75a6b">snicholls::inner</a></div><div class="ttdeci">constexpr decltype(auto) inner(F &amp;&amp;f, A &amp;&amp;a, B &amp;&amp;b, G &amp;&amp;g)</div><div class="ttdoc">Wolfram&#39;s Inner[f, list1, list2, g]: g(f(a0, b0), f(a1, b1), ...), the generalised dot product of two...</div><div class="ttdef"><b>Definition</b> <a href="thread__apply_8hpp_source.html#l00286">thread_apply.hpp:286</a></div></div>
 <div class="ttc" id="agroup__core_html_gadd5c8718100bf23b5c2c6801f56bf5d9"><div class="ttname"><a href="group__core.html#gadd5c8718100bf23b5c2c6801f56bf5d9">snicholls::secure_wipe</a></div><div class="ttdeci">constexpr void secure_wipe(std::span&lt; T, Extent &gt; s) noexcept</div><div class="ttdoc">Zeroes s in a way the optimiser may not remove, for memory that held a secret.</div><div class="ttdef"><b>Definition</b> <a href="secure_8hpp_source.html#l00072">secure.hpp:72</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>

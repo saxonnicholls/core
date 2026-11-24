@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -150,7 +150,7 @@ Variables</h2></td></tr>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// One set per greek, in enumerator order; leaving one out is a compile error.</span></div>
-<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> attributes(greek g)</div>
+<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#ga57cc099815c21facc446e0c1c92fd5fe">attributes</a>(greek g)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using namespace </span>snicholls;</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gabf98fed933bb9eb45625b63188533c21">per_enumerator</a>(g, [] { <span class="keywordflow">return</span> std::array{</div>
@@ -168,7 +168,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="keyword">struct </span>pnl {   <span class="comment">// P&amp;L is green when up and red when down, wherever it prints</span></div>
 <div class="line">    <span class="keywordtype">double</span> value;</div>
 <div class="line">};</div>
-<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> attributes(<span class="keyword">const</span> pnl&amp;) { <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gafeaa33a96a80efe6cb353859b9086189">snicholls::attrs</a>(snicholls::sign_colours{}, snicholls::number_format{<span class="stringliteral">&quot;{:+.0f}&quot;</span>}); }</div>
+<div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#ga57cc099815c21facc446e0c1c92fd5fe">attributes</a>(<span class="keyword">const</span> pnl&amp;) { <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#gafeaa33a96a80efe6cb353859b9086189">snicholls::attrs</a>(snicholls::sign_colours{}, snicholls::number_format{<span class="stringliteral">&quot;{:+.0f}&quot;</span>}); }</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Everything is known to the compiler.</span></div>
 <div class="line"><span class="keyword">static_assert</span>(<a class="code hl_function" href="group__core.html#ga908b274c0cbe35b3e1192ee0c6641d07">snicholls::attributes_of</a>(greek::vanna).get&lt;snicholls::tooltip&gt;().<a class="code hl_enumvalue" href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a1cb251ec0d568de6a929b520c4aed8d1">text</a>.starts_with(<span class="stringliteral">&quot;d2V/dS dsigma&quot;</span>));</div>

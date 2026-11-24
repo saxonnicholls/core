@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -241,13 +241,13 @@ Variables</h2></td></tr>
 <div class="line">            v[i] = {m::cos(2 * m::pi * 2.0 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(i) / 16.0), 0.0};</div>
 <div class="line">        <span class="keywordflow">return</span> v;</div>
 <div class="line">    }();</div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> X = s::fft(x);   <span class="comment">// the plan (twiddles, bit reversal) and the transform, all in constant evaluation</span></div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="group__core.html#ga7d0cac194de047a92f78f3c194765172">X</a> = s::fft(x);   <span class="comment">// the plan (twiddles, bit reversal) and the transform, all in constant evaluation</span></div>
 <div class="line">    <span class="keyword">static_assert</span>(m::near(X[2].re, 8.0, 1e-13) &amp;&amp; m::near(X[14].re, 8.0, 1e-13) &amp;&amp; m::near(s::abs(X[5]), 0.0, 1e-13));</div>
 <div class="line">    <span class="comment">// A plan for a length known when the program is written: tables as std::arrays, written by a consteval constructor.</span></div>
 <div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> s::static_fft_plan&lt;float, 1024&gt; plan1024{};</div>
 <div class="line">    <span class="comment">// Real input: the half spectrum.</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> H = s::rfft(std::array&lt;double, 8&gt;{1, 1, 1, 1, 0, 0, 0, 0});</div>
-<div class="line">    <span class="keyword">static_assert</span>(H.size() == 5 &amp;&amp; H[0].re == 4.0);</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a> = s::rfft(std::array&lt;double, 8&gt;{1, 1, 1, 1, 0, 0, 0, 0});</div>
+<div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a>.size() == 5 &amp;&amp; H[0].re == 4.0);</div>
 </div><!-- fragment --> <div class="fragment"><div class="line">    <span class="comment">// Run-time plans over memory the caller owns; nothing allocates while transforming.</span></div>
 <div class="line">    <span class="keyword">const</span> std::size_t n = 1000;   <span class="comment">// 4 x 2 x 5 x 5 x 5: mixed radix</span></div>
 <div class="line">    std::vector&lt;cd&gt; storage(s::fft_plan&lt;double&gt;::storage_size(n)), work(s::fft_plan&lt;double&gt;::work_size(n)), data(n);</div>

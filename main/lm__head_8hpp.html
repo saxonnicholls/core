@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.23.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -160,7 +160,7 @@ requires linalg::blas_backend&lt;B, T&gt;</td></tr>
 <div class="line">    <span class="comment">// Evaluation, with the trained table, needs no gradient buffers</span></div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t t = 0; t &lt; tokens.size(); ++t)</div>
 <div class="line">        ml::embed(table, tokens[t], std::span&lt;float&gt;(hs).subspan(t * d, d));</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> eval = ml::lm_head_loss(ml::dense_weights&lt;float&gt;{table, vocab, d}, hs, next, logits);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="group__core.html#ga43c72d9b4acf627549096a0ff1388100">eval</a> = ml::lm_head_loss(ml::dense_weights&lt;float&gt;{table, vocab, d}, hs, next, logits);</div>
 </div><!-- fragment --><p><span class="tt">lm_head_loss_sequence(backend, head, hs, targets, logits, losses, dhs, dhead, classes)</span> is the batched form for training on a device: the whole sequence's logits (<span class="tt">n x V</span>, the caller's) as one product through a <span class="tt">linalg</span> backend, then <span class="tt">cross_entropy_rows</span>, then the gradients; the same loss to the bit through core's reference (TRAINING.md T9). Its <span class="tt">weight</span> and <span class="tt">denominator</span> (defaults 1 and the targets' count, the mean) let a multi-token prediction depth share the head (TRAINING.md T12).</p>
 <div class="fragment"><div class="line">    <span class="comment">// For training on a device: the whole sequence&#39;s logits as one product through a linalg backend (here core&#39;s</span></div>
 <div class="line">    <span class="comment">// reference), then the fused classifier on every row, then the gradients; the same loss as lm_head_loss</span></div>

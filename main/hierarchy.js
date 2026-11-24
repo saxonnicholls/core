@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "snicholls::fsm::_", "structsnicholls_1_1fsm_1_1__.html", null ],
     [ "snicholls::abbreviation", "structsnicholls_1_1abbreviation.html", null ],
     [ "snicholls::acout", "classsnicholls_1_1acout.html", [
       [ "snicholls::acerr", "structsnicholls_1_1acerr.html", null ]
@@ -42,6 +43,7 @@ var hierarchy =
     [ "snicholls::containers::ann_neighbour", "structsnicholls_1_1containers_1_1ann__neighbour.html", null ],
     [ "snicholls::containers::ann_node", "structsnicholls_1_1containers_1_1ann__node.html", null ],
     [ "snicholls::containers::ann_storage", "structsnicholls_1_1containers_1_1ann__storage.html", null ],
+    [ "snicholls::fsm::anonymous", "structsnicholls_1_1fsm_1_1anonymous.html", null ],
     [ "snicholls::any_source", "structsnicholls_1_1any__source.html", null ],
     [ "snicholls::country::AO", "structsnicholls_1_1country_1_1AO.html", null ],
     [ "snicholls::currency::AOA", "structsnicholls_1_1currency_1_1AOA.html", null ],
@@ -305,6 +307,7 @@ var hierarchy =
     [ "snicholls::callable_traits&lt; std::remove_cvref_t&lt; F &gt; &gt;", "structsnicholls_1_1callable__traits.html", [
       [ "snicholls::callable_traits< F >", "structsnicholls_1_1callable__traits_3_01F_01_4.html", null ]
     ] ],
+    [ "snicholls::fsm::lifecycle_event::cancel", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1cancel.html", null ],
     [ "snicholls::capability_conformance_failure", "structsnicholls_1_1capability__conformance__failure.html", null ],
     [ "snicholls::capability_conformance_report", "structsnicholls_1_1capability__conformance__report.html", null ],
     [ "snicholls::capability_error", "structsnicholls_1_1capability__error.html", null ],
@@ -348,6 +351,7 @@ var hierarchy =
     [ "snicholls::ml::composed_block_gradients&lt; AttentionGradients, MlpGradients, T &gt;", "structsnicholls_1_1ml_1_1composed__block__gradients.html", null ],
     [ "snicholls::ml::composed_block_weights&lt; Attention, Mlp, T &gt;", "structsnicholls_1_1ml_1_1composed__block__weights.html", null ],
     [ "snicholls::optim::cone_kind", "structsnicholls_1_1optim_1_1cone__kind.html", null ],
+    [ "snicholls::fsm::lifecycle_event::confirm", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1confirm.html", null ],
     [ "snicholls::meta::constant&lt; V &gt;", "structsnicholls_1_1meta_1_1constant.html", null ],
     [ "snicholls::tracking::constant_nth_derivative&lt; T, N &gt;", "structsnicholls_1_1tracking_1_1constant__nth__derivative.html", null ],
     [ "snicholls::tracking::constant_turn&lt; T &gt;", "structsnicholls_1_1tracking_1_1constant__turn.html", null ],
@@ -405,6 +409,7 @@ var hierarchy =
     [ "snicholls::digest_hex&lt; Bytes &gt;", "structsnicholls_1_1digest__hex.html", null ],
     [ "snicholls::ml::digits_pattern&lt; Max &gt;", "structsnicholls_1_1ml_1_1digits__pattern.html", null ],
     [ "snicholls::ml::diloco_config", "structsnicholls_1_1ml_1_1diloco__config.html", null ],
+    [ "snicholls::fsm::dispatch&lt; D &gt;", "structsnicholls_1_1fsm_1_1dispatch.html", null ],
     [ "snicholls::ml::dist_sampler", "structsnicholls_1_1ml_1_1dist__sampler.html", null ],
     [ "snicholls::country::DJ", "structsnicholls_1_1country_1_1DJ.html", null ],
     [ "snicholls::currency::DJF", "structsnicholls_1_1currency_1_1DJF.html", null ],
@@ -459,6 +464,8 @@ var hierarchy =
     [ "snicholls::currency::ETB", "structsnicholls_1_1currency_1_1ETB.html", null ],
     [ "snicholls::native::ETH", "structsnicholls_1_1native_1_1ETH.html", null ],
     [ "snicholls::currency::EUR", "structsnicholls_1_1currency_1_1EUR.html", null ],
+    [ "snicholls::fsm::event_expr&lt; E, G, A &gt;", "structsnicholls_1_1fsm_1_1event__expr.html", null ],
+    [ "snicholls::fsm::event_t&lt; E &gt;", "structsnicholls_1_1fsm_1_1event__t.html", null ],
     [ "snicholls::chain::detail::evm_chain&lt; 1, native::ETH &gt;", null, [
       [ "snicholls::chain::ethereum", "structsnicholls_1_1chain_1_1ethereum.html", null ]
     ] ],
@@ -503,7 +510,9 @@ var hierarchy =
         [ "snicholls::utc_error", "structsnicholls_1_1utc__error.html", null ]
       ] ]
     ] ],
+    [ "snicholls::fsm::lifecycle_event::expire", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1expire.html", null ],
     [ "snicholls::fact_refs", "structsnicholls_1_1fact__refs.html", null ],
+    [ "snicholls::fsm::lifecycle_event::fail", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1fail.html", null ],
     [ "snicholls::ml::falcon_punctuation_pattern", "structsnicholls_1_1ml_1_1falcon__punctuation__pattern.html", null ],
     [ "std::false_type", null, [
       [ "snicholls::is_secret< secret< T > >", "structsnicholls_1_1is__secret_3_01secret_3_01T_01_4_01_4.html", null ],
@@ -535,6 +544,7 @@ var hierarchy =
     [ "snicholls::fn_ptr&lt; R(*)(Args...) noexcept &gt;", "structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_01noexcept_01_4.html", null ],
     [ "snicholls::fn_ptr&lt; R(*)(Args...)&gt;", "structsnicholls_1_1fn__ptr_3_01R_07_5_08_07Args_8_8_8_08_4.html", null ],
     [ "snicholls::country::FO", "structsnicholls_1_1country_1_1FO.html", null ],
+    [ "snicholls::fsm::fold_expr", "structsnicholls_1_1fsm_1_1fold__expr.html", null ],
     [ "snicholls::ml::forward_kl", "structsnicholls_1_1ml_1_1forward__kl.html", null ],
     [ "snicholls::country::FR", "structsnicholls_1_1country_1_1FR.html", null ],
     [ "snicholls::currency::FRF", "structsnicholls_1_1currency_1_1FRF.html", null ],
@@ -582,6 +592,10 @@ var hierarchy =
     [ "snicholls::currency::GNE", "structsnicholls_1_1currency_1_1GNE.html", null ],
     [ "snicholls::currency::GNF", "structsnicholls_1_1currency_1_1GNF.html", null ],
     [ "snicholls::currency::GNS", "structsnicholls_1_1currency_1_1GNS.html", null ],
+    [ "snicholls::signal::goertzel&lt; T &gt;", "classsnicholls_1_1signal_1_1goertzel.html", null ],
+    [ "snicholls::signal::goertzel_bank&lt; T, K &gt;", "classsnicholls_1_1signal_1_1goertzel__bank.html", null ],
+    [ "snicholls::signal::goertzel_coefficients&lt; T &gt;", "structsnicholls_1_1signal_1_1goertzel__coefficients.html", null ],
+    [ "snicholls::signal::goertzel_state&lt; T &gt;", "structsnicholls_1_1signal_1_1goertzel__state.html", null ],
     [ "snicholls::metric::gospa_result&lt; T &gt;", "structsnicholls_1_1metric_1_1gospa__result.html", null ],
     [ "snicholls::country::GP", "structsnicholls_1_1country_1_1GP.html", null ],
     [ "snicholls::ml::gpt2_pattern", "structsnicholls_1_1ml_1_1gpt2__pattern.html", null ],
@@ -675,6 +689,7 @@ var hierarchy =
     [ "snicholls::metric::hellinger", "structsnicholls_1_1metric_1_1hellinger.html", null ],
     [ "snicholls::containers::hierarchical_bitset", "classsnicholls_1_1containers_1_1hierarchical__bitset.html", null ],
     [ "snicholls::stats::histogram&lt; T, Bins &gt;", "structsnicholls_1_1stats_1_1histogram.html", null ],
+    [ "snicholls::fsm::history_t", "structsnicholls_1_1fsm_1_1history__t.html", null ],
     [ "snicholls::country::HK", "structsnicholls_1_1country_1_1HK.html", null ],
     [ "snicholls::currency::HKD", "structsnicholls_1_1currency_1_1HKD.html", null ],
     [ "snicholls::country::HM", "structsnicholls_1_1country_1_1HM.html", null ],
@@ -718,6 +733,7 @@ var hierarchy =
     [ "snicholls::country::IN", "structsnicholls_1_1country_1_1IN.html", null ],
     [ "snicholls::containers::index_pool&lt; T, Index &gt;", "classsnicholls_1_1containers_1_1index__pool.html", null ],
     [ "snicholls::tracking::information_state&lt; T, N &gt;", "structsnicholls_1_1tracking_1_1information__state.html", null ],
+    [ "snicholls::fsm::initial", "structsnicholls_1_1fsm_1_1initial.html", null ],
     [ "snicholls::linalg::inline_executor", "structsnicholls_1_1linalg_1_1inline__executor.html", null ],
     [ "snicholls::metric::inner_product", "structsnicholls_1_1metric_1_1inner__product.html", null ],
     [ "snicholls::inplace_string&lt; N &gt;", "structsnicholls_1_1inplace__string.html", null ],
@@ -754,6 +770,7 @@ var hierarchy =
     [ "snicholls::currency::JPY", "structsnicholls_1_1currency_1_1JPY.html", null ],
     [ "snicholls::ml::json_schema_error", "structsnicholls_1_1ml_1_1json__schema__error.html", null ],
     [ "snicholls::ml::json_schema_options", "structsnicholls_1_1ml_1_1json__schema__options.html", null ],
+    [ "snicholls::fsm::jump_table", "structsnicholls_1_1fsm_1_1jump__table.html", null ],
     [ "snicholls::signal::kaiser", "structsnicholls_1_1signal_1_1kaiser.html", null ],
     [ "snicholls::tracking::kalman_update&lt; T, N, M &gt;", "structsnicholls_1_1tracking_1_1kalman__update.html", null ],
     [ "snicholls::containers::kd_neighbour", "structsnicholls_1_1containers_1_1kd__neighbour.html", null ],
@@ -845,6 +862,7 @@ var hierarchy =
     [ "snicholls::sparse::ldl_symbolic_result&lt; I &gt;", "structsnicholls_1_1sparse_1_1ldl__symbolic__result.html", null ],
     [ "snicholls::metric::levenshtein&lt; MaxLength &gt;", "structsnicholls_1_1metric_1_1levenshtein.html", null ],
     [ "snicholls::country::LI", "structsnicholls_1_1country_1_1LI.html", null ],
+    [ "snicholls::fsm::lifecycle", "structsnicholls_1_1fsm_1_1lifecycle.html", null ],
     [ "snicholls::game::lift_sampling", "structsnicholls_1_1game_1_1lift__sampling.html", null ],
     [ "snicholls::tracking::linear_gaussian&lt; T, N, Map &gt;", "structsnicholls_1_1tracking_1_1linear__gaussian.html", null ],
     [ "snicholls::country::LK", "structsnicholls_1_1country_1_1LK.html", null ],
@@ -852,6 +870,7 @@ var hierarchy =
     [ "snicholls::ml::llama3_like_pattern&lt; MaxDigits &gt;", "structsnicholls_1_1ml_1_1llama3__like__pattern.html", null ],
     [ "snicholls::geometry::local_frame&lt; T &gt;", "classsnicholls_1_1geometry_1_1local__frame.html", null ],
     [ "snicholls::signal::log_compression&lt; T &gt;", "structsnicholls_1_1signal_1_1log__compression.html", null ],
+    [ "snicholls::fsm::logger&lt; L &gt;", "structsnicholls_1_1fsm_1_1logger.html", null ],
     [ "snicholls::ml::logit_bias_entry&lt; T &gt;", "structsnicholls_1_1ml_1_1logit__bias__entry.html", null ],
     [ "snicholls::ml::logit_bias_sampler&lt; T &gt;", "structsnicholls_1_1ml_1_1logit__bias__sampler.html", null ],
     [ "snicholls::ml::logit_penalties&lt; T &gt;", "structsnicholls_1_1ml_1_1logit__penalties.html", null ],
@@ -995,6 +1014,7 @@ var hierarchy =
     [ "snicholls::country::NA", "structsnicholls_1_1country_1_1NA.html", null ],
     [ "snicholls::currency::NAD", "structsnicholls_1_1currency_1_1NAD.html", null ],
     [ "snicholls::named&lt; Name, T &gt;", "structsnicholls_1_1named.html", null ],
+    [ "snicholls::fsm::named_event&lt; Name &gt;", "structsnicholls_1_1fsm_1_1named__event.html", null ],
     [ "snicholls::named_interface", "classsnicholls_1_1named__interface.html", [
       [ "snicholls::chain_interface", "classsnicholls_1_1chain__interface.html", [
         [ "snicholls::chain_model< decltype(T{}.chain())>", "classsnicholls_1_1chain__model.html", null ],
@@ -1129,6 +1149,7 @@ var hierarchy =
     [ "snicholls::ml::quantized_kv_cache&lt; C, Layers, Capacity, KBlock, VBlock &gt;", "classsnicholls_1_1ml_1_1quantized__kv__cache.html", null ],
     [ "snicholls::ml::quantized_kv_cache_view&lt; C, KBlock, VBlock &gt;", "classsnicholls_1_1ml_1_1quantized__kv__cache__view.html", null ],
     [ "snicholls::ml::quantized_weights&lt; Block &gt;", "structsnicholls_1_1ml_1_1quantized__weights.html", null ],
+    [ "snicholls::fsm::queue_capacity&lt; N &gt;", "structsnicholls_1_1fsm_1_1queue__capacity.html", null ],
     [ "snicholls::quote_request", "structsnicholls_1_1quote__request.html", null ],
     [ "snicholls::game::quotient_game&lt; V &gt;", "classsnicholls_1_1game_1_1quotient__game.html", null ],
     [ "snicholls::ml::qwen35_pattern", "structsnicholls_1_1ml_1_1qwen35__pattern.html", null ],
@@ -1150,6 +1171,7 @@ var hierarchy =
     [ "snicholls::stats::resample_table", "classsnicholls_1_1stats_1_1resample__table.html", null ],
     [ "snicholls::residual", "structsnicholls_1_1residual.html", null ],
     [ "snicholls::result_niche&lt; V &gt;", "structsnicholls_1_1result__niche.html", null ],
+    [ "snicholls::fsm::lifecycle_event::reverse", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1reverse.html", null ],
     [ "snicholls::ml::reverse_kl", "structsnicholls_1_1ml_1_1reverse__kl.html", null ],
     [ "snicholls::rfc3339_text", "structsnicholls_1_1rfc3339__text.html", null ],
     [ "snicholls::signal::rfft_layout", "structsnicholls_1_1signal_1_1rfft__layout.html", null ],
@@ -1168,6 +1190,10 @@ var hierarchy =
     [ "snicholls::ml::rope_sections", "structsnicholls_1_1ml_1_1rope__sections.html", null ],
     [ "snicholls::ml::rope_table&lt; T, Positions, HeadDim &gt;", "structsnicholls_1_1ml_1_1rope__table.html", null ],
     [ "snicholls::route_table", "classsnicholls_1_1route__table.html", null ],
+    [ "snicholls::fsm::row&lt; Src, Event, Guard, Action, Dst &gt;", "structsnicholls_1_1fsm_1_1row.html", null ],
+    [ "snicholls::fsm::detail::row_storage&lt; std::index_sequence_for&lt; Rs... &gt;, Rs... &gt;", null, [
+      [ "snicholls::fsm::transition_table< meta::type_list< Rs... > >", "structsnicholls_1_1fsm_1_1transition__table_3_01meta_1_1type__list_3_01Rs_8_8_8_01_4_01_4.html", null ]
+    ] ],
     [ "snicholls::country::RS", "structsnicholls_1_1country_1_1RS.html", null ],
     [ "snicholls::currency::RSD", "structsnicholls_1_1currency_1_1RSD.html", null ],
     [ "snicholls::country::RU", "structsnicholls_1_1country_1_1RU.html", null ],
@@ -1200,6 +1226,7 @@ var hierarchy =
     [ "snicholls::memory_message_sender::sent", "structsnicholls_1_1memory__message__sender_1_1sent.html", null ],
     [ "snicholls::ml::sentencepiece_decode_options", "structsnicholls_1_1ml_1_1sentencepiece__decode__options.html", null ],
     [ "snicholls::metric::set_metric_solver&lt; T, MaxTruths, MaxEstimates &gt;", "classsnicholls_1_1metric_1_1set__metric__solver.html", null ],
+    [ "snicholls::fsm::lifecycle_event::settle", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1settle.html", null ],
     [ "snicholls::settlement", "structsnicholls_1_1settlement.html", null ],
     [ "snicholls::country::SG", "structsnicholls_1_1country_1_1SG.html", null ],
     [ "snicholls::currency::SGD", "structsnicholls_1_1currency_1_1SGD.html", null ],
@@ -1238,6 +1265,7 @@ var hierarchy =
     [ "snicholls::currency::SLE", "structsnicholls_1_1currency_1_1SLE.html", null ],
     [ "snicholls::currency::SLL", "structsnicholls_1_1currency_1_1SLL.html", null ],
     [ "snicholls::country::SM", "structsnicholls_1_1country_1_1SM.html", null ],
+    [ "snicholls::fsm::sm&lt; Def, Policies &gt;", "classsnicholls_1_1fsm_1_1sm.html", null ],
     [ "snicholls::country::SN", "structsnicholls_1_1country_1_1SN.html", null ],
     [ "snicholls::stochastic::snell", "structsnicholls_1_1stochastic_1_1snell.html", null ],
     [ "snicholls::country::SO", "structsnicholls_1_1country_1_1SO.html", null ],
@@ -1257,9 +1285,11 @@ var hierarchy =
     [ "snicholls::ml::ssd_inputs&lt; T &gt;", "structsnicholls_1_1ml_1_1ssd__inputs.html", null ],
     [ "snicholls::currency::SSP", "structsnicholls_1_1currency_1_1SSP.html", null ],
     [ "snicholls::country::ST", "structsnicholls_1_1country_1_1ST.html", null ],
+    [ "snicholls::fsm::state_t&lt; S, Initial, History &gt;", "structsnicholls_1_1fsm_1_1state__t.html", null ],
     [ "snicholls::statement_page", "structsnicholls_1_1statement__page.html", null ],
     [ "snicholls::statement_query", "structsnicholls_1_1statement__query.html", null ],
     [ "snicholls::signal::static_fft_plan&lt; T, N &gt;", "classsnicholls_1_1signal_1_1static__fft__plan.html", null ],
+    [ "snicholls::signal::static_goertzel&lt; T, Frequency, SampleRate, N, Window &gt;", "classsnicholls_1_1signal_1_1static__goertzel.html", null ],
     [ "snicholls::containers::static_map&lt; Key, Value, N, Less &gt;", "classsnicholls_1_1containers_1_1static__map.html", null ],
     [ "snicholls::signal::static_rfft_plan&lt; T, N &gt;", "classsnicholls_1_1signal_1_1static__rfft__plan.html", null ],
     [ "snicholls::containers::static_set&lt; Key, N, Less &gt;", "classsnicholls_1_1containers_1_1static__set.html", null ],
@@ -1283,6 +1313,7 @@ var hierarchy =
     [ "snicholls::string_traits&lt; S &gt;", "structsnicholls_1_1string__traits.html", null ],
     [ "snicholls::strong&lt; T, Tag &gt;", "structsnicholls_1_1strong.html", null ],
     [ "snicholls::styled_value&lt; T &gt;", "structsnicholls_1_1styled__value.html", null ],
+    [ "snicholls::fsm::lifecycle_event::submit", "structsnicholls_1_1fsm_1_1lifecycle__event_1_1submit.html", null ],
     [ "snicholls::stats::sum&lt; T &gt;", "structsnicholls_1_1stats_1_1sum.html", null ],
     [ "snicholls::game::superadditivity_violation&lt; T &gt;", "structsnicholls_1_1game_1_1superadditivity__violation.html", null ],
     [ "snicholls::currency::SUR", "structsnicholls_1_1currency_1_1SUR.html", null ],
@@ -1297,6 +1328,7 @@ var hierarchy =
     [ "T", null, [
       [ "snicholls::with_scale< T, Scale >", "structsnicholls_1_1with__scale.html", null ]
     ] ],
+    [ "snicholls::fsm::table_diagnostics&lt; Def &gt;", "structsnicholls_1_1fsm_1_1table__diagnostics.html", null ],
     [ "snicholls::game::table_game&lt; T &gt;", "classsnicholls_1_1game_1_1table__game.html", null ],
     [ "snicholls::pipeline::tap_spec&lt; F &gt;", "structsnicholls_1_1pipeline_1_1tap__spec.html", null ],
     [ "snicholls::pipeline::tap_stage&lt; F, Next &gt;", "structsnicholls_1_1pipeline_1_1tap__stage.html", null ],
@@ -1307,6 +1339,7 @@ var hierarchy =
     [ "snicholls::ml::temp_ext_sampler&lt; T &gt;", "structsnicholls_1_1ml_1_1temp__ext__sampler.html", null ],
     [ "snicholls::ml::temperature_sampler&lt; T &gt;", "structsnicholls_1_1ml_1_1temperature__sampler.html", null ],
     [ "snicholls::stochastic::test_result", "structsnicholls_1_1stochastic_1_1test__result.html", null ],
+    [ "snicholls::fsm::testing", "structsnicholls_1_1fsm_1_1testing.html", null ],
     [ "snicholls::country::TF", "structsnicholls_1_1country_1_1TF.html", null ],
     [ "snicholls::country::TG", "structsnicholls_1_1country_1_1TG.html", null ],
     [ "snicholls::country::TH", "structsnicholls_1_1country_1_1TH.html", null ],
@@ -1356,6 +1389,7 @@ var hierarchy =
     [ "snicholls::pipeline::transform_stage&lt; F, Next &gt;", "structsnicholls_1_1pipeline_1_1transform__stage.html", null ],
     [ "snicholls::tracking::transformed&lt; T, N, M &gt;", "structsnicholls_1_1tracking_1_1transformed.html", null ],
     [ "snicholls::ml::transformer_config", "structsnicholls_1_1ml_1_1transformer__config.html", null ],
+    [ "snicholls::fsm::transition_table&lt; Table &gt;", "structsnicholls_1_1fsm_1_1transition__table.html", null ],
     [ "snicholls::ml::tree_verify_result&lt; Token &gt;", "structsnicholls_1_1ml_1_1tree__verify__result.html", null ],
     [ "snicholls::currency::TRL", "structsnicholls_1_1currency_1_1TRL.html", null ],
     [ "std::true_type", null, [
@@ -1444,6 +1478,7 @@ var hierarchy =
     [ "snicholls::stats::weighted_moments", "structsnicholls_1_1stats_1_1weighted__moments.html", null ],
     [ "snicholls::country::WF", "structsnicholls_1_1country_1_1WF.html", null ],
     [ "snicholls::whole_value&lt; T &gt;", "structsnicholls_1_1whole__value.html", null ],
+    [ "snicholls::fsm::wire_state", "structsnicholls_1_1fsm_1_1wire__state.html", null ],
     [ "snicholls::withdraw_request", "structsnicholls_1_1withdraw__request.html", null ],
     [ "snicholls::withdrawal", "structsnicholls_1_1withdrawal.html", null ],
     [ "snicholls::ml::wkv6_gradients&lt; T &gt;", "structsnicholls_1_1ml_1_1wkv6__gradients.html", null ],
