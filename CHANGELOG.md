@@ -3,7 +3,10 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.24.0 - 2026-11-24
+
+State machines in boost-ext/sml's notation, whose states load and save, a provider-neutral lifecycle, and Goertzel
+single-frequency detectors.
 
 ### Added
 

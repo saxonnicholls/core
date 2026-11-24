@@ -140,6 +140,10 @@
 /// - The constructor runs the initial states' entry actions; an exception there that no `exception` row takes is
 ///   discarded.
 /// - MSVC ignores the standard `[[no_unique_address]]`; core spells `[[msvc::no_unique_address]]` there.
+/// - Clang 18 and older (LLVM's numbering, not Apple clang's) crash compiling an action sequence that holds an `eval`
+///   of the same empty action, `(a, eval [g] / a)` (sml's eval example), when the sequence's members are
+///   `[[no_unique_address]]`; on those compilers the sequence's members are plain, a byte per empty action in a
+///   sequence. Every other layout, and every other compiler, is unchanged.
 /// - sml's examples arduino, sdl2, dependency_injection and euml_emulation are not replicated (see above).
 ///
 /// \status Experimental, new in 0.24.0.
@@ -163,6 +167,15 @@
 #include <type_traits>
 #include <utility>
 #include <variant>
+
+
+/// \brief `[[no_unique_address]]` for an action sequence's members, except on Clang 18 and older, which crashes on
+/// `(a, eval [g] / a)` (see Known issues).
+#if defined(__clang__) && !defined(__apple_build_version__) && __clang_major__ < 19
+#define SNICHOLLS_FSM_SEQ_NO_UNIQUE_ADDRESS
+#else
+#define SNICHOLLS_FSM_SEQ_NO_UNIQUE_ADDRESS SNICHOLLS_RESULT_NO_UNIQUE_ADDRESS
+#endif
 
 namespace snicholls::fsm {
 
@@ -358,8 +371,11 @@ namespace snicholls::fsm {
         };
         template <class A, class B>
         struct seq {
-            SNICHOLLS_RESULT_NO_UNIQUE_ADDRESS A a;
-            SNICHOLLS_RESULT_NO_UNIQUE_ADDRESS B b;
+            // Clang 18 (LLVM 18; Apple clang 17 is LLVM 19 and unaffected) crashes compiling a sequence that holds an
+            // `eval` of the same empty action, `(a, eval [g] / a)`, when both members are [[no_unique_address]]:
+            // there the members are plain, which costs a byte per empty action in that sequence only.
+            SNICHOLLS_FSM_SEQ_NO_UNIQUE_ADDRESS A a;
+            SNICHOLLS_FSM_SEQ_NO_UNIQUE_ADDRESS B b;
         };
         struct defer_t {};
         template <class E>
