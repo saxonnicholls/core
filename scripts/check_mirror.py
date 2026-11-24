@@ -11,7 +11,8 @@
 #  A rule that lives only in a document is a rule that is followed until the
 #  first busy afternoon, so this runs on every CI job.
 #
-#  Companion tests (<name>_<aspect>_test.cpp) belong to <name>.hpp; see companion().
+#  Companion tests (<name>_<aspect>_test.cpp) and companion demos (<name>_<aspect>_demo.cpp) belong to <name>.hpp;
+#  see companion().
 #
 #  Exemptions, deliberately few and written down here rather than in a
 #  side file:
@@ -57,14 +58,15 @@ def sources(root, suffix):
                 yield os.path.relpath(os.path.join(dirpath, f), root)
 
 
-def companion(test, expected_tests):
-    """A companion test: <name>_<aspect>_test.cpp next to <name>_test.cpp, for a part of a header's tests that
-    needs its own translation unit (result_terminate_test.cpp builds result.hpp under another policy macro).
-    It must still be listed in tests/CMakeLists.txt."""
-    stem = test[: -len("_test.cpp")]
+def companion(source, expected, suffix="_test.cpp"):
+    """A companion: <name>_<aspect>_test.cpp next to <name>_test.cpp, for a part of a header's tests that needs its
+    own translation unit (result_terminate_test.cpp builds result.hpp under another policy macro); or
+    <name>_<aspect>_demo.cpp next to <name>_demo.cpp, for a further demo of the same header (fsm/state_machine.hpp's
+    replicas of sml's examples, state_machine_hello_world_demo.cpp). It must still be listed in its CMakeLists.txt."""
+    stem = source[: -len(suffix)]
     while "_" in os.path.basename(stem):
         stem = stem[: stem.rfind("_")]
-        if stem + "_test.cpp" in expected_tests:
+        if stem + suffix in expected:
             return True
     return False
 
@@ -108,8 +110,12 @@ def main():
         if test not in expected_tests and not companion(test, expected_tests):
             errors.append("tests/%s has no header include/snicholls/core/%s" % (test, test[: -len("_test.cpp")] + ".hpp"))
     for demo in sources(DEMOS, "_demo.cpp"):
-        if demo not in expected_demos:
+        if demo in expected_demos:
+            continue
+        if not companion(demo, expected_demos, "_demo.cpp"):
             errors.append("demos/%s has no header include/snicholls/core/%s" % (demo, demo[: -len("_demo.cpp")] + ".hpp"))
+        elif demo.replace(os.sep, "/") not in demos_cmake:
+            errors.append("demos/%s exists but is not listed in demos/CMakeLists.txt" % demo)
 
     if errors:
         for e in errors:
