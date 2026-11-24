@@ -172,7 +172,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `snicholls::tracking`, the primitives of the Stone Soup port);
   `metric/` (`concepts`, `minkowski`, `angular`, `binary`, `geodesic`, `statistical`, `string`, `sets`;
   `snicholls::metric`, distances as plug-in values over any point type); `signal/` (`complex`, `fft`,
-  `window`, `stft`, `mel`, `dct`, `convolve`, `fir`, `iir`, `resample`, `hilbert`; `snicholls::signal`, SIGNAL.md). A new trait or concept goes in `meta/`, never in a library above core.
+  `window`, `stft`, `mel`, `dct`, `convolve`, `fir`, `iir`, `resample`, `hilbert`, `goertzel`; `snicholls::signal`, SIGNAL.md). A new trait or concept goes in `meta/`, never in a library above core.
 - Keep the tree neat: a header joins an area when one fits, and moves with `scripts/move_header.py <old> <new>`,
   which takes its test, demo and benchmark along and rewrites every include, guard and registration. CMake lists
   and `core.hpp` are sorted: top-level files first, then each area, alphabetically.
@@ -428,7 +428,8 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   `math::math_limits<T>`, as `std::numeric_limits` is; never a `double`-only copy of a function.
 - Spectra and filters: `signal::fft_plan` over caller memory, or `static_fft_plan<T, N>` when the length is known
   (tables by the compiler), never a recursive FFT, a `std::complex` table or a hand-written DFT; `rfft` for real
-  samples. Windows from `signal/window.hpp`, never a hand-written Hann; `stft`/`istft` with `torch.stft`'s options;
+  samples; `static_goertzel` / `goertzel_bank` (`signal/goertzel.hpp`) for one or a few frequencies, never an FFT whose
+  other bins are thrown away. Windows from `signal/window.hpp`, never a hand-written Hann; `stft`/`istft` with `torch.stft`'s options;
   audio front ends (`whisper_log_mel`, `mel_filterbank`, `mfcc`) from `signal/mel.hpp`. Every transform has its
   backward pass beside it; train through it rather than around it.
 - Machine learning: `snicholls::ml` holds the pure, fixed-size primitives (activations with their derivatives,

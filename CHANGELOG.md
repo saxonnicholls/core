@@ -3,6 +3,22 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Added
+
+- **`signal/goertzel.hpp`, Goertzel single-frequency detectors** for when one or a few bins are wanted, not a whole
+  FFT: `static_goertzel<T, Frequency, SampleRate, N, Window>` (frequency and sample rate as `double` template
+  parameters, the coefficient `2 cos w`, `cos w`, `sin w` and the window's table computed by the compiler; the object
+  is the state alone), `goertzel<T>` for a frequency chosen at run time, `goertzel_bank<T, K>` (K frequencies in one
+  pass, e.g. DTMF's eight), `goertzel_coefficients<T>` (`at_bin`, exact at the quarter turns and equal to `fft.hpp`'s
+  twiddles; `at_frequency`, `at_fractional_bin`, the generalised non-integer form) and `goertzel_state<T>` (two values
+  and a count). `push`, `update` (optionally windowed), `power`, `magnitude`, `bin`, `phase`, `reset`; unscaled like
+  `fft.hpp`'s bin. Tested against `fft.hpp` for every integer bin in float, double and long double, against numpy
+  2.2.5 between bins and with windows (`tests/fixtures/signal/goertzel.txt`, `scripts/generate_goertzel_fixtures.py`,
+  CTest `generated.goertzel_fixtures_up_to_date`), and on the 16 DTMF digits; benchmarked against the recurrence by
+  hand and the real FFT.
+
 ## 0.23.1 - 2026-11-24
 
 ### Added

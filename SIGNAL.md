@@ -42,6 +42,7 @@ an FPGA pipeline takes.
 | `iir.hpp` | The Audio EQ Cookbook's defining gains; `scipy.signal.butter` + `sosfreqz` and `sosfilt`; the closed-form Butterworth magnitude for orders 1 to 8. |
 | `resample.hpp` | `scipy.signal.resample_poly` for five factors including 160/147. |
 | `hilbert.hpp` | `scipy.signal.hilbert`, even and odd lengths; a modulated tone's envelope. |
+| `goertzel.hpp` | `fft.hpp` for every integer bin (float, double, long double); numpy 2.2.5's `fft` and its sum at frequencies between bins, rectangular, Hann and Kaiser windows (`tests/fixtures/signal/goertzel.txt`, `scripts/generate_goertzel_fixtures.py`, checked by the CTest `generated.goertzel_fixtures_up_to_date`, skipped without numpy 2.2.5); the 16 DTMF digits. |
 
 The fixtures are `tests/fixtures/signal/signal_fixture.txt`, written by `scripts/generate_signal_fixture.py`, which
 records the versions it ran with. It needs numpy, scipy and librosa, which CI does not install, so it is regenerated

@@ -13,13 +13,13 @@ and commit the result. The "relative" column is each row's time over the fastest
 
 | | |
 | --- | --- |
-| date | 2026-11-20 |
+| date | 2026-11-24 |
 | machine | Intel(R) Xeon(R) W-3245 CPU @ 3.20GHz, 32 CPUs |
 | OS | Darwin 25.6.0 |
 | compiler | AppleClang 17.0.0.17000309 |
 | build | Release, `build-bench` |
 | min time per benchmark | 0.5 s |
-| this run | only `fft_benchmark`, `convolve_benchmark`, `ssd_benchmark`, `gla_benchmark`, `delta_rule_benchmark`, `rwkv_benchmark`, `short_conv_benchmark`, `sha1`, `sha2`, `sha3`, `ripemd160`, `blake2`, `blake3`, `crc_`, `kdf`, `scrypt`; other sections are from earlier runs |
+| this run | only `goertzel`; other sections are from earlier runs |
 
 ## accumulators_benchmark
 
@@ -270,6 +270,33 @@ and commit the result. The "relative" column is each row's time over the fastest
 | `BM_GlaRecurrent_Core` | 4.18 ms | 1.03x | 61.32 k/s |
 | `BM_GlaRecurrent_HandWritten` | 4.04 ms | 1.00x | 63.34 k/s |
 | `BM_GlaChunked_Core` | 76.20 ms | 18.85x | 3.39 k/s |
+
+## goertzel_benchmark
+
+`benchmarks/signal/goertzel_benchmark.cpp`
+
+| benchmark | time | relative | throughput |
+| --- | ---: | ---: | ---: |
+| `BM_Goertzel_OneBin<double>/205` | 386.3 ns | 1.02x | 530.75 M/s |
+| `BM_Goertzel_OneBin<double>/1024` | 2.04 us | 5.36x | 503.20 M/s |
+| `BM_Goertzel_OneBin<double>/4096` | 8.22 us | 21.65x | 498.44 M/s |
+| `BM_Goertzel_OneBin<float>/1024` | 2.00 us | 5.27x | 511.79 M/s |
+| `BM_Goertzel_OneBin_HandWritten<double>/205` | 379.6 ns | 1.00x | 540.13 M/s |
+| `BM_Goertzel_OneBin_HandWritten<double>/1024` | 2.00 us | 5.27x | 512.15 M/s |
+| `BM_Goertzel_OneBin_HandWritten<double>/4096` | 8.10 us | 21.33x | 505.83 M/s |
+| `BM_Goertzel_OneBin_HandWritten<float>/1024` | 1.99 us | 5.25x | 513.46 M/s |
+| `BM_Goertzel_Bank8<double>/205` | 521.2 ns | 1.37x | 393.33 M/s |
+| `BM_Goertzel_Bank8<double>/1024` | 2.62 us | 6.89x | 391.61 M/s |
+| `BM_Goertzel_Bank8<double>/4096` | 10.56 us | 27.81x | 387.96 M/s |
+| `BM_Goertzel_Bank8<float>/1024` | 2.28 us | 6.00x | 449.62 M/s |
+| `BM_Goertzel_Bank8_HandWritten<double>/205` | 570.3 ns | 1.50x | 359.55 M/s |
+| `BM_Goertzel_Bank8_HandWritten<double>/1024` | 2.74 us | 7.22x | 373.42 M/s |
+| `BM_Goertzel_Bank8_HandWritten<double>/4096` | 11.10 us | 29.24x | 370.03 M/s |
+| `BM_Goertzel_Bank8_HandWritten<float>/1024` | 2.55 us | 6.72x | 401.18 M/s |
+| `BM_Rfft_SameBins<double>/205` | 9.87 us | 25.99x | 20.83 M/s |
+| `BM_Rfft_SameBins<double>/1024` | 4.23 us | 11.16x | 242.30 M/s |
+| `BM_Rfft_SameBins<double>/4096` | 18.27 us | 48.12x | 224.53 M/s |
+| `BM_Rfft_SameBins<float>/1024` | 3.28 us | 8.64x | 312.17 M/s |
 
 ## hash_combine_benchmark
 
