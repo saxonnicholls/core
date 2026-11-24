@@ -1,0 +1,26 @@
+var box_8hpp =
+[
+    [ "snicholls::geometry::area", "group__core.html#ga4d9ddbc1089f7caa79a7181f40dc6b28", null ],
+    [ "snicholls::geometry::bounding", "group__core.html#ga279045f62e35a785a4541345adece3ad", null ],
+    [ "snicholls::geometry::centre", "group__core.html#ga9e90acd7c1668ec2737af4a3c95cc898", null ],
+    [ "snicholls::geometry::contains", "group__core.html#ga74a3901b5be30706f20a654f059c9c96", null ],
+    [ "snicholls::geometry::contains", "group__core.html#gafff30222a5b52fc688ef8f80c3ca1540", null ],
+    [ "snicholls::geometry::empty", "group__core.html#gadbf021dc570b1d58e03d867765e95079", null ],
+    [ "snicholls::geometry::expand", "group__core.html#ga8f4bce6d5791104d726c299b5ea59647", null ],
+    [ "snicholls::geometry::extent", "group__core.html#gaa38982b8f52540438d337e19510b753d", null ],
+    [ "snicholls::geometry::from_cxcywh", "group__core.html#ga31b631793355dbc8eb3b68ef7e86d407", null ],
+    [ "snicholls::geometry::from_xywh", "group__core.html#ga68d35c77a575ff04637a97cb3b530066", null ],
+    [ "snicholls::geometry::from_xyxy", "group__core.html#ga2b960eef41b03d3e8548570c87ca4c3b", null ],
+    [ "snicholls::geometry::giou", "group__core.html#gaf73f109e3504e074a969e6f8db14758b", null ],
+    [ "snicholls::geometry::hull", "group__core.html#gab3af579609ddbcc1fa7a96c97b23c66f", null ],
+    [ "snicholls::geometry::intersection", "group__core.html#ga9c800b94822667683197698bc4c46785", null ],
+    [ "snicholls::geometry::intersects", "group__core.html#gacc50673b1be1ca2d0a8c80212f4116f2", null ],
+    [ "snicholls::geometry::iou", "group__core.html#gaaf567361742fd0657eb37fa03a9c47a5", null ],
+    [ "snicholls::geometry::non_max_suppression", "group__core.html#ga9d760e137ab62599f2329944cc4bf34e", null ],
+    [ "snicholls::geometry::squared_distance", "group__core.html#ga554804ee7880204cda6d090c20082e83", null ],
+    [ "snicholls::geometry::to_cxcywh", "group__core.html#ga61556f3c923f7b7a47e166dca6fad371", null ],
+    [ "snicholls::geometry::to_xywh", "group__core.html#gabcb8d639aba8d1f022ffd2fa33b9163c", null ],
+    [ "snicholls::geometry::to_xyxy", "group__core.html#gadbc01c15e88dcb846a2a89f958bf05be", null ],
+    [ "snicholls::geometry::translate", "group__core.html#gada7554b221ad00e70641c954f9fb8b5c", null ],
+    [ "snicholls::geometry::volume", "group__core.html#gacbb2177ad645771fa5caceaa82637989", null ]
+];

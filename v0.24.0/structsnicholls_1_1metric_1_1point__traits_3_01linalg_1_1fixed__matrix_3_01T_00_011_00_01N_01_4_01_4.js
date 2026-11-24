@@ -1,0 +1,4 @@
+var structsnicholls_1_1metric_1_1point__traits_3_01linalg_1_1fixed__matrix_3_01T_00_011_00_01N_01_4_01_4 =
+[
+    [ "value_type", "structsnicholls_1_1metric_1_1point__traits_3_01linalg_1_1fixed__matrix_3_01T_00_011_00_01N_01_4_01_4.html#aa180403c79ca0df6c37c69c6efb29884", null ]
+];
