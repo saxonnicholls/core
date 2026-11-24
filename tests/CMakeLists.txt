@@ -87,6 +87,7 @@ add_executable(snicholls_core_tests
     finance/business_day_test.cpp
     finance/day_count_test.cpp
     finance/year_fraction_test.cpp
+    fsm/lifecycle_test.cpp
     fsm/state_machine_test.cpp
     fsm/state_machine_hierarchy_test.cpp
     game/change_test.cpp
