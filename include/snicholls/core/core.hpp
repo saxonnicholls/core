@@ -122,6 +122,7 @@
 #include <snicholls/core/finance/cash_ladder.hpp>
 #include <snicholls/core/finance/day_count.hpp>
 #include <snicholls/core/finance/money_ratio.hpp>
+#include <snicholls/core/finance/option_pricing.hpp>
 #include <snicholls/core/finance/ratio.hpp>
 #include <snicholls/core/finance/returns.hpp>
 #include <snicholls/core/finance/year_fraction.hpp>

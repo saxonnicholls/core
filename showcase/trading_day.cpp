@@ -7,13 +7,14 @@
 //  Showcase: one trading day on a small multi-asset book. Fills priced in exact money (their P&L proved by the
 //  compiler), each order walked through the trade lifecycle to settlement two business days later, the day's P&L
 //  pivoted by desk and instrument, and the overnight move of the book explained by market factor with Shapley and
-//  Owen values over a full revaluation (Black-Scholes, computed at compile time) and by the greeks. Everything is
-//  coloured by its type's attributes. Exits non-zero if any figure is not the one documented.
+//  Owen values over a full revaluation (finance::black_scholes, computed at compile time) and by its closed-form
+//  greeks. Everything is coloured by its type's attributes. Exits non-zero if any figure is not the one documented.
 //
 
 #include <snicholls/core/acout.hpp>
 #include <snicholls/core/display.hpp>
 #include <snicholls/core/finance/attribution.hpp>
+#include <snicholls/core/finance/option_pricing.hpp>
 #include <snicholls/core/fsm/securities.hpp>
 #include <snicholls/core/functional/fold.hpp>
 #include <snicholls/core/game/owen.hpp>
@@ -115,10 +116,10 @@ struct market {
 constexpr market yesterday{0.0410, 0.0125, 186.10, 0.24};
 constexpr market today{0.0425, 0.0140, 181.70, 0.29};   // rates and spreads up, equities down, volatility bid
 
-constexpr double call(double s, double k, double vol, double t, double r)
+// 400 three-month calls struck at 185, 100 shares each
+constexpr finance::vanilla_option<double> call_on(const market& m)
 {
-    const double sd = vol * math::sqrt(t), d1 = (math::log(s / k) + (r + vol * vol / 2) * t) / sd;
-    return s * math::normal_cdf(d1) - k * math::exp(-r * t) * math::normal_cdf(d1 - sd);
+    return {.kind = finance::option_kind::call, .spot = m.spot, .strike = 185.0, .expiry = 0.25, .rate = m.rate, .vol = m.vol};
 }
 constexpr double book_value(const market& m)
 {
@@ -126,7 +127,7 @@ constexpr double book_value(const market& m)
     const double bonds = 1'500'000 * (1 - 7.2 * dy + 0.5 * 62.0 * dy * dy);                 // duration and convexity
     const double protection = 750 * 10'000 * 4.1 * (m.spread - yesterday.spread);            // CDS bought: gains as spreads widen
     const double shares = 1'800 * m.spot;
-    const double options = 400 * 100 * call(m.spot, 185.0, m.vol, 0.25, m.rate);
+    const double options = 400 * 100 * finance::black_scholes(call_on(m));
     return bonds + protection + shares + options;
 }
 // A coalition of factors is the set that moved: the rest stay at yesterday's level.
@@ -147,18 +148,8 @@ constexpr auto by_owen = game::owen<4>(overnight, asset_classes);
 static_assert(math::abs(by_factor.unattributed()) < 1e-6, "Shapley attributes the whole move");
 static_assert(by_factor.values[2] < 0 && by_factor.values[3] > 0, "equities cost, volatility paid");
 
-// The option book by its greeks, by central differences of the same pricer (also at compile time).
-constexpr finance::greeks<> option_greeks = [] {
-    const auto v = [](double s, double vol, double r) { return 400 * 100 * call(s, 185.0, vol, 0.25, r); };
-    const double s = yesterday.spot, vol = yesterday.vol, r = yesterday.rate, h = 0.01, hv = 0.0001;
-    return finance::greeks<>{.delta = (v(s + h, vol, r) - v(s - h, vol, r)) / (2 * h),
-                             .gamma = (v(s + h, vol, r) - 2 * v(s, vol, r) + v(s - h, vol, r)) / (h * h),
-                             .vega = (v(s, vol + hv, r) - v(s, vol - hv, r)) / (2 * hv),
-                             .vanna = (v(s + h, vol + hv, r) - v(s + h, vol - hv, r) - v(s - h, vol + hv, r) + v(s - h, vol - hv, r)) / (4 * h * hv),
-                             .volga = (v(s, vol + hv, r) - 2 * v(s, vol, r) + v(s, vol - hv, r)) / (hv * hv),
-                             .theta = 0.0,
-                             .rho = (v(s, vol, r + hv) - v(s, vol, r - hv)) / (2 * hv)};
-}();
+// The option book by its greeks, in closed form from the same pricer (also at compile time).
+constexpr finance::greeks<> option_greeks = finance::black_scholes_greeks(call_on(yesterday)) * (400.0 * 100);
 
 } // namespace day
 
@@ -225,7 +216,7 @@ int main()
     expect(std::abs(by_owen.unattributed()) < 1e-6, "Owen attributes it all, within asset classes first");
 
     // The option book alone, by its greeks: the Taylor terms against its own full revaluation
-    constexpr auto options_only = [](const market& m) { return 400 * 100 * call(m.spot, 185.0, m.vol, 0.25, m.rate); };
+    constexpr auto options_only = [](const market& m) { return 400 * 100 * snicholls::finance::black_scholes(call_on(m)); };
     constexpr double option_move = options_only(today) - options_only(yesterday);
     constexpr auto why = snicholls::finance::explain(
         option_greeks, {.spot = today.spot - yesterday.spot, .vol = today.vol - yesterday.vol, .time = 0, .rate = today.rate - yesterday.rate},

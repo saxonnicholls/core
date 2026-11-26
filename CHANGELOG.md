@@ -60,6 +60,22 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
   and checking itself - `trading_day`, `payments_ledger`, `harbour_beacons`, `option_risk` and `functional_report`.
 - **The patterns page** (`docs/PATTERNS.md`, \ref patterns in the documentation): how core's pieces fit together,
   each pattern with its problem, its types, compiled snippets from the demos and when not to use it.
+- **`stochastic::lattice_envelope<Steps>(stencil, g, discount)`: the Snell envelope of a recombining lattice**
+  (`stochastic/snell.hpp`). Binomial, trinomial or any `Branches`-way stencil: step `t` has `(Branches - 1) t + 1`
+  nodes and one row of `std::array` storage carries the backward induction, O(Steps^2) time in O(Steps) state, in
+  place of a dense `States x States` matrix. `constexpr`, in any floating type; returns `lattice_snell`: the value,
+  the first two steps' values (delta and gamma off the tree) and, per step, the lowest and highest node where stopping
+  strictly beats continuing. Agrees with the dense form bit for bit (tested at compile time, binomial and trinomial).
+  A 64-step American put with its boundary: 3.7 us (3.5 us by hand, 205 us by the dense form).
+- **`finance/option_pricing.hpp`: vanilla options priced by the compiler.** `vanilla_option<T>` (call or put, spot,
+  strike, expiry, rate, dividend yield, volatility); `black_scholes(o)` (Black-Scholes-Merton) and
+  `black_scholes_greeks(o)` (delta, gamma, vega, vanna, volga, theta, rho as a `finance::greeks`, in closed form);
+  `binomial<Steps>(o, exercise_style)`, a CRR tree on `lattice_envelope`, European or American, with the tree's delta
+  and gamma and the early-exercise boundary as a spot per step. All `constexpr` through `snicholls::math` in the
+  option's type. Checked against Hull's worked examples, put-call parity, the greeks against central differences and
+  the tree's convergence to the closed form. Black-Scholes 63 ns, all seven greeks 84 ns, `binomial<64>` 6.1 us. `showcase/option_risk.cpp` and
+  `showcase/trading_day.cpp` use it in place of their hand-written Black-Scholes, lattice and finite-difference
+  greeks; option_risk's exercise boundary now reports reachable nodes only, so it starts at month 3.
 - **`finance/cash_flow.hpp`: one dated cash flow** (`finance::cash_flow`, exact `money`, positive in and negative out),
   shared by `make_cash_ladder` and the return measures in place of their separate types.
 - **`containers::kd_tree::k_nearest_within(q, radius, out)`**: the k nearest points strictly within a radius, nearest

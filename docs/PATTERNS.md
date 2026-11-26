@@ -574,6 +574,19 @@ model honest.
 
 \snippet stochastic/snell_demo.cpp snell
 
+A recombining lattice (binomial, trinomial) is a fixed stencil, not a matrix: `lattice_envelope<Steps>` keeps one row,
+O(Steps) state in a `std::array`, and returns the value and the early-exercise boundary.
+
+\snippet stochastic/snell_demo.cpp lattice
+
+A vanilla option is priced by `finance::black_scholes` and its greeks by `finance::black_scholes_greeks`, in closed form
+and in the option's floating type, never a hand-written formula or greeks by finite differences; `finance::binomial`
+prices American exercise on a CRR tree solved by that lattice envelope.
+
+\snippet finance/option_pricing_demo.cpp black_scholes
+
+\snippet finance/option_pricing_demo.cpp binomial
+
 \snippet stochastic/martingale_demo.cpp martingale
 
 ---
@@ -610,9 +623,9 @@ CTests `showcase.<name>` and with `make showcase`.
 
 | Program | What it shows | Patterns at work |
 |---|---|---|
-| `trading_day.cpp` | Fills to P&L in exact money, folded and checked to the cent at compile time; orders through the trade lifecycle with T+2 settlement; P&L pivoted by desk and instrument; the book's overnight move attributed by Shapley and Owen against one-at-a-time; greeks by compile-time central differences | money, functional folds, fsm, time, pivot, attribution, presentation |
+| `trading_day.cpp` | Fills to P&L in exact money, folded and checked to the cent at compile time; orders through the trade lifecycle with T+2 settlement; P&L pivoted by desk and instrument; the book's overnight move attributed by Shapley and Owen against one-at-a-time; greeks in closed form by `finance::black_scholes_greeks` | money, functional folds, fsm, time, pivot, attribution, presentation |
 | `payments_ledger.cpp` | Checkouts on the railway (`SNICHOLLS_TRY`), v7 identifiers matched to their compile-time twin, a timeout retried with backoff under the same idempotency key, refunds and payouts through the lifecycle, a signed webhook that fails closed when tampered, a statement reconciled to the cent, a cash ladder that finds the overdraft | capabilities, result, identity, retrying, fsm, dated money |
 | `harbour_beacons.cpp` | A compile-time Goertzel bank hears a beacon's tone through seeded noise, a k-d tree picks the beacon, a state machine holds and regains the lock, two workers' statistics merge into the single pass | signals, fixed sizes, fsm, statistics that merge, reproducible randomness |
-| `option_risk.cpp` | One put priced four ways: Black-Scholes and a lattice solved by its Snell envelope at compile time, Monte Carlo with a bootstrap interval, Sobol with shifted copies and a tighter error bar | stochastic control, constexpr maths, randomness, statistics |
+| `option_risk.cpp` | One put priced four ways: `finance::black_scholes` and a CRR lattice solved by its Snell envelope (`finance::binomial`) at compile time, Monte Carlo with a bootstrap interval, Sobol with shifted copies and a tighter error bar | stochastic control, constexpr maths, randomness, statistics |
 | `functional_report.cpp` | A report over plain structs computed by the compiler (reflection, type lists, curried folds, partition, State) and the same lambdas driving a run-time pipeline that must agree exactly | reflection, functional, pipelines, result |
 

@@ -5,8 +5,8 @@
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
 //  Showcase: one put option priced four ways that must agree. Black-Scholes in closed form and a binomial lattice
-//  solved by its Snell envelope (American and European, with the early-exercise boundary) are computed by the
-//  compiler and checked with static_assert. At run time, Monte Carlo with a seeded wyrand stream gets its error bar
+//  solved by its Snell envelope (finance/option_pricing.hpp: American and European, with the early-exercise boundary)
+//  are computed by the compiler and checked with static_assert. At run time, Monte Carlo with a seeded wyrand stream gets its error bar
 //  from a bootstrap of the payoffs, and quasi-Monte Carlo with randomly shifted Sobol copies gets a tighter one from
 //  the spread of the copies. Every estimate is coloured by how far it lies from the closed form. Exits non-zero if
 //  any figure is not the one documented.
@@ -14,20 +14,18 @@
 
 #include <snicholls/core/acout.hpp>
 #include <snicholls/core/display.hpp>
-#include <snicholls/core/functional/tabulate.hpp>
+#include <snicholls/core/finance/option_pricing.hpp>
 #include <snicholls/core/math/constexpr_math.hpp>
 #include <snicholls/core/stats/accumulators.hpp>
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/low_discrepancy.hpp>
 #include <snicholls/core/stats/normal.hpp>
 #include <snicholls/core/stats/random.hpp>
-#include <snicholls/core/stochastic/snell.hpp>
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <limits>
 #include <string_view>
 #include <vector>
 
@@ -52,44 +50,22 @@ constexpr auto attributes(const miss&)
 }
 
 // ---- 1. Black-Scholes, by the compiler ------------------------------------------------------------------------------
-constexpr double black_scholes_put = [] {
-    const double sd = vol * math::sqrt(expiry), d1 = (math::log(spot / strike) + (rate + vol * vol / 2) * expiry) / sd;
-    return strike * math::exp(-rate * expiry) * math::normal_cdf(sd - d1) - spot * math::normal_cdf(-d1);
-}();
+constexpr finance::vanilla_option<double> put{
+    .kind = finance::option_kind::put, .spot = spot, .strike = strike, .expiry = expiry, .rate = rate, .vol = vol};
+constexpr double black_scholes_put = finance::black_scholes(put);
 static_assert(black_scholes_put > 5.5734 && black_scholes_put < 5.5736);   // the textbook 5.5735
 
-// ---- 2. A binomial lattice as a Markov chain, solved by its Snell envelope, by the compiler -------------------------
-constexpr std::size_t steps = 24, levels = 2 * steps + 1;   // level k is (k - steps) up-moves net
-constexpr double dt = expiry / steps, up = math::exp(vol * math::sqrt(dt)), p_up = (math::exp(rate * dt) - 1 / up) / (up - 1 / up);
-constexpr auto level_price = fn::tabulate<levels>([](std::size_t k) { return spot * math::pow(up, static_cast<double>(k) - steps); });
-
-constexpr auto lattice = [] {
-    std::array<std::array<double, levels>, levels> p{};
-    for (std::size_t k = 0; k < levels; ++k) {
-        p[k][k < levels - 1 ? k + 1 : k] += p_up;   // the edges are never reached before expiry
-        p[k][k > 0 ? k - 1 : k] += 1 - p_up;
-    }
-    return p;
-}();
-constexpr auto exercise = [](std::size_t, std::size_t k) { return std::max(0.0, strike - level_price(k)); };
-constexpr auto at_expiry_only = [](std::size_t t, std::size_t k) {
-    return t == steps ? std::max(0.0, strike - level_price(k)) : std::numeric_limits<double>::lowest();
-};
-constexpr auto american = stochastic::snell_envelope<levels, steps>(lattice, exercise, math::exp(-rate * dt));
-constexpr auto european = stochastic::snell_envelope<levels, steps>(lattice, at_expiry_only, math::exp(-rate * dt));
-constexpr double american_put = american.value[0][steps], european_put = european.value[0][steps];
+// ---- 2. A binomial lattice solved by its Snell envelope, by the compiler ---------------------------------------------
+// A 24-step Cox-Ross-Rubinstein tree, each step one stencil over one row (stochastic::lattice_envelope), with the
+// early-exercise boundary: at each date, the highest spot at which exercising beats waiting.
+constexpr std::size_t steps = 24;
+constexpr auto american = finance::binomial<steps>(put);
+constexpr auto european = finance::binomial<steps>(put, finance::exercise_style::european);
+constexpr double american_put = american.value, european_put = european.value;
 
 static_assert(math::abs(european_put - black_scholes_put) < 0.10, "24 steps agree with the closed form to 10 cents; the error falls as 1/steps");
 static_assert(american_put > european_put, "the right to exercise early is worth something for a put");
-static_assert(american.stops(steps - 1, steps - 10) && !american.stops(0, steps), "deep in the money, exercise; at the money, wait");
-
-// The early-exercise boundary: at each date, the highest price at which exercising beats waiting.
-constexpr auto boundary = fn::tabulate<steps>([](std::size_t t) {
-    double b = 0;
-    for (std::size_t k = 0; k < levels; ++k)
-        b = american.stops(t, k) && american.payoff[t][k] > 0 ? std::max(b, level_price(k)) : b;
-    return b;
-});
+static_assert(american.boundary[steps - 1] > 0 && american.boundary[0] == 0, "deep in the money near expiry, exercise; at the money today, wait");
 
 } // namespace risk
 
@@ -109,10 +85,10 @@ int main()
     acout{} << "  lattice, European    " << price{european_put} << "  off by " << miss{std::abs(european_put - black_scholes_put)} << '\n';
     acout{} << "  lattice, American    " << price{american_put} << "  early exercise is worth " << price{american_put - european_put} << '\n';
     acout{} << "  exercise below:";
-    for (std::size_t t = 0; t < steps; t += 4)
-        acout{} << "  month " << t / 2 << ": " << price{boundary(t)};
+    for (std::size_t t = 6; t < steps; t += 4)
+        acout{} << "  month " << t / 2 << ": " << price{american.boundary[t]};
     acout{} << '\n';
-    expect(boundary(steps - 1) > boundary(0), "the boundary rises towards expiry, as theory says");
+    expect(american.boundary[steps - 1] > american.boundary[6], "the boundary rises towards expiry, as theory says");
 
     // The payoff along one terminal draw, shared by both simulations
     const auto put_payoff = [](double z) {

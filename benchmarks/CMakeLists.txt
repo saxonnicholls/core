@@ -46,6 +46,7 @@ snicholls_core_add_benchmark(object_pool_benchmark containers/object_pool_benchm
 snicholls_core_add_benchmark(offset_ptr_benchmark containers/offset_ptr_benchmark.cpp)
 snicholls_core_add_benchmark(perfect_map_benchmark containers/perfect_map_benchmark.cpp)
 snicholls_core_add_benchmark(day_count_benchmark finance/day_count_benchmark.cpp)
+snicholls_core_add_benchmark(option_pricing_benchmark finance/option_pricing_benchmark.cpp)
 snicholls_core_add_benchmark(finance_ratio_benchmark finance/ratio_benchmark.cpp)
 snicholls_core_add_benchmark(fsm_state_machine_benchmark fsm/state_machine_benchmark.cpp)
 snicholls_core_add_benchmark(functional_combinators_benchmark functional/combinators_benchmark.cpp)
@@ -144,6 +145,7 @@ snicholls_core_add_benchmark(bootstrap_benchmark stats/bootstrap_benchmark.cpp)
 snicholls_core_add_benchmark(normal_benchmark stats/normal_benchmark.cpp)
 snicholls_core_add_benchmark(pivot_benchmark stats/pivot_benchmark.cpp)
 snicholls_core_add_benchmark(stats_resample_benchmark stats/resample_benchmark.cpp)
+snicholls_core_add_benchmark(snell_benchmark stochastic/snell_benchmark.cpp)
 # The baselines it compares against are the C library's POSIX calls (gmtime_r,
 # timegm), which MSVC does not have.
 if(NOT WIN32)
