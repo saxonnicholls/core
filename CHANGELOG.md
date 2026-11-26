@@ -3,6 +3,23 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## Unreleased
+
+### Changed
+
+- **Trade and settlement dates are kept apart on every fact** (breaking): `payment_fact` and `onramp_fact` carry one
+  `fact_dates dates` (`capability_ids.hpp`) in place of `occurred_at`: `trade_at` (when the economic event happened),
+  `known_at` (when we recorded it: provenance, never content), `settles_on` (the value date, a `std::chrono::sys_days`
+  in the settlement account's calendar, with `settles_on_estimated` when computed rather than given), `settled_at` and
+  `available_at` (an instant a provider gives, Stripe's `available_on`). `validate(fact_dates)` refuses a fact known
+  or settled before it happened and an estimate without a date; each fact's `validate` runs it. `same_content`
+  compares dates without `known_at`. Migration: `f.occurred_at` becomes `f.dates.trade_at`, and set `f.dates.known_at`.
+
+### Added
+
+- **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
+  and is never booked; the payment kit checks it.
+
 ## 0.24.1 - 2026-11-26
 
 One version of core in a build, enforced at compile time too (snicholls-tooling v0.3.1).

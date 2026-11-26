@@ -323,7 +323,8 @@ namespace snicholls {
             f.provider_account = "memory";
             f.fact_id = id<fact_id>(name);
             f.kind = k;
-            f.occurred_at = clock_();
+            f.dates.trade_at = clock_();
+            f.dates.known_at = f.dates.trade_at;
             f.account = id<short_text>(account);
             return f;
         }

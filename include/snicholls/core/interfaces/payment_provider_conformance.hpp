@@ -28,7 +28,8 @@
 /// invalid`, `an unsupported currency is unsupported`, `collect is idempotent`, `a card collection succeeds once the
 /// payer pays`, `a bank transfer gives details and a reference and succeeds on the credit`, `a refund never exceeds
 /// what remains`, `an unknown payment is not found`, `a webhook verifies and carries its event`, `a webhook fails
-/// closed`, `an event resolves to authoritative facts that balance`, `a statement pages through every line once`,
+/// closed`, `an event resolves to authoritative facts that balance` (a test delivery to none), `a statement pages
+/// through every line once`,
 /// `a provider failure never leaks its response`.
 ///
 /// \snippet interfaces/payment_provider_conformance_demo.cpp kit
@@ -292,6 +293,13 @@ namespace snicholls {
             nothing.kind = event_kind::other;
             const auto none = pp.resolve(nothing);
             expect(none.is_ok() && none->empty(), "an event that books nothing resolves to no facts");
+            webhook_event test = detail::kit_event();
+            test.payment_id = c->pay.payment_id;
+            test.event_id = "evt_test";
+            test.is_test = true;
+            const auto booked = pp.resolve(test);
+            expect(booked.is_ok() && booked->empty(), "a test delivery resolves to no facts");
+            expect(f.dates.known_at >= f.dates.trade_at, "a fact is known no earlier than it happened");
         });
 
         detail::capability_check<Probe>(report, "a statement pages through every line once", [](Probe& p, const auto& expect) {

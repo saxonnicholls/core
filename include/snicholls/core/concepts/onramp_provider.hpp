@@ -242,7 +242,7 @@ namespace snicholls {
         snicholls::provider_account provider_account; ///< opaque; the product maps it to a book
         snicholls::fact_id fact_id;                   ///< the venue's trade id, withdrawal id (or `<id>:reversed`), transfer id
         onramp_fact_kind kind{onramp_fact_kind::trade_fill};  ///< what it books
-        utc_s occurred_at{};                          ///< the venue's time
+        fact_dates dates;                             ///< when it happened, settles, and was known (`fact_dates`)
         short_text account;                           ///< the venue account debited (`"trading"`, `"funding"`)
         short_text to_account;                        ///< an internal transfer's account credited
         money debit;   ///< what left `account`, in a venue asset (quote spent; amount withdrawn; amount moved)
@@ -284,6 +284,8 @@ namespace snicholls {
     {
         if (f.source.empty() || f.fact_id.empty() || f.account.empty())
             return fail(capability_errc::invalid_argument, {}, "a fact needs its source, fact id and account");
+        if (auto dates = validate(f.dates); !dates)
+            return dates;
         if (f.debit.is_negative() || f.credit.is_negative() || f.fee.is_negative())
             return fail(capability_errc::invalid_argument, {}, "a fact's amounts are not negative");
         switch (f.kind) {

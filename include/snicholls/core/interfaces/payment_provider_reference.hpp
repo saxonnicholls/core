@@ -336,7 +336,7 @@ namespace snicholls {
         capability_result<std::vector<payment_fact>> resolve(const webhook_event& e)
         {
             std::vector<payment_fact> out;
-            if (e.kind == event_kind::other)
+            if (e.kind == event_kind::other || e.is_test)   // a test delivery is recorded, never booked
                 return ok(std::move(out));
             for (const auto& [related, f] : ledger_)
                 if ((!e.payment_id.empty() && related == e.payment_id.view()) ||
@@ -595,7 +595,10 @@ namespace snicholls {
             f.provider_account = provider_account_;
             f.fact_id = id<fact_id>(line_id.empty() ? "mem_txn_" + std::to_string(++next_id_) : line_id);
             f.kind = kind;
-            f.occurred_at = clock_();
+            f.dates.trade_at = clock_();
+            f.dates.known_at = f.dates.trade_at;
+            f.dates.settled_at = f.dates.trade_at;   // the reference settles at once
+            f.dates.settles_on = f.dates.trade_at.days();
             f.settled = settlement{gross, fee, *subtract(gross, fee)};
             f.refs = refs;
             ledger_.emplace_back(std::move(related), f);
@@ -654,6 +657,7 @@ namespace snicholls {
             line("reference", e.reference.view());
             line("occurred_at", std::to_string(e.occurred_at.unix_seconds()));
             line("needs_lookup", e.needs_lookup ? "1" : "0");
+            line("is_test", e.is_test ? "1" : "0");
             return b;
         }
 
@@ -692,6 +696,8 @@ namespace snicholls {
                     e.occurred_at = utc_s::from_unix_seconds(s);
                 } else if (k == "needs_lookup") {
                     e.needs_lookup = v == "1";
+                } else if (k == "is_test") {
+                    e.is_test = v == "1";
                 } else if (k == "source") {
                     set(e.source, v);
                 } else if (k == "provider_account") {

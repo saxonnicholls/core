@@ -39,5 +39,18 @@ int main()
               make_id<provider_name>("stripe").is_ok() && make_id<short_text>("BSB 062-000").is_ok(),
           "every alias makes its id");
     check(utc_s::from_unix_seconds(60).unix_seconds() == 60, "time is utc_s");
+
+    //! [dates]
+    // A card payment: charged now, known 30 s later, available (and so settling) two days on
+    fact_dates dates;
+    dates.trade_at = utc_s::from_unix_seconds(1'800'000'000);
+    dates.known_at = utc_s::from_unix_seconds(1'800'000'030);
+    dates.available_at = utc_s::from_unix_seconds(1'800'172'800);
+    dates.settles_on = dates.available_at->days();   // the value date the ledger dates its pending sub-account by
+    //! [dates]
+    check(validate(dates).is_ok(), "a pending settlement validates");
+    fact_dates later = dates;
+    later.known_at = utc_s::from_unix_seconds(1'800'000'900);
+    check(dates.same_content(later), "known_at is provenance: a redelivery is the same fact");
     return failures == 0 ? 0 : 1;
 }

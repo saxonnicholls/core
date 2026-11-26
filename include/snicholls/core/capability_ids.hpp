@@ -13,7 +13,8 @@
 /// **Overview.** A contract owns no `std::string`: an identifier a provider returns or a ledger books is an
 /// `inplace_string<N>` (trivially copyable, no allocation, refused rather than truncated), and a free-form payload (a
 /// message body, a webhook body, a request) is borrowed for the call as `std::string_view` or
-/// `std::span<const std::byte>`. Time is `utc_s`, core's `utc<std::chrono::seconds>` (`time/utc.hpp`). The bounds:
+/// `std::span<const std::byte>`. Time is `utc_s`, core's `utc<std::chrono::seconds>` (`time/utc.hpp`); a fact's dates
+/// are one `fact_dates` (trade, settlement, when known), validated by `validate(fact_dates)`. The bounds:
 ///
 /// | Alias | Capacity | For | Why that bound |
 /// |---|---|---|---|
@@ -29,6 +30,8 @@
 /// meets a longer one answers `capability_errc::internal` rather than cut it (an id cut short is another id).
 ///
 /// \snippet capability_ids_demo.cpp ids
+///
+/// \snippet capability_ids_demo.cpp dates
 ///
 /// **Relationships.** `containers/inplace_string.hpp`, `capability_error.hpp`, `time/utc.hpp`; every contract under
 /// `concepts/` that names an id. Group: \ref core.
@@ -60,6 +63,7 @@
 #include <snicholls/core/time/utc.hpp>
 
 #include <chrono>
+#include <optional>
 #include <string_view>
 
 namespace snicholls {
@@ -99,6 +103,56 @@ namespace snicholls {
         if (!r)
             return fail(capability_errc::invalid_argument, {}, "identifier too long");
         return ok(*r);
+    }
+
+    /// \brief A fact's dates, the same on every fact a ledger books (payments, on-ramp, securities): when the economic
+    /// event happened, when it settles, and when we learnt of it.
+    /// \ingroup core
+    ///
+    /// The trade and the settlement are kept apart because the gap between them is where cash is short: a card payment
+    /// is available days later, a counter payment when the agent's file settles, a share trade at T+2. `settles_on` is a
+    /// calendar date in the settlement account's own calendar (its time zone is the account's, not the fact's), present
+    /// once known; a provider that gives none leaves it to the ledger's intake, which estimates it with
+    /// `finance/business_day.hpp` and marks it `settles_on_estimated`.
+    ///
+    /// **Provenance, not content:** `known_at` (when we recorded the delivery) is never part of a fact's content: two
+    /// deliveries of one fact are known at different times and are the same fact. A content comparison leaves it out.
+    struct fact_dates {
+        utc_s trade_at{};                                 ///< when the economic event happened (the provider's time)
+        utc_s known_at{};                                 ///< when we recorded it: provenance, not content
+        std::optional<std::chrono::sys_days> settles_on;  ///< the value date, in the settlement account's calendar
+        bool settles_on_estimated{false};                 ///< `settles_on` computed by business-day rules, not given
+        std::optional<utc_s> settled_at;                  ///< when it settled, once it has
+        std::optional<utc_s> available_at;                ///< an instant the provider gives (Stripe's `available_on`)
+
+        /// \brief Equality, of every field (provenance included; compare content with `same_content`).
+        friend constexpr bool operator==(const fact_dates&, const fact_dates&) noexcept = default;
+
+        /// \brief Equality of content: every field but `known_at`.
+        /// \param other The other dates.
+        /// \return `true` when the dates describe the same event.
+        [[nodiscard]] constexpr bool same_content(const fact_dates& other) const noexcept
+        {
+            return trade_at == other.trade_at && settles_on == other.settles_on &&
+                   settles_on_estimated == other.settles_on_estimated && settled_at == other.settled_at &&
+                   available_at == other.available_at;
+        }
+    };
+
+    /// \brief The checks a fact's dates pass: it was known no earlier than it happened, it settled no earlier than it
+    /// happened, and an estimate is of a date that exists. A `settles_on` in the future is allowed: a pending settlement.
+    /// \ingroup core
+    /// \param d The dates.
+    /// \return Success, or `invalid_argument` with a fixed message.
+    [[nodiscard]] constexpr capability_result<void> validate(const fact_dates& d) noexcept
+    {
+        if (d.known_at < d.trade_at)
+            return fail(capability_errc::invalid_argument, {}, "a fact is known before it happened");
+        if (d.settled_at && *d.settled_at < d.trade_at)
+            return fail(capability_errc::invalid_argument, {}, "a fact settled before it happened");
+        if (d.settles_on_estimated && !d.settles_on)
+            return fail(capability_errc::invalid_argument, {}, "an estimate without a settlement date");
+        return ok();
     }
 
 } // namespace snicholls

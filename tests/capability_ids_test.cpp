@@ -46,4 +46,55 @@ TEST(CapabilityIds, TooLongIsRefusedNeverTruncated)
     EXPECT_TRUE(make_id<short_text>("").is_ok());
 }
 
+// ---- fact_dates: the trade, the settlement and when we learnt of it ---------------------------------------------------
+
+constexpr fact_dates card_payment()
+{
+    fact_dates d;
+    d.trade_at = utc_s::from_unix_seconds(1'800'000'000);       // the charge
+    d.known_at = utc_s::from_unix_seconds(1'800'000'030);       // the webhook arrived 30 s later
+    d.available_at = utc_s::from_unix_seconds(1'800'172'800);   // Stripe's available_on, two days on
+    d.settles_on = d.available_at->days();
+    return d;
+}
+static_assert(validate(card_payment()).is_ok(), "a pending settlement in the future is valid");
+static_assert(std::is_trivially_copyable_v<fact_dates>);
+
+TEST(FactDates, KnownBeforeItHappenedIsInvalid)
+{
+    fact_dates d = card_payment();
+    d.known_at = utc_s::from_unix_seconds(1'799'999'999);
+    ASSERT_TRUE(validate(d).is_err());
+    EXPECT_EQ(validate(d).unwrap_err().message, std::string_view{"a fact is known before it happened"});
+}
+
+TEST(FactDates, SettledBeforeItHappenedIsInvalid)
+{
+    fact_dates d = card_payment();
+    d.settled_at = utc_s::from_unix_seconds(1'799'000'000);
+    EXPECT_EQ(validate(d).unwrap_err().message, std::string_view{"a fact settled before it happened"});
+    d.settled_at = d.available_at;
+    EXPECT_TRUE(validate(d).is_ok());
+}
+
+TEST(FactDates, AnEstimateNeedsADate)
+{
+    fact_dates d = card_payment();
+    d.settles_on_estimated = true;
+    EXPECT_TRUE(validate(d).is_ok());
+    d.settles_on.reset();
+    EXPECT_EQ(validate(d).unwrap_err().message, std::string_view{"an estimate without a settlement date"});
+}
+
+TEST(FactDates, KnownAtIsProvenanceNotContent)
+{
+    const fact_dates first = card_payment();
+    fact_dates redelivered = first;
+    redelivered.known_at = utc_s::from_unix_seconds(1'800'000'600);   // the same fact, learnt again later
+    EXPECT_NE(first, redelivered);
+    EXPECT_TRUE(first.same_content(redelivered));
+    redelivered.settles_on = *first.settles_on + std::chrono::days{1};
+    EXPECT_FALSE(first.same_content(redelivered));
+}
+
 } // namespace
