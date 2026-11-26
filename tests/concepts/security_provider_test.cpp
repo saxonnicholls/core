@@ -19,6 +19,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <string>
 #include <string_view>
 #include <utility>
 #include <vector>
@@ -100,12 +101,13 @@ static_assert(validate(a_buy()).is_ok());
 static_assert(*cash_movement(a_buy()) == units(aud, -452'245));
 static_assert(noexcept(validate(std::declval<const security_fact&>())) && noexcept(cash_movement(std::declval<const security_fact&>())));
 
+// The message is copied out: a view into the local result would dangle once it returns.
 template <class Change>
-constexpr std::string_view refused(security_fact f, Change change)
+std::string refused(security_fact f, Change change)
 {
     change(f);
     const auto r = validate(f);
-    return r.is_ok() ? std::string_view{} : r.unwrap_err_unchecked().message.view();
+    return r.is_ok() ? std::string{} : std::string{r.unwrap_err_unchecked().message.view()};
 }
 
 TEST(SecurityProviderConcept, ValidateRefusesWhatTheLedgerCouldNotBook)
