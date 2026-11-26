@@ -207,6 +207,9 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/third_party/tooling/cmake/SnichollsTooling.cmake)
     snicholls_single_include_check(snicholls_core_single_include)
     snicholls_core_compile_options(snicholls_core_single_include)
+    # The single include is compiled with no link to snicholls::core, so it gets the conforming preprocessor here: MSVC's
+    # traditional one stops at 256 nested macros, and the struct binders' member lists nest 256 deep (C1009).
+    target_compile_options(snicholls_core_single_include PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>)
     snicholls_tooling_add_checks(SINGLE_INCLUDE INTERFACES PINS)
 
     # GoogleTest, vendored as a shallow submodule pinned to a release tag
