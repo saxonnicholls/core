@@ -29,6 +29,13 @@ A version is released when its tag is on a commit where every blocking CI leg is
   position and an overdue bucket. Overdue flows follow an `overdue_policy` set separately for inflows and outflows
   (`count`, `report_only`, `due_today`); the default is the prudent `{report_only, due_today}`. One asset per ladder
   (`asset_mismatch` otherwise); exact, constexpr, written into the caller's span.
+- **`remote_files`, the capability for collecting files from a remote drop** (settlement files over SFTP or HTTPS):
+  `concepts/remote_files.hpp` with `list(prefix)` (sorted `remote_file{name, size, modified}`), `fetch(name, sink)`
+  (streamed to the caller's `remote_file_sink`, returning the `file_digest`, size and SHA-256 of what was delivered)
+  and an optional `move(from, to)` gated by `supports(remote_files_op::move)`; name and prefix rules
+  (`is_remote_name`, `validate_remote_name`), `file_digester`. Its twin `interfaces/remote_files.hpp` with the
+  adapters both ways, the in-memory reference `memory_remote_files`, and the kit `run_remote_files_conformance`
+  (seven checks, the redaction rule among them). Errors are `capability_errc`.
 - **`rounds_away(quotient, fraction, mode)` and `sum_residuals(parts, denominator)`** (`money/rate.hpp`): the rounding
   test `convert` applies, public (it was `detail::rounds_away`), and the exact signed total of many residuals over one
   denominator (`malformed` for another denominator, `overflow` past 256 bits), for an entitlement engine that divides

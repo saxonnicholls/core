@@ -51,6 +51,7 @@ add_executable(snicholls_core_tests
     concepts/named_test.cpp
     concepts/onramp_provider_test.cpp
     concepts/payment_provider_test.cpp
+    concepts/remote_files_test.cpp
     concepts/signer_test.cpp
     concepts/token_test.cpp
     containers/ann_forest_test.cpp
@@ -156,6 +157,9 @@ add_executable(snicholls_core_tests
     interfaces/payment_provider_conformance_test.cpp
     interfaces/payment_provider_reference_test.cpp
     interfaces/payment_provider_test.cpp
+    interfaces/remote_files_conformance_test.cpp
+    interfaces/remote_files_reference_test.cpp
+    interfaces/remote_files_test.cpp
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp
