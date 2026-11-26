@@ -316,6 +316,7 @@ namespace snicholls {
         payout_updated = 3,   ///< a payout changed
         refund_updated = 4,   ///< a refund changed
         other = 5,            ///< anything else; ignore it safely
+        security_updated = 6, ///< a trade, settlement, corporate action or position changed (`security_provider`)
     };
 
     /// \brief One webhook delivery, exactly as received: the raw body, not a parsed one (borrowed for the call).

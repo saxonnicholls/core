@@ -77,6 +77,7 @@
 #include <snicholls/core/concepts/named.hpp>
 #include <snicholls/core/concepts/onramp_provider.hpp>
 #include <snicholls/core/concepts/payment_provider.hpp>
+#include <snicholls/core/concepts/security_provider.hpp>
 #include <snicholls/core/concepts/signer.hpp>
 #include <snicholls/core/concepts/token.hpp>
 #include <snicholls/core/containers/ann_forest.hpp>
@@ -172,6 +173,9 @@
 #include <snicholls/core/interfaces/payment_provider.hpp>
 #include <snicholls/core/interfaces/payment_provider_conformance.hpp>
 #include <snicholls/core/interfaces/payment_provider_reference.hpp>
+#include <snicholls/core/interfaces/security_provider.hpp>
+#include <snicholls/core/interfaces/security_provider_conformance.hpp>
+#include <snicholls/core/interfaces/security_provider_reference.hpp>
 #include <snicholls/core/interfaces/signer.hpp>
 #include <snicholls/core/interfaces/signer_conformance.hpp>
 #include <snicholls/core/interfaces/signer_reference.hpp>

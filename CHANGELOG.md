@@ -14,6 +14,8 @@ A version is released when its tag is on a commit where every blocking CI leg is
   `available_at` (an instant a provider gives, Stripe's `available_on`). `validate(fact_dates)` refuses a fact known
   or settled before it happened and an estimate without a date; each fact's `validate` runs it. `same_content`
   compares dates without `known_at`. Migration: `f.occurred_at` becomes `f.dates.trade_at`, and set `f.dates.known_at`.
+- **The reference providers sign webhooks with one implementation** (`detail/memory_webhook.hpp`), shared by
+  `memory_payment_provider` and `memory_security_provider`; the payment reference's behaviour is unchanged.
 - **`finance::year_fraction` is `finance::ratio`** (an alias), source-compatible: the constructor, `numerator()`,
   `denominator()`, `to_double()`, `==` and `<=>` are unchanged, and `<=>` is now exact for every pair (it
   cross-multiplied in 64 bits). Its parts may no longer be `INT64_MIN` (asserted).
@@ -22,6 +24,20 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
+- **`security_fact` and the `security_provider` capability** (`concepts/security_provider.hpp`, with its virtual twin
+  `interfaces/security_provider.hpp`, the reference `memory_security_provider` and the kit
+  `run_security_provider_conformance`): the broker, custodian and registry side of one ledger, a sibling of
+  `payment_fact`. A fact carries its kind (trades and settlement; dividends, withholding, DRPs, capital returns;
+  splits, consolidations, bonuses, symbol changes, mergers, demergers, rights, takeovers; repos and reverse repos,
+  accruals, margin and collateral reuse; and the fund kinds application, redemption, `unit_switch` and
+  distribution_reinvested), the instrument as an asset `<SYMBOL>:<VENUE>` with an optional ISIN, the second
+  instrument and cost apportionment of a two-instrument action, a signed exact quantity, a `new_for_old` ratio,
+  price, consideration, fees and taxes as money with franking as a tax attribute, `fact_dates` with ex, record and
+  pay dates, a repo's counterparty, agreement, rate, `day_count_basis` and maturity, and refs; `validate` and
+  `cash_movement`. The capability: `capabilities`, `verify_webhook`, `resolve(event)` and `statement(query)` as
+  `payment_provider` has them, and `holdings(as_of)` by trade date and by settlement.
+- **`event_kind::security_updated`** (appended to `concepts/payment_provider.hpp`): an event about a trade, an action
+  or a position.
 - **`finance::ratio`** (`finance/ratio.hpp`): one exact rational for `finance/`, `int64` numerator over a positive
   denominator in lowest terms; `make` and `parse` (`"3/2"`, `"-1.25"`, `"13.24%"`) with `ratio_errc`; checked `add`,
   `subtract` and `multiply` (cancelled across first); `inverse`; an exact `<=>` for every pair. For split and rights

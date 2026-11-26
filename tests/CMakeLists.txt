@@ -51,6 +51,7 @@ add_executable(snicholls_core_tests
     concepts/named_test.cpp
     concepts/onramp_provider_test.cpp
     concepts/payment_provider_test.cpp
+    concepts/security_provider_test.cpp
     concepts/signer_test.cpp
     concepts/token_test.cpp
     containers/ann_forest_test.cpp
@@ -75,6 +76,7 @@ add_executable(snicholls_core_tests
     detail/hash_engine_test.cpp
     detail/iso3166_table_test.cpp
     detail/iso4217_table_test.cpp
+    detail/memory_webhook_test.cpp
     detail/mul_div_test.cpp
     detail/pp_for_each_test.cpp
     detail/sobol_directions_test.cpp
@@ -158,6 +160,9 @@ add_executable(snicholls_core_tests
     interfaces/payment_provider_conformance_test.cpp
     interfaces/payment_provider_reference_test.cpp
     interfaces/payment_provider_test.cpp
+    interfaces/security_provider_conformance_test.cpp
+    interfaces/security_provider_reference_test.cpp
+    interfaces/security_provider_test.cpp
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp
