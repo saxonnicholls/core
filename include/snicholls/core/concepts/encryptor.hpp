@@ -125,12 +125,11 @@ namespace snicholls {
     /// \return The header bytes.
     [[nodiscard]] inline std::vector<std::byte> sealed_header(std::string_view key_id)
     {
-        std::vector<std::byte> out;
-        out.reserve(2 + key_id.size());
-        out.push_back(sealed_format_v1);
-        out.push_back(static_cast<std::byte>(key_id.size()));
-        for (const char c : key_id)
-            out.push_back(static_cast<std::byte>(c));
+        std::vector<std::byte> out(2 + key_id.size());   // sized once: GCC 15 misreads push_back after reserve
+        out[0] = sealed_format_v1;
+        out[1] = static_cast<std::byte>(key_id.size());
+        for (std::size_t i = 0; i < key_id.size(); ++i)
+            out[2 + i] = static_cast<std::byte>(key_id[i]);
         return out;
     }
 
