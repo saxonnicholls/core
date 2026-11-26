@@ -6,6 +6,8 @@
 //  - by currency (8) and index (4), both enumerations: P&L summed, return averaged (Welford);
 //    by hand, two fixed arrays indexed by the enumerations' values.
 //  - by desk name (32 strings, found at run time): P&L summed; by hand, a std::unordered_map.
+//  - the enumeration case again from a plain struct, every key and value read by stats::member<&trade::...>;
+//    by hand, the same arrays reading the members.
 //  The arithmetic is the same in the same order, so the fairness check asks for identical
 //  results and refuses to benchmark otherwise.
 //
@@ -59,11 +61,29 @@ const std::vector<fill> fills = [] {
     return out;
 }();
 
+struct trade {   // the same fills as a plain struct
+    currency ccy;
+    equity_index index;
+    double pnl, ret;
+};
+const std::vector<trade> trades = [] {
+    std::vector<trade> out;
+    out.reserve(fills.size());
+    for (const fill& f : fills)
+        out.push_back({std::get<currency>(f), std::get<equity_index>(f), std::get<pnl>(f).value, std::get<ret>(f).value});
+    return out;
+}();
+
 using enum_pivot = snicholls::stats::pivot<fill, snicholls::meta::type_list<currency>, snicholls::meta::type_list<equity_index>,
                                            snicholls::stats::measure<pnl_of, snicholls::stats::sum<double>>,
                                            snicholls::stats::measure<ret_of, snicholls::stats::mean<double>>>;
 using desk_pivot = snicholls::stats::pivot<fill, snicholls::meta::type_list<desk_of>, snicholls::meta::type_list<>,
                                            snicholls::stats::measure<pnl_of, snicholls::stats::sum<double>>>;
+
+using member_pivot = snicholls::stats::pivot<trade, snicholls::meta::type_list<snicholls::stats::member<&trade::ccy>>,
+                                             snicholls::meta::type_list<snicholls::stats::member<&trade::index>>,
+                                             snicholls::stats::measure<snicholls::stats::member<&trade::pnl>, snicholls::stats::sum<double>>,
+                                             snicholls::stats::measure<snicholls::stats::member<&trade::ret>, snicholls::stats::mean<double>>>;
 
 struct by_hand {
     std::array<std::array<double, 4>, 8> sum{};
@@ -82,6 +102,26 @@ by_hand enums_by_hand()
         h.mean[c][i] += (std::get<ret>(f).value - h.mean[c][i]) / static_cast<double>(h.n[c][i]);
     }
     return h;
+}
+
+by_hand members_by_hand()
+{
+    by_hand h;
+    for (const trade& t : trades) {
+        const auto c = static_cast<std::size_t>(t.ccy);
+        const auto i = static_cast<std::size_t>(t.index);
+        h.sum[c][i] += t.pnl;
+        ++h.n[c][i];
+        h.mean[c][i] += (t.ret - h.mean[c][i]) / static_cast<double>(h.n[c][i]);
+    }
+    return h;
+}
+
+member_pivot members_by_pivot()
+{
+    member_pivot p;
+    p.add_all(trades);
+    return p;
 }
 
 enum_pivot enums_by_pivot()
@@ -116,6 +156,14 @@ bool fair()
             if (p.value<0>(keys) != h.sum[c][i] || p.value<1>(keys) != h.mean[c][i])
                 return false;
         }
+    const by_hand hm = members_by_hand();
+    const member_pivot m = members_by_pivot();
+    for (std::size_t c = 0; c < 8; ++c)
+        for (std::size_t i = 0; i < 4; ++i) {
+            const typename member_pivot::keys_type keys{static_cast<currency>(c), static_cast<equity_index>(i)};
+            if (m.value<0>(keys) != hm.sum[c][i] || m.value<1>(keys) != hm.mean[c][i] || hm.sum[c][i] != h.sum[c][i])
+                return false;
+        }
     const auto sums = desks_by_hand();
     const desk_pivot d = desks_by_pivot();
     for (const auto& [name, total] : sums)
@@ -139,6 +187,22 @@ void BM_Pivot_EnumKeysByHand(benchmark::State& state)
     state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(fills.size()));
 }
 BENCHMARK(BM_Pivot_EnumKeysByHand)->Unit(benchmark::kMicrosecond);
+
+void BM_Pivot_MemberKeysCore(benchmark::State& state)
+{
+    for (auto _ : state)
+        benchmark::DoNotOptimize(members_by_pivot());
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(trades.size()));
+}
+BENCHMARK(BM_Pivot_MemberKeysCore)->Unit(benchmark::kMicrosecond);
+
+void BM_Pivot_MemberKeysByHand(benchmark::State& state)
+{
+    for (auto _ : state)
+        benchmark::DoNotOptimize(members_by_hand());
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(trades.size()));
+}
+BENCHMARK(BM_Pivot_MemberKeysByHand)->Unit(benchmark::kMicrosecond);
 
 void BM_Pivot_StringKeysCore(benchmark::State& state)
 {

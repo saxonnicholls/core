@@ -22,10 +22,24 @@
 /// - **Keys.** `Rows` and `Columns` are `meta::type_list`s. Each element is a key type, read from a row by
 ///   `std::get<K>(row)` (a `std::tuple` of strong types); a getter, any default-constructible type callable
 ///   with the row (a lambda's type, a struct reading a member); a name, `by_name<"currency">`, read by
-///   `get<"currency">(row)` as an object model with named fields provides; or a tag struct with a static `get(row)`. A key that is
+///   `get<"currency">(row)` as an object model with named fields provides; a member, `member<&trade::desk>`, read
+///   straight from a plain struct (a data member, or a const member function called with no arguments); or a tag
+///   struct with a static `get(row)`. A key that is
 ///   a reflectable enumeration, a `bool`, or a type with a declared `pivot_domain` has a fixed set of
 ///   values, so its cells are placed by arithmetic, with no hashing; any other key that can be hashed is
 ///   given a place when first seen.
+/// - **Members.** `member<&trade::desk>` is the getter a struct's member already is, so a plain struct needs no
+///   getter written for it, as keys and as measures' values. A key read from a member prints under its own type's
+///   attributes, as any key does; a measure's cells take the attributes declared for its `member<...>`, found
+///   beside the struct (the struct is a template argument, so its namespace is searched):
+///
+/// \snippet stats/pivot_demo.cpp pivot_members
+///
+/// \snippet stats/pivot_demo.cpp pivot_members_use
+///
+///   Core has no portable way to read a member's name, so a member brings no label of its own; positions through
+///   reflection (`reflect/struct_tuple.hpp`) are not offered, because a name at the call site reads better than an
+///   index and survives the struct's members being reordered.
 /// - **Measures.** `measure<Value, Accumulator>`: the value, again a type read with `get` or a getter, and
 ///   an accumulator from `stats/accumulators.hpp` (or any type with `add` and `value`). Every measure of every
 ///   row is taken in the same pass. `histogram` gives each cell its distribution, `collect` keeps each cell's values
@@ -50,14 +64,18 @@
 /// over 1,000,000 rows, against the same loop written out, after a fairness check. Release, Apple clang 17,
 /// Xeon W-3245, 2026-11-07: by enumerations, 4.76 ms (210 million rows a
 /// second) against 4.67 ms by hand; by 32 desk names found at run time, 36.4 ms against 33.5 ms for a
-/// hand-written `std::unordered_map`.
+/// hand-written `std::unordered_map`. From a plain struct by `member<>` keys and values,
+/// 2026-11-26: 3.85 ms against 3.00 ms by hand. Against the same pivot with getter structs written out (Homebrew
+/// clang 23, -O3, same machine) members took 3.30 ms and getters 3.70 ms, so a member costs nothing; the gap is
+/// the pivot's own work per row (checking the key, marking the cell), which the hand loop over a 24-byte struct
+/// leaves out.
 ///
 /// **Tests and demos.** `tests/stats/pivot_test.cpp`, `demos/stats/pivot_demo.cpp`.
 ///
 /// **Dependencies.** `<algorithm>`, `<array>`, `<cassert>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<functional>`,
 /// `<optional>`, `<ostream>`, `<ranges>`, `<tuple>`, `<type_traits>`, `<unordered_map>`,
-/// `<utility>`, `<vector>`, `meta/concepts.hpp`, `meta/enums.hpp`, `meta/type_list.hpp`,
-/// `stats/accumulators.hpp`.
+/// `<utility>`, `<vector>`, `acout.hpp`, `fixed_string.hpp`, `hash/wyhash.hpp`, `meta/concepts.hpp`, `meta/enums.hpp`,
+/// `meta/type_list.hpp`, `stats/accumulators.hpp`.
 ///
 /// **Known issues.** Not thread-safe: one pivot per worker, then `merge`.
 ///
@@ -80,6 +98,7 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <ostream>
 #include <ranges>
@@ -133,6 +152,39 @@ namespace snicholls::stats {
         constexpr decltype(auto) operator()(const Row& row) const
         {
             return row.template get<Name>();
+        }
+    };
+
+    namespace detail {
+        template <typename M>
+        struct member_class {
+            using type = void;
+        };
+        template <typename T, typename C>
+        struct member_class<T C::*> {
+            using type = C;
+        };
+    } // namespace detail
+
+    /// \brief A getter that reads a member of a plain struct: `member<&trade::desk>`, a key or a measure's value with no
+    /// getter written for it.
+    ///
+    /// `Member` is a pointer to a data member, or to a const member function called with no arguments. The struct is
+    /// the second template argument (deduced), so `attributes(const member<&trade::pnl>&)`, declared beside `trade`, is
+    /// found by argument-dependent lookup and gives the measure's cells their presentation. A row of a class derived
+    /// from `Class` is read through its base.
+    /// \ingroup core
+    /// \tparam Member The member pointer.
+    /// \tparam Class  The struct it belongs to; deduced.
+    template <auto Member, typename Class = typename detail::member_class<decltype(Member)>::type>
+        requires std::is_member_pointer_v<decltype(Member)> && std::invocable<decltype(Member), const Class&>
+    struct member {
+        /// \brief Read the member: a reference to a data member, a member function's result.
+        /// \param row The row.
+        /// \return The member.
+        constexpr decltype(auto) operator()(const Class& row) const noexcept(std::is_nothrow_invocable_v<decltype(Member), const Class&>)
+        {
+            return std::invoke(Member, row);
         }
     };
 
@@ -293,7 +345,7 @@ namespace snicholls::stats {
 
     /// \brief A pivot table of `Row`s: keys `Rows` down, `Columns` across, and each `Measure` in every cell.
     /// \ingroup core
-    /// \tparam Row      The row type: a tuple of strong types, a struct, anything the getters read.
+    /// \tparam Row      The row type: a tuple of strong types, a struct (read by `member<&Row::m>`), anything the getters read.
     /// \tparam Rows     A `meta::type_list` of row keys (key types or getter types).
     /// \tparam Columns  A `meta::type_list` of column keys.
     /// \tparam Measures `measure<Value, Accumulator>`s, at least one.
@@ -507,7 +559,7 @@ namespace snicholls::stats {
             const auto print_keys = [&os](const auto& t) {
                 std::apply(
                     [&os](const auto&... k) {
-                        const char* separator = "";
+                        [[maybe_unused]] const char* separator = "";   // one key: GCC sees it set, never read
                         ((os << separator, print_to(os, k), separator = "/"), ...);
                     },
                     t);

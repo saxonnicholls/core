@@ -51,6 +51,11 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
 
 ### Added
 
+- **`stats::member<&trade::desk>`: a pivot reads a plain struct's members** (`stats/pivot.hpp`), as a key and as a
+  measure's value, with no getter struct written: a data member, or a const member function called with no arguments.
+  Keys print under their own types' attributes as before; a member measure's cells take `attributes(const
+  member<&trade::pnl>&)`, declared beside the struct and found by argument-dependent lookup. Getters, `by_name` and
+  tag structs are unchanged. `trading_day` keys its pivot by `member<&fill::book>` and `member<&fill::what>`.
 - **Showcases** (`showcase/`, `make showcase`, CTest label `showcase`): five whole programs, each across many areas
   and checking itself - `trading_day`, `payments_ledger`, `harbour_beacons`, `option_risk` and `functional_report`.
 - **The patterns page** (`docs/PATTERNS.md`, \ref patterns in the documentation): how core's pieces fit together,

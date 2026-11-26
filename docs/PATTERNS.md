@@ -303,6 +303,15 @@ pass.
 
 \snippet stats/pivot_demo.cpp pivot
 
+A plain struct needs no getters: `stats::member<&trade::ccy>` is a key or a measure's value read straight from the
+member (a data member, or a const member function). Keys print under their own types' attributes; a member measure's
+presentation is declared once beside the struct, as `attributes(const stats::member<&trade::pnl>&)`. Write a getter
+only for a value that is computed, as `trading_day`'s P&L from exact money is.
+
+\snippet stats/pivot_demo.cpp pivot_members
+
+\snippet stats/pivot_demo.cpp pivot_members_use
+
 ### Randomness that reproduces
 
 `stats::wyrand` by stream, `uniform_index` (never `std::uniform_int_distribution`, whose output differs between
