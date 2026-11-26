@@ -17,6 +17,38 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Added
 
+- **Contracts lifted from crtp, ts-moveables and base-encode-decode** (each a concept, its pure virtual twin with
+  adapters both ways, a standard-library reference and a conformance kit, tested in every form):
+  - **SQL**: `sql_value.hpp` (six parameter kinds as views, `sql_row` with exact typed getters, `sql_type`, the
+    database-neutral `sql_errc` / `sql_error` with SQLSTATE and `may_retry`, and the exact mappings of `utc`, `uuid`,
+    `decimal` and `money`); `sql_dialect` (type names, quoting, placeholders; `sqlite_dialect` and `postgres_dialect`,
+    and the statements written once over any dialect: `sql_create_table`, `sql_insert` with `sql_conflict`,
+    `sql_select_rows`, `sql_count`, `sql_delete`, `sql_drop_table`); `sql_connection` (prepare, execute, query,
+    batches, transactions and `sql_transaction`, all returning `sql_result`), with `memory_sql_connection`, an
+    in-memory store for the statements core generates.
+  - **`uuid_generator`**: v4 and monotonic v7 from the caller's random source and clock (`basic_uuid_generator`,
+    `reference_uuid_generator`, `manual_utc_clock`); a `random_source_like` source (`fill`, failing closed) or a
+    seeded test source.
+  - **`time_zone`**: the rules at an instant and a wall-clock time classified; `offset_at`, `to_local`, `from_local`
+    with gaps and folds a result resolved only by `local_options`; `to_text(t, offset)`; `fixed_offset_zone` and the
+    toy `two_rule_zone` (`sydney_like_zone`, `new_york_like_zone`). The IANA data stays above core.
+  - **`task_pool`** and **`loop_clock`**, C++17-clean (ts-moveables' `task_pool` twin and `loop_clock`, so it can
+    switch to core's): `is_task_pool_like_v` / `task_pool_like`, `task_pool_interface`, `task_pool_adapter`,
+    `any_task_pool`, `deferred_task_pool`, `check_task_pool`; `is_loop_clock_like_v` / `loop_clock_like`,
+    `loop_clock_interface`, `loop_clock_adapter`, `any_loop_clock`, `manual_loop_clock`, `check_loop_clock`;
+    `SNICHOLLS_HAS_CONCEPTS`. `snicholls_core_cpp17_check` compiles all eight headers as C++17.
+  - **`encryptor`**: AEAD-shaped (key ids in a self-describing envelope, associated data, `sealed_key_id`); its
+    reference `insecure_test_encryptor` is a test double and **not encryption**.
+  - **`http_client`**: `send` returning the response or a `capability_error`; `loopback_http_client` over any
+    handler; `validate_request`, `http_get`.
+  - **`kv_cas`**: compare-and-swap as a key-value capability of its own (from servers' interim store), implemented
+    by `reference_key_value_store`, with `check_kv_cas`; and `kv_encoded_key`, a key that encodes itself
+    (`key_bytes()`, crtp's `encoded_key` for composite keys), accepted by every `kv_*` convenience.
+- **From crtp's calendar** (best-version merge): `business_day_convention::half_month_modified_following` and
+  `nearest`; `end_of_month`, `is_end_of_month`, `advance_business_days`, `advance_months` (with the end-of-month
+  rule), `count_business_days`, `holidays_between`, `joint_calendar`, `adjusted_calendar`.
+- **From crtp's HTTP interface** (best-version merge): `http_request::path_params`, `path_param`, `request_target`,
+  `is_success`, `match_route`, and `route_table::add_pattern` (`:name` segments).
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
 
