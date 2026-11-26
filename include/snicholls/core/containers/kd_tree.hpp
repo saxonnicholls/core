@@ -21,7 +21,9 @@
 ///   `minkowski<P>`, `weighted_minkowski`, a `mahalanobis` made coordinate-wise by whitening the points first, or the
 ///   caller's own): a single coordinate's term bounds the whole, which is what lets a subtree be skipped.
 /// - `nearest(q)`: the closest point and its distance, or nothing for an empty tree.
-/// - `k_nearest(q, out)`: the `out.size()` closest, nearest first.
+/// - `k_nearest(q, out)`: the `out.size()` closest, nearest first; equal distances in ascending index order, and a tie
+///   at the k-th place cut by index (so the result is one well-defined list, as a reference that sorts by
+///   (distance, index) gives).
 /// - `k_nearest_within(q, r, out)`: the same, strictly within distance `r` (SciPy's `distance_upper_bound`), for kriging's
 ///   neighbourhood search.
 /// - `for_each_within(q, r, f)`: `f(index, distance)` for every point within distance `r`.
@@ -157,7 +159,7 @@ namespace snicholls::containers {
                 return std::nullopt;
             kd_neighbour best{0, std::numeric_limits<double>::infinity()};
             search(q, [&](std::uint32_t i, double r) {
-                if (r < best.distance)
+                if (before(r, i, best))   // at an equal distance, the lower index
                     best = {i, r};
             }, [&] { return best.distance; });
             best.distance = metric::expand(metric_, best.distance);
@@ -177,10 +179,10 @@ namespace snicholls::containers {
                 return 0;
             std::size_t have = 0;
             search(q, [&](std::uint32_t i, double r) {
-                if (have == k && !(r < out[k - 1].distance))
+                if (have == k && !before(r, i, out[k - 1]))
                     return;
                 std::size_t j = have < k ? have++ : k - 1;
-                for (; j > 0 && out[j - 1].distance > r; --j)
+                for (; j > 0 && before(r, i, out[j - 1]); --j)
                     out[j] = out[j - 1];
                 out[j] = {i, r};
             }, [&] { return have < k ? std::numeric_limits<double>::infinity() : out[k - 1].distance; });
@@ -207,10 +209,10 @@ namespace snicholls::containers {
             const double bound = metric::contract(metric_, radius);
             std::size_t have = 0;
             search(q, [&](std::uint32_t i, double r) {
-                if (!(r < bound) || (have == k && !(r < out[k - 1].distance)))
+                if (!(r < bound) || (have == k && !before(r, i, out[k - 1])))
                     return;
                 std::size_t j = have < k ? have++ : k - 1;
-                for (; j > 0 && out[j - 1].distance > r; --j)
+                for (; j > 0 && before(r, i, out[j - 1]); --j)
                     out[j] = out[j - 1];
                 out[j] = {i, r};
             }, [&] { return have < k ? bound : (out[k - 1].distance < bound ? out[k - 1].distance : bound); });
@@ -269,6 +271,13 @@ namespace snicholls::containers {
         }
 
     private:
+        // The order of neighbours: nearer first, and at an equal distance the lower point index first, so a query's
+        // result is one well-defined list (it matches a reference that breaks ties by index, bit for bit)
+        static constexpr bool before(double r, std::uint32_t i, const kd_neighbour& n) noexcept
+        {
+            return r < n.distance || (r == n.distance && i < n.index);
+        }
+
         // The reduced distance, stopping early once it exceeds bound
         template <typename Q>
         constexpr double reduced(const Q& q, std::uint32_t i, double bound) const noexcept(nothrow_read<Q>)

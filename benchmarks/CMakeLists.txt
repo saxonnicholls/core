@@ -10,7 +10,8 @@
 # Each benchmark has its own main(), which runs the fairness check before
 # handing over to Google Benchmark, so it links benchmark::benchmark rather
 # than benchmark_main.
-option(SNICHOLLS_CORE_BENCH_OPENSSL "Compare the hash benchmarks with OpenSSL when it is found (informational)" ON)
+set(SNICHOLLS_CORE_OPENSSL_ROOT "" CACHE PATH
+    "The family's pinned OpenSSL build (openssl-4.1.0, owned by crtp) to compare the hash benchmarks with; never the system's")
 
 function(snicholls_core_add_benchmark name source)
     add_executable(snicholls_core_${name} ${source})
@@ -59,9 +60,14 @@ snicholls_core_add_benchmark(sha2_benchmark hash/sha2_benchmark.cpp)
 snicholls_core_add_benchmark(sha3_benchmark hash/sha3_benchmark.cpp)
 snicholls_core_add_benchmark(wyhash_benchmark hash/wyhash_benchmark.cpp)
 snicholls_core_add_benchmark(check_digits_benchmark ids/check_digits_benchmark.cpp)
-# The hash benchmarks compare with OpenSSL when it is installed: an informational row, never a dependency of core
-find_package(OpenSSL 3 QUIET)
-if(OpenSSL_FOUND AND SNICHOLLS_CORE_BENCH_OPENSSL)
+# The hash benchmarks compare with OpenSSL only when pointed at the family's pinned build (openssl-4.1.0, built by
+# crtp from a pinned source): an informational row, never a dependency of core, and never the system's OpenSSL
+if(SNICHOLLS_CORE_OPENSSL_ROOT)
+    set(OPENSSL_ROOT_DIR "${SNICHOLLS_CORE_OPENSSL_ROOT}")
+    set(OPENSSL_USE_STATIC_LIBS ON)
+    find_package(OpenSSL 4.1 EXACT REQUIRED)
+endif()
+if(SNICHOLLS_CORE_OPENSSL_ROOT AND OpenSSL_FOUND)
     foreach(_hash blake2 kdf scrypt sha1 sha2 sha3)
         target_link_libraries(snicholls_core_${_hash}_benchmark PRIVATE OpenSSL::Crypto)
         target_compile_definitions(snicholls_core_${_hash}_benchmark PRIVATE SNICHOLLS_CORE_BENCH_OPENSSL=1)

@@ -7,6 +7,12 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Changed
 
+- **k-d tree ties are broken by index:** `nearest`, `k_nearest` and `k_nearest_within` return equal distances in
+  ascending point index, and cut a tie at the k-th place by index, so a query is one well-defined list (it matches a
+  reference sorting by distance then index, bit for bit, as ore-body's kriging requires on regular grids).
+- **The hash benchmarks compare with OpenSSL only through `-DSNICHOLLS_CORE_OPENSSL_ROOT`**, the family's pinned
+  `openssl-4.1.0` build (owned by crtp), never the system's; without it the comparison is skipped.
+  `SNICHOLLS_CORE_BENCH_OPENSSL` is gone.
 - **Trade and settlement dates are kept apart on every fact** (breaking): `payment_fact` and `onramp_fact` carry one
   `fact_dates dates` (`capability_ids.hpp`) in place of `occurred_at`: `trade_at` (when the economic event happened),
   `known_at` (when we recorded it: provenance, never content), `settles_on` (the value date, a `std::chrono::sys_days`
