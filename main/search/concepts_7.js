@@ -7,5 +7,7 @@ var searchData=
   ['hash_5ffunction_4',['hash_function',['../conceptsnicholls_1_1hash__function.html',1,'snicholls']]],
   ['hash_5finput_5',['hash_input',['../conceptsnicholls_1_1hash__input.html',1,'snicholls']]],
   ['holiday_5fcalendar_6',['holiday_calendar',['../conceptsnicholls_1_1holiday__calendar.html',1,'snicholls']]],
-  ['http_5fhandler_7',['http_handler',['../conceptsnicholls_1_1http__handler.html',1,'snicholls']]]
+  ['http_5fclient_7',['http_client',['../conceptsnicholls_1_1http__client.html',1,'snicholls']]],
+  ['http_5fhandler_8',['http_handler',['../conceptsnicholls_1_1http__handler.html',1,'snicholls']]],
+  ['https_5fclient_9',['https_client',['../conceptsnicholls_1_1https__client.html',1,'snicholls']]]
 ];

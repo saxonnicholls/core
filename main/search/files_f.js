@@ -10,10 +10,11 @@ var searchData=
   ['persist_2ehpp_7',['persist.hpp',['../persist_8hpp.html',1,'']]],
   ['phone_5fnumber_2ehpp_8',['phone_number.hpp',['../phone__number_8hpp.html',1,'']]],
   ['pivot_2ehpp_9',['pivot.hpp',['../pivot_8hpp.html',1,'']]],
-  ['pooling_2ehpp_10',['pooling.hpp',['../pooling_8hpp.html',1,'']]],
-  ['preference_2ehpp_11',['preference.hpp',['../preference_8hpp.html',1,'']]],
-  ['pretokenize_2ehpp_12',['pretokenize.hpp',['../pretokenize_8hpp.html',1,'']]],
-  ['probe_2ehpp_13',['probe.hpp',['../probe_8hpp.html',1,'']]],
-  ['properties_2ehpp_14',['properties.hpp',['../properties_8hpp.html',1,'']]],
-  ['prox_2ehpp_15',['prox.hpp',['../prox_8hpp.html',1,'']]]
+  ['pointwise_2ehpp_10',['pointwise.hpp',['../pointwise_8hpp.html',1,'']]],
+  ['pooling_2ehpp_11',['pooling.hpp',['../pooling_8hpp.html',1,'']]],
+  ['preference_2ehpp_12',['preference.hpp',['../preference_8hpp.html',1,'']]],
+  ['pretokenize_2ehpp_13',['pretokenize.hpp',['../pretokenize_8hpp.html',1,'']]],
+  ['probe_2ehpp_14',['probe.hpp',['../probe_8hpp.html',1,'']]],
+  ['properties_2ehpp_15',['properties.hpp',['../properties_8hpp.html',1,'']]],
+  ['prox_2ehpp_16',['prox.hpp',['../prox_8hpp.html',1,'']]]
 ];

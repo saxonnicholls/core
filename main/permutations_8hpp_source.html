@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -122,14 +122,14 @@ $(function(){initNavTree('permutations_8hpp_source.html','',''); });
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        {</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <span class="keywordflow">if</span> (r &gt; n)</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                <span class="keywordflow">return</span> std::size_t{0};</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            std::size_t count = 1;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            std::size_t <a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a> = 1;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; r; ++i) {</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                <span class="keyword">const</span> std::size_t factor = n - i;</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                <span class="keywordflow">if</span> (count &gt; std::numeric_limits&lt;std::size_t&gt;::max() / factor)</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                    <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                count *= factor;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                <a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a> *= factor;</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            }</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">return</span> count;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a>;</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        }</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="comment">// The one walk behind every permutation in core: each position takes each value with some</span></div>
@@ -143,13 +143,13 @@ $(function(){initNavTree('permutations_8hpp_source.html','',''); });
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                f(std::as_const(row));</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            }</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            <span class="keywordflow">for</span> (std::size_t value = 0; value &lt; remaining.size(); ++value) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            <span class="keywordflow">for</span> (std::size_t value = 0; <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">value</a> &lt; remaining.size(); ++<a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">value</a>) {</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                <span class="keywordflow">if</span> (remaining[value] == 0)</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                --remaining[value];</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                row[depth] = value;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                --remaining[<a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">value</a>];</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                row[depth] = <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">value</a>;</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                for_each_arrangement(remaining, row, depth + 1, f);</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                ++remaining[value];</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                ++remaining[<a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">value</a>];</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            }</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        }</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
@@ -240,6 +240,8 @@ $(function(){initNavTree('permutations_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ga30d70b18ea848f03c245f2232b347b96"><div class="ttname"><a href="group__core.html#ga30d70b18ea848f03c245f2232b347b96">snicholls::permutation_count_v</a></div><div class="ttdeci">constexpr std::size_t permutation_count_v</div><div class="ttdoc">permutation_count&lt;N, R&gt;::value.</div><div class="ttdef"><b>Definition</b> <a href="#l00126">permutations.hpp:126</a></div></div>
 <div class="ttc" id="agroup__core_html_ga70501572418f27bcd2e0ca2b88b516c2"><div class="ttname"><a href="group__core.html#ga70501572418f27bcd2e0ca2b88b516c2">snicholls::for_each_permutation</a></div><div class="ttdeci">constexpr void for_each_permutation(F &amp;&amp;f) noexcept(noexcept(f(std::declval&lt; const std::array&lt; std::size_t, R &gt; &amp; &gt;())))</div><div class="ttdoc">Call f with every ordering of R positions chosen from N, storing no table.</div><div class="ttdef"><b>Definition</b> <a href="#l00135">permutations.hpp:135</a></div></div>
 <div class="ttc" id="agroup__core_html_ga89450a7810fdc0b3e0ae3bbc008ecebe"><div class="ttname"><a href="group__core.html#ga89450a7810fdc0b3e0ae3bbc008ecebe">snicholls::index_permutations</a></div><div class="ttdeci">constexpr std::array&lt; std::array&lt; std::size_t, R &gt;, permutation_count_v&lt; N, R &gt; &gt; index_permutations() noexcept</div><div class="ttdoc">Every ordering of R positions chosen from N, as a table.</div><div class="ttdef"><b>Definition</b> <a href="#l00148">permutations.hpp:148</a></div></div>
+<div class="ttc" id="agroup__core_html_gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353"><div class="ttname"><a href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">snicholls::finance::overdue_treatment::count</a></div><div class="ttdeci">@ count</div><div class="ttdoc">trusted to have happened: counted in the starting position</div><div class="ttdef"><b>Definition</b> <a href="cash__ladder_8hpp_source.html#l00095">cash_ladder.hpp:95</a></div></div>
+<div class="ttc" id="anamespacesnicholls_1_1fn_1_1ocaml_1_1option_html_a59caafd5dc966e62928a7b50bcb321ce"><div class="ttname"><a href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">snicholls::fn::ocaml::option::value</a></div><div class="ttdeci">constexpr detail::option_value_fn value</div><div class="ttdoc">Option.value o ~default.</div><div class="ttdef"><b>Definition</b> <a href="ocaml_8hpp_source.html#l00199">ocaml.hpp:199</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1permutation__count_html"><div class="ttname"><a href="structsnicholls_1_1permutation__count.html">snicholls::permutation_count</a></div><div class="ttdoc">The number of orderings of R positions chosen from N: N! / (N - R)!, and 0 when R &gt; N.</div><div class="ttdef"><b>Definition</b> <a href="#l00116">permutations.hpp:116</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

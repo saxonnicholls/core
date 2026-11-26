@@ -2,7 +2,7 @@ var searchData=
 [
   ['fact_5fid_0',['fact_id',['../group__core.html#gaface2b9c7d4d30b9872222f8f8708485',1,'snicholls']]],
   ['feature_1',['feature',['../classsnicholls_1_1game_1_1interventional__game.html#a26d08cf3a9515ffa3d78fed66bbeb508',1,'snicholls::game::interventional_game']]],
-  ['filter_5ft_2',['filter_t',['../type__list_8hpp.html#a220e2d8adec99800a0db1ee4fb6afda5',1,'snicholls::meta']]],
+  ['filter_5ft_2',['filter_t',['../namespacesnicholls_1_1fn_1_1types.html#aa52415f7d0dfed117d61b638895d9463',1,'snicholls::fn::types::filter_t'],['../type__list_8hpp.html#a220e2d8adec99800a0db1ee4fb6afda5',1,'snicholls::meta::filter_t']]],
   ['find_5fif_5ft_3',['find_if_t',['../group__core.html#ga9f60574231a1c29ce7052d1b59355369',1,'snicholls::meta']]],
   ['first_4',['first',['../structsnicholls_1_1meta_1_1unzip.html#a9342dec5c03567b7925baa6cd82bc9a9',1,'snicholls::meta::unzip::first'],['../structsnicholls_1_1meta_1_1partition.html#a3065b1415a25d91ec81f569780d79ced',1,'snicholls::meta::partition::first']]],
   ['first_5fgetter_5',['first_getter',['../classsnicholls_1_1stats_1_1pivot_3_01Row_00_01meta_1_1type__list_3_01Rs_8_8_8_01_4_00_01meta_1_1a316d25754552e8725c216ccc32fc204.html#a2bc24326db200877511c3e08682aeb13',1,'snicholls::stats::pivot&lt; Row, meta::type_list&lt; Rs... &gt;, meta::type_list&lt; Cs... &gt;, measure&lt; Vs, As &gt;... &gt;']]],
@@ -18,5 +18,7 @@ var searchData=
   ['fold_5fleft_5ft_15',['fold_left_t',['../group__core.html#ga2da0ff8b3c29a4fbd1a1494637fc3e20',1,'snicholls::meta']]],
   ['fold_5flist_5ft_16',['fold_list_t',['../group__core.html#gab6e9d0e9d3c3c1f84e6319d761de3659',1,'snicholls::meta']]],
   ['fold_5fright_5ft_17',['fold_right_t',['../group__core.html#gade00ebcf13fc3a53a000bda15c4bba91',1,'snicholls::meta']]],
-  ['front_5ft_18',['front_t',['../type__list_8hpp.html#a0d67849e7e5d3595f4764bd0df482e49',1,'snicholls::meta']]]
+  ['foldl_5ft_18',['foldl_t',['../namespacesnicholls_1_1fn_1_1types.html#af50624560ddab1bb56c49ab876c7f747',1,'snicholls::fn::types']]],
+  ['foldr_5ft_19',['foldr_t',['../namespacesnicholls_1_1fn_1_1types.html#a63eb689cc26fcd1ec5c3da7d7b37be5b',1,'snicholls::fn::types']]],
+  ['front_5ft_20',['front_t',['../type__list_8hpp.html#a0d67849e7e5d3595f4764bd0df482e49',1,'snicholls::meta']]]
 ];

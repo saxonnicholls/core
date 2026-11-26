@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -152,7 +152,7 @@ Functions</h2></td></tr>
 <div class="line"><span class="keyword">struct </span>e4 {};</div>
 <div class="line"><span class="keyword">struct </span>e5 {};</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">struct </span>guard {</div>
+<div class="line"><span class="keyword">struct </span><a class="code hl_variable" href="group__core.html#ga1373f366c2a1ac78dc338acd208a918b">guard</a> {</div>
 <div class="line">    <span class="keywordtype">bool</span> operator()()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
 <div class="line">};</div>
 <div class="line"><span class="keyword">struct </span>guard2 {</div>
@@ -189,7 +189,7 @@ Functions</h2></td></tr>
 <div class="line">            *<span class="stringliteral">&quot;idle&quot;</span>_s + event&lt;e1&gt; = <span class="stringliteral">&quot;s1&quot;</span>_s,</div>
 <div class="line">             <span class="stringliteral">&quot;s1&quot;</span>_s + event&lt;e2&gt; [!guard{} &amp;&amp; guard2{}] / action{} = <span class="stringliteral">&quot;s2&quot;</span>_s,</div>
 <div class="line">             <span class="stringliteral">&quot;s1&quot;</span>_s + on_entry&lt;_&gt; / on_s1_entry{},</div>
-<div class="line">             <span class="stringliteral">&quot;s2&quot;</span>_s + event&lt;e3&gt; [guard{} || guard2{}] = <span class="stringliteral">&quot;s1&quot;</span>_s,</div>
+<div class="line">             <span class="stringliteral">&quot;s2&quot;</span>_s + event&lt;e3&gt; [<a class="code hl_variable" href="group__core.html#ga1373f366c2a1ac78dc338acd208a918b">guard</a>{} || guard2{}] = <span class="stringliteral">&quot;s1&quot;</span>_s,</div>
 <div class="line">             <span class="stringliteral">&quot;s2&quot;</span>_s + <a class="code hl_variable" href="group__core.html#ga71d30b2193244c1d537ed0febacfbb61">snicholls::fsm::on_exit&lt;_&gt;</a> / on_s2_exit{},</div>
 <div class="line">             <span class="stringliteral">&quot;s2&quot;</span>_s + event&lt;e4&gt; / action{} = state&lt;sub_machine&gt;,</div>
 <div class="line">             state&lt;sub_machine&gt; + event&lt;e5&gt; / (action{}, action2{}) = <a class="code hl_variable" href="group__core.html#ga7d0cac194de047a92f78f3c194765172">X</a>);</div>

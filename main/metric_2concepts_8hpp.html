@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -248,7 +248,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">    <span class="keyword">constexpr</span> T term(std::size_t axis, T d) <span class="keyword">const</span> <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> (axis == 1 ? T(2) : T(1)) * d * d; }</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">    <span class="keyword">constexpr</span> T <a class="code hl_function" href="group__core.html#gadf3c412fe458ac65b949d015fd871651">combine</a>(T acc, T t) <span class="keyword">const</span> <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> acc + t; }</div>
+<div class="line">    <span class="keyword">constexpr</span> T <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1list.html#ab8538e3f23f1db50b1f1c48338dbf436">combine</a>(T acc, T t) <span class="keyword">const</span> <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> acc + t; }</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">    T <a class="code hl_function" href="group__core.html#ga8f4bce6d5791104d726c299b5ea59647">expand</a>(T r) <span class="keyword">const</span> <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> std::sqrt(r); }</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
@@ -262,7 +262,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="comment">// distance_for unlocks the brute-force search, for any metric and any points</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> M, <span class="keyword">typename</span> Q, <span class="keyword">typename</span> P&gt;</div>
 <div class="line">    <span class="keyword">requires</span> mt::distance_for&lt;M, Q, P&gt;</div>
-<div class="line">std::size_t <a class="code hl_enumvalue" href="spatial_8hpp.html#a52c78c8532e219c1dac5095d06685792ad879c351426770bc0b13c3628db1e636">nearest</a>(<span class="keyword">const</span> M&amp; m, <span class="keyword">const</span> Q&amp; q, <span class="keyword">const</span> std::vector&lt;P&gt;&amp; points)</div>
+<div class="line">std::size_t <a class="code hl_enumvalue" href="group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1ad879c351426770bc0b13c3628db1e636">nearest</a>(<span class="keyword">const</span> M&amp; m, <span class="keyword">const</span> Q&amp; q, <span class="keyword">const</span> std::vector&lt;P&gt;&amp; points)</div>
 <div class="line">{</div>
 <div class="line">    std::size_t best = 0;</div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t i = 1; i &lt; points.size(); ++i)</div>

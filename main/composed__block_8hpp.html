@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -226,8 +226,8 @@ requires (C.latent() &amp;&amp; C.moe())</td></tr>
 <div class="line">        ml::moe_update_bias&lt;C&gt;(backend, act.mlp.counts, std::span&lt;float&gt;(selection));   <span class="comment">// auxiliary-loss-free balancing</span></div>
 <div class="line">        <span class="keywordflow">return</span> loss;</div>
 <div class="line">    };</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> first = <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>();</div>
-<div class="line">    <span class="keywordtype">float</span> <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a> = first;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a> = <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>();</div>
+<div class="line">    <span class="keywordtype">float</span> <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">last</a> = <a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 40; ++i)</div>
 <div class="line">        last = <a class="code hl_function" href="activations_8hpp.html#a915a3289564e16b60f8689a66ad9e786">step</a>();</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Decoding: one token at a time, the attention absorbed over a latent cache (10 numbers a token), the experts</span></div>

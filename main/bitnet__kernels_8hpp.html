@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -211,7 +211,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="comment">// I2_S: two bits a weight, 128 to a block on x86, the scale after the codes; one row&#39;s dot product</span></div>
 <div class="line">    std::vector&lt;std::uint8_t&gt; i2(ml::i2_s_bytes(rows * cols));</div>
 <div class="line">    ml::pack_i2_s(t, 0.02f, i2);</div>
-<div class="line">    <span class="keyword">const</span> std::int32_t row0 = ml::i2_s_dot(std::span&lt;const std::uint8_t&gt;(i2).first(cols / 4), a);</div>
+<div class="line">    <span class="keyword">const</span> std::int32_t row0 = ml::i2_s_dot(std::span&lt;const std::uint8_t&gt;(i2).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(cols / 4), a);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// TL1 (pairs) and TL2 (triples): tables of activation sums, one lookup per weight group</span></div>
 <div class="line">    std::vector&lt;std::uint8_t&gt; c1(rows * cols / 2);</div>

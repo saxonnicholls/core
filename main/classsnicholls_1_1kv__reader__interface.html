@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -114,13 +114,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af5522c96f3d40b25ef6fb6db9409e443" id="r_af5522c96f3d40b25ef6fb6db9409e443"><td class="memItemLeft" align="right" valign="top"><a id="af5522c96f3d40b25ef6fb6db9409e443" name="af5522c96f3d40b25ef6fb6db9409e443"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~kv_reader_interface</b> ()=default</td></tr>
 <tr class="memdesc:af5522c96f3d40b25ef6fb6db9409e443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the reader. <br /></td></tr>
-<tr class="memitem:a298828c3f37bab29b096852cede44fd5" id="r_a298828c3f37bab29b096852cede44fd5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a298828c3f37bab29b096852cede44fd5">read</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, <a class="el" href="group__core.html#gab42418a9629667498fbc9a81fd084b87">kv_read_visitor</a> fn) const =0</td></tr>
+<tr class="memitem:a298828c3f37bab29b096852cede44fd5" id="r_a298828c3f37bab29b096852cede44fd5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a298828c3f37bab29b096852cede44fd5">read</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, <a class="el" href="group__core.html#gab42418a9629667498fbc9a81fd084b87">kv_read_visitor</a> fn) const =0</td></tr>
 <tr class="memdesc:a298828c3f37bab29b096852cede44fd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <span class="tt">fn(value)</span> with the value of <span class="tt">key</span> and answers <span class="tt">true</span>; <span class="tt">false</span>, without calling, if absent.  <br /></td></tr>
-<tr class="memitem:a229917e9fd65bbd17dad42236769beb6" id="r_a229917e9fd65bbd17dad42236769beb6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a229917e9fd65bbd17dad42236769beb6">contains</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key) const =0</td></tr>
+<tr class="memitem:a229917e9fd65bbd17dad42236769beb6" id="r_a229917e9fd65bbd17dad42236769beb6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a229917e9fd65bbd17dad42236769beb6">contains</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key) const =0</td></tr>
 <tr class="memdesc:a229917e9fd65bbd17dad42236769beb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">key</span> is present.  <br /></td></tr>
-<tr class="memitem:a19c095ca007942a83b467359d7338096" id="r_a19c095ca007942a83b467359d7338096"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19c095ca007942a83b467359d7338096">scan</a> (const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;range, <a class="el" href="group__core.html#gaeab50dc25a61a5dd3d602e60ea6ba2b7">kv_scan_visitor</a> fn) const =0</td></tr>
+<tr class="memitem:a19c095ca007942a83b467359d7338096" id="r_a19c095ca007942a83b467359d7338096"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19c095ca007942a83b467359d7338096">scan</a> (const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;range, <a class="el" href="group__core.html#gaeab50dc25a61a5dd3d602e60ea6ba2b7">kv_scan_visitor</a> fn) const =0</td></tr>
 <tr class="memdesc:a19c095ca007942a83b467359d7338096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visits <span class="tt">range</span> in ascending key order until <span class="tt">fn</span> answers <span class="tt">false</span>.  <br /></td></tr>
-<tr class="memitem:ab70f2b712ec847f701ba0f3db69cc6e6" id="r_ab70f2b712ec847f701ba0f3db69cc6e6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab70f2b712ec847f701ba0f3db69cc6e6">sequence</a> () const =0</td></tr>
+<tr class="memitem:ab70f2b712ec847f701ba0f3db69cc6e6" id="r_ab70f2b712ec847f701ba0f3db69cc6e6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab70f2b712ec847f701ba0f3db69cc6e6">sequence</a> () const =0</td></tr>
 <tr class="memdesc:ab70f2b712ec847f701ba0f3db69cc6e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The store's sequence: never decreases, increases with every call that changed the store.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
@@ -150,7 +150,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::contains </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::contains </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
@@ -214,7 +214,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::read </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::read </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
@@ -261,7 +261,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::scan </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::scan </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
         </tr>
@@ -308,7 +308,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::sequence </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_reader_interface::sequence </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>

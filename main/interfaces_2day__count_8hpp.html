@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -118,13 +118,13 @@ Namespaces</h2></td></tr>
 <div class="textblock"><p><span class="tt"><a class="el" href="classsnicholls_1_1day__count__interface.html" title="A day-count convention chosen at run time.">snicholls::day_count_interface</a></span>: the pure virtual twin of the <span class="tt">day_count_convention</span> concept, and the adapters between them. </p>
 <p><b>Overview.</b> A trade's terms name its day count as data ("ACT/360"), so code that reads trades chooses the convention at run time. <span class="tt">day_count_interface</span> is the concept's three operations behind virtual calls; <span class="tt">day_count_model&lt;T&gt;</span> adapts any <span class="tt">day_count_convention</span> to it, and the interface models the concept, so a template written for the concept accepts either form.</p>
 <div class="fragment"><div class="line"><span class="comment">// one model per convention, as constants; a trade&#39;s terms name one</span></div>
-<div class="line"><span class="keyword">constexpr</span> <a class="code hl_class" href="classsnicholls_1_1day__count__model.html">snicholls::day_count_model&lt;snicholls::finance::act_360&gt;</a> act_360;</div>
+<div class="line"><span class="keyword">constexpr</span> <a class="code hl_class" href="classsnicholls_1_1day__count__model.html">snicholls::day_count_model&lt;snicholls::finance::act_360&gt;</a> <a class="code hl_enumvalue" href="group__core.html#ggabb1dc582b18a71ba92c40a240d0f9274a620df08f4dcee6c07f890bbc730f63e7">act_360</a>;</div>
 <div class="line"><span class="keyword">constexpr</span> <a class="code hl_class" href="classsnicholls_1_1day__count__model.html">snicholls::day_count_model&lt;snicholls::finance::act_365_fixed&gt;</a> act_365f;</div>
 <div class="line"><span class="keyword">constexpr</span> <a class="code hl_class" href="classsnicholls_1_1day__count__model.html">snicholls::day_count_model&lt;snicholls::finance::act_act_isda&gt;</a> act_act;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1day__count__interface.html">snicholls::day_count_interface</a>* by_name(std::string_view terms)</div>
 <div class="line">{</div>
-<div class="line">    <span class="keyword">const</span> std::array&lt;const snicholls::day_count_interface*, 3&gt; offered{&amp;act_360, &amp;act_365f, &amp;act_act};</div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;const snicholls::day_count_interface*, 3&gt; offered{&amp;<a class="code hl_enumvalue" href="group__core.html#ggabb1dc582b18a71ba92c40a240d0f9274a620df08f4dcee6c07f890bbc730f63e7">act_360</a>, &amp;act_365f, &amp;act_act};</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_class" href="classsnicholls_1_1day__count__interface.html">snicholls::day_count_interface</a>* c : offered)</div>
 <div class="line">        <span class="keywordflow">if</span> (c-&gt;name() == terms)</div>
 <div class="line">            <span class="keywordflow">return</span> c;</div>
@@ -133,7 +133,7 @@ Namespaces</h2></td></tr>
 <div class="line"> </div>
 <div class="line"><span class="comment">// code written for the concept takes the interface too</span></div>
 <div class="line"><span class="keyword">template</span> &lt;snicholls::day_count_convention C&gt;</div>
-<div class="line"><span class="keywordtype">double</span> in_years(<span class="keyword">const</span> C&amp; c, std::chrono::sys_days a, std::chrono::sys_days b) { <span class="keywordflow">return</span> c.<a class="code hl_function" href="classsnicholls_1_1day__count__interface.html#ad4167fcae18f6343ba4857948f9d16fb">year_fraction</a>(a, b).<a class="code hl_function" href="classsnicholls_1_1finance_1_1year__fraction.html#a1cb9f7a505bb1491bdd80ebc6a37b0fb">to_double</a>(); }</div>
+<div class="line"><span class="keywordtype">double</span> in_years(<span class="keyword">const</span> C&amp; c, std::chrono::sys_days a, std::chrono::sys_days b) { <span class="keywordflow">return</span> c.<a class="code hl_function" href="classsnicholls_1_1day__count__interface.html#ad4167fcae18f6343ba4857948f9d16fb">year_fraction</a>(a, b).<a class="code hl_function" href="classsnicholls_1_1finance_1_1ratio.html#a1aec9dfa078be2b48e8f7a0958210e6f">to_double</a>(); }</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="concepts_2day__count_8hpp.html" title="snicholls::day_count_convention: anything that counts the days between two dates and turns them into ...">concepts/day_count.hpp</a></span>, <span class="tt"><a class="el" href="finance_2day__count_8hpp.html" title="Day-count conventions as types: ACT/360, ACT/365 Fixed, 30/360, 30E/360 and ACT/ACT ISDA,...">finance/day_count.hpp</a></span>, <span class="tt"><a class="el" href="day__count__conformance_8hpp.html" title="snicholls::check_day_count: the conformance kit of the day_count_convention capability.">interfaces/day_count_conformance.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> <span class="tt">day_count_model&lt;T&gt;</span> for every <span class="tt">day_count_convention</span> T.</p>
 <p><b>Guarantees.</b> Every operation is <span class="tt">noexcept</span>; the adapter holds its <span class="tt">T</span> by value and is usable in constant expressions when <span class="tt">T</span> is.</p>

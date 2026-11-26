@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -105,8 +105,8 @@ $(function(){initNavTree('version_8hpp_source.html','',''); });
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">// stops the compile instead. The macros are defined inside the guard, so the version is written out here again, and</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// scripts/check_version.py checks that the two agree.</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#if defined(SNICHOLLS_CORE_VERSION_MAJOR) &amp;&amp; \</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">    (SNICHOLLS_CORE_VERSION_MAJOR != 0 || SNICHOLLS_CORE_VERSION_MINOR != 24 || SNICHOLLS_CORE_VERSION_PATCH != 1)</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#error &quot;snicholls-core: two versions in one translation unit: 0.24.1 here, and another already included&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">    (SNICHOLLS_CORE_VERSION_MAJOR != 0 || SNICHOLLS_CORE_VERSION_MINOR != 27 || SNICHOLLS_CORE_VERSION_PATCH != 0)</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#error &quot;snicholls-core: two versions in one translation unit: 0.27.0 here, and another already included&quot;</span></div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#ifndef snicholls_core_version_hpp</span></div>
@@ -116,8 +116,8 @@ $(function(){initNavTree('version_8hpp_source.html','',''); });
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="group__core.html#ga4402bc98a6b5059cc7188522bf2c869a">   59</a></span><span class="preprocessor">#define SNICHOLLS_CORE_VERSION_MAJOR 0</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="group__core.html#gadf931df5254614d71dc7949035714742">   61</a></span><span class="preprocessor">#define SNICHOLLS_CORE_VERSION_MINOR 24</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="group__core.html#ga1c04de6f815f1793a0d304d63ec0ea57">   63</a></span><span class="preprocessor">#define SNICHOLLS_CORE_VERSION_PATCH 1</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="group__core.html#gadf931df5254614d71dc7949035714742">   61</a></span><span class="preprocessor">#define SNICHOLLS_CORE_VERSION_MINOR 27</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="group__core.html#ga1c04de6f815f1793a0d304d63ec0ea57">   63</a></span><span class="preprocessor">#define SNICHOLLS_CORE_VERSION_PATCH 0</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="group__core.html#ga1e7069d6d9a404d68423cd8a030af191">   72</a></span><span class="preprocessor">#define SNICHOLLS_CORE_VERSION_CHECK(major, minor, patch) ((major) * 10000 + (minor) * 100 + (patch))</span></div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span></div>

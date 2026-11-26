@@ -6,6 +6,7 @@ var searchData=
   ['length_5fkind_3',['length_kind',['../namespacesnicholls.html#a7fbd16bc685fb8c18dda11ad9bbf9161',1,'snicholls']]],
   ['lifecycle_5fstate_4',['lifecycle_state',['../group__core.html#gac554d310f1c482ac846cdad3c888a1b1',1,'snicholls::fsm']]],
   ['line_5fsearch_5fstatus_5',['line_search_status',['../group__core.html#gac4c7d986d858470fc7fafa331cd88897',1,'snicholls::optim']]],
-  ['logprob_5freduction_6',['logprob_reduction',['../group__core.html#ga4b154e8056588c9efea3626334d9451d',1,'snicholls::ml']]],
-  ['lora_5finit_7',['lora_init',['../group__core.html#ga69e0b00a1cf8b092a4aa10715bb935e6',1,'snicholls::ml']]]
+  ['local_5ftime_5fkind_6',['local_time_kind',['../group__core.html#ga407674dd0cfaabb2e026845282cfd111',1,'snicholls']]],
+  ['logprob_5freduction_7',['logprob_reduction',['../group__core.html#ga4b154e8056588c9efea3626334d9451d',1,'snicholls::ml']]],
+  ['lora_5finit_8',['lora_init',['../group__core.html#ga69e0b00a1cf8b092a4aa10715bb935e6',1,'snicholls::ml']]]
 ];

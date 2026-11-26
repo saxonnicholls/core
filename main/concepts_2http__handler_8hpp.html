@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,7 +96,9 @@ $(function(){initNavTree('concepts_2http__handler_8hpp.html','',''); });
 <p><span class="tt"><a class="el" href="conceptsnicholls_1_1http__handler.html" title="An HTTP handler: h.handle(request).">snicholls::http_handler</a></span>: anything that answers an HTTP request with a response, with no transport in sight.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="http__header_8hpp_source.html">snicholls/core/http_header.hpp</a>&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;concepts&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -146,6 +148,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:gac87aa3dd4d5326b004685ba4009898b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a method token, case-sensitively as RFC 9110 requires.  <br /></td></tr>
 <tr class="memitem:ga49b4a7109ca628b161327d2af894ff59" id="r_ga49b4a7109ca628b161327d2af894ff59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsnicholls_1_1http__response.html">http_response</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga49b4a7109ca628b161327d2af894ff59">snicholls::respond</a> (int status, std::string body={}, std::string_view content_type=&quot;text/plain; charset=utf-8&quot;)</td></tr>
 <tr class="memdesc:ga49b4a7109ca628b161327d2af894ff59"><td class="mdescLeft">&#160;</td><td class="mdescRight">A response with a status, and a body with its content type.  <br /></td></tr>
+<tr class="memitem:ga389ec6d10c65a250f53d6888553941f5" id="r_ga389ec6d10c65a250f53d6888553941f5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::string_view &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga389ec6d10c65a250f53d6888553941f5">snicholls::path_param</a> (const <a class="el" href="structsnicholls_1_1http__request.html">http_request</a> &amp;r, std::string_view name) noexcept</td></tr>
+<tr class="memdesc:ga389ec6d10c65a250f53d6888553941f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A path parameter a route pattern captured: <span class="tt"><a class="el" href="group__core.html#ga389ec6d10c65a250f53d6888553941f5" title="A path parameter a route pattern captured: path_param(r, &quot;id&quot;) for /orders/:id.">path_param</a>(r, "id")</span> for <span class="tt">/orders/:id</span>.  <br /></td></tr>
+<tr class="memitem:ga7286346ee6f9d3bf246c0fd657132c2c" id="r_ga7286346ee6f9d3bf246c0fd657132c2c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga7286346ee6f9d3bf246c0fd657132c2c">snicholls::request_target</a> (const <a class="el" href="structsnicholls_1_1http__request.html">http_request</a> &amp;r)</td></tr>
+<tr class="memdesc:ga7286346ee6f9d3bf246c0fd657132c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The request's target as sent on the wire: <span class="tt">path?query</span>, or the path alone.  <br /></td></tr>
+<tr class="memitem:gaaa31c41605ce86535c533e74af1429e3" id="r_gaaa31c41605ce86535c533e74af1429e3"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaaa31c41605ce86535c533e74af1429e3">snicholls::is_success</a> (const <a class="el" href="structsnicholls_1_1http__response.html">http_response</a> &amp;r) noexcept</td></tr>
+<tr class="memdesc:gaaa31c41605ce86535c533e74af1429e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether a response is a success (2xx).  <br /></td></tr>
+<tr class="memitem:gad3e1b1a2e75d4b25ca0c38ae0ec672ad" id="r_gad3e1b1a2e75d4b25ca0c38ae0ec672ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gad3e1b1a2e75d4b25ca0c38ae0ec672ad">snicholls::match_route</a> (std::string_view pattern, std::string_view path, std::vector&lt; <a class="el" href="structsnicholls_1_1http__header.html">http_header</a> &gt; &amp;captured)</td></tr>
+<tr class="memdesc:gad3e1b1a2e75d4b25ca0c38ae0ec672ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matches <span class="tt">path</span> against a route pattern whose <span class="tt">:name</span> segments capture: <span class="tt">/orders/:id</span> matches <span class="tt">/orders/42</span> with <span class="tt">id</span> = <span class="tt">42</span>. Segments compare exactly; a capture is never empty and never spans a <span class="tt">/</span>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt"><a class="el" href="conceptsnicholls_1_1http__handler.html" title="An HTTP handler: h.handle(request).">snicholls::http_handler</a></span>: anything that answers an HTTP request with a response, with no transport in sight. </p>
@@ -161,9 +171,10 @@ Functions</h2></td></tr>
 <p><b>Errors.</b> None: errors are responses.</p>
 <p><b>Performance.</b> <span class="tt">benchmarks/interfaces/http_handler_benchmark.cpp</span> (concept, virtual and hand-written dispatch); not yet quoted from a quiet machine: <span class="tt">make benchmarks</span> records them in BENCHMARKS.md.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/concepts/http_handler_test.cpp</span>, <span class="tt">demos/concepts/http_handler_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="http__header_8hpp.html" title="snicholls::http_header, a header field (HTTP, a webhook&#39;s), and find_header, the case-insensitive loo...">http_header.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="http__header_8hpp.html" title="snicholls::http_header, a header field (HTTP, a webhook&#39;s), and find_header, the case-insensitive loo...">http_header.hpp</a></span>.</p>
 <p><b>Known issues.</b> The request and response own their strings: an HTTP message is a payload, not an identifier, and routers above core build on owned requests. Streaming bodies and WebSocket upgrades are not in the contract.</p>
-<p><b>Status.</b> New in 0.23.0. Experimental until two real implementations pass the kit. </p>
+<p><b>Helpers</b> (from crtp's <span class="tt">http_interface.hpp</span>, 0.27.0): <span class="tt">path_param</span> (a pattern's captures, in <span class="tt">http_request::path_params</span>), <span class="tt">request_target</span>, <span class="tt">is_success</span>, <span class="tt">match_route</span>; headers by name are <span class="tt">find_header</span> (<span class="tt"><a class="el" href="http__header_8hpp.html" title="snicholls::http_header, a header field (HTTP, a webhook&#39;s), and find_header, the case-insensitive loo...">http_header.hpp</a></span>). A client of this contract is <span class="tt"><a class="el" href="concepts_2http__client_8hpp.html" title="snicholls::http_client: anything that sends an HTTP request and returns the response.">concepts/http_client.hpp</a></span>.</p>
+<p><b>Status.</b> New in 0.23.0; the helpers and <span class="tt">path_params</span> in 0.27.0. Experimental until two real implementations pass the kit. </p>
 
 <p class="definition">Definition in file <a class="el" href="concepts_2http__handler_8hpp_source.html">http_handler.hpp</a>.</p>
 </div></div><!-- contents -->

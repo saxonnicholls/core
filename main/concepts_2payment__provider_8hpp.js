@@ -5,7 +5,8 @@ var concepts_2payment__provider_8hpp =
       [ "snicholls::event_kind::credit_received", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a91b34bb0e6c74b3a7cc4ec143ba6cd14", null ],
       [ "snicholls::event_kind::payout_updated", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a9074558d78aa2c9455425e06c66fe5dd", null ],
       [ "snicholls::event_kind::refund_updated", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535abc27a5476bcb9b182e08f1306a190211", null ],
-      [ "snicholls::event_kind::other", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a795f3202b17cb6bc3d4b771d8c6c9eaf", null ]
+      [ "snicholls::event_kind::other", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a795f3202b17cb6bc3d4b771d8c6c9eaf", null ],
+      [ "snicholls::event_kind::security_updated", "group__core.html#ggaa9db2a8c7ae7cec7290d8a69bf4c6535a37de031aa76b7a48d912e46100b09c20", null ]
     ] ],
     [ "snicholls::fact_kind", "group__core.html#ga1ad62f983a8aea632dc3d5eb6490519e", [
       [ "snicholls::fact_kind::payment", "group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eaf83c2a85d972a89238f31296c63f0dbc", null ],

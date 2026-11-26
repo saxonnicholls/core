@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -161,13 +161,13 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <p>The layout is a batch of <span class="tt">rows</span> sequences padded to one <span class="tt">length</span>: position <span class="tt">t</span> of row <span class="tt">r</span> is element <span class="tt">r · length +
 t</span> of the token log-probabilities, the targets and the mask. The target at a position is the token that follows it (the caller shifts), and the mask is 1 where that target is a response token, 0 for the prompt and padding.</p>
 <div class="fragment"><div class="line">    <span class="comment">// One sequence of 4 positions over a vocabulary of 3; position 0 predicts a prompt token, 1-3 the response</span></div>
-<div class="line">    <span class="keyword">constexpr</span> std::size_t length = 4, vocab = 3;</div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="group__core.html#ga302b408c42323ad8547250344cb28c43">length</a> = 4, vocab = 3;</div>
 <div class="line">    std::array&lt;double, length * vocab&gt; logits{2.0, 0.0, 0.0, <span class="comment">/**/</span> 0.0, 3.0, 0.0, <span class="comment">/**/</span> 1.0, 1.0, 1.0, <span class="comment">/**/</span> 0.0, 0.0, 5.0};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;std::uint32_t, length&gt; targets{0, 1, 2, 2};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;std::uint8_t, length&gt; mask{0, 1, 1, 1};</div>
 <div class="line">    std::array&lt;double, length&gt; token_logps{}, entropies{};</div>
 <div class="line">    ml::token_logprobs_rows&lt;double&gt;(backend, logits, targets, token_logps, entropies);</div>
-<div class="line">    std::array&lt;double, 1&gt; <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a>{}, <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>{};</div>
+<div class="line">    std::array&lt;double, 1&gt; <a class="code hl_variable" href="group__core.html#ga087cefc3d78190bd0d58c866ec676bd9">sum</a>{}, <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>{};</div>
 <div class="line">    ml::sequence_logprobs&lt;double&gt;(backend, token_logps, mask, sum, ml::logprob_reduction::sum);    <span class="comment">// log pi(y | x)</span></div>
 <div class="line">    ml::sequence_logprobs&lt;double&gt;(backend, token_logps, mask, mean, ml::logprob_reduction::mean);  <span class="comment">// per response token</span></div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span> (<span class="tt">cross_entropy_with_gradient</span>, the same arithmetic), <span class="tt"><a class="el" href="lm__head_8hpp.html" title="snicholls::ml::lm_head_loss: a language model&#39;s loss over a sequence, the head&#39;s logits and the cross...">ml/lm_head.hpp</a></span> (the logits), <span class="tt"><a class="el" href="preference_8hpp.html" title="snicholls::ml preference losses over (chosen, rejected) pairs: DPO, IPO, SimPO and ORPO,...">ml/preference.hpp</a></span>, <span class="tt"><a class="el" href="rl_8hpp.html" title="snicholls::ml reinforcement learning for language models: GRPO&#39;s group-normalised advantages,...">ml/rl.hpp</a></span>, <span class="tt"><a class="el" href="distill_8hpp.html" title="snicholls::ml knowledge distillation: the forward and reverse KL between a teacher&#39;s and a student&#39;s ...">ml/distill.hpp</a></span> (the users). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>

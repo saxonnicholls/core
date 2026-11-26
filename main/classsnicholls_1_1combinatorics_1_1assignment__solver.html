@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,7 +100,7 @@ $(function(){initNavTree('classsnicholls_1_1combinatorics_1_1assignment__solver.
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac262339a46c58230bf3c20d0d4bb61d7" id="r_ac262339a46c58230bf3c20d0d4bb61d7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga2099ad17097f395a6efb3cf17775ec28">assignment_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac262339a46c58230bf3c20d0d4bb61d7">solve</a> (std::span&lt; const T &gt; cost, std::size_t rows, std::size_t cols, std::span&lt; std::int32_t &gt; row_to_col, <a class="el" href="group__core.html#ga28b472ba9c0c7281b6cb898f42b52b0f">objective</a> goal=<a class="el" href="group__core.html#gga28b472ba9c0c7281b6cb898f42b52b0faac5c0d5e2c75cf3d04a47fee8ac07402">objective::minimise</a>) noexcept(linalg::detail::nothrow_scalar&lt; T &gt;)</td></tr>
+<tr class="memitem:ac262339a46c58230bf3c20d0d4bb61d7" id="r_ac262339a46c58230bf3c20d0d4bb61d7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga2099ad17097f395a6efb3cf17775ec28">assignment_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac262339a46c58230bf3c20d0d4bb61d7">solve</a> (std::span&lt; const T &gt; cost, std::size_t rows, std::size_t cols, std::span&lt; std::int32_t &gt; row_to_col, <a class="el" href="group__core.html#ga28b472ba9c0c7281b6cb898f42b52b0f">objective</a> goal=<a class="el" href="group__core.html#gga28b472ba9c0c7281b6cb898f42b52b0faac5c0d5e2c75cf3d04a47fee8ac07402">objective::minimise</a>) noexcept(linalg::detail::nothrow_scalar&lt; T &gt;)</td></tr>
 <tr class="memdesc:ac262339a46c58230bf3c20d0d4bb61d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves one problem.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -129,7 +129,7 @@ template&lt;linalg::scalar T, std::size_t MaxRows, std::size_t MaxCols&gt; </div
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga2099ad17097f395a6efb3cf17775ec28">assignment_error</a> &gt; <a class="el" href="classsnicholls_1_1combinatorics_1_1assignment__solver.html">snicholls::combinatorics::assignment_solver</a>&lt; T, MaxRows, MaxCols &gt;::solve </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga2099ad17097f395a6efb3cf17775ec28">assignment_error</a> &gt; <a class="el" href="classsnicholls_1_1combinatorics_1_1assignment__solver.html">snicholls::combinatorics::assignment_solver</a>&lt; T, MaxRows, MaxCols &gt;::solve </td>
           <td>(</td>
           <td class="paramtype">std::span&lt; const T &gt;</td>          <td class="paramname"><span class="paramname"><em>cost</em></span>, </td>
         </tr>

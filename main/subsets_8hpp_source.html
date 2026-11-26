@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -118,24 +118,24 @@ $(function(){initNavTree('subsets_8hpp_source.html','',''); });
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">if</span> (k &gt; n)</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        k = k &lt; n - k ? k : n - k;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        std::uint64_t <a class="code hl_class" href="classsnicholls_1_1result__throws_1_1result.html">result</a> = 1;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        std::uint64_t <a class="code hl_class" href="classsnicholls_1_1result__terminates_1_1result.html">result</a> = 1;</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">for</span> (std::uint64_t i = 1; i &lt;= k; ++i) {</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="comment">// result * (n - k + i) / i, exactly: result is C(n - k + i - 1, i - 1), divisible after the multiply</span></div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="comment">// result * (n - k + i) is divisible by i; with g = gcd(result, i), i / g divides the factor,</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="comment">// so (result / g) * (factor / (i / g)) is exact and overflows only if C(n, k) itself does</span></div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keyword">const</span> std::uint64_t factor = n - k + i;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            std::uint64_t g = <a class="code hl_class" href="classsnicholls_1_1result__throws_1_1result.html">result</a>, h = i;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            std::uint64_t g = <a class="code hl_class" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>, h = i;</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">while</span> (h != 0) {</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                <span class="keyword">const</span> std::uint64_t r = g % h;</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                g = h;</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                h = r;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            }</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="keyword">const</span> std::uint64_t a = <a class="code hl_class" href="classsnicholls_1_1result__throws_1_1result.html">result</a> / g, b = factor / (i / g);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="keyword">const</span> std::uint64_t a = <a class="code hl_class" href="classsnicholls_1_1result__terminates_1_1result.html">result</a> / g, b = factor / (i / g);</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="keywordflow">if</span> (b != 0 &amp;&amp; a &gt; std::numeric_limits&lt;std::uint64_t&gt;::max() / b)</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <a class="code hl_class" href="classsnicholls_1_1result__throws_1_1result.html">result</a> = a * b;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <a class="code hl_class" href="classsnicholls_1_1result__terminates_1_1result.html">result</a> = a * b;</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        }</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classsnicholls_1_1result__throws_1_1result.html">result</a>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>;</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
 </div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
@@ -285,7 +285,7 @@ $(function(){initNavTree('subsets_8hpp_source.html','',''); });
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>} <span class="comment">// namespace snicholls</span></div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#endif </span><span class="comment">/* snicholls_core_combinatorics_subsets_hpp */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aclasssnicholls_1_1result__throws_1_1result_html"><div class="ttname"><a href="classsnicholls_1_1result__throws_1_1result.html">snicholls::result</a></div><div class="ttdoc">Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l01087">result.hpp:1088</a></div></div>
+<div class="ttc" id="aclasssnicholls_1_1result__terminates_1_1result_html"><div class="ttname"><a href="classsnicholls_1_1result__terminates_1_1result.html">snicholls::result</a></div><div class="ttdoc">Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l01087">result.hpp:1088</a></div></div>
 <div class="ttc" id="agroup__core_html_ga029ab6b7ee9a3069898f8867d97480f6"><div class="ttname"><a href="group__core.html#ga029ab6b7ee9a3069898f8867d97480f6">snicholls::tuple_count_v</a></div><div class="ttdeci">constexpr std::size_t tuple_count_v</div><div class="ttdoc">N^K as a constant; a compile error if it does not fit.</div><div class="ttdef"><b>Definition</b> <a href="#l00203">subsets.hpp:203</a></div></div>
 <div class="ttc" id="agroup__core_html_ga2e0a3a47ecf33576dafd424d8a3b7346"><div class="ttname"><a href="group__core.html#ga2e0a3a47ecf33576dafd424d8a3b7346">snicholls::for_each_combination</a></div><div class="ttdeci">constexpr void for_each_combination(F &amp;&amp;f) noexcept(noexcept(f(std::declval&lt; const std::array&lt; std::size_t, K &gt; &amp; &gt;())))</div><div class="ttdoc">Call f(row) for every combination of K of the positions 0 .. N-1, in lexicographic order.</div><div class="ttdef"><b>Definition</b> <a href="#l00104">subsets.hpp:104</a></div></div>
 <div class="ttc" id="agroup__core_html_ga58876fa4aed8c556d5ece13cd9725bde"><div class="ttname"><a href="group__core.html#ga58876fa4aed8c556d5ece13cd9725bde">snicholls::tuples</a></div><div class="ttdeci">constexpr std::array&lt; std::array&lt; T, K &gt;, tuple_count_v&lt; N, K &gt; &gt; tuples(const std::array&lt; T, N &gt; &amp;values)</div><div class="ttdoc">Tuples[list, K]: every K-tuple of the values, the last position varying fastest.</div><div class="ttdef"><b>Definition</b> <a href="#l00244">subsets.hpp:244</a></div></div>

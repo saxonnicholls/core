@@ -6,6 +6,7 @@ var structsnicholls_1_1inplace__string =
     [ "data", "structsnicholls_1_1inplace__string.html#a81334dd3782be59a154ddbee9cc6b73e", null ],
     [ "empty", "structsnicholls_1_1inplace__string.html#adbc155128dac8bd5a8037096b7e3a68a", null ],
     [ "hash", "structsnicholls_1_1inplace__string.html#a9c9249e2ce299fc56d2f5068bd4a084a", null ],
+    [ "operator std::string_view", "structsnicholls_1_1inplace__string.html#ac4023e75ab4c19f12b0bfcc3798bff69", null ],
     [ "size", "structsnicholls_1_1inplace__string.html#a8f6eb398ee4e63d4f3453fd0c7f8f655", null ],
     [ "view", "structsnicholls_1_1inplace__string.html#a4cfb28ce5d5cae143a327160e7f1416f", null ],
     [ "operator<=>", "structsnicholls_1_1inplace__string.html#aa5d2d4f05703121e44e1ebbce0b72b9d", null ],

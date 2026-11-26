@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -164,7 +164,7 @@ L^k = -(1/T) Σ_{i=2+k}^{T+1} log P^k_i[t_i],   L_MTP = (λ/D) Σ_k L^k   (eqs. 
 <div class="fragment"><div class="line">    <span class="comment">// The main model&#39;s output for six tokens, its embedding table and its head, shared with the module</span></div>
 <div class="line">    <span class="keyword">const</span> std::vector&lt;std::uint32_t&gt; ids{4, 2, 7, 1, 8, 3}, targets{2, 7, 1, 8, 3, 5};   <span class="comment">// targets[i] follows ids[i]</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> hidden = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(n * d, 1.0f), table = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(vocab * d, 1.5f), head_rows = <a class="code hl_enumvalue" href="group__core.html#ggabedb3d1a4c8697539579f11c79d82974a9aa76d8a9f8e25e87dbcafc7aaf556fc">filled</a>(vocab * d, 2.5f);</div>
-<div class="line">    <span class="keyword">const</span> ml::dense_weights&lt;float&gt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a>{head_rows, vocab, d};</div>
+<div class="line">    <span class="keyword">const</span> ml::dense_weights&lt;float&gt; <a class="code hl_variable" href="group__core.html#gab416464012f52943fa1739e58f9f7906">head</a>{head_rows, vocab, d};</div>
 <div class="line">    std::vector&lt;float&gt; logits(n * vocab), losses(n), dhidden(n * d), dtable(vocab * d), dhead(vocab * d);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> main_loss = ml::lm_head_loss_sequence(backend, head, hidden, targets, logits, losses, dhidden, dhead);</div>
 <div class="line"> </div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -210,7 +210,7 @@ requires (detail::mixer_layer::layer_kind(C))</td></tr>
 <div class="line">    <span class="keyword">constexpr</span> std::size_t prompt = 6, d = C.d_model;</div>
 <div class="line">    <span class="keyword">const</span> std::vector&lt;double&gt; tokens = wave((prompt + 2) * d, 0.11, 1.0);</div>
 <div class="line">    std::vector&lt;double&gt; act(ml::mixer_activation_values(C, prompt, 1)), out(prompt * d), <a class="code hl_variable" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178">state</a>(ml::mixer_state_values(C), 0.0);</div>
-<div class="line">    ml::mixer_forward_sequence&lt;C&gt;(backend, w, std::span&lt;const double&gt;(tokens).first(prompt * d),</div>
+<div class="line">    ml::mixer_forward_sequence&lt;C&gt;(backend, w, std::span&lt;const double&gt;(tokens).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(prompt * d),</div>
 <div class="line">                                  ml::mixer_activations_in&lt;C&gt;(std::span&lt;double&gt;(act), prompt, 1), std::span&lt;double&gt;(out), 1,</div>
 <div class="line">                                  std::span&lt;double&gt;(state));</div>
 <div class="line"> </div>

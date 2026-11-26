@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -127,7 +127,8 @@ Namespaces</h2></td></tr>
 <li><span class="tt">Point</span> is any <span class="tt">metric::point</span> (<span class="tt">fixed_vector</span>, <span class="tt">std::array</span>, a struct of the caller's with <span class="tt">point_traits</span>). Queries may be any compatible point type.</li>
 <li><span class="tt">Metric</span> is any <span class="tt">metric::decomposable</span> metric (<span class="tt">euclidean</span> by default; <span class="tt">manhattan</span>, <span class="tt">chebyshev</span>, <span class="tt">minkowski&lt;P&gt;</span>, <span class="tt">weighted_minkowski</span>, a <span class="tt">mahalanobis</span> made coordinate-wise by whitening the points first, or the caller's own): a single coordinate's term bounds the whole, which is what lets a subtree be skipped.</li>
 <li><span class="tt">nearest(q)</span>: the closest point and its distance, or nothing for an empty tree.</li>
-<li><span class="tt">k_nearest(q, out)</span>: the <span class="tt">out.size()</span> closest, nearest first.</li>
+<li><span class="tt">k_nearest(q, out)</span>: the <span class="tt">out.size()</span> closest, nearest first; equal distances in ascending index order, and a tie at the k-th place cut by index (so the result is one well-defined list, as a reference that sorts by (distance, index) gives).</li>
+<li><span class="tt">k_nearest_within(q, r, out)</span>: the same, strictly within distance <span class="tt">r</span> (SciPy's <span class="tt">distance_upper_bound</span>), for kriging's neighbourhood search.</li>
 <li><span class="tt">for_each_within(q, r, f)</span>: <span class="tt">f(index, distance)</span> for every point within distance <span class="tt">r</span>.</li>
 <li><span class="tt">for_each_in_box(lo, hi, f)</span>: <span class="tt">f(index)</span> for every point with <span class="tt">lo ≤ p ≤ hi</span> on every axis.</li>
 </ul>
@@ -141,6 +142,9 @@ Namespaces</h2></td></tr>
 <div class="line"> </div>
 <div class="line">    std::array&lt;ct::kd_neighbour, 5&gt; five{};</div>
 <div class="line">    <span class="keyword">const</span> std::size_t found = tree.k_nearest(track, five);     <span class="comment">// nearest first</span></div>
+<div class="line"> </div>
+<div class="line">    std::array&lt;ct::kd_neighbour, 5&gt; near_five{};              <span class="comment">// the five nearest, but only within 40 m (kriging)</span></div>
+<div class="line">    <span class="keyword">const</span> std::size_t near_found = tree.k_nearest_within(track, 40.0, near_five);</div>
 <div class="line"> </div>
 <div class="line">    std::vector&lt;std::uint32_t&gt; <a class="code hl_function" href="transformer__config_8hpp.html#afdb50df591db26e6fa93259ebd2ccd25">gated</a>;                         <span class="comment">// every detection within 40 m</span></div>
 <div class="line">    tree.for_each_within(track, 40.0, [&amp;](std::uint32_t i, <span class="keywordtype">double</span>) { <a class="code hl_function" href="transformer__config_8hpp.html#afdb50df591db26e6fa93259ebd2ccd25">gated</a>.push_back(i); });</div>

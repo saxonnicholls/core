@@ -15,7 +15,9 @@ var state__machine_8hpp =
       [ "unknown_state", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5a3bde62cc0a1d38ab7517d24de8fa0404", null ],
       [ "shape_mismatch", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5aa934509885278bff1b962855d2a33f4b", null ],
       [ "store_unavailable", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5a65f4a6039cbadf6d4f2c68cc3b941a35", null ],
-      [ "store_failed", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5ae9463d54044197037f2f6b5cdde92e95", null ]
+      [ "store_failed", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5ae9463d54044197037f2f6b5cdde92e95", null ],
+      [ "wrong_machine", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5a3dbdf8c15090633048617dc2b9d90573", null ],
+      [ "state_name_mismatch", "state__machine_8hpp.html#gga59e4f95e60a612ee3b9583bd55d981d5a4738ba48552207c642b6a2cf88ca46e4", null ]
     ] ],
     [ "snicholls::fsm::make_dispatch_table", "group__core.html#gabaca49ddd27f6c0a50eb46780fd35a24", null ],
     [ "snicholls::fsm::make_transition_table", "group__core.html#gac4def680874b424c16c39a60ba2e4a72", null ],

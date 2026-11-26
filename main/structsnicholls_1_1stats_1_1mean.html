@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -106,6 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aafa2bf94249d00473faa4522295306f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine with another (Chan et al.).  <br /></td></tr>
 <tr class="memitem:a0c119a05d765855f195af30e6f086640" id="r_a0c119a05d765855f195af30e6f086640"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c119a05d765855f195af30e6f086640">value</a> () const noexcept</td></tr>
 <tr class="memdesc:a0c119a05d765855f195af30e6f086640"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mean; NaN with no observations.  <br /></td></tr>
+<tr class="memitem:a1e686b05c64373ab99750ffcae29053d" id="r_a1e686b05c64373ab99750ffcae29053d"><td class="memItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e686b05c64373ab99750ffcae29053d">count</a> () const noexcept</td></tr>
+<tr class="memdesc:a1e686b05c64373ab99750ffcae29053d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of observations.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -124,7 +126,7 @@ struct snicholls::stats::mean&lt; T &gt;</div><p>The mean, by Welford's update. 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00219">219</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00220">220</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a7e93e9a7a31212e5f6cdbcfba3b2002d" name="a7e93e9a7a31212e5f6cdbcfba3b2002d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7e93e9a7a31212e5f6cdbcfba3b2002d">&#9670;&#160;</a></span>add()</h2>
@@ -159,7 +161,39 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00225">225</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00226">226</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a1e686b05c64373ab99750ffcae29053d" name="a1e686b05c64373ab99750ffcae29053d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e686b05c64373ab99750ffcae29053d">&#9670;&#160;</a></span>count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::floating_point T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t <a class="el" href="structsnicholls_1_1stats_1_1mean.html">snicholls::stats::mean</a>&lt; T &gt;::count </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of observations. </p>
+<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00246">246</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -196,7 +230,7 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00232">232</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00233">233</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -228,7 +262,7 @@ template&lt;std::floating_point T&gt; </div>
 <p>The mean; NaN with no observations. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00242">242</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00243">243</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -249,7 +283,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>Their mean. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00221">221</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00222">222</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -269,7 +303,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>Observations. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00220">220</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00221">221</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>

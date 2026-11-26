@@ -1,6 +1,7 @@
 var structsnicholls_1_1stats_1_1histogram =
 [
     [ "add", "structsnicholls_1_1stats_1_1histogram.html#af57226829a928da4098e900366f12b5b", null ],
+    [ "count", "structsnicholls_1_1stats_1_1histogram.html#ade72a99361eb2aed36baa1c60d524a97", null ],
     [ "edge", "structsnicholls_1_1stats_1_1histogram.html#a02f5912af09a5b473c2d6e8b74521000", null ],
     [ "merge", "structsnicholls_1_1stats_1_1histogram.html#a418007040d37fce6e077968c9ba41494", null ],
     [ "value", "structsnicholls_1_1stats_1_1histogram.html#a22b038cbecfb9ccc1215224b576c8451", null ],

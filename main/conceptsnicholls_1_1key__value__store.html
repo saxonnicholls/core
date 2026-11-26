@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -102,8 +102,8 @@ $(function(){initNavTree('conceptsnicholls_1_1key__value__store.html','',''); })
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1key__value__store.html">snicholls::key_value_store</a> =  <a class="code hl_concept" href="conceptsnicholls_1_1kv__writable.html">kv_writable&lt;S&gt;</a> &amp;&amp; <span class="keyword">requires</span>(<span class="keyword">const</span> S&amp; s) {</div>
 <div class="line">        <span class="keyword">requires</span> detail::kv_snapshot_result_v&lt;<span class="keyword">decltype</span>(s.snapshot())&gt;;</div>
 <div class="line">    }</div>
-<div class="ttc" id="aconceptsnicholls_1_1key__value__store_html"><div class="ttname"><a href="conceptsnicholls_1_1key__value__store.html">snicholls::key_value_store</a></div><div class="ttdoc">The full contract: kv_writable plus s.snapshot() -&gt; result&lt;H, kv_errc&gt;, a read-only consistent view.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2key__value__store_8hpp_source.html#l00464">key_value_store.hpp:464</a></div></div>
-<div class="ttc" id="aconceptsnicholls_1_1kv__writable_html"><div class="ttname"><a href="conceptsnicholls_1_1kv__writable.html">snicholls::kv_writable</a></div><div class="ttdoc">kv_readable plus the writes: put, insert, erase, erase_range, apply.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2key__value__store_8hpp_source.html#l00421">key_value_store.hpp:421</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1key__value__store_html"><div class="ttname"><a href="conceptsnicholls_1_1key__value__store.html">snicholls::key_value_store</a></div><div class="ttdoc">The full contract: kv_writable plus s.snapshot() -&gt; result&lt;H, kv_errc&gt;, a read-only consistent view.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2key__value__store_8hpp_source.html#l00487">key_value_store.hpp:487</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1kv__writable_html"><div class="ttname"><a href="conceptsnicholls_1_1kv__writable.html">snicholls::kv_writable</a></div><div class="ttdoc">kv_readable plus the writes: put, insert, erase, erase_range, apply.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2key__value__store_8hpp_source.html#l00444">key_value_store.hpp:444</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The full contract: <span class="tt">kv_writable</span> plus <span class="tt">s.snapshot() -&gt; result&lt;H, kv_errc&gt;</span>, a read-only consistent view. </p>
 <p><span class="tt">H</span> is a <span class="tt">kv_readable</span> value, or a pointer-like handle to one (<span class="tt">std::unique_ptr&lt;kv_reader_interface&gt;</span> in the virtual form). Its reads, <span class="tt">sequence()</span> included, see the state when it was taken, for as long as it lives. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -113,7 +113,7 @@ $(function(){initNavTree('conceptsnicholls_1_1key__value__store.html','',''); })
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00464">464</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00487">487</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

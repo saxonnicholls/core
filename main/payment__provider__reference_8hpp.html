@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,16 +93,13 @@ $(function(){initNavTree('payment__provider__reference_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt"><a class="el" href="classsnicholls_1_1memory__payment__provider.html" title="The reference payment provider.">snicholls::memory_payment_provider</a></span>: the standard-library reference <span class="tt">payment_provider</span>; pull (card) and push (bank transfer by reference) collections, payouts, refunds, quotes, credits, signed webhooks and facts, in memory.  
+<p><span class="tt"><a class="el" href="group__core.html#ga267c12b566a7ba30549d1f3da5860f6c" title="The reference with a manual_utc_clock: what tests use.">snicholls::memory_payment_provider</a></span>: the standard-library reference <span class="tt">payment_provider</span>; pull (card) and push (bank transfer by reference) collections, payouts, refunds, quotes, credits, signed webhooks and facts, in memory.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="hmac_8hpp_source.html">snicholls/core/hash/hmac.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="secure_8hpp_source.html">snicholls/core/hash/secure.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="sha2_8hpp_source.html">snicholls/core/hash/sha2.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="memory__webhook_8hpp_source.html">snicholls/core/detail/memory_webhook.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="interfaces_2payment__provider_8hpp_source.html">snicholls/core/interfaces/payment_provider.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="enums_8hpp_source.html">snicholls/core/meta/enums.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="secret_8hpp_source.html">snicholls/core/secret.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="utc__clock_8hpp_source.html">snicholls/core/time/utc_clock.hpp</a>&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;charconv&gt;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
@@ -111,7 +108,6 @@ $(function(){initNavTree('payment__provider__reference_8hpp.html','',''); });
 <code>#include &lt;set&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
-<code>#include &lt;system_error&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 </div>
@@ -119,16 +115,21 @@ $(function(){initNavTree('payment__provider__reference_8hpp.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:snicholls_3A_3Amemory_5Fpayment_5Fprovider" id="r_snicholls_3A_3Amemory_5Fpayment_5Fprovider"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1memory__payment__provider.html">snicholls::memory_payment_provider</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reference payment provider.  <a href="classsnicholls_1_1memory__payment__provider.html#details">More...</a><br /></td></tr>
+<tr class="memitem:snicholls_3A_3Abasic_5Fmemory_5Fpayment_5Fprovider_3C_20Clock_20_3E" id="r_snicholls_3A_3Abasic_5Fmemory_5Fpayment_5Fprovider_3C_20Clock_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1basic__memory__payment__provider.html">snicholls::basic_memory_payment_provider&lt; Clock &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reference payment provider.  <a href="classsnicholls_1_1basic__memory__payment__provider.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:snicholls" id="r_snicholls"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html">snicholls</a></td></tr>
 <tr class="memdesc:namespacesnicholls"><td class="mdescLeft">&#160;</td><td class="mdescRight">Everything the snicholls libraries share, at the bottom of the stack. <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga267c12b566a7ba30549d1f3da5860f6c" id="r_ga267c12b566a7ba30549d1f3da5860f6c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga267c12b566a7ba30549d1f3da5860f6c">snicholls::memory_payment_provider</a> = <a class="el" href="classsnicholls_1_1basic__memory__payment__provider.html">basic_memory_payment_provider</a>&lt;&gt;</td></tr>
+<tr class="memdesc:ga267c12b566a7ba30549d1f3da5860f6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reference with a <span class="tt"><a class="el" href="structsnicholls_1_1manual__utc__clock.html" title="A wall clock in milliseconds that moves only when told: the clock of a deterministic test or replay.">manual_utc_clock</a></span>: what tests use.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt"><a class="el" href="classsnicholls_1_1memory__payment__provider.html" title="The reference payment provider.">snicholls::memory_payment_provider</a></span>: the standard-library reference <span class="tt">payment_provider</span>; pull (card) and push (bank transfer by reference) collections, payouts, refunds, quotes, credits, signed webhooks and facts, in memory. </p>
+<div class="textblock"><p><span class="tt"><a class="el" href="group__core.html#ga267c12b566a7ba30549d1f3da5860f6c" title="The reference with a manual_utc_clock: what tests use.">snicholls::memory_payment_provider</a></span>: the standard-library reference <span class="tt">payment_provider</span>; pull (card) and push (bank transfer by reference) collections, payouts, refunds, quotes, credits, signed webhooks and facts, in memory. </p>
 <p><b>Overview.</b> It plays both shapes the contract was made for, so a product's tests cover the pull path and the push path without a network:</p><ul>
 <li>a <b>card</b> collection returns a redirect and waits; the test calls <span class="tt">complete</span> (the payer paid) or <span class="tt">decline</span>;</li>
 <li>a <b>bank transfer</b> collection returns bank details and a reference and waits; the test calls <span class="tt">receive_credit</span> (money arrived quoting a reference), which completes the matching collection, or leaves an unmatched credit for the caller's suspense handling.</li>
@@ -145,15 +146,15 @@ Namespaces</h2></td></tr>
 <div class="line">    d.<a class="code hl_variable" href="structsnicholls_1_1owned__delivery.html#a2f3d62703becd8c25fd0df04b241c5b4">body</a>[0] = <span class="charliteral">&#39;X&#39;</span>;                                    <span class="comment">// one byte changed</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> tampered = provider.verify_webhook(d.<a class="code hl_function" href="structsnicholls_1_1owned__delivery.html#ad4092cdb573d6c6b32c1f28b87f152a2">view</a>());</div>
 </div><!-- fragment --><p><b>Relationships.</b> Models <span class="tt">payment_provider</span> (<span class="tt"><a class="el" href="concepts_2payment__provider_8hpp.html" title="snicholls::payment_provider: anything that moves fiat money in and out (collections,...">concepts/payment_provider.hpp</a></span>); passes <span class="tt"><a class="el" href="payment__provider__conformance_8hpp.html" title="snicholls::run_payment_provider_conformance: the conformance kit of the payment_provider contract.">interfaces/payment_provider_conformance.hpp</a></span> in every form. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Implementations / variants.</b> Card and bank transfer; bank debit is unsupported.</p>
+<p><b>Implementations / variants.</b> Card and bank transfer; bank debit is unsupported. <span class="tt">basic_memory_payment_provider&lt;Clock&gt;</span> reads any <span class="tt">utc_clock</span> (<span class="tt"><a class="el" href="utc__clock_8hpp.html" title="snicholls::utc_clock, the one shape of a wall clock that core&#39;s reference implementations read,...">time/utc_clock.hpp</a></span>), owned by value and reached through <span class="tt">clock()</span>; <span class="tt">memory_payment_provider</span> is <span class="tt">basic_memory_payment_provider&lt;manual_utc_clock&gt;</span>.</p>
 <p><b>Guarantees.</b> Not thread-safe. Ids are deterministic (<span class="tt">mem_pay_1</span>, <span class="tt">mem_cr_2</span>, ...). Amounts are exact. Errors follow the redaction rule: a decline keeps the provider's code only.</p>
 <p><b>Errors.</b> As the contract, and whatever <span class="tt">fail_next</span> armed.</p>
 <p><b>Performance.</b> <span class="tt">verify_webhook</span>: <span class="tt">benchmarks/interfaces/payment_provider_reference_benchmark.cpp</span>, against the same HMAC check written by hand. Not yet quoted from a quiet machine: <span class="tt">make
 benchmarks</span> records them in BENCHMARKS.md.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/interfaces/payment_provider_reference_test.cpp</span>, <span class="tt">demos/interfaces/payment_provider_reference_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;charconv&gt;</span>, <span class="tt">&lt;chrono&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;functional&gt;</span>, <span class="tt">&lt;map&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;set&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;system_error&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="hmac_8hpp.html" title="HMAC (RFC 2104, FIPS 198-1) over any hash in core, usable at compile time.">hash/hmac.hpp</a></span>, <span class="tt"><a class="el" href="secure_8hpp.html" title="secure_wipe, which the optimiser may not remove, and constant_time_equal for MACs and digests.">hash/secure.hpp</a></span>, <span class="tt"><a class="el" href="sha2_8hpp.html" title="SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 (FIPS 180-4), usable at compile time.">hash/sha2.hpp</a></span>, <span class="tt"><a class="el" href="enums_8hpp.html" title="Enum reflection at compile time: names, values and parsing of an enumeration&#39;s enumerators.">meta/enums.hpp</a></span>, <span class="tt"><a class="el" href="secret_8hpp.html" title="Secrets: values that must never be printed or logged.">secret.hpp</a></span>, <span class="tt"><a class="el" href="interfaces_2payment__provider_8hpp.html" title="snicholls::payment_provider_interface: the pure virtual twin of payment_provider, and the adapters bo...">interfaces/payment_provider.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;chrono&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;functional&gt;</span>, <span class="tt">&lt;map&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;set&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="memory__webhook_8hpp.html" title="Internal: the signed webhooks of core&#39;s in-memory reference providers (memory_payment_provider,...">detail/memory_webhook.hpp</a></span> (HMAC-SHA256, shared with <span class="tt">memory_security_provider</span>), <span class="tt"><a class="el" href="secret_8hpp.html" title="Secrets: values that must never be printed or logged.">secret.hpp</a></span>, <span class="tt"><a class="el" href="interfaces_2payment__provider_8hpp.html" title="snicholls::payment_provider_interface: the pure virtual twin of payment_provider, and the adapters bo...">interfaces/payment_provider.hpp</a></span>, <span class="tt"><a class="el" href="utc__clock_8hpp.html" title="snicholls::utc_clock, the one shape of a wall clock that core&#39;s reference implementations read,...">time/utc_clock.hpp</a></span>.</p>
 <p><b>Known issues.</b> Bank debit (mandates) is unsupported.</p>
-<p><b>Status.</b> New in 0.23.0. </p>
+<p><b>Status.</b> New in 0.23.0; the clock a <span class="tt">utc_clock</span> template parameter, owned, since 0.27.0 (it was a <span class="tt">std::function&lt;utc_s()&gt;</span>). </p>
 
 <p class="definition">Definition in file <a class="el" href="payment__provider__reference_8hpp_source.html">payment_provider_reference.hpp</a>.</p>
 </div></div><!-- contents -->

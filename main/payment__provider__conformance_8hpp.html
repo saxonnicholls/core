@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -133,7 +133,8 @@ requires detail::payment_provider_probe&lt;Probe&gt;</td></tr>
 invalid</span>, <span class="tt">an unsupported currency is unsupported</span>, <span class="tt">collect is idempotent</span>, <span class="tt">a card collection succeeds once the
 payer pays</span>, <span class="tt">a bank transfer gives details and a reference and succeeds on the credit</span>, <span class="tt">a refund never exceeds
 what remains</span>, <span class="tt">an unknown payment is not found</span>, <span class="tt">a webhook verifies and carries its event</span>, <span class="tt">a webhook fails
-closed</span>, <span class="tt">an event resolves to authoritative facts that balance</span>, <span class="tt">a statement pages through every line once</span>, <span class="tt">a provider failure never leaks its response</span>.</p>
+closed</span>, <span class="tt">an event resolves to authoritative facts that balance</span> (a test delivery to none), <span class="tt">a statement pages
+through every line once</span>, <span class="tt">a provider failure never leaks its response</span>.</p>
 <div class="fragment"><div class="line">    <span class="keyword">const</span> <a class="code hl_struct" href="structsnicholls_1_1capability__conformance__report.html">capability_conformance_report</a> report = <a class="code hl_function" href="group__core.html#ga50fb0e493435c3af252d63d7955b4f61">run_payment_provider_conformance&lt;probe&gt;</a>();</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="concepts_2payment__provider_8hpp.html" title="snicholls::payment_provider: anything that moves fiat money in and out (collections,...">concepts/payment_provider.hpp</a></span>, <span class="tt"><a class="el" href="interfaces_2payment__provider_8hpp.html" title="snicholls::payment_provider_interface: the pure virtual twin of payment_provider, and the adapters bo...">interfaces/payment_provider.hpp</a></span>, <span class="tt"><a class="el" href="capability__conformance_8hpp.html" title="What the capability conformance kits report, and the redaction check they share.">interfaces/capability_conformance.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations / variants.</b> One kit for every form; checks that need a method the provider lacks pass without running it.</p>

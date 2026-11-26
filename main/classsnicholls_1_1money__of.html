@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -118,14 +118,20 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><b>money_of</b> () 
 <tr class="memdesc:a2f7853a825813d8db0e394d4bd9ae3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The negation.  <br /></td></tr>
 <tr class="memitem:a2455a527f7c9803a36d507e201f548c7" id="r_a2455a527f7c9803a36d507e201f548c7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1money.html">money</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2455a527f7c9803a36d507e201f548c7">to_money</a> () const noexcept</td></tr>
 <tr class="memdesc:a2455a527f7c9803a36d507e201f548c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">As a run-time <span class="tt"><a class="el" href="classsnicholls_1_1money.html" title="An exact amount of a run-time asset: the asset, a sign and a uint256 magnitude of minor units.">money</a></span>.  <br /></td></tr>
+<tr class="memitem:a9dd8352993ba0b320151b4d2e939c231" id="r_a9dd8352993ba0b320151b4d2e939c231"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9dd8352993ba0b320151b4d2e939c231">to_double</a> () const noexcept</td></tr>
+<tr class="memdesc:a9dd8352993ba0b320151b4d2e939c231"><td class="mdescLeft">&#160;</td><td class="mdescRight">The nearest <span class="tt">double</span> in whole units, for display only (<span class="tt"><a class="el" href="classsnicholls_1_1money.html#a1037809c83dc0804472460a619448bb8" title="The nearest double to the amount in whole units (2.10 AUD is 2.1), for display and charts only: never...">money::to_double</a></span>).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a776e4e243b1a971e1bd3ea39191cb507" id="r_a776e4e243b1a971e1bd3ea39191cb507"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a776e4e243b1a971e1bd3ea39191cb507">from_units</a> (const <a class="el" href="classsnicholls_1_1uint256.html">uint256</a> &amp;<a class="el" href="structsnicholls_1_1units.html">units</a>, bool negative=false) noexcept</td></tr>
 <tr class="memdesc:a776e4e243b1a971e1bd3ea39191cb507"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1units.html" title="A unit written after a number, with a space: units{&quot;bps&quot;} prints 12.5 bps.">units</a></span> minor units, negative if <span class="tt">negative</span>.  <br /></td></tr>
+<tr class="memitem:aa371f92a7f16925348eeac063e80755e" id="r_aa371f92a7f16925348eeac063e80755e"><td class="memTemplParams" colspan="2">template&lt;std::signed_integral I&gt; <br />
+requires (sizeof(I) &lt;= sizeof(std::uint64_t))</td></tr>
+<tr class="memitem:aa371f92a7f16925348eeac063e80755e template"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa371f92a7f16925348eeac063e80755e">from_units</a> (I <a class="el" href="structsnicholls_1_1units.html">units</a>, bool negative=false) noexcept</td></tr>
+<tr class="memdesc:aa371f92a7f16925348eeac063e80755e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="structsnicholls_1_1units.html" title="A unit written after a number, with a space: units{&quot;bps&quot;} prints 12.5 bps.">units</a></span> minor units, a signed integer with its own sign: <span class="tt"><a class="el" href="#a776e4e243b1a971e1bd3ea39191cb507" title="units minor units, negative if negative.">from_units</a>(-40)</span> is minus 40. <span class="tt">negative</span> reverses the sign. Without this overload a negative integer would convert to a huge magnitude.  <br /></td></tr>
 <tr class="memitem:a49b02d5d7526574f5bed3d382dbe568b" id="r_a49b02d5d7526574f5bed3d382dbe568b"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="structsnicholls_1_1asset.html">asset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49b02d5d7526574f5bed3d382dbe568b">asset_of</a> () noexcept</td></tr>
 <tr class="memdesc:a49b02d5d7526574f5bed3d382dbe568b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The asset's value.  <br /></td></tr>
-<tr class="memitem:af05f6b6bb349ac9919be05b72a9fbc4b" id="r_af05f6b6bb349ac9919be05b72a9fbc4b"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a>, <a class="el" href="namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2">money_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af05f6b6bb349ac9919be05b72a9fbc4b">from_money</a> (const <a class="el" href="classsnicholls_1_1money.html">money</a> &amp;m) noexcept</td></tr>
+<tr class="memitem:af05f6b6bb349ac9919be05b72a9fbc4b" id="r_af05f6b6bb349ac9919be05b72a9fbc4b"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a>, <a class="el" href="namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2">money_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af05f6b6bb349ac9919be05b72a9fbc4b">from_money</a> (const <a class="el" href="classsnicholls_1_1money.html">money</a> &amp;m) noexcept</td></tr>
 <tr class="memdesc:af05f6b6bb349ac9919be05b72a9fbc4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">From a run-time <span class="tt"><a class="el" href="classsnicholls_1_1money.html" title="An exact amount of a run-time asset: the asset, a sign and a uint256 magnitude of minor units.">money</a></span> of the same asset.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
@@ -146,7 +152,7 @@ class snicholls::money_of&lt; T &gt;</div><p>An exact amount of a compile-time a
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00202">202</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00255">255</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="a3cacbaa901499de08b97de6f4feb7195" name="a3cacbaa901499de08b97de6f4feb7195"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3cacbaa901499de08b97de6f4feb7195">&#9670;&#160;</a></span>asset_type</h2>
@@ -164,7 +170,7 @@ template&lt;asset_like T&gt; </div>
 
 <p>The asset type. </p>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00205">205</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00258">258</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -197,7 +203,7 @@ template&lt;asset_like T&gt; </div>
 <p>The asset's value. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8" title="The value of an asset type, checked by the compiler: asset_v&lt;currency::AUD&gt; is AUD at scale 2.">asset_v</a>&lt;T&gt;</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00224">224</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00290">290</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -213,7 +219,7 @@ template&lt;asset_like T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a>, <a class="el" href="namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2">money_errc</a> &gt; <a class="el" href="classsnicholls_1_1money__of.html">snicholls::money_of</a>&lt; T &gt;::from_money </td>
+          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a>, <a class="el" href="namespacesnicholls.html#a951e3bc71422bd60fd2d31c0350dafe2">money_errc</a> &gt; <a class="el" href="classsnicholls_1_1money__of.html">snicholls::money_of</a>&lt; T &gt;::from_money </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsnicholls_1_1money.html">money</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>m</em></span></td><td>)</td>
           <td></td>
@@ -235,12 +241,12 @@ template&lt;asset_like T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The typed amount, or <span class="tt">asset_mismatch</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00246">246</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00316">316</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
 <a id="a776e4e243b1a971e1bd3ea39191cb507" name="a776e4e243b1a971e1bd3ea39191cb507"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a776e4e243b1a971e1bd3ea39191cb507">&#9670;&#160;</a></span>from_units()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a776e4e243b1a971e1bd3ea39191cb507">&#9670;&#160;</a></span>from_units() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,7 +284,59 @@ template&lt;asset_like T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The amount. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00214">214</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00267">267</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa371f92a7f16925348eeac063e80755e" name="aa371f92a7f16925348eeac063e80755e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa371f92a7f16925348eeac063e80755e">&#9670;&#160;</a></span>from_units() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;asset_like T&gt; </div>
+<div class="memtemplate">
+template&lt;std::signed_integral I&gt; <br />
+requires (sizeof(I) &lt;= sizeof(std::uint64_t))</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="#aae53a8b823f008762c714fbd81d97877">money_of</a> <a class="el" href="classsnicholls_1_1money__of.html">snicholls::money_of</a>&lt; T &gt;::from_units </td>
+          <td>(</td>
+          <td class="paramtype">I</td>          <td class="paramname"><span class="paramname"><em>units</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>negative</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><span class="tt"><a class="el" href="structsnicholls_1_1units.html" title="A unit written after a number, with a space: units{&quot;bps&quot;} prints 12.5 bps.">units</a></span> minor units, a signed integer with its own sign: <span class="tt"><a class="el" href="#a776e4e243b1a971e1bd3ea39191cb507" title="units minor units, negative if negative.">from_units</a>(-40)</span> is minus 40. <span class="tt">negative</span> reverses the sign. Without this overload a negative integer would convert to a huge magnitude. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">I</td><td>A signed integer type of at most 64 bits. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">units</td><td>The signed amount in minor units. </td></tr>
+    <tr><td class="paramname">negative</td><td>Whether to reverse the sign. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The amount. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00283">283</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -310,7 +368,7 @@ template&lt;asset_like T&gt; </div>
 <p>The sign. </p>
 <dl class="section return"><dt>Returns</dt><dd>Whether below zero. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00230">230</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00296">296</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +400,7 @@ template&lt;asset_like T&gt; </div>
 <p>Whether zero. </p>
 <dl class="section return"><dt>Returns</dt><dd>Whether the magnitude is zero. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00233">233</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00299">299</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -374,7 +432,7 @@ template&lt;asset_like T&gt; </div>
 <p>The magnitude. </p>
 <dl class="section return"><dt>Returns</dt><dd>The magnitude in minor units. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00227">227</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00293">293</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -406,7 +464,39 @@ template&lt;asset_like T&gt; </div>
 <p>The negation. </p>
 <dl class="section return"><dt>Returns</dt><dd>The amount with its sign reversed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00237">237</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00303">303</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a9dd8352993ba0b320151b4d2e939c231" name="a9dd8352993ba0b320151b4d2e939c231"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dd8352993ba0b320151b4d2e939c231">&#9670;&#160;</a></span>to_double()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;asset_like T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double <a class="el" href="classsnicholls_1_1money__of.html">snicholls::money_of</a>&lt; T &gt;::to_double </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The nearest <span class="tt">double</span> in whole units, for display only (<span class="tt"><a class="el" href="classsnicholls_1_1money.html#a1037809c83dc0804472460a619448bb8" title="The nearest double to the amount in whole units (2.10 AUD is 2.1), for display and charts only: never...">money::to_double</a></span>). </p>
+<dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00311">311</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +528,7 @@ template&lt;asset_like T&gt; </div>
 <p>As a run-time <span class="tt"><a class="el" href="classsnicholls_1_1money.html" title="An exact amount of a run-time asset: the asset, a sign and a uint256 magnitude of minor units.">money</a></span>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The same amount, with its asset as a value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00241">241</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00307">307</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>
@@ -482,7 +572,7 @@ template&lt;asset_like T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The order. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00259">259</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00329">329</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
 
 </div>
 </div>

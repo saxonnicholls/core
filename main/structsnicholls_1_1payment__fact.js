@@ -1,11 +1,11 @@
 var structsnicholls_1_1payment__fact =
 [
     [ "operator==", "structsnicholls_1_1payment__fact.html#a78888d2d6911725d618d7abe58163697", null ],
+    [ "dates", "structsnicholls_1_1payment__fact.html#ab5114176c9b7f2f7fc0d93532fd811f3", null ],
     [ "event_id", "structsnicholls_1_1payment__fact.html#afaaee46cfd97dedd384fdce011af379c", null ],
     [ "exchange_rate", "structsnicholls_1_1payment__fact.html#a0ebf0f266b08e2247b13f83247266e5c", null ],
     [ "fact_id", "structsnicholls_1_1payment__fact.html#ac1d85351b63949acb5ea043fb3d40bad", null ],
     [ "kind", "structsnicholls_1_1payment__fact.html#a39ac5df180de487b4cf5501682df413c", null ],
-    [ "occurred_at", "structsnicholls_1_1payment__fact.html#a4eae1855dc2aeda770e67a534615e940", null ],
     [ "party", "structsnicholls_1_1payment__fact.html#a5537944aa2f9c743093fd34cab6536b2", null ],
     [ "presentment", "structsnicholls_1_1payment__fact.html#a1ff319fa89a1e242c726cb64792a04f1", null ],
     [ "provider_account", "structsnicholls_1_1payment__fact.html#abb76d0eafc5f0a77f19ea309970ac574", null ],

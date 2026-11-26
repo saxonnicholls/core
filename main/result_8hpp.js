@@ -11,10 +11,10 @@ var result_8hpp =
     [ "snicholls::error_text", "group__core.html#gaed997a5b399462986484b135e8347f48", null ],
     [ "snicholls::ok", "group__core.html#ga453227af48b32afbc6c42c021156551f", null ],
     [ "snicholls::ok", "group__core.html#gab1366a52fc6758364b5de782e34cab51", null ],
-    [ "snicholls::result_throws::result_from_exceptions", "group__core.html#gac821548c92aeccd2cb668764c78e96ec", null ],
-    [ "snicholls::result_throws::result_from_exceptions", "group__core.html#gade9e41c408234a24b418688801614e1e", null ],
+    [ "snicholls::result_terminates::result_from_exceptions", "group__core.html#ga088215d7fa1dceef2cc8b406b45e4734", null ],
+    [ "snicholls::result_terminates::result_from_exceptions", "group__core.html#gadf24a211324f9c311cbb69df0af5745b", null ],
     [ "snicholls::throw_error", "group__core.html#gaec1214c77a17b911a13797c9fb0cfbb9", null ],
-    [ "snicholls::result_throws::try_invoke", "group__core.html#gac024103da53d559155ac418013ddd41c", null ],
+    [ "snicholls::result_terminates::try_invoke", "group__core.html#gaa6cb0cb8075bb647a79e832c0865b583", null ],
     [ "snicholls::err_in_place", "group__core.html#gaa773e0369a0f4256fd8e4db03d6ee61b", null ],
     [ "snicholls::is_traced_v", "group__core.html#ga690aa0da63512a9297b4c2ea8c261017", null ]
 ];

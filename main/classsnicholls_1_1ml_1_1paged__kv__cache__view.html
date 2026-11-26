@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,7 +100,7 @@ $(function(){initNavTree('classsnicholls_1_1ml_1_1paged__kv__cache__view.html','
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab8c6367d585092cd46b5ce273a312868" id="r_ab8c6367d585092cd46b5ce273a312868"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8c6367d585092cd46b5ce273a312868">paged_kv_cache_view</a> (std::span&lt; T &gt; keys, std::span&lt; T &gt; values, std::size_t layers, std::size_t <a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a">page_size</a>, std::span&lt; const std::uint32_t &gt; <a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63">table</a>) noexcept</td></tr>
+<tr class="memitem:ab8c6367d585092cd46b5ce273a312868" id="r_ab8c6367d585092cd46b5ce273a312868"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8c6367d585092cd46b5ce273a312868">paged_kv_cache_view</a> (std::span&lt; T &gt; keys, std::span&lt; T &gt; values, std::size_t layers, std::size_t <a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a">page_size</a>, std::span&lt; const std::uint32_t &gt; <a class="el" href="group__core.html#gadacbbd109ac7b2d79067e3016fb50ef7">table</a>) noexcept</td></tr>
 <tr class="memdesc:ab8c6367d585092cd46b5ce273a312868"><td class="mdescLeft">&#160;</td><td class="mdescRight">A view of one sequence over the pool.  <br /></td></tr>
 <tr class="memitem:a73ea23c02c31d301e1bc167a5e4eb673" id="r_a73ea23c02c31d301e1bc167a5e4eb673"><td class="memTemplParams" colspan="2">template&lt;row K, row V&gt; <br />
 requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;K&gt;, T&gt; &amp;&amp; std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c4f17d2651d2035dd">row_value_t</a>&lt;V&gt;, T&gt;</td></tr>
@@ -119,7 +119,7 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.html">transformer_config</a> C, math::math_number T = float, std::size_t MaxPages = 64&gt;<br />
 class snicholls::ml::paged_kv_cache_view&lt; C, T, MaxPages &gt;</div><p>A paged KV cache over the caller's pool: fixed pages of <span class="tt"><a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a" title="The positions per page.">page_size</a></span> positions, a sequence's pages named by its page table, so sequences that share a prefix can share its pages. </p>
-<p>The pool is <span class="tt">[page][layer][kv_head][slot][head_dim]</span>; logical page <span class="tt">i</span> of the sequence is physical page <span class="tt"><a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[i]</span>, so position <span class="tt">p</span> is in page <span class="tt"><a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[p / <a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a" title="The positions per page.">page_size</a>]</span>, slot <span class="tt">p % <a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a" title="The positions per page.">page_size</a></span>. Which pages are free, shared or evicted is the caller's (the serving layer above core); this view only reads and writes them. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>The pool is <span class="tt">[page][layer][kv_head][slot][head_dim]</span>; logical page <span class="tt">i</span> of the sequence is physical page <span class="tt"><a class="el" href="group__core.html#gadacbbd109ac7b2d79067e3016fb50ef7" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[i]</span>, so position <span class="tt">p</span> is in page <span class="tt"><a class="el" href="group__core.html#gadacbbd109ac7b2d79067e3016fb50ef7" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[p / <a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a" title="The positions per page.">page_size</a>]</span>, slot <span class="tt">p % <a class="el" href="#a42dd1d5dd5862c66f7c7e83d253ffd7a" title="The positions per page.">page_size</a></span>. Which pages are free, shared or evicted is the caller's (the serving layer above core); this view only reads and writes them. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">C</td><td>The configuration. </td></tr>
     <tr><td class="paramname">T</td><td>The number type. </td></tr>
@@ -181,7 +181,7 @@ template&lt;<a class="el" href="structsnicholls_1_1ml_1_1transformer__config.htm
     <tr><td class="paramname">values</td><td>The pool's values, the same. </td></tr>
     <tr><td class="paramname">layers</td><td>The layers. </td></tr>
     <tr><td class="paramname">page_size</td><td>The positions per page. </td></tr>
-    <tr><td class="paramname">table</td><td>The sequence's pages: logical page <span class="tt">i</span> is pool page <span class="tt"><a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[i]</span>. </td></tr>
+    <tr><td class="paramname">table</td><td>The sequence's pages: logical page <span class="tt">i</span> is pool page <span class="tt"><a class="el" href="group__core.html#gadacbbd109ac7b2d79067e3016fb50ef7" title="Table[f[i], {i, 0, N - 1}]: {f(0), ..., f(N - 1)}, each called with a std::size_t.">table</a>[i]</span>. </td></tr>
   </table>
   </dd>
 </dl>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -147,9 +147,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2d8dcf12ae3be810fa134cfa539bfb19" id="r_a2d8dcf12ae3be810fa134cfa539bfb19"><td class="memTemplParams" colspan="2">template&lt;typename Token&gt; </td></tr>
 <tr class="memitem:a2d8dcf12ae3be810fa134cfa539bfb19 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structsnicholls_1_1ml_1_1byte__fallback.html">byte_fallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d8dcf12ae3be810fa134cfa539bfb19">snicholls::ml::make_byte_level_fallback</a> (Token &amp;&amp;token)</td></tr>
 <tr class="memdesc:a2d8dcf12ae3be810fa134cfa539bfb19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Each byte's token in a byte-level vocabulary: the piece that spells the byte in GPT-2's alphabet.  <br /></td></tr>
-<tr class="memitem:a838dd789f955e6c5a5631fb6a0f1e0a6" id="r_a838dd789f955e6c5a5631fb6a0f1e0a6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#ga203307f5919509dbcbb9ef37edc2657e">tokenizer_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a838dd789f955e6c5a5631fb6a0f1e0a6">snicholls::ml::tokenize</a> (const <a class="el" href="structsnicholls_1_1ml_1_1tokenizer__vocab.html">tokenizer_vocab</a> &amp;vocab, std::string_view text, std::span&lt; std::uint32_t &gt; out, const <a class="el" href="structsnicholls_1_1ml_1_1tokenizer__scratch.html">tokenizer_scratch</a> &amp;scratch)</td></tr>
+<tr class="memitem:a838dd789f955e6c5a5631fb6a0f1e0a6" id="r_a838dd789f955e6c5a5631fb6a0f1e0a6"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#ga203307f5919509dbcbb9ef37edc2657e">tokenizer_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a838dd789f955e6c5a5631fb6a0f1e0a6">snicholls::ml::tokenize</a> (const <a class="el" href="structsnicholls_1_1ml_1_1tokenizer__vocab.html">tokenizer_vocab</a> &amp;vocab, std::string_view text, std::span&lt; std::uint32_t &gt; out, const <a class="el" href="structsnicholls_1_1ml_1_1tokenizer__scratch.html">tokenizer_scratch</a> &amp;scratch)</td></tr>
 <tr class="memdesc:a838dd789f955e6c5a5631fb6a0f1e0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tokenizes text: added tokens first, then the model over each run of text between them.  <br /></td></tr>
-<tr class="memitem:a9070a465da6f7cd0483cec1af6c3e7a0" id="r_a9070a465da6f7cd0483cec1af6c3e7a0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#ga203307f5919509dbcbb9ef37edc2657e">tokenizer_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9070a465da6f7cd0483cec1af6c3e7a0">snicholls::ml::detokenize</a> (const <a class="el" href="structsnicholls_1_1ml_1_1tokenizer__vocab.html">tokenizer_vocab</a> &amp;vocab, std::span&lt; const std::uint32_t &gt; tokens, std::span&lt; char &gt; out, bool render_special=false)</td></tr>
+<tr class="memitem:a9070a465da6f7cd0483cec1af6c3e7a0" id="r_a9070a465da6f7cd0483cec1af6c3e7a0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#ga203307f5919509dbcbb9ef37edc2657e">tokenizer_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9070a465da6f7cd0483cec1af6c3e7a0">snicholls::ml::detokenize</a> (const <a class="el" href="structsnicholls_1_1ml_1_1tokenizer__vocab.html">tokenizer_vocab</a> &amp;vocab, std::span&lt; const std::uint32_t &gt; tokens, std::span&lt; char &gt; out, bool render_special=false)</td></tr>
 <tr class="memdesc:a9070a465da6f7cd0483cec1af6c3e7a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders tokens as text: the inverse of <span class="tt"><a class="el" href="#a838dd789f955e6c5a5631fb6a0f1e0a6" title="Tokenizes text: added tokens first, then the model over each run of text between them.">tokenize</a></span> up to normalisation.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -209,7 +209,7 @@ Functions</h2></td></tr>
 <div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">constexpr</span> std::size_t count(std::string_view text)</div>
+<div class="line"><span class="keyword">constexpr</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a>(std::string_view text)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">const</span> loaded l;</div>
 <div class="line">    <span class="keyword">const</span> ml::tokenizer_vocab v = l.vocab();</div>
@@ -218,7 +218,7 @@ Functions</h2></td></tr>
 <div class="line">    std::array&lt;std::uint32_t, 64&gt; out{};</div>
 <div class="line">    <span class="keywordflow">return</span> ml::tokenize(v, text, out, {t, r, {}, {}}).unwrap();</div>
 <div class="line">}</div>
-<div class="line"><span class="keyword">static_assert</span>(count(<span class="stringliteral">&quot;hi hi!&lt;|end|&gt;&quot;</span>) == 4);   <span class="comment">// &quot;hi&quot;, &quot;Ġhi&quot;, &quot;!&quot;, &quot;&lt;|end|&gt;&quot;</span></div>
+<div class="line"><span class="keyword">static_assert</span>(<a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a>(<span class="stringliteral">&quot;hi hi!&lt;|end|&gt;&quot;</span>) == 4);   <span class="comment">// &quot;hi&quot;, &quot;Ġhi&quot;, &quot;!&quot;, &quot;&lt;|end|&gt;&quot;</span></div>
 </div><!-- fragment --><p><b>Relationships.</b> Every tokenizer header above. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One per model type, each the corresponding header's algorithm.</p>
 <p><b>Guarantees.</b> No allocation: the caller's output and <span class="tt">tokenizer_scratch</span> (<span class="tt">tokenizer_scratch_need</span> sizes it for a text length). <span class="tt">tokenize</span> is <span class="tt">constexpr</span> when the vocabulary is. Complexity: that of the model (O(n log n) for the merges, O(n · L log V) for the tries).</p>

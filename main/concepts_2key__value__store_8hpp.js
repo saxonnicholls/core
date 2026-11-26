@@ -19,7 +19,8 @@ var concepts_2key__value__store_8hpp =
       [ "snicholls::kv_op::insert", "group__core.html#ggaf0f3cd725e9415f2d7350b869e159dadae0df5f3dfd2650ae5be9993434e2b2c0", null ],
       [ "snicholls::kv_op::erase", "group__core.html#ggaf0f3cd725e9415f2d7350b869e159dada26eb25b14d930f9d5f59b2c50798a9a4", null ]
     ] ],
-    [ "snicholls::kv_bytes_of", "group__core.html#ga5e069442f1ae6205c4eb13ef451e32b5", null ],
+    [ "snicholls::kv_bytes_of", "group__core.html#ga34bb5bc3b2b8c91888fc7dfb6fe42b2a", null ],
+    [ "snicholls::kv_bytes_of", "group__core.html#ga8f7eeb3cc169b798f4c1ffd2fa91ce30", null ],
     [ "snicholls::kv_contains", "group__core.html#gab4459626a4232c892475ed7597776bca", null ],
     [ "snicholls::kv_count", "group__core.html#gab20aa1cb1ef25b1fd2154f5e5e7c06a2", null ],
     [ "snicholls::kv_digest_v1", "group__core.html#ga3f0761c6b0254ac4fba998fedeb296c4", null ],

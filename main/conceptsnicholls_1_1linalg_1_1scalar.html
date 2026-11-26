@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -96,11 +96,11 @@ $(function(){initNavTree('conceptsnicholls_1_1linalg_1_1scalar.html','',''); });
 <p>A number the operations accept: <span class="tt">std::numeric_limits</span> and <span class="tt">math::math_limits</span> specialised, not an integer (<span class="tt">float</span>, <span class="tt">double</span>; later half and quantised types).  
 <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="types_8hpp_source.html">snicholls/core/linalg/types.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="linalg_2types_8hpp_source.html">snicholls/core/linalg/types.hpp</a>&gt;</code></p>
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1linalg_1_1scalar.html">snicholls::linalg::scalar</a> =  std::numeric_limits&lt;T&gt;::is_specialized &amp;&amp; !std::numeric_limits&lt;T&gt;::is_integer &amp;&amp; <a class="code hl_concept" href="conceptsnicholls_1_1math_1_1math__number.html">math::math_number&lt;T&gt;</a> &amp;&amp; std::regular&lt;T&gt;</div>
-<div class="ttc" id="aconceptsnicholls_1_1linalg_1_1scalar_html"><div class="ttname"><a href="conceptsnicholls_1_1linalg_1_1scalar.html">snicholls::linalg::scalar</a></div><div class="ttdoc">A number the operations accept: std::numeric_limits and math::math_limits specialised,...</div><div class="ttdef"><b>Definition</b> <a href="types_8hpp_source.html#l00067">types.hpp:67</a></div></div>
+<div class="ttc" id="aconceptsnicholls_1_1linalg_1_1scalar_html"><div class="ttname"><a href="conceptsnicholls_1_1linalg_1_1scalar.html">snicholls::linalg::scalar</a></div><div class="ttdoc">A number the operations accept: std::numeric_limits and math::math_limits specialised,...</div><div class="ttdef"><b>Definition</b> <a href="linalg_2types_8hpp_source.html#l00067">types.hpp:67</a></div></div>
 <div class="ttc" id="aconceptsnicholls_1_1math_1_1math__number_html"><div class="ttname"><a href="conceptsnicholls_1_1math_1_1math__number.html">snicholls::math::math_number</a></div><div class="ttdoc">A number type the functions accept as it is: one with math_limits.</div><div class="ttdef"><b>Definition</b> <a href="constexpr__math_8hpp_source.html#l00213">constexpr_math.hpp:213</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A number the operations accept: <span class="tt">std::numeric_limits</span> and <span class="tt">math::math_limits</span> specialised, not an integer (<span class="tt">float</span>, <span class="tt">double</span>; later half and quantised types). </p>
@@ -111,7 +111,7 @@ $(function(){initNavTree('conceptsnicholls_1_1linalg_1_1scalar.html','',''); });
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="types_8hpp_source.html#l00067">67</a> of file <a class="el" href="types_8hpp_source.html">types.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="linalg_2types_8hpp_source.html#l00067">67</a> of file <a class="el" href="linalg_2types_8hpp_source.html">types.hpp</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

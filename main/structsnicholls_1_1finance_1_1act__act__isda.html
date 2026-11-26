@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -104,13 +104,13 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a392c01bd4197566d47bb780a352b7d2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The convention's name.  <br /></td></tr>
 <tr class="memitem:a1789ee0588286f7a021cebb713aba456" id="r_a1789ee0588286f7a021cebb713aba456"><td class="memItemLeft" align="right" valign="top">static constexpr std::int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1789ee0588286f7a021cebb713aba456">day_count</a> (std::chrono::sys_days start, std::chrono::sys_days end) noexcept</td></tr>
 <tr class="memdesc:a1789ee0588286f7a021cebb713aba456"><td class="mdescLeft">&#160;</td><td class="mdescRight">The days from <span class="tt">start</span> to <span class="tt">end</span>.  <br /></td></tr>
-<tr class="memitem:a1da1e6caddb08ef4e29fb1f72989caa0" id="r_a1da1e6caddb08ef4e29fb1f72989caa0"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1finance_1_1year__fraction.html">finance::year_fraction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1da1e6caddb08ef4e29fb1f72989caa0">year_fraction</a> (std::chrono::sys_days start, std::chrono::sys_days end) noexcept</td></tr>
+<tr class="memitem:a1da1e6caddb08ef4e29fb1f72989caa0" id="r_a1da1e6caddb08ef4e29fb1f72989caa0"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">finance::year_fraction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1da1e6caddb08ef4e29fb1f72989caa0">year_fraction</a> (std::chrono::sys_days start, std::chrono::sys_days end) noexcept</td></tr>
 <tr class="memdesc:a1da1e6caddb08ef4e29fb1f72989caa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fraction of a year from <span class="tt">start</span> to <span class="tt">end</span>, over the common denominator 365 * 366.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ACT/ACT ISDA (ISDA 2006 4.16(b)): the days in common years / 365 plus the days in leap years / 366. </p>
 
-<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00186">186</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00190">190</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a1789ee0588286f7a021cebb713aba456" name="a1789ee0588286f7a021cebb713aba456"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1789ee0588286f7a021cebb713aba456">&#9670;&#160;</a></span>day_count()</h2>
@@ -149,7 +149,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">end - start</span>, negative when <span class="tt">end</span> is earlier. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00194">194</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00198">198</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
 
 </div>
 </div>
@@ -179,7 +179,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The convention's name. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">"ACT/ACT ISDA"</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00189">189</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00193">193</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
 
 </div>
 </div>
@@ -193,7 +193,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1finance_1_1year__fraction.html">finance::year_fraction</a> snicholls::finance::act_act_isda::year_fraction </td>
+          <td class="memname">constexpr <a class="el" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">finance::year_fraction</a> snicholls::finance::act_act_isda::year_fraction </td>
           <td>(</td>
           <td class="paramtype">std::chrono::sys_days</td>          <td class="paramname"><span class="paramname"><em>start</em></span>, </td>
         </tr>
@@ -218,9 +218,9 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The exact fraction; <span class="tt">-year_fraction(end, start)</span> when <span class="tt">end</span> is earlier. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The exact fraction; <span class="tt">-<a class="el" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4" title="A fraction of a year, numerator / denominator, exact and normalised: a finance::ratio.">year_fraction(end, start)</a></span> when <span class="tt">end</span> is earlier. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00202">202</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="finance_2day__count_8hpp_source.html#l00206">206</a> of file <a class="el" href="finance_2day__count_8hpp_source.html">day_count.hpp</a>.</p>
 
 </div>
 </div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -223,7 +223,7 @@ C.window, C.mask_block)</span> allows: causal by default, bidirectional for a Vi
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// One head alone over what the cache holds: the unit to spread over threads</span></div>
-<div class="line">    std::array&lt;float, 4&gt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a>{};</div>
+<div class="line">    std::array&lt;float, 4&gt; <a class="code hl_variable" href="group__core.html#gab416464012f52943fa1739e58f9f7906">head</a>{};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; q{1, 0, 0, 0};</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> lse = ml::attention_head&lt;c, float&gt;(q, cache.visible(0, 0, ml::attention_window(2)), head);</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Training: the same three tokens as one sequence, saving what the backward pass reads</span></div>

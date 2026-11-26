@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -110,10 +110,12 @@ requires requires(const P&amp; q) { T(q.first); T(q.second); }</td></tr>
 <tr class="memdesc:aee38373e9aa9f658eeaeda3169763317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine with another.  <br /></td></tr>
 <tr class="memitem:a104b7d88882b936b7db122ed0fa82a03" id="r_a104b7d88882b936b7db122ed0fa82a03"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a104b7d88882b936b7db122ed0fa82a03">value</a> () const noexcept</td></tr>
 <tr class="memdesc:a104b7d88882b936b7db122ed0fa82a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sample covariance; NaN with fewer than two pairs.  <br /></td></tr>
-<tr class="memitem:a064ff396f9a8b71180c7a0ed831a1cba" id="r_a064ff396f9a8b71180c7a0ed831a1cba"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a064ff396f9a8b71180c7a0ed831a1cba">correlation</a> () const noexcept</td></tr>
-<tr class="memdesc:a064ff396f9a8b71180c7a0ed831a1cba"><td class="mdescLeft">&#160;</td><td class="mdescRight">The correlation; NaN when either variance is zero or there are fewer than two pairs.  <br /></td></tr>
+<tr class="memitem:a6d2a2b05e3135f842b3e9cb2c9229b13" id="r_a6d2a2b05e3135f842b3e9cb2c9229b13"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d2a2b05e3135f842b3e9cb2c9229b13">correlation</a> () const noexcept</td></tr>
+<tr class="memdesc:a6d2a2b05e3135f842b3e9cb2c9229b13"><td class="mdescLeft">&#160;</td><td class="mdescRight">The correlation; NaN when either variance is zero or there are fewer than two pairs.  <br /></td></tr>
 <tr class="memitem:a5cd137fde86f45865391db1a6603fb7d" id="r_a5cd137fde86f45865391db1a6603fb7d"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cd137fde86f45865391db1a6603fb7d">beta</a> () const noexcept</td></tr>
 <tr class="memdesc:a5cd137fde86f45865391db1a6603fb7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The regression slope of y on x: <span class="tt">cov / var(x)</span>. For a portfolio's beta to an index, add <span class="tt">(index, portfolio)</span>.  <br /></td></tr>
+<tr class="memitem:aecec680cf11b481bd8667277fb8be2ab" id="r_aecec680cf11b481bd8667277fb8be2ab"><td class="memItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecec680cf11b481bd8667277fb8be2ab">count</a> () const noexcept</td></tr>
+<tr class="memdesc:aecec680cf11b481bd8667277fb8be2ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of pairs.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -140,7 +142,7 @@ struct snicholls::stats::covariance&lt; T &gt;</div><p>The sample covariance of 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00293">293</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00300">300</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a4f7bcd14f5e67e4091561148b57055fc" name="a4f7bcd14f5e67e4091561148b57055fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4f7bcd14f5e67e4091561148b57055fc">&#9670;&#160;</a></span>add() <span class="overload">[1/2]</span></h2>
@@ -184,7 +186,7 @@ requires requires(const P&amp; q) { T(q.first); T(q.second); }</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00323">323</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00330">330</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -226,7 +228,7 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00304">304</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00311">311</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -258,12 +260,12 @@ template&lt;std::floating_point T&gt; </div>
 <p>The regression slope of y on x: <span class="tt">cov / var(x)</span>. For a portfolio's beta to an index, add <span class="tt">(index, portfolio)</span>. </p>
 <dl class="section return"><dt>Returns</dt><dd>It; NaN when x does not vary. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00354">354</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00361">361</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a064ff396f9a8b71180c7a0ed831a1cba" name="a064ff396f9a8b71180c7a0ed831a1cba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a064ff396f9a8b71180c7a0ed831a1cba">&#9670;&#160;</a></span>correlation()</h2>
+<a id="a6d2a2b05e3135f842b3e9cb2c9229b13" name="a6d2a2b05e3135f842b3e9cb2c9229b13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d2a2b05e3135f842b3e9cb2c9229b13">&#9670;&#160;</a></span>correlation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +284,7 @@ template&lt;std::floating_point T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -290,7 +292,39 @@ template&lt;std::floating_point T&gt; </div>
 <p>The correlation; NaN when either variance is zero or there are fewer than two pairs. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00348">348</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00355">355</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aecec680cf11b481bd8667277fb8be2ab" name="aecec680cf11b481bd8667277fb8be2ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecec680cf11b481bd8667277fb8be2ab">&#9670;&#160;</a></span>count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::floating_point T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t <a class="el" href="structsnicholls_1_1stats_1_1covariance.html">snicholls::stats::covariance</a>&lt; T &gt;::count </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of pairs. </p>
+<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00364">364</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -327,7 +361,7 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00329">329</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00336">336</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -359,7 +393,7 @@ template&lt;std::floating_point T&gt; </div>
 <p>The sample covariance; NaN with fewer than two pairs. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00345">345</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00352">352</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,7 +414,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The sum of products of deviations. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00297">297</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00304">304</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -400,7 +434,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The sum of squared deviations of x. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00298">298</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00305">305</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -420,7 +454,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The sum of squared deviations of y. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00299">299</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00306">306</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -440,7 +474,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The mean of x. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00295">295</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00302">302</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -460,7 +494,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The mean of y. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00296">296</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00303">303</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +514,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>Pairs. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00294">294</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00301">301</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>

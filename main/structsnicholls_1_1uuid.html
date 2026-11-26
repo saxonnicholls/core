@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -170,8 +170,8 @@ Friends</h2></td></tr>
 <div class="line">    check(ec == std::errc{} &amp;&amp; std::string_view(buf, end - buf) == <span class="stringliteral">&quot;f81d4fae-7dec-11d0-a765-00a0c91e6bf6&quot;</span>, <span class="stringliteral">&quot;to_chars&quot;</span>);</div>
 <div class="line">    <span class="keywordtype">char</span> small[10];</div>
 <div class="line">    check(<a class="code hl_function" href="namespacesnicholls.html#ab78b2f7545ec9cc1cde39f3ef783c5a8">snicholls::to_chars</a>(small, small + 10, a).ec == std::errc::value_too_large, <span class="stringliteral">&quot;to_chars: buffer too small&quot;</span>);</div>
-<div class="line">    check(<a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(a).<a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a>() == <a class="code hl_function" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb">snicholls::to_string</a>(a) &amp;&amp; std::string(<a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(a).c_str()).size() == 36 &amp;&amp;</div>
-<div class="line">              <a class="code hl_function" href="structsnicholls_1_1uuid__text.html#abb6f8f8d9a974c6b8425c0f259b9cbb8">snicholls::uuid_text::size</a>() == 36 &amp;&amp; std::string_view(<a class="code hl_function" href="group__core.html#ga5f499c0e40384a8149183332eb4ca539">snicholls::to_text</a>(a)) == <a class="code hl_function" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb">snicholls::to_string</a>(a),</div>
+<div class="line">    check(<a class="code hl_function" href="group__core.html#gac4ab44d3515addfa332f715095d79cb6">snicholls::to_text</a>(a).<a class="code hl_function" href="group__core.html#gaa103227eeacac114b1412c5aa8723471">view</a>() == <a class="code hl_function" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb">snicholls::to_string</a>(a) &amp;&amp; std::string(<a class="code hl_function" href="group__core.html#gac4ab44d3515addfa332f715095d79cb6">snicholls::to_text</a>(a).c_str()).size() == 36 &amp;&amp;</div>
+<div class="line">              <a class="code hl_function" href="structsnicholls_1_1uuid__text.html#abb6f8f8d9a974c6b8425c0f259b9cbb8">snicholls::uuid_text::size</a>() == 36 &amp;&amp; std::string_view(<a class="code hl_function" href="group__core.html#gac4ab44d3515addfa332f715095d79cb6">snicholls::to_text</a>(a)) == <a class="code hl_function" href="group__core.html#gaf4c267cf24e307377d94e4d3541930fb">snicholls::to_string</a>(a),</div>
 <div class="line">          <span class="stringliteral">&quot;to_text / to_string agree&quot;</span>);</div>
 <div class="line">    check(<a class="code hl_function" href="group__core.html#ga0134c30fee080aebbf47a0cc967d59f7">snicholls::parse_uuid</a>(std::string(<span class="stringliteral">&quot;f81d4fae-7dec-11d0-a765-00a0c91e6bf6&quot;</span>)) == a, <span class="stringliteral">&quot;parse_uuid canonical&quot;</span>);</div>
 <div class="line">    check(!<a class="code hl_function" href="group__core.html#ga0134c30fee080aebbf47a0cc967d59f7">snicholls::parse_uuid</a>(<span class="stringliteral">&quot;{f81d4fae-7dec-11d0-a765-00a0c91e6bf6}&quot;</span>), <span class="stringliteral">&quot;braces rejected by default&quot;</span>);</div>

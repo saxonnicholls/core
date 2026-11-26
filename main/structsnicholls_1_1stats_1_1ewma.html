@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -106,8 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a6601b18eeb12b3b0fb824d044be27462"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weighted mean; NaN before any observation.  <br /></td></tr>
 <tr class="memitem:a54c73d77715c565d3ce609fbed6d6f42" id="r_a54c73d77715c565d3ce609fbed6d6f42"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54c73d77715c565d3ce609fbed6d6f42">variance</a> () const noexcept</td></tr>
 <tr class="memdesc:a54c73d77715c565d3ce609fbed6d6f42"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weighted variance.  <br /></td></tr>
-<tr class="memitem:a8b423b728d11efe4d3a72b8d35a4f13a" id="r_a8b423b728d11efe4d3a72b8d35a4f13a"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b423b728d11efe4d3a72b8d35a4f13a">volatility</a> () const noexcept</td></tr>
-<tr class="memdesc:a8b423b728d11efe4d3a72b8d35a4f13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weighted volatility.  <br /></td></tr>
+<tr class="memitem:a87964d0392631e6f58319f3c0a51da09" id="r_a87964d0392631e6f58319f3c0a51da09"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87964d0392631e6f58319f3c0a51da09">volatility</a> () const noexcept</td></tr>
+<tr class="memdesc:a87964d0392631e6f58319f3c0a51da09"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weighted volatility.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -130,7 +130,7 @@ struct snicholls::stats::ewma&lt; T &gt;</div><p>The exponentially weighted mean
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00361">361</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00371">371</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a7dbbcee44c4f7992d412e6538a5f2891" name="a7dbbcee44c4f7992d412e6538a5f2891"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7dbbcee44c4f7992d412e6538a5f2891">&#9670;&#160;</a></span>add()</h2>
@@ -165,7 +165,7 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00369">369</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00379">379</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -197,7 +197,7 @@ template&lt;std::floating_point T&gt; </div>
 <p>The weighted mean; NaN before any observation. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00382">382</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00392">392</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -229,12 +229,12 @@ template&lt;std::floating_point T&gt; </div>
 <p>The weighted variance. </p>
 <dl class="section return"><dt>Returns</dt><dd>It; 0 after one observation, NaN before any. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00385">385</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00395">395</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a8b423b728d11efe4d3a72b8d35a4f13a" name="a8b423b728d11efe4d3a72b8d35a4f13a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b423b728d11efe4d3a72b8d35a4f13a">&#9670;&#160;</a></span>volatility()</h2>
+<a id="a87964d0392631e6f58319f3c0a51da09" name="a87964d0392631e6f58319f3c0a51da09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87964d0392631e6f58319f3c0a51da09">&#9670;&#160;</a></span>volatility()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +253,7 @@ template&lt;std::floating_point T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -261,7 +261,7 @@ template&lt;std::floating_point T&gt; </div>
 <p>The weighted volatility. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">sqrt(variance())</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00388">388</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00398">398</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -282,7 +282,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The weight of a new observation; 0.06 is RiskMetrics' daily lambda of 0.94. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00362">362</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00372">372</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -302,7 +302,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The weighted mean. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00363">363</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00373">373</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,7 +322,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>Whether any observation has arrived. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00365">365</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00375">375</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +342,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The weighted variance about it. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00364">364</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00374">374</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>

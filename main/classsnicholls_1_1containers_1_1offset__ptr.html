@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -168,7 +168,7 @@ class snicholls::containers::offset_ptr&lt; T &gt;</div><p>A pointer to <span cl
 <dl class="section user"><dt>Examples</dt><dd></dd></dl>
 <div class="fragment"><div class="line">    <span class="keyword">struct </span>node</div>
 <div class="line">    {</div>
-<div class="line">        <span class="keywordtype">int</span> value;</div>
+<div class="line">        <span class="keywordtype">int</span> <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a59caafd5dc966e62928a7b50bcb321ce">value</a>;</div>
 <div class="line">        offset_ptr&lt;node&gt; next;   <span class="comment">// the distance to the next node, not its address</span></div>
 <div class="line">    };</div>
 <div class="line">    <span class="keyword">alignas</span>(node) <span class="keyword">static</span> std::byte region[3 * <span class="keyword">sizeof</span>(node)];</div>
@@ -181,9 +181,9 @@ class snicholls::containers::offset_ptr&lt; T &gt;</div><p>A pointer to <span cl
 <div class="line"> </div>
 <div class="line">    <span class="keyword">alignas</span>(node) <span class="keyword">static</span> std::byte moved[<span class="keyword">sizeof</span> region];</div>
 <div class="line">    std::memcpy(moved, region, <span class="keyword">sizeof</span> region);   <span class="comment">// the region is now somewhere else</span></div>
-<div class="line">    <span class="keywordtype">int</span> <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> = 0, steps = 0;</div>
+<div class="line">    <span class="keywordtype">int</span> <a class="code hl_variable" href="group__core.html#ga087cefc3d78190bd0d58c866ec676bd9">sum</a> = 0, steps = 0;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> node* p = std::launder(<span class="keyword">reinterpret_cast&lt;</span>node*<span class="keyword">&gt;</span>(moved)); p; p = p-&gt;next.get()) {</div>
-<div class="line">        <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> = <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a> * 10 + p-&gt;value;</div>
+<div class="line">        <a class="code hl_variable" href="group__core.html#ga087cefc3d78190bd0d58c866ec676bd9">sum</a> = <a class="code hl_variable" href="group__core.html#ga087cefc3d78190bd0d58c866ec676bd9">sum</a> * 10 + p-&gt;value;</div>
 <div class="line">        ++steps;</div>
 <div class="line">    }</div>
 </div><!-- fragment --><dl class="section user"><dt>Performance</dt><dd></dd></dl>

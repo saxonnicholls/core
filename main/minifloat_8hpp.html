@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -233,10 +233,10 @@ Variables</h2></td></tr>
 <div class="line">    <span class="comment">// A weight of 1 in bfloat16 updated 1,000 times by 1e-4: rounding to nearest loses every update, because</span></div>
 <div class="line">    <span class="comment">// 1e-4 is below half of bfloat16&#39;s last place at 1 (2^-8); stochastic rounding keeps them on average (each</span></div>
 <div class="line">    <span class="comment">// step rounds up with probability 1e-4 / 2^-7, so the total is within about 0.03 of 1.1).</span></div>
-<div class="line">    <span class="keywordtype">float</span> <a class="code hl_enumvalue" href="spatial_8hpp.html#a52c78c8532e219c1dac5095d06685792ad879c351426770bc0b13c3628db1e636">nearest</a> = 1.0f, stochastic = 1.0f;</div>
+<div class="line">    <span class="keywordtype">float</span> <a class="code hl_enumvalue" href="group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1ad879c351426770bc0b13c3628db1e636">nearest</a> = 1.0f, stochastic = 1.0f;</div>
 <div class="line">    std::uint32_t r = 2463534242u;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 1000; ++i) {</div>
-<div class="line">        <a class="code hl_enumvalue" href="spatial_8hpp.html#a52c78c8532e219c1dac5095d06685792ad879c351426770bc0b13c3628db1e636">nearest</a> = ml::to_float(ml::to_bfloat16(nearest + 1e-4f));</div>
+<div class="line">        <a class="code hl_enumvalue" href="group__core.html#gga1ffa040ab09d4d82bd0d7c0e6fe8e5a1ad879c351426770bc0b13c3628db1e636">nearest</a> = ml::to_float(ml::to_bfloat16(nearest + 1e-4f));</div>
 <div class="line">        r ^= r &lt;&lt; 13; r ^= r &gt;&gt; 17; r ^= r &lt;&lt; 5;   <span class="comment">// the caller&#39;s random bits</span></div>
 <div class="line">        stochastic = ml::to_float(ml::to_minifloat_stochastic&lt;ml::bfloat16&gt;(stochastic + 1e-4f, r));</div>
 <div class="line">    }</div>

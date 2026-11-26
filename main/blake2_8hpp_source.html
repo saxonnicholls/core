@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -282,12 +282,12 @@ $(function(){initNavTree('blake2_8hpp_source.html','',''); });
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                n -= <a class="code hl_variable" href="classsnicholls_1_1blake2__hash.html#ada24c1d07120fe5fc03b8f848663b420">block_size</a>;</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>            }</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>            <span class="keyword">const</span> std::size_t take = n &lt; <a class="code hl_variable" href="classsnicholls_1_1blake2__hash.html#ada24c1d07120fe5fc03b8f848663b420">block_size</a> - fill_ ? n : <a class="code hl_variable" href="classsnicholls_1_1blake2__hash.html#ada24c1d07120fe5fc03b8f848663b420">block_size</a> - fill_;</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; take; ++i)</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>            <span class="keyword">const</span> std::size_t <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1option.html#adae6268ba1771dad07c8392d78eaf0ac">take</a> = n &lt; <a class="code hl_variable" href="classsnicholls_1_1blake2__hash.html#ada24c1d07120fe5fc03b8f848663b420">block_size</a> - fill_ ? n : <a class="code hl_variable" href="classsnicholls_1_1blake2__hash.html#ada24c1d07120fe5fc03b8f848663b420">block_size</a> - fill_;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1option.html#adae6268ba1771dad07c8392d78eaf0ac">take</a>; ++i)</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                buf_[fill_ + i] = detail::octet_of(p[i]);</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            fill_ += take;</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            p += take;</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            n -= take;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            fill_ += <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1option.html#adae6268ba1771dad07c8392d78eaf0ac">take</a>;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            p += <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1option.html#adae6268ba1771dad07c8392d78eaf0ac">take</a>;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            n -= <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1option.html#adae6268ba1771dad07c8392d78eaf0ac">take</a>;</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        }</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    }</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
@@ -326,6 +326,7 @@ $(function(){initNavTree('blake2_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ga85d1a40b4e2bdbeac684dd15b65c61ce"><div class="ttname"><a href="group__core.html#ga85d1a40b4e2bdbeac684dd15b65c61ce">snicholls::blake2b_256</a></div><div class="ttdeci">blake2b&lt; 32 &gt; blake2b_256</div><div class="ttdoc">BLAKE2b-256.</div><div class="ttdef"><b>Definition</b> <a href="#l00277">blake2.hpp:277</a></div></div>
 <div class="ttc" id="agroup__core_html_gaa85671fb3c4365a8f14c970fbb48ee35"><div class="ttname"><a href="group__core.html#gaa85671fb3c4365a8f14c970fbb48ee35">snicholls::blake2s_256</a></div><div class="ttdeci">blake2s&lt; 32 &gt; blake2s_256</div><div class="ttdoc">BLAKE2s-256.</div><div class="ttdef"><b>Definition</b> <a href="#l00283">blake2.hpp:283</a></div></div>
 <div class="ttc" id="agroup__core_html_gaeb8029f78daff7890b767aae66db965b"><div class="ttname"><a href="group__core.html#gaeb8029f78daff7890b767aae66db965b">snicholls::blake2b</a></div><div class="ttdeci">blake2_hash&lt; detail::blake2b_traits, N &gt; blake2b</div><div class="ttdoc">BLAKE2b with an N-byte output, 1 to 64 (64-bit words, 128-byte blocks).</div><div class="ttdef"><b>Definition</b> <a href="#l00268">blake2.hpp:268</a></div></div>
+<div class="ttc" id="anamespacesnicholls_1_1fn_1_1rust_1_1option_html_adae6268ba1771dad07c8392d78eaf0ac"><div class="ttname"><a href="namespacesnicholls_1_1fn_1_1rust_1_1option.html#adae6268ba1771dad07c8392d78eaf0ac">snicholls::fn::rust::option::take</a></div><div class="ttdeci">constexpr detail::take_fn take</div><div class="ttdoc">take(o): moves the value out and leaves o empty.</div><div class="ttdef"><b>Definition</b> <a href="rust_8hpp_source.html#l00477">rust.hpp:477</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92"><div class="ttname"><a href="namespacesnicholls.html#a1233e9897a17b596f4838b5d21e92d74a4b3a6218bb3e3a7303e8a171a60fcf92">snicholls::code_unit_category::bytes</a></div><div class="ttdeci">@ bytes</div><div class="ttdef"><b>Definition</b> <a href="string__traits_8hpp_source.html#l00092">string_traits.hpp:92</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1digest_html"><div class="ttname"><a href="structsnicholls_1_1digest.html">snicholls::digest</a></div><div class="ttdoc">N bytes produced by a hash: compared, ordered, printed and parsed as hexadecimal, all constexpr.</div><div class="ttdef"><b>Definition</b> <a href="digest_8hpp_source.html#l00104">digest.hpp:105</a></div></div>

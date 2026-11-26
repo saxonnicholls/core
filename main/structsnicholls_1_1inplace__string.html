@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -114,6 +114,8 @@ requires (M &lt;= N + 1)</td></tr>
 <tr class="memdesc:a3cbcbb5d4ec170bf1dc85203e870fdea"><td class="mdescLeft">&#160;</td><td class="mdescRight">A string literal that fits, checked by the compiler.  <br /></td></tr>
 <tr class="memitem:a4cfb28ce5d5cae143a327160e7f1416f" id="r_a4cfb28ce5d5cae143a327160e7f1416f"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cfb28ce5d5cae143a327160e7f1416f">view</a> () const noexcept</td></tr>
 <tr class="memdesc:a4cfb28ce5d5cae143a327160e7f1416f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The text.  <br /></td></tr>
+<tr class="memitem:ac4023e75ab4c19f12b0bfcc3798bff69" id="r_ac4023e75ab4c19f12b0bfcc3798bff69"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4023e75ab4c19f12b0bfcc3798bff69">operator std::string_view</a> () const noexcept</td></tr>
+<tr class="memdesc:ac4023e75ab4c19f12b0bfcc3798bff69"><td class="mdescLeft">&#160;</td><td class="mdescRight">The text, as a view, implicitly, as <span class="tt">std::string</span> converts: an <span class="tt"><a class="el" href="structsnicholls_1_1inplace__string.html" title="A string of at most N characters stored in place.">inplace_string</a></span> goes wherever a <span class="tt">std::string_view</span> is taken, and <span class="tt"><a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">acout</a></span>, <span class="tt"><a class="el" href="group__core.html#ga4d5765970652fa087401b85451916240" title="Print one value to a stream as one message: a printable, a container, a tuple, anything print_to acce...">print</a></span> and <span class="tt"><a class="el" href="group__core.html#gaf5f83e19d833505c326617980ef0578d" title="Write any value as text to a stream: the engine behind acout&#39;s operator&lt;&lt;.">print_to</a></span> print it as text (quoted inside a container).  <br /></td></tr>
 <tr class="memitem:a81334dd3782be59a154ddbee9cc6b73e" id="r_a81334dd3782be59a154ddbee9cc6b73e"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81334dd3782be59a154ddbee9cc6b73e">data</a> () const noexcept</td></tr>
 <tr class="memdesc:a81334dd3782be59a154ddbee9cc6b73e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The characters.  <br /></td></tr>
 <tr class="memitem:a8f6eb398ee4e63d4f3453fd0c7f8f655" id="r_a8f6eb398ee4e63d4f3453fd0c7f8f655"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f6eb398ee4e63d4f3453fd0c7f8f655">size</a> () const noexcept</td></tr>
@@ -125,7 +127,7 @@ requires (M &lt;= N + 1)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aad5b7d2cac660b3099cf67b6b915a76d" id="r_aad5b7d2cac660b3099cf67b6b915a76d"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="#a97325b5dfef73384af224bf47b0662d6">inplace_string</a>, <a class="el" href="group__core.html#ga5da4ade106232b27cee67f164b53dbd5">inplace_string_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad5b7d2cac660b3099cf67b6b915a76d">make</a> (std::string_view text) noexcept</td></tr>
+<tr class="memitem:aad5b7d2cac660b3099cf67b6b915a76d" id="r_aad5b7d2cac660b3099cf67b6b915a76d"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="#a97325b5dfef73384af224bf47b0662d6">inplace_string</a>, <a class="el" href="group__core.html#ga5da4ade106232b27cee67f164b53dbd5">inplace_string_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad5b7d2cac660b3099cf67b6b915a76d">make</a> (std::string_view text) noexcept</td></tr>
 <tr class="memdesc:aad5b7d2cac660b3099cf67b6b915a76d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A copy of <span class="tt">text</span>, or <span class="tt">too_long</span> when it has more than <span class="tt">N</span> characters.  <br /></td></tr>
 <tr class="memitem:a53231f3d10c89096b18dfc83a078ccef" id="r_a53231f3d10c89096b18dfc83a078ccef"><td class="memItemLeft" align="right" valign="top">static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53231f3d10c89096b18dfc83a078ccef">capacity</a> () noexcept</td></tr>
 <tr class="memdesc:a53231f3d10c89096b18dfc83a078ccef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The capacity.  <br /></td></tr>
@@ -160,7 +162,7 @@ struct snicholls::inplace_string&lt; N &gt;</div><p>A string of at most <span cl
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00093">93</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00101">101</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="aa186c0dbbb1aeb38b04bc67f1c07e8bc" name="aa186c0dbbb1aeb38b04bc67f1c07e8bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa186c0dbbb1aeb38b04bc67f1c07e8bc">&#9670;&#160;</a></span>size_type</h2>
@@ -178,7 +180,7 @@ template&lt;std::size_t N&gt; </div>
 
 <p>The type of the length. </p>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00097">97</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00105">105</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -225,7 +227,7 @@ requires (M &lt;= N + 1)</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00112">112</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00120">120</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -258,7 +260,7 @@ template&lt;std::size_t N&gt; </div>
 <p>The capacity. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">N</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00153">153</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00165">165</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -290,7 +292,7 @@ template&lt;std::size_t N&gt; </div>
 <p>The characters. </p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the first; not followed by a terminator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00144">144</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00156">156</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,7 +324,7 @@ template&lt;std::size_t N&gt; </div>
 <p>Whether the string is empty. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when it is. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00150">150</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00162">162</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -354,7 +356,7 @@ template&lt;std::size_t N&gt; </div>
 <p>FNV-1a 64 of the text: the same on every machine. </p>
 <dl class="section return"><dt>Returns</dt><dd>The hash. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00156">156</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00168">168</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -370,7 +372,7 @@ template&lt;std::size_t N&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="#a97325b5dfef73384af224bf47b0662d6">inplace_string</a>, <a class="el" href="group__core.html#ga5da4ade106232b27cee67f164b53dbd5">inplace_string_errc</a> &gt; <a class="el" href="structsnicholls_1_1inplace__string.html">snicholls::inplace_string</a>&lt; N &gt;::make </td>
+          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="#a97325b5dfef73384af224bf47b0662d6">inplace_string</a>, <a class="el" href="group__core.html#ga5da4ade106232b27cee67f164b53dbd5">inplace_string_errc</a> &gt; <a class="el" href="structsnicholls_1_1inplace__string.html">snicholls::inplace_string</a>&lt; N &gt;::make </td>
           <td>(</td>
           <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
           <td></td>
@@ -392,7 +394,39 @@ template&lt;std::size_t N&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The string, or the error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00131">131</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00139">139</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac4023e75ab4c19f12b0bfcc3798bff69" name="ac4023e75ab4c19f12b0bfcc3798bff69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4023e75ab4c19f12b0bfcc3798bff69">&#9670;&#160;</a></span>operator std::string_view()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsnicholls_1_1inplace__string.html">snicholls::inplace_string</a>&lt; N &gt;::operator std::string_view </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The text, as a view, implicitly, as <span class="tt">std::string</span> converts: an <span class="tt"><a class="el" href="structsnicholls_1_1inplace__string.html" title="A string of at most N characters stored in place.">inplace_string</a></span> goes wherever a <span class="tt">std::string_view</span> is taken, and <span class="tt"><a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">acout</a></span>, <span class="tt"><a class="el" href="group__core.html#ga4d5765970652fa087401b85451916240" title="Print one value to a stream as one message: a printable, a container, a tuple, anything print_to acce...">print</a></span> and <span class="tt"><a class="el" href="group__core.html#gaf5f83e19d833505c326617980ef0578d" title="Write any value as text to a stream: the engine behind acout&#39;s operator&lt;&lt;.">print_to</a></span> print it as text (quoted inside a container). </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt"><a class="el" href="#a4cfb28ce5d5cae143a327160e7f1416f" title="The text.">view()</a></span>, valid while this string lives and is unchanged. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00153">153</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -424,7 +458,7 @@ template&lt;std::size_t N&gt; </div>
 <p>The number of characters. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00147">147</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00159">159</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +490,7 @@ template&lt;std::size_t N&gt; </div>
 <p>The text. </p>
 <dl class="section return"><dt>Returns</dt><dd>A view of the characters, valid while this string lives and is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00141">141</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00149">149</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -508,7 +542,7 @@ template&lt;std::size_t M&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The order. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00174">174</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00186">186</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -551,7 +585,7 @@ template&lt;std::size_t N&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The order. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00187">187</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00199">199</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -602,7 +636,7 @@ template&lt;std::size_t M&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Whether the texts are equal. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00164">164</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00176">176</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -645,7 +679,7 @@ template&lt;std::size_t N&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Whether the texts are equal. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00182">182</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00194">194</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -666,7 +700,7 @@ template&lt;std::size_t N&gt; </div>
 
 <p>The characters, zero past the length. Public for structural (template argument) use; read-only. </p>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00100">100</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00108">108</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>
@@ -686,7 +720,7 @@ template&lt;std::size_t N&gt; </div>
 
 <p>The length. Public for structural use; read-only. </p>
 
-<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00102">102</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="inplace__string_8hpp_source.html#l00110">110</a> of file <a class="el" href="inplace__string_8hpp_source.html">inplace_string.hpp</a>.</p>
 
 </div>
 </div>

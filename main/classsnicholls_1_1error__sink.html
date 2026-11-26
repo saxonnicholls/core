@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -136,7 +136,7 @@ Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Where errors are logged: receives a structured <span class="tt"><a class="el" href="structsnicholls_1_1error__report.html" title="Everything known about one error, ready to be logged: std types only.">snicholls::error_report</a></span> at a level. </p>
 <dl class="section user"><dt>Overview</dt><dd></dd></dl>
-<p>The log hook of <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a></span>: <span class="tt">r.log_err(sink)</span> / <span class="tt">r.log_err(sink, level)</span> call <span class="tt"><a class="el" href="#acd88dbb762ca742a5d781d44430ef695" title="Builds the report of e and writes it at level. Never throws.">log_error</a></span>, which builds the report and calls <span class="tt"><a class="el" href="#a1d0cc240c6920e99147593a67b553657" title="Receives one error.">write</a></span> once. Implement <span class="tt"><a class="el" href="#a1d0cc240c6920e99147593a67b553657" title="Receives one error.">write</a></span> to send it anywhere; the core stays free of logging libraries.</p>
+<p>The log hook of <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a></span>: <span class="tt">r.log_err(sink)</span> / <span class="tt">r.log_err(sink, level)</span> call <span class="tt"><a class="el" href="#acd88dbb762ca742a5d781d44430ef695" title="Builds the report of e and writes it at level. Never throws.">log_error</a></span>, which builds the report and calls <span class="tt"><a class="el" href="#a1d0cc240c6920e99147593a67b553657" title="Receives one error.">write</a></span> once. Implement <span class="tt"><a class="el" href="#a1d0cc240c6920e99147593a67b553657" title="Receives one error.">write</a></span> to send it anywhere; the core stays free of logging libraries.</p>
 <dl class="section user"><dt>Relationships</dt><dd></dd></dl>
 <ul>
 <li><span class="tt"><a class="el" href="conceptsnicholls_1_1error__sink__like.html" title="A type whose objects accept write(level, report) with an error_level and a const error_report.">snicholls::error_sink_like</a></span> (<span class="tt"><a class="el" href="concepts_2error__sink_8hpp.html" title="snicholls::error_sink_like: anything that receives a structured error report at a level.">concepts/error_sink.hpp</a></span>), its concept twin; <span class="tt"><a class="el" href="classsnicholls_1_1error__sink__model.html" title="Any error_sink_like type behind snicholls::error_sink, for a sink chosen at run time.">snicholls::error_sink_model</a></span>, the adapter.</li>

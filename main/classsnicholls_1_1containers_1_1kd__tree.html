@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -114,6 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae5edd084829900ee3d27d1c2b7684668" id="r_ae5edd084829900ee3d27d1c2b7684668"><td class="memTemplParams" colspan="2">template&lt;metric::point Q&gt; </td></tr>
 <tr class="memitem:ae5edd084829900ee3d27d1c2b7684668 template"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5edd084829900ee3d27d1c2b7684668">k_nearest</a> (const Q &amp;q, std::span&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt; out) const noexcept(nothrow_read&lt; Q &gt;)</td></tr>
 <tr class="memdesc:ae5edd084829900ee3d27d1c2b7684668"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <span class="tt">out.size()</span> points closest to <span class="tt">q</span>, nearest first.  <br /></td></tr>
+<tr class="memitem:a11d80ea3cd1a43fb2279986dcc6db7eb" id="r_a11d80ea3cd1a43fb2279986dcc6db7eb"><td class="memTemplParams" colspan="2">template&lt;metric::point Q&gt; </td></tr>
+<tr class="memitem:a11d80ea3cd1a43fb2279986dcc6db7eb template"><td class="memItemLeft" align="right" valign="top">constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11d80ea3cd1a43fb2279986dcc6db7eb">k_nearest_within</a> (const Q &amp;q, double radius, std::span&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt; out) const noexcept(nothrow_read&lt; Q &gt;)</td></tr>
+<tr class="memdesc:a11d80ea3cd1a43fb2279986dcc6db7eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The up to <span class="tt">out.size()</span> points closest to <span class="tt">q</span> at a distance strictly below <span class="tt">radius</span>, nearest first: the k-nearest search with an upper bound, as SciPy's <span class="tt">cKDTree.query(k, distance_upper_bound=radius)</span> and as kriging's neighbourhood search use it. Points at <span class="tt">radius</span> or beyond are never returned, so the count can be below <span class="tt">out.size()</span>.  <br /></td></tr>
 <tr class="memitem:a59ef6dbbab22bb0de27d9e8916d5592e" id="r_a59ef6dbbab22bb0de27d9e8916d5592e"><td class="memTemplParams" colspan="2">template&lt;metric::point Q, typename F&gt; </td></tr>
 <tr class="memitem:a59ef6dbbab22bb0de27d9e8916d5592e template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59ef6dbbab22bb0de27d9e8916d5592e">for_each_within</a> (const Q &amp;q, double radius, F &amp;&amp;f) const noexcept(nothrow_read&lt; Q &gt; &amp;&amp;noexcept(f(std::uint32_t{}, double{})))</td></tr>
 <tr class="memdesc:a59ef6dbbab22bb0de27d9e8916d5592e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <span class="tt">f(index, distance)</span> for every point within distance <span class="tt">radius</span> of <span class="tt">q</span>, in no particular order.  <br /></td></tr>
@@ -134,7 +137,7 @@ class snicholls::containers::kd_tree&lt; Point, K, Metric &gt;</div><p>A balance
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00095">95</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00099">99</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab90f303c9d53ac89cb0c09ef49ed10fc" name="ab90f303c9d53ac89cb0c09ef49ed10fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab90f303c9d53ac89cb0c09ef49ed10fc">&#9670;&#160;</a></span>kd_tree()</h2>
@@ -180,7 +183,7 @@ template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclid
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00117">117</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00121">121</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -213,7 +216,7 @@ template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclid
 <p>The metric. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00145">145</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00149">149</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +248,7 @@ template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclid
 <p>Whether the tree is empty. </p>
 <dl class="section return"><dt>Returns</dt><dd>True for no points. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00143">143</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00147">147</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -302,7 +305,7 @@ template&lt;metric::point Q, typename F&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00213">213</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00247">247</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -359,7 +362,7 @@ template&lt;metric::point Q, typename F&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00197">197</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00231">231</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -410,7 +413,64 @@ template&lt;metric::point Q&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>How many were written: <span class="tt">min(out.size(), <a class="el" href="#a76db3cd2b092f18b15111b0a8cfbe05d" title="The points indexed.">size()</a>)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00171">171</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00175">175</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a11d80ea3cd1a43fb2279986dcc6db7eb" name="a11d80ea3cd1a43fb2279986dcc6db7eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11d80ea3cd1a43fb2279986dcc6db7eb">&#9670;&#160;</a></span>k_nearest_within()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclidean&gt; </div>
+<div class="memtemplate">
+template&lt;metric::point Q&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classsnicholls_1_1containers_1_1kd__tree.html">snicholls::containers::kd_tree</a>&lt; Point, K, Metric &gt;::k_nearest_within </td>
+          <td>(</td>
+          <td class="paramtype">const Q &amp;</td>          <td class="paramname"><span class="paramname"><em>q</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>radius</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; <a class="el" href="structsnicholls_1_1containers_1_1kd__neighbour.html">kd_neighbour</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The up to <span class="tt">out.size()</span> points closest to <span class="tt">q</span> at a distance strictly below <span class="tt">radius</span>, nearest first: the k-nearest search with an upper bound, as SciPy's <span class="tt">cKDTree.query(k, distance_upper_bound=radius)</span> and as kriging's neighbourhood search use it. Points at <span class="tt">radius</span> or beyond are never returned, so the count can be below <span class="tt">out.size()</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Q</td><td>A <span class="tt"><a class="el" href="conceptsnicholls_1_1metric_1_1point.html" title="A type that point_traits can read.">metric::point</a></span> compatible with <span class="tt">Point</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">q</td><td>The query. </td></tr>
+    <tr><td class="paramname">radius</td><td>The bound, in the metric's units (exclusive). </td></tr>
+    <tr><td class="paramname">out</td><td>Receives the neighbours. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>How many were written. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00204">204</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +516,7 @@ template&lt;metric::point Q&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The nearest point's index and distance; nothing for an empty tree. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00152">152</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00156">156</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>
@@ -488,7 +548,7 @@ template&lt;metric::point Point, std::size_t K, typename Metric = metric::euclid
 <p>The points indexed. </p>
 <dl class="section return"><dt>Returns</dt><dd>Their number. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00141">141</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="kd__tree_8hpp_source.html#l00145">145</a> of file <a class="el" href="kd__tree_8hpp_source.html">kd_tree.hpp</a>.</p>
 
 </div>
 </div>

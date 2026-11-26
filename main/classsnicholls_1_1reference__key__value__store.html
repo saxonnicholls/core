@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -103,34 +103,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a588842307f0ea9e3e5d279b0ad63645c" id="r_a588842307f0ea9e3e5d279b0ad63645c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a588842307f0ea9e3e5d279b0ad63645c">reference_key_value_store</a> ()</td></tr>
 <tr class="memdesc:a588842307f0ea9e3e5d279b0ad63645c"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty store, sequence 0.  <br /></td></tr>
 <tr class="memitem:a50c2936416c7e7a0027f9bf194a1b361" id="r_a50c2936416c7e7a0027f9bf194a1b361"><td class="memTemplParams" colspan="2">template&lt;typename F&gt; </td></tr>
-<tr class="memitem:a50c2936416c7e7a0027f9bf194a1b361 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50c2936416c7e7a0027f9bf194a1b361">read</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, F &amp;&amp;fn) const</td></tr>
+<tr class="memitem:a50c2936416c7e7a0027f9bf194a1b361 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50c2936416c7e7a0027f9bf194a1b361">read</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, F &amp;&amp;fn) const</td></tr>
 <tr class="memdesc:a50c2936416c7e7a0027f9bf194a1b361"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__readable.html" title="The read operations: read, contains, scan, sequence, on a const store, returning result.">kv_readable</a></span>: calls <span class="tt">fn(value)</span> if <span class="tt">key</span> is present.  <br /></td></tr>
-<tr class="memitem:a43cb28bfabc883d38d1b44c90f48215e" id="r_a43cb28bfabc883d38d1b44c90f48215e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43cb28bfabc883d38d1b44c90f48215e">contains</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key) const</td></tr>
+<tr class="memitem:a43cb28bfabc883d38d1b44c90f48215e" id="r_a43cb28bfabc883d38d1b44c90f48215e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43cb28bfabc883d38d1b44c90f48215e">contains</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key) const</td></tr>
 <tr class="memdesc:a43cb28bfabc883d38d1b44c90f48215e"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__readable.html" title="The read operations: read, contains, scan, sequence, on a const store, returning result.">kv_readable</a></span>.  <br /></td></tr>
 <tr class="memitem:ad0b59779783159aee7803af1af6051b5" id="r_ad0b59779783159aee7803af1af6051b5"><td class="memTemplParams" colspan="2">template&lt;typename F&gt; </td></tr>
-<tr class="memitem:ad0b59779783159aee7803af1af6051b5 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0b59779783159aee7803af1af6051b5">scan</a> (const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;range, F &amp;&amp;fn) const</td></tr>
+<tr class="memitem:ad0b59779783159aee7803af1af6051b5 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0b59779783159aee7803af1af6051b5">scan</a> (const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;range, F &amp;&amp;fn) const</td></tr>
 <tr class="memdesc:ad0b59779783159aee7803af1af6051b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__readable.html" title="The read operations: read, contains, scan, sequence, on a const store, returning result.">kv_readable</a></span>.  <br /></td></tr>
-<tr class="memitem:ad6497ac8b717f05dc0b453b1aef6899f" id="r_ad6497ac8b717f05dc0b453b1aef6899f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6497ac8b717f05dc0b453b1aef6899f">sequence</a> () const</td></tr>
+<tr class="memitem:ad6497ac8b717f05dc0b453b1aef6899f" id="r_ad6497ac8b717f05dc0b453b1aef6899f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6497ac8b717f05dc0b453b1aef6899f">sequence</a> () const</td></tr>
 <tr class="memdesc:ad6497ac8b717f05dc0b453b1aef6899f"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__readable.html" title="The read operations: read, contains, scan, sequence, on a const store, returning result.">kv_readable</a></span>: rises by one per call that changed the store.  <br /></td></tr>
-<tr class="memitem:a8ef436d394046d03d9ed970cb8173f8a" id="r_a8ef436d394046d03d9ed970cb8173f8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="classsnicholls_1_1reference__kv__snapshot.html">reference_kv_snapshot</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ef436d394046d03d9ed970cb8173f8a">snapshot</a> () const</td></tr>
+<tr class="memitem:a8ef436d394046d03d9ed970cb8173f8a" id="r_a8ef436d394046d03d9ed970cb8173f8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="classsnicholls_1_1reference__kv__snapshot.html">reference_kv_snapshot</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ef436d394046d03d9ed970cb8173f8a">snapshot</a> () const</td></tr>
 <tr class="memdesc:a8ef436d394046d03d9ed970cb8173f8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A view of the current state, O(1): it shares the data until the store next writes.  <br /></td></tr>
-<tr class="memitem:a849cde345227f80b8ff9a301d1a17d90" id="r_a849cde345227f80b8ff9a301d1a17d90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a849cde345227f80b8ff9a301d1a17d90">put</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> value)</td></tr>
+<tr class="memitem:a849cde345227f80b8ff9a301d1a17d90" id="r_a849cde345227f80b8ff9a301d1a17d90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a849cde345227f80b8ff9a301d1a17d90">put</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> value)</td></tr>
 <tr class="memdesc:a849cde345227f80b8ff9a301d1a17d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__writable.html" title="kv_readable plus the writes: put, insert, erase, erase_range, apply.">kv_writable</a></span>.  <br /></td></tr>
-<tr class="memitem:a1d581047894c44aa79bb9c1fb2db9f11" id="r_a1d581047894c44aa79bb9c1fb2db9f11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d581047894c44aa79bb9c1fb2db9f11">insert</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> value)</td></tr>
+<tr class="memitem:a1d581047894c44aa79bb9c1fb2db9f11" id="r_a1d581047894c44aa79bb9c1fb2db9f11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d581047894c44aa79bb9c1fb2db9f11">insert</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> value)</td></tr>
 <tr class="memdesc:a1d581047894c44aa79bb9c1fb2db9f11"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__writable.html" title="kv_readable plus the writes: put, insert, erase, erase_range, apply.">kv_writable</a></span>: inserts only when absent; a present key is left exactly as it was.  <br /></td></tr>
-<tr class="memitem:ac85c0856a5e62bbf8569c5aca70c65d3" id="r_ac85c0856a5e62bbf8569c5aca70c65d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac85c0856a5e62bbf8569c5aca70c65d3">erase</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key)</td></tr>
+<tr class="memitem:ac85c0856a5e62bbf8569c5aca70c65d3" id="r_ac85c0856a5e62bbf8569c5aca70c65d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac85c0856a5e62bbf8569c5aca70c65d3">erase</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key)</td></tr>
 <tr class="memdesc:ac85c0856a5e62bbf8569c5aca70c65d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__writable.html" title="kv_readable plus the writes: put, insert, erase, erase_range, apply.">kv_writable</a></span>.  <br /></td></tr>
-<tr class="memitem:a21d732ed6daa543b71b8e3f7166e2ac4" id="r_a21d732ed6daa543b71b8e3f7166e2ac4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21d732ed6daa543b71b8e3f7166e2ac4">erase_range</a> (const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;range)</td></tr>
+<tr class="memitem:a65de982f3400b7af9e73acf18e49cc9f" id="r_a65de982f3400b7af9e73acf18e49cc9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65de982f3400b7af9e73acf18e49cc9f">compare_and_swap</a> (<a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> key, std::optional&lt; <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> &gt; expected, std::optional&lt; <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> &gt; desired)</td></tr>
+<tr class="memdesc:a65de982f3400b7af9e73acf18e49cc9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__cas.html" title="A store with compare-and-swap: s.compare_and_swap(key, expected, desired) -&gt; result&lt;bool,...">kv_cas</a></span> (0.27.0): replaces <span class="tt">key</span>'s value with <span class="tt">desired</span> only when it is <span class="tt">expected</span>.  <br /></td></tr>
+<tr class="memitem:a21d732ed6daa543b71b8e3f7166e2ac4" id="r_a21d732ed6daa543b71b8e3f7166e2ac4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21d732ed6daa543b71b8e3f7166e2ac4">erase_range</a> (const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;range)</td></tr>
 <tr class="memdesc:a21d732ed6daa543b71b8e3f7166e2ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__writable.html" title="kv_readable plus the writes: put, insert, erase, erase_range, apply.">kv_writable</a></span>.  <br /></td></tr>
-<tr class="memitem:ab0cd1d832ec6eeaabc21e4a293f67253" id="r_ab0cd1d832ec6eeaabc21e4a293f67253"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0cd1d832ec6eeaabc21e4a293f67253">apply</a> (std::span&lt; const <a class="el" href="structsnicholls_1_1kv__write.html">kv_write</a> &gt; batch)</td></tr>
+<tr class="memitem:ab0cd1d832ec6eeaabc21e4a293f67253" id="r_ab0cd1d832ec6eeaabc21e4a293f67253"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0cd1d832ec6eeaabc21e4a293f67253">apply</a> (std::span&lt; const <a class="el" href="structsnicholls_1_1kv__write.html">kv_write</a> &gt; batch)</td></tr>
 <tr class="memdesc:ab0cd1d832ec6eeaabc21e4a293f67253"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__writable.html" title="kv_readable plus the writes: put, insert, erase, erase_range, apply.">kv_writable</a></span>: every write in order, all or nothing. Each write counts toward an injected failure.  <br /></td></tr>
-<tr class="memitem:a69c88753c0782187e57c0b6da5c65038" id="r_a69c88753c0782187e57c0b6da5c65038"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69c88753c0782187e57c0b6da5c65038">ping</a> () const</td></tr>
+<tr class="memitem:a69c88753c0782187e57c0b6da5c65038" id="r_a69c88753c0782187e57c0b6da5c65038"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69c88753c0782187e57c0b6da5c65038">ping</a> () const</td></tr>
 <tr class="memdesc:a69c88753c0782187e57c0b6da5c65038"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__health.html" title="A store that reports its health: s.ping() -&gt; result&lt;void, kv_errc&gt;, s.diagnostics() -&gt; result&lt;kv_diag...">kv_health</a></span>.  <br /></td></tr>
-<tr class="memitem:a3eb61927f8aabef25700e1ae8099cecd" id="r_a3eb61927f8aabef25700e1ae8099cecd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3eb61927f8aabef25700e1ae8099cecd">diagnostics</a> () const</td></tr>
+<tr class="memitem:a3eb61927f8aabef25700e1ae8099cecd" id="r_a3eb61927f8aabef25700e1ae8099cecd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3eb61927f8aabef25700e1ae8099cecd">diagnostics</a> () const</td></tr>
 <tr class="memdesc:a3eb61927f8aabef25700e1ae8099cecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__health.html" title="A store that reports its health: s.ping() -&gt; result&lt;void, kv_errc&gt;, s.diagnostics() -&gt; result&lt;kv_diag...">kv_health</a></span>: backend <span class="tt">"reference"</span>, exact key and byte counts, not persistent.  <br /></td></tr>
-<tr class="memitem:a511a8bb41990b0beebc30a504b34f71c" id="r_a511a8bb41990b0beebc30a504b34f71c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a511a8bb41990b0beebc30a504b34f71c">checkpoint</a> (std::string_view destination)</td></tr>
+<tr class="memitem:a511a8bb41990b0beebc30a504b34f71c" id="r_a511a8bb41990b0beebc30a504b34f71c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a511a8bb41990b0beebc30a504b34f71c">checkpoint</a> (std::string_view destination)</td></tr>
 <tr class="memdesc:a511a8bb41990b0beebc30a504b34f71c"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__backup.html" title="A store that checkpoints and verifies: s.checkpoint(destination), s.verify() (const).">kv_backup</a></span>: keeps the current state in memory under the name <span class="tt">destination</span>, O(1).  <br /></td></tr>
-<tr class="memitem:a590d84ce342c04c3bd171273344fb044" id="r_a590d84ce342c04c3bd171273344fb044"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a590d84ce342c04c3bd171273344fb044">verify</a> () const</td></tr>
+<tr class="memitem:a590d84ce342c04c3bd171273344fb044" id="r_a590d84ce342c04c3bd171273344fb044"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a590d84ce342c04c3bd171273344fb044">verify</a> () const</td></tr>
 <tr class="memdesc:a590d84ce342c04c3bd171273344fb044"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__backup.html" title="A store that checkpoints and verifies: s.checkpoint(destination), s.verify() (const).">kv_backup</a></span>: checks that the keys are strictly ascending.  <br /></td></tr>
 <tr class="memitem:ae558e50a4de6991be70f3c955d61ef22" id="r_ae558e50a4de6991be70f3c955d61ef22"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="#a588842307f0ea9e3e5d279b0ad63645c">reference_key_value_store</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae558e50a4de6991be70f3c955d61ef22">open_checkpoint</a> (std::string_view name) const</td></tr>
 <tr class="memdesc:ae558e50a4de6991be70f3c955d61ef22"><td class="mdescLeft">&#160;</td><td class="mdescRight">A writable store holding what the checkpoint <span class="tt">name</span> captured, its sequence included.  <br /></td></tr>
@@ -143,7 +145,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>The std-only in-memory key-value store. Models <span class="tt"><a class="el" href="conceptsnicholls_1_1key__value__store.html" title="The full contract: kv_writable plus s.snapshot() -&gt; result&lt;H, kv_errc&gt;, a read-only consistent view.">key_value_store</a></span>, <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__health.html" title="A store that reports its health: s.ping() -&gt; result&lt;void, kv_errc&gt;, s.diagnostics() -&gt; result&lt;kv_diag...">kv_health</a></span> and <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__backup.html" title="A store that checkpoints and verifies: s.checkpoint(destination), s.verify() (const).">kv_backup</a></span>. </p>
 <p>See the file documentation for its guarantees and its controls as a test fake. </p>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00180">180</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00181">181</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a588842307f0ea9e3e5d279b0ad63645c" name="a588842307f0ea9e3e5d279b0ad63645c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a588842307f0ea9e3e5d279b0ad63645c">&#9670;&#160;</a></span>reference_key_value_store()</h2>
@@ -176,7 +178,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00184">184</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00185">185</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -191,7 +193,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::apply </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::apply </td>
           <td>(</td>
           <td class="paramtype">std::span&lt; const <a class="el" href="structsnicholls_1_1kv__write.html">kv_write</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>batch</em></span></td><td>)</td>
           <td></td>
@@ -213,7 +215,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing, or the error (<span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a981f1875779561e79585a2ae43a196fb" title="a batch&#39;s insert found its key present, or a concurrent writer won; nothing applied">kv_errc::conflict</a></span> for an <span class="tt"><a class="el" href="#a1d581047894c44aa79bb9c1fb2db9f11" title="See kv_writable: inserts only when absent; a present key is left exactly as it was.">insert</a></span> of a present key); nothing changed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00323">323</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00352">352</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -227,7 +229,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::checkpoint </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::checkpoint </td>
           <td>(</td>
           <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>destination</em></span></td><td>)</td>
           <td></td>
@@ -249,7 +251,54 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the sequence and size captured, or the error (nothing changed). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00381">381</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00410">410</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a65de982f3400b7af9e73acf18e49cc9f" name="a65de982f3400b7af9e73acf18e49cc9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65de982f3400b7af9e73acf18e49cc9f">&#9670;&#160;</a></span>compare_and_swap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::compare_and_swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>desired</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__cas.html" title="A store with compare-and-swap: s.compare_and_swap(key, expected, desired) -&gt; result&lt;bool,...">kv_cas</a></span> (0.27.0): replaces <span class="tt">key</span>'s value with <span class="tt">desired</span> only when it is <span class="tt">expected</span>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>the key. </td></tr>
+    <tr><td class="paramname">expected</td><td>the value it must have, or <span class="tt">std::nullopt</span> for absent. </td></tr>
+    <tr><td class="paramname">desired</td><td>the value to set, or <span class="tt">std::nullopt</span> to erase. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>whether it swapped, or the error (nothing changed). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00304">304</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -263,7 +312,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::contains </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::contains </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
@@ -285,7 +334,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>whether it is present, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00204">204</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00205">205</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -299,7 +348,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::diagnostics </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::diagnostics </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -315,7 +364,7 @@ Public Member Functions</h2></td></tr>
 <p>See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__health.html" title="A store that reports its health: s.ping() -&gt; result&lt;void, kv_errc&gt;, s.diagnostics() -&gt; result&lt;kv_diag...">kv_health</a></span>: backend <span class="tt">"reference"</span>, exact key and byte counts, not persistent. </p>
 <dl class="section return"><dt>Returns</dt><dd>the diagnostics, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00366">366</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00395">395</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -329,7 +378,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::erase </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
@@ -351,7 +400,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>whether it existed, or the error (nothing changed). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00284">284</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00285">285</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -365,7 +414,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::erase_range </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::erase_range </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span></td><td>)</td>
           <td></td>
@@ -387,7 +436,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>how many were removed, or the error (nothing changed). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00301">301</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00330">330</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -427,7 +476,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00433">433</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00462">462</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -441,7 +490,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::insert </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
@@ -468,7 +517,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>whether it was inserted, or the error (nothing changed). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00268">268</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00269">269</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -510,7 +559,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00413">413</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00442">442</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -524,7 +573,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::ping </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::ping </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -540,7 +589,7 @@ Public Member Functions</h2></td></tr>
 <p>See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__health.html" title="A store that reports its health: s.ping() -&gt; result&lt;void, kv_errc&gt;, s.diagnostics() -&gt; result&lt;kv_diag...">kv_health</a></span>. </p>
 <dl class="section return"><dt>Returns</dt><dd>nothing, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00357">357</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00386">386</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -554,7 +603,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::put </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::put </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
@@ -581,7 +630,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing, or the error (nothing changed). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00248">248</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00249">249</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -597,7 +646,7 @@ template&lt;typename F&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::read </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; bool, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::read </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__core.html#gae2a5fa4c2dcf0018e7e823c72cefd04a">kv_bytes</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
@@ -630,7 +679,7 @@ template&lt;typename F&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>whether the key was found, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00194">194</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00195">195</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -646,7 +695,7 @@ template&lt;typename F&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::scan </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::scan </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsnicholls_1_1kv__range.html">kv_range</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
         </tr>
@@ -679,7 +728,7 @@ template&lt;typename F&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of entries passed to <span class="tt">fn</span>, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00217">217</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00218">218</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -693,7 +742,7 @@ template&lt;typename F&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::sequence </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::uint64_t, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::sequence </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -709,7 +758,7 @@ template&lt;typename F&gt; </div>
 <p>See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__readable.html" title="The read operations: read, contains, scan, sequence, on a const store, returning result.">kv_readable</a></span>: rises by one per call that changed the store. </p>
 <dl class="section return"><dt>Returns</dt><dd>the sequence, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00226">226</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00227">227</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -744,7 +793,7 @@ template&lt;typename F&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00441">441</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00470">470</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -758,7 +807,7 @@ template&lt;typename F&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="classsnicholls_1_1reference__kv__snapshot.html">reference_kv_snapshot</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::snapshot </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="classsnicholls_1_1reference__kv__snapshot.html">reference_kv_snapshot</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::snapshot </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -774,7 +823,7 @@ template&lt;typename F&gt; </div>
 <p>A view of the current state, O(1): it shares the data until the store next writes. </p>
 <dl class="section return"><dt>Returns</dt><dd>the snapshot, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00235">235</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00236">236</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>
@@ -788,7 +837,7 @@ template&lt;typename F&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::verify </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::reference_key_value_store::verify </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -804,7 +853,7 @@ template&lt;typename F&gt; </div>
 <p>See <span class="tt"><a class="el" href="conceptsnicholls_1_1kv__backup.html" title="A store that checkpoints and verifies: s.checkpoint(destination), s.verify() (const).">kv_backup</a></span>: checks that the keys are strictly ascending. </p>
 <dl class="section return"><dt>Returns</dt><dd>the report, or <span class="tt"><a class="el" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9a7060e0481896e00b3f7d20f1e8e2749a" title="the backend cannot be reached: not opened, closed, connection lost">kv_errc::unavailable</a></span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00398">398</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="key__value__store__reference_8hpp_source.html#l00427">427</a> of file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 
 </div>
 </div>

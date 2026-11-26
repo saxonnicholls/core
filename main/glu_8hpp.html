@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -193,7 +193,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line"> </div>
 <div class="line">    <span class="comment">// ggml&#39;s single-row form: one row of 2n, the gate first (or the up projection first when swapped)</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 8&gt; both{-1.0f, 0.5f, 2.0f, 9.0f, 1.0f, -2.0f, 0.5f, 3.0f};</div>
-<div class="line">    std::array&lt;float, 4&gt; split{}, swapped{};</div>
+<div class="line">    std::array&lt;float, 4&gt; <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1list.html#ab2d21f29571d26b4032ad547a5ac1d49">split</a>{}, swapped{};</div>
 <div class="line">    ml::glu_split(ml::glu_kind::swiglu, both, split);</div>
 <div class="line">    ml::glu_split(ml::glu_kind::swiglu, both, swapped, <span class="keyword">true</span>);</div>
 <div class="line"> </div>

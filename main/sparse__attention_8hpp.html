@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -173,18 +173,18 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    std::array&lt;float, n&gt; scores{};</div>
 <div class="line">    ml::indexer_scores(index_q, index_w, index_keys, scores);</div>
 <div class="line">    std::array&lt;std::uint32_t, k&gt; chosen{};</div>
-<div class="line">    <span class="keyword">const</span> std::size_t count = ml::select_top_k(scores, std::span&lt;std::uint32_t&gt;(chosen));</div>
+<div class="line">    <span class="keyword">const</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a> = ml::select_top_k(scores, std::span&lt;std::uint32_t&gt;(chosen));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Attention over the chosen keys only</span></div>
 <div class="line">    std::array&lt;float, d&gt; out{};</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> scale = 0.5f;</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> lse = ml::attend_selected(q, keys, values, std::span&lt;const std::uint32_t&gt;(chosen).first(count), out, scale);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> lse = ml::attend_selected(q, keys, values, std::span&lt;const std::uint32_t&gt;(chosen).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(count), out, scale);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Its backward pass reaches the chosen rows only</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, d&gt; dout{1.0f, 0.0f, 0.0f, 0.0f};</div>
 <div class="line">    std::array&lt;float, d&gt; dq{};</div>
 <div class="line">    std::array&lt;float, n * d&gt; dkeys{}, dvalues{};</div>
-<div class="line">    ml::attend_selected_backward(q, keys, values, std::span&lt;const std::uint32_t&gt;(chosen).first(count), out, dout, lse, scale, none, dq,</div>
+<div class="line">    ml::attend_selected_backward(q, keys, values, std::span&lt;const std::uint32_t&gt;(chosen).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(count), out, dout, lse, scale, none, dq,</div>
 <div class="line">                                 dkeys, dvalues);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// The indexer learns from the main attention&#39;s weights over every key (dense warm-up), by KL divergence</span></div>

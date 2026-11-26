@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -97,6 +97,7 @@ $(function(){initNavTree('key__value__store__reference_8hpp.html','',''); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="concepts_2key__value__store_8hpp_source.html">snicholls/core/concepts/key_value_store.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2kv__backup_8hpp_source.html">snicholls/core/concepts/kv_backup.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="concepts_2kv__cas_8hpp_source.html">snicholls/core/concepts/kv_cas.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="concepts_2kv__health_8hpp_source.html">snicholls/core/concepts/kv_health.hpp</a>&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
@@ -128,7 +129,7 @@ Namespaces</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">reference_key_value_store</span>: the std-only in-memory store, which tests use as their fake. </p>
-<p><b>Overview.</b> A <span class="tt">std::map</span> of byte vectors under unsigned byte-wise order, modelling every key-value capability in core: <span class="tt">key_value_store</span> (<span class="tt"><a class="el" href="concepts_2key__value__store_8hpp.html" title="The key-value store contract, static form: key_value_store&lt;S&gt;, its ranges, batches,...">concepts/key_value_store.hpp</a></span>), <span class="tt">kv_health</span> and <span class="tt">kv_backup</span>. It is the contract's executable definition, the store a unit test hands to the code under test, and the baseline of the benchmark. As a fake it can fail on purpose: <span class="tt">inject_failure(e, n)</span> makes the write <span class="tt">n</span> writes from now fail with <span class="tt">e</span> (inside a batch: the batch fails at that write and changes nothing), and <span class="tt">set_unavailable(true)</span> makes every operation answer <span class="tt">kv_errc::unavailable</span>, as a lost connection would.</p>
+<p><b>Overview.</b> A <span class="tt">std::map</span> of byte vectors under unsigned byte-wise order, modelling every key-value capability in core: <span class="tt">key_value_store</span> (<span class="tt"><a class="el" href="concepts_2key__value__store_8hpp.html" title="The key-value store contract, static form: key_value_store&lt;S&gt;, its ranges, batches,...">concepts/key_value_store.hpp</a></span>), <span class="tt">kv_health</span>, <span class="tt">kv_backup</span> and <span class="tt">kv_cas</span> (0.27.0). It is the contract's executable definition, the store a unit test hands to the code under test, and the baseline of the benchmark. As a fake it can fail on purpose: <span class="tt">inject_failure(e, n)</span> makes the write <span class="tt">n</span> writes from now fail with <span class="tt">e</span> (inside a batch: the batch fails at that write and changes nothing), and <span class="tt">set_unavailable(true)</span> makes every operation answer <span class="tt">kv_errc::unavailable</span>, as a lost connection would.</p>
 <div class="fragment"><div class="line">    <a class="code hl_class" href="classsnicholls_1_1reference__key__value__store.html">reference_key_value_store</a> fake;</div>
 <div class="line">    fake.<a class="code hl_function" href="classsnicholls_1_1reference__key__value__store.html#ab31ef220187ac87fb6809baf102d34f3">inject_failure</a>(<a class="code hl_enumvalue" href="group__core.html#ggaa134874d2fb1b2194bc67b2752edecf9af98ed07a4d5f50f7de1410d905f1477f">kv_errc::io</a>);   <span class="comment">// the next write fails, once</span></div>
 <div class="line">    <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= save_order(fake, <span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2 x AAPL&quot;</span>).is_ok() &amp;&amp; *<a class="code hl_function" href="group__core.html#gab20aa1cb1ef25b1fd2154f5e5e7c06a2">kv_count</a>(fake) == 1;   <span class="comment">// the retry succeeded</span></div>
@@ -156,9 +157,9 @@ Namespaces</h2></td></tr>
 <p><b>Examples.</b> See the overview, and <span class="tt">demos/interfaces/key_value_store_reference_demo.cpp</span>.</p>
 <p><b>Performance.</b> See <span class="tt">benchmarks/interfaces/key_value_store_benchmark.cpp</span> and BENCHMARKS.md.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/interfaces/key_value_store_reference_test.cpp</span> (the fake's controls, sharing, checkpoints), the kit in <span class="tt">tests/interfaces/key_value_store_test.cpp</span>, <span class="tt">demos/interfaces/key_value_store_reference_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;iterator&gt;</span>, <span class="tt">&lt;map&gt;</span>, <span class="tt">&lt;memory&gt;</span>, <span class="tt">&lt;new&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, and the three capability concepts.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;algorithm&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;iterator&gt;</span>, <span class="tt">&lt;map&gt;</span>, <span class="tt">&lt;memory&gt;</span>, <span class="tt">&lt;new&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;string&gt;</span>, <span class="tt">&lt;string_view&gt;</span>, <span class="tt">&lt;utility&gt;</span>, <span class="tt">&lt;vector&gt;</span>, and the four capability concepts.</p>
 <p><b>Known issues.</b> <span class="tt">apply</span> copies the map, so a fake holding many entries pays O(n) per batch.</p>
-<p><b>Status.</b> New in 0.22.0. Experimental. </p>
+<p><b>Status.</b> New in 0.22.0; <span class="tt">compare_and_swap</span> (<span class="tt">kv_cas</span>) in 0.27.0. Experimental. </p>
 
 <p class="definition">Definition in file <a class="el" href="key__value__store__reference_8hpp_source.html">key_value_store_reference.hpp</a>.</p>
 </div></div><!-- contents -->

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -156,7 +156,7 @@ s_(n-2))</span> once per block. With <span class="tt">w = 2 pi k / n</span> for 
 <div class="line">    <span class="keywordflow">for</span> (std::size_t j = 0; j &lt; x.size(); ++j)</div>
 <div class="line">        x[j] = 0.2 * m::cos(2 * pi * hum * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(j) / fs) + 0.01 * m::cos(2 * pi * 213.0 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(j) / fs);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> window = s::make_window&lt;double, 250&gt;(s::hann{});</div>
-<div class="line">    mains.update(std::span&lt;const double&gt;(x).first(100), window);</div>
+<div class="line">    mains.update(std::span&lt;const double&gt;(x).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(100), window);</div>
 <div class="line">    mains.update(std::span&lt;const double&gt;(x).subspan(100), window);</div>
 <div class="line">    <span class="keyword">const</span> s::complex&lt;double&gt; <a class="code hl_variable" href="group__core.html#ga7d0cac194de047a92f78f3c194765172">X</a> = mains.bin();   <span class="comment">// the generalised Goertzel&#39;s final step: fft(x * w)[15]</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> amplitude = 2 * mains.magnitude() / 125.0;   <span class="comment">// sum(hann) = n / 2</span></div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -157,7 +157,7 @@ Variables</h2></td></tr>
 <p>The pieces are the caller's: a span of <span class="tt">std::string_view</span> into a tokenizer file's string table, or a <span class="tt">constexpr</span> array of literals. Pieces are bytes, compared unsigned.</p>
 <div class="fragment"><div class="line"><span class="comment">// A vocabulary the compiler sorts: ids are positions in the array</span></div>
 <div class="line"><span class="keyword">constexpr</span> ml::static_token_trie&lt;6&gt; vocab{std::array&lt;std::string_view, 6&gt;{<span class="stringliteral">&quot;&lt;unk&gt;&quot;</span>, <span class="stringliteral">&quot;un&quot;</span>, <span class="stringliteral">&quot;unaff&quot;</span>, <span class="stringliteral">&quot;able&quot;</span>, <span class="stringliteral">&quot;a&quot;</span>, <span class="stringliteral">&quot;unaffable&quot;</span>}};</div>
-<div class="line"><span class="keyword">static_assert</span>(vocab.view().find(<span class="stringliteral">&quot;able&quot;</span>) == 3 &amp;&amp; vocab.view().find(<span class="stringliteral">&quot;abl&quot;</span>) == ml::no_token);</div>
+<div class="line"><span class="keyword">static_assert</span>(vocab.view().<a class="code hl_variable" href="group__core.html#ga9b91d7ed58bcb0208ac7e24c6c4be4c2">find</a>(<span class="stringliteral">&quot;able&quot;</span>) == 3 &amp;&amp; vocab.view().find(<span class="stringliteral">&quot;abl&quot;</span>) == ml::no_token);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Every token that is a prefix of &quot;unaffable!&quot;, by walking the trie one byte at a time</span></div>
 <div class="line"><span class="keyword">constexpr</span> std::size_t prefixes()</div>

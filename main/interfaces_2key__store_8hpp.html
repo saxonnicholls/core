@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -125,7 +125,7 @@ template&lt;typename K&gt; </td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt"><a class="el" href="classsnicholls_1_1key__store__interface.html" title="The pure virtual twin of key_store.">snicholls::key_store_interface</a></span>: the pure virtual twin of <span class="tt">key_store</span>, and the adapters both ways. </p>
 <p><b>Overview.</b> When the store is a KMS chosen by configuration, code holds a <span class="tt">key_store_interface&amp;</span>. Its pure virtual functions (<span class="tt">create</span>, <span class="tt">rotate</span>, <span class="tt">retire</span>, <span class="tt">destroy</span>, <span class="tt">info</span>, <span class="tt">list</span>) are the operations of the concept <span class="tt">key_store</span> (<span class="tt"><a class="el" href="concepts_2key__store_8hpp.html" title="snicholls::key_store: anything that creates, rotates, retires and destroys signing keys,...">concepts/key_store.hpp</a></span>, where the contract and its value types are documented), so the interface models the concept itself. <span class="tt">key_store_adapter&lt;K&gt;</span> puts any model behind the interface, owning it (<span class="tt">K</span>) or referring to it (<span class="tt">K&amp;</span>); <span class="tt">key_store_ref</span> is a copyable, non-owning handle on the interface that models the concept.</p>
-<div class="fragment"><div class="line">    <a class="code hl_class" href="classsnicholls_1_1key__store__adapter.html">key_store_adapter</a> owned{<a class="code hl_function" href="classsnicholls_1_1memory__key__store.html#a35ab912a1005404e9b165dca9199d988">memory_key_store::deterministic</a>()};   <span class="comment">// owns the store</span></div>
+<div class="fragment"><div class="line">    <a class="code hl_class" href="classsnicholls_1_1key__store__adapter.html">key_store_adapter</a> owned{<a class="code hl_function" href="classsnicholls_1_1basic__memory__key__store.html#aff4936b25006faa3d7097de6404b041b">memory_key_store::deterministic</a>()};   <span class="comment">// owns the store</span></div>
 <div class="line">    <a class="code hl_class" href="classsnicholls_1_1key__store__interface.html">key_store_interface</a>&amp; chosen = owned;</div>
 <div class="line">    <a class="code hl_class" href="classsnicholls_1_1key__store__ref.html">key_store_ref</a> handle{chosen};</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> made = handle.<a class="code hl_function" href="classsnicholls_1_1key__store__ref.html#ad42191d3b9c70861cd9cd73f52fe963c">create</a>({<a class="code hl_enumvalue" href="group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15a59b2ee8d99ffea68cecc48a56f303d65">signature_algorithm::hs256</a>, <span class="stringliteral">&quot;jwt&quot;</span>});</div>

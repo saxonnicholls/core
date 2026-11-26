@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -162,7 +162,7 @@ Functions</h2></td></tr>
 <li>The signature verifies under the published key with the named algorithm.</li>
 <li>Errors follow the redaction rule of <span class="tt"><a class="el" href="capability__error_8hpp.html" title="snicholls::capability_error: the one error of every capability contract, its code capability_errc,...">capability_error.hpp</a></span>: no key material, payload or provider response in them.</li>
 </ul>
-<div class="fragment"><div class="line">    <a class="code hl_typedef" href="group__core.html#ga26ca2ac5ca6522d777cd9838bb4ddc1a">memory_signer</a> keys = <a class="code hl_function" href="classsnicholls_1_1memory__key__store.html#a35ab912a1005404e9b165dca9199d988">memory_signer::deterministic</a>();   <span class="comment">// HS256, for tests only</span></div>
+<div class="fragment"><div class="line">    <a class="code hl_typedef" href="group__core.html#ga26ca2ac5ca6522d777cd9838bb4ddc1a">memory_signer</a> keys = <a class="code hl_function" href="classsnicholls_1_1basic__memory__key__store.html#aff4936b25006faa3d7097de6404b041b">memory_signer::deterministic</a>();   <span class="comment">// HS256, for tests only</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> key = keys.create({<a class="code hl_enumvalue" href="group__core.html#gga6eb5f7f01814b60efa928c73a8a62b15a59b2ee8d99ffea68cecc48a56f303d65">signature_algorithm::hs256</a>, <span class="stringliteral">&quot;jwt-access&quot;</span>});</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> sig = sign_token(keys, key-&gt;key_id.view(), <span class="stringliteral">&quot;eyJhbGciOiJIUzI1NiJ9.e30&quot;</span>);</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="capability__error_8hpp.html" title="snicholls::capability_error: the one error of every capability contract, its code capability_errc,...">capability_error.hpp</a></span>, <span class="tt"><a class="el" href="capability__ids_8hpp.html" title="The identifiers of the capability contracts: bounded inplace_strings, one alias per kind of id,...">capability_ids.hpp</a></span>, <span class="tt"><a class="el" href="concepts_2key__store_8hpp.html" title="snicholls::key_store: anything that creates, rotates, retires and destroys signing keys,...">concepts/key_store.hpp</a></span>; the twin <span class="tt"><a class="el" href="interfaces_2signer_8hpp.html" title="snicholls::signer_interface: the pure virtual twin of signer, and the adapters both ways.">interfaces/signer.hpp</a></span>, the reference <span class="tt"><a class="el" href="signer__reference_8hpp.html" title="snicholls::memory_signer: the standard-library reference signer, which is memory_key_store.">interfaces/signer_reference.hpp</a></span>, the kit <span class="tt"><a class="el" href="signer__conformance_8hpp.html" title="snicholls::run_signer_conformance: the conformance kit of the signer contract.">interfaces/signer_conformance.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>

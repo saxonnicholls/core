@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -580,7 +580,7 @@ requires (!printable_to_acout&lt;T&gt;)</div>
 </div><div class="memdoc">
 
 <p>Stream a value into the message: anything <span class="tt"><a class="el" href="group__core.html#gaf5f83e19d833505c326617980ef0578d" title="Write any value as text to a stream: the engine behind acout&#39;s operator&lt;&lt;.">snicholls::print_to</a></span> can write, with the message's own formatting state. </p>
-<p>A streamable value goes through its <span class="tt">operator&lt;&lt;</span>; a <span class="tt"><a class="el" href="conceptsnicholls_1_1printable.html" title="A type that prints itself, in either form: the member is the whole contract.">printable</a></span> one through its <span class="tt"><a class="el" href="#acdb1775fd8a34d8c1183344677c315c3" title="Format into the message: std::format with a compile-time-checked format string.">print</a></span> member (the <span class="tt"><a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">acout</a></span> form first); a container, pair, tuple, optional, variant, <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">result</a></span> or <span class="tt">type_list</span> through the engine described in the file description, recursively. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>A streamable value goes through its <span class="tt">operator&lt;&lt;</span>; a <span class="tt"><a class="el" href="conceptsnicholls_1_1printable.html" title="A type that prints itself, in either form: the member is the whole contract.">printable</a></span> one through its <span class="tt"><a class="el" href="#acdb1775fd8a34d8c1183344677c315c3" title="Format into the message: std::format with a compile-time-checked format string.">print</a></span> member (the <span class="tt"><a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">acout</a></span> form first); a container, pair, tuple, optional, variant, <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">result</a></span> or <span class="tt">type_list</span> through the engine described in the file description, recursively. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>Anything <span class="tt"><a class="el" href="group__core.html#gaf5f83e19d833505c326617980ef0578d" title="Write any value as text to a stream: the engine behind acout&#39;s operator&lt;&lt;.">snicholls::print_to</a></span> accepts; manipulators have their own overloads. </td></tr>
   </table>

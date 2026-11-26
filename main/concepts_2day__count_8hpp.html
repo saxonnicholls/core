@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -128,7 +128,7 @@ Concepts</h2></td></tr>
 <div class="line"><span class="keyword">struct </span>act_364 {</div>
 <div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::string_view name() noexcept { <span class="keywordflow">return</span> <span class="stringliteral">&quot;ACT/364&quot;</span>; }</div>
 <div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::int64_t day_count(std::chrono::sys_days a, std::chrono::sys_days b) <span class="keyword">noexcept</span> { <span class="keywordflow">return</span> (b - a).count(); }</div>
-<div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> snicholls::finance::year_fraction year_fraction(std::chrono::sys_days a, std::chrono::sys_days b) <span class="keyword">noexcept</span></div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_typedef" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">snicholls::finance::year_fraction</a> <a class="code hl_typedef" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">year_fraction</a>(std::chrono::sys_days a, std::chrono::sys_days b) <span class="keyword">noexcept</span></div>
 <div class="line">    {</div>
 <div class="line">        <span class="keywordflow">return</span> {day_count(a, b), 364};</div>
 <div class="line">    }</div>
@@ -140,7 +140,7 @@ Concepts</h2></td></tr>
 <p><b>Errors.</b> None.</p>
 <p><b>Performance.</b> Not applicable.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/concepts/day_count_test.cpp</span>, <span class="tt">demos/concepts/day_count_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;chrono&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt"><a class="el" href="concepts_2named_8hpp.html" title="snicholls::has_name: anything that answers name() with a string view, a type or an object.">concepts/named.hpp</a></span>, <span class="tt"><a class="el" href="year__fraction_8hpp.html" title="finance::year_fraction: a fraction of a year as an exact ratio of two integers.">finance/year_fraction.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;chrono&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt"><a class="el" href="concepts_2named_8hpp.html" title="snicholls::has_name: anything that answers name() with a string view, a type or an object.">concepts/named.hpp</a></span>, <span class="tt"><a class="el" href="year__fraction_8hpp.html" title="finance::year_fraction: a fraction of a year as an exact ratio of two integers; the name day counts r...">finance/year_fraction.hpp</a></span>.</p>
 <p><b>Known issues.</b> None.</p>
 <p><b>Status.</b> New in 0.23.0. </p>
 

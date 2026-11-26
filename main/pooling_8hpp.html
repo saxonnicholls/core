@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -174,21 +174,21 @@ Functions</h2></td></tr>
 <div class="fragment"><div class="line">    <span class="comment">// Two sequences packed end to end, as a batch holds them: rows 0 to 2 and row 3, two values a row</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 8&gt; rows{1, 2, 3, 4, 5, 6, 10, 20};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;std::size_t, 3&gt; starts{0, 3, 4};</div>
-<div class="line">    std::array&lt;float, 4&gt; <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>{}, <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da8a0496f6a6397581367536557e603826">cls</a>{}, <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a>{};</div>
+<div class="line">    std::array&lt;float, 4&gt; <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451dab93db188572fc4d76cce5660f3823b0a">mean</a>{}, <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da8a0496f6a6397581367536557e603826">cls</a>{}, <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">last</a>{};</div>
 <div class="line">    ml::pool_rows&lt;float&gt;(ml::pooling_kind::mean, rows, 2, starts, mean);   <span class="comment">// sentence-transformers</span></div>
 <div class="line">    ml::pool_rows&lt;float&gt;(ml::pooling_kind::cls, rows, 2, starts, cls);     <span class="comment">// BERT, BGE</span></div>
 <div class="line">    ml::pool_rows&lt;float&gt;(ml::pooling_kind::last, rows, 2, starts, last);   <span class="comment">// Qwen3-Embedding</span></div>
-<div class="line">    std::array&lt;float, 8&gt; none{}, drows{};</div>
+<div class="line">    std::array&lt;float, 8&gt; <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a9e6bd410d52f788dd6aaef6b4bf692d6">none</a>{}, drows{};</div>
 <div class="line">    ml::pool_rows&lt;float&gt;(ml::pooling_kind::none, rows, 2, starts, none);</div>
 <div class="line">    ml::pool_rows_backward&lt;float&gt;(ml::pooling_kind::mean, std::array&lt;float, 4&gt;{3, 3, 1, 1}, 2, starts, drows);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// A reranker: the first token&#39;s row through a dense layer, tanh, and a one-score projection</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; dense{1, 0, 0, 1};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 2&gt; <a class="code hl_function" href="group__core.html#ga8e3849482b0bd2a1b8a5d2fba4ad4160">project</a>{2, -1};</div>
-<div class="line">    <span class="keyword">const</span> ml::rank_head_weights&lt;float, float&gt; <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4a96e89a298e0a9f469b9ae458d6afae9f">head</a>{.cls = {dense, 2, 2}, .out = {<a class="code hl_function" href="group__core.html#ga8e3849482b0bd2a1b8a5d2fba4ad4160">project</a>, 1, 2}};</div>
+<div class="line">    <span class="keyword">const</span> ml::rank_head_weights&lt;float, float&gt; <a class="code hl_variable" href="group__core.html#gab416464012f52943fa1739e58f9f7906">head</a>{.cls = {dense, 2, 2}, .out = {<a class="code hl_function" href="group__core.html#ga8e3849482b0bd2a1b8a5d2fba4ad4160">project</a>, 1, 2}};</div>
 <div class="line">    std::array&lt;float, 2&gt; scratch{};</div>
 <div class="line">    std::array&lt;float, 1&gt; score{};</div>
-<div class="line">    ml::rank_head(head, std::span&lt;const float&gt;(cls).first(2), scratch, score);</div>
+<div class="line">    ml::rank_head(head, std::span&lt;const float&gt;(cls).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(2), scratch, score);</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="probe_8hpp.html" title="snicholls::ml probes of frozen features: mean_pool_rows and the attentive probe (one learned query,...">ml/probe.hpp</a></span> (<span class="tt">mean_pool_rows</span>, reused), <span class="tt"><a class="el" href="linear_8hpp.html" title="snicholls::ml::linear: y = W x + b over any weight storage: dense rows of float, double or bfloat16,...">ml/linear.hpp</a></span> (the head's layers), <span class="tt"><a class="el" href="norm_8hpp.html" title="snicholls::ml normalisation: layer_norm and rms_norm over one row, group_norm over a sample&#39;s channel...">ml/norm.hpp</a></span>, <span class="tt"><a class="el" href="softmax_8hpp.html" title="snicholls::ml softmax and losses: softmax, log_softmax, logsumexp, cross-entropy with its fused gradi...">ml/softmax.hpp</a></span>, <span class="tt"><a class="el" href="activations_8hpp.html" title="snicholls::ml activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact,...">ml/activations.hpp</a></span>; <span class="tt"><a class="el" href="reward__model_8hpp.html" title="snicholls::ml reward models: a scalar value head on hidden states, the Bradley-Terry pairwise loss on...">ml/reward_model.hpp</a></span> (a reward head over the last token). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation; linear in the rows. The mean sums in order and divides once (<span class="tt">mean_pool_rows</span>'s order). An empty sequence pools to zeros.</p>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -116,7 +116,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a4d4d1f340d1238216b782230d995be41" id="r_a4d4d1f340d1238216b782230d995be41"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d4d1f340d1238216b782230d995be41">is_code</a> (std::string_view text) noexcept</td></tr>
 <tr class="memdesc:a4d4d1f340d1238216b782230d995be41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">text</span> is a provider code: 1 to 32 characters of <span class="tt">A-Z a-z 0-9 _ - . :</span>.  <br /></td></tr>
-<tr class="memitem:ae011d78b3cd42a4298930ac7d55cd312" id="r_ae011d78b3cd42a4298930ac7d55cd312"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="#abf13751be2bccdf8f4a3574f7d999cd9">provider_code</a>, <a class="el" href="group__core.html#ga997cdf403bc1fdb65d339be4800d8bac">capability_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae011d78b3cd42a4298930ac7d55cd312">make</a> (std::string_view text) noexcept</td></tr>
+<tr class="memitem:ae011d78b3cd42a4298930ac7d55cd312" id="r_ae011d78b3cd42a4298930ac7d55cd312"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="#abf13751be2bccdf8f4a3574f7d999cd9">provider_code</a>, <a class="el" href="group__core.html#ga997cdf403bc1fdb65d339be4800d8bac">capability_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae011d78b3cd42a4298930ac7d55cd312">make</a> (std::string_view text) noexcept</td></tr>
 <tr class="memdesc:ae011d78b3cd42a4298930ac7d55cd312"><td class="mdescLeft">&#160;</td><td class="mdescRight">The code <span class="tt">text</span>, or <span class="tt">invalid_argument</span> when it is not one (see <span class="tt"><a class="el" href="#a4d4d1f340d1238216b782230d995be41" title="Whether text is a provider code: 1 to 32 characters of A-Z a-z 0-9 _ - . :.">is_code</a></span>).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
@@ -136,7 +136,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <div class="textblock"><p>The provider's own short code for a failure: at most 32 characters of <span class="tt">A-Z a-z 0-9 _ - . :</span>. </p>
 <p>Made from a literal checked by the compiler (<span class="tt"><a class="el" href="classsnicholls_1_1provider__code.html" title="The provider&#39;s own short code for a failure: at most 32 characters of A-Z a-z 0-9 _ - ....">provider_code</a>{"card_declined"}</span>) or at run time by <span class="tt"><a class="el" href="#ae011d78b3cd42a4298930ac7d55cd312" title="The code text, or invalid_argument when it is not one (see is_code).">make</a></span>, which refuses text that is too long or has any other character, so free text, JSON or a response body cannot pass for a code. </p>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00115">115</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00118">118</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adcfc9869d3245e023bc62762a48c7a4c" name="adcfc9869d3245e023bc62762a48c7a4c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adcfc9869d3245e023bc62762a48c7a4c">&#9670;&#160;</a></span>provider_code()</h2>
@@ -178,7 +178,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00142">142</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00145">145</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>
@@ -209,7 +209,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 <p>Whether there is no code. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when empty. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00166">166</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00169">169</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +245,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when it is. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00123">123</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00126">126</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>
@@ -259,7 +259,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="#abf13751be2bccdf8f4a3574f7d999cd9">provider_code</a>, <a class="el" href="group__core.html#ga997cdf403bc1fdb65d339be4800d8bac">capability_errc</a> &gt; snicholls::provider_code::make </td>
+          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="#abf13751be2bccdf8f4a3574f7d999cd9">provider_code</a>, <a class="el" href="group__core.html#ga997cdf403bc1fdb65d339be4800d8bac">capability_errc</a> &gt; snicholls::provider_code::make </td>
           <td>(</td>
           <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
           <td></td>
@@ -281,7 +281,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The code, or the error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00152">152</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00155">155</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>
@@ -311,7 +311,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 <p>The code. </p>
 <dl class="section return"><dt>Returns</dt><dd>A view valid while this object lives. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00163">163</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00166">166</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +353,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Whether they are equal. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00174">174</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00177">177</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,7 +380,7 @@ requires (M &gt;= 2 &amp;&amp; M &lt;= <a class="el" href="#a915e51f87e4f0e70291
 
 <p>The capacity, in characters. </p>
 
-<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00118">118</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="capability__error_8hpp_source.html#l00121">121</a> of file <a class="el" href="capability__error_8hpp_source.html">capability_error.hpp</a>.</p>
 
 </div>
 </div>

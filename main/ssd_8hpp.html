@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -169,7 +169,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> ml::ssd_inputs&lt;double&gt; in{x, dt, a, b, c};</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// The scan and the chunked form (training&#39;s), each from a zero state, each saving the state at every chunk&#39;s start</span></div>
-<div class="line">    <span class="keyword">constexpr</span> std::size_t S = ml::ssd_state_size(C), chunks = ml::recurrence_checkpoints(n, C.mixer_chunk);</div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t S = ml::ssd_state_size(C), <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1slice.html#a83d695bd679de672eead977ead61eac0">chunks</a> = ml::recurrence_checkpoints(n, C.mixer_chunk);</div>
 <div class="line">    std::array&lt;double, n * H * P&gt; y_scan{}, y_chunked{};</div>
 <div class="line">    std::array&lt;double, S&gt; state_scan{}, state_chunked{};</div>
 <div class="line">    std::array&lt;double, chunks * S&gt; checkpoints{};</div>

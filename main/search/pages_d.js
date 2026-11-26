@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['testing_0',['Building and testing',['../index.html#autotoc_md6',1,'']]],
-  ['tests_20result_5ftest_20cpp_1',['Layout guarantees (tests/result_test.cpp)',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md12',1,'']]],
-  ['throughput_2',['Tokenizer throughput',['../index.html#autotoc_md3',1,'']]],
-  ['tokenizer_20throughput_3',['Tokenizer throughput',['../index.html#autotoc_md3',1,'']]],
-  ['traced_20errors_4',['snicholls::result - Rust&apos;s &lt;span class=&quot;tt&quot;&gt;Result&amp;lt;V, E&amp;gt;&lt;/span&gt;, zero overhead, rethrowable, with traced errors',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html',1,'']]],
-  ['two_20copies_20in_20one_20build_5',['Two copies in one build',['../index.html#autotoc_md5',1,'']]]
+  ['never_20if_20constexpr_20chains_0',['Overload sets, never &lt;span class=&quot;tt&quot;&gt;if constexpr&lt;/span&gt; chains',['../patterns.html#autotoc_md37',1,'']]],
+  ['not_20leak_1',['Secrets do not leak',['../patterns.html#autotoc_md49',1,'']]],
+  ['number_2',['Attribution: who moved the number',['../patterns.html#autotoc_md56',1,'']]],
+  ['numbers_20time_20and_20identity_3',['Exact numbers, time and identity',['../patterns.html#autotoc_md45',1,'']]]
 ];

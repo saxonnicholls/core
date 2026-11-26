@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -112,9 +112,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aecca917233868f45108c4736a6a9f888" id="r_aecca917233868f45108c4736a6a9f888"><td class="memItemLeft" align="right" valign="top"><a id="aecca917233868f45108c4736a6a9f888" name="aecca917233868f45108c4736a6a9f888"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~kv_health_interface</b> ()=default</td></tr>
 <tr class="memdesc:aecca917233868f45108c4736a6a9f888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the object. <br /></td></tr>
-<tr class="memitem:a02e05d15b5380cc9ca2e7315cd643409" id="r_a02e05d15b5380cc9ca2e7315cd643409"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02e05d15b5380cc9ca2e7315cd643409">ping</a> () const =0</td></tr>
+<tr class="memitem:a02e05d15b5380cc9ca2e7315cd643409" id="r_a02e05d15b5380cc9ca2e7315cd643409"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02e05d15b5380cc9ca2e7315cd643409">ping</a> () const =0</td></tr>
 <tr class="memdesc:a02e05d15b5380cc9ca2e7315cd643409"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the store can serve requests now; changes nothing.  <br /></td></tr>
-<tr class="memitem:af429c06c84e0671e5e7a8631d46fade8" id="r_af429c06c84e0671e5e7a8631d46fade8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af429c06c84e0671e5e7a8631d46fade8">diagnostics</a> () const =0</td></tr>
+<tr class="memitem:af429c06c84e0671e5e7a8631d46fade8" id="r_af429c06c84e0671e5e7a8631d46fade8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af429c06c84e0671e5e7a8631d46fade8">diagnostics</a> () const =0</td></tr>
 <tr class="memdesc:af429c06c84e0671e5e7a8631d46fade8"><td class="mdescLeft">&#160;</td><td class="mdescRight">What the store holds, as plain data.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
@@ -143,7 +143,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_health_interface::diagnostics </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__diagnostics.html">kv_diagnostics</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_health_interface::diagnostics </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -201,7 +201,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_health_interface::ping </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_health_interface::ping </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>

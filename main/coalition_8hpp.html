@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -179,7 +179,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga83d55e5898fe8abd1826b22e8bf61092"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call <span class="tt">f(s, player)</span> for every coalition in Gray-code order: each step adds or removes one player.  <br /></td></tr>
 <tr class="memitem:ga54ce3a13cab76805e9b3ad61f710c365" id="r_ga54ce3a13cab76805e9b3ad61f710c365"><td class="memTemplParams" colspan="2">template&lt;std::ranges::contiguous_range R&gt; <br />
 requires game_value&lt;std::ranges::range_value_t&lt;R&gt;&gt;</td></tr>
-<tr class="memitem:ga54ce3a13cab76805e9b3ad61f710c365 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1game_1_1table__game.html">table_game</a>&lt; std::ranges::range_value_t&lt; R &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga54ce3a13cab76805e9b3ad61f710c365">snicholls::game::from_table</a> (const R &amp;<a class="el" href="group__core.html#ga8fa6d7cdb362c2c12941d46a9d8c9a63">table</a>) noexcept</td></tr>
+<tr class="memitem:ga54ce3a13cab76805e9b3ad61f710c365 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1game_1_1table__game.html">table_game</a>&lt; std::ranges::range_value_t&lt; R &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga54ce3a13cab76805e9b3ad61f710c365">snicholls::game::from_table</a> (const R &amp;<a class="el" href="group__core.html#gadacbbd109ac7b2d79067e3016fb50ef7">table</a>) noexcept</td></tr>
 <tr class="memdesc:ga54ce3a13cab76805e9b3ad61f710c365"><td class="mdescLeft">&#160;</td><td class="mdescRight">A game over a contiguous table: <span class="tt"><a class="el" href="group__core.html#gaec01b59fdc66a2033cc4d3be26bbe5f1" title="The exact Shapley attribution of a game of N players: 2^N evaluations, at compile time if the game is...">shapley</a>&lt;3&gt;(from_table(values))</span>.  <br /></td></tr>
 <tr class="memitem:ga58da50f69acf78655f9a8ec8e6c8268a" id="r_ga58da50f69acf78655f9a8ec8e6c8268a"><td class="memTemplParams" colspan="2">template&lt;std::size_t N, game V&gt; </td></tr>
 <tr class="memitem:ga58da50f69acf78655f9a8ec8e6c8268a template"><td class="memItemLeft" align="right" valign="top">constexpr std::array&lt; <a class="el" href="group__core.html#gabd6664222ea7bc155428b52198d5c389">game_value_t</a>&lt; V &gt;,(std::size_t{1}&lt;&lt; N)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga58da50f69acf78655f9a8ec8e6c8268a">snicholls::game::make_table</a> (const V &amp;v)</td></tr>

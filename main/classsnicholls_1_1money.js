@@ -8,5 +8,6 @@ var classsnicholls_1_1money =
     [ "operator-", "classsnicholls_1_1money.html#ac7b0b3a38324389c4411b7b6c7b54f0a", null ],
     [ "print", "classsnicholls_1_1money.html#a23d67772f5930e92f46b9fd63916bc50", null ],
     [ "signum", "classsnicholls_1_1money.html#a1b36139895aa4da04b48af5acb1faa70", null ],
+    [ "to_double", "classsnicholls_1_1money.html#a1037809c83dc0804472460a619448bb8", null ],
     [ "operator==", "classsnicholls_1_1money.html#a1a797223a85bfff37970e133b1272e0c", null ]
 ];

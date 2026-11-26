@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -141,7 +141,7 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line">    <span class="comment">// The session&#39;s origin, a beach at 33.89 S, 151.27 E, 2 m above the ellipsoid; built once</span></div>
 <div class="line">    <span class="keyword">const</span> geo::local_frame&lt;double&gt; frame(v3{{-33.8915 * deg, 151.2767 * deg, 2.0}});</div>
 <div class="line">    <span class="comment">// A swimmer&#39;s GNSS fix, a little to the north-east</span></div>
-<div class="line">    <span class="keyword">const</span> v3 fix{{-33.8906 * deg, 151.2781 * deg, 2.0}};</div>
+<div class="line">    <span class="keyword">const</span> v3 <a class="code hl_variable" href="group__core.html#ga79ed44cd2b783a608b85d9348eae08f1">fix</a>{{-33.8906 * deg, 151.2781 * deg, 2.0}};</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> enu = frame.to_enu(fix);                        <span class="comment">// metres east, north, up</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> ned = geo::local_frame&lt;double&gt;::to_ned(enu);   <span class="comment">// north, east, down for the flight controller</span></div>
 <div class="line">    <span class="comment">// And back: a point 50 m out to sea (east), on the tangent plane</span></div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -108,8 +108,8 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:aa02741ba0dcb7d1bad57321a07f92896"><td class="mdescLeft">&#160;</td><td class="mdescRight">the venue's trade id, withdrawal id (or <span class="tt">&lt;id&gt;:reversed</span>), transfer id  <br /></td></tr>
 <tr class="memitem:a073be43fb61bdf0d429eddc461eec8f0" id="r_a073be43fb61bdf0d429eddc461eec8f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__core.html#ga5e40b59cdcadeea11f23f6eed2b29115">onramp_fact_kind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a073be43fb61bdf0d429eddc461eec8f0">kind</a> {<a class="el" href="group__core.html#gga5e40b59cdcadeea11f23f6eed2b29115a49e1eb4f429b6513f2c2bcb37e0dbf22">onramp_fact_kind::trade_fill</a>}</td></tr>
 <tr class="memdesc:a073be43fb61bdf0d429eddc461eec8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">what it books  <br /></td></tr>
-<tr class="memitem:a6b73ebf8e04a688c420181d0f45fedab" id="r_a6b73ebf8e04a688c420181d0f45fedab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesnicholls.html#af2d2e27d59b8ddfb641648544da7928b">utc_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b73ebf8e04a688c420181d0f45fedab">occurred_at</a> {}</td></tr>
-<tr class="memdesc:a6b73ebf8e04a688c420181d0f45fedab"><td class="mdescLeft">&#160;</td><td class="mdescRight">the venue's time  <br /></td></tr>
+<tr class="memitem:a91b6eb11eec885dde0f4bbc43c0b2ea1" id="r_a91b6eb11eec885dde0f4bbc43c0b2ea1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsnicholls_1_1fact__dates.html">fact_dates</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91b6eb11eec885dde0f4bbc43c0b2ea1">dates</a></td></tr>
+<tr class="memdesc:a91b6eb11eec885dde0f4bbc43c0b2ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">when it happened, settles, and was known (<span class="tt"><a class="el" href="structsnicholls_1_1fact__dates.html" title="A fact&#39;s dates, the same on every fact a ledger books (payments, on-ramp, securities): when the econo...">fact_dates</a></span>)  <br /></td></tr>
 <tr class="memitem:acdee28dfb62ebe9b96f2be80bee3573d" id="r_acdee28dfb62ebe9b96f2be80bee3573d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__core.html#gae6bc645e0f10541fc897bf5a8bd5b6a6">short_text</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdee28dfb62ebe9b96f2be80bee3573d">account</a></td></tr>
 <tr class="memdesc:acdee28dfb62ebe9b96f2be80bee3573d"><td class="mdescLeft">&#160;</td><td class="mdescRight">the venue account debited (<span class="tt">"trading"</span>, <span class="tt">"funding"</span>)  <br /></td></tr>
 <tr class="memitem:aa6503c62824f8bb2fb513b31aabdfab8" id="r_aa6503c62824f8bb2fb513b31aabdfab8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__core.html#gae6bc645e0f10541fc897bf5a8bd5b6a6">short_text</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6503c62824f8bb2fb513b31aabdfab8">to_account</a></td></tr>
@@ -256,6 +256,24 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 </div>
 </div>
+<a id="a91b6eb11eec885dde0f4bbc43c0b2ea1" name="a91b6eb11eec885dde0f4bbc43c0b2ea1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91b6eb11eec885dde0f4bbc43c0b2ea1">&#9670;&#160;</a></span>dates</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsnicholls_1_1fact__dates.html">fact_dates</a> snicholls::onramp_fact::dates</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>when it happened, settles, and was known (<span class="tt"><a class="el" href="structsnicholls_1_1fact__dates.html" title="A fact&#39;s dates, the same on every fact a ledger books (payments, on-ramp, securities): when the econo...">fact_dates</a></span>) </p>
+
+<p class="definition">Definition at line <a class="el" href="concepts_2onramp__provider_8hpp_source.html#l00245">245</a> of file <a class="el" href="concepts_2onramp__provider_8hpp_source.html">onramp_provider.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a6460b82719610917611c14611adcfbba" name="a6460b82719610917611c14611adcfbba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6460b82719610917611c14611adcfbba">&#9670;&#160;</a></span>debit</h2>
 
@@ -325,24 +343,6 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <p>what it books </p>
 
 <p class="definition">Definition at line <a class="el" href="concepts_2onramp__provider_8hpp_source.html#l00244">244</a> of file <a class="el" href="concepts_2onramp__provider_8hpp_source.html">onramp_provider.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a6b73ebf8e04a688c420181d0f45fedab" name="a6b73ebf8e04a688c420181d0f45fedab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b73ebf8e04a688c420181d0f45fedab">&#9670;&#160;</a></span>occurred_at</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacesnicholls.html#af2d2e27d59b8ddfb641648544da7928b">utc_s</a> snicholls::onramp_fact::occurred_at {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>the venue's time </p>
-
-<p class="definition">Definition at line <a class="el" href="concepts_2onramp__provider_8hpp_source.html#l00245">245</a> of file <a class="el" href="concepts_2onramp__provider_8hpp_source.html">onramp_provider.hpp</a>.</p>
 
 </div>
 </div>

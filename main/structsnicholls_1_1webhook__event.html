@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -127,6 +127,7 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a873de1df5af6552542627868ae66bd77"><td class="mdescLeft">&#160;</td><td class="mdescRight">the provider's time  <br /></td></tr>
 <tr class="memitem:a43db24da1ea72e322b78199d795fc881" id="r_a43db24da1ea72e322b78199d795fc881"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43db24da1ea72e322b78199d795fc881">needs_lookup</a> {false}</td></tr>
 <tr class="memdesc:a43db24da1ea72e322b78199d795fc881"><td class="mdescLeft">&#160;</td><td class="mdescRight">the event carries no detail: ask <span class="tt">status</span> or <span class="tt">credits</span>  <br /></td></tr>
+<tr class="memitem:a0dfec96b26decc3b539319e63a308999" id="r_a0dfec96b26decc3b539319e63a308999"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dfec96b26decc3b539319e63a308999">is_test</a> {false}</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -137,7 +138,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A verified webhook event. It carries no amount: amounts come from <span class="tt">resolve</span> and <span class="tt">statement</span> only. </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00343">343</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00344">344</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="af2a418211efd5a9cf8e734147aed99fe" name="af2a418211efd5a9cf8e734147aed99fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af2a418211efd5a9cf8e734147aed99fe">&#9670;&#160;</a></span>dedup_key()</h2>
@@ -165,7 +166,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <p>The key the webhook route inserts atomically with the raw event before answering 2xx. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">&lt;<a class="el" href="#af00523b0aa7964f713da0a9209174054" title="the provider: &quot;stripe&quot;, &quot;wise&quot;, &quot;memory&quot;">source</a>&gt;:evt:&lt;<a class="el" href="#abfe93f01ffeb5487987ca346286d3b92" title="the delivery, stable across redeliveries; never a hash of the body">event_id</a>&gt;</span> (<span class="tt">stripe:evt:evt_1...</span>), at most 101 characters, never allocated. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00358">358</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00361">361</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -184,7 +185,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the delivery, stable across redeliveries; never a hash of the body </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00346">346</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00347">347</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -202,7 +203,24 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the fact it points at, when it names one; a hint only </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00347">347</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00348">348</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0dfec96b26decc3b539319e63a308999" name="a0dfec96b26decc3b539319e63a308999"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dfec96b26decc3b539319e63a308999">&#9670;&#160;</a></span>is_test</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::webhook_event::is_test {false}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>a test delivery (Wise's <span class="tt">X-Test-Notification</span>): recorded, never resolved to a fact, never booked </p>
+
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00356">356</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -220,7 +238,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>what happened </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00348">348</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00349">349</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -238,7 +256,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the event carries no detail: ask <span class="tt">status</span> or <span class="tt">credits</span> </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00354">354</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00355">355</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -256,7 +274,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the provider's time </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00353">353</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00354">354</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -274,7 +292,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>ours, when the provider round-trips it </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00351">351</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00352">352</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -292,7 +310,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the movement, when named </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00350">350</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00351">351</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -310,7 +328,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the opaque id of our account at the provider </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00345">345</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00346">346</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +346,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>a credit's payer reference, when carried </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00352">352</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00353">353</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -346,7 +364,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the provider: <span class="tt">"stripe"</span>, <span class="tt">"wise"</span>, <span class="tt">"memory"</span> </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00344">344</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00345">345</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -364,7 +382,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the provider's own name (<span class="tt">checkout.session.completed</span>) </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00349">349</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00350">350</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>

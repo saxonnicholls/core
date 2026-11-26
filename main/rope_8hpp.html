@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -214,7 +214,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> mid = ml::rope_frequency&lt;double&gt;(16, 64);                                                     <span class="comment">// between the two</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="group__core.html#gga1b1f83a6f20af477f93e246c8d25a67dabb3462b62cd8db3f9ba007d86f8d1c6d">yarn</a> = ml::rope_scaled_frequency(31, 64, 10000.0, method(ml::rope_scaling_kind::yarn));       <span class="comment">// slow pairs: θ / 40</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> yarn_fast = ml::rope_scaled_frequency(0, 64, 10000.0, method(ml::rope_scaling_kind::yarn_index_ramp));   <span class="comment">// fast: θ</span></div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> none = ml::rope_scaled_frequency(31, 64, 10000.0, method(ml::rope_scaling_kind::none));</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#a9e6bd410d52f788dd6aaef6b4bf692d6">none</a> = ml::rope_scaled_frequency(31, 64, 10000.0, method(ml::rope_scaling_kind::none));</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> ramp = ml::yarn_ramp(16.5, 1.0, 32.0), lo = ml::yarn_correction_dim(32.0, 64, 10000.0, 4096);</div>
 <div class="line">    <span class="comment">// YaRN&#39;s temperature: DeepSeek-V3 multiplies its softmax scale by its square; a table can carry it as an amplitude</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">double</span> t = ml::yarn_attention_factor(40.0);</div>

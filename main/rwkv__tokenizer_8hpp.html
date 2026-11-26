@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -118,9 +118,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a80267ddf7738262889b46d642717537a" id="r_a80267ddf7738262889b46d642717537a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gadbbd4f295b92b3cadd364f75eaf4a421">rwkv_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80267ddf7738262889b46d642717537a">snicholls::ml::rwkv_unescape</a> (std::string_view escaped, std::span&lt; char &gt; out) noexcept</td></tr>
+<tr class="memitem:a80267ddf7738262889b46d642717537a" id="r_a80267ddf7738262889b46d642717537a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gadbbd4f295b92b3cadd364f75eaf4a421">rwkv_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80267ddf7738262889b46d642717537a">snicholls::ml::rwkv_unescape</a> (std::string_view escaped, std::span&lt; char &gt; out) noexcept</td></tr>
 <tr class="memdesc:a80267ddf7738262889b46d642717537a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an escaped RWKV vocabulary piece back to its bytes.  <br /></td></tr>
-<tr class="memitem:afaeb1d64ba5b3c3ecdf851b7caa4046e" id="r_afaeb1d64ba5b3c3ecdf851b7caa4046e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gadbbd4f295b92b3cadd364f75eaf4a421">rwkv_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afaeb1d64ba5b3c3ecdf851b7caa4046e">snicholls::ml::rwkv_encode</a> (std::string_view text, const <a class="el" href="structsnicholls_1_1ml_1_1token__trie.html">token_trie</a> &amp;vocab, std::uint32_t unknown, std::span&lt; std::uint32_t &gt; out) noexcept</td></tr>
+<tr class="memitem:afaeb1d64ba5b3c3ecdf851b7caa4046e" id="r_afaeb1d64ba5b3c3ecdf851b7caa4046e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; std::size_t, <a class="el" href="group__core.html#gadbbd4f295b92b3cadd364f75eaf4a421">rwkv_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afaeb1d64ba5b3c3ecdf851b7caa4046e">snicholls::ml::rwkv_encode</a> (std::string_view text, const <a class="el" href="structsnicholls_1_1ml_1_1token__trie.html">token_trie</a> &amp;vocab, std::uint32_t unknown, std::span&lt; std::uint32_t &gt; out) noexcept</td></tr>
 <tr class="memdesc:afaeb1d64ba5b3c3ecdf851b7caa4046e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tokenizes text by greedy longest match, as RWKV's tokenizer does.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -128,12 +128,12 @@ Functions</h2></td></tr>
 <p><b>Overview.</b> RWKV's tokenizer has no merges and no scores: from the start of the text, take the longest vocabulary entry that is a prefix, and repeat. Its vocabulary holds arbitrary bytes, which GGUF stores escaped (<span class="tt">\n</span>, <span class="tt">\t</span>, <span class="tt">\r</span>, <span class="tt">\xNN</span>, and a backslash before anything else taken literally); <span class="tt">rwkv_unescape</span> reads one back, once, when the vocabulary is loaded. Decoding is the concatenation of the pieces (<span class="tt">bpe_decode</span> in <span class="tt"><a class="el" href="bpe_8hpp.html" title="snicholls::ml::bpe_encode_piece, bpe_encode_long_piece and bpe_decode: byte-level BPE,...">ml/bpe.hpp</a></span>).</p>
 <div class="fragment"><div class="line"><span class="comment">// Greedy longest match: &quot;the&quot; beats &quot;th&quot; beats &quot;t&quot;</span></div>
 <div class="line"><span class="keyword">constexpr</span> ml::static_token_trie&lt;5&gt; vocab{std::array&lt;std::string_view, 5&gt;{<span class="stringliteral">&quot;t&quot;</span>, <span class="stringliteral">&quot;th&quot;</span>, <span class="stringliteral">&quot;the&quot;</span>, <span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;\n&quot;</span>}};</div>
-<div class="line"><span class="keyword">constexpr</span> std::size_t count(std::string_view text)</div>
+<div class="line"><span class="keyword">constexpr</span> std::size_t <a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a>(std::string_view text)</div>
 <div class="line">{</div>
 <div class="line">    std::array&lt;std::uint32_t, 32&gt; out{};</div>
 <div class="line">    <span class="keywordflow">return</span> ml::rwkv_encode(text, vocab.view(), 99, out).unwrap();</div>
 <div class="line">}</div>
-<div class="line"><span class="keyword">static_assert</span>(count(<span class="stringliteral">&quot;the th t\n&quot;</span>) == 6);   <span class="comment">// &quot;the&quot;, &quot; &quot;, &quot;th&quot;, &quot; &quot;, &quot;t&quot;, &quot;\n&quot;</span></div>
+<div class="line"><span class="keyword">static_assert</span>(<a class="code hl_enumvalue" href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">count</a>(<span class="stringliteral">&quot;the th t\n&quot;</span>) == 6);   <span class="comment">// &quot;the&quot;, &quot; &quot;, &quot;th&quot;, &quot; &quot;, &quot;t&quot;, &quot;\n&quot;</span></div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="token__trie_8hpp.html" title="snicholls::ml::token_trie: a tokenizer vocabulary as a trie over its pieces&#39; bytes,...">ml/token_trie.hpp</a></span> (the vocabulary over the unescaped pieces), <span class="tt"><a class="el" href="bpe_8hpp.html" title="snicholls::ml::bpe_encode_piece, bpe_encode_long_piece and bpe_decode: byte-level BPE,...">ml/bpe.hpp</a></span> (<span class="tt">bpe_decode</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One, llama.cpp's <span class="tt">llm_tokenizer_rwkv_session</span>, except that a byte no entry starts with is the unknown token and the walk moves on one byte (llama.cpp would loop: its vocabulary has every byte, so it never meets one).</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, <span class="tt">noexcept</span>, no allocation. Complexity: O(n · L log V).</p>

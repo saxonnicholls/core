@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -151,7 +151,7 @@ requires (std::is_integral_v&lt;T&gt; &amp;&amp; !std::is_same_v&lt;T, bool&gt;)
 <div class="line">    <a class="code hl_function" href="namespacesnicholls.html#a2cc6003893b562ab85f86dfb45f826d5">snicholls::store_le</a>(header + 2, std::uint64_t{42});</div>
 <div class="line">    <a class="code hl_function" href="namespacesnicholls.html#a2cc6003893b562ab85f86dfb45f826d5">snicholls::store_le</a>(header + 10, 101.25);</div>
 <div class="line"> </div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> length = <a class="code hl_function" href="namespacesnicholls.html#a68a95855897749702a60893102bfadd9">snicholls::load_be&lt;std::uint16_t&gt;</a>(header);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_variable" href="group__core.html#ga302b408c42323ad8547250344cb28c43">length</a> = <a class="code hl_function" href="namespacesnicholls.html#a68a95855897749702a60893102bfadd9">snicholls::load_be&lt;std::uint16_t&gt;</a>(header);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> call_id = <a class="code hl_function" href="namespacesnicholls.html#a0819935e1dbfe54039bf1be05f372c0c">snicholls::load_le&lt;std::uint64_t&gt;</a>(header + 2);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> price = <a class="code hl_function" href="namespacesnicholls.html#a0819935e1dbfe54039bf1be05f372c0c">snicholls::load_le&lt;double&gt;</a>(header + 10);   <span class="comment">// unaligned is fine</span></div>
 </div><!-- fragment --><p>The functions are written as shifts, not as a <span class="tt">memcpy</span> plus a conditional swap, so the result never depends on the host and they work in constant expressions. Compilers recognise the pattern: on a little-endian machine <span class="tt">load_le</span> compiles to one load, and <span class="tt">load_be</span> to a load and a <span class="tt">bswap</span>.</p>

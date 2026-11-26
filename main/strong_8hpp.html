@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -121,7 +121,7 @@ Namespaces</h2></td></tr>
 <div class="line"><span class="keyword">using </span>notional = <a class="code hl_struct" href="structsnicholls_1_1strong.html">snicholls::strong&lt;double, struct notional_tag&gt;</a>;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// The one place a price meets a quantity: stated, not guessed.</span></div>
-<div class="line"><span class="keyword">constexpr</span> notional <a class="code hl_function" href="group__core.html#gae6c7aa596af8aa6017ccb928fdd5411d">operator*</a>(price p, quantity q) { <span class="keywordflow">return</span> notional(p.value * q.value); }</div>
+<div class="line"><span class="keyword">constexpr</span> notional <a class="code hl_function" href="pointwise_8hpp.html#ab252d9665036a40dd176a2f3ab0e99e8">operator*</a>(price p, quantity q) { <span class="keywordflow">return</span> notional(p.value * q.value); }</div>
 </div><!-- fragment --><p>Multiplying two different quantities (price times quantity is a notional) is the caller's to state, with a function: core does not guess units.</p>
 <p><b>Relationships.</b> <span class="tt"><a class="el" href="assignable_8hpp.html" title="non_narrowing_assignable&lt;V, E&gt;: V = E compiles, does not narrow a number, and never puts a number in ...">meta/assignable.hpp</a></span>; <span class="tt"><a class="el" href="acout_8hpp.html" title="snicholls::acout, acerr, print, println: thread-safe printing, one write per message,...">acout.hpp</a></span> prints one (its <span class="tt">print</span> member); a <span class="tt">std::hash</span> is provided. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span> and <span class="tt">noexcept</span> when <span class="tt">T</span>'s operations are; <span class="tt">sizeof(strong&lt;T, Tag&gt;) == sizeof(T)</span>; trivially copyable when <span class="tt">T</span> is; construction is <span class="tt">explicit</span>.</p>

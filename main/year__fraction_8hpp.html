@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,45 +93,42 @@ $(function(){initNavTree('year__fraction_8hpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt">finance::year_fraction</span>: a fraction of a year as an exact ratio of two integers.  
+<p><span class="tt">finance::year_fraction</span>: a fraction of a year as an exact ratio of two integers; the name day counts return, for <span class="tt">finance::ratio</span>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cassert&gt;</code><br />
-<code>#include &lt;compare&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;numeric&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="ratio_8hpp_source.html">snicholls/core/finance/ratio.hpp</a>&gt;</code><br />
 </div>
 <p><a href="year__fraction_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:snicholls_3A_3Afinance_3A_3Ayear_5Ffraction" id="r_snicholls_3A_3Afinance_3A_3Ayear_5Ffraction"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsnicholls_1_1finance_1_1year__fraction.html">snicholls::finance::year_fraction</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A fraction of a year, <span class="tt"><a class="el" href="classsnicholls_1_1finance_1_1year__fraction.html#a2c6997f0325abed7e7214cea3c3f4cf2" title="The numerator, in lowest terms; negative when the fraction is.">numerator</a> / <a class="el" href="classsnicholls_1_1finance_1_1year__fraction.html#aa8f837d175493518c1f31f5513bf8e0c" title="The denominator, in lowest terms; always positive.">denominator</a></span>, exact and normalised.  <a href="classsnicholls_1_1finance_1_1year__fraction.html#details">More...</a><br /></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:snicholls" id="r_snicholls"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html">snicholls</a></td></tr>
 <tr class="memdesc:namespacesnicholls"><td class="mdescLeft">&#160;</td><td class="mdescRight">Everything the snicholls libraries share, at the bottom of the stack. <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga4c54eec2f7c21b32c53840942b432ce4" id="r_ga4c54eec2f7c21b32c53840942b432ce4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">snicholls::finance::year_fraction</a> = <a class="el" href="classsnicholls_1_1finance_1_1ratio.html">ratio</a></td></tr>
+<tr class="memdesc:ga4c54eec2f7c21b32c53840942b432ce4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A fraction of a year, <span class="tt">numerator / denominator</span>, exact and normalised: a <span class="tt"><a class="el" href="classsnicholls_1_1finance_1_1ratio.html" title="An exact ratio numerator / denominator, normalised: lowest terms, positive denominator.">finance::ratio</a></span>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><span class="tt">finance::year_fraction</span>: a fraction of a year as an exact ratio of two integers. </p>
+<div class="textblock"><p><span class="tt">finance::year_fraction</span>: a fraction of a year as an exact ratio of two integers; the name day counts return, for <span class="tt">finance::ratio</span>. </p>
 <p><b>Overview.</b> A day-count convention's answer is a ratio of whole numbers: 91 / 360 under ACT/360, 92 / 365 under ACT/365 Fixed, <span class="tt">(a * 366 + b * 365) / 133590</span> under ACT/ACT ISDA for <span class="tt">a</span> days in common years and <span class="tt">b</span> in leap years. <span class="tt">year_fraction</span> keeps it exactly, normalised (lowest terms, positive denominator), so two conventions' answers compare exactly and an accrual is <span class="tt">notional * numerator / denominator</span> with one rounding at the end. <span class="tt">to_double()</span> is for display and for code that wants a <span class="tt">double</span> anyway.</p>
-<div class="fragment"><div class="line">    <span class="keyword">const</span> year_fraction quarter{91, 360};                       <span class="comment">// ACT/360 over 91 days</span></div>
-<div class="line">    <span class="keyword">const</span> year_fraction <a class="code hl_enumvalue" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">half</a>{-180, -360};                       <span class="comment">// normalised: 1/2</span></div>
-<div class="line">    <span class="keyword">static_assert</span>(year_fraction{180, 360} == year_fraction{1, 2});</div>
+<p>Since 0.27.0 it is an alias of <span class="tt">finance::ratio</span> (<span class="tt"><a class="el" href="ratio_8hpp.html" title="finance::ratio: an exact ratio of two 64-bit integers, normalised; the one rational of finance/,...">finance/ratio.hpp</a></span>), the one exact rational of <span class="tt">finance/</span>: a year fraction multiplies a repo rate or a return with <span class="tt">multiply</span> and compares with a split ratio, with no conversion. Every use that compiled before compiles unchanged: the constructor, <span class="tt">numerator()</span>, <span class="tt">denominator()</span>, <span class="tt">to_double()</span>, <span class="tt">==</span> and <span class="tt">&lt;=&gt;</span>.</p>
+<div class="fragment"><div class="line">    <span class="keyword">const</span> <a class="code hl_typedef" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">year_fraction</a> quarter{91, 360};                       <span class="comment">// ACT/360 over 91 days</span></div>
+<div class="line">    <span class="keyword">const</span> <a class="code hl_typedef" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">year_fraction</a> <a class="code hl_enumvalue" href="group__core.html#gga1b1c78946b7bd882aeb3621f79c7a69fa7afe399f1415b137d0962f82662fa9d4">half</a>{-180, -360};                       <span class="comment">// normalised: 1/2</span></div>
+<div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_typedef" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">year_fraction</a>{180, 360} == <a class="code hl_typedef" href="group__core.html#ga4c54eec2f7c21b32c53840942b432ce4">year_fraction</a>{1, 2});</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// interest on 1,000,000.00 (in cents) at 5%: notional * rate * numerator / denominator, rounded once</span></div>
 <div class="line">    <span class="keyword">const</span> std::int64_t cents = 100&#39;000&#39;000;</div>
 <div class="line">    <span class="keyword">const</span> std::int64_t interest = cents * 5 * quarter.numerator() / (100 * quarter.denominator());   <span class="comment">// 1,263,888 cents</span></div>
-</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="finance_2day__count_8hpp.html" title="Day-count conventions as types: ACT/360, ACT/365 Fixed, 30/360, 30E/360 and ACT/ACT ISDA,...">finance/day_count.hpp</a></span> (the conventions that return it), <span class="tt"><a class="el" href="concepts_2day__count_8hpp.html" title="snicholls::day_count_convention: anything that counts the days between two dates and turns them into ...">concepts/day_count.hpp</a></span>, <span class="tt"><a class="el" href="rate_8hpp.html" title="snicholls::rate and snicholls::convert: exact conversion between assets, with a named rounding mode a...">money/rate.hpp</a></span> (the same exact-ratio style over <span class="tt">uint256</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Implementations.</b> One.</p>
-<p><b>Guarantees.</b> constexpr, <span class="tt">noexcept</span>, trivially copyable, 16 bytes. Always normalised: equal values have equal members, so <span class="tt">==</span> is member-wise. <span class="tt">&lt;=&gt;</span> cross-multiplies in 64 bits, exact while <span class="tt">|numerator| *
-denominator</span> of either side stays below 2^63; every day count of <span class="tt">std::chrono::sys_days</span> (spans below 2^32 days, denominators at most 133,590) does.</p>
-<p><b>Errors.</b> None. The constructor's denominator must not be zero: a precondition, <span class="tt">assert</span>ed (so a compile error in constant evaluation and a failed assertion in a debug build).</p>
+</div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="ratio_8hpp.html" title="finance::ratio: an exact ratio of two 64-bit integers, normalised; the one rational of finance/,...">finance/ratio.hpp</a></span> (the type), <span class="tt"><a class="el" href="finance_2day__count_8hpp.html" title="Day-count conventions as types: ACT/360, ACT/365 Fixed, 30/360, 30E/360 and ACT/ACT ISDA,...">finance/day_count.hpp</a></span> (the conventions that return it), <span class="tt"><a class="el" href="concepts_2day__count_8hpp.html" title="snicholls::day_count_convention: anything that counts the days between two dates and turns them into ...">concepts/day_count.hpp</a></span>, <span class="tt"><a class="el" href="rate_8hpp.html" title="snicholls::rate and snicholls::convert: exact conversion between assets, with a named rounding mode a...">money/rate.hpp</a></span> (the same exact-ratio style over <span class="tt">uint256</span>). Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
+<p><b>Implementations.</b> One: <span class="tt">finance::ratio</span>.</p>
+<p><b>Guarantees.</b> As <span class="tt">finance::ratio</span>: constexpr, <span class="tt">noexcept</span>, trivially copyable, 16 bytes, always normalised, so <span class="tt">==</span> is member-wise. <span class="tt">&lt;=&gt;</span> is exact for every pair (before 0.27.0 it cross-multiplied in 64 bits, exact only below 2^63).</p>
+<p><b>Errors.</b> None. The constructor's denominator must not be zero, and neither part <span class="tt">INT64_MIN</span>: a precondition, <span class="tt">assert</span>ed (so a compile error in constant evaluation and a failed assertion in a debug build).</p>
 <p><b>Performance.</b> One <span class="tt">std::gcd</span> on construction. Not benchmarked on its own; see <span class="tt"><a class="el" href="finance_2day__count_8hpp.html" title="Day-count conventions as types: ACT/360, ACT/365 Fixed, 30/360, 30E/360 and ACT/ACT ISDA,...">finance/day_count.hpp</a></span>.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/finance/year_fraction_test.cpp</span>, <span class="tt">demos/finance/year_fraction_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;cassert&gt;</span>, <span class="tt">&lt;compare&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;numeric&gt;</span>.</p>
-<p><b>Known issues.</b> Not an arithmetic type: there is no <span class="tt">+</span> or <span class="tt">*</span>, since a sum of two conventions' fractions means nothing; scale by hand from <span class="tt">numerator</span> and <span class="tt">denominator</span>.</p>
-<p><b>Status.</b> New in 0.23.0. </p>
+<p><b>Dependencies.</b> <span class="tt"><a class="el" href="ratio_8hpp.html" title="finance::ratio: an exact ratio of two 64-bit integers, normalised; the one rational of finance/,...">finance/ratio.hpp</a></span>.</p>
+<p><b>Known issues.</b> A sum of two conventions' fractions means nothing, though <span class="tt">add</span> will compute one: scale an amount by <span class="tt">numerator</span> and <span class="tt">denominator</span>, or <span class="tt">multiply</span> by a rate.</p>
+<p><b>Status.</b> New in 0.23.0; an alias of <span class="tt">finance::ratio</span> since 0.27.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="year__fraction_8hpp_source.html">year_fraction.hpp</a>.</p>
 </div></div><!-- contents -->

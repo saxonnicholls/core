@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -125,7 +125,7 @@ struct snicholls::fsm::table_diagnostics&lt; Def &gt;</div><p>What the compile-t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02501">2501</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02515">2515</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a21299f65d145847c9edacdd91f19c57d" name="a21299f65d145847c9edacdd91f19c57d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a21299f65d145847c9edacdd91f19c57d">&#9670;&#160;</a></span>exit_from_terminal</h2>
@@ -151,7 +151,7 @@ template&lt;class Def&gt; </div>
 
 <p>The index of a row that leaves <span class="tt"><a class="el" href="group__core.html#ga7d0cac194de047a92f78f3c194765172" title="X: the terminal state (sml&#39;s X, named &quot;terminate&quot;).">X</a></span>, or npos. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02507">2507</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02521">2521</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -181,7 +181,7 @@ template&lt;class Def&gt; </div>
 </div><!-- fragment -->
 <p>The index of a state with no enumerator in the machine's state enumeration, or npos. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02509">2509</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02523">2523</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -208,15 +208,15 @@ template&lt;class Def&gt; </div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= <a class="code hl_variable" href="#a192d7f5b613be9380200b6afd32c44a4">shadowed_row</a> == detail::npos &amp;&amp; <a class="code hl_variable" href="#ae92ce59799fa36192b364dd73a25d131">unreachable_state</a> == detail::npos &amp;&amp;</div>
 <div class="line">            <a class="code hl_variable" href="#a21299f65d145847c9edacdd91f19c57d">exit_from_terminal</a> == detail::npos &amp;&amp; <a class="code hl_variable" href="#a702011e03bf8229545ea43e9c002fff5">missing_enumerator</a> == detail::npos &amp;&amp; <a class="code hl_variable" href="#ad474c81c8bd783f8cbd4b1dc5f98f005">regions</a> &gt; 0</div>
-<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_a192d7f5b613be9380200b6afd32c44a4"><div class="ttname"><a href="#a192d7f5b613be9380200b6afd32c44a4">snicholls::fsm::table_diagnostics::shadowed_row</a></div><div class="ttdeci">static constexpr std::size_t shadowed_row</div><div class="ttdoc">The index of a row that can never run (an earlier unguarded row leaves its state on its event),...</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02503">state_machine.hpp:2503</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_a21299f65d145847c9edacdd91f19c57d"><div class="ttname"><a href="#a21299f65d145847c9edacdd91f19c57d">snicholls::fsm::table_diagnostics::exit_from_terminal</a></div><div class="ttdeci">static constexpr std::size_t exit_from_terminal</div><div class="ttdoc">The index of a row that leaves X, or npos.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02507">state_machine.hpp:2507</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_a702011e03bf8229545ea43e9c002fff5"><div class="ttname"><a href="#a702011e03bf8229545ea43e9c002fff5">snicholls::fsm::table_diagnostics::missing_enumerator</a></div><div class="ttdeci">static constexpr std::size_t missing_enumerator</div><div class="ttdoc">The index of a state with no enumerator in the machine&#39;s state enumeration, or npos.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02509">state_machine.hpp:2509</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_ad474c81c8bd783f8cbd4b1dc5f98f005"><div class="ttname"><a href="#ad474c81c8bd783f8cbd4b1dc5f98f005">snicholls::fsm::table_diagnostics::regions</a></div><div class="ttdeci">static constexpr std::size_t regions</div><div class="ttdoc">The number of initial states, which is the number of regions.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02512">state_machine.hpp:2512</a></div></div>
-<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_ae92ce59799fa36192b364dd73a25d131"><div class="ttname"><a href="#ae92ce59799fa36192b364dd73a25d131">snicholls::fsm::table_diagnostics::unreachable_state</a></div><div class="ttdeci">static constexpr std::size_t unreachable_state</div><div class="ttdoc">The index of a state no row reaches from an initial state, or npos.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02505">state_machine.hpp:2505</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_a192d7f5b613be9380200b6afd32c44a4"><div class="ttname"><a href="#a192d7f5b613be9380200b6afd32c44a4">snicholls::fsm::table_diagnostics::shadowed_row</a></div><div class="ttdeci">static constexpr std::size_t shadowed_row</div><div class="ttdoc">The index of a row that can never run (an earlier unguarded row leaves its state on its event),...</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02517">state_machine.hpp:2517</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_a21299f65d145847c9edacdd91f19c57d"><div class="ttname"><a href="#a21299f65d145847c9edacdd91f19c57d">snicholls::fsm::table_diagnostics::exit_from_terminal</a></div><div class="ttdeci">static constexpr std::size_t exit_from_terminal</div><div class="ttdoc">The index of a row that leaves X, or npos.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02521">state_machine.hpp:2521</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_a702011e03bf8229545ea43e9c002fff5"><div class="ttname"><a href="#a702011e03bf8229545ea43e9c002fff5">snicholls::fsm::table_diagnostics::missing_enumerator</a></div><div class="ttdeci">static constexpr std::size_t missing_enumerator</div><div class="ttdoc">The index of a state with no enumerator in the machine&#39;s state enumeration, or npos.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02523">state_machine.hpp:2523</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_ad474c81c8bd783f8cbd4b1dc5f98f005"><div class="ttname"><a href="#ad474c81c8bd783f8cbd4b1dc5f98f005">snicholls::fsm::table_diagnostics::regions</a></div><div class="ttdeci">static constexpr std::size_t regions</div><div class="ttdoc">The number of initial states, which is the number of regions.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02526">state_machine.hpp:2526</a></div></div>
+<div class="ttc" id="astructsnicholls_1_1fsm_1_1table__diagnostics_html_ae92ce59799fa36192b364dd73a25d131"><div class="ttname"><a href="#ae92ce59799fa36192b364dd73a25d131">snicholls::fsm::table_diagnostics::unreachable_state</a></div><div class="ttdeci">static constexpr std::size_t unreachable_state</div><div class="ttdoc">The index of a state no row reaches from an initial state, or npos.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8hpp_source.html#l02519">state_machine.hpp:2519</a></div></div>
 </div><!-- fragment -->
 <p>The table passes every check. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02514">2514</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02528">2528</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -244,7 +244,7 @@ template&lt;class Def&gt; </div>
 
 <p>The number of initial states, which is the number of regions. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02512">2512</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02526">2526</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +272,7 @@ template&lt;class Def&gt; </div>
 
 <p>The index of a row that can never run (an earlier unguarded row leaves its state on its event), or npos. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02503">2503</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02517">2517</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -300,7 +300,7 @@ template&lt;class Def&gt; </div>
 
 <p>The names of the table's states, in their order of appearance. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02517">2517</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02531">2531</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +328,7 @@ template&lt;class Def&gt; </div>
 
 <p>The index of a state no row reaches from an initial state, or npos. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02505">2505</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02519">2519</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>

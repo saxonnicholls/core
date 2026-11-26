@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -108,8 +108,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a019868a896884b103a943e1eacb38d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sample variance (divided by n - 1); NaN with fewer than two observations.  <br /></td></tr>
 <tr class="memitem:ac5f40fbda34b832abf35481c74e451c9" id="r_ac5f40fbda34b832abf35481c74e451c9"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5f40fbda34b832abf35481c74e451c9">mean</a> () const noexcept</td></tr>
 <tr class="memdesc:ac5f40fbda34b832abf35481c74e451c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mean.  <br /></td></tr>
-<tr class="memitem:ab59c9a874643372191a729f10ec895ca" id="r_ab59c9a874643372191a729f10ec895ca"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab59c9a874643372191a729f10ec895ca">standard_deviation</a> () const noexcept</td></tr>
-<tr class="memdesc:ab59c9a874643372191a729f10ec895ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sample standard deviation.  <br /></td></tr>
+<tr class="memitem:a390a4a4559d623042c32a39a60b43b0a" id="r_a390a4a4559d623042c32a39a60b43b0a"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a390a4a4559d623042c32a39a60b43b0a">standard_deviation</a> () const noexcept</td></tr>
+<tr class="memdesc:a390a4a4559d623042c32a39a60b43b0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sample standard deviation, <span class="tt">math::sqrt(value())</span>: constexpr.  <br /></td></tr>
+<tr class="memitem:a88ee80f0a26f6f4e67891e8d70932068" id="r_a88ee80f0a26f6f4e67891e8d70932068"><td class="memItemLeft" align="right" valign="top">constexpr std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88ee80f0a26f6f4e67891e8d70932068">count</a> () const noexcept</td></tr>
+<tr class="memdesc:a88ee80f0a26f6f4e67891e8d70932068"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of observations.  <br /></td></tr>
 <tr class="memitem:a9337b380e06a1e14c02e28ae2d7f4aec" id="r_a9337b380e06a1e14c02e28ae2d7f4aec"><td class="memItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9337b380e06a1e14c02e28ae2d7f4aec">population_variance</a> () const noexcept</td></tr>
 <tr class="memdesc:a9337b380e06a1e14c02e28ae2d7f4aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">The population variance (divided by n).  <br /></td></tr>
 </table><table class="memberdecls">
@@ -132,7 +134,7 @@ struct snicholls::stats::variance&lt; T &gt;</div><p>The mean and sample varianc
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00249">249</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00253">253</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a898d85edaace1d98883590c3dcac2be9" name="a898d85edaace1d98883590c3dcac2be9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a898d85edaace1d98883590c3dcac2be9">&#9670;&#160;</a></span>add()</h2>
@@ -167,7 +169,39 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00256">256</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00260">260</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a88ee80f0a26f6f4e67891e8d70932068" name="a88ee80f0a26f6f4e67891e8d70932068"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ee80f0a26f6f4e67891e8d70932068">&#9670;&#160;</a></span>count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::floating_point T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t <a class="el" href="structsnicholls_1_1stats_1_1variance.html">snicholls::stats::variance</a>&lt; T &gt;::count </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of observations. </p>
+<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00290">290</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -199,7 +233,7 @@ template&lt;std::floating_point T&gt; </div>
 <p>The mean. </p>
 <dl class="section return"><dt>Returns</dt><dd>It; NaN with none. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00280">280</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00284">284</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +270,7 @@ template&lt;std::floating_point T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00265">265</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00269">269</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -268,12 +302,12 @@ template&lt;std::floating_point T&gt; </div>
 <p>The population variance (divided by n). </p>
 <dl class="section return"><dt>Returns</dt><dd>It; NaN with none. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00286">286</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00293">293</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab59c9a874643372191a729f10ec895ca" name="ab59c9a874643372191a729f10ec895ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab59c9a874643372191a729f10ec895ca">&#9670;&#160;</a></span>standard_deviation()</h2>
+<a id="a390a4a4559d623042c32a39a60b43b0a" name="a390a4a4559d623042c32a39a60b43b0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a390a4a4559d623042c32a39a60b43b0a">&#9670;&#160;</a></span>standard_deviation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,15 +326,15 @@ template&lt;std::floating_point T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The sample standard deviation. </p>
-<dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
+<p>The sample standard deviation, <span class="tt">math::sqrt(value())</span>: constexpr. </p>
+<dl class="section return"><dt>Returns</dt><dd>It; NaN with fewer than two observations. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00283">283</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00287">287</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -332,7 +366,7 @@ template&lt;std::floating_point T&gt; </div>
 <p>The sample variance (divided by n - 1); NaN with fewer than two observations. </p>
 <dl class="section return"><dt>Returns</dt><dd>It. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00277">277</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00281">281</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +387,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>Their mean. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00251">251</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00255">255</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -373,7 +407,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>The sum of squared deviations from the mean. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00252">252</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00256">256</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>
@@ -393,7 +427,7 @@ template&lt;std::floating_point T&gt; </div>
 
 <p>Observations. </p>
 
-<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00250">250</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="accumulators_8hpp_source.html#l00254">254</a> of file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 
 </div>
 </div>

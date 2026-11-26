@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -115,7 +115,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a35404d45615482e25d1079d401f5fb57" id="r_a35404d45615482e25d1079d401f5fb57"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35404d45615482e25d1079d401f5fb57">covariance</a> (std::span&lt; T &gt; out) const</td></tr>
 <tr class="memdesc:a35404d45615482e25d1079d401f5fb57"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unbiased covariance, <span class="tt">M / (n - 1)</span> (full co-moment only).  <br /></td></tr>
 <tr class="memitem:a85be9c4b7cb338a04fe06ae21ee2812d" id="r_a85be9c4b7cb338a04fe06ae21ee2812d"><td class="memTemplParams" colspan="2">template&lt;typename B&gt; </td></tr>
-<tr class="memitem:a85be9c4b7cb338a04fe06ae21ee2812d template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">linalg::error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85be9c4b7cb338a04fe06ae21ee2812d">effective_rank</a> (const B &amp;backend, std::span&lt; T &gt; work) const</td></tr>
+<tr class="memitem:a85be9c4b7cb338a04fe06ae21ee2812d template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">linalg::error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85be9c4b7cb338a04fe06ae21ee2812d">effective_rank</a> (const B &amp;backend, std::span&lt; T &gt; work) const</td></tr>
 <tr class="memdesc:a85be9c4b7cb338a04fe06ae21ee2812d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The effective rank, <span class="tt">exp(-Σ p_k log p_k)</span> with <span class="tt">p_k = sqrt(λ_k) / Σ sqrt(λ)</span> over the covariance's eigenvalues <span class="tt">λ</span> (negative ones, rounding, taken as 0), through the backend's <span class="tt">symmetric_eigen</span>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -264,7 +264,7 @@ template&lt;typename B&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">linalg::error</a> &gt; <a class="el" href="structsnicholls_1_1ml_1_1embedding__moments.html">snicholls::ml::embedding_moments</a>&lt; T &gt;::effective_rank </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; T, <a class="el" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">linalg::error</a> &gt; <a class="el" href="structsnicholls_1_1ml_1_1embedding__moments.html">snicholls::ml::embedding_moments</a>&lt; T &gt;::effective_rank </td>
           <td>(</td>
           <td class="paramtype">const B &amp;</td>          <td class="paramname"><span class="paramname"><em>backend</em></span>, </td>
         </tr>

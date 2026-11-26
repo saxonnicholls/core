@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -132,7 +132,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a734d0f27ba1b942050ddc69c97731894"><td class="mdescLeft">&#160;</td><td class="mdescRight">The working space <span class="tt"><a class="el" href="group__core.html#gaa4d57c5fcbb59e9944725d10d16d0157" title="The leading k singular values and vectors of A, A ≈ U diag(s) Vᵀ, by randomised range finding.">truncated_svd</a></span> needs, in elements.  <br /></td></tr>
 <tr class="memitem:gaa4d57c5fcbb59e9944725d10d16d0157" id="r_gaa4d57c5fcbb59e9944725d10d16d0157"><td class="memTemplParams" colspan="2">template&lt;typename B, typename EA, typename LA, scalar T, typename LU, typename LV, typename S = gaussian_sketch&lt;&gt;&gt; <br />
 requires (std::same_as&lt;detail::value_t&lt;EA&gt;, T&gt; &amp;&amp; blas_backend&lt;B, T&gt; &amp;&amp; factorisation_backend&lt;B, T&gt; &amp;&amp; decomposition_backend&lt;B, T&gt; &amp;&amp; sketch&lt;S, T&gt;)</td></tr>
-<tr class="memitem:gaa4d57c5fcbb59e9944725d10d16d0157 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaa4d57c5fcbb59e9944725d10d16d0157">snicholls::linalg::truncated_svd</a> (const B &amp;b, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; EA, 2, LA &gt; &amp;a, std::span&lt; T &gt; s, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LU &gt; &amp;u, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LV &gt; &amp;v, std::span&lt; T &gt; work, const <a class="el" href="structsnicholls_1_1linalg_1_1truncated__svd__options.html">truncated_svd_options</a> &amp;options={}, const S &amp;sk=S{})</td></tr>
+<tr class="memitem:gaa4d57c5fcbb59e9944725d10d16d0157 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga5022bc05054efff84b4729afa44d90a0">error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaa4d57c5fcbb59e9944725d10d16d0157">snicholls::linalg::truncated_svd</a> (const B &amp;b, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; EA, 2, LA &gt; &amp;a, std::span&lt; T &gt; s, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LU &gt; &amp;u, const <a class="el" href="classsnicholls_1_1containers_1_1md__span.html">md_span</a>&lt; T, 2, LV &gt; &amp;v, std::span&lt; T &gt; work, const <a class="el" href="structsnicholls_1_1linalg_1_1truncated__svd__options.html">truncated_svd_options</a> &amp;options={}, const S &amp;sk=S{})</td></tr>
 <tr class="memdesc:gaa4d57c5fcbb59e9944725d10d16d0157"><td class="mdescLeft">&#160;</td><td class="mdescRight">The leading <span class="tt">k</span> singular values and vectors of <span class="tt">A</span>, <span class="tt">A ≈ U diag(s) Vᵀ</span>, by randomised range finding.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -156,7 +156,7 @@ requires (std::same_as&lt;detail::value_t&lt;EA&gt;, T&gt; &amp;&amp; blas_backe
 <div class="line">    <span class="keyword">constexpr</span> std::size_t k = factors;</div>
 <div class="line">    std::vector&lt;double&gt; s(k), u(days * k), v(assets * k), work(la::truncated_svd_work_size(days, assets, k));</div>
 <div class="line">    <span class="keyword">const</span> la::matrix_view&lt;const double, right&gt; r(returns.data(), {days, assets});</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> done = la::truncated_svd(la::reference, r, std::span&lt;double&gt;(s), la::matrix_view&lt;double, right&gt;(u.data(), {days, k}),</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_variable" href="group__core.html#gaadde59f30cd0c3d39bb62af639bd707e">done</a> = la::truncated_svd(la::reference, r, std::span&lt;double&gt;(s), la::matrix_view&lt;double, right&gt;(u.data(), {days, k}),</div>
 <div class="line">                                        la::matrix_view&lt;double, right&gt;(v.data(), {assets, k}), std::span&lt;double&gt;(work));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// The randomness is a seam: another sketch (Rademacher ±1), or the Gaussian one with another sampler (Box-Muller)</span></div>

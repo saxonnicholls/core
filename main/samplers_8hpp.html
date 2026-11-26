@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -211,10 +211,10 @@ Functions</h2></td></tr>
 <div class="line">    <span class="comment">// The same chain built at run time, from a request, say.</span></div>
 <div class="line">    ml::runtime_sampler_chain&lt;float, 32&gt; dynamic;</div>
 <div class="line">    dynamic.add(ml::penalties_sampler&lt;float, 32&gt;{.last_n = 32, .repeat = 1.3f})</div>
-<div class="line">        .<a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>(ml::top_k_sampler{5})</div>
-<div class="line">        .<a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>(ml::top_p_sampler&lt;float&gt;{0.9f})</div>
-<div class="line">        .<a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>(ml::temperature_sampler&lt;float&gt;{0.8f})</div>
-<div class="line">        .<a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>(ml::dist_sampler{});</div>
+<div class="line">        .<a class="code hl_function" href="group__core.html#ga0f4eff8eed4b1a4e037f5b15086f43c7">add</a>(ml::top_k_sampler{5})</div>
+<div class="line">        .<a class="code hl_function" href="group__core.html#ga0f4eff8eed4b1a4e037f5b15086f43c7">add</a>(ml::top_p_sampler&lt;float&gt;{0.9f})</div>
+<div class="line">        .<a class="code hl_function" href="group__core.html#ga0f4eff8eed4b1a4e037f5b15086f43c7">add</a>(ml::temperature_sampler&lt;float&gt;{0.8f})</div>
+<div class="line">        .<a class="code hl_function" href="group__core.html#ga0f4eff8eed4b1a4e037f5b15086f43c7">add</a>(ml::dist_sampler{});</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// A generation: each step samples, then tells the chain which token was accepted.</span></div>
 <div class="line">    wyrand g1(2026), g2(2026);</div>

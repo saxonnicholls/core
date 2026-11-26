@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -148,7 +148,7 @@ Functions</h2></td></tr>
 <p>One round, as the demo runs it:</p>
 <div class="fragment"><div class="line">    <span class="keywordflow">for</span> (std::size_t r = 0; r &lt; rounds; ++r) {</div>
 <div class="line">        <span class="keywordflow">for</span> (std::size_t k = 0; k &lt; workers; ++k) {   <span class="comment">// on worker k, its own machine</span></div>
-<div class="line">            std::array&lt;double, dim&gt; local = global;</div>
+<div class="line">            std::array&lt;double, dim&gt; <a class="code hl_variable" href="group__core.html#ga5c2f31e6365d0ab861e67927f11bff27">local</a> = global;</div>
 <div class="line">            <span class="keywordflow">for</span> (std::size_t t = 0; t &lt; h; ++t)</div>
 <div class="line">                sgd_step(local, streams[k]);</div>
 <div class="line">            ml::pseudo_gradient&lt;double&gt;(global, local, deltas[k]);   <span class="comment">// what worker k sends</span></div>
@@ -182,7 +182,7 @@ Functions</h2></td></tr>
 <p><b>Example.</b> </p><div class="fragment"><div class="line">    <span class="comment">// Three workers&#39; gradients summed in rank order: the bits every all-reduce must reproduce</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 2&gt; rank0{1e8f, 0.5f}, rank1{1.0f, 0.25f}, rank2{-1e8f, 0.25f};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;std::span&lt;const float&gt;, 3&gt; parts{rank0, rank1, rank2};</div>
-<div class="line">    std::array&lt;float, 2&gt; <a class="code hl_enumvalue" href="group__core.html#gga4b154e8056588c9efea3626334d9451da1d623b89683f9ce4e074de1676d12416">sum</a>{};</div>
+<div class="line">    std::array&lt;float, 2&gt; <a class="code hl_variable" href="group__core.html#ga087cefc3d78190bd0d58c866ec676bd9">sum</a>{};</div>
 <div class="line">    ml::ordered_sum&lt;float&gt;(parts, sum);   <span class="comment">// ((1e8 + 1) - 1e8) = 0: the 1 is lost to rounding in this order</span></div>
 </div><!-- fragment --><p><b>Performance.</b> <span class="tt">ordered_sum</span> (four parts) and <span class="tt">diloco_outer_step</span> against the same loops by hand (<span class="tt">benchmarks/ml/diloco_benchmark.cpp</span>), 1M float elements: level, within the run-to-run noise of 10% either way; about 500 million elements per second for the sum of four parts and 1.1 billion for the outer step, memory bound (Xeon W-3245, Release, Apple clang 17, 2026-11-19, one thread, a loaded machine). The outer step runs once a round, negligible next to the local steps. The bfloat16 pair against the same loops by hand, same machine and date, 1M elements, the mean of three runs: <span class="tt">compress_bf16</span> 1.11 billion elements per second (by hand 1.04), <span class="tt">ordered_sum_bf16</span> of four parts 0.90 billion (by hand 0.96): level within the noise, and the sum of bfloat16 parts about twice the float sum's rate, having half the bytes to read.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/ml/diloco_test.cpp</span>, <span class="tt">demos/ml/diloco_demo.cpp</span>.</p>

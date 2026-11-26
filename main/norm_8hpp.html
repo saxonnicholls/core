@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -191,7 +191,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> r = ml::rms_norm(v, scale, out);</div>
 <div class="line">    ml::rms_norm_backward(g, v, scale, r, dv, dscale);</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// A feature map of 4 channels x 3 positions through GroupNorm with 2 groups (a vision encoder), and its backward pass</span></div>
-<div class="line">    <span class="keyword">const</span> std::array&lt;float, 12&gt; fmap{1, 2, 3, 2, 3, 4, 10, 20, 30, 20, 30, 40};</div>
+<div class="line">    <span class="keyword">const</span> std::array&lt;float, 12&gt; <a class="code hl_variable" href="group__core.html#gad5f2fa4ce0d4e2db0c67e4ef5c712acf">fmap</a>{1, 2, 3, 2, 3, 4, 10, 20, 30, 20, 30, 40};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 4&gt; gamma{1.0f, 1.0f, 2.0f, 2.0f}, beta{0.0f, 0.0f, 0.5f, 0.5f};</div>
 <div class="line">    std::array&lt;float, 12&gt; normed{}, dfmap{};</div>
 <div class="line">    ml::group_norm(fmap, 4, 2, gamma, beta, normed);</div>
@@ -203,9 +203,9 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">    <span class="comment">// L2 normalisation of a key row (the linear attentions&#39;), and its backward pass</span></div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;float, 2&gt; key{3.0f, 4.0f};</div>
 <div class="line">    std::array&lt;float, 2&gt; unit{}, dkey{};</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> length = ml::l2_norm(key, unit);</div>
-<div class="line">    ml::l2_norm_backward(std::array&lt;float, 2&gt;{1.0f, 0.0f}, key, length, dkey);</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> [first, <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a>] = ml::group_channels(4, 2, 1);   <span class="comment">// the second group&#39;s channels: 2 and 3</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="group__core.html#ga302b408c42323ad8547250344cb28c43">length</a> = ml::l2_norm(key, unit);</div>
+<div class="line">    ml::l2_norm_backward(std::array&lt;float, 2&gt;{1.0f, 0.0f}, key, <a class="code hl_variable" href="group__core.html#ga302b408c42323ad8547250344cb28c43">length</a>, dkey);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> [<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>, <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">last</a>] = ml::group_channels(4, 2, 1);   <span class="comment">// the second group&#39;s channels: 2 and 3</span></div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="row_8hpp.html" title="snicholls::ml::row and mutable_row: what the ml functions accept as a row of numbers,...">ml/row.hpp</a></span> (the rows), <span class="tt"><a class="el" href="activations_8hpp.html" title="snicholls::ml activations: sigmoid, softplus, logit, ReLU, ReLU², SiLU, GELU (exact,...">ml/activations.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> One each.</p>
 <p><b>Guarantees.</b> <span class="tt">constexpr</span>, no allocation, linear in the row. <span class="tt">out</span> and <span class="tt">dx</span> may be the input row. <span class="tt">norm_stats</span> is trivially copyable.</p>

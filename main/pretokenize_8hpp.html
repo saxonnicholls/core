@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -181,7 +181,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a998a8386a1b8d36a32ccbe3d01488100" id="r_a998a8386a1b8d36a32ccbe3d01488100"><td class="memTemplParams" colspan="2">template&lt;typename Emit&gt; </td></tr>
 <tr class="memitem:a998a8386a1b8d36a32ccbe3d01488100 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a998a8386a1b8d36a32ccbe3d01488100">snicholls::ml::pretokenize</a> (<a class="el" href="group__core.html#ga0b8d6acb37d9fe9e3851efd0ca05da64">pretokenizer</a> kind, std::string_view text, Emit &amp;&amp;emit)</td></tr>
 <tr class="memdesc:a998a8386a1b8d36a32ccbe3d01488100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a family's whole split.  <br /></td></tr>
-<tr class="memitem:a1378c2f0898cf492d514337e712a0e85" id="r_a1378c2f0898cf492d514337e712a0e85"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="group__core.html#ga0b8d6acb37d9fe9e3851efd0ca05da64">pretokenizer</a>, <a class="el" href="group__core.html#gae0b4ee988826a8795617573afb5c6160">pretokenize_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1378c2f0898cf492d514337e712a0e85">snicholls::ml::pretokenizer_for</a> (std::string_view name) noexcept</td></tr>
+<tr class="memitem:a1378c2f0898cf492d514337e712a0e85" id="r_a1378c2f0898cf492d514337e712a0e85"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="group__core.html#ga0b8d6acb37d9fe9e3851efd0ca05da64">pretokenizer</a>, <a class="el" href="group__core.html#gae0b4ee988826a8795617573afb5c6160">pretokenize_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1378c2f0898cf492d514337e712a0e85">snicholls::ml::pretokenizer_for</a> (std::string_view name) noexcept</td></tr>
 <tr class="memdesc:a1378c2f0898cf492d514337e712a0e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">The family for a GGUF <span class="tt">tokenizer.ggml.pre</span> name (llama.cpp's names).  <br /></td></tr>
 <tr class="memitem:a4be2cf98c9d8c544e4b6dd30dc0ecabd" id="r_a4be2cf98c9d8c544e4b6dd30dc0ecabd"><td class="memTemplParams" colspan="2">template&lt;typename OnText, typename OnToken&gt; </td></tr>
 <tr class="memitem:a4be2cf98c9d8c544e4b6dd30dc0ecabd template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4be2cf98c9d8c544e4b6dd30dc0ecabd">snicholls::ml::split_added_tokens</a> (std::string_view text, const <a class="el" href="structsnicholls_1_1ml_1_1token__trie.html">token_trie</a> &amp;added, OnText &amp;&amp;on_text, OnToken &amp;&amp;on_token)</td></tr>

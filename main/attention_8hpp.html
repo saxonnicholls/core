@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -179,7 +179,7 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <div class="line">        <span class="keywordtype">float</span> s = 0.0f;</div>
 <div class="line">        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; d; ++i)</div>
 <div class="line">            s += q[i] * keys[j * d + i];</div>
-<div class="line">        (j &lt; n / 2 ? a : b).<a class="code hl_function" href="namespacesnicholls.html#a872b1a407b105277d5f34e11de94a684">add</a>(scale * s, std::span&lt;const float&gt;(values).subspan(j * d, d));</div>
+<div class="line">        (j &lt; n / 2 ? a : b).<a class="code hl_function" href="group__core.html#ga0f4eff8eed4b1a4e037f5b15086f43c7">add</a>(scale * s, std::span&lt;const float&gt;(values).subspan(j * d, d));</div>
 <div class="line">    }</div>
 <div class="line">    a.merge(b);</div>
 <div class="line">    std::array&lt;float, d&gt; merged{};</div>

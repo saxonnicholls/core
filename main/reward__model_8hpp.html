@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -148,10 +148,10 @@ requires std::same_as&lt;<a class="el" href="group__core.html#gab64702f991c1102c
 <li><span class="tt">last_response_positions(mask, positions)</span>: each sequence's last response position, the index list <span class="tt">gather_rows(b, hs, positions, out, d, rows)</span> (<span class="tt"><a class="el" href="gather_8hpp.html" title="snicholls::ml rows by index lists, on the backend: gather_rows, its backward scatter_add_rows,...">ml/gather.hpp</a></span>) reads the hidden states at, and its backward <span class="tt">scatter_add_rows</span> takes the gradient back into the sequence's.</li>
 </ul>
 <div class="fragment"><div class="line">    <span class="comment">// Two sequences (chosen, rejected) of 3 positions with hidden states of 2; the response ends at different places</span></div>
-<div class="line">    <span class="keyword">constexpr</span> std::size_t d = 2, length = 3;</div>
+<div class="line">    <span class="keyword">constexpr</span> std::size_t d = 2, <a class="code hl_variable" href="group__core.html#ga302b408c42323ad8547250344cb28c43">length</a> = 3;</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;double, 2 * length * d&gt; hs{0.1, 0.0, 0.9, 0.2, 0.0, 0.0, <span class="comment">/**/</span> 0.3, 0.1, 0.0, 0.8, 0.5, 0.5};</div>
 <div class="line">    <span class="keyword">const</span> std::array&lt;std::uint8_t, 2 * length&gt; mask{0, 1, 0, <span class="comment">/**/</span> 0, 1, 1};</div>
-<div class="line">    std::array&lt;std::uint32_t, 2&gt; <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a>{};</div>
+<div class="line">    std::array&lt;std::uint32_t, 2&gt; <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">last</a>{};</div>
 <div class="line">    ml::last_response_positions(mask, last);                  <span class="comment">// positions 1 and 2</span></div>
 <div class="line">    std::array&lt;double, 2 * d&gt; h_last{};</div>
 <div class="line">    ml::gather_rows(backend, std::span&lt;const double&gt;(hs), last, std::span&lt;double&gt;(h_last), d, 2);   <span class="comment">// ml/gather.hpp</span></div>

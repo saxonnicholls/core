@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -112,7 +112,7 @@ Namespaces</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><span class="tt">snicholls::detail::mul_div</span>: the exact quotient and remainder of a 256 x 256-bit product by a 256-bit divisor. </p>
-<p>The product is formed in 512 bits and divided with Knuth's algorithm D on 32-bit digits, so nothing is lost before the caller rounds: money conversion multiplies an amount by a rate's numerator and divides by its denominator. constexpr and allocation-free. Internal: <span class="tt"><a class="el" href="rate_8hpp.html" title="snicholls::rate and snicholls::convert: exact conversion between assets, with a named rounding mode a...">money/rate.hpp</a></span> is the public face. </p>
+<p>The product is formed in 512 bits and divided with Knuth's algorithm D on 32-bit digits, so nothing is lost before the caller rounds: money conversion multiplies an amount by a rate's numerator and divides by its denominator. When both factors fit in 64 bits the product is one 128-bit multiply and the division is <span class="tt">uint256</span>'s, which is one hardware division when the product and the divisor fit in 64 bits; the results are bit-identical to the general path. constexpr and allocation-free. Internal: <span class="tt"><a class="el" href="rate_8hpp.html" title="snicholls::rate and snicholls::convert: exact conversion between assets, with a named rounding mode a...">money/rate.hpp</a></span> is the public face. </p>
 
 <p class="definition">Definition in file <a class="el" href="mul__div_8hpp_source.html">mul_div.hpp</a>.</p>
 </div></div><!-- contents -->

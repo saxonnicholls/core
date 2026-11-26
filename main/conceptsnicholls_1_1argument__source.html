@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -104,7 +104,7 @@ $(function(){initNavTree('conceptsnicholls_1_1argument__source.html','',''); });
 <div class="line">        s.template <a class="code hl_enumvalue" href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">get&lt;int&gt;</a>(i);</div>
 <div class="line">    }</div>
 <div class="ttc" id="aconceptsnicholls_1_1argument__source_html"><div class="ttname"><a href="conceptsnicholls_1_1argument__source.html">snicholls::argument_source</a></div><div class="ttdoc">What snicholls::invoke_with reads arguments from: a count, and argument i as a T or a refusal.</div><div class="ttdef"><b>Definition</b> <a href="invoke__with_8hpp_source.html#l00144">invoke_with.hpp:144</a></div></div>
-<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">snicholls::http_method::get</a></div><div class="ttdeci">@ get</div><div class="ttdoc">GET.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00068">http_handler.hpp:68</a></div></div>
+<div class="ttc" id="agroup__core_html_ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f"><div class="ttname"><a href="group__core.html#ggaf656d96853bb5b22c8bdf16bb58e73d4ab5eda0a74558a342cf659187f06f746f">snicholls::http_method::get</a></div><div class="ttdeci">@ get</div><div class="ttdoc">GET.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2http__handler_8hpp_source.html#l00075">http_handler.hpp:75</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>What <span class="tt"><a class="el" href="group__core.html#ga4d7db73c9cddf303c1b5fb95d37368d7" title="Call the first callable of f whose parameter list the source can fill, chosen at run time.">snicholls::invoke_with</a></span> reads arguments from: a count, and argument <span class="tt">i</span> as a <span class="tt">T</span> or a refusal. </p>
 <p><span class="tt">size()</span> is the number of arguments. <span class="tt">get&lt;T&gt;(i)</span>, for every object type <span class="tt">T</span> a callable may ask for, returns either <span class="tt">const T*</span> (a pointer into the source, null to refuse) or <span class="tt">std::optional&lt;T&gt;</span> (a value, empty to refuse). <span class="tt"><a class="el" href="structsnicholls_1_1any__source.html" title="The std::any argument source: argument i is the object inside args[i] when that holds exactly a T.">snicholls::any_source</a></span> is the <span class="tt">std::any</span> one; a JSON source, a command-line source and the like are written the same way. </p>

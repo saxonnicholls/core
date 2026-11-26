@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -112,9 +112,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a36ea0b538a500c982fb85dc4c01d5703" id="r_a36ea0b538a500c982fb85dc4c01d5703"><td class="memItemLeft" align="right" valign="top"><a id="a36ea0b538a500c982fb85dc4c01d5703" name="a36ea0b538a500c982fb85dc4c01d5703"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~kv_backup_interface</b> ()=default</td></tr>
 <tr class="memdesc:a36ea0b538a500c982fb85dc4c01d5703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the object. <br /></td></tr>
-<tr class="memitem:ac87d6552ab3579013f7d75ef1683b744" id="r_ac87d6552ab3579013f7d75ef1683b744"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac87d6552ab3579013f7d75ef1683b744">checkpoint</a> (std::string_view destination)=0</td></tr>
+<tr class="memitem:ac87d6552ab3579013f7d75ef1683b744" id="r_ac87d6552ab3579013f7d75ef1683b744"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac87d6552ab3579013f7d75ef1683b744">checkpoint</a> (std::string_view destination)=0</td></tr>
 <tr class="memdesc:ac87d6552ab3579013f7d75ef1683b744"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a consistent copy of the store at <span class="tt">destination</span>.  <br /></td></tr>
-<tr class="memitem:a734e2e56a80919a48bc68284382e3920" id="r_a734e2e56a80919a48bc68284382e3920"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a734e2e56a80919a48bc68284382e3920">verify</a> () const =0</td></tr>
+<tr class="memitem:a734e2e56a80919a48bc68284382e3920" id="r_a734e2e56a80919a48bc68284382e3920"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a734e2e56a80919a48bc68284382e3920">verify</a> () const =0</td></tr>
 <tr class="memdesc:a734e2e56a80919a48bc68284382e3920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the stored data.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
@@ -143,7 +143,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_backup_interface::checkpoint </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__checkpoint__info.html">kv_checkpoint_info</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_backup_interface::checkpoint </td>
           <td>(</td>
           <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>destination</em></span></td><td>)</td>
           <td></td>
@@ -207,7 +207,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_backup_interface::verify </td>
+          <td class="memname">virtual <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; <a class="el" href="structsnicholls_1_1kv__verify__report.html">kv_verify_report</a>, <a class="el" href="group__core.html#gaa134874d2fb1b2194bc67b2752edecf9">kv_errc</a> &gt; snicholls::kv_backup_interface::verify </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>

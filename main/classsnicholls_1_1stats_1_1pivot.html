@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,7 +100,7 @@ $(function(){initNavTree('classsnicholls_1_1stats_1_1pivot.html','',''); });
 class snicholls::stats::pivot&lt; Row, Rows, Columns, Measures &gt;</div><p>A pivot table of <span class="tt">Row</span>s: keys <span class="tt">Rows</span> down, <span class="tt">Columns</span> across, and each <span class="tt">Measure</span> in every cell. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Row</td><td>The row type: a tuple of strong types, a struct, anything the getters read. </td></tr>
+    <tr><td class="paramname">Row</td><td>The row type: a tuple of strong types, a struct (read by <span class="tt"><a class="el" href="structsnicholls_1_1stats_1_1member.html" title="A getter that reads a member of a plain struct: member&lt;&amp;trade::desk&gt;, a key or a measure&#39;s value with...">member</a>&lt;&amp;Row::m&gt;</span>), anything the getters read. </td></tr>
     <tr><td class="paramname">Rows</td><td>A <span class="tt"><a class="el" href="structsnicholls_1_1meta_1_1type__list.html" title="One compile-time type list for the whole library, with the algorithms over it.">meta::type_list</a></span> of row keys (key types or getter types). </td></tr>
     <tr><td class="paramname">Columns</td><td>A <span class="tt"><a class="el" href="structsnicholls_1_1meta_1_1type__list.html" title="One compile-time type list for the whole library, with the algorithms over it.">meta::type_list</a></span> of column keys. </td></tr>
     <tr><td class="paramname">Measures</td><td><span class="tt"><a class="el" href="structsnicholls_1_1stats_1_1measure.html" title="A measure of a pivot: a value read from each row and the accumulator that aggregates it in each cell.">measure</a>&lt;Value, Accumulator&gt;</span>s, at least one. </td></tr>
@@ -108,7 +108,7 @@ class snicholls::stats::pivot&lt; Row, Rows, Columns, Measures &gt;</div><p>A pi
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="pivot_8hpp_source.html#l00301">301</a> of file <a class="el" href="pivot_8hpp_source.html">pivot.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pivot_8hpp_source.html#l00353">353</a> of file <a class="el" href="pivot_8hpp_source.html">pivot.hpp</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>snicholls/core/stats/<a class="el" href="pivot_8hpp_source.html">pivot.hpp</a></li>
 </ul>

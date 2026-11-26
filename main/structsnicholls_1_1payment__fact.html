@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -110,8 +110,8 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ac1d85351b63949acb5ea043fb3d40bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">the provider's line id (<span class="tt">txn_...</span>, a <span class="tt">referenceNumber</span>)  <br /></td></tr>
 <tr class="memitem:a39ac5df180de487b4cf5501682df413c" id="r_a39ac5df180de487b4cf5501682df413c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__core.html#ga1ad62f983a8aea632dc3d5eb6490519e">fact_kind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39ac5df180de487b4cf5501682df413c">kind</a> {<a class="el" href="group__core.html#gga1ad62f983a8aea632dc3d5eb6490519eaf83c2a85d972a89238f31296c63f0dbc">fact_kind::payment</a>}</td></tr>
 <tr class="memdesc:a39ac5df180de487b4cf5501682df413c"><td class="mdescLeft">&#160;</td><td class="mdescRight">what it books  <br /></td></tr>
-<tr class="memitem:a4eae1855dc2aeda770e67a534615e940" id="r_a4eae1855dc2aeda770e67a534615e940"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesnicholls.html#af2d2e27d59b8ddfb641648544da7928b">utc_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4eae1855dc2aeda770e67a534615e940">occurred_at</a> {}</td></tr>
-<tr class="memdesc:a4eae1855dc2aeda770e67a534615e940"><td class="mdescLeft">&#160;</td><td class="mdescRight">the provider's time  <br /></td></tr>
+<tr class="memitem:ab5114176c9b7f2f7fc0d93532fd811f3" id="r_ab5114176c9b7f2f7fc0d93532fd811f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsnicholls_1_1fact__dates.html">fact_dates</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5114176c9b7f2f7fc0d93532fd811f3">dates</a></td></tr>
+<tr class="memdesc:ab5114176c9b7f2f7fc0d93532fd811f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">when it happened, settles, and was known (<span class="tt"><a class="el" href="structsnicholls_1_1fact__dates.html" title="A fact&#39;s dates, the same on every fact a ledger books (payments, on-ramp, securities): when the econo...">fact_dates</a></span>)  <br /></td></tr>
 <tr class="memitem:a413ea027179ed590f17b239bf773fb75" id="r_a413ea027179ed590f17b239bf773fb75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsnicholls_1_1settlement.html">settlement</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a413ea027179ed590f17b239bf773fb75">settled</a></td></tr>
 <tr class="memdesc:a413ea027179ed590f17b239bf773fb75"><td class="mdescLeft">&#160;</td><td class="mdescRight">in the account's currency; <span class="tt">balances(settled)</span> holds  <br /></td></tr>
 <tr class="memitem:a1ff319fa89a1e242c726cb64792a04f1" id="r_a1ff319fa89a1e242c726cb64792a04f1"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classsnicholls_1_1money.html">money</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ff319fa89a1e242c726cb64792a04f1">presentment</a></td></tr>
@@ -132,8 +132,26 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>One fact for the ledger: authoritative, from the provider's balance transaction or statement line, never from a webhook body. Booked once, by <span class="tt"><a class="el" href="#ac1d85351b63949acb5ea043fb3d40bad" title="the provider&#39;s line id (txn_..., a referenceNumber)">fact_id</a></span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00432">432</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00435">435</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="ab5114176c9b7f2f7fc0d93532fd811f3" name="ab5114176c9b7f2f7fc0d93532fd811f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5114176c9b7f2f7fc0d93532fd811f3">&#9670;&#160;</a></span>dates</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsnicholls_1_1fact__dates.html">fact_dates</a> snicholls::payment_fact::dates</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>when it happened, settles, and was known (<span class="tt"><a class="el" href="structsnicholls_1_1fact__dates.html" title="A fact&#39;s dates, the same on every fact a ledger books (payments, on-ramp, securities): when the econo...">fact_dates</a></span>) </p>
+
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00441">441</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+
+</div>
+</div>
 <a id="afaaee46cfd97dedd384fdce011af379c" name="afaaee46cfd97dedd384fdce011af379c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afaaee46cfd97dedd384fdce011af379c">&#9670;&#160;</a></span>event_id</h2>
 
@@ -148,7 +166,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the delivery that led here; empty when read from a statement </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00435">435</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00438">438</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -166,7 +184,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>exact: presentment to settlement, when they differ </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00441">441</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00444">444</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -184,7 +202,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>the provider's line id (<span class="tt">txn_...</span>, a <span class="tt">referenceNumber</span>) </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00436">436</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00439">439</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -202,25 +220,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>what it books </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00437">437</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a4eae1855dc2aeda770e67a534615e940" name="a4eae1855dc2aeda770e67a534615e940"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4eae1855dc2aeda770e67a534615e940">&#9670;&#160;</a></span>occurred_at</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacesnicholls.html#af2d2e27d59b8ddfb641648544da7928b">utc_s</a> snicholls::payment_fact::occurred_at {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>the provider's time </p>
-
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00438">438</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00440">440</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -238,7 +238,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>our customer's id from the provider metadata; never an email </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00442">442</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00445">445</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -256,7 +256,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>what the payer was charged, when it differs from <span class="tt">settled.gross</span> </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00440">440</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00443">443</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -274,7 +274,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>opaque; the product maps it to a book </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00434">434</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00437">437</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -292,7 +292,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>related provider ids </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00443">443</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00446">446</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -310,7 +310,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p>in the account's currency; <span class="tt">balances(settled)</span> holds </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00439">439</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00442">442</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +328,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==<
 
 <p><span class="tt">"stripe"</span>, <span class="tt">"wise"</span> </p>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00433">433</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2payment__provider_8hpp_source.html#l00436">436</a> of file <a class="el" href="concepts_2payment__provider_8hpp_source.html">payment_provider.hpp</a>.</p>
 
 </div>
 </div>

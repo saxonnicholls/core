@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -156,8 +156,8 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line">    <span class="comment">// Bars of two, and every window of three: Partition[list, 2] and Partition[list, 3, 1].</span></div>
 <div class="line">    <span class="keyword">constexpr</span> std::array prices{100, 101, 99, 102, 104, 103};</div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> bars = <a class="code hl_function" href="group__core.html#ga5d2e253f46e63bb3a8138598b45c2da8">snicholls::partition&lt;2&gt;</a>(prices);</div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> windows = <a class="code hl_function" href="group__core.html#ga5d2e253f46e63bb3a8138598b45c2da8">snicholls::partition&lt;3, 1&gt;</a>(prices);</div>
-<div class="line">    <span class="keyword">static_assert</span>(bars.size() == 3 &amp;&amp; windows.size() == 4 &amp;&amp; windows[3] == std::array{102, 104, 103});</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1slice.html#a426b771a42cd2e3fe8e799455ea63191">windows</a> = <a class="code hl_function" href="group__core.html#ga5d2e253f46e63bb3a8138598b45c2da8">snicholls::partition&lt;3, 1&gt;</a>(prices);</div>
+<div class="line">    <span class="keyword">static_assert</span>(bars.size() == 3 &amp;&amp; <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1slice.html#a426b771a42cd2e3fe8e799455ea63191">windows</a>.size() == 4 &amp;&amp; windows[3] == std::array{102, 104, 103});</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Every way to group four factors (15, the Bell number), as the masks game::owen takes.</span></div>
 <div class="line">    std::size_t groupings = 0;</div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,14 +93,14 @@ $(function(){initNavTree('structsnicholls_1_1result__niche.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Opt-in niche for <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span> with an empty E: a value of V that is never a valid success.  
+<p>Opt-in niche for <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span> with an empty E: a value of V that is never a valid success.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="result_8hpp_source.html">snicholls/core/result.hpp</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;class V&gt;<br />
-struct snicholls::result_niche&lt; V &gt;</div><p>Opt-in niche for <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span> with an empty E: a value of V that is never a valid success. </p>
-<p>Specialise it with <span class="tt">static constexpr V value</span> (an invalid V, e.g. <span class="tt">-1</span> for an index type). Then <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">result</a>&lt;V, E&gt;</span> for any empty, trivially default-constructible E has exactly <span class="tt">sizeof(V)</span>: the discriminant is "v == value". Constructing <span class="tt">ok(value)</span> is a precondition violation and terminates. Nothing in core specialises it: a raw pointer or integer has no invalid value (<span class="tt">nullptr</span> and <span class="tt">-1</span> are valid successes), so a niche is sound only for a type whose invariant excludes one value.</p>
+struct snicholls::result_niche&lt; V &gt;</div><p>Opt-in niche for <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span> with an empty E: a value of V that is never a valid success. </p>
+<p>Specialise it with <span class="tt">static constexpr V value</span> (an invalid V, e.g. <span class="tt">-1</span> for an index type). Then <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">result</a>&lt;V, E&gt;</span> for any empty, trivially default-constructible E has exactly <span class="tt">sizeof(V)</span>: the discriminant is "v == value". Constructing <span class="tt">ok(value)</span> is a precondition violation and terminates. Nothing in core specialises it: a raw pointer or integer has no invalid value (<span class="tt">nullptr</span> and <span class="tt">-1</span> are valid successes), so a niche is sound only for a type whose invariant excludes one value.</p>
 <p>The state <em>is</em> the value: a niche result whose V has been moved from reads as an error if the moved-from V equals the niche value (for example a handle whose move constructor leaves the source at <span class="tt">-1</span>, the niche). Do not use a niche result after moving its value out (<span class="tt">std::move(r).unwrap()</span>), only assign to it or destroy it. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">V</td><td>the value type. </td></tr>

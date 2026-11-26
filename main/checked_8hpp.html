@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -142,11 +142,11 @@ requires std::is_arithmetic_v&lt;To&gt; &amp;&amp; std::is_arithmetic_v&lt;From&
 <tr class="memdesc:ga84b20ee48f508bf627a6d78933d80051"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value as a <span class="tt">To</span>, or none if the conversion would change it: out of range, or a fraction lost.  <br /></td></tr>
 <tr class="memitem:ga252e477d9583fba6cd1160437643e6b4" id="r_ga252e477d9583fba6cd1160437643e6b4"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; <br />
 requires std::is_arithmetic_v&lt;T&gt; &amp;&amp; (!std::same_as&lt;T, bool&gt;) &amp;&amp; detail::parse::has_from_chars&lt;T&gt;</td></tr>
-<tr class="memitem:ga252e477d9583fba6cd1160437643e6b4 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; T, std::errc &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga252e477d9583fba6cd1160437643e6b4">snicholls::parse_number</a> (std::string_view text) noexcept</td></tr>
+<tr class="memitem:ga252e477d9583fba6cd1160437643e6b4 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; T, std::errc &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga252e477d9583fba6cd1160437643e6b4">snicholls::parse_number</a> (std::string_view text) noexcept</td></tr>
 <tr class="memdesc:ga252e477d9583fba6cd1160437643e6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A whole string as a number, by <span class="tt">std::from_chars</span>: no leading space, no trailing characters.  <br /></td></tr>
 <tr class="memitem:ga252e477d9583fba6cd1160437643e6b4" id="r_ga252e477d9583fba6cd1160437643e6b4"><td class="memTemplParams" colspan="2">template&lt;std::floating_point T&gt; <br />
 requires (!detail::parse::has_from_chars&lt;T&gt;)</td></tr>
-<tr class="memitem:ga252e477d9583fba6cd1160437643e6b4 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; T, std::errc &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html#ga252e477d9583fba6cd1160437643e6b4">snicholls::parse_number</a> (std::string_view text) noexcept</td></tr>
+<tr class="memitem:ga252e477d9583fba6cd1160437643e6b4 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; T, std::errc &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesnicholls.html#ga252e477d9583fba6cd1160437643e6b4">snicholls::parse_number</a> (std::string_view text) noexcept</td></tr>
 <tr class="memdesc:ga252e477d9583fba6cd1160437643e6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A whole string as a floating-point number where <span class="tt">std::from_chars</span> cannot parse one: the same syntax, by the C library.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>

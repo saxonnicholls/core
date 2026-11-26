@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -215,7 +215,7 @@ $(function(){initNavTree('zip_8hpp_source.html','',''); });
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classsnicholls_1_1zip__view.html#aa973a6f5e0fb2e380b1c3b0f82ce3bb2">  192</a></span>        <a class="code hl_function" href="classsnicholls_1_1zip__view.html#aa973a6f5e0fb2e380b1c3b0f82ce3bb2">zip_view</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classsnicholls_1_1zip__view.html#a29dd03ea24715263730e51ffe8f1e365">  196</a></span>        <span class="keyword">constexpr</span> <span class="keyword">explicit</span> <a class="code hl_function" href="classsnicholls_1_1zip__view.html#a29dd03ea24715263730e51ffe8f1e365">zip_view</a>(Views... views) : views_(std::move(views)...) {}</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classsnicholls_1_1zip__view.html#a29dd03ea24715263730e51ffe8f1e365">  196</a></span>        <span class="keyword">constexpr</span> <span class="keyword">explicit</span> <a class="code hl_function" href="classsnicholls_1_1zip__view.html#a29dd03ea24715263730e51ffe8f1e365">zip_view</a>(Views... views) : views_(std::<a class="code hl_enumvalue" href="group__core.html#gga4bebf24768ac39ca4044a03970107887a3734a903022249b3010be1897042568e">move</a>(views)...) {}</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span></div>
 <div class="foldopen" id="foldopen00200" data-start="{" data-end="}">
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="classsnicholls_1_1zip__view.html#aeb90cfae8bb9146cbe0af69bbdd5a8cd">  200</a></span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="classsnicholls_1_1zip__view.html#aeb90cfae8bb9146cbe0af69bbdd5a8cd">begin</a>()</div>
@@ -322,6 +322,7 @@ $(function(){initNavTree('zip_8hpp_source.html','',''); });
 <div class="ttc" id="aclasssnicholls_1_1zip__view_html_aeb90cfae8bb9146cbe0af69bbdd5a8cd"><div class="ttname"><a href="classsnicholls_1_1zip__view.html#aeb90cfae8bb9146cbe0af69bbdd5a8cd">snicholls::zip_view::begin</a></div><div class="ttdeci">constexpr auto begin()</div><div class="ttdoc">The first elements.</div><div class="ttdef"><b>Definition</b> <a href="#l00200">zip.hpp:200</a></div></div>
 <div class="ttc" id="agroup__core_html_ga4f0c348fc046b790cc07d4a693472533"><div class="ttname"><a href="group__core.html#ga4f0c348fc046b790cc07d4a693472533">snicholls::zip</a></div><div class="ttdeci">constexpr auto zip(Ranges &amp;&amp;... ranges)</div><div class="ttdoc">Walk these ranges together: for (auto [price, size] : zip(prices, sizes)).</div><div class="ttdef"><b>Definition</b> <a href="#l00265">zip.hpp:265</a></div></div>
 <div class="ttc" id="agroup__core_html_ga7a43e5629bb1ee12465e733b78ffb421"><div class="ttname"><a href="group__core.html#ga7a43e5629bb1ee12465e733b78ffb421">snicholls::operator==</a></div><div class="ttdeci">constexpr bool operator==(const utc&lt; D1 &gt; &amp;a, const utc&lt; D2 &gt; &amp;b) noexcept</div><div class="ttdoc">Across resolutions: compared exactly, in the common duration (as std::chrono::time_point).</div><div class="ttdef"><b>Definition</b> <a href="utc_8hpp_source.html#l00482">utc.hpp:482</a></div></div>
+<div class="ttc" id="agroup__core_html_gga4bebf24768ac39ca4044a03970107887a3734a903022249b3010be1897042568e"><div class="ttname"><a href="group__core.html#gga4bebf24768ac39ca4044a03970107887a3734a903022249b3010be1897042568e">snicholls::remote_files_op::move</a></div><div class="ttdeci">@ move</div><div class="ttdoc">move: optional</div><div class="ttdef"><b>Definition</b> <a href="concepts_2remote__files_8hpp_source.html#l00096">remote_files.hpp:96</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1zip__value_html"><div class="ttname"><a href="structsnicholls_1_1zip__value.html">snicholls::zip_value</a></div><div class="ttdoc">The value type of a zip_view: a std::tuple of the elements&#39; values.</div><div class="ttdef"><b>Definition</b> <a href="#l00074">zip.hpp:74</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

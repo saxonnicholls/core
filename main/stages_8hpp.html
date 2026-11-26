@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -160,11 +160,11 @@ requires (!stage_spec&lt;Sink&gt;)</td></tr>
 <p>snicholls::pipeline stages - compile-time composable observer chains. Std only.</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> chain = filter([](<span class="keyword">const</span> quote&amp; q) { <span class="keywordflow">return</span> q.bid &gt; 0; })</div>
 <div class="line">           | transform([](<span class="keyword">const</span> quote&amp; q) { <span class="keywordflow">return</span> mid_of(q); })</div>
-<div class="line">           | <a class="code hl_function" href="#a63d1c82dcc70c0c0790aa5f7f12b6eec">tap</a>([&amp;](<span class="keywordtype">double</span> m) { <a class="code hl_enumvalue" href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">last</a> = m; })</div>
+<div class="line">           | <a class="code hl_variable" href="group__core.html#ga82f3e84784ab12b8043922d33055bd5e">tap</a>([&amp;](<span class="keywordtype">double</span> m) { <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">last</a> = m; })</div>
 <div class="line">           | sink;                                     <span class="comment">// any callable</span></div>
 <div class="line">chain(q);                                              <span class="comment">// all inlined: no allocation, no virtual call</span></div>
-<div class="ttc" id="agroup__core_html_gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51"><div class="ttname"><a href="group__core.html#gga3c675a762d07d5a302c88c82acd7a06da98bd1c45684cf587ac2347a92dd7bb51">snicholls::ml::pooling_kind::last</a></div><div class="ttdeci">@ last</div><div class="ttdoc">The last row.</div><div class="ttdef"><b>Definition</b> <a href="pooling_8hpp_source.html#l00082">pooling.hpp:82</a></div></div>
-<div class="ttc" id="astages_8hpp_html_a63d1c82dcc70c0c0790aa5f7f12b6eec"><div class="ttname"><a href="#a63d1c82dcc70c0c0790aa5f7f12b6eec">snicholls::pipeline::tap</a></div><div class="ttdeci">tap_spec&lt; std::decay_t&lt; F &gt; &gt; tap(F &amp;&amp;f)</div><div class="ttdoc">The tap.</div><div class="ttdef"><b>Definition</b> <a href="stages_8hpp_source.html#l00278">stages.hpp:278</a></div></div>
+<div class="ttc" id="agroup__core_html_ga82f3e84784ab12b8043922d33055bd5e"><div class="ttname"><a href="group__core.html#ga82f3e84784ab12b8043922d33055bd5e">snicholls::fn::tap</a></div><div class="ttdeci">constexpr detail::unary_maker&lt; detail::tap_op &gt; tap</div><div class="ttdoc">tap(f)(x) calls f(x) (as const) for its effect and returns x.</div><div class="ttdef"><b>Definition</b> <a href="combinators_8hpp_source.html#l00565">combinators.hpp:565</a></div></div>
+<div class="ttc" id="anamespacesnicholls_1_1fn_1_1rust_1_1iter_html_a45a83fa3862cfc15826459c5d27f3803"><div class="ttname"><a href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">snicholls::fn::rust::iter::last</a></div><div class="ttdeci">constexpr detail::last_fn last</div><div class="ttdoc">last(r): the last element, or empty.</div><div class="ttdef"><b>Definition</b> <a href="rust__iter_8hpp_source.html#l00466">rust_iter.hpp:466</a></div></div>
 </div><!-- fragment --><p>A <em>stage spec</em> (filter, transform, tap, batch&lt;T&gt;) describes a step; <span class="tt">spec | spec</span> composes specs, and <span class="tt">spec | callable</span> binds the chain to its final sink, giving a plain callable struct whose members are the specs' functions and the sink. Every call is a direct, inlinable call (the zero-cost form; benchmarked against a hand-written loop). For run-time plug-and-play, connect any chain to a run-time emitter or observer in the consuming library. </p>
 
 <p class="definition">Definition in file <a class="el" href="stages_8hpp_source.html">stages.hpp</a>.</p>

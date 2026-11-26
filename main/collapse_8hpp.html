@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -160,7 +160,7 @@ Heuristics", and its code, read 2026-11-19): embeddings should be distributed as
 <div class="fragment"><div class="line">    <span class="comment">// Two workers accumulate half the rows each and merge; then the spread per dimension and the effective rank</span></div>
 <div class="line">    std::vector&lt;double&gt; mean_a(d), m_a(d * d), mean_b(d), m_b(d * d), sd(d), var(d), cov(d * d), work(2 * d * d + d);</div>
 <div class="line">    ml::embedding_moments&lt;double&gt; a{mean_a, m_a}, b{mean_b, m_b};</div>
-<div class="line">    a.add_rows(std::span&lt;const double&gt;(healthy).first(n / 2 * d));</div>
+<div class="line">    a.add_rows(std::span&lt;const double&gt;(healthy).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(n / 2 * d));</div>
 <div class="line">    <span class="keywordflow">for</span> (std::size_t r = n / 2; r &lt; n; ++r)</div>
 <div class="line">        b.add(std::span&lt;const double&gt;(healthy).subspan(r * d, d));</div>
 <div class="line">    a.merge(b);</div>
@@ -172,7 +172,7 @@ Heuristics", and its code, read 2026-11-19): embeddings should be distributed as
 <div class="line">    <span class="keyword">const</span> ml::sigreg_quadrature&lt;double&gt; quad{};</div>
 <div class="line">    std::vector&lt;double&gt; directions(32 * d), sums(32 * 17 * 2), other(sums.size());</div>
 <div class="line">    ml::sigreg_directions&lt;double&gt;(2026, 0, d, directions);</div>
-<div class="line">    ml::sigreg_moments_rows(backend, std::span&lt;const double&gt;(healthy).first(n / 2 * d), d, std::span&lt;const double&gt;(directions), quad,</div>
+<div class="line">    ml::sigreg_moments_rows(backend, std::span&lt;const double&gt;(healthy).<a class="code hl_variable" href="group__core.html#gaccba1453cf84e223909a90799ce4c8fe">first</a>(n / 2 * d), d, std::span&lt;const double&gt;(directions), quad,</div>
 <div class="line">                            std::span&lt;double&gt;(sums));</div>
 <div class="line">    ml::sigreg_moments_rows(backend, std::span&lt;const double&gt;(healthy).subspan(n / 2 * d), d, std::span&lt;const double&gt;(directions), quad,</div>
 <div class="line">                            std::span&lt;double&gt;(other));</div>

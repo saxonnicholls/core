@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -111,10 +111,10 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><b>byte_map_view</b
 <tr class="memdesc:ad239aecba32a6fe08b0a22fb9dddaf99"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty view with no storage: every lookup misses and every insert is <span class="tt">too_full</span>. <br /></td></tr>
 <tr class="memitem:aff5628ed5c226cb19d0ec4a99dde9d65" id="r_aff5628ed5c226cb19d0ec4a99dde9d65"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff5628ed5c226cb19d0ec4a99dde9d65">byte_map_view</a> (std::span&lt; <a class="el" href="structsnicholls_1_1containers_1_1byte__map__slot.html">byte_map_slot</a> &gt; slots, std::span&lt; char &gt; arena, std::span&lt; <a class="el" href="byte__map_8hpp.html#a7991470fcd1d8aa2dda2ad1e362e24c1">byte_map_key_ref</a> &gt; by_value={}) noexcept</td></tr>
 <tr class="memdesc:aff5628ed5c226cb19d0ec4a99dde9d65"><td class="mdescLeft">&#160;</td><td class="mdescRight">A view over the caller's storage, cleared.  <br /></td></tr>
-<tr class="memitem:a8bca35678838094608a3029239c5c1ab" id="r_a8bca35678838094608a3029239c5c1ab"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bca35678838094608a3029239c5c1ab">insert</a> (std::string_view key, std::uint32_t value) noexcept</td></tr>
+<tr class="memitem:a8bca35678838094608a3029239c5c1ab" id="r_a8bca35678838094608a3029239c5c1ab"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bca35678838094608a3029239c5c1ab">insert</a> (std::string_view key, std::uint32_t value) noexcept</td></tr>
 <tr class="memdesc:a8bca35678838094608a3029239c5c1ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add <span class="tt">key</span> with <span class="tt">value</span>. Strong guarantee: on failure the map is unchanged.  <br /></td></tr>
 <tr class="memitem:ad08d2b3986c62c64bc85fc9f09eb9182" id="r_ad08d2b3986c62c64bc85fc9f09eb9182"><td class="memTemplParams" colspan="2">template&lt;typename R&gt; </td></tr>
-<tr class="memitem:ad08d2b3986c62c64bc85fc9f09eb9182 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad08d2b3986c62c64bc85fc9f09eb9182">build</a> (const R &amp;entries) noexcept</td></tr>
+<tr class="memitem:ad08d2b3986c62c64bc85fc9f09eb9182 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad08d2b3986c62c64bc85fc9f09eb9182">build</a> (const R &amp;entries) noexcept</td></tr>
 <tr class="memdesc:ad08d2b3986c62c64bc85fc9f09eb9182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert every entry, in order, stopping at the first failure (the entries before it stay).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -194,7 +194,7 @@ template&lt;typename R&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt; snicholls::containers::byte_map_view::build </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt; snicholls::containers::byte_map_view::build </td>
           <td>(</td>
           <td class="paramtype">const R &amp;</td>          <td class="paramname"><span class="paramname"><em>entries</em></span></td><td>)</td>
           <td></td>
@@ -236,7 +236,7 @@ template&lt;typename R&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt; snicholls::containers::byte_map_view::insert </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="byte__map_8hpp.html#a6b6e32d450688e8cf4d7c230843d62e8">byte_map_error</a> &gt; snicholls::containers::byte_map_view::insert </td>
           <td>(</td>
           <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>

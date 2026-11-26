@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -119,7 +119,7 @@ requires (sizeof...(Args) &gt; 0 &amp;&amp; !(std::is_same_v&lt;std::remove_cvre
 <tr class="memitem:a31e19bae455e6042a10a4d8cbf3b0bef template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31e19bae455e6042a10a4d8cbf3b0bef">process_event</a> (const E &amp;e) noexcept</td></tr>
 <tr class="memdesc:a31e19bae455e6042a10a4d8cbf3b0bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes one event: the first row that leaves a current state on it and whose guard holds runs, in every region; then anonymous transitions, deferred and queued events.  <br /></td></tr>
 <tr class="memitem:a7f0ed154fe7111a590c85affe76f41c3" id="r_a7f0ed154fe7111a590c85affe76f41c3"><td class="memTemplParams" colspan="2">template&lt;class E&gt; </td></tr>
-<tr class="memitem:a7f0ed154fe7111a590c85affe76f41c3 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f0ed154fe7111a590c85affe76f41c3">try_process_event</a> (const E &amp;e) noexcept</td></tr>
+<tr class="memitem:a7f0ed154fe7111a590c85affe76f41c3 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f0ed154fe7111a590c85affe76f41c3">try_process_event</a> (const E &amp;e) noexcept</td></tr>
 <tr class="memdesc:a7f0ed154fe7111a590c85affe76f41c3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="#a31e19bae455e6042a10a4d8cbf3b0bef" title="Processes one event: the first row that leaves a current state on it and whose guard holds runs,...">process_event</a></span> with the reason for a refusal.  <br /></td></tr>
 <tr class="memitem:a9271f63ebf6102d03b7d6fff0863f091" id="r_a9271f63ebf6102d03b7d6fff0863f091"><td class="memTemplParams" colspan="2">template&lt;class Sub = Def, class... Ts&gt; <br />
 requires (detail::is_state_v&lt;Ts&gt; &amp;&amp; ...)</td></tr>
@@ -137,11 +137,11 @@ requires (!std::is_void_v&lt;typename detail::machine&lt;level_def&lt;Sub&gt;, c
 <tr class="memdesc:a03999085b95079879cd77cb46be3ed82"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current state of a region, as the machine's state enumeration (of <span class="tt">Sub</span>, if given).  <br /></td></tr>
 <tr class="memitem:a56497da13013e757d198e0f8edaa7151" id="r_a56497da13013e757d198e0f8edaa7151"><td class="memTemplParams" colspan="2">template&lt;class Sub = Def, class... Es&gt; <br />
 requires (sizeof...(Es) &gt; 0 &amp;&amp; (std::is_enum_v&lt;Es&gt; &amp;&amp; ...))</td></tr>
-<tr class="memitem:a56497da13013e757d198e0f8edaa7151 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56497da13013e757d198e0f8edaa7151">restore</a> (Es... es) noexcept</td></tr>
+<tr class="memitem:a56497da13013e757d198e0f8edaa7151 template"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56497da13013e757d198e0f8edaa7151">restore</a> (Es... es) noexcept</td></tr>
 <tr class="memdesc:a56497da13013e757d198e0f8edaa7151"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the state of every region (of <span class="tt">Sub</span>, if given) from enumerators, as after a restart: no entry or exit action runs, and the queues are emptied.  <br /></td></tr>
 <tr class="memitem:a7c73e1d4329ce37f9035dbe821c19275" id="r_a7c73e1d4329ce37f9035dbe821c19275"><td class="memItemLeft" align="right" valign="top">constexpr std::array&lt; <a class="el" href="structsnicholls_1_1fsm_1_1wire__state.html">wire_state</a>, <a class="el" href="#aba2c0758fe73fe48d34f76406de0926c">slot_count</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c73e1d4329ce37f9035dbe821c19275">snapshot</a> () const noexcept</td></tr>
 <tr class="memdesc:a7c73e1d4329ce37f9035dbe821c19275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every region's state, this machine's then each sub-machine's in table order, as numbers and names.  <br /></td></tr>
-<tr class="memitem:ae0d08e03cb407a5eb2ed8b79c50992a9" id="r_ae0d08e03cb407a5eb2ed8b79c50992a9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0d08e03cb407a5eb2ed8b79c50992a9">restore_snapshot</a> (std::span&lt; const <a class="el" href="structsnicholls_1_1fsm_1_1wire__state.html">wire_state</a> &gt; slots) noexcept</td></tr>
+<tr class="memitem:ae0d08e03cb407a5eb2ed8b79c50992a9" id="r_ae0d08e03cb407a5eb2ed8b79c50992a9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0d08e03cb407a5eb2ed8b79c50992a9">restore_snapshot</a> (std::span&lt; const <a class="el" href="structsnicholls_1_1fsm_1_1wire__state.html">wire_state</a> &gt; slots) noexcept</td></tr>
 <tr class="memdesc:ae0d08e03cb407a5eb2ed8b79c50992a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets every region from a snapshot, no action running: by enumerator value where the level has a state enumeration, by name otherwise.  <br /></td></tr>
 <tr class="memitem:a31b475db7f24d6dcfc0c60ff35c16113" id="r_a31b475db7f24d6dcfc0c60ff35c16113"><td class="memTemplParams" colspan="2">template&lt;class Sub = Def, class... Ts&gt; <br />
 requires (cfg::testing_enabled &amp;&amp; (detail::is_state_v&lt;Ts&gt; &amp;&amp; ...))</td></tr>
@@ -149,6 +149,11 @@ requires (cfg::testing_enabled &amp;&amp; (detail::is_state_v&lt;Ts&gt; &amp;&am
 <tr class="memdesc:a31b475db7f24d6dcfc0c60ff35c16113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the states of every region (of <span class="tt">Sub</span>, if given) without running an action: sml's <span class="tt"><a class="el" href="structsnicholls_1_1fsm_1_1testing.html" title="Policy: allow set_current_states, which sets states without running actions (sml&#39;s sml::testing).">testing</a></span> policy.  <br /></td></tr>
 <tr class="memitem:a75728f88f40c39d7759db18f8dfdc24d" id="r_a75728f88f40c39d7759db18f8dfdc24d"><td class="memItemLeft" align="right" valign="top">constexpr const Def &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75728f88f40c39d7759db18f8dfdc24d">definition_object</a> () const noexcept</td></tr>
 <tr class="memdesc:a75728f88f40c39d7759db18f8dfdc24d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The definition object the table was built from.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:adcbbb02fa4b8a0e0ebfd26a43fdc33a2" id="r_adcbbb02fa4b8a0e0ebfd26a43fdc33a2"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcbbb02fa4b8a0e0ebfd26a43fdc33a2">check_snapshot</a> (std::span&lt; const <a class="el" href="structsnicholls_1_1fsm_1_1wire__state.html">wire_state</a> &gt; slots) noexcept</td></tr>
+<tr class="memdesc:adcbbb02fa4b8a0e0ebfd26a43fdc33a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks a snapshot strictly, changing nothing: what <span class="tt"><a class="el" href="#ae0d08e03cb407a5eb2ed8b79c50992a9" title="Sets every region from a snapshot, no action running: by enumerator value where the level has a state...">restore_snapshot</a></span> would answer, and <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a4738ba48552207c642b6a2cf88ca46e4" title="persist: a saved state&#39;s name is not the name of the state its value restores">fsm_errc::state_name_mismatch</a></span> when a region restored by enumerator value records a name other than its state's (an enumerator renamed, or the enumeration's values reordered, since the snapshot was taken). <span class="tt"><a class="el" href="#ae0d08e03cb407a5eb2ed8b79c50992a9" title="Sets every region from a snapshot, no action running: by enumerator value where the level has a state...">restore_snapshot</a></span> goes by value alone; <span class="tt"><a class="el" href="group__core.html#ga45b0d84db57e05d7b870a2272646f25e" title="Loads a machine&#39;s states from key.">fsm::load</a></span> makes this check first. An empty name agrees, and a region restored by name always does.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -182,7 +187,7 @@ class snicholls::fsm::sm&lt; Def, Policies &gt;</div><p>The state machine: sml's
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02528">2528</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02542">2542</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="a78a3247a92f754464f437ef97621963d" name="a78a3247a92f754464f437ef97621963d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78a3247a92f754464f437ef97621963d">&#9670;&#160;</a></span>definition</h2>
@@ -200,7 +205,7 @@ template&lt;class Def, class... Policies&gt; </div>
 
 <p>The definition. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02597">2597</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02611">2611</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -220,7 +225,7 @@ template&lt;class Def, class... Policies&gt; </div>
 
 <p>The plain events of the table, as a type list. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02601">2601</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02615">2615</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -240,7 +245,7 @@ template&lt;class Def, class... Policies&gt; </div>
 
 <p>The machine's state enumeration, or <span class="tt">void</span>: <span class="tt">Def::state_enum</span>, or the enumeration of every state. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02599">2599</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02613">2613</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +277,7 @@ template&lt;class Def, class... Policies&gt; </div>
 
 <p>A machine with a default-constructed definition and owned, default-constructed dependencies; the initial states' entry actions run. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02609">2609</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02623">2623</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -312,11 +317,49 @@ requires (sizeof...(Args) &gt; 0 &amp;&amp; !(std::is_same_v&lt;std::remove_cvre
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02621">2621</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02635">2635</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="adcbbb02fa4b8a0e0ebfd26a43fdc33a2" name="adcbbb02fa4b8a0e0ebfd26a43fdc33a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcbbb02fa4b8a0e0ebfd26a43fdc33a2">&#9670;&#160;</a></span>check_snapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Def, class... Policies&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::check_snapshot </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="structsnicholls_1_1fsm_1_1wire__state.html">wire_state</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>slots</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks a snapshot strictly, changing nothing: what <span class="tt"><a class="el" href="#ae0d08e03cb407a5eb2ed8b79c50992a9" title="Sets every region from a snapshot, no action running: by enumerator value where the level has a state...">restore_snapshot</a></span> would answer, and <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a4738ba48552207c642b6a2cf88ca46e4" title="persist: a saved state&#39;s name is not the name of the state its value restores">fsm_errc::state_name_mismatch</a></span> when a region restored by enumerator value records a name other than its state's (an enumerator renamed, or the enumeration's values reordered, since the snapshot was taken). <span class="tt"><a class="el" href="#ae0d08e03cb407a5eb2ed8b79c50992a9" title="Sets every region from a snapshot, no action running: by enumerator value where the level has a state...">restore_snapshot</a></span> goes by value alone; <span class="tt"><a class="el" href="group__core.html#ga45b0d84db57e05d7b870a2272646f25e" title="Loads a machine&#39;s states from key.">fsm::load</a></span> makes this check first. An empty name agrees, and a region restored by name always does. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slots</td><td>the snapshot. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>nothing, or <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5aa934509885278bff1b962855d2a33f4b" title="persist: the record holds a different number of regions than the machine">fsm_errc::shape_mismatch</a></span>, <span class="tt">unknown_state</span> or <span class="tt">state_name_mismatch</span>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02754">2754</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a03999085b95079879cd77cb46be3ed82" name="a03999085b95079879cd77cb46be3ed82"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a03999085b95079879cd77cb46be3ed82">&#9670;&#160;</a></span>current()</h2>
 
@@ -354,7 +397,7 @@ requires (!std::is_void_v&lt;typename detail::machine&lt;level_def&lt;Sub&gt;, c
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the enumerator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02693">2693</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02707">2707</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -386,7 +429,7 @@ template&lt;class Def, class... Policies&gt; </div>
 <p>The definition object the table was built from. </p>
 <dl class="section return"><dt>Returns</dt><dd>the definition. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02743">2743</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02775">2775</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -421,7 +464,7 @@ requires (detail::is_state_v&lt;Ts&gt; &amp;&amp; ...)</div>
 <p><span class="tt">is(s)</span>: some region is in <span class="tt">s</span>; <span class="tt">is(s1, s2, ...)</span>: region i is in si. <span class="tt"><a class="el" href="#a9271f63ebf6102d03b7d6fff0863f091" title="is(s): some region is in s; is(s1, s2, ...): region i is in si. is&lt;Sub&gt;(...) asks the sub-machine Sub...">is</a>&lt;Sub&gt;(...)</span> asks the sub-machine <span class="tt">Sub</span> (a definition, or <span class="tt">decltype(<a class="el" href="group__core.html#gae75e00b6fc9a2e79e7741ae131fe4178" title="state&lt;T&gt;: the state whose identity is the type T (sml&#39;s state&lt;idle&gt;, or a composite state&lt;sub&gt;).">state</a>&lt;Sub&gt;)</span>). </p>
 <dl class="section return"><dt>Returns</dt><dd>whether the machine is in those states. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02668">2668</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02682">2682</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -455,7 +498,7 @@ template&lt;class Sub = Def&gt; </div>
 <p>Whether every region of the machine (or of <span class="tt">Sub</span>) is in <span class="tt"><a class="el" href="group__core.html#ga7d0cac194de047a92f78f3c194765172" title="X: the terminal state (sml&#39;s X, named &quot;terminate&quot;).">X</a></span>. </p>
 <dl class="section return"><dt>Returns</dt><dd>true when terminated. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02676">2676</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02690">2690</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -495,7 +538,7 @@ template&lt;class E&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if a row took the event (and every event its actions queued); false otherwise. Never throws. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02634">2634</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02648">2648</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -514,7 +557,7 @@ requires (sizeof...(Es) &gt; 0 &amp;&amp; (std::is_enum_v&lt;Es&gt; &amp;&amp; .
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::restore </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::restore </td>
           <td>(</td>
           <td class="paramtype">Es...</td>          <td class="paramname"><span class="paramname"><em>es</em></span></td><td>)</td>
           <td></td>
@@ -536,7 +579,7 @@ requires (sizeof...(Es) &gt; 0 &amp;&amp; (std::is_enum_v&lt;Es&gt; &amp;&amp; .
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing, or <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a550ede32fd1e95df93aaf7af466a7567" title="restore was given an enumerator that is not a state of the table">fsm_errc::not_a_state</a></span> (and nothing changed) when one is not a state of the table. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02705">2705</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02719">2719</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -552,7 +595,7 @@ template&lt;class Def, class... Policies&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::restore_snapshot </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::restore_snapshot </td>
           <td>(</td>
           <td class="paramtype">std::span&lt; const <a class="el" href="structsnicholls_1_1fsm_1_1wire__state.html">wire_state</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>slots</em></span></td><td>)</td>
           <td></td>
@@ -574,7 +617,7 @@ template&lt;class Def, class... Policies&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing, or <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5aa934509885278bff1b962855d2a33f4b" title="persist: the record holds a different number of regions than the machine">fsm_errc::shape_mismatch</a></span> (wrong size) or <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a3bde62cc0a1d38ab7517d24de8fa0404" title="persist: a saved state is not a state of this table">fsm_errc::unknown_state</a></span>; nothing changed then. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02723">2723</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02737">2737</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -608,7 +651,7 @@ requires (cfg::testing_enabled &amp;&amp; (detail::is_state_v&lt;Ts&gt; &amp;&am
 
 <p>Sets the states of every region (of <span class="tt">Sub</span>, if given) without running an action: sml's <span class="tt"><a class="el" href="structsnicholls_1_1fsm_1_1testing.html" title="Policy: allow set_current_states, which sets states without running actions (sml&#39;s sml::testing).">testing</a></span> policy. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02736">2736</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02768">2768</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -640,7 +683,7 @@ template&lt;class Def, class... Policies&gt; </div>
 <p>Every region's state, this machine's then each sub-machine's in table order, as numbers and names. </p>
 <dl class="section return"><dt>Returns</dt><dd>the snapshot. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02712">2712</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02726">2726</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -658,7 +701,7 @@ template&lt;class E&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::try_process_event </td>
+          <td class="memname"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">result</a>&lt; void, <a class="el" href="group__core.html#ga59e4f95e60a612ee3b9583bd55d981d5">fsm_errc</a> &gt; <a class="el" href="classsnicholls_1_1fsm_1_1sm.html">snicholls::fsm::sm</a>&lt; Def, Policies &gt;::try_process_event </td>
           <td>(</td>
           <td class="paramtype">const E &amp;</td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
           <td></td>
@@ -680,7 +723,7 @@ template&lt;class E&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing, or <span class="tt"><a class="el" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a7e2883647f5ee9ed932f461562a6c3c7" title="no row leaves the current state(s) on this event">fsm_errc::no_transition</a></span>, <span class="tt">guard_rejected</span>, <span class="tt">action_failed</span>, <span class="tt">queue_full</span>, <span class="tt">anonymous_loop</span> or <span class="tt">queued_event_unhandled</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02646">2646</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02660">2660</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -719,7 +762,7 @@ template&lt;class Sub = Def, class F&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02684">2684</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02698">2698</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -748,7 +791,7 @@ template&lt;class Def, class... Policies&gt; </div>
 
 <p>The number of orthogonal regions. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02603">2603</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02617">2617</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>
@@ -776,7 +819,7 @@ template&lt;class Def, class... Policies&gt; </div>
 
 <p>The number of regions a snapshot holds: this machine's and every sub-machine's. </p>
 
-<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02605">2605</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8hpp_source.html#l02619">2619</a> of file <a class="el" href="state__machine_8hpp_source.html">state_machine.hpp</a>.</p>
 
 </div>
 </div>

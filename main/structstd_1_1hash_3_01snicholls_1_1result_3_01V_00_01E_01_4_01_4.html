@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -93,20 +93,20 @@ $(function(){initNavTree('structstd_1_1hash_3_01snicholls_1_1result_3_01V_00_01E
 </div><!--header-->
 <div class="contents">
 
-<p><span class="tt">std::hash</span> of a <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span>: enabled when both <span class="tt">std::hash&lt;V&gt;</span> and <span class="tt">std::hash&lt;E&gt;</span> are.  
+<p><span class="tt">std::hash</span> of a <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span>: enabled when both <span class="tt">std::hash&lt;V&gt;</span> and <span class="tt">std::hash&lt;E&gt;</span> are.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="result_8hpp_source.html">snicholls/core/result.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaaee479bbef4a8b98324b758a6b2fd17" id="r_aaaee479bbef4a8b98324b758a6b2fd17"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaee479bbef4a8b98324b758a6b2fd17">operator()</a> (const <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">snicholls::result</a>&lt; V, E &gt; &amp;r) const noexcept(noexcept(r.hash()))</td></tr>
+<tr class="memitem:aaaee479bbef4a8b98324b758a6b2fd17" id="r_aaaee479bbef4a8b98324b758a6b2fd17"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaee479bbef4a8b98324b758a6b2fd17">operator()</a> (const <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">snicholls::result</a>&lt; V, E &gt; &amp;r) const noexcept(noexcept(r.hash()))</td></tr>
 <tr class="memdesc:aaaee479bbef4a8b98324b758a6b2fd17"><td class="mdescLeft">&#160;</td><td class="mdescRight">The hash.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;class V, class E&gt;<br />
 requires (std::is_default_constructible_v&lt; std::hash&lt;std::conditional_t&lt;std::is_void_v&lt;V&gt;, snicholls::result_impl::void_value, V&gt;&gt;&gt; &amp;&amp; std::is_default_constructible_v&lt;std::hash&lt;E&gt;&gt;)<br />
-struct std::hash&lt; snicholls::result&lt; V, E &gt; &gt;</div><p><span class="tt">std::hash</span> of a <span class="tt"><a class="el" href="classsnicholls_1_1result__throws_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span>: enabled when both <span class="tt">std::hash&lt;V&gt;</span> and <span class="tt">std::hash&lt;E&gt;</span> are. </p>
+struct std::hash&lt; snicholls::result&lt; V, E &gt; &gt;</div><p><span class="tt">std::hash</span> of a <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span>: enabled when both <span class="tt">std::hash&lt;V&gt;</span> and <span class="tt">std::hash&lt;E&gt;</span> are. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">V</td><td>the value type. </td></tr>
@@ -129,9 +129,9 @@ template&lt;class V, class E&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t std::hash&lt; <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">snicholls::result</a>&lt; V, E &gt; &gt;::operator() </td>
+          <td class="memname">std::size_t std::hash&lt; <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">snicholls::result</a>&lt; V, E &gt; &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classsnicholls_1_1result__throws_1_1result.html">snicholls::result</a>&lt; V, E &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>r</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classsnicholls_1_1result__terminates_1_1result.html">snicholls::result</a>&lt; V, E &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>r</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>

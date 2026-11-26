@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -183,7 +183,7 @@ Functions</h2></td></tr>
 </ol>
 <div class="fragment"><div class="line">        <span class="comment">// A rollout as plain data, then one GRPO step: advantages within each group, the clipped objective with the</span></div>
 <div class="line">        <span class="comment">// k3 KL to the reference, and the gradient in each token&#39;s log-probability, then in the logits</span></div>
-<div class="line">        <span class="keyword">const</span> ml::rollout_view&lt;double&gt; rollout{prompts, group, 1, targets, mask, rewards};</div>
+<div class="line">        <span class="keyword">const</span> ml::rollout_view&lt;double&gt; rollout{prompts, <a class="code hl_variable" href="group__core.html#ga328ea9ac22429103b7988d6d724ef36b">group</a>, 1, targets, mask, rewards};</div>
 <div class="line">        std::vector&lt;double&gt; adv(rows), adv_tok(rows), logps(rows), ref_logps(rows), dlogps(rows);</div>
 <div class="line">        ml::group_advantages&lt;double&gt;(backend, rollout.rewards, rollout.group_size, adv);</div>
 <div class="line">        ml::expand_rows&lt;double&gt;(backend, adv, adv_tok);</div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -134,7 +134,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="textblock"><p>The keys a scan or a range erase covers: a lower bound, an optional exclusive upper bound, a prefix. </p>
 <p>Views its bounds (keep them alive while the range is used); allocates nothing, so a prefix range has no computed upper bound: a backend that needs one computes it. Built by <span class="tt"><a class="el" href="#ac17b2b653b4fb4d5f188962b9cbfadee" title="Every key.">all()</a></span>, <span class="tt"><a class="el" href="#a8c6e3f059e94379a01e912bf090ad285" title="Keys &gt;= first.">from()</a></span>, <span class="tt"><a class="el" href="#a6a6a1a4527985b694af071d7fa8f2333" title="Keys &gt;= first and &lt; last; empty when last &lt;= first.">between()</a></span> and <span class="tt"><a class="el" href="#aa19427939dd15b137dcf4dafd0b77e02" title="Keys that start with prefix: exactly its keys, never a substring match.">prefixed()</a></span>; <span class="tt">after(key)</span> continues a range after a key already seen, which is how a scan is chunked. </p><dl class="section invariant"><dt>Invariant</dt><dd><span class="tt"><a class="el" href="#a116a80d2c7b9b85ae5881beaf0c0bfed" title="The lower bound (empty for all()).">lower()</a></span> starts with <span class="tt"><a class="el" href="#a496df4a4c2bb158211a49c6242c88cb1" title="The prefix every key of the range starts with (empty: no constraint).">prefix()</a></span> or sorts after it, so an ascending walk from <span class="tt"><a class="el" href="#a116a80d2c7b9b85ae5881beaf0c0bfed" title="The lower bound (empty for all()).">lower()</a></span> stops at the first key that <span class="tt"><a class="el" href="#abfa953ab6df88bd18c8afabe8ef11ef4" title="For a key at or after lower(): whether it, and every key after it, is outside the range.">beyond()</a></span> reports. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00184">184</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00207">207</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="acc05ef17d98e2ae90156337d23bc8e1a" name="acc05ef17d98e2ae90156337d23bc8e1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc05ef17d98e2ae90156337d23bc8e1a">&#9670;&#160;</a></span>after()</h2>
@@ -169,7 +169,7 @@ Static Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>the range of the keys of <span class="tt">*this</span> that sort after <span class="tt">key</span>. </dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd><span class="tt">contains(key)</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00228">228</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00251">251</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -199,7 +199,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Every key. </p>
 <dl class="section return"><dt>Returns</dt><dd>the unbounded range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00188">188</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00211">211</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -240,7 +240,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00204">204</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00227">227</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -276,7 +276,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when an ascending walk can stop at <span class="tt">key</span>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00265">265</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00288">288</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -306,7 +306,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Whether the range has an exclusive upper bound. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> for <span class="tt"><a class="el" href="#a6a6a1a4527985b694af071d7fa8f2333" title="Keys &gt;= first and &lt; last; empty when last &lt;= first.">between()</a></span> and what <span class="tt"><a class="el" href="#acc05ef17d98e2ae90156337d23bc8e1a" title="The rest of this range after key, exclusive: resumes a scan stopped at key.">after()</a></span> makes of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00244">244</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00267">267</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +342,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when it is at or after the lower bound, before the upper and starts with the prefix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00255">255</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00278">278</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -372,7 +372,7 @@ Static Public Member Functions</h2></td></tr>
 <p>True when the bounds alone prove the range empty (<span class="tt"><a class="el" href="#ab8e8c6b10b32b6701432869ac73e2bf9" title="The exclusive upper bound; meaningful when bounded().">upper()</a> &lt;= <a class="el" href="#a116a80d2c7b9b85ae5881beaf0c0bfed" title="The lower bound (empty for all()).">lower()</a></span>). </p>
 <dl class="section return"><dt>Returns</dt><dd>whether no key can be in the range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00272">272</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00295">295</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -408,7 +408,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00193">193</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00216">216</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +438,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The lower bound (empty for <span class="tt"><a class="el" href="#ac17b2b653b4fb4d5f188962b9cbfadee" title="Every key.">all()</a></span>). </p>
 <dl class="section return"><dt>Returns</dt><dd>a view of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00238">238</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00261">261</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +468,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Whether the lower bound is exclusive (a range made by <span class="tt"><a class="el" href="#acc05ef17d98e2ae90156337d23bc8e1a" title="The rest of this range after key, exclusive: resumes a scan stopped at key.">after()</a></span>). </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> when <span class="tt"><a class="el" href="#a116a80d2c7b9b85ae5881beaf0c0bfed" title="The lower bound (empty for all()).">lower()</a></span> itself is outside the range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00241">241</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00264">264</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -498,7 +498,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The prefix every key of the range starts with (empty: no constraint). </p>
 <dl class="section return"><dt>Returns</dt><dd>a view of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00250">250</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00273">273</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -534,7 +534,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the range. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00216">216</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00239">239</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +564,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The exclusive upper bound; meaningful when <span class="tt"><a class="el" href="#ae90c7e39381907142f6b4421027bfcd6" title="Whether the range has an exclusive upper bound.">bounded()</a></span>. </p>
 <dl class="section return"><dt>Returns</dt><dd>a view of it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00247">247</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="concepts_2key__value__store_8hpp_source.html#l00270">270</a> of file <a class="el" href="concepts_2key__value__store_8hpp_source.html">key_value_store.hpp</a>.</p>
 
 </div>
 </div>

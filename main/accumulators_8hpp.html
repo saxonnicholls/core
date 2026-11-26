@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -95,10 +95,10 @@ $(function(){initNavTree('accumulators_8hpp.html','',''); });
 
 <p>Streaming accumulators: count, sum, min, max, mean, variance, covariance, exponentially weighted moments, histogram.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="bootstrap_8hpp_source.html">snicholls/core/stats/bootstrap.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="constexpr__math_8hpp_source.html">snicholls/core/math/constexpr_math.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="bootstrap_8hpp_source.html">snicholls/core/stats/bootstrap.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="random_8hpp_source.html">snicholls/core/stats/random.hpp</a>&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -180,11 +180,11 @@ Concepts</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">minimum&lt;T&gt;</span>, <span class="tt">maximum&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the extreme, <span class="tt">std::nullopt</span> if none  </td><td class="markdownTableBodyNone">exact  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">mean&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the mean  </td><td class="markdownTableBodyNone">Chan  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">mean&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the mean (<span class="tt">count()</span> too)  </td><td class="markdownTableBodyNone">Chan  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">variance&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the sample variance (<span class="tt">mean()</span>, <span class="tt">standard_deviation()</span> too)  </td><td class="markdownTableBodyNone">Chan  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">variance&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the sample variance (<span class="tt">mean()</span>, <span class="tt">standard_deviation()</span>, <span class="tt">count()</span> too)  </td><td class="markdownTableBodyNone">Chan  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">covariance&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the sample covariance of pairs (<span class="tt">correlation()</span> too)  </td><td class="markdownTableBodyNone">Chan  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">covariance&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">the sample covariance of pairs (<span class="tt">correlation()</span>, <span class="tt">beta()</span>, <span class="tt">count()</span> too)  </td><td class="markdownTableBodyNone">Chan  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">ewma&lt;T&gt;</span>  </td><td class="markdownTableBodyNone">exponentially weighted mean and variance  </td><td class="markdownTableBodyNone">not mergeable  </td></tr>
 <tr class="markdownTableRowEven">
@@ -196,13 +196,13 @@ Concepts</h2></td></tr>
 </table>
 <p>Every accumulator is a <span class="tt"><a class="el" href="conceptsnicholls_1_1stats_1_1accumulator.html" title="A streaming accumulator of T: add(t), value(), and merge with another of its kind.">snicholls::stats::accumulator</a></span>, which <span class="tt"><a class="el" href="pivot_8hpp.html" title="stats::pivot: a pivot table whose rows, columns and measures are types, filled in one pass.">stats/pivot.hpp</a></span> uses for its cells.</p>
 <p><b>Relationships.</b> <span class="tt"><a class="el" href="pivot_8hpp.html" title="stats::pivot: a pivot table whose rows, columns and measures are types, filled in one pass.">stats/pivot.hpp</a></span>; <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span> for the uncertainty of a statistic. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
-<p><b>Guarantees.</b> All but <span class="tt">collect</span> and <span class="tt">bootstrapped</span>'s <span class="tt">value()</span> are <span class="tt">constexpr</span>, <span class="tt">noexcept</span>, allocation-free and trivially copyable. <span class="tt">add</span> is O(1); merging two accumulators gives what one accumulator would give on both sets of observations, exactly for <span class="tt">count</span>, <span class="tt">minimum</span>, <span class="tt">maximum</span> and <span class="tt">histogram</span>, and up to rounding for the moments.</p>
+<p><b>Guarantees.</b> All but <span class="tt">collect</span> and <span class="tt">bootstrapped</span>'s <span class="tt">value()</span> are <span class="tt">constexpr</span>, <span class="tt">noexcept</span>, allocation-free and trivially copyable; the square roots (<span class="tt">standard_deviation</span>, <span class="tt">correlation</span>, <span class="tt">volatility</span>) are <span class="tt">math::sqrt</span>, so they are <span class="tt">constexpr</span> too. <span class="tt">add</span> is O(1); merging two accumulators gives what one accumulator would give on both sets of observations, exactly for <span class="tt">count</span>, <span class="tt">minimum</span>, <span class="tt">maximum</span> and <span class="tt">histogram</span>, and up to rounding for the moments.</p>
 <p><b>Errors.</b> None: an empty accumulator's mean and variance are NaN, its minimum is <span class="tt">std::nullopt</span>.</p>
 <p><b>Performance.</b> <span class="tt">benchmarks/stats/accumulators_benchmark.cpp</span>: 1,000,000 observations into <span class="tt">variance</span> and <span class="tt">covariance</span>, Release, Apple clang 17, Xeon W-3245, 2026-11-08: 6.39 ms, against 6.05 ms for the same updates written by hand. The inner loops compile to identical instructions; two identical hand-written copies measure 6.07 and 6.36 ms, so the difference is code placement, not cost.</p>
 <p><b>Tests and demos.</b> <span class="tt">tests/stats/accumulators_test.cpp</span>, <span class="tt">demos/stats/accumulators_demo.cpp</span>.</p>
-<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;cmath&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span>, <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span>.</p>
+<p><b>Dependencies.</b> <span class="tt">&lt;array&gt;</span>, <span class="tt">&lt;concepts&gt;</span>, <span class="tt">&lt;cstddef&gt;</span>, <span class="tt">&lt;cstdint&gt;</span>, <span class="tt">&lt;limits&gt;</span>, <span class="tt">&lt;optional&gt;</span>, <span class="tt">&lt;span&gt;</span>, <span class="tt">&lt;vector&gt;</span>, <span class="tt"><a class="el" href="constexpr__math_8hpp.html" title="snicholls::math: exp, log, log10, expm1, log1p, sqrt, pow, the trigonometric and hyperbolic functions...">math/constexpr_math.hpp</a></span>, <span class="tt"><a class="el" href="bootstrap_8hpp.html" title="The bootstrap, fast: resampling by indices, by multinomial or Poisson counts, balanced,...">stats/bootstrap.hpp</a></span>, <span class="tt"><a class="el" href="random_8hpp.html" title="wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.">stats/random.hpp</a></span>.</p>
 <p><b>Known issues.</b> <span class="tt">ewma</span> depends on the order of observations and cannot be merged. <span class="tt">histogram</span>'s bins are fixed at construction.</p>
-<p><b>Status.</b> New in 0.5.0. </p>
+<p><b>Status.</b> New in 0.5.0; <span class="tt">count()</span> and the <span class="tt">constexpr</span> square roots since 0.27.0. </p>
 
 <p class="definition">Definition in file <a class="el" href="accumulators_8hpp_source.html">accumulators.hpp</a>.</p>
 </div></div><!-- contents -->

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['per_20call_20choices_0',['Per-call choices',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md10',1,'']]],
-  ['performance_1',['Performance',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md13',1,'']]]
+  ['kernels_0',['Machine learning as small, composable kernels',['../patterns.html#autotoc_md80',1,'']]],
+  ['keyed_20by_20identity_1',['Containers keyed by identity',['../patterns.html#autotoc_md74',1,'']]],
+  ['kit_2',['Capabilities: a contract, its twin, a reference and a kit',['../patterns.html#autotoc_md22',1,'']]]
 ];
