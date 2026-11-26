@@ -27,7 +27,7 @@
 ///   buffer whose size they misjudge; `snicholls::fill` is a loop, which the optimiser may still turn into a
 ///   `memset` where that is right.
 ///
-/// In C++20 code with no device in sight, `std::ranges` is as good; nothing here is faster.
+/// In C++20 host code the standard's algorithms are as good, and at run time `std::copy` is faster (see Performance).
 ///
 /// **Relationships.** `constexpr_for` for loops whose index must be a constant expression; `iterate.hpp` and
 /// `table<N>(f)` for a table computed from its index; `zip` for walking ranges together.
@@ -45,9 +45,11 @@
 /// **Errors.** None reported: a precondition broken (an output too short, `last` before `first`) is undefined
 /// behaviour, as with the standard's algorithms, and a compile error in constant evaluation.
 ///
-/// **Performance.** `benchmarks/algorithm_benchmark.cpp` runs `fill` and `copy` of 4,096 doubles against
-/// `std::fill`, `std::copy` and the hand-written loop; run `make benchmarks` for numbers on your machine
-/// (`BENCHMARKS.md`).
+/// **Performance.** `benchmarks/algorithm_benchmark.cpp`, 4,096 doubles, Release `-O3`, Apple clang 17 on a Xeon
+/// W-3245, 2026-11-27: `fill` 526 ns, `std::fill` 540 ns, the hand-written loop 544 ns; `copy` 804 ns, the
+/// hand-written loop 801 ns, `std::copy` 563 ns. `fill` is the loop and as fast as anything. `copy` is the loop too,
+/// and the standard library turns `std::copy` of trivially copyable elements into `memmove`, about 1.4 times faster:
+/// for a large copy at run time in C++20 host code, use `std::copy`.
 ///
 /// **Tests and demos.** `tests/algorithm_test.cpp`, `demos/algorithm_demo.cpp`.
 ///

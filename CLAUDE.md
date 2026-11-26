@@ -387,7 +387,8 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - The line: if the thing you are looping over is a value, `constexpr_for`; if it is a type, `type_list`. Do not
   build a type-level algorithm out of `constexpr_for` and `index_sequence` tricks when `type_list` already has it.
 - `snicholls::fill`, `copy`, `iota`, `equal`, `reverse` (`algorithm.hpp`) in C++17 code that runs at compile time,
-  in device code, and to clear a buffer without `memset`; called qualified. In C++20 host code `std::ranges` is as good.
+  in device code, and to clear a buffer without `memset`; called qualified. In C++20 host code the standard's are as
+  good, and a large run-time copy is faster with `std::copy` (`memmove`).
 - `overloaded{...}` for a lambda overload set in `std::visit`. `fixed_string` for a string as a non-type template
   parameter. `function_ref` for a non-owning callable parameter. `result<V, E>` where failure is a value rather
   than an exception.
