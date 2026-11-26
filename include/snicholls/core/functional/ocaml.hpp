@@ -54,7 +54,8 @@
 ///
 /// **Performance.** That of the operations underneath; not benchmarked separately.
 ///
-/// **Tests and demos.** `tests/functional/ocaml_test.cpp`, `demos/functional/ocaml_demo.cpp`.
+/// **Tests and demos.** `tests/functional/ocaml_test.cpp`, `tests/functional/ocaml_modules_test.cpp`,
+/// `demos/functional/ocaml_demo.cpp`, `demos/functional/ocaml_pipes_demo.cpp` (programs in `|>` style).
 ///
 /// **Dependencies.** `<cassert>`, `<optional>`, `<utility>`, `functional/monad.hpp` and `functional/list.hpp`.
 ///

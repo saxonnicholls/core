@@ -140,7 +140,11 @@
 #include <snicholls/core/functional/match.hpp>
 #include <snicholls/core/functional/monad.hpp>
 #include <snicholls/core/functional/ocaml.hpp>
+#include <snicholls/core/functional/pointwise.hpp>
 #include <snicholls/core/functional/recursion.hpp>
+#include <snicholls/core/functional/rewrite.hpp>
+#include <snicholls/core/functional/rust.hpp>
+#include <snicholls/core/functional/rust_iter.hpp>
 #include <snicholls/core/functional/state.hpp>
 #include <snicholls/core/functional/tabulate.hpp>
 #include <snicholls/core/functional/typeclasses.hpp>

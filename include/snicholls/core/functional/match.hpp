@@ -53,7 +53,8 @@
 /// **Performance.** A variant's `std::visit`, a result's branch, then the guards in order; not
 /// benchmarked.
 ///
-/// **Tests and demos.** `tests/functional/match_test.cpp`, `demos/functional/match_demo.cpp`.
+/// **Tests and demos.** `tests/functional/match_test.cpp`, `tests/functional/match_patterns_test.cpp`,
+/// `demos/functional/match_demo.cpp`, `demos/functional/match_evaluator_demo.cpp` (an expression evaluator).
 ///
 /// **Dependencies.** `<cstddef>`, `<functional>`, `<tuple>`, `<type_traits>`, `<utility>`, `<variant>`,
 /// `snicholls/core/result.hpp`, `snicholls/core/reflect/struct_tuple.hpp` (heavier than it looks: the

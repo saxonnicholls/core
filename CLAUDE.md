@@ -163,7 +163,7 @@ integrity and consistency. The same twelve rules hold in every one of them.
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
   `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `functional/` (`combinators`, `curry`, `bind`, `typeclasses`, `instances`, `state`, `monad`, `fold`, `list`, `lazy`,
-  `match`, `recursion`, `tabulate`, `types`, `ocaml`; `snicholls::fn`); `combinatorics/` (`permutations`,
+  `match`, `recursion`, `tabulate`, `types`, `ocaml`, `rust`, `rust_iter`, `rewrite`, `pointwise`; `snicholls::fn`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
   `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL, GTIN / EAN-13); `game/` (`snicholls::game`); `finance/`
   (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `fsm/` (`state_machine`, `persist`,
@@ -389,7 +389,11 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   pieces (`fn::pipe`, `fn::curry`, `x | fn::then(f)`), a recursive lambda (`fn::fix`), a calculation generic over
   Maybe / Either / State (`fn::fmap`, `fn::mbind`, `fn::lift`), pattern matching with guards (`fn::match`), a
   compile-time list (`functional/list.hpp`, `fn::stream`). Never `std::bind` or `std::function` for this; write the plain lambda
-  when it is used once.
+  when it is used once. Rust's vocabulary where C++20 lacks it: `fn::rust::option` for `std::optional`
+  (`map_or`, `ok_or`, `filter`, ...; `result` has its own as members), `fn::rust::cmp` for multi-key comparators,
+  `fn::rust::slice::windows` / `chunks` and `fn::rust::iter::enumerate` / `step_by` over spans. Rules rewritten to a
+  normal form, over values or the caller's trees: `functional/rewrite.hpp`; functions added and compared as values:
+  `fn::pointwise`.
 - `constexpr_map` for a table known when the program is written (an enumeration's names), looked up both ways.
 - `fnv1a_64` where a tiny, specified-by-the-byte hash must agree across machines or be a `switch` label;
   `wyhash` for speed over longer keys and avalanche, also constexpr and machine-independent; `hash_combine` only

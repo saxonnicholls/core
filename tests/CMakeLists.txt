@@ -118,21 +118,39 @@ add_executable(snicholls_core_tests
     fsm/state_machine_test.cpp
     fsm/state_machine_hierarchy_test.cpp
     functional/bind_test.cpp
+    functional/bind_laws_test.cpp
     functional/combinators_test.cpp
+    functional/combinators_laws_test.cpp
     functional/curry_test.cpp
+    functional/curry_laws_test.cpp
     functional/fold_test.cpp
+    functional/fold_laws_test.cpp
     functional/instances_test.cpp
+    functional/instances_edge_test.cpp
     functional/lazy_test.cpp
+    functional/lazy_laws_test.cpp
     functional/list_test.cpp
+    functional/list_laws_test.cpp
     functional/match_test.cpp
+    functional/match_patterns_test.cpp
     functional/monad_test.cpp
+    functional/monad_traversable_test.cpp
     functional/ocaml_test.cpp
+    functional/ocaml_modules_test.cpp
+    functional/pointwise_test.cpp
     functional/recursion_test.cpp
+    functional/recursion_laws_test.cpp
+    functional/rewrite_test.cpp
+    functional/rust_test.cpp
+    functional/rust_iter_test.cpp
     functional/state_test.cpp
+    functional/state_laws_test.cpp
     functional/tabulate_test.cpp
+    functional/tabulate_laws_test.cpp
     functional/typeclasses_test.cpp
     functional/typeclasses_laws_test.cpp
     functional/types_test.cpp
+    functional/types_laws_test.cpp
     game/change_test.cpp
     game/coalition_test.cpp
     game/harsanyi_test.cpp
