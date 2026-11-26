@@ -26,12 +26,15 @@
 ///   fractions (only divisions) when they would not.
 /// - `to_double()` is for display and for code that wants a `double` anyway.
 ///
+/// It is a pure rational, tied to no asset: `finance/money_ratio.hpp` multiplies and divides `money` by it exactly (a
+/// fund's units are `amount / NAV per unit`), to a ratio or to money at a stated scale and rounding mode.
+///
 /// Use it where an exact fraction is the answer; use `snicholls::rate` (`money/rate.hpp`) to convert an amount from
 /// one asset to another, and `money` for amounts.
 ///
 /// \snippet finance/ratio_demo.cpp ratio
 ///
-/// **Relationships.** `finance/year_fraction.hpp` (the alias), `finance/day_count.hpp`, `finance/returns.hpp`,
+/// **Relationships.** `finance/year_fraction.hpp` (the alias), `finance/money_ratio.hpp` (with `money`), `finance/day_count.hpp`, `finance/returns.hpp`,
 /// `concepts/security_provider.hpp` (split ratios, apportionments, repo rates), `checked.hpp`, `result.hpp`. Group:
 /// \ref core.
 ///

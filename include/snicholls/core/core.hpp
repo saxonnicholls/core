@@ -102,6 +102,7 @@
 #include <snicholls/core/finance/attribution.hpp>
 #include <snicholls/core/finance/business_day.hpp>
 #include <snicholls/core/finance/day_count.hpp>
+#include <snicholls/core/finance/money_ratio.hpp>
 #include <snicholls/core/finance/ratio.hpp>
 #include <snicholls/core/finance/returns.hpp>
 #include <snicholls/core/finance/year_fraction.hpp>

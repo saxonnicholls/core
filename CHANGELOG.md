@@ -43,6 +43,10 @@ A version is released when its tag is on a commit where every blocking CI leg is
   `subtract` and `multiply` (cancelled across first); `inverse`; an exact `<=>` for every pair. For split and rights
   ratios, cost apportionments, repo rates and exact returns. `benchmarks/finance/ratio_benchmark.cpp` measures `<=>`
   and `multiply` against the hand-written 64-bit forms.
+- **`finance/money_ratio.hpp`**: exact arithmetic between `money` and the asset-free `finance::ratio`, for fund
+  dealing (`units = amount / NAV per unit`): `exact_value`, `multiply` and `divide` to an exact ratio, or to money of
+  a stated asset rounded once under a named `rounding` mode (256-bit intermediate), `to_money`, `ratio_of` (net assets
+  over units outstanding), and consteval `_ratio` literals (`"1.234567"_ratio`).
 - **`finance::day_count_basis`** and `accrual_fraction(basis, start, end)` (`finance/day_count.hpp`): a convention as a
   stable value, for data that names one.
 - **`finance/returns.hpp`**: exact `period_return`, `time_weighted_return` (chained sub-periods) and `modified_dietz`

@@ -88,6 +88,7 @@ add_executable(snicholls_core_tests
     finance/attribution_test.cpp
     finance/business_day_test.cpp
     finance/day_count_test.cpp
+    finance/money_ratio_test.cpp
     finance/ratio_test.cpp
     finance/returns_test.cpp
     finance/year_fraction_test.cpp
