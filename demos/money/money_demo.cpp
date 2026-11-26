@@ -51,6 +51,8 @@ int main()
     check(parse_money(eth, "1.0000000000000000001").err() == money_errc::too_many_digits, "no silent rounding");
     check(*parse_money(eth, "1.0000000000000000005", rounding::half_even) == *parse_money(eth, "1"), "rounding when asked");
     check(money::from_units(eth, uint256::max()).magnitude() == uint256::max(), "the whole uint256 range");
+    check(money::from_units(eth, -40) == -money::from_units(eth, 40) && aud::from_units(-40) == aud::from_units(40, true),
+          "a signed integer keeps its sign");
     std::array<char, 4> small{};
     check(to_chars(small.data(), small.data() + small.size(), a).ec == std::errc::value_too_large, "a small buffer");
     a.print(std::cout);
