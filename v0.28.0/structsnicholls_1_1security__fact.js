@@ -1,0 +1,27 @@
+var structsnicholls_1_1security__fact =
+[
+    [ "operator==", "structsnicholls_1_1security__fact.html#a472228e1f1c8f926a671d950a7534426", null ],
+    [ "consideration", "structsnicholls_1_1security__fact.html#abd7ee82498366d024e011f6caa1b3539", null ],
+    [ "cost_apportionment", "structsnicholls_1_1security__fact.html#a74d80d940007af913a376a4c89d591d1", null ],
+    [ "dates", "structsnicholls_1_1security__fact.html#a30a6a40cf200ac1e8ae01236e83ceb4e", null ],
+    [ "event_id", "structsnicholls_1_1security__fact.html#a0b1d87072c690941e3939bf1d33b9d8a", null ],
+    [ "ex_date", "structsnicholls_1_1security__fact.html#a5a3f98ce633f38f4c160e828ecf9fedf", null ],
+    [ "fact_id", "structsnicholls_1_1security__fact.html#a17cc9a9a9f3aaa97757e6bf7550367a0", null ],
+    [ "fees", "structsnicholls_1_1security__fact.html#a704ca036fa63ed83cc8174af0314dee9", null ],
+    [ "instrument", "structsnicholls_1_1security__fact.html#a7800d62bf3ee3191cd80a1dddc613ea5", null ],
+    [ "isin", "structsnicholls_1_1security__fact.html#a3f8243b822f5fe589bee35ad12bc6b46", null ],
+    [ "kind", "structsnicholls_1_1security__fact.html#a8a0b153f1d856a3a8fd048c17ade778f", null ],
+    [ "new_for_old", "structsnicholls_1_1security__fact.html#a1e618ee62d1ba1e64b3bbc7417775da8", null ],
+    [ "other_instrument", "structsnicholls_1_1security__fact.html#a16527cbf95b9da92eb029a2976f81662", null ],
+    [ "other_quantity", "structsnicholls_1_1security__fact.html#aefc05a61a9db8690c9eadacf9a48bced", null ],
+    [ "party", "structsnicholls_1_1security__fact.html#a1e8fe2868f895f6d09ee3d83562c67c4", null ],
+    [ "pay_date", "structsnicholls_1_1security__fact.html#a198f0f0ffc01c3c0b6f582f230ef8496", null ],
+    [ "price", "structsnicholls_1_1security__fact.html#a8d6e1d1efbdad8e114cde9c2f19ca6d7", null ],
+    [ "provider_account", "structsnicholls_1_1security__fact.html#a2d3e67c2e16f9000e92e67c02488b516", null ],
+    [ "quantity", "structsnicholls_1_1security__fact.html#a9124ce9df639eefdafe366939ab99f4a", null ],
+    [ "record_date", "structsnicholls_1_1security__fact.html#affd439cbe6b3d3dbe42a762378529f26", null ],
+    [ "refs", "structsnicholls_1_1security__fact.html#aa036454381201432dd93936790ecceda", null ],
+    [ "repo", "structsnicholls_1_1security__fact.html#a1973640cc62c95f982e0b25cca9000d7", null ],
+    [ "source", "structsnicholls_1_1security__fact.html#a7b519995afda292d236fdda116f5345a", null ],
+    [ "taxes", "structsnicholls_1_1security__fact.html#a9d6a8497d92b6616ada3bcf33a0e534e", null ]
+];

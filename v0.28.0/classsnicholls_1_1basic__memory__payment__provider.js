@@ -1,0 +1,26 @@
+var classsnicholls_1_1basic__memory__payment__provider =
+[
+    [ "clock_type", "classsnicholls_1_1basic__memory__payment__provider.html#a211b53efde338523315e81ff2d95a57b", null ],
+    [ "basic_memory_payment_provider", "classsnicholls_1_1basic__memory__payment__provider.html#ac442c2358629125157e1996b984ade29", null ],
+    [ "add_beneficiary", "classsnicholls_1_1basic__memory__payment__provider.html#a8e9627f87df322162667e4110f4b8ec2", null ],
+    [ "balances", "classsnicholls_1_1basic__memory__payment__provider.html#adbf3f3b22e1a5c759694b1836257aee9", null ],
+    [ "capabilities", "classsnicholls_1_1basic__memory__payment__provider.html#a0ef40f3770bbf7a53ff4203ed9bf038f", null ],
+    [ "clock", "classsnicholls_1_1basic__memory__payment__provider.html#a07dc1d83b14be560a008870dcc2f67cd", null ],
+    [ "clock", "classsnicholls_1_1basic__memory__payment__provider.html#a4663a6eeed4af50e33c53dd57e7f229d", null ],
+    [ "collect", "classsnicholls_1_1basic__memory__payment__provider.html#a70de2c8147984e2cd44d3992dae388ac", null ],
+    [ "complete", "classsnicholls_1_1basic__memory__payment__provider.html#a820ef7e4e22a0437ff2485c677d10d7e", null ],
+    [ "credits", "classsnicholls_1_1basic__memory__payment__provider.html#a0ed0c57973eec6a12d6b7332a161e949", null ],
+    [ "decline", "classsnicholls_1_1basic__memory__payment__provider.html#a5c8ec4c4f52e383177d8ccd00a59b37b", null ],
+    [ "fail_next", "classsnicholls_1_1basic__memory__payment__provider.html#a7118f53a37ffb37cc2b7c627d94ae0af", null ],
+    [ "payout", "classsnicholls_1_1basic__memory__payment__provider.html#ac4faaeb6aa5c836e698f4808fbdc09e1", null ],
+    [ "quote", "classsnicholls_1_1basic__memory__payment__provider.html#a3d2ce8263b2b5084f7bd45595f14c378", null ],
+    [ "receive_credit", "classsnicholls_1_1basic__memory__payment__provider.html#ad0a02a1c99b0b7bc02b30dcaa14d565b", null ],
+    [ "refund", "classsnicholls_1_1basic__memory__payment__provider.html#a3dc5a6a215190a6e06d168f5ed47bc20", null ],
+    [ "resolve", "classsnicholls_1_1basic__memory__payment__provider.html#a97ab82edeefd503e266dc50a0b467929", null ],
+    [ "set_fee_bps", "classsnicholls_1_1basic__memory__payment__provider.html#ad44b267f72fa71821c20b473f0a95084", null ],
+    [ "set_rate", "classsnicholls_1_1basic__memory__payment__provider.html#afcc27c56e690d10f4870a1da83e99536", null ],
+    [ "signed_webhook", "classsnicholls_1_1basic__memory__payment__provider.html#a85aa0875a402f587d89a815a6157958f", null ],
+    [ "statement", "classsnicholls_1_1basic__memory__payment__provider.html#a7766823c4c1dd4f269fb364570f7d692", null ],
+    [ "status", "classsnicholls_1_1basic__memory__payment__provider.html#a7ae9afbacfc7bd17b8d17189575abde3", null ],
+    [ "verify_webhook", "classsnicholls_1_1basic__memory__payment__provider.html#a10baaedb108fbfac43dbeaa24bde5d7b", null ]
+];

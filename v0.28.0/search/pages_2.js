@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['c_0',['Classics, written in C++',['../patterns.html#autotoc_md71',1,'']]],
+  ['call_20choices_1',['Per-call choices',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md17',1,'']]],
+  ['capabilities_3a_20a_20contract_20its_20twin_20a_20reference_20and_20a_20kit_2',['Capabilities: a contract, its twin, a reference and a kit',['../patterns.html#autotoc_md29',1,'']]],
+  ['capability_20contracts_3',['Capability contracts',['../index.html#autotoc_md8',1,'']]],
+  ['cash_20flow_4',['Dated money: one cash flow',['../patterns.html#autotoc_md58',1,'']]],
+  ['chains_5',['Overload sets, never &lt;span class=&quot;tt&quot;&gt;if constexpr&lt;/span&gt; chains',['../patterns.html#autotoc_md44',1,'']]],
+  ['choices_6',['Per-call choices',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md17',1,'']]],
+  ['chosen_20by_20type_7',['Linear algebra: one interface, a backend chosen by type',['../patterns.html#autotoc_md85',1,'']]],
+  ['classes_20and_20effects_8',['Type classes and effects',['../patterns.html#autotoc_md68',1,'']]],
+  ['classics_20written_20in_20c_9',['Classics, written in C++',['../patterns.html#autotoc_md71',1,'']]],
+  ['combinators_10',['Parsers from combinators',['../patterns.html#autotoc_md70',1,'']]],
+  ['compile_20time_11',['compile time',['../patterns.html#autotoc_md65',1,'Functional programming, at compile time'],['../patterns.html#autotoc_md77',1,'Signals at compile time']]],
+  ['compiler_12',['Tables built by the compiler',['../patterns.html#autotoc_md50',1,'']]],
+  ['composable_20kernels_13',['Machine learning as small, composable kernels',['../patterns.html#autotoc_md87',1,'']]],
+  ['constexpr_20chains_14',['Overload sets, never &lt;span class=&quot;tt&quot;&gt;if constexpr&lt;/span&gt; chains',['../patterns.html#autotoc_md44',1,'']]],
+  ['constexpr_5ffor_20types_20with_20type_5flist_15',['Values with &lt;span class=&quot;tt&quot;&gt;constexpr_for&lt;/span&gt;, types with &lt;span class=&quot;tt&quot;&gt;type_list&lt;/span&gt;',['../patterns.html#autotoc_md45',1,'']]],
+  ['containers_20keyed_20by_20identity_16',['Containers keyed by identity',['../patterns.html#autotoc_md81',1,'']]],
+  ['contract_20its_20twin_20a_20reference_20and_20a_20kit_17',['Capabilities: a contract, its twin, a reference and a kit',['../patterns.html#autotoc_md29',1,'']]],
+  ['contracts_18',['Capability contracts',['../index.html#autotoc_md8',1,'']]],
+  ['control_20and_20pricing_19',['Stochastic control and pricing',['../patterns.html#autotoc_md93',1,'']]],
+  ['copies_20in_20one_20build_20',['Two copies in one build',['../index.html#autotoc_md12',1,'']]],
+  ['core_21',['snicholls-core',['../index.html',1,'']]],
+  ['cpp_22',['Layout guarantees (tests/result_test.cpp)',['../md__2home_2runner_2work_2core_2core_2RESULT__PLAN.html#autotoc_md19',1,'']]]
+];
