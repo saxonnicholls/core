@@ -10,6 +10,7 @@
 #include <snicholls/core/concepts/http_handler.hpp>
 
 #include <cstdio>
+#include <vector>
 
 using namespace snicholls;
 
@@ -41,5 +42,14 @@ int main()
     check(answer.status == 200 && answer.body == "ok", "a 200 with a body");
     check(find_header(answer.headers, "content-type") == "text/plain; charset=utf-8", "respond sets the content type");
     check(to_string(http_method::del) == "DELETE" && parse_http_method("HEAD") == http_method::head, "method tokens");
+    std::vector<http_header> captured;
+    check(match_route("/orders/:id", "/orders/42", captured) && captured.at(0).value == "42", "match_route captures :id");
+    http_request search;
+    search.path = "/search";
+    search.query = "q=bhp";
+    search.path_params = captured;
+    check(request_target(search) == "/search?q=bhp" && path_param(search, "id") == std::optional<std::string_view>{"42"},
+          "request_target and path_param");
+    check(is_success(respond(201)) && !is_success(respond(500)), "is_success");
     return failures == 0 ? 0 : 1;
 }

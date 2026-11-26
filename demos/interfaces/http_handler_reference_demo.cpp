@@ -45,5 +45,12 @@ int main()
     const auto boom = t.handle(r);
     check(boom.status == 500 && boom.body == "internal error", "500 without the exception's detail");
     check(t.size() == 2 && t.add(http_method::get, "bad", [](const http_request&) { return respond(200); }).is_err(), "add refuses a bad path");
+    route_table orders;
+    static_cast<void>(orders.add_pattern(http_method::get, "/orders/:id", [](const http_request& r) {
+        return respond(200, "order " + std::string(*path_param(r, "id")));
+    }));
+    http_request get_order;
+    get_order.path = "/orders/42";
+    check(orders.handle(get_order).body == "order 42", "add_pattern captures into path_params");
     return failures == 0 ? 0 : 1;
 }

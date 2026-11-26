@@ -14,7 +14,7 @@
 /// \ingroup core
 ///
 /// **Overview.** A `std::map` of byte vectors under unsigned byte-wise order, modelling every key-value capability
-/// in core: `key_value_store` (`concepts/key_value_store.hpp`), `kv_health` and `kv_backup`. It is the contract's
+/// in core: `key_value_store` (`concepts/key_value_store.hpp`), `kv_health`, `kv_backup` and `kv_cas` (0.27.0). It is the contract's
 /// executable definition, the store a unit test hands to the code under test, and the baseline of the benchmark.
 /// As a fake it can fail on purpose: `inject_failure(e, n)` makes the write `n` writes from now fail with `e`
 /// (inside a batch: the batch fails at that write and changes nothing), and `set_unavailable(true)` makes every
@@ -56,17 +56,18 @@
 /// `demos/interfaces/key_value_store_reference_demo.cpp`.
 ///
 /// **Dependencies.** `<algorithm>`, `<cstddef>`, `<cstdint>`, `<iterator>`, `<map>`, `<memory>`, `<new>`, `<optional>`,
-/// `<span>`, `<string>`, `<string_view>`, `<utility>`, `<vector>`, and the three capability concepts.
+/// `<span>`, `<string>`, `<string_view>`, `<utility>`, `<vector>`, and the four capability concepts.
 ///
 /// **Known issues.** `apply` copies the map, so a fake holding many entries pays O(n) per batch.
 ///
-/// **Status.** New in 0.22.0. Experimental.
+/// **Status.** New in 0.22.0; `compare_and_swap` (`kv_cas`) in 0.27.0. Experimental.
 
 #ifndef snicholls_core_interfaces_key_value_store_reference_hpp
 #define snicholls_core_interfaces_key_value_store_reference_hpp
 
 #include <snicholls/core/concepts/key_value_store.hpp>
 #include <snicholls/core/concepts/kv_backup.hpp>
+#include <snicholls/core/concepts/kv_cas.hpp>
 #include <snicholls/core/concepts/kv_health.hpp>
 
 #include <algorithm>
@@ -290,6 +291,34 @@ namespace snicholls {
                     return ok(false);
                 auto& m = writable();
                 m.erase(m.find(key));
+                ++sequence_;
+                return ok(true);
+            });
+        }
+
+        /// \brief See `kv_cas` (0.27.0): replaces `key`'s value with `desired` only when it is `expected`.
+        /// \param key the key.
+        /// \param expected the value it must have, or `std::nullopt` for absent.
+        /// \param desired the value to set, or `std::nullopt` to erase.
+        /// \return whether it swapped, or the error (nothing changed).
+        result<bool, kv_errc> compare_and_swap(kv_bytes key, std::optional<kv_bytes> expected, std::optional<kv_bytes> desired)
+        {
+            return write([&]() -> result<bool, kv_errc> {
+                if (const auto e = tick())
+                    return err(*e);
+                const auto it = data_->find(key);
+                const bool present = it != data_->end();
+                if (present != expected.has_value() || (present && !kv_equal(kv_bytes(it->second), *expected)))
+                    return ok(false);
+                auto& m = writable();
+                if (!desired) {
+                    if (present)
+                        m.erase(m.find(key));
+                } else if (const auto w = m.find(key); w != m.end()) {
+                    w->second = detail::kv_copy(*desired);
+                } else {
+                    m.emplace(detail::kv_copy(key), detail::kv_copy(*desired));
+                }
                 ++sequence_;
                 return ok(true);
             });

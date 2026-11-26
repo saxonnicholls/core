@@ -298,3 +298,24 @@ TEST(KvDigestV1, CoversOnlyItsRangeAndSeesEveryByte)
     EXPECT_NE(digest_of({{"ab", "c"}}), digest_of({{"a", "bc"}})) << "lengths are hashed, so splits differ";
     EXPECT_NE(digest_of({}), digest_of({{"", ""}})) << "the pair count is hashed";
 }
+
+namespace {
+
+// A composite key that encodes itself (crtp's composite_key): accepted wherever a key is.
+struct composite_key {
+    std::string encoded;
+    [[nodiscard]] std::string_view key_bytes() const noexcept { return encoded; }
+};
+static_assert(kv_encoded_key<composite_key> && kv_byte_source<composite_key>);
+static_assert(!kv_encoded_key<std::string_view> && kv_byte_source<std::string_view>);
+
+} // namespace
+
+TEST(KvConveniences, AcceptAKeyThatEncodesItself)
+{
+    reference_key_value_store s;
+    const composite_key k{std::string("order\0", 6) + "42"};
+    ASSERT_TRUE(kv_put(s, k, std::string_view{"v"}).is_ok());
+    EXPECT_TRUE(*kv_contains(s, k));
+    EXPECT_EQ(kv_bytes_of(k).size(), 8u);
+}

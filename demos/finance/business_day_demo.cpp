@@ -15,6 +15,7 @@
 #include <chrono>
 #include <cstdio>
 #include <set>
+#include <vector>
 
 namespace {
 int failures = 0;
@@ -70,5 +71,21 @@ int main()
     const auto broken = adjust(saturday, business_day_convention::following, never_open);
     check(!broken && broken.unwrap_err_unchecked() == business_day_errc::no_business_day,
           "a calendar with no business day is refused after max_business_day_search days");
+    // From crtp's calendar (0.27.0): the QuantLib rules and the calendar operations.
+    const sys_days saturday_15th = sys_days{year{2026} / August / 15};
+    check(*adjust(saturday_15th, business_day_convention::half_month_modified_following, weekend_calendar{}) == saturday_15th - days{1},
+          "half-month modified following stays in the first half");
+    check(*adjust(saturday_15th, business_day_convention::nearest, weekend_calendar{}) == saturday_15th - days{1}, "nearest");
+    const sys_days jan30 = sys_days{year{2026} / January / 30};
+    check(is_end_of_month(jan30, weekend_calendar{}) && *end_of_month(jan30 - days{20}, weekend_calendar{}) == jan30, "end of month");
+    check(*advance_business_days(jan30, 1, weekend_calendar{}) == jan30 + days{3}, "advance_business_days over a weekend");
+    check(*advance_months(jan30, 1, business_day_convention::following, true, weekend_calendar{}) == sys_days{year{2026} / February / 27},
+          "advance_months with the end-of-month rule");
+    const adjusted_calendar closed_wednesday{weekend_calendar{}, {sys_days{year{2026} / February / 4}}};
+    const joint_calendar both{weekend_calendar{}, closed_wednesday};
+    check(count_business_days(sys_days{year{2026} / February / 2}, sys_days{year{2026} / February / 9}, both) == 4,
+          "count_business_days over a joint calendar");
+    check(holidays_between(sys_days{year{2026} / February / 1}, sys_days{year{2026} / February / 8}, closed_wednesday).size() == 1,
+          "holidays_between");
     return failures == 0 ? 0 : 1;
 }

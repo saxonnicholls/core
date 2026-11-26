@@ -24,6 +24,7 @@ add_executable(snicholls_core_tests
     phone_number_test.cpp
     result_test.cpp
     secret_test.cpp
+    sql_value_test.cpp
     strong_test.cpp
     thread_apply_test.cpp
     traced_test.cpp
@@ -40,14 +41,18 @@ add_executable(snicholls_core_tests
     concepts/chain_test.cpp
     concepts/country_test.cpp
     concepts/day_count_test.cpp
+    concepts/encryptor_test.cpp
     concepts/error_sink_test.cpp
     concepts/holiday_calendar_test.cpp
+    concepts/http_client_test.cpp
     concepts/http_handler_test.cpp
     concepts/https_client_test.cpp
     concepts/key_store_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
+    concepts/kv_cas_test.cpp
     concepts/kv_health_test.cpp
+    concepts/loop_clock_test.cpp
     concepts/message_sender_test.cpp
     concepts/named_test.cpp
     concepts/onramp_provider_test.cpp
@@ -58,8 +63,13 @@ add_executable(snicholls_core_tests
     concepts/security_provider_test.cpp
     concepts/signature_verifier_test.cpp
     concepts/signer_test.cpp
+    concepts/sql_connection_test.cpp
+    concepts/sql_dialect_test.cpp
+    concepts/task_pool_test.cpp
+    concepts/time_zone_test.cpp
     concepts/token_test.cpp
     concepts/token_verifier_test.cpp
+    concepts/uuid_generator_test.cpp
     concepts/wallet_verifier_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
@@ -144,9 +154,15 @@ add_executable(snicholls_core_tests
     interfaces/country_test.cpp
     interfaces/day_count_conformance_test.cpp
     interfaces/day_count_test.cpp
+    interfaces/encryptor_conformance_test.cpp
+    interfaces/encryptor_reference_test.cpp
+    interfaces/encryptor_test.cpp
     interfaces/error_sink_test.cpp
     interfaces/holiday_calendar_conformance_test.cpp
     interfaces/holiday_calendar_test.cpp
+    interfaces/http_client_conformance_test.cpp
+    interfaces/http_client_reference_test.cpp
+    interfaces/http_client_test.cpp
     interfaces/http_handler_conformance_test.cpp
     interfaces/http_handler_reference_test.cpp
     interfaces/http_handler_test.cpp
@@ -160,7 +176,11 @@ add_executable(snicholls_core_tests
     interfaces/key_value_store_reference_test.cpp
     interfaces/key_value_store_test.cpp
     interfaces/kv_backup_test.cpp
+    interfaces/kv_cas_test.cpp
     interfaces/kv_health_test.cpp
+    interfaces/loop_clock_conformance_test.cpp
+    interfaces/loop_clock_reference_test.cpp
+    interfaces/loop_clock_test.cpp
     interfaces/message_sender_conformance_test.cpp
     interfaces/message_sender_reference_test.cpp
     interfaces/message_sender_test.cpp
@@ -190,11 +210,26 @@ add_executable(snicholls_core_tests
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp
+    interfaces/sql_connection_conformance_test.cpp
+    interfaces/sql_connection_reference_test.cpp
+    interfaces/sql_connection_test.cpp
+    interfaces/sql_dialect_conformance_test.cpp
+    interfaces/sql_dialect_reference_test.cpp
+    interfaces/sql_dialect_test.cpp
+    interfaces/task_pool_conformance_test.cpp
+    interfaces/task_pool_reference_test.cpp
+    interfaces/task_pool_test.cpp
+    interfaces/time_zone_conformance_test.cpp
+    interfaces/time_zone_reference_test.cpp
+    interfaces/time_zone_test.cpp
     interfaces/token_conformance_test.cpp
     interfaces/token_test.cpp
     interfaces/token_verifier_conformance_test.cpp
     interfaces/token_verifier_reference_test.cpp
     interfaces/token_verifier_test.cpp
+    interfaces/uuid_generator_conformance_test.cpp
+    interfaces/uuid_generator_reference_test.cpp
+    interfaces/uuid_generator_test.cpp
     interfaces/wallet_verifier_conformance_test.cpp
     interfaces/wallet_verifier_reference_test.cpp
     interfaces/wallet_verifier_test.cpp
