@@ -34,6 +34,11 @@ A version is released when its tag is on a commit where every blocking CI leg is
   with `returns_errc::no_root` and `multiple_roots`. Tested against numpy-financial 1.0.0 and exact references in
   Python's `decimal` and `fractions` (`scripts/generate_returns_fixtures.py`, CTest
   `generated.returns_fixtures_up_to_date`, skipped without numpy-financial).
+- **`fsm/securities.hpp`**: the reference lifecycles of securities in sml's notation, each state an enumerator (so
+  `fsm::save` and `load` keep it) with its colour, label and tooltip: `trade_lifecycle` (placed, filled, settling,
+  settled or failed; cancelled before a fill), `dealing_lifecycle` for a fund application or redemption (requested,
+  priced, issued or cancelled, settled), `corporate_action_lifecycle` (announced, ex, record, paid; withdrawn before
+  the record date) and `repo_lifecycle` (open, accruing, closed).
 
 ## 0.24.1 - 2026-11-26
 

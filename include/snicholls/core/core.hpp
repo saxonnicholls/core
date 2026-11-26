@@ -107,6 +107,7 @@
 #include <snicholls/core/fsm/diagram.hpp>
 #include <snicholls/core/fsm/lifecycle.hpp>
 #include <snicholls/core/fsm/persist.hpp>
+#include <snicholls/core/fsm/securities.hpp>
 #include <snicholls/core/fsm/state_machine.hpp>
 #include <snicholls/core/game/change.hpp>
 #include <snicholls/core/game/coalition.hpp>
