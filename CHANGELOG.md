@@ -19,6 +19,15 @@ fix, and a README that says what is here.
 
 ### Fixed
 
+- `fn::match` over a `std::variant` gives every alternative's case the first alternative's result type, as its
+  documentation says: a later case returning `int` where the first returns `long` is converted, where `std::visit`
+  refused the mixed types before. The test that claimed it had passed only because its `[](int)` case also took the
+  `double` alternative.
+- Windows: two tests assumed a 64-bit `long` (`1L << 62`, `9'876'543'210L`); they use `long long`. The key store's
+  test key pattern starts from a `std::uint8_t`, not an `int`.
+- MSVC: the tests and demos build at `/W4 /WX`: narrowing made explicit, and C4702 (the optimiser's unreachable code
+  after a callback that always throws) and C4834 (a `[[nodiscard]]` fsm action as the left operand of the overloaded
+  comma) off for test code only.
 - MSVC: the single-include check (`snicholls_core_single_include`) is compiled with `/Zc:preprocessor`. It does not link
   `snicholls::core`, so it missed the one flag the target propagates, and MSVC's traditional preprocessor stopped at
   the struct binders' 256-deep member lists (C1009, "macros nested too deeply"). A consumer of the single include on
