@@ -12,6 +12,7 @@ function(snicholls_core_add_demo name source)
 endfunction()
 
 snicholls_core_add_demo(acout_demo acout_demo.cpp)
+snicholls_core_add_demo(algorithm_demo algorithm_demo.cpp)
 snicholls_core_add_demo(backoff_demo backoff_demo.cpp)
 snicholls_core_add_demo(basic_type_registry_demo basic_type_registry_demo.cpp)
 snicholls_core_add_demo(capability_error_demo capability_error_demo.cpp)

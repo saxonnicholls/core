@@ -3,6 +3,7 @@
 # missing or not listed below.
 add_executable(snicholls_core_tests
     acout_test.cpp
+    algorithm_test.cpp
     backoff_test.cpp
     basic_type_registry_test.cpp
     capability_error_test.cpp

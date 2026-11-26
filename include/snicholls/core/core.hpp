@@ -29,6 +29,7 @@
 #define snicholls_core_core_hpp
 
 #include <snicholls/core/acout.hpp>
+#include <snicholls/core/algorithm.hpp>
 #include <snicholls/core/backoff.hpp>
 #include <snicholls/core/basic_type_registry.hpp>
 #include <snicholls/core/capability_error.hpp>

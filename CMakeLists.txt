@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(snicholls_core
-    VERSION 0.27.0
+    VERSION 0.28.0
     DESCRIPTION "snicholls-core - vocabulary types and compile-time reflection shared by the snicholls libraries"
     LANGUAGES CXX)
 
@@ -169,9 +169,10 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     target_link_libraries(snicholls_core_header_check PRIVATE snicholls::core)
     snicholls_core_compile_options(snicholls_core_header_check)
 
-    # ts-moveables supports C++17, so the headers it uses stay C++17-clean: constexpr_for.hpp, and the task pool, loop
+    # ts-moveables supports C++17, so the headers it uses stay C++17-clean: algorithm.hpp, constexpr_for.hpp, and the task pool, loop
     # clock and random source contracts (concept twin, interface, reference, kit); crypto takes random_source too.
     set(SNICHOLLS_CORE_CPP17_HEADERS
+        algorithm.hpp
         constexpr_for.hpp
         concepts/loop_clock.hpp
         concepts/random_source.hpp

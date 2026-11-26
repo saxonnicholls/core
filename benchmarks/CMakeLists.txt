@@ -24,6 +24,7 @@ function(snicholls_core_add_benchmark name source)
 endfunction()
 
 snicholls_core_add_benchmark(acout_benchmark acout_benchmark.cpp)
+snicholls_core_add_benchmark(algorithm_benchmark algorithm_benchmark.cpp)
 snicholls_core_add_benchmark(invoke_with_benchmark invoke_with_benchmark.cpp)
 snicholls_core_add_benchmark(phone_number_benchmark phone_number_benchmark.cpp)
 snicholls_core_add_benchmark(result_benchmark result_benchmark.cpp)
