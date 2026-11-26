@@ -57,7 +57,9 @@
 /// never a new one. A `pointwise` holding a lambda that captures by reference refers to what it captured.
 /// Inside an fsm table (`using namespace snicholls::fsm`), `&&`, `||` and `!` on two `pointwise` guards are ambiguous
 /// with the table's own guard algebra: combine them outside the table and use the result as one guard
-/// (`demos/fsm/state_machine_railway_demo.cpp`).
+/// (`demos/fsm/state_machine_railway_demo.cpp`). And enter it in the table behind a lambda that takes the event
+/// (`[](const authorise& a) { return authorisable(a); }`): the table reads a guard's parameters from its signature, and
+/// Clang 18 crashes deducing them through `pointwise`'s generic call operator.
 ///
 /// **Status.** Experimental, new in 0.27.0.
 

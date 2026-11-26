@@ -46,6 +46,10 @@ constexpr auto authorisable = (amount > 0L) && (amount <= 50'000L);             
 constexpr fn::pointwise refundable{fn::compose(fn::curry(at_most)(20'000L), &refund::cents)};       // curried, composed
 static_assert(authorisable(authorise{1'000}) && !authorisable(authorise{0}) && !authorisable(authorise{90'000}));
 static_assert(refundable(refund{5'000}) && !refundable(refund{25'000}));
+// Each enters the table behind a lambda with the event's type: the table reads a guard's parameters from its
+// signature, and Clang 18 crashes deducing them through pointwise's generic call operator.
+constexpr auto authorisable_guard = [](const authorise& a) { return authorisable(a); };
+constexpr auto refundable_guard = [](const refund& r) { return refundable(r); };
 
 struct card_payment {
     constexpr auto operator()() const
@@ -56,9 +60,9 @@ struct card_payment {
         constexpr auto captured = enum_state<payment::captured>;
         constexpr auto refunded = enum_state<payment::refunded>;
         return make_transition_table(
-            *created    + event<authorise> [authorisable] = authorised,
+            *created    + event<authorise> [authorisable_guard] = authorised,
              authorised + event<capture>                  = captured,
-             captured   + event<refund> [refundable]      = refunded);
+             captured   + event<refund> [refundable_guard] = refunded);
     }
 };
 //! [guards]

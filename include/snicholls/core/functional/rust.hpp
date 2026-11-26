@@ -295,7 +295,9 @@ namespace snicholls::fn::rust {
             template <class T>
             constexpr std::optional<T> operator()(std::optional<T>& o) const noexcept(std::is_nothrow_move_constructible_v<T>)
             {
-                std::optional<T> out = std::move(o);
+                // Never copies an empty optional: Clang 18 over libstdc++ 13 refuses that in constant evaluation.
+                if (!o.has_value()) return std::nullopt;
+                std::optional<T> out(std::in_place, std::move(*o));
                 o.reset();
                 return out;
             }
