@@ -105,6 +105,32 @@ A machine's state saves and restores, so a lifecycle survives a restart; the sam
 
 \snippet fsm/lifecycle_demo.cpp table
 
+### Machines, functionally
+
+A machine is a function from state and event to state, so everything in `functional/` applies to it.
+
+- **A run is a fold**, and its trace a scan:
+
+\snippet fsm/state_machine_fold_demo.cpp fold
+
+- **Event sourcing is a law**: a snapshot plus the remaining events equals the full replay, proved by `static_assert`:
+
+\snippet fsm/state_machine_event_sourcing_demo.cpp law
+
+- **A Mealy machine is the State monad**: the same machine as a table and as `fn::state`, identical on every input:
+
+\snippet fsm/state_machine_mealy_demo.cpp proof
+
+- **Guards from combinators, transitions on the railway:**
+
+\snippet fsm/state_machine_railway_demo.cpp guards
+
+\snippet fsm/state_machine_railway_demo.cpp railway
+
+- **Reachability is a fixed point** of the transition relation:
+
+\snippet fsm/state_machine_reachability_demo.cpp fixed_points
+
 **Not for** a two-state toggle: a `bool` is fine.
 
 ---
@@ -350,6 +376,65 @@ factor.
 ### Parsers from combinators
 
 \snippet functional/typeclasses_parser_demo.cpp parser
+
+### Classics, written in C++
+
+The showcases are the programs a functional programmer reaches for first, each checked by `static_assert` as well as
+at run time.
+
+\snippet functional/lazy_showcase_demo.cpp primes
+
+\snippet functional/lazy_showcase_demo.cpp fibonacci
+
+\snippet functional/list_showcase_demo.cpp queens
+
+\snippet functional/instances_list_monad_demo.cpp knight
+
+\snippet functional/fold_showcase_demo.cpp horner
+
+\snippet functional/recursion_showcase_demo.cpp cata
+
+\snippet functional/combinators_showcase_demo.cpp point_free
+
+\snippet functional/curry_showcase_demo.cpp sections
+
+### An interpreter: algebraic data types and pattern matching
+
+\snippet functional/match_evaluator_demo.cpp adt
+
+\snippet functional/match_evaluator_demo.cpp run
+
+### Effects: railway, state, reader and writer
+
+\snippet functional/monad_railway_demo.cpp railway
+
+\snippet functional/state_rpn_demo.cpp rpn
+
+\snippet functional/typeclasses_map_reduce_demo.cpp words
+
+\snippet functional/ocaml_pipes_demo.cpp sum_of_squares
+
+### Rust's vocabulary
+
+`std::optional` with Rust's Option methods, orderings that chain, slices in windows and chunks, iterator searches with
+Rust's tie rules. `result` already carries Result's methods as members.
+
+\snippet functional/rust_demo.cpp option
+
+\snippet functional/rust_demo.cpp cmp
+
+\snippet functional/rust_iter_demo.cpp slices
+
+\snippet functional/rust_showcase_demo.cpp pipeline
+
+### Rewriting and point-wise functions
+
+Rules applied once (`/.`) or to a fixed point (`//.`) over any tree whose children the caller can map; functions
+combined point by point with ordinary operators.
+
+\snippet functional/rewrite_simplifier_demo.cpp simplify
+
+\snippet functional/pointwise_demo.cpp payoff
 
 **Not for** a hot inner loop the compiler cannot see through: measure, then write the loop.
 
