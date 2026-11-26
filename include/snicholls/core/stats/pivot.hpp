@@ -559,7 +559,7 @@ namespace snicholls::stats {
             const auto print_keys = [&os](const auto& t) {
                 std::apply(
                     [&os](const auto&... k) {
-                        const char* separator = "";
+                        [[maybe_unused]] const char* separator = "";   // one key: GCC sees it set, never read
                         ((os << separator, print_to(os, k), separator = "/"), ...);
                     },
                     t);
