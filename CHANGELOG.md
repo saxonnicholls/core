@@ -49,6 +49,16 @@ A version is released when its tag is on a commit where every blocking CI leg is
   rule), `count_business_days`, `holidays_between`, `joint_calendar`, `adjusted_calendar`.
 - **From crtp's HTTP interface** (best-version merge): `http_request::path_params`, `path_param`, `request_target`,
   `is_success`, `match_route`, and `route_table::add_pattern` (`:name` segments).
+- **`random_source`: the contract for cryptographically secure random bytes**, which fails closed.
+  `concepts/random_source.hpp` (`is_random_source_like_v`, the concept `random_source_like`, `random_failed`),
+  `interfaces/random_source.hpp` (`random_source_interface`, `random_source_adapter<Impl>` by value or borrowed,
+  `any_random_source`), `interfaces/random_source_reference.hpp` (`test_random_source`, deterministic and **not
+  cryptographic**, with a `constexpr` `fill`, so test keys and nonces are built at compile time; and
+  `unavailable_random_source`) and `interfaces/random_source_conformance.hpp` (`check_random_source`,
+  `check_random_source_fails_closed`, failures as text). The member is `std::errc fill(std::byte*, std::size_t)
+  noexcept`: `std::errc{}` is success, and the literal type lets a source be `constexpr`. All four headers are
+  C++17-clean (compiled in `snicholls_core_cpp17_check`): ts-moveables implements the operating system's source on it,
+  and crypto and core's uuid generator take their randomness through it.
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
 

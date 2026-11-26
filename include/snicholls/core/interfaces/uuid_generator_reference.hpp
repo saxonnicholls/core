@@ -51,6 +51,7 @@
 #ifndef snicholls_core_interfaces_uuid_generator_reference_hpp
 #define snicholls_core_interfaces_uuid_generator_reference_hpp
 
+#include <snicholls/core/interfaces/random_source_reference.hpp>
 #include <snicholls/core/interfaces/uuid_generator.hpp>
 #include <snicholls/core/stats/random.hpp>
 #include <snicholls/core/time/utc.hpp>
@@ -109,10 +110,11 @@ namespace snicholls {
     };
 
     namespace detail {
-        // A random_source_like source: eight bytes, or nothing when it fails (it fails closed).
+        // A random_source_like source: eight bytes, or nothing when it fails (it fails closed). constexpr, so a constexpr
+        // source (test_random_source) composes identifiers at compile time.
         template <typename R>
             requires uuid_fill_source<R>
-        std::optional<std::uint64_t> uuid_draw(R& r) noexcept
+        constexpr std::optional<std::uint64_t> uuid_draw(R& r) noexcept
         {
             std::array<std::byte, 8> b{};
             if (r.fill(b.data(), b.size()) != std::errc{})
@@ -217,18 +219,20 @@ namespace snicholls {
         std::uint32_t last_counter_ = 0;
     };
 
-    /// \brief The deterministic generator tests use: `stats::wyrand` and a manual clock in milliseconds.
+    /// \brief The deterministic generator tests use: `test_random_source` (the `random_source` contract's seeded test
+    /// double, not cryptographic) and a manual clock in milliseconds. A real generator takes ts-moveables' operating-system
+    /// source in its place.
     /// \ingroup core
-    using reference_uuid_generator = basic_uuid_generator<stats::wyrand, manual_utc_clock>;
+    using reference_uuid_generator = basic_uuid_generator<test_random_source, manual_utc_clock>;
 
     /// \brief A `reference_uuid_generator` seeded with `seed`, its clock at `start`.
     /// \ingroup core
-    /// \param seed  The `wyrand` seed.
+    /// \param seed  The test source's seed.
     /// \param start The clock's instant.
     /// \return The generator: the same seed and start make the same identifiers.
     [[nodiscard]] constexpr reference_uuid_generator make_reference_uuid_generator(std::uint64_t seed, utc_ms start) noexcept
     {
-        return reference_uuid_generator{stats::wyrand{seed}, manual_utc_clock{start}};
+        return reference_uuid_generator{test_random_source{seed}, manual_utc_clock{start}};
     }
 
     static_assert(uuid_generator<reference_uuid_generator>, "snicholls::reference_uuid_generator must model snicholls::uuid_generator");

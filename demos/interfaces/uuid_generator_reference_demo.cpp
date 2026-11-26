@@ -29,7 +29,7 @@ int main()
 {
     std::printf("snicholls-core interfaces/uuid_generator_reference.hpp demo\n");
     //! [reference]
-    basic_uuid_generator ids{stats::wyrand{7}, manual_utc_clock{utc_ms::from_unix_millis(1'800'000'000'000)}};
+    basic_uuid_generator ids{test_random_source{7}, manual_utc_clock{utc_ms::from_unix_millis(1'800'000'000'000)}};
     const uuid a = *ids.v7();
     const uuid b = *ids.v7();                       // same millisecond: the counter orders them
     ids.clock().advance(std::chrono::milliseconds{5});

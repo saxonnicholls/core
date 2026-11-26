@@ -56,6 +56,7 @@ add_executable(snicholls_core_tests
     concepts/named_test.cpp
     concepts/onramp_provider_test.cpp
     concepts/payment_provider_test.cpp
+    concepts/random_source_test.cpp
     concepts/signer_test.cpp
     concepts/sql_connection_test.cpp
     concepts/sql_dialect_test.cpp
@@ -175,6 +176,9 @@ add_executable(snicholls_core_tests
     interfaces/payment_provider_conformance_test.cpp
     interfaces/payment_provider_reference_test.cpp
     interfaces/payment_provider_test.cpp
+    interfaces/random_source_conformance_test.cpp
+    interfaces/random_source_reference_test.cpp
+    interfaces/random_source_test.cpp
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp

@@ -82,6 +82,7 @@
 #include <snicholls/core/concepts/named.hpp>
 #include <snicholls/core/concepts/onramp_provider.hpp>
 #include <snicholls/core/concepts/payment_provider.hpp>
+#include <snicholls/core/concepts/random_source.hpp>
 #include <snicholls/core/concepts/signer.hpp>
 #include <snicholls/core/concepts/sql_connection.hpp>
 #include <snicholls/core/concepts/sql_dialect.hpp>
@@ -189,6 +190,9 @@
 #include <snicholls/core/interfaces/payment_provider.hpp>
 #include <snicholls/core/interfaces/payment_provider_conformance.hpp>
 #include <snicholls/core/interfaces/payment_provider_reference.hpp>
+#include <snicholls/core/interfaces/random_source.hpp>
+#include <snicholls/core/interfaces/random_source_conformance.hpp>
+#include <snicholls/core/interfaces/random_source_reference.hpp>
 #include <snicholls/core/interfaces/signer.hpp>
 #include <snicholls/core/interfaces/signer_conformance.hpp>
 #include <snicholls/core/interfaces/signer_reference.hpp>

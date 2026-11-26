@@ -169,15 +169,19 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     target_link_libraries(snicholls_core_header_check PRIVATE snicholls::core)
     snicholls_core_compile_options(snicholls_core_header_check)
 
-    # ts-moveables supports C++17, so the headers it uses stay C++17-clean: constexpr_for.hpp, and the task pool and
-    # loop clock contracts (concept twin, interface, reference, kit).
+    # ts-moveables supports C++17, so the headers it uses stay C++17-clean: constexpr_for.hpp, and the task pool, loop
+    # clock and random source contracts (concept twin, interface, reference, kit); crypto takes random_source too.
     set(SNICHOLLS_CORE_CPP17_HEADERS
         constexpr_for.hpp
         concepts/loop_clock.hpp
+        concepts/random_source.hpp
         concepts/task_pool.hpp
         interfaces/loop_clock.hpp
         interfaces/loop_clock_conformance.hpp
         interfaces/loop_clock_reference.hpp
+        interfaces/random_source.hpp
+        interfaces/random_source_conformance.hpp
+        interfaces/random_source_reference.hpp
         interfaces/task_pool.hpp
         interfaces/task_pool_conformance.hpp
         interfaces/task_pool_reference.hpp)
