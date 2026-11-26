@@ -28,7 +28,9 @@
 ///
 /// Two helpers serve a caller that divides by itself, an entitlement engine rounding one line per holder:
 /// - `rounds_away(quotient, fraction, mode)`, the rounding test `convert` applies;
-/// - `sum_residuals(parts, denominator)`, the exact signed total of many residuals over one denominator.
+/// - `sum_residuals(parts, denominator)`, the exact signed total of many residuals over one denominator;
+/// - `convert_rate(rate, places, mode)`, the rate itself priced to `places` decimals (a NAV per unit), with its
+///   residual.
 ///
 /// \snippet money/rate_demo.cpp helpers
 ///
@@ -61,7 +63,7 @@
 ///
 /// **Known issues.** None.
 ///
-/// **Status.** New in 0.22.0; `rounds_away` and `sum_residuals` public in 0.25.0.
+/// **Status.** New in 0.22.0; `rounds_away`, `sum_residuals` and `convert_rate` in 0.25.0.
 
 #ifndef snicholls_core_money_rate_hpp
 #define snicholls_core_money_rate_hpp
@@ -258,6 +260,46 @@ namespace snicholls {
         /// \brief The exact value minus `converted`, in target minor units; its magnitude is below one.
         snicholls::residual residual;
     };
+
+    /// \brief The result of `convert_rate`.
+    struct priced_rate {
+        /// \brief The rate rounded to the places asked for: its denominator is `10^places`.
+        snicholls::rate rounded;
+        /// \brief The exact rate minus `rounded`, in units of `10^-places`, over the rate's own denominator; its
+        /// magnitude is below one.
+        snicholls::residual residual;
+    };
+
+    /// \brief A rate priced to `places` decimal places by `mode`: a fund's NAV per unit to four places, say.
+    ///
+    /// The same rounding as `convert`, for the same seven modes, applied to the rate itself: the rounded rate is
+    /// `round(numerator * 10^places / denominator) / 10^places`, and the residual what rounding left, exactly. A rate is
+    /// never negative, so `floor` rounds as `toward_zero` and `ceiling` as `away_from_zero`.
+    /// \param r      The rate.
+    /// \param places The decimal places, at most 77.
+    /// \param mode   The rounding mode.
+    /// \return The rounded rate (same assets) and the residual, or `overflow` for more than 77 places or a result
+    ///         past 256 bits.
+    [[nodiscard]] constexpr result<priced_rate, money_errc> convert_rate(const rate& r, unsigned places, rounding mode) noexcept
+    {
+        if (places > 77)
+            return err(money_errc::overflow);
+        const uint256 scale = uint256::pow10(places);
+        const auto qr = detail::mul_div(r.numerator(), scale, r.denominator());
+        if (!qr)
+            return err(money_errc::overflow);
+        auto [q, rem] = *qr;
+        const uint256& d = r.denominator();
+        residual left{false, rem, d};
+        if (rounds_away(q, left, mode)) {
+            const auto up = uint256::checked_add(q, 1);
+            if (!up)
+                return err(money_errc::overflow);
+            q = *up;
+            left = residual{true, d - rem, d};   // the rounded rate overshoots by (d - rem) / d
+        }
+        return ok(priced_rate{*rate::make(r.from(), r.to(), q, scale), left});
+    }
 
     /// \brief `amount` in `r.to()`, rounded by `mode`.
     /// \param amount An amount of `r.from()`.

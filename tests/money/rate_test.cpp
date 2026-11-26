@@ -217,6 +217,68 @@ TEST(MulDiv, SixtyFourBitFactorsGiveTheSameBitsAsTheGeneralPath)
     static_assert(detail::mul_div(~0ull, ~0ull, 3)->first == uint256::from_limbs(0xaaaaaaaaaaaaaaabull, 0x5555555555555554ull));
 }
 
+TEST(RateConvertRate, MatchesTheRoundingTableInEveryMode)
+{
+    // a positive row of the convert table is a rate priced to to_scale places: (units * numerator) /
+    // (denominator * 10^from_scale) to to_scale decimals, with the same quotient and the same residual
+    std::ifstream in(SNICHOLLS_CORE_FIXTURE_DIR "/money/convert.txt");
+    ASSERT_TRUE(in) << "tests/fixtures/money/convert.txt";
+    std::string line;
+    int cases = 0;
+    while (std::getline(in, line)) {
+        if (line.empty() || line[0] == '#')
+            continue;
+        std::istringstream is(line);
+        unsigned fs = 0, ts = 0;
+        std::string num, den, sign, units, mode, bar, qs, qu, rs, ru;
+        is >> fs >> ts >> num >> den >> sign >> units >> mode >> bar >> qs >> qu >> rs >> ru;
+        if (sign != "+")
+            continue;
+        const auto n = uint256::checked_mul(*uint256::from_decimal(units), *uint256::from_decimal(num));
+        const auto d = uint256::checked_mul(*uint256::from_decimal(den), uint256::pow10(fs));
+        if (!n || !d)
+            continue;
+        const auto r = *rate::make(eth, usd, *n, *d);
+        const auto p = convert_rate(r, ts, mode_of(mode));
+        ASSERT_TRUE(p) << line;
+        EXPECT_EQ(p->rounded.numerator(), *uint256::from_decimal(qu)) << line;
+        EXPECT_EQ(p->rounded.denominator(), uint256::pow10(ts)) << line;
+        EXPECT_EQ(p->rounded.from(), eth);
+        EXPECT_EQ(p->rounded.to(), usd);
+        EXPECT_EQ(p->residual.numerator, *uint256::from_decimal(ru)) << line;
+        EXPECT_EQ(p->residual.negative, rs == "-" && ru != "0") << line;
+        EXPECT_EQ(p->residual.denominator, *d) << line;
+        ++cases;
+    }
+    EXPECT_GT(cases, 200);
+}
+
+TEST(RateConvertRate, PricesANavPerUnitInEachMode)
+{
+    const auto nav = *rate::parse(eth, usd, "1.23456");   // to four places
+    const auto at = [&](rounding m) { return convert_rate(nav, 4, m)->rounded.numerator(); };
+    EXPECT_EQ(at(rounding::half_even), uint256(12346));
+    EXPECT_EQ(at(rounding::half_up), uint256(12346));
+    EXPECT_EQ(at(rounding::half_down), uint256(12346));
+    const auto tie = *rate::parse(eth, usd, "1.23455");   // 12345.5 units of 10^-4
+    EXPECT_EQ(convert_rate(tie, 4, rounding::half_down)->rounded.numerator(), uint256(12345));
+    EXPECT_EQ(convert_rate(tie, 4, rounding::half_up)->rounded.numerator(), uint256(12346));
+    EXPECT_EQ(convert_rate(tie, 4, rounding::half_even)->rounded.numerator(), uint256(12346));
+    EXPECT_EQ(at(rounding::toward_zero), uint256(12345));
+    EXPECT_EQ(at(rounding::floor), uint256(12345));
+    EXPECT_EQ(at(rounding::away_from_zero), uint256(12346));
+    EXPECT_EQ(at(rounding::ceiling), uint256(12346));
+    const auto p = convert_rate(nav, 4, rounding::half_even);
+    EXPECT_EQ(p->residual, (residual{true, 40000, 100000}));   // 1.23456 - 1.2346 = -0.4 of 10^-4
+    const auto exact = convert_rate(nav, 6, rounding::half_even);
+    EXPECT_TRUE(exact->residual.is_zero());
+    EXPECT_EQ(exact->rounded.numerator(), uint256(1234560));
+    EXPECT_EQ(convert_rate(nav, 78, rounding::half_even).err(), money_errc::overflow);
+    EXPECT_EQ(convert_rate(*rate::make(eth, usd, uint256::max(), 1), 1, rounding::half_even).err(), money_errc::overflow);
+    static_assert(convert_rate(*rate::make(eth, usd, 2, 3), 2, rounding::half_up)->rounded.numerator() == uint256(67));
+    static_assert(noexcept(convert_rate(*rate::make(eth, usd, 1, 1), 2, rounding::half_up)));
+}
+
 TEST(MulDiv, DividesTheFull512BitProduct)
 {
     const auto big = uint256::max();

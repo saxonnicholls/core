@@ -40,6 +40,9 @@ A version is released when its tag is on a commit where every blocking CI leg is
   test `convert` applies, public (it was `detail::rounds_away`), and the exact signed total of many residuals over one
   denominator (`malformed` for another denominator, `overflow` past 256 bits), for an entitlement engine that divides
   by itself.
+- **`convert_rate(rate, places, mode)`** (`money/rate.hpp`): a rate priced to `places` decimals (a fund's NAV per
+  unit) by any of `convert`'s seven rounding modes, returning the rounded rate and the exact residual; tested against
+  the rounding table `convert` is.
 
 ## 0.24.1 - 2026-11-26
 

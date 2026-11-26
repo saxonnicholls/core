@@ -66,6 +66,12 @@ int main()
     check(paid == uint256(233), "33 + 67 + 133 cents paid");
     check(total && *total == (residual{false, 1, 3}), "one third of a cent left over, exactly");
     check(sum_residuals(left, 7).err() == money_errc::malformed, "another denominator is refused");
+    std::puts("Pricing a rate");
+    const rate nav_exact = *rate::parse(eth, usd, "1.23456");
+    const auto nav = convert_rate(nav_exact, 4, rounding::half_even);   // NAV per unit to four places
+    check(nav && nav->rounded == *rate::make(eth, usd, 12346, 10000), "1.23456 priced to 1.2346");
+    check(nav && nav->residual == (residual{true, 40000, 100000}), "and 0.4 of 10^-4 over the exact rate");
+    check(convert_rate(nav_exact, 78, rounding::floor).err() == money_errc::overflow, "at most 77 places");
     std::printf("%s\n", failures == 0 ? "all checks passed" : "FAILED");
     return failures == 0 ? 0 : 1;
 }
