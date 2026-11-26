@@ -14,7 +14,11 @@
 #include <cstdio>
 
 using namespace snicholls;
-using namespace std::chrono;
+using namespace std::chrono_literals;   // not all of std::chrono: libstdc++'s std::chrono::time_zone and local_info
+                                        // would collide with core's
+using std::chrono::sys_seconds;
+using std::chrono::sys_days;
+using std::chrono::year;
 
 namespace {
 int failures = 0;

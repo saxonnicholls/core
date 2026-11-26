@@ -19,7 +19,14 @@
 #include <type_traits>
 
 using namespace snicholls;
-using namespace std::chrono;
+using namespace std::chrono_literals;   // not all of std::chrono: libstdc++'s std::chrono::time_zone and local_info
+                                        // would collide with core's
+using std::chrono::sys_seconds;
+using std::chrono::local_seconds;
+using std::chrono::sys_days;
+using std::chrono::hours;
+using std::chrono::year;
+using std::chrono::January;
 
 namespace {
 

@@ -15,7 +15,17 @@
 #include <string_view>
 
 using namespace snicholls;
-using namespace std::chrono;
+using namespace std::chrono_literals;   // not all of std::chrono: libstdc++'s std::chrono::time_zone and local_info
+                                        // would collide with core's
+using std::chrono::local_seconds;
+using std::chrono::local_days;
+using std::chrono::minutes;
+using std::chrono::hours;
+using std::chrono::year_month_day;
+using std::chrono::year;
+using std::chrono::day;
+using std::chrono::March;
+using std::chrono::July;
 
 namespace {
 int failures = 0;
