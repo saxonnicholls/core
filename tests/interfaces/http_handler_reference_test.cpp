@@ -79,4 +79,29 @@ TEST(RouteTable, AnExplicitHeadRouteWins)
     EXPECT_EQ(t.handle(req(http_method::head, "/a")).status, 204);
 }
 
+TEST(RouteTable, PatternsCaptureTheirSegments)
+{
+    route_table t;
+    static_cast<void>(t.add(http_method::get, "/orders/open", [](const http_request&) { return respond(200, "exact"); }));
+    ASSERT_TRUE(t.add_pattern(http_method::get, "/orders/:id", [](const http_request& r) {
+        return respond(200, std::string(path_param(r, "id").value_or("?")));
+    }).is_ok());
+    ASSERT_TRUE(t.add_pattern(http_method::get, "/users/:user/orders/:id", [](const http_request& r) {
+        return respond(200, std::string(*path_param(r, "user")) + "/" + std::string(*path_param(r, "id")));
+    }).is_ok());
+    EXPECT_EQ(t.handle(req(http_method::get, "/orders/open")).body, "exact");   // the exact route wins
+    EXPECT_EQ(t.handle(req(http_method::get, "/orders/42")).body, "42");
+    EXPECT_EQ(t.handle(req(http_method::get, "/users/ann/orders/7")).body, "ann/7");
+    EXPECT_EQ(t.handle(req(http_method::get, "/orders/")).status, 404);        // a capture is never empty
+    EXPECT_EQ(t.handle(req(http_method::get, "/orders/1/2")).status, 404);
+    EXPECT_EQ(t.handle(req(http_method::post, "/orders/42")).status, 405);
+    EXPECT_EQ(t.handle(req(http_method::head, "/orders/42")).body, "");
+    EXPECT_EQ(t.size(), 3u);
+    const auto h = [](const http_request&) { return respond(200); };
+    EXPECT_EQ(t.add_pattern(http_method::get, "/orders/:id", h).unwrap_err().code, capability_errc::conflict);
+    EXPECT_TRUE(t.add_pattern(http_method::post, "/orders/:id", h).is_ok());
+    EXPECT_EQ(t.add_pattern(http_method::get, "x/:id", h).unwrap_err().code, capability_errc::invalid_argument);
+    EXPECT_EQ(t.add_pattern(http_method::get, "/y/:id", nullptr).unwrap_err().code, capability_errc::invalid_argument);
+}
+
 } // namespace

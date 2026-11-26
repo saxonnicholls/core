@@ -39,20 +39,27 @@
 ///
 /// **Tests and demos.** `tests/concepts/http_handler_test.cpp`, `demos/concepts/http_handler_demo.cpp`.
 ///
-/// **Dependencies.** `<concepts>`, `<cstdint>`, `<optional>`, `<string>`, `<string_view>`, `<utility>`, `<vector>`,
+/// **Dependencies.** `<algorithm>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<string>`, `<string_view>`, `<utility>`, `<vector>`,
 /// `http_header.hpp`.
 ///
 /// **Known issues.** The request and response own their strings: an HTTP message is a payload, not an identifier,
 /// and routers above core build on owned requests. Streaming bodies and WebSocket upgrades are not in the contract.
 ///
-/// **Status.** New in 0.23.0. Experimental until two real implementations pass the kit.
+/// **Helpers** (from crtp's `http_interface.hpp`, 0.27.0): `path_param` (a pattern's captures, in
+/// `http_request::path_params`), `request_target`, `is_success`, `match_route`; headers by name are `find_header`
+/// (`http_header.hpp`). A client of this contract is `concepts/http_client.hpp`.
+///
+/// **Status.** New in 0.23.0; the helpers and `path_params` in 0.27.0. Experimental until two real implementations
+/// pass the kit.
 
 #ifndef snicholls_core_concepts_http_handler_hpp
 #define snicholls_core_concepts_http_handler_hpp
 
 #include <snicholls/core/http_header.hpp>
 
+#include <algorithm>
 #include <concepts>
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -115,6 +122,7 @@ namespace snicholls {
         std::string body;                      ///< the raw body bytes
         std::string remote_address;            ///< the peer, after trusted proxies
         std::string request_id;                ///< ours, for logs and the response
+        std::vector<http_header> path_params;  ///< what a pattern's `:name` segments captured (`route_table::add_pattern`)
 
         /// \brief Equality.
         friend bool operator==(const http_request&, const http_request&) = default;
@@ -146,6 +154,70 @@ namespace snicholls {
             r.headers.push_back({"Content-Type", std::string{content_type}});
         r.body = std::move(body);
         return r;
+    }
+
+    /// \brief A path parameter a route pattern captured: `path_param(r, "id")` for `/orders/:id`.
+    /// \ingroup core
+    /// \param r    The request.
+    /// \param name The parameter's name, without the colon (case-sensitive).
+    /// \return A view of its value (valid while `r` is), or `std::nullopt`.
+    [[nodiscard]] inline std::optional<std::string_view> path_param(const http_request& r, std::string_view name) noexcept
+    {
+        for (const http_header& p : r.path_params)
+            if (p.name == name)
+                return std::string_view{p.value};
+        return std::nullopt;
+    }
+
+    /// \brief The request's target as sent on the wire: `path?query`, or the path alone.
+    /// \ingroup core
+    /// \param r The request.
+    /// \return The target.
+    [[nodiscard]] inline std::string request_target(const http_request& r)
+    {
+        return r.query.empty() ? r.path : r.path + '?' + r.query;
+    }
+
+    /// \brief Whether a response is a success (2xx).
+    /// \ingroup core
+    /// \param r The response.
+    /// \return `200 <= status < 300`.
+    [[nodiscard]] constexpr bool is_success(const http_response& r) noexcept { return r.status >= 200 && r.status < 300; }
+
+    /// \brief Matches `path` against a route pattern whose `:name` segments capture: `/orders/:id` matches
+    /// `/orders/42` with `id` = `42`. Segments compare exactly; a capture is never empty and never spans a `/`.
+    /// \ingroup core
+    /// \param pattern  The pattern, from `/`.
+    /// \param path     The request's path.
+    /// \param captured Where the captures are appended (in pattern order) when it matches; untouched otherwise.
+    /// \return Whether it matches.
+    [[nodiscard]] inline bool match_route(std::string_view pattern, std::string_view path, std::vector<http_header>& captured)
+    {
+        std::vector<http_header> found;
+        std::size_t i = 0, j = 0;
+        while (i < pattern.size() && j < path.size()) {
+            if (pattern[i] != '/' || path[j] != '/')
+                return false;
+            ++i;
+            ++j;
+            const std::size_t pe = std::min(pattern.find('/', i), pattern.size());
+            const std::size_t qe = std::min(path.find('/', j), path.size());
+            const std::string_view seg = pattern.substr(i, pe - i);
+            const std::string_view got = path.substr(j, qe - j);
+            if (!seg.empty() && seg.front() == ':') {
+                if (got.empty())
+                    return false;
+                found.push_back({std::string(seg.substr(1)), std::string(got)});
+            } else if (seg != got) {
+                return false;
+            }
+            i = pe;
+            j = qe;
+        }
+        if (i != pattern.size() || j != path.size())
+            return false;
+        captured.insert(captured.end(), found.begin(), found.end());
+        return true;
     }
 
     /// \brief An HTTP handler: `h.handle(request)`.
