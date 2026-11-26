@@ -53,8 +53,8 @@
 ///
 /// **Tests and demos.** `tests/algorithm_test.cpp`, `demos/algorithm_demo.cpp`.
 ///
-/// **Dependencies.** `<cstddef>`, `<iterator>` (`std::begin`, `std::end`), `<utility>` (`std::move`,
-/// `std::declval`).
+/// **Dependencies.** `<cstddef>`, `<iterator>` (`std::begin`, `std::end`), `<type_traits>`, `<utility>`
+/// (`std::move`, `std::declval`).
 ///
 /// **Known issues.** `reverse` and `swap_ranges` exchange elements by three moves, not by an ADL `swap`: a type
 /// whose `swap` does something a move does not is exchanged by its moves. Proxy iterators (`std::vector<bool>`) are
@@ -68,6 +68,7 @@
 
 #include <cstddef>
 #include <iterator>
+#include <type_traits>
 #include <utility>
 
 namespace snicholls {
@@ -79,11 +80,14 @@ namespace detail {
                                             noexcept(std::declval<const It&>() != std::declval<const It&>()) &&
                                             noexcept(*std::declval<It&>());
 
-    template <class A, class B>
+    // Whether exchanging *a and *b by three moves can throw: traits, not expressions, since `*x = std::move(*x)` in
+    // an unevaluated operand still draws GCC's -Wself-move when A and B are one type.
+    template <class A, class B, class RA = decltype(*std::declval<A&>()), class RB = decltype(*std::declval<B&>()),
+              class VA = std::remove_cv_t<std::remove_reference_t<RA>>>
     inline constexpr bool exchange_noexcept_v =
         walk_noexcept_v<A> && walk_noexcept_v<B> &&
-        noexcept(*std::declval<A&>() = std::move(*std::declval<B&>())) &&
-        noexcept(*std::declval<B&>() = std::move(*std::declval<A&>()));
+        std::is_nothrow_constructible_v<VA, std::remove_reference_t<RA>&&> &&
+        std::is_nothrow_assignable_v<RA, std::remove_reference_t<RB>&&> && std::is_nothrow_assignable_v<RB, VA&&>;
 
     // Exchanges two elements by three moves: std::swap is constexpr only from C++20.
     template <class A, class B>
