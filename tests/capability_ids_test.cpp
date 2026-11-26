@@ -22,6 +22,8 @@ namespace {
 static_assert(provider_id::capacity() == 96 && fact_id::capacity() == 128 && event_id::capacity() == 64);
 static_assert(provider_account::capacity() == 64 && client_id::capacity() == 64 && provider_name::capacity() == 32);
 static_assert(short_text::capacity() == 255);
+static_assert(role_id::capacity() == 64 && permission_id::capacity() == 64 && tenant_id::capacity() == 64);
+static_assert(wallet_address::capacity() == 42 && std::is_trivially_copyable_v<wallet_address>);
 static_assert(std::is_trivially_copyable_v<provider_id> && std::is_trivially_copyable_v<short_text>);
 static_assert(std::is_same_v<utc_s, utc<std::chrono::seconds>>);
 static_assert(make_id<client_id>("order-1").is_ok());

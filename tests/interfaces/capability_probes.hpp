@@ -14,22 +14,31 @@
 
 #include <snicholls/core/interfaces/capability_conformance.hpp>
 #include <snicholls/core/interfaces/http_handler_reference.hpp>
+#include <snicholls/core/interfaces/https_client_conformance.hpp>
+#include <snicholls/core/interfaces/https_client_reference.hpp>
 #include <snicholls/core/interfaces/key_store_reference.hpp>
 #include <snicholls/core/interfaces/message_sender_reference.hpp>
 #include <snicholls/core/interfaces/onramp_provider_reference.hpp>
 #include <snicholls/core/interfaces/payment_provider_reference.hpp>
 #include <snicholls/core/interfaces/remote_files_reference.hpp>
+#include <snicholls/core/interfaces/role_store_reference.hpp>
+#include <snicholls/core/interfaces/signature_verifier_conformance.hpp>
+#include <snicholls/core/interfaces/signature_verifier_reference.hpp>
 #include <snicholls/core/interfaces/signer_reference.hpp>
+#include <snicholls/core/interfaces/token_verifier_reference.hpp>
+#include <snicholls/core/interfaces/wallet_verifier_reference.hpp>
 #include <snicholls/core/money/asset.hpp>
 
 #include <chrono>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <span>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
+#include <vector>
 
 namespace snicholls::test {
 
@@ -181,6 +190,123 @@ namespace snicholls::test {
         static http_request known() { return request(http_method::get, "/health"); }
         static http_request unknown() { return request(http_method::get, "/nowhere"); }
         static http_request throwing() { return request(http_method::get, "/boom"); }
+    };
+
+    inline constexpr uuid probe_party = uuid::from_u64(0x0190'0000'0000'7000ULL, 0x8000'0000'0000'0001ULL);
+
+    struct issued_tokens {
+        memory_token_verifier verifier = memory_token_verifier::deterministic(probe_time);
+        std::string valid;
+        std::string expired;
+        issued_tokens()
+        {
+            token_claims c;
+            c.subject = probe_party;
+            c.expires_at = probe_time + std::chrono::hours{1};
+            valid = verifier.issue(c);
+            c.expires_at = probe_time;
+            expired = verifier.issue(c);
+        }
+    };
+
+    template <form F>
+    struct token_verifier_probe {
+        issued_tokens tokens;
+        forms<memory_token_verifier, token_verifier_interface, token_verifier_adapter, token_verifier_ref, F> f{std::move(tokens.verifier)};
+        auto& verifier() { return f.get(); }
+        std::string valid_token() { return tokens.valid; }
+        std::string expired_token() { return tokens.expired; }
+        static uuid subject() { return probe_party; }
+        void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
+    };
+
+    struct hs256_keys {
+        memory_key_store store = memory_key_store::deterministic(probe_time);
+        std::string id = std::string(store.create({signature_algorithm::hs256, "jwt"})->key_id.view());
+
+        signed_sample sign(std::span<const std::byte> message)
+        {
+            const auto s = store.sign({id, message, payload_kind::message});
+            return {signature_algorithm::hs256, id, s->key_version, {}, s->bytes};
+        }
+    };
+
+    template <form F>
+    struct signature_verifier_probe {
+        hs256_keys keys;
+        forms<memory_signature_verifier, signature_verifier_interface, signature_verifier_adapter, signature_verifier_ref, F> f{
+            memory_signature_verifier{keys.store}};
+        auto& verifier() { return f.get(); }
+        signed_sample sign(std::span<const std::byte> message) { return keys.sign(message); }
+        static signature_algorithm unsupported() { return signature_algorithm::eddsa; }
+        void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
+    };
+
+    inline constexpr std::string_view probe_wallet = "0x52908400098527886e0f7030069857d2e4169ee7";
+    inline constexpr std::string_view probe_other_wallet = "0x8617e340b3d01fa5f11f306f4090fd50e238070d";
+
+    inline memory_wallet_verifier make_wallet_verifier()
+    {
+        memory_wallet_verifier v;
+        static_cast<void>(v.add_wallet(probe_wallet, "test-only wallet key 1"));
+        static_cast<void>(v.add_wallet(probe_other_wallet, "test-only wallet key 2"));
+        return v;
+    }
+
+    template <form F>
+    struct wallet_verifier_probe {
+        forms<memory_wallet_verifier, wallet_verifier_interface, wallet_verifier_adapter, wallet_verifier_ref, F> f{make_wallet_verifier()};
+        auto& verifier() { return f.get(); }
+        static std::string signer_address() { return std::string(probe_wallet); }
+        static std::string other_address() { return std::string(probe_other_wallet); }
+        std::vector<std::byte> sign(std::string_view message) { return f.impl.sign(probe_wallet, message); }
+        void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
+    };
+
+    template <form F>
+    struct role_store_probe {
+        forms<memory_role_store, role_store_interface, role_store_adapter, role_store_ref, F> f{memory_role_store{}};
+        auto& store() { return f.get(); }
+        void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
+    };
+
+    // A server in memory: answers what it is told and remembers what it got, as a socket server would see it.
+    struct scripted_server {
+        https_response next{200, {}, ""};
+        https_observed_request last;
+
+        capability_result<https_response> operator()(const https_request& r)
+        {
+            last.method = std::string(to_string(r.method));
+            const auto target = parse_https_url(r.url)->target;
+            last.target = target.empty() ? "/" : std::string(target);
+            last.headers = r.headers;
+            if (!r.authorization.reveal().empty())
+                last.headers.push_back({"Authorization", r.authorization.reveal()});
+            if (!r.idempotency_key.empty())
+                last.headers.push_back({"Idempotency-Key", std::string(r.idempotency_key.view())});
+            last.body = r.body;
+            return ok(next);
+        }
+    };
+
+    inline memory_https_client routed_to(const std::shared_ptr<scripted_server>& server)
+    {
+        memory_https_client c;
+        c.route("api.example.test", [server](const https_request& r) { return (*server)(r); });
+        return c;
+    }
+
+    template <form F>
+    struct https_client_probe {
+        std::shared_ptr<scripted_server> server = std::make_shared<scripted_server>();
+        forms<memory_https_client, https_client_interface, https_client_adapter, https_client_ref, F> f{routed_to(server)};
+        auto& client() { return f.get(); }
+        static std::string url(std::string_view path) { return "https://api.example.test" + std::string(path); }
+        static std::string unreachable_url() { return "https://unreachable.example.test/"; }
+        void answer(https_response r) { server->next = std::move(r); }
+        https_observed_request seen() { return server->last; }
+        void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
     };
 
 } // namespace snicholls::test

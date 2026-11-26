@@ -43,6 +43,7 @@ add_executable(snicholls_core_tests
     concepts/error_sink_test.cpp
     concepts/holiday_calendar_test.cpp
     concepts/http_handler_test.cpp
+    concepts/https_client_test.cpp
     concepts/key_store_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
@@ -53,8 +54,12 @@ add_executable(snicholls_core_tests
     concepts/payment_provider_test.cpp
     concepts/random_source_test.cpp
     concepts/remote_files_test.cpp
+    concepts/role_store_test.cpp
+    concepts/signature_verifier_test.cpp
     concepts/signer_test.cpp
     concepts/token_test.cpp
+    concepts/token_verifier_test.cpp
+    concepts/wallet_verifier_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
@@ -139,6 +144,9 @@ add_executable(snicholls_core_tests
     interfaces/http_handler_conformance_test.cpp
     interfaces/http_handler_reference_test.cpp
     interfaces/http_handler_test.cpp
+    interfaces/https_client_conformance_test.cpp
+    interfaces/https_client_reference_test.cpp
+    interfaces/https_client_test.cpp
     interfaces/key_store_conformance_test.cpp
     interfaces/key_store_reference_test.cpp
     interfaces/key_store_test.cpp
@@ -164,11 +172,23 @@ add_executable(snicholls_core_tests
     interfaces/remote_files_conformance_test.cpp
     interfaces/remote_files_reference_test.cpp
     interfaces/remote_files_test.cpp
+    interfaces/role_store_conformance_test.cpp
+    interfaces/role_store_reference_test.cpp
+    interfaces/role_store_test.cpp
+    interfaces/signature_verifier_conformance_test.cpp
+    interfaces/signature_verifier_reference_test.cpp
+    interfaces/signature_verifier_test.cpp
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp
     interfaces/token_conformance_test.cpp
     interfaces/token_test.cpp
+    interfaces/token_verifier_conformance_test.cpp
+    interfaces/token_verifier_reference_test.cpp
+    interfaces/token_verifier_test.cpp
+    interfaces/wallet_verifier_conformance_test.cpp
+    interfaces/wallet_verifier_reference_test.cpp
+    interfaces/wallet_verifier_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp

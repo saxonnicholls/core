@@ -62,6 +62,28 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`convert_rate(rate, places, mode)`** (`money/rate.hpp`): a rate priced to `places` decimals (a fund's NAV per
   unit) by any of `convert`'s seven rounding modes, returning the rounded rate and the exact residual; tested against
   the rounding table `convert` is.
+- **Five more capability contracts lifted from the servers library: `token_verifier`, `signature_verifier`,
+  `wallet_verifier`, `role_store`, `https_client`**, each a concept (`concepts/`), its virtual twin with adapters both
+  ways (`interfaces/`), a standard-library reference and a conformance kit (`run_<cap>_conformance<Probe>()`, every kit
+  checking the redaction rule):
+  - `token_verifier`: a token in, `token_claims` out, the caller a party `uuid`; `memory_token_verifier` issues
+    `mt1.<serial>.<tag>` tokens tagged with `hmac<sha256>` and checked with `constant_time_equal` (not a JWT: base64url,
+    JSON and the JWKS stay in servers).
+  - `signature_verifier`: a JWS signature under a public key, or HS256 under a held key; `memory_signature_verifier`
+    checks HS256 under a `memory_key_store`, every asymmetric algorithm `unsupported` (EdDSA, ES256, RS256 are
+    crypto's).
+  - `wallet_verifier`: EIP-191 `personal_sign`, with `personal_sign_hash` (constexpr Keccak-256, checked against the
+    published vectors) and `is_lowercase_evm_address`; `memory_wallet_verifier` signs with a keyed HMAC test scheme,
+    never ECDSA (secp256k1 is crypto's).
+  - `role_store`: roles per party `uuid` and tenant, append-only with history, reads returning `capability_result`;
+    `kv_role_store<S>` over any `key_value_store`, one atomic batch per write, and `memory_role_store` over
+    `reference_key_value_store`.
+  - `https_client`: requests and responses as data (`http_method`, `http_header`, a `secret` credential, an idempotency
+    key, a client-certificate id, connect and total timeouts), with `parse_https_url`, `is_sendable` and
+    `is_idempotent`; `memory_https_client`, an in-memory router by host to handlers or to any `http_handler`, and
+    `cassette`, `recording_https_client`, `replay_https_client` for recorded days. The transport stays in ts-moveables
+    and servers.
+- `capability_ids.hpp`: `role_id`, `permission_id`, `tenant_id` (64) and `wallet_address` (42).
 
 ## 0.24.1 - 2026-11-26
 
