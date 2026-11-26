@@ -92,6 +92,22 @@ add_executable(snicholls_core_tests
     fsm/persist_test.cpp
     fsm/state_machine_test.cpp
     fsm/state_machine_hierarchy_test.cpp
+    functional/bind_test.cpp
+    functional/combinators_test.cpp
+    functional/curry_test.cpp
+    functional/fold_test.cpp
+    functional/instances_test.cpp
+    functional/lazy_test.cpp
+    functional/list_test.cpp
+    functional/match_test.cpp
+    functional/monad_test.cpp
+    functional/ocaml_test.cpp
+    functional/recursion_test.cpp
+    functional/state_test.cpp
+    functional/tabulate_test.cpp
+    functional/typeclasses_test.cpp
+    functional/typeclasses_laws_test.cpp
+    functional/types_test.cpp
     game/change_test.cpp
     game/coalition_test.cpp
     game/harsanyi_test.cpp
@@ -499,7 +515,9 @@ set(_compile_fail_cases
     "fsm_missing_enumerator|has no enumerator of the machine's state enumeration"
     "fsm_no_initial_state|snicholls::fsm: the table has no initial state"
     "version_two_copies|snicholls-core: two versions in one translation unit"
-    "fsm_constructor_argument|snicholls::fsm: a constructor argument is neither the definition nor a dependency")
+    "fsm_constructor_argument|snicholls::fsm: a constructor argument is neither the definition nor a dependency"
+    "fn_curry_generic_lambda|snicholls::fn::curry: a generic or overloaded callable has no arity of its own"
+    "fn_match_not_exhaustive|snicholls::fn::match: not exhaustive")
 foreach(_case_and_regex IN LISTS _compile_fail_cases)
     string(REPLACE "|" ";" _parts "${_case_and_regex}")
     list(GET _parts 0 _case)
