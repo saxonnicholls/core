@@ -10,6 +10,8 @@
 ///
 /// The product is formed in 512 bits and divided with Knuth's algorithm D on 32-bit digits, so nothing is lost before
 /// the caller rounds: money conversion multiplies an amount by a rate's numerator and divides by its denominator.
+/// When both factors fit in 64 bits the product is one 128-bit multiply and the division is `uint256`'s, which is one
+/// hardware division when the product and the divisor fit in 64 bits; the results are bit-identical to the general path.
 /// constexpr and allocation-free. Internal: `money/rate.hpp` is the public face.
 
 #ifndef snicholls_core_detail_mul_div_hpp
@@ -33,6 +35,12 @@ namespace snicholls::detail {
     {
         if (d.is_zero())
             return std::nullopt;
+        // the fast path: two 64-bit factors give a 128-bit product, divided by uint256's own division (one hardware
+        // division when the product and the divisor fit in 64 bits); the quotient always fits, the bits are the same
+        if (((a.limb(1) | a.limb(2) | a.limb(3)) | (b.limb(1) | b.limb(2) | b.limb(3))) == 0) {
+            const auto w = umul128(a.limb(0), b.limb(0));
+            return uint256::checked_divmod(uint256::from_limbs(w.low, w.high), d);
+        }
         // the 512-bit product, as eight 64-bit limbs
         std::array<std::uint64_t, 8> p{};
         for (std::size_t i = 0; i < 4; ++i) {

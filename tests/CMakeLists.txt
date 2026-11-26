@@ -52,6 +52,7 @@ add_executable(snicholls_core_tests
     concepts/onramp_provider_test.cpp
     concepts/payment_provider_test.cpp
     concepts/random_source_test.cpp
+    concepts/remote_files_test.cpp
     concepts/signer_test.cpp
     concepts/token_test.cpp
     containers/ann_forest_test.cpp
@@ -86,6 +87,7 @@ add_executable(snicholls_core_tests
     detail/wide_mul_test.cpp
     finance/attribution_test.cpp
     finance/business_day_test.cpp
+    finance/cash_ladder_test.cpp
     finance/day_count_test.cpp
     finance/year_fraction_test.cpp
     fsm/diagram_test.cpp
@@ -159,6 +161,9 @@ add_executable(snicholls_core_tests
     interfaces/random_source_conformance_test.cpp
     interfaces/random_source_reference_test.cpp
     interfaces/random_source_test.cpp
+    interfaces/remote_files_conformance_test.cpp
+    interfaces/remote_files_reference_test.cpp
+    interfaces/remote_files_test.cpp
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp

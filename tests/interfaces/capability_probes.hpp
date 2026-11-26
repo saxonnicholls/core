@@ -18,6 +18,7 @@
 #include <snicholls/core/interfaces/message_sender_reference.hpp>
 #include <snicholls/core/interfaces/onramp_provider_reference.hpp>
 #include <snicholls/core/interfaces/payment_provider_reference.hpp>
+#include <snicholls/core/interfaces/remote_files_reference.hpp>
 #include <snicholls/core/interfaces/signer_reference.hpp>
 #include <snicholls/core/money/asset.hpp>
 
@@ -73,6 +74,14 @@ namespace snicholls::test {
     struct message_sender_probe {
         forms<memory_message_sender, message_sender_interface, message_sender_adapter, message_sender_ref, F> f{memory_message_sender{}};
         auto& sender() { return f.get(); }
+        void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
+    };
+
+    template <form F>
+    struct remote_files_probe {
+        forms<memory_remote_files, remote_files_interface, remote_files_adapter, remote_files_ref, F> f{memory_remote_files{true, 1000}};
+        auto& files() { return f.get(); }
+        void seed(std::string_view name, std::span<const std::byte> bytes, utc_s modified) { static_cast<void>(f.impl.put(name, bytes, modified)); }
         void provider_fails(capability_errc c, std::string_view r) { f.impl.fail_next(c, r); }
     };
 
