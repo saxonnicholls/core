@@ -22,6 +22,8 @@
 ///   caller's own): a single coordinate's term bounds the whole, which is what lets a subtree be skipped.
 /// - `nearest(q)`: the closest point and its distance, or nothing for an empty tree.
 /// - `k_nearest(q, out)`: the `out.size()` closest, nearest first.
+/// - `k_nearest_within(q, r, out)`: the same, strictly within distance `r` (SciPy's `distance_upper_bound`), for kriging's
+///   neighbourhood search.
 /// - `for_each_within(q, r, f)`: `f(index, distance)` for every point within distance `r`.
 /// - `for_each_in_box(lo, hi, f)`: `f(index)` for every point with `lo ≤ p ≤ hi` on every axis.
 ///
@@ -185,6 +187,36 @@ namespace snicholls::containers {
             for (std::size_t j = 0; j < k; ++j)
                 out[j].distance = metric::expand(metric_, out[j].distance);
             return k;
+        }
+
+        /// \brief The up to `out.size()` points closest to `q` at a distance strictly below `radius`, nearest first: the
+        /// k-nearest search with an upper bound, as SciPy's `cKDTree.query(k, distance_upper_bound=radius)` and as
+        /// kriging's neighbourhood search use it. Points at `radius` or beyond are never returned, so the count can be
+        /// below `out.size()`.
+        /// \tparam Q A `metric::point` compatible with `Point`.
+        /// \param q The query.
+        /// \param radius The bound, in the metric's units (exclusive).
+        /// \param out Receives the neighbours.
+        /// \return How many were written.
+        template <metric::point Q>
+        constexpr std::size_t k_nearest_within(const Q& q, double radius, std::span<kd_neighbour> out) const noexcept(nothrow_read<Q>)
+        {
+            const std::size_t k = out.size() < size() ? out.size() : size();
+            if (k == 0)
+                return 0;
+            const double bound = metric::contract(metric_, radius);
+            std::size_t have = 0;
+            search(q, [&](std::uint32_t i, double r) {
+                if (!(r < bound) || (have == k && !(r < out[k - 1].distance)))
+                    return;
+                std::size_t j = have < k ? have++ : k - 1;
+                for (; j > 0 && out[j - 1].distance > r; --j)
+                    out[j] = out[j - 1];
+                out[j] = {i, r};
+            }, [&] { return have < k ? bound : (out[k - 1].distance < bound ? out[k - 1].distance : bound); });
+            for (std::size_t j = 0; j < have; ++j)
+                out[j].distance = metric::expand(metric_, out[j].distance);
+            return have;
         }
 
         /// \brief Calls `f(index, distance)` for every point within distance `radius` of `q`, in no particular order.

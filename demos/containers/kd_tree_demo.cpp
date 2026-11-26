@@ -76,6 +76,9 @@ int main()
     std::array<ct::kd_neighbour, 5> five{};
     const std::size_t found = tree.k_nearest(track, five);     // nearest first
 
+    std::array<ct::kd_neighbour, 5> near_five{};              // the five nearest, but only within 40 m (kriging)
+    const std::size_t near_found = tree.k_nearest_within(track, 40.0, near_five);
+
     std::vector<std::uint32_t> gated;                         // every detection within 40 m
     tree.for_each_within(track, 40.0, [&](std::uint32_t i, double) { gated.push_back(i); });
 
@@ -129,6 +132,9 @@ int main()
     // An empty scan answers nothing
     const ct::kd_tree<xy, 2> empty(std::span<const xy>{}, std::span<std::uint32_t>{});
     expect(empty.empty() && !empty.nearest(track) && empty.k_nearest(track, five) == 0, "an empty tree: no nearest, no neighbours");
+    expect(near_found <= found && near_found <= gated.size(), "k nearest within 40 m is no more than k nearest, nor than all within 40 m");
+    for (std::size_t i = 0; i < near_found; ++i)
+        expect(near_five[i].distance < 40.0, "every bounded neighbour is strictly within the radius");
 
     std::printf(failures == 0 ? "kd_tree demo: ok\n" : "kd_tree demo: FAILED\n");
     return failures == 0 ? 0 : 1;

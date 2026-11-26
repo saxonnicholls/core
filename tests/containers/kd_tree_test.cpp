@@ -147,6 +147,24 @@ void check_against_linear_scan(std::uint64_t seed, const Metric& m = Metric{})
 
             // within a radius
             const double radius = static_cast<double>(st::uniform_index(g, side + 1));
+
+            // k nearest strictly within the radius (SciPy's distance_upper_bound): the brute force's first k below it
+            {
+                const double upper = m.contract(radius);
+                std::vector<double> below;
+                for (std::size_t i = 0; i < n; ++i)
+                    if (reduced[i] < upper)
+                        below.push_back(all[i]);
+                std::sort(below.begin(), below.end());
+                std::vector<ct::kd_neighbour> within_k(k);
+                const std::size_t w = tree.k_nearest_within(query, radius, within_k);
+                ASSERT_EQ(w, std::min(k, below.size()));
+                for (std::size_t i = 0; i < w; ++i) {
+                    EXPECT_EQ(within_k[i].distance, below[i]) << "bounded neighbour " << i;
+                    EXPECT_EQ(within_k[i].distance, all[within_k[i].index]);
+                    EXPECT_LT(m.contract(within_k[i].distance), upper);
+                }
+            }
             const double bound = m.contract(radius);
             std::vector<std::uint32_t> within, brute;
             tree.for_each_within(query, radius, [&](std::uint32_t i, double dd) {

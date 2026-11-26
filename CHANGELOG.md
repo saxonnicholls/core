@@ -17,6 +17,9 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 ### Added
 
+- **`containers::kd_tree::k_nearest_within(q, radius, out)`**: the k nearest points strictly within a radius, nearest
+  first (SciPy's `cKDTree.query(k, distance_upper_bound=radius)`), the neighbourhood search kriging uses; tested against
+  a linear scan in 1 to 5 dimensions and every metric. ore-body's own k-d tree is replaced by core's.
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
 
