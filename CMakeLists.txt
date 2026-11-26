@@ -123,9 +123,13 @@ function(snicholls_core_compile_options target)
     endif()
 endfunction()
 
-# Our own tests, demos and benchmarks: the same options, and on MSVC two notes on test code, not on the library. C4459
+# Our own tests, demos and benchmarks: the same options, and on MSVC four notes on test code, not on the library. C4459
 # flags a test's global hiding a name inside a header (test hygiene; the header check compiles every header alone at
-# /W4 /WX), and _CRT_SECURE_NO_WARNINGS quiets the CRT's deprecation of tmpfile, sscanf and friends.
+# /W4 /WX). C4702 is the optimiser's "unreachable code" after inlining: it fires in a header only where a test's
+# callback always throws or always refuses, and in the conformance tests' deliberately broken implementations. C4834
+# flags a [[nodiscard]] action (fsm's process(e), wrap(f)) as the left operand of the state machine's overloaded
+# comma, where it is an argument, not discarded; if MSVC ever chose the built-in comma instead, the fsm tests would
+# fail. _CRT_SECURE_NO_WARNINGS quiets the CRT's deprecation of tmpfile, sscanf and friends.
 function(snicholls_core_test_options target)
     snicholls_core_compile_options(${target})
     # No multiply-add fused across statements: GCC fuses by default in C++ (-ffp-contract=fast), which on ARM64
@@ -134,7 +138,7 @@ function(snicholls_core_test_options target)
         target_compile_options(${target} PRIVATE -ffp-contract=off)
     endif()
     if(MSVC)
-        target_compile_options(${target} PRIVATE /wd4459)
+        target_compile_options(${target} PRIVATE /wd4459 /wd4702 /wd4834)
         target_compile_definitions(${target} PRIVATE _CRT_SECURE_NO_WARNINGS)
     endif()
 endfunction()

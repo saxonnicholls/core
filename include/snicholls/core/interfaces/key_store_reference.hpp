@@ -111,7 +111,7 @@ namespace snicholls {
         [[nodiscard]] static basic_memory_key_store deterministic(utc_s now = utc_s::from_unix_seconds(1'800'000'000))
             requires std::same_as<Clock, manual_utc_clock>
         {
-            auto counter = std::make_shared<std::uint8_t>(0);
+            auto counter = std::make_shared<std::uint8_t>(std::uint8_t{0});
             return basic_memory_key_store{[counter](std::span<std::byte> out) {
                                               for (auto& b : out)
                                                   b = static_cast<std::byte>((*counter)++);
