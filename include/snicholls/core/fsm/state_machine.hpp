@@ -195,7 +195,9 @@ namespace snicholls::fsm {
         unknown_state,           ///< persist: a saved state is not a state of this table
         shape_mismatch,          ///< persist: the record holds a different number of regions than the machine
         store_unavailable,       ///< persist: the store answered `kv_errc::unavailable`
-        store_failed             ///< persist: the store failed otherwise (`kv_errc::io`, `corrupt`, `limit`, ...)
+        store_failed,            ///< persist: the store failed otherwise (`kv_errc::io`, `corrupt`, `limit`, ...)
+        wrong_machine,           ///< persist: the record was saved by a machine of another name
+        state_name_mismatch      ///< persist: a saved state's name is not the name of the state its value restores
     };
 
     /// \brief sml's wildcard: `on_entry<_>`, `on_exit<_>`, `unexpected_event<_>`, `exception<_>`.
@@ -1991,6 +1993,18 @@ namespace snicholls::fsm {
                     return ((machine<Cs, Cfg>::valid_slots(in + at) && (at += machine<Cs, Cfg>::slot_count, true)) && ... && true);
                 }(composites{});
             }
+            // Every slot restored by enumerator value names the state that value restores (an empty name agrees).
+            static constexpr bool names_agree(const wire_state* in) noexcept
+            {
+                if constexpr (!std::is_void_v<state_enum>)
+                    for (std::size_t r = 0; r < regions; ++r)
+                        if (!in[r].name.empty() && info::state_names[id_from_wire(in[r])] != in[r].name)
+                            return false;
+                std::size_t at = regions;
+                return [&]<class... Cs>(meta::type_list<Cs...>) {
+                    return ((machine<Cs, Cfg>::names_agree(in + at) && (at += machine<Cs, Cfg>::slot_count, true)) && ... && true);
+                }(composites{});
+            }
             constexpr void read_slots(const wire_state* in) noexcept
             {
                 for (std::size_t r = 0; r < regions; ++r)
@@ -2727,6 +2741,24 @@ namespace snicholls::fsm {
             if (!impl_type::valid_slots(slots.data()))
                 return err(fsm_errc::unknown_state);
             impl_.read_slots(slots.data());
+            return ok();
+        }
+
+        /// \brief Checks a snapshot strictly, changing nothing: what `restore_snapshot` would answer, and
+        /// `fsm_errc::state_name_mismatch` when a region restored by enumerator value records a name other than its
+        /// state's (an enumerator renamed, or the enumeration's values reordered, since the snapshot was taken).
+        /// `restore_snapshot` goes by value alone; `fsm::load` makes this check first. An empty name agrees, and a
+        /// region restored by name always does.
+        /// \param slots the snapshot.
+        /// \return nothing, or `fsm_errc::shape_mismatch`, `unknown_state` or `state_name_mismatch`.
+        [[nodiscard]] static constexpr result<void, fsm_errc> check_snapshot(std::span<const wire_state> slots) noexcept
+        {
+            if (slots.size() != slot_count)
+                return err(fsm_errc::shape_mismatch);
+            if (!impl_type::valid_slots(slots.data()))
+                return err(fsm_errc::unknown_state);
+            if (!impl_type::names_agree(slots.data()))
+                return err(fsm_errc::state_name_mismatch);
             return ok();
         }
 

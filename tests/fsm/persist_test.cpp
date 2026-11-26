@@ -6,8 +6,9 @@
 //
 //  fsm::save and fsm::load over the reference key-value store: round trips of one region, of several and of
 //  sub-machines; the record's text; versions and the compare-and-set (a stale writer refused, nothing written); the
-//  history; every error of load (not_found, corrupt in each line, shape_mismatch, unknown_state, the store down);
-//  a record that stays valid when enumerators are appended. And the property: for random event sequences, a machine
+//  history; every error of load (not_found, corrupt in each line, wrong_machine, shape_mismatch, unknown_state,
+//  state_name_mismatch, the store down); a record that stays valid when enumerators are appended, and one refused when
+//  they are renamed or reordered. And the property: for random event sequences, a machine
 //  saved and loaded at a random point behaves exactly as the one that never was.
 //
 
@@ -111,9 +112,9 @@ TEST(FsmPersist, LoadErrorsLeaveTheMachineUnchanged)
         ASSERT_TRUE(snicholls::kv_put(store, "bad", record).is_ok());
         EXPECT_EQ(load(store, "bad", m).unwrap_err_unchecked(), fsm_errc::corrupt) << record;
     }
-    ASSERT_TRUE(snicholls::kv_put(store, "shape", std::string("snicholls.fsm.v1\nmachine x\nversion 1\nregions 2\n0 a\n0 b\n")).is_ok());
+    ASSERT_TRUE(snicholls::kv_put(store, "shape", std::string("snicholls.fsm.v1\nmachine lifecycle\nversion 1\nregions 2\n0 a\n0 b\n")).is_ok());
     EXPECT_EQ(load(store, "shape", m).unwrap_err_unchecked(), fsm_errc::shape_mismatch);
-    ASSERT_TRUE(snicholls::kv_put(store, "unknown", std::string("snicholls.fsm.v1\nmachine x\nversion 1\nregions 1\n99 gone\n")).is_ok());
+    ASSERT_TRUE(snicholls::kv_put(store, "unknown", std::string("snicholls.fsm.v1\nmachine lifecycle\nversion 1\nregions 1\n99 gone\n")).is_ok());
     EXPECT_EQ(load(store, "unknown", m).unwrap_err_unchecked(), fsm_errc::unknown_state);
     EXPECT_EQ(m.current(), lifecycle_state::pending);
     ASSERT_TRUE(snicholls::kv_put(store, "good", good).is_ok());
@@ -135,35 +136,145 @@ TEST(FsmPersist, AStoreThatFailsIsAnErrorAndNothingIsWritten)
     EXPECT_TRUE(save(store, "p/4", m, 0).is_ok());
 }
 
-// Appending an enumerator keeps old records valid: they hold values.
+// Appending an enumerator keeps old records valid: they hold values. The machine keeps its name across the versions.
 enum class v1_state : std::uint8_t { open, closed };
 enum class v2_state : std::uint8_t { open, closed, archived };
+enum class v3_state : std::uint8_t { open, shut, archived };       // `closed` renamed
+enum class v4_state : std::uint8_t { closed, open, archived };     // values reordered
 struct go {};
-struct v1_machine {
+namespace v1 {
+    struct door {
+        constexpr auto operator()() const noexcept
+        {
+            return make_transition_table(*enum_state<v1_state::open> + event<go> = enum_state<v1_state::closed>);
+        }
+    };
+} // namespace v1
+namespace v2 {
+    struct door {
+        constexpr auto operator()() const noexcept
+        {
+            return make_transition_table(*enum_state<v2_state::open> + event<go> = enum_state<v2_state::closed>,
+                                         enum_state<v2_state::closed> + event<go> = enum_state<v2_state::archived>);
+        }
+    };
+} // namespace v2
+namespace v3 {
+    struct door {
+        constexpr auto operator()() const noexcept
+        {
+            return make_transition_table(*enum_state<v3_state::open> + event<go> = enum_state<v3_state::shut>,
+                                         enum_state<v3_state::shut> + event<go> = enum_state<v3_state::archived>);
+        }
+    };
+} // namespace v3
+namespace v4 {
+    struct door {
+        constexpr auto operator()() const noexcept
+        {
+            return make_transition_table(*enum_state<v4_state::open> + event<go> = enum_state<v4_state::closed>,
+                                         enum_state<v4_state::closed> + event<go> = enum_state<v4_state::archived>);
+        }
+    };
+} // namespace v4
+struct gate {   // another machine, with the same enumeration and states as v1::door
     constexpr auto operator()() const noexcept
     {
         return make_transition_table(*enum_state<v1_state::open> + event<go> = enum_state<v1_state::closed>);
-    }
-};
-struct v2_machine {
-    constexpr auto operator()() const noexcept
-    {
-        return make_transition_table(*enum_state<v2_state::open> + event<go> = enum_state<v2_state::closed>,
-                                     enum_state<v2_state::closed> + event<go> = enum_state<v2_state::archived>);
     }
 };
 
 TEST(FsmPersist, ARecordStaysValidWhenEnumeratorsAreAppended)
 {
     store_t store;
-    sm<v1_machine> old;
+    sm<v1::door> old;
     ASSERT_TRUE(old.process_event(go{}));
     ASSERT_TRUE(save(store, "door", old, 0).is_ok());
-    sm<v2_machine> upgraded;
+    sm<v2::door> upgraded;
     ASSERT_TRUE(load(store, "door", upgraded).is_ok());
     EXPECT_EQ(upgraded.current(), v2_state::closed);
     EXPECT_TRUE(upgraded.process_event(go{}));
     EXPECT_EQ(upgraded.current(), v2_state::archived);
+}
+
+TEST(FsmPersist, ARecordOfAnotherMachineIsRefusedAndChangesNothing)
+{
+    store_t store;
+    sm<v1::door> door;
+    ASSERT_TRUE(door.process_event(go{}));
+    ASSERT_TRUE(save(store, "door", door, 0).is_ok());
+    sm<gate> other;   // same enumeration, same values, same names: only the machine's name differs
+    EXPECT_EQ(load(store, "door", other).unwrap_err_unchecked(), fsm_errc::wrong_machine);
+    EXPECT_EQ(other.current(), v1_state::open);
+    sm<lifecycle> life;
+    ASSERT_TRUE(life.process_event(submit{}));
+    EXPECT_EQ(load(store, "door", life).unwrap_err_unchecked(), fsm_errc::wrong_machine);
+    EXPECT_EQ(from_record(read(store, "door"), life).unwrap_err_unchecked(), fsm_errc::wrong_machine);
+    EXPECT_EQ(life.current(), lifecycle_state::pending);
+    // the name is the definition's unqualified name, so the same name in another namespace is the same machine
+    sm<v2::door> same_name;
+    EXPECT_TRUE(load(store, "door", same_name).is_ok());
+}
+
+TEST(FsmPersist, AStateWhoseNameDisagreesWithItsValueIsRefused)
+{
+    store_t store;
+    sm<v1::door> door;
+    ASSERT_TRUE(door.process_event(go{}));
+    ASSERT_TRUE(save(store, "door", door, 0).is_ok());   // "1 closed"
+
+    sm<v3::door> renamed;   // value 1 is now `shut`
+    EXPECT_EQ(load(store, "door", renamed).unwrap_err_unchecked(), fsm_errc::state_name_mismatch);
+    EXPECT_EQ(renamed.current(), v3_state::open);
+    sm<v4::door> reordered;   // value 1 is now `open`: by value alone the door would be restored open
+    EXPECT_EQ(load(store, "door", reordered).unwrap_err_unchecked(), fsm_errc::state_name_mismatch);
+    EXPECT_EQ(reordered.current(), v4_state::open);
+    EXPECT_TRUE(reordered.process_event(go{}));   // unchanged, and still working
+
+    sm<lifecycle> life;
+    ASSERT_TRUE(snicholls::kv_put(store, "p", std::string("snicholls.fsm.v1\nmachine lifecycle\nversion 1\nregions 1\n"
+                                                          "3 pending\n")).is_ok());
+    EXPECT_EQ(load(store, "p", life).unwrap_err_unchecked(), fsm_errc::state_name_mismatch);
+    // an unknown value is unknown_state, before any name is compared
+    ASSERT_TRUE(snicholls::kv_put(store, "p", std::string("snicholls.fsm.v1\nmachine lifecycle\nversion 1\nregions 1\n"
+                                                          "99 pending\n")).is_ok());
+    EXPECT_EQ(load(store, "p", life).unwrap_err_unchecked(), fsm_errc::unknown_state);
+    // a state recorded without a name is restored by its value
+    ASSERT_TRUE(snicholls::kv_put(store, "p", std::string("snicholls.fsm.v1\nmachine lifecycle\nversion 1\nregions 1\n"
+                                                          "3 \n")).is_ok());
+    EXPECT_TRUE(load(store, "p", life).is_ok());
+    EXPECT_EQ(life.current(), lifecycle_state::settled);
+}
+
+// A composite whose sub-machine has a state enumeration: its slots are checked by name too.
+enum class job_state : std::uint8_t { queued, running, done };
+struct job {
+    constexpr auto operator()() const noexcept
+    {
+        return make_transition_table(*enum_state<job_state::queued> + event<go> = enum_state<job_state::running>,
+                                     enum_state<job_state::running> + event<go> = enum_state<job_state::done>);
+    }
+};
+struct worker {
+    constexpr auto operator()() const noexcept { return make_transition_table(*"idle"_s + event<go> = state<job>); }
+};
+
+TEST(FsmPersist, ASubMachinesStatesAreCheckedByNameToo)
+{
+    store_t store;
+    sm<worker> w;
+    ASSERT_TRUE(w.process_event(go{}));
+    ASSERT_TRUE(w.process_event(go{}));
+    ASSERT_TRUE(save(store, "w", w, 0).is_ok());
+    EXPECT_EQ(read(store, "w"), "snicholls.fsm.v1\nmachine worker\nversion 1\nregions 2\n1 job\n1 running\n");
+    sm<worker> back;
+    ASSERT_TRUE(load(store, "w", back).is_ok());
+    EXPECT_EQ(back.snapshot(), w.snapshot());
+    ASSERT_TRUE(snicholls::kv_put(store, "w", std::string("snicholls.fsm.v1\nmachine worker\nversion 1\nregions 2\n"
+                                                          "1 job\n1 done\n")).is_ok());
+    sm<worker> fresh;
+    EXPECT_EQ(load(store, "w", fresh).unwrap_err_unchecked(), fsm_errc::state_name_mismatch);
+    EXPECT_EQ(fresh.snapshot(), sm<worker>{}.snapshot());
 }
 
 // ---- the property: a machine saved and loaded behaves as the one that never was -----------------------------------

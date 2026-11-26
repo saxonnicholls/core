@@ -39,8 +39,9 @@ A header is admitted only if all of the following hold.
   GoogleTest and Google Benchmark for the tests and benchmarks; the library never includes them.
 - **Header-only, C++20.** Every header compiles on its own under `-std=c++20 -Wall -Wextra -Wpedantic -Werror` and
   under `/W4 /WX /permissive-`. The `snicholls_core_header_check` target compiles each one standalone, twice.
-  One exception downward: `constexpr_for.hpp` stays C++17-clean, because ts-moveables (C++17) uses it;
-  `snicholls_core_cpp17_check` compiles it as C++17.
+  One exception downward: the headers ts-moveables (C++17) uses stay C++17-clean: `constexpr_for.hpp` and the
+  `task_pool` and `loop_clock` contracts (concept, interface, reference, kit; the C++20 concept behind
+  `SNICHOLLS_HAS_CONCEPTS`); `snicholls_core_cpp17_check` compiles each as C++17.
 - **Compile-time by nature.** Vocabulary types (`overloaded`, `fixed_string`, `function_ref`, `forward_like`,
   `result<V, E>`), compile-time loops (`constexpr_for`, `pp_for_each`), reflection over plain aggregates
   (`member_count`, `tie` / `to_tuple` / `from_tuple`, `type_list`, `string_traits`), small pure functions
@@ -157,11 +158,12 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - `include/snicholls/core/<name>.hpp`, and `include/snicholls/core/<area>/<name>.hpp` once an area has more than
   a few headers. `core.hpp` is the umbrella. `detail/` holds internals (`namespace snicholls::detail`): not public
   API, still tested, not demonstrated.
-- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`, `country`, `day_count`, `holiday_calendar`, `token`, `key_value_store`, `kv_health`, `kv_backup`, `message_sender`, `signer`, `key_store`, `payment_provider`, `onramp_provider`, `http_handler`; their shared error and ids in `capability_error.hpp` and `capability_ids.hpp`, the kits' report in `interfaces/capability_conformance.hpp`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `token/` (`basic_token`, `tokens`: the major tokens, generated from the issuers' own published addresses); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
+- Areas: `concepts/` and `interfaces/` for the contracts of capabilities, mirrored: every pure virtual interface in `interfaces/<capability>.hpp` has its concept in `concepts/<capability>.hpp`, adapters both ways, a `_reference` and a `_conformance` header, and unit tests for both (`named`, `asset`, `chain`, `country`, `day_count`, `holiday_calendar`, `token`, `key_value_store`, `kv_health`, `kv_backup`, `kv_cas`, `message_sender`, `signer`, `key_store`, `payment_provider`, `onramp_provider`, `http_handler`, `http_client`, `token_verifier`, `signature_verifier`, `wallet_verifier`, `role_store`, `https_client`, `remote_files`, `security_provider`, `sql_dialect`, `sql_connection` (values and errors in `sql_value.hpp`), `uuid_generator`, `time_zone`, `encryptor` (its reference `insecure_test_encryptor` is a test double, never encryption), and the C++17-clean `task_pool`, `loop_clock` and `random_source` (trait, concept, interface, adapters both ways, `any_` value wrappers, vector-of-strings kits); their shared error and ids in `capability_error.hpp` and `capability_ids.hpp`, the kits' report in `interfaces/capability_conformance.hpp`); `money/` (`asset`, `iso4217`, `native`, `money`, `rate`); `chain/` (`chains`); `token/` (`basic_token`, `tokens`: the major tokens, generated from the issuers' own published addresses); `meta/` for type traits, concepts and type-level algorithms (`concepts`, `callable_traits`, `type_list`,
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
-  `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
+  `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `functional/` (`combinators`, `curry`, `bind`, `typeclasses`, `instances`, `state`, `monad`, `fold`, `list`, `lazy`,
+  `match`, `recursion`, `tabulate`, `types`, `ocaml`, `rust`, `rust_iter`, `rewrite`, `pointwise`; `snicholls::fn`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
   `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL, GTIN / EAN-13); `game/` (`snicholls::game`); `finance/`
   (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `fsm/` (`state_machine`, `persist`,
@@ -189,6 +191,15 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `core.hpp`. `make single-include` writes it locally.
 - `tests/`, `demos/` and `benchmarks/` mirror `include/snicholls/core/` (below). `scripts/` holds the CI checks.
   `third_party/` holds the test-only submodules.
+- `showcase/` holds whole programs, each woven from many areas of core (`trading_day`, `payments_ledger`,
+  `harbour_beacons`, `option_risk`, `functional_report`). They mirror no header, so `check_mirror.py` does not look
+  there (Demos, below).
+
+## Pinned at 0.27.0 (Saxon, 2026-11-26)
+
+**Core is frozen at v0.27.0 for the next few weeks**, so the family converges on one version. No core release until
+Saxon lifts the freeze: new work is written up in `internal/proposals/core.md` and queued, not merged to `main`. A
+defect that blocks a consumer is the one exception, as a patch release (0.27.x) with only the fix.
 
 ## Versioning and the diamond (MUST)
 
@@ -266,6 +277,12 @@ how to use it.
 - Regions marked `//! [tag]` are pulled into the documentation with `\snippet <name>_demo.cpp tag`, so every
   documented example is compiled code. A header's `\snippet` points at *core's* demo, never at a demo in the
   repository the header came from.
+- **Showcases** show the library come to life: `showcase/<name>.cpp`, registered with
+  `snicholls_core_add_showcase(<name>)` in `showcase/CMakeLists.txt` (CTest `showcase.<name>`, labels `demo` and
+  `showcase`), is one realistic program across many areas. It prints a coloured narrative through `acout` and type
+  attributes, is deterministic (seeded `wyrand`, manual clocks, `test_random_source`), proves at compile time what it
+  can (`static_assert` of real results) and exits non-zero on a mismatch. It uses public API only and never adds any.
+  `make showcase` runs them with their output shown.
 
 ## Zero overhead (MUST)
 
@@ -280,7 +297,8 @@ CTest (label `benchmark`).
 
 Every public entity is documented in the source with Doxygen. Warnings are errors for everything from the first
 header (`docs/Doxyfile.in`, `WARN_AS_ERROR = FAIL_ON_WARNINGS`). There is no list of unconverted modules to shrink,
-because nothing is admitted unconverted. Build: `make docs`, or `-DSNICHOLLS_CORE_BUILD_DOCS=ON` and the `docs`
+because nothing is admitted unconverted. `docs/PATTERNS.md` (`\ref patterns`) is the map of how the pieces fit together: a new
+pattern, or a header that changes one, updates it in the same change, with `\snippet`s from compiled demos only. Build: `make docs`, or `-DSNICHOLLS_CORE_BUILD_DOCS=ON` and the `docs`
 target; output `build-docs/docs/html/index.html`. CI builds it on every push and publishes it to GitHub Pages
 (<https://saxonnicholls.github.io/core/>): `main` to `/main/`, each release tag to `/vX.Y.Z/`, the root to the newest
 release. The `gh-pages` branch is generated; never edit it.
@@ -316,6 +334,7 @@ banner, then `/// \file`, `\brief` and `\ingroup`. `snicholls::detail` is exclud
     make check           # scripts/check_version.py and scripts/check_mirror.py
     make ubuntu          # the full suite on Ubuntu in Docker: GCC 13, GCC 15 and Clang, Release and Debug, sanitizers
     make demos           # build and run every demo with its output shown (scripts/run_demos.sh --all, or <name>...)
+    make showcase        # build and run the showcases (showcase/), output shown
     make benchmarks      # every benchmark in Release; rewrites BENCHMARKS.md, which is never edited by hand
 
 CI records throughput on every leg: `scripts/benchmarks_md.py --output -` writes each platform's tables into its job
@@ -377,6 +396,15 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - `invoke_with(set, source)` / `invoke_any(set, {args...})` when the arguments exist only at run time; a source
   for another carrier (JSON, a command line) is `size()` plus `get<T>(i)`. `callable_traits<F>` to read a
   callable's signature; never a hand-rolled `function_traits`.
+- `snicholls::fn` (`functional/`) when the function is the value being built: a pipeline assembled from curried
+  pieces (`fn::pipe`, `fn::curry`, `x | fn::then(f)`), a recursive lambda (`fn::fix`), a calculation generic over
+  Maybe / Either / State (`fn::fmap`, `fn::mbind`, `fn::lift`), pattern matching with guards (`fn::match`), a
+  compile-time list (`functional/list.hpp`, `fn::stream`). Never `std::bind` or `std::function` for this; write the plain lambda
+  when it is used once. Rust's vocabulary where C++20 lacks it: `fn::rust::option` for `std::optional`
+  (`map_or`, `ok_or`, `filter`, ...; `result` has its own as members), `fn::rust::cmp` for multi-key comparators,
+  `fn::rust::slice::windows` / `chunks` and `fn::rust::iter::enumerate` / `step_by` over spans. Rules rewritten to a
+  normal form, over values or the caller's trees: `functional/rewrite.hpp`; functions added and compared as values:
+  `fn::pointwise`.
 - `constexpr_map` for a table known when the program is written (an enumeration's names), looked up both ways.
 - `fnv1a_64` where a tiny, specified-by-the-byte hash must agree across machines or be a `switch` label;
   `wyhash` for speed over longer keys and avalanche, also constexpr and machine-independent; `hash_combine` only
@@ -623,7 +651,7 @@ do not own beyond what ADL-scoped helpers need.
 |---|---|---|---|
 | GoogleTest / GoogleMock | `third_party/googletest` | `v1.18.0` | tests only |
 | Google Benchmark | `third_party/benchmark` | `v1.9.5` | benchmarks only |
-| snicholls-tooling | `third_party/tooling` | `v0.3.1` | the single include and the interface check (build-time only) |
+| snicholls-tooling | `third_party/tooling` | `v0.3.2` | the single include and the interface check (build-time only) |
 
 The rules: pin to a release tag, never a branch tip; HTTPS URLs; `shallow = true`; never edit a file
 inside a submodule; consume via `add_subdirectory(... EXCLUDE_FROM_ALL)` with the dependency's tests and install

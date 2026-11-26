@@ -25,9 +25,9 @@
 /// | `count`                  | observations                            | exact             |
 /// | `sum<T>`                 | their sum (`compensated_sum<T>`: Kahan) | exact / Neumaier  |
 /// | `minimum<T>`, `maximum<T>` | the extreme, `std::nullopt` if none   | exact             |
-/// | `mean<T>`                | the mean                                | Chan              |
-/// | `variance<T>`            | the sample variance (`mean()`, `standard_deviation()` too) | Chan |
-/// | `covariance<T>`          | the sample covariance of pairs (`correlation()` too) | Chan |
+/// | `mean<T>`                | the mean (`count()` too)                | Chan              |
+/// | `variance<T>`            | the sample variance (`mean()`, `standard_deviation()`, `count()` too) | Chan |
+/// | `covariance<T>`          | the sample covariance of pairs (`correlation()`, `beta()`, `count()` too) | Chan |
 /// | `ewma<T>`                | exponentially weighted mean and variance | not mergeable    |
 /// | `histogram<T, Bins>`     | counts in fixed bins, with under and overflow | exact       |
 /// | `collect<T>`             | every value, for any statistic afterwards | append           |
@@ -39,7 +39,8 @@
 /// Group: \ref core.
 ///
 /// **Guarantees.** All but `collect` and `bootstrapped`'s `value()` are `constexpr`, `noexcept`, allocation-free and
-/// trivially copyable. `add` is O(1); merging two
+/// trivially copyable; the square roots (`standard_deviation`, `correlation`, `volatility`) are `math::sqrt`, so they
+/// are `constexpr` too. `add` is O(1); merging two
 /// accumulators gives what one accumulator would give on both sets of observations, exactly for
 /// `count`, `minimum`, `maximum` and `histogram`, and up to rounding for the moments.
 ///
@@ -52,22 +53,22 @@
 ///
 /// **Tests and demos.** `tests/stats/accumulators_test.cpp`, `demos/stats/accumulators_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cmath>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<limits>`, `<optional>`, `<span>`,
-/// `<vector>`, `stats/bootstrap.hpp`, `stats/random.hpp`.
+/// **Dependencies.** `<array>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<limits>`, `<optional>`, `<span>`,
+/// `<vector>`, `math/constexpr_math.hpp`, `stats/bootstrap.hpp`, `stats/random.hpp`.
 ///
 /// **Known issues.** `ewma` depends on the order of observations and cannot be merged. `histogram`'s bins
 /// are fixed at construction.
 ///
-/// **Status.** New in 0.5.0.
+/// **Status.** New in 0.5.0; `count()` and the `constexpr` square roots since 0.27.0.
 
 #ifndef snicholls_core_stats_accumulators_hpp
 #define snicholls_core_stats_accumulators_hpp
 
+#include <snicholls/core/math/constexpr_math.hpp>
 #include <snicholls/core/stats/bootstrap.hpp>
 #include <snicholls/core/stats/random.hpp>
 
 #include <array>
-#include <cmath>
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
@@ -240,6 +241,9 @@ namespace snicholls::stats {
         /// \brief The mean; NaN with no observations.
         /// \return It.
         [[nodiscard]] constexpr T value() const noexcept { return n == 0 ? std::numeric_limits<T>::quiet_NaN() : m; }
+        /// \brief The number of observations.
+        /// \return It.
+        [[nodiscard]] constexpr std::uint64_t count() const noexcept { return n; }
     };
 
     /// \brief The mean and sample variance, by Welford's update; merged by Chan, Golub and LeVeque.
@@ -278,9 +282,12 @@ namespace snicholls::stats {
         /// \brief The mean.
         /// \return It; NaN with none.
         [[nodiscard]] constexpr T mean() const noexcept { return n == 0 ? std::numeric_limits<T>::quiet_NaN() : m; }
-        /// \brief The sample standard deviation.
+        /// \brief The sample standard deviation, `math::sqrt(value())`: constexpr.
+        /// \return It; NaN with fewer than two observations.
+        [[nodiscard]] constexpr T standard_deviation() const noexcept { return math::sqrt(value()); }
+        /// \brief The number of observations.
         /// \return It.
-        [[nodiscard]] T standard_deviation() const noexcept { return std::sqrt(value()); }
+        [[nodiscard]] constexpr std::uint64_t count() const noexcept { return n; }
         /// \brief The population variance (divided by n).
         /// \return It; NaN with none.
         [[nodiscard]] constexpr T population_variance() const noexcept { return n == 0 ? std::numeric_limits<T>::quiet_NaN() : m2 / static_cast<T>(n); }
@@ -345,13 +352,16 @@ namespace snicholls::stats {
         [[nodiscard]] constexpr T value() const noexcept { return n < 2 ? std::numeric_limits<T>::quiet_NaN() : cxy / static_cast<T>(n - 1); }
         /// \brief The correlation; NaN when either variance is zero or there are fewer than two pairs.
         /// \return It.
-        [[nodiscard]] T correlation() const noexcept
+        [[nodiscard]] constexpr T correlation() const noexcept
         {
-            return (n < 2 || m2x <= 0 || m2y <= 0) ? std::numeric_limits<T>::quiet_NaN() : cxy / std::sqrt(m2x * m2y);
+            return (n < 2 || m2x <= 0 || m2y <= 0) ? std::numeric_limits<T>::quiet_NaN() : cxy / math::sqrt(m2x * m2y);
         }
         /// \brief The regression slope of y on x: `cov / var(x)`. For a portfolio's beta to an index, add `(index, portfolio)`.
         /// \return It; NaN when x does not vary.
         [[nodiscard]] constexpr T beta() const noexcept { return (n < 2 || m2x <= 0) ? std::numeric_limits<T>::quiet_NaN() : cxy / m2x; }
+        /// \brief The number of pairs.
+        /// \return It.
+        [[nodiscard]] constexpr std::uint64_t count() const noexcept { return n; }
     };
 
     /// \brief The exponentially weighted mean and variance (RiskMetrics style): each observation weighted `alpha`, the past `1 - alpha`.
@@ -385,7 +395,7 @@ namespace snicholls::stats {
         [[nodiscard]] constexpr T variance() const noexcept { return started ? var : std::numeric_limits<T>::quiet_NaN(); }
         /// \brief The weighted volatility.
         /// \return `sqrt(variance())`.
-        [[nodiscard]] T volatility() const noexcept { return std::sqrt(variance()); }
+        [[nodiscard]] constexpr T volatility() const noexcept { return math::sqrt(variance()); }
     };
 
     /// \brief Counts in `Bins` equal bins over `[lo, hi)`, with counts below and above.
@@ -428,6 +438,15 @@ namespace snicholls::stats {
         /// \brief The counts.
         /// \return The bins.
         [[nodiscard]] constexpr const std::array<std::uint64_t, Bins>& value() const noexcept { return bins; }
+        /// \brief Every value counted, in the bins, below and above.
+        /// \return It.
+        [[nodiscard]] constexpr std::uint64_t count() const noexcept
+        {
+            std::uint64_t total = below + above;
+            for (const std::uint64_t b : bins)
+                total += b;
+            return total;
+        }
         /// \brief The lower edge of bin `i`.
         /// \param i The bin.
         /// \return The edge.

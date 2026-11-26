@@ -14,6 +14,9 @@
 /// which rounds, nor an `int64`, which overflows at 9.2 ETH in wei, can hold every amount a ledger meets, so the
 /// magnitude is a `uint256`: every raw on-chain amount is representable exactly. The sign is separate, so debits
 /// and credits share one type and the whole uint256 range is available with either sign. Zero is never negative.
+/// `from_units(a, units, negative)` takes the magnitude and the sign; given a signed integer instead of a magnitude,
+/// it takes the integer's own sign (`from_units(aud, -40)` is minus 40 cents, never 2^64 - 40), and `negative`
+/// reverses it.
 ///
 /// Two forms:
 /// - `money`: the asset is a run-time value (`snicholls::asset`), for data such as a ledger row;
@@ -51,6 +54,8 @@
 /// - Both forms are trivially copyable.
 /// - `money_of<T>` is the size of its sign plus its `uint256`.
 /// - Equality compares asset, sign and magnitude; zero is normalised to non-negative, so `-0 == 0`.
+/// - `to_double()` is for display only (a chart, a `number_format`): the nearest `double`, never fed back into a
+///   balance.
 ///
 /// **Errors.** `money_errc`, returned through `result`:
 /// - `asset_mismatch`: two different assets;
@@ -65,12 +70,12 @@
 /// **Tests and demos.** `tests/money/money_test.cpp`, with fixtures from Python's `decimal`
 /// (`scripts/generate_money_fixtures.py`, CTest `generated.money_fixtures_up_to_date`); `demos/money/money_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<charconv>`, `<compare>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<ostream>`,
+/// **Dependencies.** `<array>`, `<charconv>`, `<compare>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<ostream>`,
 /// `<string>`, `<string_view>`, `money/asset.hpp`, `result.hpp`, `uint256.hpp`.
 ///
-/// **Known issues.** None.
+/// **Known issues.** `to_double()` rounds, as every `double` does: `0.1` has no exact `double`. It is for display.
 ///
-/// **Status.** New in 0.22.0.
+/// **Status.** New in 0.22.0; `from_units` of a signed integer keeps its sign and `to_double()` is new since 0.27.0.
 
 #ifndef snicholls_core_money_money_hpp
 #define snicholls_core_money_money_hpp
@@ -83,6 +88,7 @@
 #include <array>
 #include <charconv>
 #include <compare>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -113,13 +119,19 @@ namespace snicholls {
     };
 
     namespace detail {
-        // Whether q + r/d, of the given sign, rounds up in magnitude (to q + 1) under `mode`. 0 <= r < d.
-        [[nodiscard]] constexpr bool rounds_away(const uint256& q, const uint256& r, const uint256& d, bool negative,
-                                                 rounding mode) noexcept
+        // The magnitude of a signed integer, exact for its most negative value.
+        template <std::signed_integral I>
+            requires(sizeof(I) <= sizeof(std::uint64_t))
+        [[nodiscard]] constexpr std::uint64_t magnitude_of(I units) noexcept
         {
-            if (r.is_zero())
-                return false;
-            const uint256 rest = d - r;   // r > rest: above half; r == rest: a tie
+            const auto wide = static_cast<std::int64_t>(units);
+            return wide < 0 ? std::uint64_t{0} - static_cast<std::uint64_t>(wide) : static_cast<std::uint64_t>(wide);
+        }
+
+        // The rounding test on r and rest = d - r, of any unsigned type: r > rest is above half, r == rest a tie.
+        template <typename U>
+        [[nodiscard]] constexpr bool rounds_away_by(const U& r, const U& rest, bool odd, bool negative, rounding mode) noexcept
+        {
             switch (mode) {
             case rounding::toward_zero: return false;
             case rounding::away_from_zero: return true;
@@ -127,9 +139,21 @@ namespace snicholls {
             case rounding::ceiling: return !negative;
             case rounding::half_up: return r >= rest;
             case rounding::half_down: return r > rest;
-            case rounding::half_even: return r > rest || (r == rest && q.bit(0));
+            case rounding::half_even: return r > rest || (r == rest && odd);
             }
             return false;
+        }
+
+        // Whether q + r/d, of the given sign, rounds up in magnitude (to q + 1) under `mode`. 0 <= r < d. When r and d
+        // fit in 64 bits the comparisons are on std::uint64_t, with the same answer.
+        [[nodiscard]] constexpr bool rounds_away(const uint256& q, const uint256& r, const uint256& d, bool negative,
+                                                 rounding mode) noexcept
+        {
+            if (r.is_zero())
+                return false;
+            if ((r.limb(1) | r.limb(2) | r.limb(3) | d.limb(1) | d.limb(2) | d.limb(3)) == 0)
+                return rounds_away_by(r.limb(0), d.limb(0) - r.limb(0), q.bit(0), negative, mode);
+            return rounds_away_by(r, d - r, q.bit(0), negative, mode);
         }
     } // namespace detail
 
@@ -145,7 +169,7 @@ namespace snicholls {
         /// \brief Zero of `a`.
         /// \param a The asset.
         /// \return The amount.
-        [[nodiscard]] static constexpr money zero(const asset& a) noexcept { return from_units(a, 0); }
+        [[nodiscard]] static constexpr money zero(const asset& a) noexcept { return from_units(a, uint256{}); }
 
         /// \brief `units` minor units of `a`, negative if `negative`. A negative zero is normalised to zero.
         /// \param a        The asset.
@@ -159,6 +183,21 @@ namespace snicholls {
             m.magnitude_ = units;
             m.negative_ = negative && !units.is_zero();
             return m;
+        }
+
+        /// \brief `units` minor units of `a`, a signed integer with its own sign: `from_units(aud, -40)` is minus 40
+        /// cents. `negative` reverses the sign, so `from_units(aud, -40, true)` is plus 40. Without this overload a
+        /// negative integer would convert to a huge magnitude.
+        /// \tparam I       A signed integer type of at most 64 bits.
+        /// \param a        The asset.
+        /// \param units    The signed amount in minor units.
+        /// \param negative Whether to reverse the sign.
+        /// \return The amount.
+        template <std::signed_integral I>
+            requires(sizeof(I) <= sizeof(std::uint64_t))
+        [[nodiscard]] static constexpr money from_units(const asset& a, I units, bool negative = false) noexcept
+        {
+            return from_units(a, uint256{detail::magnitude_of(units)}, (units < 0) != negative);
         }
 
         /// \brief The asset.
@@ -180,6 +219,20 @@ namespace snicholls {
         /// \brief The amount with its sign reversed.
         /// \return The negation.
         [[nodiscard]] constexpr money operator-() const noexcept { return from_units(asset_, magnitude_, !negative_); }
+
+        /// \brief The nearest `double` to the amount in whole units (`2.10 AUD` is `2.1`), for display and charts only:
+        /// never for arithmetic, comparison or a balance, which stay exact. Correctly rounded when the magnitude is
+        /// below 2^53 and the scale at most 22; otherwise within a few units in the last place.
+        /// \return The value.
+        [[nodiscard]] constexpr double to_double() const noexcept
+        {
+            double v = 0, unit = 1;
+            for (int i = 3; i >= 0; --i)
+                v = v * 18446744073709551616.0 + static_cast<double>(magnitude_.limb(static_cast<std::size_t>(i)));
+            for (unsigned s = asset_.scale(); s > 0; --s)
+                unit *= 10;   // exact up to 10^22
+            return negative_ ? -(v / unit) : v / unit;
+        }
 
         /// \brief Equality: the same asset, sign and magnitude.
         friend constexpr bool operator==(const money&, const money&) noexcept = default;
@@ -219,6 +272,19 @@ namespace snicholls {
             return m;
         }
 
+        /// \brief `units` minor units, a signed integer with its own sign: `from_units(-40)` is minus 40. `negative`
+        /// reverses the sign. Without this overload a negative integer would convert to a huge magnitude.
+        /// \tparam I       A signed integer type of at most 64 bits.
+        /// \param units    The signed amount in minor units.
+        /// \param negative Whether to reverse the sign.
+        /// \return The amount.
+        template <std::signed_integral I>
+            requires(sizeof(I) <= sizeof(std::uint64_t))
+        [[nodiscard]] static constexpr money_of from_units(I units, bool negative = false) noexcept
+        {
+            return from_units(uint256{detail::magnitude_of(units)}, (units < 0) != negative);
+        }
+
         /// \brief The asset's value.
         /// \return `asset_v<T>`.
         [[nodiscard]] static constexpr asset asset_of() noexcept { return asset_v<T>; }
@@ -239,6 +305,10 @@ namespace snicholls {
         /// \brief As a run-time `money`.
         /// \return The same amount, with its asset as a value.
         [[nodiscard]] constexpr money to_money() const noexcept { return money::from_units(asset_of(), magnitude_, negative_); }
+
+        /// \brief The nearest `double` in whole units, for display only (`money::to_double`).
+        /// \return The value.
+        [[nodiscard]] constexpr double to_double() const noexcept { return to_money().to_double(); }
 
         /// \brief From a run-time `money` of the same asset.
         /// \param m The amount.

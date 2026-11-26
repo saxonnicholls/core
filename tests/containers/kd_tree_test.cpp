@@ -23,6 +23,7 @@
 #include <gtest/gtest.h>
 
 #include <algorithm>
+#include <cmath>
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -147,6 +148,24 @@ void check_against_linear_scan(std::uint64_t seed, const Metric& m = Metric{})
 
             // within a radius
             const double radius = static_cast<double>(st::uniform_index(g, side + 1));
+
+            // k nearest strictly within the radius (SciPy's distance_upper_bound): the brute force's first k below it
+            {
+                const double upper = m.contract(radius);
+                std::vector<double> below;
+                for (std::size_t i = 0; i < n; ++i)
+                    if (reduced[i] < upper)
+                        below.push_back(all[i]);
+                std::sort(below.begin(), below.end());
+                std::vector<ct::kd_neighbour> within_k(k);
+                const std::size_t w = tree.k_nearest_within(query, radius, within_k);
+                ASSERT_EQ(w, std::min(k, below.size()));
+                for (std::size_t i = 0; i < w; ++i) {
+                    EXPECT_EQ(within_k[i].distance, below[i]) << "bounded neighbour " << i;
+                    EXPECT_EQ(within_k[i].distance, all[within_k[i].index]);
+                    EXPECT_LT(m.contract(within_k[i].distance), upper);
+                }
+            }
             const double bound = m.contract(radius);
             std::vector<std::uint32_t> within, brute;
             tree.for_each_within(query, radius, [&](std::uint32_t i, double dd) {
@@ -179,6 +198,50 @@ void check_against_linear_scan(std::uint64_t seed, const Metric& m = Metric{})
             EXPECT_EQ(boxed, brute_box);
         }
     }
+}
+
+TEST(ContainersKdTreeTies, EqualDistancesComeInAscendingIndexOrderAndTheKthTieIsCutByIndex)
+{
+    // A regular grid, as drill composites are: many exact ties. The reference sorts by (distance, index).
+    std::vector<point<2>> pts;
+    for (int x = -3; x <= 3; ++x)
+        for (int y = -3; y <= 3; ++y)
+            pts.push_back({static_cast<double>(x), static_cast<double>(y)});
+    std::vector<std::uint32_t> idx(pts.size());
+    const ct::kd_tree<point<2>, 2> tree(pts, idx);
+    const point<2> q{0.0, 0.0};
+    std::vector<std::pair<double, std::uint32_t>> ref;
+    for (std::uint32_t i = 0; i < pts.size(); ++i)
+        ref.emplace_back(std::hypot(pts[i][0], pts[i][1]), i);
+    std::sort(ref.begin(), ref.end());
+    for (const std::size_t k : {std::size_t{1}, std::size_t{3}, std::size_t{5}, std::size_t{7}, std::size_t{13}, std::size_t{20}}) {
+        std::vector<ct::kd_neighbour> out(k), bounded(k);
+        ASSERT_EQ(tree.k_nearest(q, out), k);
+        for (std::size_t j = 0; j < k; ++j) {
+            EXPECT_EQ(out[j].index, ref[j].second) << "k=" << k << " slot " << j;
+            EXPECT_EQ(out[j].distance, ref[j].first);
+        }
+        const double radius = 2.5;   // cuts through a ring of equal distances (sqrt(5) < 2.5 < sqrt(8))
+        const std::size_t w = tree.k_nearest_within(q, radius, bounded);
+        std::size_t expect_w = 0;
+        while (expect_w < k && expect_w < ref.size() && ref[expect_w].first < radius)
+            ++expect_w;
+        ASSERT_EQ(w, expect_w) << "k=" << k;
+        for (std::size_t j = 0; j < w; ++j)
+            EXPECT_EQ(bounded[j].index, ref[j].second) << "bounded k=" << k << " slot " << j;
+    }
+    const auto near = tree.nearest(point<2>{0.5, 0.5});   // four corners at an equal distance: the lowest index
+    ASSERT_TRUE(near);
+    std::uint32_t lowest = 0;
+    double best = 1e300;
+    for (std::uint32_t i = 0; i < pts.size(); ++i) {
+        const double d = std::hypot(pts[i][0] - 0.5, pts[i][1] - 0.5);
+        if (d < best) {
+            best = d;
+            lowest = i;
+        }
+    }
+    EXPECT_EQ(near->index, lowest);
 }
 
 TEST(ContainersKdTreeQueries, MatchALinearScanInOneDimension) { check_against_linear_scan<1>(1); }

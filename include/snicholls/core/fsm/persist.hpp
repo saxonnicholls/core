@@ -26,8 +26,11 @@
 ///     3 settled
 ///
 /// Each region is a number and a name: the enumerator's value where the machine has a state enumeration (so a record
-/// stays valid when enumerators are appended, or renamed), the state's name where it has not (so it stays valid when
-/// states are added or reordered).
+/// stays valid when enumerators are appended), the state's name where it has not (so it stays valid when states are
+/// added or reordered). `load` checks both parts where both identify the state: a record whose name for a value is not
+/// that state's name (an enumerator renamed, or values reordered, since it was saved) is refused with
+/// `state_name_mismatch`, never restored to whatever state now has the value. A record saved by a machine of another
+/// name (its definition's unqualified type name, the `machine` line) is refused with `wrong_machine`.
 ///
 /// The compare-and-set is built from the contract's own atomic primitives, so every store has it: a save is one batch
 /// of `insert(key + "/v/" + version)` (which fails if that version exists) and `put(key)`. The versioned keys are the
@@ -50,9 +53,10 @@
 /// - No exception crosses these functions except `std::bad_alloc` from building the record and the batch.
 ///
 /// \errors `fsm_errc::stale` (that version exists: another writer saved first), `not_found` (nothing under the key),
-/// `corrupt` (the record is not this format), `shape_mismatch` (a different number of regions), `unknown_state` (a saved
-/// state is not a state of the table), `store_unavailable` (`kv_errc::unavailable`), `store_failed` (any other
-/// `kv_errc`).
+/// `corrupt` (the record is not this format), `wrong_machine` (saved by a machine of another name), `shape_mismatch` (a
+/// different number of regions), `unknown_state` (a saved state is not a state of the table), `state_name_mismatch` (a
+/// saved state's name is not the name of the state its value restores), `store_unavailable` (`kv_errc::unavailable`),
+/// `store_failed` (any other `kv_errc`).
 ///
 /// \examples The payment demo, `fsm/lifecycle_payment_demo.cpp`, crashes a process and restores the payment, and shows
 /// a stale writer refused.
@@ -65,9 +69,11 @@
 /// \deps `<array>`, `<charconv>`, `<cstddef>`, `<cstdint>`, `<string>`, `<string_view>`, `<system_error>`,
 /// and core's `fsm/state_machine.hpp`, `concepts/key_value_store.hpp` (which brings `hash/sha2.hpp`).
 ///
-/// \gotchas A machine's history keys sit under its key: a prefix scan of `key` sees them (`key/v/...`).
+/// \gotchas A machine's history keys sit under its key: a prefix scan of `key` sees them (`key/v/...`). Renaming a
+/// machine's definition type, or one of its state enumerators, makes its saved records refuse to load (`wrong_machine`,
+/// `state_name_mismatch`): migrate the records with the rename.
 ///
-/// \status Experimental, new in 0.24.0.
+/// \status Experimental, new in 0.24.0; `wrong_machine` and `state_name_mismatch` in 0.27.0.
 
 #ifndef snicholls_core_fsm_persist_hpp
 #define snicholls_core_fsm_persist_hpp
@@ -179,18 +185,22 @@ namespace snicholls::fsm {
     /// \ingroup core
     /// \param record  the record.
     /// \param machine the machine; unchanged on error.
-    /// \return the record's version, or `fsm_errc::corrupt`, `shape_mismatch` or `unknown_state`.
+    /// \return the record's version, or `fsm_errc::corrupt`, `wrong_machine`, `shape_mismatch`, `unknown_state` or
+    /// `state_name_mismatch`.
     template <class SM>
     result<std::uint64_t, fsm_errc> from_record(std::string_view record, SM& machine) noexcept
     {
         std::string_view rest = record;
+        std::string_view name;
         std::string_view field;
         std::uint64_t version = 0;
         std::size_t regions = 0;
-        if (detail::next_line(rest) != persist_format || !detail::parse_field(detail::next_line(rest), "machine", field) ||
+        if (detail::next_line(rest) != persist_format || !detail::parse_field(detail::next_line(rest), "machine", name) ||
             !detail::parse_field(detail::next_line(rest), "version", field) || !detail::parse_number(field, version) ||
             !detail::parse_field(detail::next_line(rest), "regions", field) || !detail::parse_number(field, regions))
             return err(fsm_errc::corrupt);
+        if (name != detail::short_name(type_name<typename SM::definition>()))
+            return err(fsm_errc::wrong_machine);
         if (regions != SM::slot_count)
             return err(fsm_errc::shape_mismatch);
         std::array<wire_state, SM::slot_count> slots{};
@@ -203,6 +213,9 @@ namespace snicholls::fsm {
         }
         if (!rest.empty())
             return err(fsm_errc::corrupt);
+        const auto checked = SM::check_snapshot(slots);
+        if (checked.is_err())
+            return err(checked.unwrap_err_unchecked());
         const auto restored = machine.restore_snapshot(slots);
         if (restored.is_err())
             return err(restored.unwrap_err_unchecked());
@@ -240,8 +253,8 @@ namespace snicholls::fsm {
     /// \param store   the store.
     /// \param key     the machine's key.
     /// \param machine the machine; unchanged on error, and no action runs.
-    /// \return the version loaded, or `fsm_errc::not_found`, `corrupt`, `shape_mismatch`, `unknown_state`,
-    /// `store_unavailable`, `store_failed`.
+    /// \return the version loaded, or `fsm_errc::not_found`, `corrupt`, `wrong_machine`, `shape_mismatch`,
+    /// `unknown_state`, `state_name_mismatch`, `store_unavailable`, `store_failed`.
     /// \throws std::bad_alloc
     template <kv_readable Store, kv_byte_source K, class SM>
     result<std::uint64_t, fsm_errc> load(const Store& store, const K& key, SM& machine)

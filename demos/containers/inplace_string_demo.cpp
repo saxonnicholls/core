@@ -9,14 +9,17 @@
 //  is not the one documented.
 //
 
+#include <snicholls/core/acout.hpp>
 #include <snicholls/core/containers/inplace_string.hpp>
 
 #include <cstdio>
 #include <cstring>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <type_traits>
 #include <unordered_map>
+#include <vector>
 
 namespace {
 int failures = 0;
@@ -61,5 +64,13 @@ int main()
     check(positions.at(snicholls::inplace_string<64>{"BTC-USD-PERP"}) == 2.5, "keys a hash map");
     check(snicholls::inplace_string<8>{"BTC"} < *id && snicholls::inplace_string<8>{"BTC"} != *id, "orders across capacities");
     check(snicholls::inplace_string<4>{}.empty() && !id->empty(), "empty");
+    //! [print]
+    snicholls::acout{} << "  contract " << o.contract << ", in a list " << std::vector{o.contract} << '\n';   // no .view()
+    //! [print]
+    std::ostringstream text;
+    snicholls::print_to(text, std::vector{o.contract});
+    check(text.str() == "[\"BTC-USD-PERP\"]", "prints as text, quoted inside a container");
+    const std::string_view as_view = *id;   // a std::string_view wherever one is taken
+    check(as_view == "BTC-USD-PERP", "converts to std::string_view");
     return failures == 0 ? 0 : 1;
 }

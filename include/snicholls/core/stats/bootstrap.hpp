@@ -573,7 +573,7 @@ namespace snicholls::stats {
 
         /// \brief The standard deviation.
         /// \return `sqrt(variance)`.
-        [[nodiscard]] double standard_deviation() const noexcept { return std::sqrt(variance); }
+        [[nodiscard]] constexpr double standard_deviation() const noexcept { return math::sqrt(variance); }
     };
 
     /// \brief The weighted moments of `data` under `counts`, in one sequential pass, shifted by `centre` for accuracy.

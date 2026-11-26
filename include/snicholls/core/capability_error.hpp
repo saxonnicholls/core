@@ -11,8 +11,11 @@
 /// \ingroup core
 ///
 /// **Overview.** The capability contracts (`concepts/message_sender.hpp`, `concepts/signer.hpp`,
-/// `concepts/key_store.hpp`, `concepts/payment_provider.hpp`, `concepts/onramp_provider.hpp`) fail the same way, so
-/// a caller writes its retry and alerting logic once:
+/// `concepts/key_store.hpp`, `concepts/payment_provider.hpp`, `concepts/onramp_provider.hpp`,
+/// `concepts/security_provider.hpp`, `concepts/http_handler.hpp`, `concepts/remote_files.hpp`,
+/// `concepts/token_verifier.hpp`, `concepts/signature_verifier.hpp`, `concepts/wallet_verifier.hpp`,
+/// `concepts/role_store.hpp`, `concepts/https_client.hpp`) fail the same way, so a caller writes its retry and
+/// alerting logic once:
 /// - **one enumeration**, `capability_errc`, for every capability. A caller branches on it: retry, tell the user,
 ///   or page someone. Only `unavailable`, `timeout` and `rate_limited` are retryable (`is_retryable`). Its names
 ///   print through core's enum reflection (`enum_name(capability_errc::stale)` is `"stale"`); there is no hand table;

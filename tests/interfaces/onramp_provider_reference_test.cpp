@@ -25,7 +25,7 @@ constexpr std::string_view address = "0x52908400098527886E0F7030069857D2E4169EE7
 
 memory_onramp_provider venue()
 {
-    memory_onramp_provider v{{{usdc, {8453}, true, "USD"}, {eth, {1}, false, {}}}, [] { return utc_s::from_unix_seconds(1'800'000'000); }};
+    memory_onramp_provider v{{{usdc, {8453}, true, "USD"}, {eth, {1}, false, {}}}, manual_utc_clock{utc_s::from_unix_seconds(1'800'000'000)}};
     v.set_price(*rate::parse(usdc, aud, "1.53"));
     v.set_price(*rate::parse(eth, aud, "5123.45"));
     v.deposit(of(aud, "10000"));

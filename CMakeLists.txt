@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(snicholls_core
-    VERSION 0.24.1
+    VERSION 0.27.0
     DESCRIPTION "snicholls-core - vocabulary types and compile-time reflection shared by the snicholls libraries"
     LANGUAGES CXX)
 
@@ -169,10 +169,31 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     target_link_libraries(snicholls_core_header_check PRIVATE snicholls::core)
     snicholls_core_compile_options(snicholls_core_header_check)
 
-    # constexpr_for.hpp is also ts-moveables' constexpr_for, and ts-moveables supports C++17: it stays C++17-clean.
-    set(HEADER "snicholls/core/constexpr_for.hpp")
-    configure_file(cmake/header_check.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/constexpr_for.cpp @ONLY)
-    add_library(snicholls_core_cpp17_check OBJECT ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/constexpr_for.cpp)
+    # ts-moveables supports C++17, so the headers it uses stay C++17-clean: constexpr_for.hpp, and the task pool, loop
+    # clock and random source contracts (concept twin, interface, reference, kit); crypto takes random_source too.
+    set(SNICHOLLS_CORE_CPP17_HEADERS
+        constexpr_for.hpp
+        concepts/loop_clock.hpp
+        concepts/random_source.hpp
+        concepts/task_pool.hpp
+        interfaces/loop_clock.hpp
+        interfaces/loop_clock_conformance.hpp
+        interfaces/loop_clock_reference.hpp
+        interfaces/random_source.hpp
+        interfaces/random_source_conformance.hpp
+        interfaces/random_source_reference.hpp
+        interfaces/task_pool.hpp
+        interfaces/task_pool_conformance.hpp
+        interfaces/task_pool_reference.hpp)
+    set(SNICHOLLS_CORE_CPP17_SOURCES)
+    foreach(h ${SNICHOLLS_CORE_CPP17_HEADERS})
+        set(HEADER "snicholls/core/${h}")
+        string(REPLACE "/" "_" stem "${h}")
+        string(REPLACE ".hpp" ".cpp" stem "${stem}")
+        configure_file(cmake/header_check.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/${stem} @ONLY)
+        list(APPEND SNICHOLLS_CORE_CPP17_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/${stem})
+    endforeach()
+    add_library(snicholls_core_cpp17_check OBJECT ${SNICHOLLS_CORE_CPP17_SOURCES})
     target_include_directories(snicholls_core_cpp17_check PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     set_target_properties(snicholls_core_cpp17_check PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
     snicholls_core_compile_options(snicholls_core_cpp17_check)
@@ -204,6 +225,7 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
 
     add_subdirectory(tests)
     add_subdirectory(demos)
+    add_subdirectory(showcase)
 endif()
 
 if(SNICHOLLS_CORE_BUILD_BENCHMARKS)

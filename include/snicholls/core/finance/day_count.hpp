@@ -21,9 +21,13 @@
 ///
 /// `day_count(start, end)` is the days the convention counts, `year_fraction(start, end)` the exact
 /// `finance::year_fraction`. A convention is chosen at compile time by naming its type, or at run time through
-/// `day_count_interface` (`interfaces/day_count.hpp`).
+/// `day_count_interface` (`interfaces/day_count.hpp`). Data that names a convention (a repo's terms in a
+/// `security_fact`, a bond's) holds a `day_count_basis`, one stable enumerator per type, and `accrual_fraction(basis,
+/// start, end)` gives that type's fraction.
 ///
 /// \snippet finance/day_count_demo.cpp day_count
+///
+/// \snippet finance/day_count_demo.cpp basis
 ///
 /// **Relationships.** `concepts/day_count.hpp`, `interfaces/day_count.hpp`, `finance/year_fraction.hpp`,
 /// `finance/business_day.hpp` (rolling a date onto a business day before counting), `time/civil.hpp`. Group:
@@ -52,7 +56,7 @@
 /// **Known issues.** QuantLib's `Thirty360(ISDA)` is 30E/360 ISDA, not this header's `thirty_360`; QuantLib's
 /// `Thirty360(BondBasis)` is.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; `day_count_basis` and `accrual_fraction` new in 0.27.0.
 
 #ifndef snicholls_core_finance_day_count_hpp
 #define snicholls_core_finance_day_count_hpp
@@ -222,6 +226,36 @@ namespace snicholls::finance {
     static_assert(day_count_convention<act_360> && day_count_convention<act_365_fixed> && day_count_convention<thirty_360> &&
                       day_count_convention<thirty_e_360> && day_count_convention<act_act_isda>,
                   "snicholls::finance: every day-count convention must model snicholls::day_count_convention");
+
+    /// \brief A day-count convention as a value, for data that names one: each enumerator is one of the types above.
+    /// Values are stable; new ones are appended.
+    /// \ingroup core
+    enum class day_count_basis : std::uint8_t {
+        act_360 = 1,        ///< `act_360`
+        act_365_fixed = 2,  ///< `act_365_fixed`
+        thirty_360 = 3,     ///< `thirty_360`
+        thirty_e_360 = 4,   ///< `thirty_e_360`
+        act_act_isda = 5,   ///< `act_act_isda`
+    };
+
+    /// \brief The exact year fraction from `start` to `end` under the convention `basis` names.
+    /// \ingroup core
+    /// \param basis The convention.
+    /// \param start The first day.
+    /// \param end   The last day.
+    /// \return That convention's `year_fraction(start, end)`; zero for a value that is not an enumerator.
+    [[nodiscard]] constexpr finance::year_fraction accrual_fraction(day_count_basis basis, std::chrono::sys_days start,
+                                                                    std::chrono::sys_days end) noexcept
+    {
+        switch (basis) {
+        case day_count_basis::act_360: return act_360::year_fraction(start, end);
+        case day_count_basis::act_365_fixed: return act_365_fixed::year_fraction(start, end);
+        case day_count_basis::thirty_360: return thirty_360::year_fraction(start, end);
+        case day_count_basis::thirty_e_360: return thirty_e_360::year_fraction(start, end);
+        case day_count_basis::act_act_isda: return act_act_isda::year_fraction(start, end);
+        }
+        return {};
+    }
 
 } // namespace snicholls::finance
 

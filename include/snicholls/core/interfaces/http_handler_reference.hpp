@@ -14,6 +14,8 @@
 /// for an unknown path, 405 with an `Allow` header for a known path and another method, `HEAD` as `GET` without the
 /// body, and 500 with the fixed body `internal error` when a handler throws, so nothing of the exception (its message
 /// may carry user data or a secret) reaches the response. It is what a product's tests call routes through.
+/// `add_pattern` (0.27.0, from crtp's `http_server_interface::route`) registers a pattern whose `:name` segments
+/// capture into the request's `path_params` (`match_route`); exact paths win, then patterns in registration order.
 ///
 /// \snippet interfaces/http_handler_reference_demo.cpp reference
 ///
@@ -33,12 +35,12 @@
 /// **Tests and demos.** `tests/interfaces/http_handler_reference_test.cpp`,
 /// `demos/interfaces/http_handler_reference_demo.cpp`.
 ///
-/// **Dependencies.** `<cstddef>`, `<functional>`, `<map>`, `<new>`, `<string>`, `<utility>`, `capability_error.hpp`,
+/// **Dependencies.** `<cstddef>`, `<functional>`, `<map>`, `<new>`, `<string>`, `<utility>`, `<vector>`, `capability_error.hpp`,
 /// `interfaces/http_handler.hpp`.
 ///
 /// **Known issues.** Exact paths only.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; `add_pattern` in 0.27.0.
 
 #ifndef snicholls_core_interfaces_http_handler_reference_hpp
 #define snicholls_core_interfaces_http_handler_reference_hpp
@@ -52,6 +54,7 @@
 #include <new>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace snicholls {
 
@@ -79,15 +82,60 @@ namespace snicholls {
             return ok();
         }
 
+        /// \brief Registers `h` for `method` on a pattern whose `:name` segments capture (`/orders/:id`); exact routes
+        /// are tried first, then patterns in the order they were added, and the first that matches answers.
+        /// \param method  The method.
+        /// \param pattern The pattern, from `/`.
+        /// \param h       The handler; its request carries the captures in `path_params`.
+        /// \return Success, `conflict` or `invalid_argument`.
+        capability_result<void> add_pattern(http_method method, std::string pattern, handler h)
+        {
+            if (pattern.empty() || pattern.front() != '/')
+                return fail(capability_errc::invalid_argument, {}, "a path starts with /");
+            if (!h)
+                return fail(capability_errc::invalid_argument, {}, "an empty handler");
+            for (auto& [p, methods] : patterns_)
+                if (p == pattern) {
+                    if (!methods.emplace(method, std::move(h)).second)
+                        return fail(capability_errc::conflict, {}, "the route is already registered");
+                    return ok();
+                }
+            patterns_.emplace_back(std::move(pattern), std::map<http_method, handler>{});
+            patterns_.back().second.emplace(method, std::move(h));
+            return ok();
+        }
+
         /// \brief Answers a request.
         /// \param r The request.
         /// \return The route's response, or 404, 405 or 500.
         http_response handle(const http_request& r) const
         {
             const auto path = routes_.find(r.path);
-            if (path == routes_.end())
-                return respond(404, "not found");
-            const auto& methods = path->second;
+            if (path != routes_.end())
+                return dispatch(path->second, r);
+            for (const auto& [pattern, methods] : patterns_) {
+                http_request captured = r;
+                if (match_route(pattern, r.path, captured.path_params))
+                    return dispatch(methods, captured);
+            }
+            return respond(404, "not found");
+        }
+
+        /// \brief The number of (method, path or pattern) routes.
+        /// \return The count.
+        [[nodiscard]] std::size_t size() const noexcept
+        {
+            std::size_t n = 0;
+            for (const auto& [p, methods] : routes_)
+                n += methods.size();
+            for (const auto& [p, methods] : patterns_)
+                n += methods.size();
+            return n;
+        }
+
+    private:
+        static http_response dispatch(const std::map<http_method, handler>& methods, const http_request& r)
+        {
             auto route = methods.find(r.method);
             const bool head_as_get = route == methods.end() && r.method == http_method::head;
             if (head_as_get)
@@ -117,18 +165,8 @@ namespace snicholls {
             return out;
         }
 
-        /// \brief The number of (method, path) routes.
-        /// \return The count.
-        [[nodiscard]] std::size_t size() const noexcept
-        {
-            std::size_t n = 0;
-            for (const auto& [p, methods] : routes_)
-                n += methods.size();
-            return n;
-        }
-
-    private:
         std::map<std::string, std::map<http_method, handler>, std::less<>> routes_;
+        std::vector<std::pair<std::string, std::map<http_method, handler>>> patterns_;
     };
 
     static_assert(http_handler<route_table>, "snicholls::route_table must model snicholls::http_handler");

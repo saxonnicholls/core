@@ -3,6 +3,283 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.27.0 - 2026-11-26
+
+The release core is pinned at for the next few weeks: one version across the family. Trade and settlement dates on
+every fact; the capability contracts from servers, crtp, ts-moveables and base-encode-decode (26 capabilities, each a
+concept and its virtual twin); securities facts and the securities provider; exact ratios, returns and the cash ladder;
+`random_source`, `uuid_generator`, `time_zone`, SQL, `task_pool` and `loop_clock`; `functional/`, Haskell's and OCaml's
+toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-ordered queries.
+
+### Changed
+
+- **The reference implementations take their clock one way** (breaking): `memory_payment_provider`,
+  `memory_security_provider`, `memory_onramp_provider`, `memory_key_store` (`memory_signer`) and
+  `memory_token_verifier` are now `basic_memory_<name><Clock>` with `Clock` a `utc_clock` (`time/utc_clock.hpp`: `now()`
+  returns a `utc<D>` of any precision) owned by value, reached through `clock()` and defaulted to `manual_utc_clock`,
+  and the old names are aliases of `basic_memory_<name><manual_utc_clock>`, as `basic_uuid_generator` already took its
+  clock. An owner no longer has to be non-copyable because a `std::function` clock captured `this`. Breaks: the
+  constructors take a `Clock` where they took a `std::function<utc_s()>` (`clock_source` is gone; `clock_type` names
+  the clock) - migrate `[&] { return now; }` to `manual_utc_clock{now}` and `now += d` to `x.clock().advance(d)`, or
+  pass a clock type of your own; `deterministic(now)` exists only with a `manual_utc_clock`. Every test, demo,
+  benchmark and showcase in core is migrated. `manual_utc_clock` moved to `time/utc_clock.hpp`;
+  `interfaces/uuid_generator_reference.hpp` still provides it.
+- **`inplace_string` converts implicitly to `std::string_view`**, as `std::string` does, so it, and every id built on
+  it (`provider_id`, `fact_id`, `event_id`, ...), goes wherever a view is taken and prints through `acout`, `print`
+  and `print_to` without `.view()`: as text, quoted inside a container.
+- **`stats::variance::standard_deviation`, `covariance::correlation`, `ewma::volatility` and
+  `weighted_moments::standard_deviation` are `constexpr`** (`math::sqrt`); `stats/accumulators.hpp` no longer
+  includes `<cmath>`.
+- `money`'s default text and print are unchanged (`"2.1 AUD"`, the minimal form): an asset's scale does not tell a
+  currency (2 places, shown in full by convention) from a token (6 or 18, shown minimally), so no one default is
+  better for both; `to_string(m, money_digits::all)` gives every minor unit.
+- `scripts/test_ubuntu.sh` takes the machine's share from snicholls-tooling v0.3.2 (`third_party/tooling`, from
+  v0.3.1): one gate at a time across every repository and session, its parallelism a share of the machine, each
+  container capped in memory (`SNICHOLLS_GATE_MEMORY`, 24 GB).
+- **k-d tree ties are broken by index:** `nearest`, `k_nearest` and `k_nearest_within` return equal distances in
+  ascending point index, and cut a tie at the k-th place by index, so a query is one well-defined list (it matches a
+  reference sorting by distance then index, bit for bit, as ore-body's kriging requires on regular grids).
+- **The hash benchmarks compare with OpenSSL only through `-DSNICHOLLS_CORE_OPENSSL_ROOT`**, the family's pinned
+  `openssl-4.1.0` build (owned by crtp), never the system's; without it the comparison is skipped.
+  `SNICHOLLS_CORE_BENCH_OPENSSL` is gone.
+- **Trade and settlement dates are kept apart on every fact** (breaking): `payment_fact` and `onramp_fact` carry one
+  `fact_dates dates` (`capability_ids.hpp`) in place of `occurred_at`: `trade_at` (when the economic event happened),
+  `known_at` (when we recorded it: provenance, never content), `settles_on` (the value date, a `std::chrono::sys_days`
+  in the settlement account's calendar, with `settles_on_estimated` when computed rather than given), `settled_at` and
+  `available_at` (an instant a provider gives, Stripe's `available_on`). `validate(fact_dates)` refuses a fact known
+  or settled before it happened and an estimate without a date; each fact's `validate` runs it. `same_content`
+  compares dates without `known_at`. Migration: `f.occurred_at` becomes `f.dates.trade_at`, and set `f.dates.known_at`.
+- **`uint256`'s 64-bit fast path**: `divmod`, `/`, `%`, `checked_div`, `checked_divmod` and `checked_mul`, and
+  `detail::mul_div` behind `convert`, branch when both operands fit in 64 bits, with bit-identical results (tested
+  against the general path). `divmod` on 64-bit operands 31 ns -> 10 ns, `checked_mul` 17 ns -> 3.4 ns; a 100,000-holder
+  dividend through `convert` 17.3 ms -> 8.8 ms (`benchmarks/money/rate_benchmark.cpp`, against 1.0 ms in 64 bits by
+  hand). `rounds_away` compares in 64 bits when it can.
+- **The reference providers sign webhooks with one implementation** (`detail/memory_webhook.hpp`), shared by
+  `memory_payment_provider` and `memory_security_provider`; the payment reference's behaviour is unchanged.
+- **`finance::year_fraction` is `finance::ratio`** (an alias), source-compatible: the constructor, `numerator()`,
+  `denominator()`, `to_double()`, `==` and `<=>` are unchanged, and `<=>` is now exact for every pair (it
+  cross-multiplied in 64 bits). Its parts may no longer be `INT64_MIN` (asserted).
+- **`fsm::load` refuses a record it cannot trust** (breaking for records of a renamed machine or state): a record
+  saved by a machine of another name is `fsm_errc::wrong_machine` (it was restored by enumerator value into whatever
+  machine read it), and a state whose recorded name is not the name of the state its value restores is
+  `fsm_errc::state_name_mismatch` (an enumerator renamed, or the enumeration's values reordered, since the save), at
+  every level of a composite. Appending enumerators still keeps records valid. `sm::check_snapshot(slots)` is the
+  strict check, changing nothing; `restore_snapshot` still goes by value alone.
+- **`money::from_units(asset, -40)` is minus 40 units**, as is `money_of<T>::from_units(-40)`: a signed integer keeps
+  its own sign (`negative` reverses it), where it converted silently to the magnitude 2^64 - 40. Unsigned and `uint256`
+  magnitudes are unchanged.
+
+### Added
+
+- **`stats::member<&trade::desk>`: a pivot reads a plain struct's members** (`stats/pivot.hpp`), as a key and as a
+  measure's value, with no getter struct written: a data member, or a const member function called with no arguments.
+  Keys print under their own types' attributes as before; a member measure's cells take `attributes(const
+  member<&trade::pnl>&)`, declared beside the struct and found by argument-dependent lookup. Getters, `by_name` and
+  tag structs are unchanged. `trading_day` keys its pivot by `member<&fill::book>` and `member<&fill::what>`.
+- **`money::to_double()` and `money_of<T>::to_double()`**: the nearest `double` in whole units, for display and
+  charts only (correctly rounded below 2^53 minor units at a scale up to 22), as `decimal::to_double()` is.
+- **`count()` on `stats::mean`, `variance`, `covariance` and `histogram`**: the observations (pairs; every value
+  counted, under and overflow included).
+- **`fn::fmap` over `containers::inplace_vector<T, N>`** (`functional/instances.hpp`), into an `inplace_vector<R, N>`
+  of the same size, at compile time: what `fn::filter`, `fn::partition`, `fn::span` and `fn::group` return now maps;
+  the Functor laws are tested at compile time.
+- **`time/utc_clock.hpp`**: the `utc_clock` concept and `manual_utc_clock` (moved from
+  `interfaces/uuid_generator_reference.hpp`), the one clock shape of every reference implementation.
+- **Showcases** (`showcase/`, `make showcase`, CTest label `showcase`): five whole programs, each across many areas
+  and checking itself - `trading_day`, `payments_ledger`, `harbour_beacons`, `option_risk` and `functional_report`.
+- **The patterns page** (`docs/PATTERNS.md`, \ref patterns in the documentation): how core's pieces fit together,
+  each pattern with its problem, its types, compiled snippets from the demos and when not to use it.
+- **`stochastic::lattice_envelope<Steps>(stencil, g, discount)`: the Snell envelope of a recombining lattice**
+  (`stochastic/snell.hpp`). Binomial, trinomial or any `Branches`-way stencil: step `t` has `(Branches - 1) t + 1`
+  nodes and one row of `std::array` storage carries the backward induction, O(Steps^2) time in O(Steps) state, in
+  place of a dense `States x States` matrix. `constexpr`, in any floating type; returns `lattice_snell`: the value,
+  the first two steps' values (delta and gamma off the tree) and, per step, the lowest and highest node where stopping
+  strictly beats continuing. Agrees with the dense form bit for bit (tested at compile time, binomial and trinomial).
+  A 64-step American put with its boundary: 3.7 us (3.5 us by hand, 205 us by the dense form).
+- **`finance/option_pricing.hpp`: vanilla options priced by the compiler.** `vanilla_option<T>` (call or put, spot,
+  strike, expiry, rate, dividend yield, volatility); `black_scholes(o)` (Black-Scholes-Merton) and
+  `black_scholes_greeks(o)` (delta, gamma, vega, vanna, volga, theta, rho as a `finance::greeks`, in closed form);
+  `binomial<Steps>(o, exercise_style)`, a CRR tree on `lattice_envelope`, European or American, with the tree's delta
+  and gamma and the early-exercise boundary as a spot per step. All `constexpr` through `snicholls::math` in the
+  option's type. Checked against Hull's worked examples, put-call parity, the greeks against central differences and
+  the tree's convergence to the closed form. Black-Scholes 63 ns, all seven greeks 84 ns, `binomial<64>` 6.1 us. `showcase/option_risk.cpp` and
+  `showcase/trading_day.cpp` use it in place of their hand-written Black-Scholes, lattice and finite-difference
+  greeks; option_risk's exercise boundary now reports reachable nodes only, so it starts at month 3.
+- **`finance/cash_flow.hpp`: one dated cash flow** (`finance::cash_flow`, exact `money`, positive in and negative out),
+  shared by `make_cash_ladder` and the return measures in place of their separate types.
+- **`containers::kd_tree::k_nearest_within(q, radius, out)`**: the k nearest points strictly within a radius, nearest
+  first (SciPy's `cKDTree.query(k, distance_upper_bound=radius)`), the neighbourhood search kriging uses; tested against
+  a linear scan in 1 to 5 dimensions and every metric. ore-body's own k-d tree is replaced by core's.
+- **Contracts lifted from crtp, ts-moveables and base-encode-decode** (each a concept, its pure virtual twin with
+  adapters both ways, a standard-library reference and a conformance kit, tested in every form):
+  - **SQL**: `sql_value.hpp` (six parameter kinds as views, `sql_row` with exact typed getters, `sql_type`, the
+    database-neutral `sql_errc` / `sql_error` with SQLSTATE and `may_retry`, and the exact mappings of `utc`, `uuid`,
+    `decimal` and `money`); `sql_dialect` (type names, quoting, placeholders; `sqlite_dialect` and `postgres_dialect`,
+    and the statements written once over any dialect: `sql_create_table`, `sql_insert` with `sql_conflict`,
+    `sql_select_rows`, `sql_count`, `sql_delete`, `sql_drop_table`); `sql_connection` (prepare, execute, query,
+    batches, transactions and `sql_transaction`, all returning `sql_result`), with `memory_sql_connection`, an
+    in-memory store for the statements core generates.
+  - **`uuid_generator`**: v4 and monotonic v7 from the caller's random source and clock (`basic_uuid_generator`,
+    `reference_uuid_generator`, `manual_utc_clock`); a `random_source_like` source (`fill`, failing closed) or a
+    seeded test source.
+  - **`time_zone`**: the rules at an instant and a wall-clock time classified; `offset_at`, `to_local`, `from_local`
+    with gaps and folds a result resolved only by `local_options`; `to_text(t, offset)`; `fixed_offset_zone` and the
+    toy `two_rule_zone` (`sydney_like_zone`, `new_york_like_zone`). The IANA data stays above core.
+  - **`task_pool`** and **`loop_clock`**, C++17-clean (ts-moveables' `task_pool` twin and `loop_clock`, so it can
+    switch to core's): `is_task_pool_like_v` / `task_pool_like`, `task_pool_interface`, `task_pool_adapter`,
+    `any_task_pool`, `deferred_task_pool`, `check_task_pool`; `is_loop_clock_like_v` / `loop_clock_like`,
+    `loop_clock_interface`, `loop_clock_adapter`, `any_loop_clock`, `manual_loop_clock`, `check_loop_clock`;
+    `SNICHOLLS_HAS_CONCEPTS`. `snicholls_core_cpp17_check` compiles all eight headers as C++17.
+  - **`encryptor`**: AEAD-shaped (key ids in a self-describing envelope, associated data, `sealed_key_id`); its
+    reference `insecure_test_encryptor` is a test double and **not encryption**.
+  - **`http_client`**: `send` returning the response or a `capability_error`; `loopback_http_client` over any
+    handler; `validate_request`, `http_get`.
+  - **`kv_cas`**: compare-and-swap as a key-value capability of its own (from servers' interim store), implemented
+    by `reference_key_value_store`, with `check_kv_cas`; and `kv_encoded_key`, a key that encodes itself
+    (`key_bytes()`, crtp's `encoded_key` for composite keys), accepted by every `kv_*` convenience.
+- **From crtp's calendar** (best-version merge): `business_day_convention::half_month_modified_following` and
+  `nearest`; `end_of_month`, `is_end_of_month`, `advance_business_days`, `advance_months` (with the end-of-month
+  rule), `count_business_days`, `holidays_between`, `joint_calendar`, `adjusted_calendar`.
+- **From crtp's HTTP interface** (best-version merge): `http_request::path_params`, `path_param`, `request_target`,
+  `is_success`, `match_route`, and `route_table::add_pattern` (`:name` segments).
+- **`random_source`: the contract for cryptographically secure random bytes**, which fails closed.
+  `concepts/random_source.hpp` (`is_random_source_like_v`, the concept `random_source_like`, `random_failed`),
+  `interfaces/random_source.hpp` (`random_source_interface`, `random_source_adapter<Impl>` by value or borrowed,
+  `any_random_source`), `interfaces/random_source_reference.hpp` (`test_random_source`, deterministic and **not
+  cryptographic**, with a `constexpr` `fill`, so test keys and nonces are built at compile time; and
+  `unavailable_random_source`) and `interfaces/random_source_conformance.hpp` (`check_random_source`,
+  `check_random_source_fails_closed`, failures as text). The member is `std::errc fill(std::byte*, std::size_t)
+  noexcept`: `std::errc{}` is success, and the literal type lets a source be `constexpr`. All four headers are
+  C++17-clean (compiled in `snicholls_core_cpp17_check`): ts-moveables implements the operating system's source on it,
+  and crypto and core's uuid generator take their randomness through it.
+- **`functional/`, functional programming in `snicholls::fn`, all `constexpr`**: functions that take and return
+  functions, with Haskell's and OCaml's vocabulary. `combinators` (`identity`, `constant`, `flip`, `compose`, `pipe`,
+  `x | then(f)` for `|>` / `&`, `call` for `$` / `@@`, `on`, `apply`, `juxt`, `fix`, `tap`, `when`, `unless`, `until`,
+  `apply_when`, `bool_`, `rotate_args`); `curry` (`curry(f)`, `curry<N>(f)` for generic lambdas, `uncurry`, `partial`,
+  `partial_right`, `lsection` / `rsection`); `bind` (placeholders `arg<N>`, `_1` ... `_9`); `typeclasses` (Semigroup,
+  Monoid, Functor, Applicative, Monad, Alternative, Bifunctor as concepts with instance traits; `fmap`, `pure`, `ap`,
+  `lift_a2`, `mbind`, `kleisli`, `join`, `alt`, `bimap`, `dimap`; the `sum_of` ... `endo` monoid wrappers);
+  `instances` (Maybe = `std::optional`, Either = `result`, tuples, pairs, `std::array` as the list monad, strings,
+  vectors); `state` (Identity, Const, Reader, Writer, State); `monad` (`lift`, `sequence`, `traverse`, `fold_m`,
+  `zip_with_m`, `replicate_m`, `when_m`, `maybe`, `either`, `map_maybe`, `cat_maybes`); `fold` (`foldl`, `foldr`,
+  `scan` over packs, `foldl_of` / `foldr_of` over ranges and tuples, `unfold`, `iterate_n`); `list` (Data.List on
+  `std::array`); `lazy` (`lazy` thunks and infinite `stream`s); `match` (pattern matching with guards and
+  compile-time exhaustiveness over variants, results, tuples and aggregates); `recursion` (`cata`, `ana`, `hylo`,
+  `para`, `trampoline`); `tabulate` (compile-time memoisation); `types` (type-level names for `meta::type_list`);
+  `ocaml` (the Option, Result and List modules). The laws are tested at compile time. A composed, curried pipeline
+  compiles to the same instructions as the hand-written lambda (benchmarks/functional/).
+- **`functional/` takes the best of Rust and of symbolic-expression-templates**, adding only what core and C++20
+  lacked. `rust` (`fn::rust::option`: Rust's `Option` methods over `std::optional`, the optional first, among them
+  `map_or`, `ok_or`, `filter`, `xor_`, `zip`, `transpose`, `take`, `replace` and `get_or_insert_with`;
+  `fn::rust::cmp`: `then`, `then_with`, `reverse` on orderings, and comparators built with `comparing(key)`,
+  `lexicographic(...)`, `reversed` and `as_less`; `into<T>`, a non-narrowing conversion). `rust_iter`
+  (`fn::rust::slice`: `windows`, `chunks`, `chunks_exact`, with static-extent spans from `windows_of<K>` and
+  `chunks_exact_of<K>`, and `dedup`; `fn::rust::iter`: `enumerate`, `step_by`, `find_map`, `max_by_key` /
+  `min_by_key` / `max_by` / `min_by` with Rust's ties and an empty optional for no elements, `nth`, `last`,
+  `try_for_each`); the views are trivially copyable `std::ranges::view`s, and a moving sum over `windows_of<8>` is
+  benchmarked against the index loop. `rewrite` (from SXT's `replace` and `rewrite`, at the value level: `rule`,
+  `rules`, `except`, `replace_once`, `replace_repeated` to a normal form, and Uniplate's `transform_up`,
+  `transform_down` and `rewrite_up` over any tree whose children the caller can map). `pointwise` (from SXT's
+  operators as algebra elements: `fn::pointwise{f}` added, scaled, compared and combined with `&&` / `||`, point by
+  point). Each header's documentation maps Rust's names to where core or `std` already has them (`Result`'s methods
+  are `snicholls::result`'s members; `filter_map`, `flat_map`, `try_fold`, `position` are `fn::map_maybe`,
+  `fn::concat_map`, `fn::fold_m`, `fn::find_index`; `take_while`, `skip_while`, `chain` are `std::views`).
+- **`functional/` is tested by its laws and shown by showcases**: laws test files for every header (functor,
+  applicative, monad, Kleisli, alternative and monoid laws, curry / uncurry round trips, fold fusion, Data.List and
+  stream laws, as `static_assert`s), and showcase demos of the classic examples in `constexpr` C++: point-free
+  pipelines, the Y combinator, `unfold` Fibonacci and Collatz, infinite primes, Maybe / Either railways by Kleisli
+  composition, an RPN machine on State, map-reduce in one monoid pass, a variant expression evaluator by `fn::match`,
+  OCaml pipes, the list monad's Pythagorean triples, a Rust-style fills pipeline and an algebraic simplifier by
+  rewriting. functional/ goes from 16 test files (47 tests, 442 `static_assert`s) and 16 demos to 34 and 34
+  (91 tests, 934 `static_assert`s). The laws found that `fn::lift` over three or more `result`s did not compile
+  (`detail::first_error` named itself in its own `noexcept`); it does.
+- **State machines, functionally** (`demos/fsm/`): a machine as a fold and a lazy scan over its events, event sourcing
+  with the snapshot law proved at compile time and a persisted replay, a Mealy machine written as a table and as
+  `fn::state` and proved identical over every input of length 8, a checkout railway whose guards are composed and
+  `pointwise` functions, and the reachable set as a least fixed point.
+- **`snicholls::nest` and `snicholls::table` declare their `noexcept`**, as documented: exactly when `f`'s call and the
+  value's moves cannot throw.
+
+- **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
+  and is never booked; the payment kit checks it.
+- **`finance::make_cash_ladder`** (`finance/cash_ladder.hpp`): an opening balance and dated `money` flows as a
+  liquidity ladder, per date inflow, outflow, net and cumulative, with the first date below a threshold, the lowest
+  position and an overdue bucket. Overdue flows follow an `overdue_policy` set separately for inflows and outflows
+  (`count`, `report_only`, `due_today`); the default is the prudent `{report_only, due_today}`. One asset per ladder
+  (`asset_mismatch` otherwise); exact, constexpr, written into the caller's span.
+- **`remote_files`, the capability for collecting files from a remote drop** (settlement files over SFTP or HTTPS):
+  `concepts/remote_files.hpp` with `list(prefix)` (sorted `remote_file{name, size, modified}`), `fetch(name, sink)`
+  (streamed to the caller's `remote_file_sink`, returning the `file_digest`, size and SHA-256 of what was delivered)
+  and an optional `move(from, to)` gated by `supports(remote_files_op::move)`; name and prefix rules
+  (`is_remote_name`, `validate_remote_name`), `file_digester`. Its twin `interfaces/remote_files.hpp` with the
+  adapters both ways, the in-memory reference `memory_remote_files`, and the kit `run_remote_files_conformance`
+  (seven checks, the redaction rule among them). Errors are `capability_errc`.
+- **`rounds_away(quotient, fraction, mode)` and `sum_residuals(parts, denominator)`** (`money/rate.hpp`): the rounding
+  test `convert` applies, public (it was `detail::rounds_away`), and the exact signed total of many residuals over one
+  denominator (`malformed` for another denominator, `overflow` past 256 bits), for an entitlement engine that divides
+  by itself.
+- **`convert_rate(rate, places, mode)`** (`money/rate.hpp`): a rate priced to `places` decimals (a fund's NAV per
+  unit) by any of `convert`'s seven rounding modes, returning the rounded rate and the exact residual; tested against
+  the rounding table `convert` is.
+- **Five more capability contracts lifted from the servers library: `token_verifier`, `signature_verifier`,
+  `wallet_verifier`, `role_store`, `https_client`**, each a concept (`concepts/`), its virtual twin with adapters both
+  ways (`interfaces/`), a standard-library reference and a conformance kit (`run_<cap>_conformance<Probe>()`, every kit
+  checking the redaction rule):
+  - `token_verifier`: a token in, `token_claims` out, the caller a party `uuid`; `memory_token_verifier` issues
+    `mt1.<serial>.<tag>` tokens tagged with `hmac<sha256>` and checked with `constant_time_equal` (not a JWT: base64url,
+    JSON and the JWKS stay in servers).
+  - `signature_verifier`: a JWS signature under a public key, or HS256 under a held key; `memory_signature_verifier`
+    checks HS256 under a `memory_key_store`, every asymmetric algorithm `unsupported` (EdDSA, ES256, RS256 are
+    crypto's).
+  - `wallet_verifier`: EIP-191 `personal_sign`, with `personal_sign_hash` (constexpr Keccak-256, checked against the
+    published vectors) and `is_lowercase_evm_address`; `memory_wallet_verifier` signs with a keyed HMAC test scheme,
+    never ECDSA (secp256k1 is crypto's).
+  - `role_store`: roles per party `uuid` and tenant, append-only with history, reads returning `capability_result`;
+    `kv_role_store<S>` over any `key_value_store`, one atomic batch per write, and `memory_role_store` over
+    `reference_key_value_store`.
+  - `https_client`: requests and responses as data (`http_method`, `http_header`, a `secret` credential, an idempotency
+    key, a client-certificate id, connect and total timeouts), with `parse_https_url`, `is_sendable` and
+    `is_idempotent`; `memory_https_client`, an in-memory router by host to handlers or to any `http_handler`, and
+    `cassette`, `recording_https_client`, `replay_https_client` for recorded days. The transport stays in ts-moveables
+    and servers.
+- `capability_ids.hpp`: `role_id`, `permission_id`, `tenant_id` (64) and `wallet_address` (42).
+- **`security_fact` and the `security_provider` capability** (`concepts/security_provider.hpp`, with its virtual twin
+  `interfaces/security_provider.hpp`, the reference `memory_security_provider` and the kit
+  `run_security_provider_conformance`): the broker, custodian and registry side of one ledger, a sibling of
+  `payment_fact`. A fact carries its kind (trades and settlement; dividends, withholding, DRPs, capital returns;
+  splits, consolidations, bonuses, symbol changes, mergers, demergers, rights, takeovers; repos and reverse repos,
+  accruals, margin and collateral reuse; and the fund kinds application, redemption, `unit_switch` and
+  distribution_reinvested), the instrument as an asset `<SYMBOL>:<VENUE>` with an optional ISIN, the second
+  instrument and cost apportionment of a two-instrument action, a signed exact quantity, a `new_for_old` ratio,
+  price, consideration, fees and taxes as money with franking as a tax attribute, `fact_dates` with ex, record and
+  pay dates, a repo's counterparty, agreement, rate, `day_count_basis` and maturity, and refs; `validate` and
+  `cash_movement`. The capability: `capabilities`, `verify_webhook`, `resolve(event)` and `statement(query)` as
+  `payment_provider` has them, and `holdings(as_of)` by trade date and by settlement.
+- **`event_kind::security_updated`** (appended to `concepts/payment_provider.hpp`): an event about a trade, an action
+  or a position.
+- **`finance::ratio`** (`finance/ratio.hpp`): one exact rational for `finance/`, `int64` numerator over a positive
+  denominator in lowest terms; `make` and `parse` (`"3/2"`, `"-1.25"`, `"13.24%"`) with `ratio_errc`; checked `add`,
+  `subtract` and `multiply` (cancelled across first); `inverse`; an exact `<=>` for every pair. For split and rights
+  ratios, cost apportionments, repo rates and exact returns. `benchmarks/finance/ratio_benchmark.cpp` measures `<=>`
+  and `multiply` against the hand-written 64-bit forms.
+- **`finance/money_ratio.hpp`**: exact arithmetic between `money` and the asset-free `finance::ratio`, for fund
+  dealing (`units = amount / NAV per unit`): `exact_value`, `multiply` and `divide` to an exact ratio, or to money of
+  a stated asset rounded once under a named `rounding` mode (256-bit intermediate), `to_money`, `ratio_of` (net assets
+  over units outstanding), and consteval `_ratio` literals (`"1.234567"_ratio`).
+- **`finance::day_count_basis`** and `accrual_fraction(basis, start, end)` (`finance/day_count.hpp`): a convention as a
+  stable value, for data that names one.
+- **`finance/returns.hpp`**: exact `period_return`, `time_weighted_return` (chained sub-periods) and `modified_dietz`
+  from `money`; in `double`, `time_weighted_return` over returns, `irr` and `irr_roots` (flows one period apart),
+  `xirr` (dated `xirr_flow`s, ACT/365F) and `money_weighted_return` (annualised), by Brent's method behind
+  Descartes' rule of signs, with `returns_errc::no_root` and `multiple_roots`. Tested against numpy-financial 1.0.0
+  and exact references in Python's `decimal` and `fractions` (`scripts/generate_returns_fixtures.py`, CTest
+  `generated.returns_fixtures_up_to_date`, skipped without numpy-financial).
+- **`fsm/securities.hpp`**: the reference lifecycles of securities in sml's notation, each state an enumerator (so
+  `fsm::save` and `load` keep it) with its colour, label and tooltip: `trade_lifecycle` (placed, filled, settling,
+  settled or failed; cancelled before a fill), `dealing_lifecycle` for a fund application or redemption (requested,
+  priced, issued or cancelled, settled), `corporate_action_lifecycle` (announced, ex, record, paid; withdrawn before
+  the record date) and `repo_lifecycle` (open, accruing, closed).
+
 ## 0.24.1 - 2026-11-26
 
 One version of core in a build, enforced at compile time too (snicholls-tooling v0.3.1).

@@ -503,6 +503,29 @@ TEST(FsmSnapshot, ValuesAreEnumeratorsOrIndicesAndNamesAreTheStatesNames)
     EXPECT_TRUE(n.is("a"_s));
 }
 
+TEST(FsmSnapshot, CheckSnapshotAlsoComparesNamesWhereTheValueDecides)
+{
+    using enum_sm = sm<tx_machine>;
+    using name_sm = sm<minimal>;
+    static_assert(enum_sm::check_snapshot(std::array<wire_state, 1>{{{1, "pending"}}}).is_ok());
+    static_assert(enum_sm::check_snapshot(std::array<wire_state, 1>{{{1, ""}}}).is_ok());   // no name: by value
+    static_assert(enum_sm::check_snapshot(std::array<wire_state, 1>{{{3, "renamed"}}}).unwrap_err_unchecked() ==
+                  fsm_errc::state_name_mismatch);
+    static_assert(enum_sm::check_snapshot(std::array<wire_state, 1>{{{4, "unused"}}}).unwrap_err_unchecked() ==
+                  fsm_errc::unknown_state);
+    static_assert(enum_sm::check_snapshot(std::array<wire_state, 2>{}).unwrap_err_unchecked() == fsm_errc::shape_mismatch);
+    static_assert(noexcept(enum_sm::check_snapshot(std::array<wire_state, 1>{})));
+    // a level without an enumeration decides by name, which therefore always agrees
+    static_assert(name_sm::check_snapshot(std::array<wire_state, 1>{{{99, "a"}}}).is_ok());
+    static_assert(name_sm::check_snapshot(std::array<wire_state, 1>{{{0, "zzz"}}}).unwrap_err_unchecked() ==
+                  fsm_errc::unknown_state);
+    // and it changes nothing: a machine's own snapshot always passes
+    enum_sm m;
+    EXPECT_TRUE(m.process_event(e1{}));
+    EXPECT_TRUE(enum_sm::check_snapshot(m.snapshot()).is_ok());
+    EXPECT_EQ(m.current(), tx::pending);
+}
+
 // ---- names --------------------------------------------------------------------------------------------------------
 
 struct named_type {};

@@ -79,8 +79,12 @@ int main()
               .is_ok();
     ok &= load(store, "job/9", fresh).unwrap_err_unchecked() == fsm_errc::unknown_state;   // no state "retired"
     ok &= load(store, "job/10", fresh).unwrap_err_unchecked() == fsm_errc::not_found;
+    ok &= snicholls::kv_put(store, "job/11", std::string("snicholls.fsm.v1\nmachine elsewhere\nversion 1\nregions 3\n"
+                                                          "0 parked\n0 lights off\n0 shallow\n"))
+              .is_ok();
+    ok &= load(store, "job/11", fresh).unwrap_err_unchecked() == fsm_errc::wrong_machine;   // another machine's record
     ok &= fresh.is("parked"_s, "lights off"_s);
-    std::printf("  corrupt, unknown_state and not_found leave the machine where it was\n");
+    std::printf("  corrupt, unknown_state, wrong_machine and not_found leave the machine where it was\n");
 
     // The record is also available without a store
     const std::string text = to_record(restored, 5);

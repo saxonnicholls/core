@@ -52,4 +52,34 @@ TEST(HttpHandlerConcept, RespondSetsTheContentTypeOnlyWithABody)
         EXPECT_EQ(parse_http_method(to_string(m)), m);
 }
 
+TEST(HttpHandlerConcept, MatchRouteCapturesNamedSegments)
+{
+    std::vector<http_header> c;
+    EXPECT_TRUE(match_route("/a/:x/b", "/a/1/b", c));
+    ASSERT_EQ(c.size(), 1u);
+    EXPECT_EQ(c[0].name, "x");
+    EXPECT_EQ(c[0].value, "1");
+    EXPECT_TRUE(match_route("/", "/", c));
+    EXPECT_FALSE(match_route("/a/:x", "/a", c));
+    EXPECT_FALSE(match_route("/a/:x", "/a/1/2", c));
+    EXPECT_FALSE(match_route("/a/b", "/a/c", c));
+    EXPECT_FALSE(match_route("/a", "a", c));
+    EXPECT_EQ(c.size(), 1u);   // a failed match appends nothing
+}
+
+TEST(HttpHandlerConcept, RequestHelpers)
+{
+    http_request r;
+    r.path = "/search";
+    EXPECT_EQ(request_target(r), "/search");
+    r.query = "q=x&n=2";
+    EXPECT_EQ(request_target(r), "/search?q=x&n=2");
+    r.path_params.push_back({"id", "42"});
+    EXPECT_EQ(path_param(r, "id"), std::optional<std::string_view>{"42"});
+    EXPECT_EQ(path_param(r, "ID"), std::nullopt);
+    EXPECT_TRUE(is_success(respond(204)));
+    EXPECT_FALSE(is_success(respond(302)));
+    EXPECT_FALSE(is_success(respond(404)));
+}
+
 } // namespace

@@ -30,7 +30,7 @@ money u(std::string_view text) { return *parse_money(usd, text); }
 
 struct MemoryPaymentProvider : testing::Test {
     utc_s now = utc_s::from_unix_seconds(1'800'000'000);
-    memory_payment_provider p{{aud, usd}, secret<std::string>{"whsec_test_only"}, [this] { return now; }};
+    memory_payment_provider p{{aud, usd}, secret<std::string>{"whsec_test_only"}, manual_utc_clock{now}};
 };
 
 TEST_F(MemoryPaymentProvider, AnUnmatchedCreditStaysForSuspenseAndCompletesNothing)
@@ -106,13 +106,13 @@ TEST_F(MemoryPaymentProvider, QuotesAreExactAndExpire)
     EXPECT_EQ(p.quote({u("1"), checked_asset("EUR", 2), true}).unwrap_err().code, capability_errc::unsupported);
     p.add_beneficiary("ben-1");
     static_cast<void>(p.receive_credit(u("100"), "x", "y"));
-    now += seconds{61};
+    p.clock().advance(seconds{61});   // the quote has lived past its 60 seconds
     EXPECT_EQ(p.payout({"p1", "o", u("66"), "ben-1", "r", receive->quote_id.view()}).unwrap_err().code, capability_errc::stale);
 }
 
 TEST_F(MemoryPaymentProvider, AWebhookSignedWithAnotherSecretIsRefused)
 {
-    memory_payment_provider other{{aud}, secret<std::string>{"whsec_someone_else"}, [this] { return now; }};
+    memory_payment_provider other{{aud}, secret<std::string>{"whsec_someone_else"}, manual_utc_clock{now}};
     webhook_event e;
     e.event_id = "evt_9";
     e.kind = event_kind::credit_received;

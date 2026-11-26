@@ -82,7 +82,7 @@
 /// consumers before it moved into core; the name's meaning never changes, and a new definition gets a new name.
 /// Thread safety is a property of each implementation: the reference is not synchronised.
 ///
-/// **Status.** New in 0.22.0. Experimental until two real implementations pass the kit.
+/// **Status.** New in 0.22.0; `kv_encoded_key` in 0.27.0. Experimental until two real implementations pass the kit.
 
 #ifndef snicholls_core_concepts_key_value_store_hpp
 #define snicholls_core_concepts_key_value_store_hpp
@@ -126,21 +126,44 @@ namespace snicholls {
         backend            ///< any other failure the backend reported, translated (a third-party exception)
     };
 
-    /// \brief Any argument the convenience functions take as a key or a value: a one-byte sequence (`byte_viewable`).
+    /// \brief A key that encodes itself (crtp's `encoded_key`, 0.27.0): not a byte sequence, but `k.key_bytes()` is a
+    /// `noexcept` view of its encoding (a composite key of several fields), valid while `k` lives unchanged.
+    /// \ingroup core
+    /// \tparam K the type.
+    template <typename K>
+    concept kv_encoded_key = !byte_viewable<K> && requires(const K& k) {
+        { k.key_bytes() } noexcept -> std::same_as<std::string_view>;
+    };
+
+    /// \brief Any argument the convenience functions take as a key or a value: a one-byte sequence (`byte_viewable`),
+    /// or a key that encodes itself (`kv_encoded_key`).
     /// \ingroup core
     /// \tparam S the type.
     template <typename S>
-    concept kv_byte_source = byte_viewable<S>;
+    concept kv_byte_source = byte_viewable<S> || kv_encoded_key<S>;
 
     /// \brief The bytes of `s`, zero-copy: a string's code units, a byte sequence's bytes (a literal's length is N - 1).
     /// \ingroup core
-    /// \tparam S a `kv_byte_source`.
+    /// \tparam S a byte sequence.
     /// \param s the key or value.
     /// \return a view of its bytes.
     template <kv_byte_source S>
+        requires byte_viewable<S>
     [[nodiscard]] constexpr kv_bytes kv_bytes_of(const S& s) noexcept
     {
         return as_bytes_view(s);
+    }
+
+    /// \brief The bytes of a key that encodes itself, zero-copy.
+    /// \ingroup core
+    /// \tparam K a `kv_encoded_key`.
+    /// \param k the key.
+    /// \return a view of its encoding.
+    template <kv_encoded_key K>
+    [[nodiscard]] inline kv_bytes kv_bytes_of(const K& k) noexcept
+    {
+        const std::string_view s = k.key_bytes();
+        return kv_bytes(reinterpret_cast<const std::byte*>(s.data()), s.size());
     }
 
     /// \brief Unsigned byte-wise order, the order of every store: `a < b`.

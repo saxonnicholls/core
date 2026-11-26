@@ -134,4 +134,70 @@ TEST(FinanceBusinessDay, AClosedCalendarFailsInsteadOfLooping)
     EXPECT_TRUE(adjust(from, business_day_convention::following, cal).is_ok());
 }
 
+// The operations from crtp's calendar (0.27.0), on dates computed by hand over the weekend calendar.
+constexpr std::chrono::sys_days on(int y, unsigned m, unsigned d)
+{
+    return std::chrono::sys_days{std::chrono::year{y} / std::chrono::month{m} / std::chrono::day{d}};
+}
+
+static_assert(*adjust(on(2026, 2, 14), business_day_convention::half_month_modified_following, weekend_calendar{}) == on(2026, 2, 13));
+static_assert(*adjust(on(2026, 2, 14), business_day_convention::nearest, weekend_calendar{}) == on(2026, 2, 13));
+static_assert(*adjust(on(2026, 2, 15), business_day_convention::nearest, weekend_calendar{}) == on(2026, 2, 16));
+static_assert(*end_of_month(on(2026, 1, 10), weekend_calendar{}) == on(2026, 1, 30));
+static_assert(is_end_of_month(on(2026, 1, 30), weekend_calendar{}) && !is_end_of_month(on(2026, 1, 29), weekend_calendar{}));
+static_assert(*advance_business_days(on(2026, 1, 30), 1, weekend_calendar{}) == on(2026, 2, 2));
+static_assert(*advance_business_days(on(2026, 2, 2), -1, weekend_calendar{}) == on(2026, 1, 30));
+static_assert(*advance_business_days(on(2026, 2, 1), 0, weekend_calendar{}) == on(2026, 2, 1));
+static_assert(count_business_days(on(2026, 2, 2), on(2026, 2, 9), weekend_calendar{}) == 5);
+static_assert(count_business_days(on(2026, 2, 2), on(2026, 2, 9), weekend_calendar{}, true, true) == 6);
+static_assert(count_business_days(on(2026, 2, 9), on(2026, 2, 2), weekend_calendar{}) == -5);
+static_assert(count_business_days(on(2026, 2, 2), on(2026, 2, 2), weekend_calendar{}, true, true) == 1);
+
+TEST(FinanceBusinessDay, HalfMonthModifiedFollowingStaysInItsHalf)
+{
+    // 2026-08-15 is a Saturday: following is Monday the 17th, in the second half, so preceding: Friday the 14th.
+    EXPECT_EQ(*adjust(on(2026, 8, 15), business_day_convention::half_month_modified_following, weekend_calendar{}), on(2026, 8, 14));
+    // 2026-05-30 is a Saturday at the month's end: like modified following, back to Friday the 29th.
+    EXPECT_EQ(*adjust(on(2026, 5, 30), business_day_convention::half_month_modified_following, weekend_calendar{}), on(2026, 5, 29));
+    // 2026-08-08 is a Saturday in the first half: following, Monday the 10th.
+    EXPECT_EQ(*adjust(on(2026, 8, 8), business_day_convention::half_month_modified_following, weekend_calendar{}), on(2026, 8, 10));
+}
+
+TEST(FinanceBusinessDay, AdvanceMonthsWithAndWithoutTheEndOfMonthRule)
+{
+    EXPECT_EQ(*advance_months(on(2026, 1, 30), 1, business_day_convention::following, true, weekend_calendar{}), on(2026, 2, 27));
+    EXPECT_EQ(*advance_months(on(2026, 1, 30), 1, business_day_convention::following, false, weekend_calendar{}), on(2026, 3, 2));
+    EXPECT_EQ(*advance_months(on(2026, 3, 31), -1, business_day_convention::modified_following, false, weekend_calendar{}), on(2026, 2, 27));
+    EXPECT_EQ(*advance_months(on(2026, 1, 15), 12, business_day_convention::unadjusted, true, weekend_calendar{}), on(2027, 1, 15));
+}
+
+TEST(FinanceBusinessDay, AdjustedAndJointCalendars)
+{
+    const adjusted_calendar holiday{weekend_calendar{}, {on(2026, 2, 4)}, {on(2026, 2, 7)}};   // close a Wednesday, open a Saturday
+    EXPECT_FALSE(holiday.is_business_day(on(2026, 2, 4)));
+    EXPECT_TRUE(holiday.is_business_day(on(2026, 2, 7)));
+    EXPECT_TRUE(holiday.is_business_day(on(2026, 2, 5)));
+    EXPECT_EQ(holiday.base().name(), "weekends");
+    EXPECT_EQ(holidays_between(on(2026, 2, 2), on(2026, 2, 8), holiday), (std::vector<std::chrono::sys_days>{on(2026, 2, 4)}));
+    EXPECT_EQ(holidays_between(on(2026, 2, 2), on(2026, 2, 8), holiday, true),
+              (std::vector<std::chrono::sys_days>{on(2026, 2, 4), on(2026, 2, 8)}));
+    const joint_calendar both{weekend_calendar{}, holiday};
+    const joint_calendar either{weekend_calendar{}, holiday, joint_rule::join_business_days};
+    EXPECT_FALSE(both.is_business_day(on(2026, 2, 4)));
+    EXPECT_TRUE(either.is_business_day(on(2026, 2, 4)));
+    EXPECT_FALSE(both.is_business_day(on(2026, 2, 7)));
+    EXPECT_TRUE(either.is_business_day(on(2026, 2, 7)));
+    static_assert(snicholls::holiday_calendar<decltype(both)>);
+    EXPECT_EQ(count_business_days(on(2026, 2, 2), on(2026, 2, 9), both), 4);
+}
+
+TEST(FinanceBusinessDay, NearestAndEndOfMonthFailOnAClosedYear)
+{
+    const weekends_and_holidays closed{[](std::chrono::sys_days) { return true; }};
+    EXPECT_EQ(adjust(on(2026, 2, 4), business_day_convention::nearest, closed).unwrap_err(), business_day_errc::no_business_day);
+    EXPECT_TRUE(end_of_month(on(2026, 2, 4), closed).is_err());
+    EXPECT_FALSE(is_end_of_month(on(2026, 2, 4), closed));
+    EXPECT_TRUE(advance_business_days(on(2026, 2, 4), 1, closed).is_err());
+}
+
 } // namespace

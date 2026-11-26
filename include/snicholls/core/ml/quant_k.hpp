@@ -387,7 +387,7 @@ namespace detail::quant_k
         std::array<float, 8> scales{}, mins{};
         std::array<float, 32> weights{};
         std::array<std::uint8_t, 32> Laux{};
-        float max_scale = 0, max_min = 0;
+        float largest_scale = 0, max_min = 0;
         for (int j = 0; j < 8; ++j) {
             float sum_x2 = 0;
             for (int l = 0; l < 32; ++l) {
@@ -398,12 +398,12 @@ namespace detail::quant_k
             for (int l = 0; l < 32; ++l)
                 weights[std::size_t(l)] = av_x + abs(x[32 * j + l]);
             scales[std::size_t(j)] = make_qkx_quants<false>(32, Nmax, x + 32 * j, weights.data(), L.data() + 32 * j, &mins[std::size_t(j)], Laux.data(), rmin, rdelta, nstep, false);
-            if (scales[std::size_t(j)] > max_scale)
-                max_scale = scales[std::size_t(j)];
+            if (scales[std::size_t(j)] > largest_scale)
+                largest_scale = scales[std::size_t(j)];
             if (mins[std::size_t(j)] > max_min)
                 max_min = mins[std::size_t(j)];
         }
-        const float inv_scale = max_scale > 0 ? 63.0f / max_scale : 0.0f;
+        const float inv_scale = largest_scale > 0 ? 63.0f / largest_scale : 0.0f;
         const float inv_min = max_min > 0 ? 63.0f / max_min : 0.0f;
         std::array<std::uint8_t, 8> ls{}, lm{};
         for (std::size_t j = 0; j < 8; ++j) {
@@ -415,7 +415,7 @@ namespace detail::quant_k
             lm[j] = b < 63 ? b : std::uint8_t{63};
         }
         pack_scale_min_k4(ls.data(), lm.data(), packed);
-        d16 = fp16(max_scale / 63.0f);
+        d16 = fp16(largest_scale / 63.0f);
         dmin16 = fp16(max_min / 63.0f);
     }
 
@@ -489,24 +489,24 @@ constexpr void quantize_row(std::span<const float> x, std::span<const float> imp
         std::array<float, 16> weight{}, mins{}, scales{};
         block_q2_k& b = y[i];
         if (importance.empty()) {
-            float max_scale = 0, max_min = 0;
+            float largest_scale = 0, max_min = 0;
             for (int j = 0; j < 16; ++j) {
                 for (int l = 0; l < 16; ++l)
                     weight[std::size_t(l)] = abs(xb[16 * j + l]);
                 scales[std::size_t(j)] = make_qkx_quants<false>(16, 3, xb + 16 * j, weight.data(), L.data() + 16 * j, &mins[std::size_t(j)], Laux.data(), -0.5f, 0.1f, 15, true);
-                if (scales[std::size_t(j)] > max_scale)
-                    max_scale = scales[std::size_t(j)];
+                if (scales[std::size_t(j)] > largest_scale)
+                    largest_scale = scales[std::size_t(j)];
                 if (mins[std::size_t(j)] > max_min)
                     max_min = mins[std::size_t(j)];
             }
             b.scales = {};
-            if (max_scale > 0) {
-                const float iscale = 15.0f / max_scale;
+            if (largest_scale > 0) {
+                const float iscale = 15.0f / largest_scale;
                 for (std::size_t j = 0; j < 16; ++j) {
                     const float v = iscale * scales[j];
                     b.scales[j] = static_cast<std::uint8_t>(nearest_int(v));
                 }
-                b.d = fp16(max_scale / 15.0f);
+                b.d = fp16(largest_scale / 15.0f);
             } else {
                 b.d = fp16(0.0f);
             }
@@ -571,17 +571,17 @@ constexpr void quantize_row(std::span<const float> x, std::span<const float> imp
         std::array<int, 16> l6{};
         block_q3_k& b = y[i];
         if (importance.empty()) {
-            float max_scale = 0, amax = 0;
+            float largest_scale = 0, amax = 0;
             for (int j = 0; j < 16; ++j) {
                 scales[std::size_t(j)] = make_q3_quants(16, 4, xb + 16 * j, L.data() + 16 * j, true);
                 const float scale = abs(scales[std::size_t(j)]);
                 if (scale > amax) {
                     amax = scale;
-                    max_scale = scales[std::size_t(j)];
+                    largest_scale = scales[std::size_t(j)];
                 }
             }
-            if (max_scale != 0.0f) {
-                const float iscale = -32.0f / max_scale;
+            if (largest_scale != 0.0f) {
+                const float iscale = -32.0f / largest_scale;
                 for (std::size_t j = 0; j < 16; ++j) {
                     const float v = iscale * scales[j];
                     const int l = static_cast<std::int8_t>(nearest_int(v));
@@ -707,14 +707,14 @@ constexpr void quantize_row(std::span<const float> x, std::span<const float> imp
         std::array<std::int8_t, 256> L{};
         std::array<float, 16> scales{};
         block_q6_k& b = y[i];
-        float max_scale = 0, max_abs_scale = 0;
+        float largest_scale = 0, max_abs_scale = 0;
         for (int ib = 0; ib < 16; ++ib) {
             const float* qw = importance.empty() ? nullptr : importance.data() + 256 * i + 16 * std::size_t(ib);
             const float scale = make_qx_quants(16, 32, xb + 16 * ib, L.data() + 16 * ib, 1, qw);
             scales[std::size_t(ib)] = scale;
             if (abs(scale) > max_abs_scale) {
                 max_abs_scale = abs(scale);
-                max_scale = scale;
+                largest_scale = scale;
             }
         }
         if (max_abs_scale < group_max_eps) {
@@ -722,7 +722,7 @@ constexpr void quantize_row(std::span<const float> x, std::span<const float> imp
             b.d = fp16(0.0f);
             continue;
         }
-        const float iscale = -128.0f / max_scale;
+        const float iscale = -128.0f / largest_scale;
         b.d = fp16(1 / iscale);
         for (std::size_t ib = 0; ib < 16; ++ib) {
             const float v = iscale * scales[ib];

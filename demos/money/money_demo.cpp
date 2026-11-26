@@ -51,6 +51,8 @@ int main()
     check(parse_money(eth, "1.0000000000000000001").err() == money_errc::too_many_digits, "no silent rounding");
     check(*parse_money(eth, "1.0000000000000000005", rounding::half_even) == *parse_money(eth, "1"), "rounding when asked");
     check(money::from_units(eth, uint256::max()).magnitude() == uint256::max(), "the whole uint256 range");
+    check(money::from_units(eth, -40) == -money::from_units(eth, 40) && aud::from_units(-40) == aud::from_units(40, true),
+          "a signed integer keeps its sign");
     std::array<char, 4> small{};
     check(to_chars(small.data(), small.data() + small.size(), a).ec == std::errc::value_too_large, "a small buffer");
     a.print(std::cout);
@@ -59,6 +61,8 @@ int main()
     check(*from_decimal(eth, *decimal::parse("1000.5")) == a && *to_decimal(a) == *decimal::parse("1000.5"), "decimal, both ways");
     check(!to_decimal(*sum), "an amount beyond 18 digits is not a decimal");
     check(-a != a && (-money::zero(eth)).signum() == 0, "negation, and zero is never negative");
+    const double shown = money::from_units(asset_v<currency::AUD>, 210).to_double();   // 2.1: for a chart, never a balance
+    check(shown == 2.1 && typed->to_double() == 6.95, "to_double, for display only");
     std::printf("%s\n", failures == 0 ? "all checks passed" : "FAILED");
     return failures == 0 ? 0 : 1;
 }

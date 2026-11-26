@@ -24,6 +24,7 @@ add_executable(snicholls_core_tests
     phone_number_test.cpp
     result_test.cpp
     secret_test.cpp
+    sql_value_test.cpp
     strong_test.cpp
     thread_apply_test.cpp
     traced_test.cpp
@@ -40,19 +41,36 @@ add_executable(snicholls_core_tests
     concepts/chain_test.cpp
     concepts/country_test.cpp
     concepts/day_count_test.cpp
+    concepts/encryptor_test.cpp
     concepts/error_sink_test.cpp
     concepts/holiday_calendar_test.cpp
+    concepts/http_client_test.cpp
     concepts/http_handler_test.cpp
+    concepts/https_client_test.cpp
     concepts/key_store_test.cpp
     concepts/key_value_store_test.cpp
     concepts/kv_backup_test.cpp
+    concepts/kv_cas_test.cpp
     concepts/kv_health_test.cpp
+    concepts/loop_clock_test.cpp
     concepts/message_sender_test.cpp
     concepts/named_test.cpp
     concepts/onramp_provider_test.cpp
     concepts/payment_provider_test.cpp
+    concepts/random_source_test.cpp
+    concepts/remote_files_test.cpp
+    concepts/role_store_test.cpp
+    concepts/security_provider_test.cpp
+    concepts/signature_verifier_test.cpp
     concepts/signer_test.cpp
+    concepts/sql_connection_test.cpp
+    concepts/sql_dialect_test.cpp
+    concepts/task_pool_test.cpp
+    concepts/time_zone_test.cpp
     concepts/token_test.cpp
+    concepts/token_verifier_test.cpp
+    concepts/uuid_generator_test.cpp
+    concepts/wallet_verifier_test.cpp
     containers/ann_forest_test.cpp
     containers/bloom_filter_test.cpp
     containers/byte_map_test.cpp
@@ -75,6 +93,7 @@ add_executable(snicholls_core_tests
     detail/hash_engine_test.cpp
     detail/iso3166_table_test.cpp
     detail/iso4217_table_test.cpp
+    detail/memory_webhook_test.cpp
     detail/mul_div_test.cpp
     detail/pp_for_each_test.cpp
     detail/sobol_directions_test.cpp
@@ -85,13 +104,54 @@ add_executable(snicholls_core_tests
     detail/wide_mul_test.cpp
     finance/attribution_test.cpp
     finance/business_day_test.cpp
+    finance/cash_flow_test.cpp
+    finance/cash_ladder_test.cpp
     finance/day_count_test.cpp
+    finance/money_ratio_test.cpp
+    finance/option_pricing_test.cpp
+    finance/ratio_test.cpp
+    finance/returns_test.cpp
     finance/year_fraction_test.cpp
     fsm/diagram_test.cpp
     fsm/lifecycle_test.cpp
     fsm/persist_test.cpp
+    fsm/securities_test.cpp
     fsm/state_machine_test.cpp
     fsm/state_machine_hierarchy_test.cpp
+    functional/bind_test.cpp
+    functional/bind_laws_test.cpp
+    functional/combinators_test.cpp
+    functional/combinators_laws_test.cpp
+    functional/curry_test.cpp
+    functional/curry_laws_test.cpp
+    functional/fold_test.cpp
+    functional/fold_laws_test.cpp
+    functional/instances_test.cpp
+    functional/instances_edge_test.cpp
+    functional/lazy_test.cpp
+    functional/lazy_laws_test.cpp
+    functional/list_test.cpp
+    functional/list_laws_test.cpp
+    functional/match_test.cpp
+    functional/match_patterns_test.cpp
+    functional/monad_test.cpp
+    functional/monad_traversable_test.cpp
+    functional/ocaml_test.cpp
+    functional/ocaml_modules_test.cpp
+    functional/pointwise_test.cpp
+    functional/recursion_test.cpp
+    functional/recursion_laws_test.cpp
+    functional/rewrite_test.cpp
+    functional/rust_test.cpp
+    functional/rust_iter_test.cpp
+    functional/state_test.cpp
+    functional/state_laws_test.cpp
+    functional/tabulate_test.cpp
+    functional/tabulate_laws_test.cpp
+    functional/typeclasses_test.cpp
+    functional/typeclasses_laws_test.cpp
+    functional/types_test.cpp
+    functional/types_laws_test.cpp
     game/change_test.cpp
     game/coalition_test.cpp
     game/harsanyi_test.cpp
@@ -130,12 +190,21 @@ add_executable(snicholls_core_tests
     interfaces/country_test.cpp
     interfaces/day_count_conformance_test.cpp
     interfaces/day_count_test.cpp
+    interfaces/encryptor_conformance_test.cpp
+    interfaces/encryptor_reference_test.cpp
+    interfaces/encryptor_test.cpp
     interfaces/error_sink_test.cpp
     interfaces/holiday_calendar_conformance_test.cpp
     interfaces/holiday_calendar_test.cpp
+    interfaces/http_client_conformance_test.cpp
+    interfaces/http_client_reference_test.cpp
+    interfaces/http_client_test.cpp
     interfaces/http_handler_conformance_test.cpp
     interfaces/http_handler_reference_test.cpp
     interfaces/http_handler_test.cpp
+    interfaces/https_client_conformance_test.cpp
+    interfaces/https_client_reference_test.cpp
+    interfaces/https_client_test.cpp
     interfaces/key_store_conformance_test.cpp
     interfaces/key_store_reference_test.cpp
     interfaces/key_store_test.cpp
@@ -143,7 +212,11 @@ add_executable(snicholls_core_tests
     interfaces/key_value_store_reference_test.cpp
     interfaces/key_value_store_test.cpp
     interfaces/kv_backup_test.cpp
+    interfaces/kv_cas_test.cpp
     interfaces/kv_health_test.cpp
+    interfaces/loop_clock_conformance_test.cpp
+    interfaces/loop_clock_reference_test.cpp
+    interfaces/loop_clock_test.cpp
     interfaces/message_sender_conformance_test.cpp
     interfaces/message_sender_reference_test.cpp
     interfaces/message_sender_test.cpp
@@ -155,11 +228,47 @@ add_executable(snicholls_core_tests
     interfaces/payment_provider_conformance_test.cpp
     interfaces/payment_provider_reference_test.cpp
     interfaces/payment_provider_test.cpp
+    interfaces/random_source_conformance_test.cpp
+    interfaces/random_source_reference_test.cpp
+    interfaces/random_source_test.cpp
+    interfaces/remote_files_conformance_test.cpp
+    interfaces/remote_files_reference_test.cpp
+    interfaces/remote_files_test.cpp
+    interfaces/role_store_conformance_test.cpp
+    interfaces/role_store_reference_test.cpp
+    interfaces/role_store_test.cpp
+    interfaces/security_provider_conformance_test.cpp
+    interfaces/security_provider_reference_test.cpp
+    interfaces/security_provider_test.cpp
+    interfaces/signature_verifier_conformance_test.cpp
+    interfaces/signature_verifier_reference_test.cpp
+    interfaces/signature_verifier_test.cpp
     interfaces/signer_conformance_test.cpp
     interfaces/signer_reference_test.cpp
     interfaces/signer_test.cpp
+    interfaces/sql_connection_conformance_test.cpp
+    interfaces/sql_connection_reference_test.cpp
+    interfaces/sql_connection_test.cpp
+    interfaces/sql_dialect_conformance_test.cpp
+    interfaces/sql_dialect_reference_test.cpp
+    interfaces/sql_dialect_test.cpp
+    interfaces/task_pool_conformance_test.cpp
+    interfaces/task_pool_reference_test.cpp
+    interfaces/task_pool_test.cpp
+    interfaces/time_zone_conformance_test.cpp
+    interfaces/time_zone_reference_test.cpp
+    interfaces/time_zone_test.cpp
     interfaces/token_conformance_test.cpp
     interfaces/token_test.cpp
+    interfaces/token_verifier_conformance_test.cpp
+    interfaces/token_verifier_reference_test.cpp
+    interfaces/token_verifier_test.cpp
+    interfaces/uuid_generator_conformance_test.cpp
+    interfaces/uuid_generator_reference_test.cpp
+    interfaces/uuid_generator_test.cpp
+    interfaces/wallet_verifier_conformance_test.cpp
+    interfaces/wallet_verifier_reference_test.cpp
+    interfaces/wallet_verifier_test.cpp
     linalg/backend_test.cpp
     linalg/batched_test.cpp
     linalg/fixed_test.cpp
@@ -316,6 +425,7 @@ add_executable(snicholls_core_tests
     time/names_test.cpp
     time/rfc3339_test.cpp
     time/solar_test.cpp
+    time/utc_clock_test.cpp
     time/utc_format_test.cpp
     time/utc_test.cpp
     time/week_date_test.cpp
@@ -463,6 +573,11 @@ set_tests_properties(generated.week_date_fixtures_up_to_date PROPERTIES LABELS b
 add_test(NAME generated.goertzel_fixtures_up_to_date
     COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_goertzel_fixtures.py --check)
 set_tests_properties(generated.goertzel_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The returns oracle fixture (tests/fixtures/finance/returns.txt) must be what scripts/generate_returns_fixtures.py
+# computes with numpy-financial, decimal and fractions; skipped when numpy-financial 1.0.0 is not installed.
+add_test(NAME generated.returns_fixtures_up_to_date
+    COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_returns_fixtures.py --check)
+set_tests_properties(generated.returns_fixtures_up_to_date PROPERTIES LABELS boundary)
 
 # Compile-fail tests. Each case in compile_fail/ is one source built twice, as
 # an object library outside ALL: with SNICHOLLS_COMPILE_FAIL defined it must
@@ -499,7 +614,9 @@ set(_compile_fail_cases
     "fsm_missing_enumerator|has no enumerator of the machine's state enumeration"
     "fsm_no_initial_state|snicholls::fsm: the table has no initial state"
     "version_two_copies|snicholls-core: two versions in one translation unit"
-    "fsm_constructor_argument|snicholls::fsm: a constructor argument is neither the definition nor a dependency")
+    "fsm_constructor_argument|snicholls::fsm: a constructor argument is neither the definition nor a dependency"
+    "fn_curry_generic_lambda|snicholls::fn::curry: a generic or overloaded callable has no arity of its own"
+    "fn_match_not_exhaustive|snicholls::fn::match: not exhaustive")
 foreach(_case_and_regex IN LISTS _compile_fail_cases)
     string(REPLACE "|" ";" _parts "${_case_and_regex}")
     list(GET _parts 0 _case)

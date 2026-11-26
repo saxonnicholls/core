@@ -28,7 +28,7 @@ using namespace snicholls;
 const utc_s at = utc_s::from_unix_seconds(1'800'000'000);
 const std::string secret_text = "whsec_bench_only";
 
-memory_payment_provider make() { return {{checked_asset("AUD", 2)}, secret<std::string>{secret_text}, [] { return at; }}; }
+memory_payment_provider make() { return {{checked_asset("AUD", 2)}, secret<std::string>{secret_text}, manual_utc_clock{at}}; }
 
 owned_delivery delivery(const memory_payment_provider& p)
 {

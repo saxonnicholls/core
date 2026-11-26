@@ -15,7 +15,9 @@
 #include <gtest/gtest.h>
 
 #include <array>
+#include <cstdint>
 #include <fstream>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -55,6 +57,25 @@ constexpr auto compile_time = [] {
 }();
 static_assert(compile_time == money::from_units(eth, uint256::pow10(21)));
 
+// to_double: display only, at compile time too
+static_assert(noexcept(money{}.to_double()));
+static_assert(money::from_units(aud, 210).to_double() == 2.1, "2.10 AUD is the double nearest 2.1");
+static_assert(money::from_units(aud, -40).to_double() == -0.4);
+static_assert(money::zero(aud).to_double() == 0.0 && money{}.to_double() == 0.0);
+static_assert(money_of<currency::AUD>::from_units(-1025).to_double() == -10.25);
+
+TEST(MoneyDouble, IsTheNearestDoubleForDisplay)
+{
+    EXPECT_EQ(m(eth, "1000.5").to_double(), 1000.5);
+    EXPECT_EQ(m(eth, "-0.000000000000000001").to_double(), -1e-18);
+    EXPECT_EQ(m(usdt, "123456.789012").to_double(), 123456.789012);
+    EXPECT_EQ(money::from_units(asset{}, uint256{7}).to_double(), 7.0) << "scale 0";
+    // beyond 2^64 minor units: within rounding of the exact value
+    const double big = money::from_units(eth, uint256::max()).to_double();
+    EXPECT_NEAR(big / 1.157920892373162e59, 1.0, 1e-15) << "2^256 - 1 wei";
+    EXPECT_EQ(money::from_units(eth, uint256::max(), true).to_double(), -big);
+}
+
 TEST(MoneyRepresentation, ZeroIsNeverNegative)
 {
     EXPECT_FALSE(money::from_units(aud, 0, true).is_negative());
@@ -62,6 +83,35 @@ TEST(MoneyRepresentation, ZeroIsNeverNegative)
     EXPECT_EQ(-money::zero(aud), money::zero(aud));
     EXPECT_EQ(money::from_units(aud, 5, true).signum(), -1);
     EXPECT_EQ(money::zero(aud).signum(), 0);
+}
+
+// A signed integer carries its own sign; it never converts to a huge magnitude.
+static_assert(money::from_units(aud, -40) == -money::from_units(aud, 40));
+static_assert(money_of<currency::AUD>::from_units(-40) == -money_of<currency::AUD>::from_units(40));
+static_assert(noexcept(money::from_units(aud, -40)));
+
+TEST(MoneyRepresentation, ASignedIntegerKeepsItsSign)
+{
+    const auto minus = money::from_units(aud, -40);
+    EXPECT_TRUE(minus.is_negative());
+    EXPECT_EQ(minus.magnitude(), uint256(40));
+    EXPECT_EQ(text(minus), "-0.4");
+    EXPECT_EQ(money::from_units(aud, -40, true), money::from_units(aud, 40));   // `negative` reverses the sign
+    EXPECT_EQ(money::from_units(aud, 40, true), minus);
+    EXPECT_EQ(money::from_units(aud, std::int64_t{-40}), minus);
+    EXPECT_EQ(money::from_units(aud, static_cast<signed char>(-40)), minus);
+    EXPECT_EQ(money::from_units(aud, 0, true), money::zero(aud));
+    // the most negative 64-bit value is exact
+    const auto lowest = money::from_units(eth, std::numeric_limits<std::int64_t>::min());
+    EXPECT_TRUE(lowest.is_negative());
+    EXPECT_EQ(lowest.magnitude(), uint256(std::uint64_t{1} << 63));
+    // unsigned and uint256 magnitudes are unchanged
+    EXPECT_EQ(money::from_units(aud, 40u, true), minus);
+    EXPECT_EQ(money::from_units(aud, std::uint64_t{18446744073709551615u}).magnitude(), uint256(18446744073709551615u));
+    using aud_t = money_of<currency::AUD>;
+    EXPECT_EQ(aud_t::from_units(-40).to_money(), minus);
+    EXPECT_EQ(aud_t::from_units(-40, true), aud_t::from_units(40));
+    EXPECT_EQ(aud_t::from_units(std::numeric_limits<std::int64_t>::min()).magnitude(), uint256(std::uint64_t{1} << 63));
 }
 
 TEST(MoneyRepresentation, HoldsEveryUint256EitherSign)

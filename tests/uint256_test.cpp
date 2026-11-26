@@ -225,6 +225,56 @@ TEST(Uint256Arithmetic, DivisionAndMultiplicationAgreeOnGeneratedValues)
         }
 }
 
+// The 64-bit fast path against the general one: shifting both operands up a limb forces Knuth's division and the
+// schoolbook product, and the results must be the same bits.
+constexpr bool fast_path_matches_general(std::uint64_t a, std::uint64_t b)
+{
+    const uint256 x{a}, y{b};
+    const uint256 xs = x << 64, ys = y << 64;
+    const auto [q, r] = x.divmod(y);
+    const auto [qs, rs] = xs.divmod(ys);   // (a 2^64) / (b 2^64): the same quotient, the remainder shifted
+    const auto p = uint256::checked_mul(x, y);
+    const auto ps = uint256::checked_mul(xs, y);   // a high limb set: the general product
+    uint256 m = x;
+    m *= y;
+    return q == qs && r == (rs >> 64) && p && ps && *p == (*ps >> 64) && m == *p &&
+           *uint256::checked_div(x, y) == q && uint256::checked_divmod(x, y)->second == r;
+}
+
+static_assert(fast_path_matches_general(1, 1));
+static_assert(fast_path_matches_general(0, 7));
+static_assert(fast_path_matches_general(~0ull, 1));
+static_assert(fast_path_matches_general(~0ull, ~0ull));
+static_assert(fast_path_matches_general(0x0123456789abcdefull, 0xfedcba98ull));
+static_assert(uint256::checked_mul(uint256{~0ull}, uint256{~0ull}) == uint256::from_limbs(1, ~0ull - 1));
+
+TEST(Uint256FastPath, SixtyFourBitOperandsGiveTheSameBitsAsTheGeneralPath)
+{
+    std::uint64_t x = 0x243f6a8885a308d3ull;
+    auto next = [&] { x ^= x << 13; x ^= x >> 7; x ^= x << 17; return x; };
+    for (int i = 0; i < 20000; ++i) {
+        const std::uint64_t a = next() >> (i % 64), b = (next() >> (i % 61)) | 1;
+        ASSERT_TRUE(fast_path_matches_general(a, b)) << a << " " << b;
+        const auto [q, r] = uint256{a}.divmod(uint256{b});
+        ASSERT_EQ(q, uint256{a / b});
+        ASSERT_EQ(r, uint256{a % b});
+    }
+    EXPECT_TRUE(fast_path_matches_general(~0ull, ~0ull));
+}
+
+TEST(Uint256FastPath, OneOperandWiderThanSixtyFourBitsTakesTheGeneralPath)
+{
+    const uint256 wide = uint256::from_limbs(5, 1);   // 2^64 + 5
+    const auto [q, r] = wide.divmod(uint256{2});
+    EXPECT_EQ(q, (uint256{1} << 63) + 2);
+    EXPECT_EQ(r, uint256{1});
+    const auto [q2, r2] = uint256{7}.divmod(wide);   // a smaller dividend: quotient 0
+    EXPECT_TRUE(q2.is_zero());
+    EXPECT_EQ(r2, uint256{7});
+    EXPECT_EQ(*uint256::checked_mul(wide, uint256{3}), uint256::from_limbs(15, 3));
+    EXPECT_FALSE(uint256::checked_mul(uint256::max(), uint256{2}));
+}
+
 TEST(Uint256Arithmetic, IncrementsAndDecrementsWrap)
 {
     uint256 v = uint256::max();

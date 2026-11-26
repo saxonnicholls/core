@@ -30,7 +30,7 @@ const utc_s now = utc_s::from_unix_seconds(1'800'000'000);
 
 memory_payment_provider make_provider()
 {
-    return memory_payment_provider{{aud}, secret<std::string>{"whsec_demo_only"}, [] { return now; }};
+    return memory_payment_provider{{aud}, secret<std::string>{"whsec_demo_only"}, manual_utc_clock{now}};
 }
 
 template <payment_provider P>

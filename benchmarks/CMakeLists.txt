@@ -10,7 +10,8 @@
 # Each benchmark has its own main(), which runs the fairness check before
 # handing over to Google Benchmark, so it links benchmark::benchmark rather
 # than benchmark_main.
-option(SNICHOLLS_CORE_BENCH_OPENSSL "Compare the hash benchmarks with OpenSSL when it is found (informational)" ON)
+set(SNICHOLLS_CORE_OPENSSL_ROOT "" CACHE PATH
+    "The family's pinned OpenSSL build (openssl-4.1.0, owned by crtp) to compare the hash benchmarks with; never the system's")
 
 function(snicholls_core_add_benchmark name source)
     add_executable(snicholls_core_${name} ${source})
@@ -45,7 +46,12 @@ snicholls_core_add_benchmark(object_pool_benchmark containers/object_pool_benchm
 snicholls_core_add_benchmark(offset_ptr_benchmark containers/offset_ptr_benchmark.cpp)
 snicholls_core_add_benchmark(perfect_map_benchmark containers/perfect_map_benchmark.cpp)
 snicholls_core_add_benchmark(day_count_benchmark finance/day_count_benchmark.cpp)
+snicholls_core_add_benchmark(option_pricing_benchmark finance/option_pricing_benchmark.cpp)
+snicholls_core_add_benchmark(finance_ratio_benchmark finance/ratio_benchmark.cpp)
 snicholls_core_add_benchmark(fsm_state_machine_benchmark fsm/state_machine_benchmark.cpp)
+snicholls_core_add_benchmark(functional_combinators_benchmark functional/combinators_benchmark.cpp)
+snicholls_core_add_benchmark(functional_lazy_benchmark functional/lazy_benchmark.cpp)
+snicholls_core_add_benchmark(functional_rust_iter_benchmark functional/rust_iter_benchmark.cpp)
 snicholls_core_add_benchmark(shapley_benchmark game/shapley_benchmark.cpp)
 snicholls_core_add_benchmark(blake2_benchmark hash/blake2_benchmark.cpp)
 snicholls_core_add_benchmark(blake3_benchmark hash/blake3_benchmark.cpp)
@@ -59,9 +65,14 @@ snicholls_core_add_benchmark(sha2_benchmark hash/sha2_benchmark.cpp)
 snicholls_core_add_benchmark(sha3_benchmark hash/sha3_benchmark.cpp)
 snicholls_core_add_benchmark(wyhash_benchmark hash/wyhash_benchmark.cpp)
 snicholls_core_add_benchmark(check_digits_benchmark ids/check_digits_benchmark.cpp)
-# The hash benchmarks compare with OpenSSL when it is installed: an informational row, never a dependency of core
-find_package(OpenSSL 3 QUIET)
-if(OpenSSL_FOUND AND SNICHOLLS_CORE_BENCH_OPENSSL)
+# The hash benchmarks compare with OpenSSL only when pointed at the family's pinned build (openssl-4.1.0, built by
+# crtp from a pinned source): an informational row, never a dependency of core, and never the system's OpenSSL
+if(SNICHOLLS_CORE_OPENSSL_ROOT)
+    set(OPENSSL_ROOT_DIR "${SNICHOLLS_CORE_OPENSSL_ROOT}")
+    set(OPENSSL_USE_STATIC_LIBS ON)
+    find_package(OpenSSL 4.1 EXACT REQUIRED)
+endif()
+if(SNICHOLLS_CORE_OPENSSL_ROOT AND OpenSSL_FOUND)
     foreach(_hash blake2 kdf scrypt sha1 sha2 sha3)
         target_link_libraries(snicholls_core_${_hash}_benchmark PRIVATE OpenSSL::Crypto)
         target_compile_definitions(snicholls_core_${_hash}_benchmark PRIVATE SNICHOLLS_CORE_BENCH_OPENSSL=1)
@@ -71,6 +82,7 @@ snicholls_core_add_benchmark(http_handler_benchmark interfaces/http_handler_benc
 snicholls_core_add_benchmark(key_store_reference_benchmark interfaces/key_store_reference_benchmark.cpp)
 snicholls_core_add_benchmark(key_value_store_benchmark interfaces/key_value_store_benchmark.cpp)
 snicholls_core_add_benchmark(payment_provider_reference_benchmark interfaces/payment_provider_reference_benchmark.cpp)
+snicholls_core_add_benchmark(token_verifier_reference_benchmark interfaces/token_verifier_reference_benchmark.cpp)
 snicholls_core_add_benchmark(attributes_benchmark meta/attributes_benchmark.cpp)
 snicholls_core_add_benchmark(linalg_batched_benchmark linalg/batched_benchmark.cpp)
 # 10^6 systems take minutes; the smoke run solves 4096 (the benchmark reads this variable)
@@ -133,6 +145,7 @@ snicholls_core_add_benchmark(bootstrap_benchmark stats/bootstrap_benchmark.cpp)
 snicholls_core_add_benchmark(normal_benchmark stats/normal_benchmark.cpp)
 snicholls_core_add_benchmark(pivot_benchmark stats/pivot_benchmark.cpp)
 snicholls_core_add_benchmark(stats_resample_benchmark stats/resample_benchmark.cpp)
+snicholls_core_add_benchmark(snell_benchmark stochastic/snell_benchmark.cpp)
 # The baselines it compares against are the C library's POSIX calls (gmtime_r,
 # timegm), which MSVC does not have.
 if(NOT WIN32)

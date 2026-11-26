@@ -316,6 +316,7 @@ namespace snicholls {
         payout_updated = 3,   ///< a payout changed
         refund_updated = 4,   ///< a refund changed
         other = 5,            ///< anything else; ignore it safely
+        security_updated = 6, ///< a trade, settlement, corporate action or position changed (`security_provider`)
     };
 
     /// \brief One webhook delivery, exactly as received: the raw body, not a parsed one (borrowed for the call).
@@ -352,6 +353,8 @@ namespace snicholls {
         short_text reference;              ///< a credit's payer reference, when carried
         utc_s occurred_at{};               ///< the provider's time
         bool needs_lookup{false};          ///< the event carries no detail: ask `status` or `credits`
+        bool is_test{false};               ///< a test delivery (Wise's `X-Test-Notification`): recorded, never resolved
+                                           ///< to a fact, never booked
 
         /// \brief The key the webhook route inserts atomically with the raw event before answering 2xx.
         /// \return `<source>:evt:<event_id>` (`stripe:evt:evt_1...`), at most 101 characters, never allocated.
@@ -435,7 +438,7 @@ namespace snicholls {
         snicholls::event_id event_id;                  ///< the delivery that led here; empty when read from a statement
         snicholls::fact_id fact_id;                    ///< the provider's line id (`txn_...`, a `referenceNumber`)
         fact_kind kind{fact_kind::payment};            ///< what it books
-        utc_s occurred_at{};                           ///< the provider's time
+        fact_dates dates;                              ///< when it happened, settles, and was known (`fact_dates`)
         settlement settled;                            ///< in the account's currency; `balances(settled)` holds
         std::optional<money> presentment;              ///< what the payer was charged, when it differs from `settled.gross`
         std::optional<snicholls::rate> exchange_rate;  ///< exact: presentment to settlement, when they differ
@@ -454,6 +457,8 @@ namespace snicholls {
     {
         if (f.source.empty() || f.fact_id.empty())
             return fail(capability_errc::invalid_argument, {}, "a fact needs its source and fact id");
+        if (auto dates = validate(f.dates); !dates)
+            return dates;
         if (!balances(f.settled))
             return fail(capability_errc::invalid_argument, {}, "gross is not net plus fee in one asset");
         if (f.presentment && *f.presentment == f.settled.gross)

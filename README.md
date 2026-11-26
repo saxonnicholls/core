@@ -23,6 +23,9 @@ sockets or codecs; those are the business of the libraries above it.
 
 ## What is here
 
+For how the pieces fit together, start with [the patterns page](docs/PATTERNS.md): each pattern's problem, its
+types and compiled examples.
+
 - **Vocabulary types:** `overloaded` and `first_match`, `fixed_string`, `function_ref`, `result<V, E>` and
   `traced<E>`, `strong<T, Tag>`, `uuid`, `decimal`, `uint256`, `inplace_string<N>`, checked arithmetic, UTC time and
   RFC 3339, ISO 8601 week dates.
@@ -119,7 +122,17 @@ make test            # configure, build, every test, every demo
 make test-werror     # as CI does it: warnings are errors
 make asan            # Address + UB sanitizers
 make docs            # Doxygen, warnings are errors; output in build-docs/docs/html
+make showcase        # the showcases, with their output
 ```
+
+Every header has a demo (`demos/`, mirroring `include/`). The showcases (`showcase/`) are whole programs, each
+weaving many areas together: a trading day (exact money, the trade lifecycle, a P&L pivot, Shapley and Owen
+attribution of a compile-time Black-Scholes revaluation), a shop's payments on the capability contracts' reference
+implementations (uuid v7, result railways, retries, webhooks, reconciliation, a cash ladder), a harbour crossing
+(Goertzel tone detection, a k-d tree, a state machine, merged accumulators), an option priced four ways (closed form
+and Snell envelope at compile time, Monte Carlo with a bootstrap, Sobol quasi-Monte Carlo) and a report the compiler
+writes in the functional style (reflection, curry, fold, match, Maybe, Either and State). Each checks itself and is
+a CTest (`ctest -L showcase`).
 
 CI runs the same on Linux (x86-64 and ARM64, GCC and Clang), macOS (ARM64 and x86-64) and Windows (MSVC), plus a
 Debug build with asserts live and the documentation build. Every leg blocks except Windows, which is reported but
