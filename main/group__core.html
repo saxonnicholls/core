@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.24.1</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -2247,7 +2247,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;24</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1e7069d6d9a404d68423cd8a030af191" id="r_ga1e7069d6d9a404d68423cd8a030af191"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(major,  minor,  patch)</td></tr>
 <tr class="memdesc:ga1e7069d6d9a404d68423cd8a030af191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode a version as one integer the preprocessor can compare.  <br /></td></tr>
@@ -5759,9 +5759,9 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_define" href="#gad4a7d102b174aa68621d1a8540f3e774">SNICHOLLS_CORE_VERSION</a> &gt;= <a class="code hl_define" href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(major, minor, patch),  \</div>
 <div class="line">                  <span class="stringliteral">&quot;snicholls-core &quot;</span> <a class="code hl_define" href="#ga8dce47a88c3eae560291a83136778dcb">SNICHOLLS_CORE_VERSION_STRING</a> <span class="stringliteral">&quot; is older than the &quot;</span> #major \</div>
 <div class="line">                  <span class="stringliteral">&quot;.&quot;</span> #minor <span class="stringliteral">&quot;.&quot;</span> #patch <span class="stringliteral">&quot; this code requires&quot;</span>)</div>
-<div class="ttc" id="agroup__core_html_ga1e7069d6d9a404d68423cd8a030af191"><div class="ttname"><a href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_CHECK(major, minor, patch)</div><div class="ttdoc">Encode a version as one integer the preprocessor can compare.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00061">version.hpp:61</a></div></div>
-<div class="ttc" id="agroup__core_html_ga8dce47a88c3eae560291a83136778dcb"><div class="ttname"><a href="#ga8dce47a88c3eae560291a83136778dcb">SNICHOLLS_CORE_VERSION_STRING</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_STRING</div><div class="ttdoc">This version of snicholls-core as a string literal, &quot;major.minor.patch&quot;.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00075">version.hpp:75</a></div></div>
-<div class="ttc" id="agroup__core_html_gad4a7d102b174aa68621d1a8540f3e774"><div class="ttname"><a href="#gad4a7d102b174aa68621d1a8540f3e774">SNICHOLLS_CORE_VERSION</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION</div><div class="ttdoc">This version of snicholls-core, encoded by SNICHOLLS_CORE_VERSION_CHECK.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00064">version.hpp:64</a></div></div>
+<div class="ttc" id="agroup__core_html_ga1e7069d6d9a404d68423cd8a030af191"><div class="ttname"><a href="#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_CHECK(major, minor, patch)</div><div class="ttdoc">Encode a version as one integer the preprocessor can compare.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00072">version.hpp:72</a></div></div>
+<div class="ttc" id="agroup__core_html_ga8dce47a88c3eae560291a83136778dcb"><div class="ttname"><a href="#ga8dce47a88c3eae560291a83136778dcb">SNICHOLLS_CORE_VERSION_STRING</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_STRING</div><div class="ttdoc">This version of snicholls-core as a string literal, &quot;major.minor.patch&quot;.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00086">version.hpp:86</a></div></div>
+<div class="ttc" id="agroup__core_html_gad4a7d102b174aa68621d1a8540f3e774"><div class="ttname"><a href="#gad4a7d102b174aa68621d1a8540f3e774">SNICHOLLS_CORE_VERSION</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION</div><div class="ttdoc">This version of snicholls-core, encoded by SNICHOLLS_CORE_VERSION_CHECK.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00075">version.hpp:75</a></div></div>
 </div><!-- fragment -->
 <p>Fail to compile unless snicholls-core is at least <span class="tt">major.minor.patch</span>. </p>
 <p>Put one in a header of yours that depends on a core feature, and a build against an older core stops with a message that names the number rather than deep inside a template. No trailing semicolon in the expansion: write <span class="tt"><a class="el" href="#ga19ac2a1db45e45addb66f168c00dae9c" title="Fail to compile unless snicholls-core is at least major.minor.patch.">SNICHOLLS_CORE_REQUIRE_VERSION(0, 5, 0)</a>;</span> like any declaration. </p><dl class="params"><dt>Parameters</dt><dd>
@@ -5773,7 +5773,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00089">89</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00100">100</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5791,7 +5791,7 @@ Variables</h2></td></tr>
 
 <p>This version of snicholls-core, encoded by <a class="el" href="#ga1e7069d6d9a404d68423cd8a030af191" title="Encode a version as one integer the preprocessor can compare.">SNICHOLLS_CORE_VERSION_CHECK</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00064">64</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00075">75</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5830,7 +5830,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00061">61</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00072">72</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5848,7 +5848,7 @@ Variables</h2></td></tr>
 
 <p>Major version of snicholls-core. </p>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00048">48</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00059">59</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5866,7 +5866,7 @@ Variables</h2></td></tr>
 
 <p>Minor version of snicholls-core. </p>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00050">50</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00061">61</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5877,14 +5877,14 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;0</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_PATCH&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Patch version of snicholls-core. </p>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00052">52</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00063">63</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5902,14 +5902,14 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="#ga603a4fc76526c716c2a95a2b0e0a72cc">SNICHOLLS_CORE_VERSION_STRINGIFY</a>(<a class="code hl_define" href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a>) <span class="stringliteral">&quot;.&quot;</span> \</div>
 <div class="line">    SNICHOLLS_CORE_VERSION_STRINGIFY(<a class="code hl_define" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>) <span class="stringliteral">&quot;.&quot;</span> \</div>
 <div class="line">    SNICHOLLS_CORE_VERSION_STRINGIFY(<a class="code hl_define" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>)</div>
-<div class="ttc" id="agroup__core_html_ga1c04de6f815f1793a0d304d63ec0ea57"><div class="ttname"><a href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_PATCH</div><div class="ttdoc">Patch version of snicholls-core.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00052">version.hpp:52</a></div></div>
-<div class="ttc" id="agroup__core_html_ga4402bc98a6b5059cc7188522bf2c869a"><div class="ttname"><a href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_MAJOR</div><div class="ttdoc">Major version of snicholls-core.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00048">version.hpp:48</a></div></div>
-<div class="ttc" id="agroup__core_html_ga603a4fc76526c716c2a95a2b0e0a72cc"><div class="ttname"><a href="#ga603a4fc76526c716c2a95a2b0e0a72cc">SNICHOLLS_CORE_VERSION_STRINGIFY</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_STRINGIFY(x)</div><div class="ttdoc">Implementation detail of SNICHOLLS_CORE_VERSION_STRING: expand, then stringise.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00072">version.hpp:72</a></div></div>
-<div class="ttc" id="agroup__core_html_gadf931df5254614d71dc7949035714742"><div class="ttname"><a href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_MINOR</div><div class="ttdoc">Minor version of snicholls-core.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00050">version.hpp:50</a></div></div>
+<div class="ttc" id="agroup__core_html_ga1c04de6f815f1793a0d304d63ec0ea57"><div class="ttname"><a href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_PATCH</div><div class="ttdoc">Patch version of snicholls-core.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00063">version.hpp:63</a></div></div>
+<div class="ttc" id="agroup__core_html_ga4402bc98a6b5059cc7188522bf2c869a"><div class="ttname"><a href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_MAJOR</div><div class="ttdoc">Major version of snicholls-core.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00059">version.hpp:59</a></div></div>
+<div class="ttc" id="agroup__core_html_ga603a4fc76526c716c2a95a2b0e0a72cc"><div class="ttname"><a href="#ga603a4fc76526c716c2a95a2b0e0a72cc">SNICHOLLS_CORE_VERSION_STRINGIFY</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_STRINGIFY(x)</div><div class="ttdoc">Implementation detail of SNICHOLLS_CORE_VERSION_STRING: expand, then stringise.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00083">version.hpp:83</a></div></div>
+<div class="ttc" id="agroup__core_html_gadf931df5254614d71dc7949035714742"><div class="ttname"><a href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_MINOR</div><div class="ttdoc">Minor version of snicholls-core.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00061">version.hpp:61</a></div></div>
 </div><!-- fragment -->
 <p>This version of snicholls-core as a string literal, <span class="tt">"major.minor.patch"</span>. </p>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00075">75</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00086">86</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5928,7 +5928,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#gaa8c96df225e2f98dd6b492f90ed3e542">SNICHOLLS_CORE_VERSION_STRINGIFY_</a>(x)</div>
-<div class="ttc" id="agroup__core_html_gaa8c96df225e2f98dd6b492f90ed3e542"><div class="ttname"><a href="#gaa8c96df225e2f98dd6b492f90ed3e542">SNICHOLLS_CORE_VERSION_STRINGIFY_</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_STRINGIFY_(x)</div><div class="ttdoc">Implementation detail of SNICHOLLS_CORE_VERSION_STRING: stringise a token.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00069">version.hpp:69</a></div></div>
+<div class="ttc" id="agroup__core_html_gaa8c96df225e2f98dd6b492f90ed3e542"><div class="ttname"><a href="#gaa8c96df225e2f98dd6b492f90ed3e542">SNICHOLLS_CORE_VERSION_STRINGIFY_</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_STRINGIFY_(x)</div><div class="ttdoc">Implementation detail of SNICHOLLS_CORE_VERSION_STRING: stringise a token.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00080">version.hpp:80</a></div></div>
 </div><!-- fragment -->
 <p>Implementation detail of <a class="el" href="#ga8dce47a88c3eae560291a83136778dcb" title="This version of snicholls-core as a string literal, &quot;major.minor.patch&quot;.">SNICHOLLS_CORE_VERSION_STRING</a>: expand, then stringise. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -5938,7 +5938,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00072">72</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00083">83</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -5966,7 +5966,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00069">69</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00080">80</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -46951,7 +46951,7 @@ template&lt;measurement_model S&gt; </div>
 <p>The encoded version, the same as <a class="el" href="#gad4a7d102b174aa68621d1a8540f3e774" title="This version of snicholls-core, encoded by SNICHOLLS_CORE_VERSION_CHECK.">SNICHOLLS_CORE_VERSION</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>major * 10000 + minor * 100 + patch. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00115">115</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00126">126</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -47022,7 +47022,7 @@ template&lt;measurement_model S&gt; </div>
 <p>Major version, the same as <a class="el" href="#ga4402bc98a6b5059cc7188522bf2c869a" title="Major version of snicholls-core.">SNICHOLLS_CORE_VERSION_MAJOR</a>; usable in a <span class="tt">static_assert</span>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The major version number. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00106">106</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00117">117</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -47052,7 +47052,7 @@ template&lt;measurement_model S&gt; </div>
 <p>Minor version, the same as <a class="el" href="#gadf931df5254614d71dc7949035714742" title="Minor version of snicholls-core.">SNICHOLLS_CORE_VERSION_MINOR</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The minor version number. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00109">109</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00120">120</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -47082,7 +47082,7 @@ template&lt;measurement_model S&gt; </div>
 <p>Patch version, the same as <a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57" title="Patch version of snicholls-core.">SNICHOLLS_CORE_VERSION_PATCH</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The patch version number. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00112">112</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00123">123</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
@@ -47112,7 +47112,7 @@ template&lt;measurement_model S&gt; </div>
 <p>The version as text, <span class="tt">"major.minor.patch"</span>, the same as <a class="el" href="#ga8dce47a88c3eae560291a83136778dcb" title="This version of snicholls-core as a string literal, &quot;major.minor.patch&quot;.">SNICHOLLS_CORE_VERSION_STRING</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>A view of a string literal; valid for the life of the program. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00118">118</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="version_8hpp_source.html#l00129">129</a> of file <a class="el" href="version_8hpp_source.html">version.hpp</a>.</p>
 
 </div>
 </div>
