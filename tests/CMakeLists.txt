@@ -108,6 +108,7 @@ add_executable(snicholls_core_tests
     finance/cash_ladder_test.cpp
     finance/day_count_test.cpp
     finance/money_ratio_test.cpp
+    finance/option_pricing_test.cpp
     finance/ratio_test.cpp
     finance/returns_test.cpp
     finance/year_fraction_test.cpp
