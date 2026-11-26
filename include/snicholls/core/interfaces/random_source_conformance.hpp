@@ -35,7 +35,8 @@
 /// **Tests and demos.** `tests/interfaces/random_source_conformance_test.cpp`,
 /// `demos/interfaces/random_source_conformance_demo.cpp`.
 ///
-/// **Dependencies.** `<array>`, `<cstddef>`, `<string>`, `<vector>`, `concepts/random_source.hpp`.
+/// **Dependencies.** `<algorithm>`, `<array>`, `<cstddef>`, `<string>`, `<system_error>`, `<vector>`,
+/// `concepts/random_source.hpp`.
 ///
 /// **Known issues.** "Two fills differ" can fail by chance for a true source with probability 2^-256; the kit draws
 /// 32 bytes each time.
@@ -47,6 +48,7 @@
 
 #include <snicholls/core/concepts/random_source.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <string>
@@ -87,12 +89,14 @@ namespace snicholls {
         }
         if (const std::errc e = source.fill(nullptr, 0); random_failed(e))
             failures.push_back("a zero-length fill failed: " + std::make_error_code(e).message());
-        std::array<std::byte, 32> a{}, b{};
-        const std::errc ea = source.fill(a.data(), a.size());
-        const std::errc eb = source.fill(b.data(), b.size());
+        // Padded like the buffers above: a source that writes past its end (one the kit exists to catch) must not
+        // corrupt the kit's own stack.
+        std::array<std::byte, 32 + 16> a{}, b{};
+        const std::errc ea = source.fill(a.data(), 32);
+        const std::errc eb = source.fill(b.data(), 32);
         if (random_failed(ea) || random_failed(eb))
             failures.push_back("two 32-byte fills did not both succeed");
-        else if (a == b)
+        else if (std::equal(a.begin(), a.begin() + 32, b.begin()))
             failures.push_back("two fills gave the same bytes");
         return failures;
     }
@@ -108,7 +112,7 @@ namespace snicholls {
         static_assert(is_random_source_like_v<Source>, "snicholls::check_random_source_fails_closed: not a random source");
         std::vector<std::string> failures;
         for (const std::size_t n : {std::size_t{1}, std::size_t{32}, std::size_t{257}}) {
-            std::vector<std::byte> buffer(n);
+            std::vector<std::byte> buffer(n + 16);   // padded: a broken source must not write outside the kit's buffer
             if (!random_failed(source.fill(buffer.data(), n)))
                 failures.push_back("an unavailable source claimed to fill " + std::to_string(n) + " bytes");
         }

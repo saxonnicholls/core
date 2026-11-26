@@ -25,7 +25,8 @@ TEST(MemoryTokenVerifier, ATokenItIssuedVerifiesWithItsClaims)
     auto v = memory_token_verifier::deterministic();
     token_claims c;
     c.subject = alice;
-    c.roles = {"admin"};
+    c.roles.resize(1);   // then assigned: GCC 13 under ASan misreports copying c.roles = {"admin"} as out of bounds
+    c.roles[0] = "admin";
     const std::string t = v.issue(c);
     EXPECT_TRUE(t.starts_with(memory_token_verifier::prefix));
     EXPECT_EQ(t.size(), memory_token_verifier::prefix.size() + 1 + 1 + 64) << t;
