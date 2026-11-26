@@ -170,9 +170,16 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     snicholls_core_compile_options(snicholls_core_header_check)
 
     # constexpr_for.hpp is also ts-moveables' constexpr_for, and ts-moveables supports C++17: it stays C++17-clean.
-    set(HEADER "snicholls/core/constexpr_for.hpp")
-    configure_file(cmake/header_check.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/constexpr_for.cpp @ONLY)
-    add_library(snicholls_core_cpp17_check OBJECT ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/constexpr_for.cpp)
+    # So are the random_source contract's headers: ts-moveables implements it, and crypto takes it.
+    set(_cpp17_sources)
+    foreach(HEADER IN ITEMS snicholls/core/constexpr_for.hpp snicholls/core/concepts/random_source.hpp
+                            snicholls/core/interfaces/random_source.hpp snicholls/core/interfaces/random_source_reference.hpp
+                            snicholls/core/interfaces/random_source_conformance.hpp)
+        string(MAKE_C_IDENTIFIER "${HEADER}" _id)
+        configure_file(cmake/header_check.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/${_id}.cpp @ONLY)
+        list(APPEND _cpp17_sources ${CMAKE_CURRENT_BINARY_DIR}/header_check_cpp17/${_id}.cpp)
+    endforeach()
+    add_library(snicholls_core_cpp17_check OBJECT ${_cpp17_sources})
     target_include_directories(snicholls_core_cpp17_check PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     set_target_properties(snicholls_core_cpp17_check PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
     snicholls_core_compile_options(snicholls_core_cpp17_check)
