@@ -440,7 +440,7 @@ namespace detail::iq
         for (std::size_t ibl = 0; ibl < y.size(); ++ibl) {
             std::array<std::uint32_t, 16> q2{};
             y[ibl].d = detail::quantize::fp16(0.0f);
-            float max_scale = 0;
+            float largest_scale = 0;
             const float* xbl = x.data() + 256 * ibl;
             const float sigma2 = sum_squares(xbl, 256) / 256.0f;
             for (int ib = 0; ib < 8; ++ib) {
@@ -521,13 +521,13 @@ namespace detail::iq
                     q2[2 * ib + 1] |= std::uint32_t(block_signs[k]) << (7 * k);
                 }
                 scales[ib] = scale;
-                max_scale = fmax(max_scale, scale);
+                largest_scale = fmax(largest_scale, scale);
             }
-            if (max_scale == 0.0f) {
+            if (largest_scale == 0.0f) {
                 y[ibl].qs = {};
                 continue;
             }
-            const float d = max_scale / 31;
+            const float d = largest_scale / 31;
             y[ibl].d = detail::quantize::fp16(d);
             const float id = 1 / d;
             for (int ib = 0; ib < 8; ++ib)
@@ -561,7 +561,7 @@ namespace detail::iq
             std::array<std::uint16_t, 32> q2{};
             y[ibl] = Block{};
             y[ibl].d = detail::quantize::fp16(0.0f);
-            float max_scale = 0;
+            float largest_scale = 0;
             const float* xbl = x.data() + 256 * ibl;
             const float sumx2 = sum_squares(xbl, 256);
             float sigma2 = 0;
@@ -658,14 +658,14 @@ namespace detail::iq
                     }
                 }
                 scales[ib] = scale;
-                max_scale = fmax(max_scale, scale);
+                largest_scale = fmax(largest_scale, scale);
             }
-            if (max_scale == 0.0f) {
+            if (largest_scale == 0.0f) {
                 if constexpr (!S)
                     y[ibl].qs = {};
                 continue;
             }
-            const float d = max_scale / 31;
+            const float d = largest_scale / 31;
             if constexpr (S) {
                 const float fudged = d * 0.9875f;
                 y[ibl].d = detail::quantize::fp16(fudged);
@@ -706,7 +706,7 @@ namespace detail::iq
             std::array<std::uint8_t, 104> q3{};   // IQ3_XXS: 64 grid indices, 8 words of scales and signs
             y[ibl] = Block{};
             y[ibl].d = detail::quantize::fp16(0.0f);
-            float max_scale = 0;
+            float largest_scale = 0;
             std::size_t qs_off = 0, signs_off = 0;
             (void)qs_off, (void)signs_off;
             const float* xbl = x.data() + 256 * ibl;
@@ -809,11 +809,11 @@ namespace detail::iq
                                                          | (std::uint32_t(block_signs[3]) << 21));
                 }
                 scales[ib] = scale;
-                max_scale = fmax(max_scale, scale);
+                largest_scale = fmax(largest_scale, scale);
             }
-            if (max_scale == 0.0f)
+            if (largest_scale == 0.0f)
                 continue;   // the block stays zero
-            const float d = max_scale / 31;
+            const float d = largest_scale / 31;
             const float fudged = d * (S ? 1.033f : 1.0125f);
             y[ibl].d = detail::quantize::fp16(fudged);
             const float id = 1 / d;
@@ -896,7 +896,7 @@ namespace detail::iq
         for (std::size_t ibl = 0; ibl < y.size(); ++ibl) {
             y[ibl] = block_iq1_s{};
             y[ibl].d = detail::quantize::fp16(0.0f);
-            float max_scale = 0;
+            float largest_scale = 0;
             const float* xbl = x.data() + 256 * ibl;
             const float two = 2 * sum_squares(xbl, 256);
             const float sigma2 = two / 256.0f;
@@ -996,11 +996,11 @@ namespace detail::iq
                 y[ibl].qh[ib] = h;
                 scales[ib] = scale;
                 shifts[ib] = static_cast<std::int8_t>(best_shift);
-                max_scale = fmax(max_scale, scale);
+                largest_scale = fmax(largest_scale, scale);
             }
-            if (max_scale == 0.0f)
+            if (largest_scale == 0.0f)
                 continue;
-            const float d = max_scale / 15;
+            const float d = largest_scale / 15;
             const float fudged = d * 1.125f;
             y[ibl].d = detail::quantize::fp16(fudged);
             const float id = 1 / d;
@@ -1038,7 +1038,7 @@ namespace detail::iq
         };
         for (std::size_t ibl = 0; ibl < y.size(); ++ibl) {
             y[ibl] = block_iq1_m{};
-            float max_scale = 0;
+            float largest_scale = 0;
             const float* xbl = x.data() + 256 * ibl;
             const float two = 2 * sum_squares(xbl, 256);
             const float sigma2 = two / 256.0f;
@@ -1155,12 +1155,12 @@ namespace detail::iq
                 y[ibl].qh[ib] = static_cast<std::uint8_t>((index[0] >> 8) | ((index[1] >> 8) << 4));
                 scales[ib] = scale;
                 shifts[ib] = static_cast<std::int8_t>(best_k);
-                max_scale = fmax(max_scale, scale);
+                largest_scale = fmax(largest_scale, scale);
             }
-            if (max_scale == 0.0f)
+            if (largest_scale == 0.0f)
                 continue;
             std::array<std::uint16_t, 4> sc{};
-            float d = max_scale / 15;
+            float d = largest_scale / 15;
             const float id = 1 / d;
             float sumqx = 0, sumq2 = 0;
             for (int ib = 0; ib < 16; ++ib) {
@@ -1229,7 +1229,7 @@ namespace detail::iq
         const auto& mid = iq4nl_mid;
         std::array<float, 8> scales{};
         std::array<float, block_size> weight{};
-        float max_scale = 0, amax_scale = 0;
+        float largest_scale = 0, amax_scale = 0;
         const int nb = super_block_size / block_size;
         for (int ib = 0; ib < nb; ++ib) {
             const float* xb = x + ib * block_size;
@@ -1288,12 +1288,12 @@ namespace detail::iq
             const float abs_d = detail::quantize::abs(d);
             if (abs_d > amax_scale) {
                 amax_scale = abs_d;
-                max_scale = d;
+                largest_scale = d;
             }
         }
         if (nb > 1) {
             *scales_h = 0;
-            const float d = -max_scale / 32;
+            const float d = -largest_scale / 32;
             dh = detail::quantize::fp16(d);
             const float id = d != 0.0f ? 1 / d : 0.0f;
             for (int ib = 0; ib < nb; ++ib) {
