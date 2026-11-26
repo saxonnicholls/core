@@ -47,7 +47,7 @@ int main()
 {
     std::printf("snicholls-core interfaces/security_provider.hpp demo\n");
     //! [virtual]
-    memory_security_provider reference{secret<std::string>{"whsec_demo_only"}, [] { return now; }};
+    memory_security_provider reference{secret<std::string>{"whsec_demo_only"}, manual_utc_clock{now}};
     static_cast<void>(reference.execute("ord-7", money::from_units(vas, 40), -*parse_money(aud, "3916.00")));
     webhook_event filled;
     filled.source = "memory";

@@ -25,6 +25,8 @@
 /// `interfaces/onramp_provider_conformance.hpp` in every form. Group: \ref core.
 ///
 /// **Implementations / variants.** One account (`"trading"`); no partial fills.
+/// `basic_memory_onramp_provider<Clock>` reads any `utc_clock` (`time/utc_clock.hpp`), owned by value and reached through
+/// `clock()`; `memory_onramp_provider` is `basic_memory_onramp_provider<manual_utc_clock>`.
 ///
 /// **Guarantees.** Not thread-safe. Ids and transaction hashes are deterministic (`mem_ord_1`, `mem_wd_2`, the hash a
 /// SHA-256 of the withdrawal id). Errors follow the redaction rule.
@@ -37,17 +39,19 @@
 /// `demos/interfaces/onramp_provider_reference_demo.cpp`.
 ///
 /// **Dependencies.** `<algorithm>`, `<chrono>`, `<cstddef>`, `<cstdint>`, `<functional>`, `<map>`, `<optional>`,
-/// `<string>`, `<string_view>`, `<utility>`, `<vector>`, `hash/sha2.hpp`, `interfaces/onramp_provider.hpp`.
+/// `<string>`, `<string_view>`, `<utility>`, `<vector>`, `hash/sha2.hpp`, `interfaces/onramp_provider.hpp`, `time/utc_clock.hpp`.
 ///
 /// **Known issues.** One account; no partial fills.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; the clock a `utc_clock` template parameter, owned, since 0.27.0 (it was a
+/// `std::function<utc_s()>`).
 
 #ifndef snicholls_core_interfaces_onramp_provider_reference_hpp
 #define snicholls_core_interfaces_onramp_provider_reference_hpp
 
 #include <snicholls/core/hash/sha2.hpp>
 #include <snicholls/core/interfaces/onramp_provider.hpp>
+#include <snicholls/core/time/utc_clock.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -65,10 +69,13 @@ namespace snicholls {
 
     /// \brief The reference on-ramp venue.
     /// \ingroup core
-    class memory_onramp_provider {
+    /// \tparam Clock A `utc_clock` (`time/utc_clock.hpp`), owned by value; `manual_utc_clock` by default, moved by
+    ///               `clock().advance(d)`.
+    template <utc_clock Clock = manual_utc_clock>
+    class basic_memory_onramp_provider {
     public:
-        /// \brief Reads the time.
-        using clock_source = std::function<utc_s()>;
+        /// \brief The clock.
+        using clock_type = Clock;
         /// \brief How long a quote lives.
         static constexpr std::chrono::seconds quote_lifetime{30};
         /// \brief The only account.
@@ -77,10 +84,17 @@ namespace snicholls {
         /// \brief A venue delivering `assets`.
         /// \param assets What it can deliver, and on which chains.
         /// \param clock  The clock.
-        memory_onramp_provider(std::vector<onramp_asset> assets, clock_source clock)
+        basic_memory_onramp_provider(std::vector<onramp_asset> assets, Clock clock)
             : assets_(std::move(assets)), clock_(std::move(clock))
         {
         }
+
+        /// \brief The clock, to move a manual one: `clock().advance(d)`.
+        /// \return The clock.
+        [[nodiscard]] Clock& clock() noexcept { return clock_; }
+        /// \brief The clock.
+        /// \return The clock.
+        [[nodiscard]] const Clock& clock() const noexcept { return clock_; }
 
         /// \brief What it delivers.
         /// \return The assets.
@@ -123,7 +137,7 @@ namespace snicholls {
             move_balance(q->spend, true);
             move_balance(q->receive, false);
             const std::string n = std::to_string(++next_id_);
-            order o{id<provider_id>("mem_ord_" + n), *client, order_status::filled, q->receive, q->spend, q->fee, clock_()};
+            order o{id<provider_id>("mem_ord_" + n), *client, order_status::filled, q->receive, q->spend, q->fee, stamp()};
             orders_.emplace(std::string(o.order_id.view()), o);
             onramp_fact f = fact("mem_trd_" + n, onramp_fact_kind::trade_fill);
             f.debit = venue(*subtract(q->spend, q->fee));
@@ -191,7 +205,7 @@ namespace snicholls {
             out.chain_id = w.chain_id;
             out.address = id<short_text>(w.address);
             out.transaction_hash = id<provider_id>("0x" + std::string(sha256::hash(out.withdrawal_id.view()).hex().view()));
-            out.updated_at = clock_();
+            out.updated_at = stamp();
             withdrawals_.emplace(std::string(out.withdrawal_id.view()), out);
             onramp_fact f = fact(std::string(out.withdrawal_id.view()), onramp_fact_kind::withdrawal);
             f.debit = venue(w.amount);
@@ -286,7 +300,7 @@ namespace snicholls {
             if (it == withdrawals_.end())
                 return fail(capability_errc::not_found);
             it->second.status = withdrawal_status::confirmed;
-            it->second.updated_at = clock_();
+            it->second.updated_at = stamp();
             return ok(it->second);
         }
 
@@ -300,6 +314,11 @@ namespace snicholls {
         }
 
     private:
+        // The clock's time, in the seconds every record of this reference carries.
+        [[nodiscard]] utc_s stamp() const noexcept(noexcept(std::declval<const Clock&>().now()))
+        {
+            return detail::clock_now<std::chrono::seconds>(clock_);
+        }
         // An id the venue makes itself, which always fits.
         template <typename Id>
         static Id id(std::string_view text) noexcept
@@ -323,7 +342,7 @@ namespace snicholls {
             f.provider_account = "memory";
             f.fact_id = id<fact_id>(name);
             f.kind = k;
-            f.dates.trade_at = clock_();
+            f.dates.trade_at = stamp();
             f.dates.known_at = f.dates.trade_at;
             f.account = id<short_text>(account);
             return f;
@@ -372,7 +391,7 @@ namespace snicholls {
             }
             if (receive.is_zero())
                 return fail(capability_errc::invalid_argument, {}, "the ticket buys nothing");
-            const utc_s now = clock_();
+            const utc_s now = stamp();
             return ok(onramp_quote{p->second, spend, receive, fee, now, now + quote_lifetime});
         }
 
@@ -428,7 +447,7 @@ namespace snicholls {
         };
 
         std::vector<onramp_asset> assets_;
-        clock_source clock_;
+        Clock clock_;
         std::uint32_t fee_bps_{0};
         std::uint64_t next_id_{0};
         std::map<std::string, rate, std::less<>> prices_;
@@ -442,6 +461,10 @@ namespace snicholls {
         std::vector<onramp_fact> withdrawal_facts_;
         std::optional<capability_error> injected_;
     };
+
+    /// \brief The reference with a `manual_utc_clock`: what tests use.
+    /// \ingroup core
+    using memory_onramp_provider = basic_memory_onramp_provider<>;
 
     static_assert(onramp_provider<memory_onramp_provider>, "snicholls::memory_onramp_provider must model snicholls::onramp_provider");
 

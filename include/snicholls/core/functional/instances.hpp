@@ -7,8 +7,9 @@
 
 /// \file
 /// \brief The type-class instances of `functional/typeclasses.hpp` for `std::optional` (Maybe), `snicholls::result`
-///        (Either), `std::tuple` and `std::pair` (products), `std::array` (fixed lists), `std::basic_string` and
-///        `std::vector`, all `constexpr`.
+///        (Either), `std::tuple` and `std::pair` (products), `std::array` (fixed lists), `std::basic_string`,
+///        `std::vector` and `containers::inplace_vector` (what `functional/list.hpp`'s `filter` and `partition` return),
+///        all `constexpr`.
 /// \ingroup core
 ///
 /// **Overview.**
@@ -22,12 +23,19 @@
 /// | `std::array<T, N>`           | element by element                     | every element      | Haskell's list: cartesian, `N * M`      | -                    | -                  |
 /// | `std::basic_string`          | concatenation; `""`                    | -                  | -                                       | -                    | -                  |
 /// | `std::vector<T>`             | concatenation; `{}`                    | every element      | -                                       | -                    | -                  |
+/// | `containers::inplace_vector<T, N>` | -                                | every element, into `inplace_vector<R, N>` | -                     | -                    | -                  |
 ///
 /// \snippet instances_demo.cpp maybe
 ///
 /// A `std::array` is a list whose length is in its type, so its Monoid cannot be concatenation (the
 /// length would change): it is the product monoid, element by element. Its Monad is the list monad,
 /// with the length multiplied: `mbind(array<T, N>, T -> array<U, M>)` is an `array<U, N * M>`.
+/// An `inplace_vector<T, N>` (the bounded list `filter`, `partition`, `span` and `group` return) maps into an
+/// `inplace_vector<R, N>` of the same size and capacity, so `fmap(f, partition(p, xs).first)` stays at compile time;
+/// it has no Monoid, because concatenation could pass the capacity.
+///
+/// \snippet instances_demo.cpp bounded
+///
 /// A tuple's Functor maps every element (with one generic function), not only the last as Haskell's
 /// does, because C++'s tuple is a product of equals; `bimap` over a pair is the Haskell one.
 ///
@@ -53,9 +61,9 @@
 /// `tests/functional/typeclasses_laws_test.cpp`, `demos/functional/instances_demo.cpp`,
 /// `demos/functional/instances_list_monad_demo.cpp` (the list monad's searches).
 ///
-/// **Dependencies.** `<array>`, `<cstddef>`, `<functional>`, `<optional>`, `<string>`, `<tuple>`,
-/// `<type_traits>`, `<utility>`, `<vector>`, `snicholls/core/result.hpp`, `snicholls/core/meta/concepts.hpp`
-/// and `functional/typeclasses.hpp`.
+/// **Dependencies.** `<array>`, `<concepts>`, `<cstddef>`, `<functional>`, `<optional>`, `<string>`, `<tuple>`,
+/// `<type_traits>`, `<utility>`, `<vector>`, `snicholls/core/result.hpp`, `snicholls/core/meta/concepts.hpp`,
+/// `containers/inplace_vector.hpp` and `functional/typeclasses.hpp`.
 ///
 /// **Known issues and gotchas.** `result<void, E>` has the Functor and Monad of its own `map` /
 /// `and_then`; it is not an Applicative here (there is no value to apply). An optional's `fmap` stores
@@ -66,11 +74,13 @@
 #ifndef snicholls_core_functional_instances_hpp
 #define snicholls_core_functional_instances_hpp
 
+#include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/functional/typeclasses.hpp>
 #include <snicholls/core/meta/concepts.hpp>
 #include <snicholls/core/result.hpp>
 
 #include <array>
+#include <concepts>
 #include <cstddef>
 #include <functional>
 #include <optional>
@@ -421,6 +431,23 @@ namespace snicholls::fn {
             std::vector<R> out;
             out.reserve(m.size());
             for (auto&& x : std::forward<M>(m)) out.push_back(std::invoke(f, std::forward<decltype(x)>(x)));
+            return out;
+        }
+    };
+
+    // ---- containers::inplace_vector: what filter, partition, span and group return --------------------------------------
+
+    template <class T, std::size_t N>
+    struct functor_instance<containers::inplace_vector<T, N>> {
+        static constexpr bool defined = true;
+        template <class F, class M, class R = std::remove_cvref_t<std::invoke_result_t<F&, decltype(*std::declval<M>().begin())>>>
+            requires std::default_initializable<R>
+        static constexpr containers::inplace_vector<R, N> fmap(F&& f, M&& m) noexcept(
+            std::is_nothrow_invocable_v<F&, decltype(*std::declval<M>().begin())> && std::is_nothrow_default_constructible_v<R> &&
+            std::is_nothrow_move_assignable_v<R>)
+        {
+            containers::inplace_vector<R, N> out;
+            for (auto&& x : std::forward<M>(m)) out.emplace_back(std::invoke(f, std::forward<decltype(x)>(x)));   // never past N
             return out;
         }
     };

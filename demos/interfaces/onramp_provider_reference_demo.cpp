@@ -28,7 +28,7 @@ constexpr asset aud = checked_asset("AUD", 2);
 
 memory_onramp_provider make_venue()
 {
-    memory_onramp_provider v{{onramp_asset{usdc, {8453}, true, "USD"}}, [] { return utc_s::from_unix_seconds(1'800'000'000); }};
+    memory_onramp_provider v{{onramp_asset{usdc, {8453}, true, "USD"}}, manual_utc_clock{utc_s::from_unix_seconds(1'800'000'000)}};
     v.set_price(*rate::parse(usdc, aud, "1.53"));   // 1.53 AUD per USDC, exactly
     v.deposit(*parse_money(aud, "1000"));
     return v;

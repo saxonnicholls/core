@@ -13,6 +13,26 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
 
 ### Changed
 
+- **The reference implementations take their clock one way** (breaking): `memory_payment_provider`,
+  `memory_security_provider`, `memory_onramp_provider`, `memory_key_store` (`memory_signer`) and
+  `memory_token_verifier` are now `basic_memory_<name><Clock>` with `Clock` a `utc_clock` (`time/utc_clock.hpp`: `now()`
+  returns a `utc<D>` of any precision) owned by value, reached through `clock()` and defaulted to `manual_utc_clock`,
+  and the old names are aliases of `basic_memory_<name><manual_utc_clock>`, as `basic_uuid_generator` already took its
+  clock. An owner no longer has to be non-copyable because a `std::function` clock captured `this`. Breaks: the
+  constructors take a `Clock` where they took a `std::function<utc_s()>` (`clock_source` is gone; `clock_type` names
+  the clock) - migrate `[&] { return now; }` to `manual_utc_clock{now}` and `now += d` to `x.clock().advance(d)`, or
+  pass a clock type of your own; `deterministic(now)` exists only with a `manual_utc_clock`. Every test, demo,
+  benchmark and showcase in core is migrated. `manual_utc_clock` moved to `time/utc_clock.hpp`;
+  `interfaces/uuid_generator_reference.hpp` still provides it.
+- **`inplace_string` converts implicitly to `std::string_view`**, as `std::string` does, so it, and every id built on
+  it (`provider_id`, `fact_id`, `event_id`, ...), goes wherever a view is taken and prints through `acout`, `print`
+  and `print_to` without `.view()`: as text, quoted inside a container.
+- **`stats::variance::standard_deviation`, `covariance::correlation`, `ewma::volatility` and
+  `weighted_moments::standard_deviation` are `constexpr`** (`math::sqrt`); `stats/accumulators.hpp` no longer
+  includes `<cmath>`.
+- `money`'s default text and print are unchanged (`"2.1 AUD"`, the minimal form): an asset's scale does not tell a
+  currency (2 places, shown in full by convention) from a token (6 or 18, shown minimally), so no one default is
+  better for both; `to_string(m, money_digits::all)` gives every minor unit.
 - `scripts/test_ubuntu.sh` takes the machine's share from snicholls-tooling v0.3.2 (`third_party/tooling`, from
   v0.3.1): one gate at a time across every repository and session, its parallelism a share of the machine, each
   container capped in memory (`SNICHOLLS_GATE_MEMORY`, 24 GB).
@@ -51,6 +71,15 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
 
 ### Added
 
+- **`money::to_double()` and `money_of<T>::to_double()`**: the nearest `double` in whole units, for display and
+  charts only (correctly rounded below 2^53 minor units at a scale up to 22), as `decimal::to_double()` is.
+- **`count()` on `stats::mean`, `variance`, `covariance` and `histogram`**: the observations (pairs; every value
+  counted, under and overflow included).
+- **`fn::fmap` over `containers::inplace_vector<T, N>`** (`functional/instances.hpp`), into an `inplace_vector<R, N>`
+  of the same size, at compile time: what `fn::filter`, `fn::partition`, `fn::span` and `fn::group` return now maps;
+  the Functor laws are tested at compile time.
+- **`time/utc_clock.hpp`**: the `utc_clock` concept and `manual_utc_clock` (moved from
+  `interfaces/uuid_generator_reference.hpp`), the one clock shape of every reference implementation.
 - **Showcases** (`showcase/`, `make showcase`, CTest label `showcase`): five whole programs, each across many areas
   and checking itself - `trading_day`, `payments_ledger`, `harbour_beacons`, `option_risk` and `functional_report`.
 - **The patterns page** (`docs/PATTERNS.md`, \ref patterns in the documentation): how core's pieces fit together,

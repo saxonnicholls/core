@@ -143,7 +143,7 @@ int main()
             sum += put_payoff(math::normal_quantile(sobol.next()[0] + 0x1.0p-33));   // the centre of its 2^-32 cell
         across.add(sum / points);
     }
-    const double qmc = across.mean(), qmc_error = std::sqrt(across.value() / copies);
+    const double qmc = across.mean(), qmc_error = across.standard_deviation() / math::sqrt(static_cast<double>(across.count()));
     acout{} << "  estimate " << price{qmc} << " +/- " << price{qmc_error} << "  off by " << miss{std::abs(qmc - black_scholes_put)} << '\n';
     expect(std::abs(qmc - black_scholes_put) < 4 * qmc_error, "the closed form lies within four of its standard errors");
     expect(qmc_error < boot.standard_error() / 5, "with 1.6 times the points, an error bar over five times tighter");

@@ -12,6 +12,7 @@
 
 #include <gtest/gtest.h>
 
+#include <chrono>
 #include <string>
 
 using namespace snicholls;
@@ -39,7 +40,7 @@ TEST(MemoryTokenVerifier, AForgedOrForeignTokenIsUnauthorized)
 {
     auto v = memory_token_verifier::deterministic();
     const std::string t = v.issue({});
-    memory_token_verifier other{secret<std::string>{"another test-only key, 32 bytes or more"}, [] { return utc_s{}; }};
+    memory_token_verifier other{secret<std::string>{"another test-only key, 32 bytes or more"}, manual_utc_clock{}};
     EXPECT_EQ(other.verify(t).unwrap_err().code, capability_errc::unauthorized) << "another key's verifier refuses it";
     std::string forged = t;
     forged[memory_token_verifier::prefix.size()] = '7';   // another serial under the same tag
@@ -54,7 +55,7 @@ TEST(MemoryTokenVerifier, AForgedOrForeignTokenIsUnauthorized)
 TEST(MemoryTokenVerifier, ATagOverASerialItNeverIssuedIsUnauthorized)
 {
     const secret<std::string> key{"k-test-only"};
-    memory_token_verifier v{key, [] { return utc_s{}; }};
+    memory_token_verifier v{key, manual_utc_clock{}};
     const std::string body = "mt1.5";
     const std::string tagged = body + "." + std::string(hmac<sha256>::mac(key.reveal(), body).hex().view());
     EXPECT_EQ(v.verify(tagged).unwrap_err().code, capability_errc::unauthorized) << "a valid tag, no such serial";
@@ -62,8 +63,7 @@ TEST(MemoryTokenVerifier, ATagOverASerialItNeverIssuedIsUnauthorized)
 
 TEST(MemoryTokenVerifier, ExpiresByTheClockOrByHand)
 {
-    utc_s now = utc_s::from_unix_seconds(1000);
-    memory_token_verifier v{secret<std::string>{"k-test-only"}, [&] { return now; }};
+    memory_token_verifier v{secret<std::string>{"k-test-only"}, manual_utc_clock{utc_s::from_unix_seconds(1000)}};
     token_claims c;
     c.subject = alice;
     c.expires_at = utc_s::from_unix_seconds(2000);
@@ -73,7 +73,7 @@ TEST(MemoryTokenVerifier, ExpiresByTheClockOrByHand)
     v.expire(t2);
     v.expire("not a token");
     EXPECT_EQ(v.verify(t2).unwrap_err().code, capability_errc::stale);
-    now = utc_s::from_unix_seconds(2000);
+    v.clock().advance(std::chrono::seconds{1000});   // the clock is the verifier's own
     EXPECT_EQ(v.verify(t1).unwrap_err().code, capability_errc::stale) << "expiry at the instant is stale";
     EXPECT_EQ(v.verify(t1).unwrap_err().message.view(), "the token has expired");
 }

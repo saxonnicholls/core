@@ -121,7 +121,7 @@ namespace snicholls::test {
 
     inline memory_payment_provider make_payment_provider()
     {
-        return memory_payment_provider{{aud}, secret<std::string>{"whsec_test_only"}, [] { return probe_time; }};
+        return memory_payment_provider{{aud}, secret<std::string>{"whsec_test_only"}, manual_utc_clock{probe_time}};
     }
 
     template <form F>
@@ -145,7 +145,7 @@ namespace snicholls::test {
 
     inline memory_onramp_provider make_onramp_provider()
     {
-        memory_onramp_provider v{{onramp_asset{usdc, {8453}, true, "USD"}}, [] { return probe_time; }};
+        memory_onramp_provider v{{onramp_asset{usdc, {8453}, true, "USD"}}, manual_utc_clock{probe_time}};
         v.set_price(*rate::parse(usdc, aud, "1.53"));
         v.deposit(*parse_money(aud, "10000"));
         return v;

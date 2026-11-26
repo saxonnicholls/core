@@ -32,6 +32,8 @@
 /// `interfaces/payment_provider_conformance.hpp` in every form. Group: \ref core.
 ///
 /// **Implementations / variants.** Card and bank transfer; bank debit is unsupported.
+/// `basic_memory_payment_provider<Clock>` reads any `utc_clock` (`time/utc_clock.hpp`), owned by value and reached through
+/// `clock()`; `memory_payment_provider` is `basic_memory_payment_provider<manual_utc_clock>`.
 ///
 /// **Guarantees.** Not thread-safe. Ids are deterministic (`mem_pay_1`, `mem_cr_2`, ...). Amounts are exact. Errors
 /// follow the redaction rule: a decline keeps the provider's code only.
@@ -47,11 +49,12 @@
 ///
 /// **Dependencies.** `<algorithm>`, `<chrono>`, `<cstdint>`, `<functional>`, `<map>`, `<optional>`, `<set>`,
 /// `<string>`, `<string_view>`, `<utility>`, `<vector>`, `detail/memory_webhook.hpp` (HMAC-SHA256, shared with
-/// `memory_security_provider`), `secret.hpp`, `interfaces/payment_provider.hpp`.
+/// `memory_security_provider`), `secret.hpp`, `interfaces/payment_provider.hpp`, `time/utc_clock.hpp`.
 ///
 /// **Known issues.** Bank debit (mandates) is unsupported.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; the clock a `utc_clock` template parameter, owned, since 0.27.0 (it was a
+/// `std::function<utc_s()>`).
 
 #ifndef snicholls_core_interfaces_payment_provider_reference_hpp
 #define snicholls_core_interfaces_payment_provider_reference_hpp
@@ -59,6 +62,7 @@
 #include <snicholls/core/detail/memory_webhook.hpp>
 #include <snicholls/core/interfaces/payment_provider.hpp>
 #include <snicholls/core/secret.hpp>
+#include <snicholls/core/time/utc_clock.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -76,10 +80,13 @@ namespace snicholls {
 
     /// \brief The reference payment provider.
     /// \ingroup core
-    class memory_payment_provider {
+    /// \tparam Clock A `utc_clock` (`time/utc_clock.hpp`), owned by value; `manual_utc_clock` by default, moved by
+    ///               `clock().advance(d)`.
+    template <utc_clock Clock = manual_utc_clock>
+    class basic_memory_payment_provider {
     public:
-        /// \brief Reads the time.
-        using clock_source = std::function<utc_s()>;
+        /// \brief The clock.
+        using clock_type = Clock;
         /// \brief The webhook time window, either side of `received_at`.
         static constexpr std::chrono::seconds webhook_tolerance = detail::memory_webhook::tolerance;
         /// \brief How long a quote lives.
@@ -91,10 +98,17 @@ namespace snicholls {
         /// \param currencies     The currencies it collects and holds.
         /// \param webhook_secret The HMAC key for webhooks (never logged).
         /// \param clock          The clock.
-        memory_payment_provider(std::vector<asset> currencies, secret<std::string> webhook_secret, clock_source clock)
+        basic_memory_payment_provider(std::vector<asset> currencies, secret<std::string> webhook_secret, Clock clock)
             : currencies_(std::move(currencies)), secret_(std::move(webhook_secret)), clock_(std::move(clock))
         {
         }
+
+        /// \brief The clock, to move a manual one: `clock().advance(d)`.
+        /// \return The clock.
+        [[nodiscard]] Clock& clock() noexcept { return clock_; }
+        /// \brief The clock.
+        /// \return The clock.
+        [[nodiscard]] const Clock& clock() const noexcept { return clock_; }
 
         /// \brief What it does: card and bank transfer; payouts, quotes, refunds and credits.
         /// \return The capabilities.
@@ -159,7 +173,7 @@ namespace snicholls {
                 const auto q = quotes_.find(*o.quote_id);
                 if (q == quotes_.end())
                     return fail(capability_errc::not_found, {}, "no such quote");
-                if (clock_() > q->second.expires_at)
+                if (stamp() > q->second.expires_at)
                     return fail(capability_errc::stale, {}, "the quote expired");
             }
             if (auto taken = take(o.amount); !taken)
@@ -208,7 +222,7 @@ namespace snicholls {
                 return err(taken.unwrap_err());
             original.refunded = *add(original.refunded, amount);
             original.status = original.refunded == original.received ? payment_status::refunded : payment_status::partially_refunded;
-            original.updated_at = clock_();
+            original.updated_at = stamp();
             payment p = new_payment("mem_ref_", movement::refund, original.our_reference.view(), original.method, amount);
             p.status = payment_status::succeeded;
             p.received = amount;
@@ -252,7 +266,7 @@ namespace snicholls {
                 source = *add(net->converted, fee);
             }
             const fx_quote out{id<provider_id>("mem_q_" + std::to_string(++next_id_)), source, target, fee, r->second,
-                               clock_() + quote_lifetime};
+                               stamp() + quote_lifetime};
             quotes_.insert_or_assign(std::string(out.quote_id.view()), out);
             return ok(out);
         }
@@ -366,7 +380,7 @@ namespace snicholls {
                 return fail(capability_errc::not_found);
             it->second.status = payment_status::failed;
             it->second.failure_code = code;
-            it->second.updated_at = clock_();
+            it->second.updated_at = stamp();
             return ok(it->second);
         }
 
@@ -385,7 +399,7 @@ namespace snicholls {
             if (!ref || !from)
                 return fail(capability_errc::invalid_argument, {}, "a reference or sender longer than 255 characters");
             const credit c{id<provider_id>("mem_cr_" + std::to_string(++next_id_)), net, money::zero(net.asset_of()), *ref,
-                           *from, clock_()};
+                           *from, stamp()};
             credit_into(net);
             credits_.push_back(c);
             std::string related;
@@ -422,7 +436,7 @@ namespace snicholls {
         /// \return The delivery, with `received_at` the clock's time.
         [[nodiscard]] owned_delivery signed_webhook(const webhook_event& e, std::optional<utc_s> signed_at = {}) const
         {
-            return detail::memory_webhook::sign(secret_, e, signed_at ? *signed_at : clock_(), clock_());
+            return detail::memory_webhook::sign(secret_, e, signed_at ? *signed_at : stamp(), stamp());
         }
 
         /// \brief Makes the next `collect`, `payout` or `refund` fail (once) as though the provider answered `response`.
@@ -435,6 +449,11 @@ namespace snicholls {
         }
 
     private:
+        // The clock's time, in the seconds every record of this reference carries.
+        [[nodiscard]] utc_s stamp() const noexcept(noexcept(std::declval<const Clock&>().now()))
+        {
+            return detail::clock_now<std::chrono::seconds>(clock_);
+        }
         // An id the provider makes itself, which always fits.
         template <typename Id>
         static Id id(std::string_view text) noexcept
@@ -529,7 +548,7 @@ namespace snicholls {
             p.status = payment_status::pending;
             p.amount = amount;
             p.received = p.fee = p.refunded = money::zero(amount.asset_of());
-            p.updated_at = clock_();
+            p.updated_at = stamp();
             return p;
         }
 
@@ -545,7 +564,7 @@ namespace snicholls {
             p.status = payment_status::succeeded;
             p.received = gross;
             p.fee = fee_on(gross);
-            p.updated_at = clock_();
+            p.updated_at = stamp();
             credit_into(*subtract(gross, p.fee));
             record(std::string(p.payment_id.view()), fact_kind::payment, gross, p.fee, fact_refs{p.payment_id, {}, {}, {}, {}});
         }
@@ -559,7 +578,7 @@ namespace snicholls {
             f.provider_account = provider_account_;
             f.fact_id = id<fact_id>(line_id.empty() ? "mem_txn_" + std::to_string(++next_id_) : line_id);
             f.kind = kind;
-            f.dates.trade_at = clock_();
+            f.dates.trade_at = stamp();
             f.dates.known_at = f.dates.trade_at;
             f.dates.settled_at = f.dates.trade_at;   // the reference settles at once
             f.dates.settles_on = f.dates.trade_at.days();
@@ -588,7 +607,7 @@ namespace snicholls {
 
         std::vector<asset> currencies_;
         secret<std::string> secret_;
-        clock_source clock_;
+        Clock clock_;
         std::uint32_t fee_bps_{0};
         std::uint64_t next_id_{0};
         std::uint64_t next_reference_{0};
@@ -607,6 +626,10 @@ namespace snicholls {
         snicholls::provider_account provider_account_{"mem_acct_1"};
         std::optional<capability_error> injected_;
     };
+
+    /// \brief The reference with a `manual_utc_clock`: what tests use.
+    /// \ingroup core
+    using memory_payment_provider = basic_memory_payment_provider<>;
 
     static_assert(payment_provider<memory_payment_provider>, "snicholls::memory_payment_provider must model snicholls::payment_provider");
 

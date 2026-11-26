@@ -84,22 +84,18 @@ struct receipt {
     std::uint32_t attempts;
 };
 
-// The shop's till: one clock for the identifiers and the provider, the provider, the journal, the jitter.
+// The shop's till: the identifiers and the provider, each owning a manual clock set to the same instant, the
+// journal, the jitter. Time moves on both clocks together.
 struct till {
     reference_uuid_generator ids = make_reference_uuid_generator(2026, opening);
-    utc_s now = chr::time_point_cast<chr::seconds>(opening.sys_time());
-    memory_payment_provider provider{{aud}, secret<std::string>{"whsec_showcase_only"}, [this] { return now; }};
+    memory_payment_provider provider{{aud}, secret<std::string>{"whsec_showcase_only"}, manual_utc_clock{opening}};
     reference_key_value_store journal;
     stats::wyrand jitter{2026};
-
-    till() = default;
-    till(const till&) = delete;   // the provider's clock reads this till
-    till& operator=(const till&) = delete;
 
     void advance(chr::milliseconds d)
     {
         ids.clock().advance(d);
-        now = chr::time_point_cast<chr::seconds>(ids.clock().now().sys_time());
+        provider.clock().advance(d);
     }
 };
 
@@ -122,7 +118,7 @@ capability_result<receipt> take_payment(till& t, const checkout& c)
         started = t.provider.collect(request);
     }
     SNICHOLLS_TRY_ASSIGN(const collection opened, std::move(started));
-    const std::string_view pid = opened.pay.payment_id.view();
+    const std::string_view pid = opened.pay.payment_id;
 
     SNICHOLLS_TRY_ASSIGN(const payment done, c.then == outcome::declines    ? t.provider.decline(pid, "card_declined")
                                              : c.then == outcome::transfers ? t.provider.receive_credit(dollars(c.amount), "CUST-7", "A Customer")
@@ -185,7 +181,7 @@ int main()
     expect(replay && replay->pay.payment_id == receipts[0].pay.payment_id, "replaying a key returns the original payment, not a second one");
 
     println("\n2. A refund, a supplier payout, and a webhook");
-    const auto refund = t.provider.refund({"refund-ORD-1004", receipts[3].pay.payment_id.view(), std::nullopt, "customer changed their mind"});
+    const auto refund = t.provider.refund({"refund-ORD-1004", receipts[3].pay.payment_id, std::nullopt, "customer changed their mind"});
     lifecycles[3].process_event(fsm::lifecycle_event::settle{});
     lifecycles[3].process_event(fsm::lifecycle_event::reverse{});
     const auto payout = t.provider.payout({"payout-acme-1126", "INV-77", dollars("1000.00"), "supplier-acme", "November stock", std::nullopt});
@@ -213,7 +209,7 @@ int main()
     money booked = money::zero(aud);
     for (const auto& f : statement->facts) {
         booked = *add(booked, f.settled.net);
-        acout{} << "  " << f.fact_id.view() << "  " << f.kind << "  gross " << cash{f.settled.gross} << "  fee " << cash{-f.settled.fee} << "  net "
+        acout{} << "  " << f.fact_id << "  " << f.kind << "  gross " << cash{f.settled.gross} << "  fee " << cash{-f.settled.fee} << "  net "
                 << cash{f.settled.net} << '\n';
     }
     const money balance = (*t.provider.balances())[0];

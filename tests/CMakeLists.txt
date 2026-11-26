@@ -424,6 +424,7 @@ add_executable(snicholls_core_tests
     time/names_test.cpp
     time/rfc3339_test.cpp
     time/solar_test.cpp
+    time/utc_clock_test.cpp
     time/utc_format_test.cpp
     time/utc_test.cpp
     time/week_date_test.cpp

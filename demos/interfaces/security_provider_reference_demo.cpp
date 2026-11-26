@@ -42,15 +42,15 @@ void show(memory_security_provider& p, std::chrono::sys_days day, const char* wh
 int main()
 {
     std::printf("snicholls-core interfaces/security_provider_reference.hpp demo\n");
-    utc_s now = utc_s::from_unix_seconds(1'800'000'000);   // the test's clock, moved by hand
     //! [reference]
-    memory_security_provider broker{secret<std::string>{"whsec_demo_only"}, [&now] { return now; }};
+    memory_security_provider broker{secret<std::string>{"whsec_demo_only"}, manual_utc_clock{utc_s::from_unix_seconds(1'800'000'000)}};
     const auto buy = broker.execute("ord-1", money::from_units(bhp, 100), -*parse_money(aud, "4512.50"),
                                     *parse_money(aud, "9.95"));          // T: a buy, due T+2
-    const std::chrono::sys_days trade_day = now.days();
-    now += std::chrono::days{2};
+    const std::chrono::sys_days trade_day = broker.clock().now().days();
+    broker.clock().advance(std::chrono::days{2});                         // the provider's own clock, moved by hand
     const auto settled = broker.settle("ord-1");                         // T+2: settled
     //! [reference]
+    const utc_s now = std::chrono::floor<std::chrono::seconds>(broker.clock().now().sys_time());
     check(buy.is_ok() && buy->kind == security_fact_kind::buy && *buy->dates.settles_on == trade_day + std::chrono::days{2},
           "a buy, due to settle two days later");
     check(settled.is_ok() && settled->kind == security_fact_kind::settle, "then a settle fact");

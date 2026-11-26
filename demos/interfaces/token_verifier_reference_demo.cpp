@@ -30,14 +30,14 @@ int main()
 {
     std::printf("snicholls-core interfaces/token_verifier_reference.hpp demo\n");
     //! [reference]
-    utc_s now = utc_s::from_unix_seconds(1'800'000'000);
-    memory_token_verifier v{secret<std::string>{"a test-only HS256 key of 32 bytes or more"}, [&] { return now; }};
+    const utc_s now = utc_s::from_unix_seconds(1'800'000'000);
+    memory_token_verifier v{secret<std::string>{"a test-only HS256 key of 32 bytes or more"}, manual_utc_clock{now}};
     token_claims c;
     c.subject = uuid::from_u64(0xa11ce, 1);
     c.expires_at = now + std::chrono::minutes{15};
     const std::string token = v.issue(c);   // mt1.<serial>.<HMAC-SHA256 in hex>
     const auto fresh = v.verify(token);
-    now += std::chrono::minutes{15};
+    v.clock().advance(std::chrono::minutes{15});   // the verifier owns its clock
     const auto later = v.verify(token);   // stale: the client refreshes
     //! [reference]
     std::printf("  token: %s\n", token.c_str());

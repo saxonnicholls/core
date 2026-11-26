@@ -46,6 +46,17 @@ int main()
 
     std::printf("  mean %.4f, volatility %.4f, beta %.2f, correlation %.2f, ewma volatility %.4f, best %.3f\n", returns.mean(),
                 returns.standard_deviation(), against_index.beta(), against_index.correlation(), risk.volatility(), *best.value());
+    std::printf("  %llu returns, %llu pairs\n", static_cast<unsigned long long>(returns.count()),
+                static_cast<unsigned long long>(against_index.count()));
+    // The square roots are constexpr: a fixed table's volatility is known before the program runs.
+    constexpr double table_volatility = [] {
+        stats::variance<double> v;
+        for (const double x : {0.01, -0.01, 0.01, -0.01})
+            v.add(x);
+        return v.standard_deviation();
+    }();
+    static_assert(table_volatility > 0.0115 && table_volatility < 0.0116, "sqrt(4 * 0.0001 / 3)");
+    ok &= returns.count() == portfolio.size() && against_index.count() == portfolio.size() && first_half.count() == 6;
     ok &= std::abs(first_half.value() - returns.value()) < 1e-15 && *best.value() == 0.012 && std::abs(against_index.beta() - 1.3465) < 1e-4;
 
     std::printf(ok ? "accumulators demo: ok\n" : "accumulators demo: FAILED\n");

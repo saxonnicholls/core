@@ -34,6 +34,8 @@
 /// `interfaces/payment_provider_reference.hpp`. Group: \ref core.
 ///
 /// **Implementations / variants.** One.
+/// `basic_memory_security_provider<Clock>` reads any `utc_clock` (`time/utc_clock.hpp`), owned by value and reached through
+/// `clock()`; `memory_security_provider` is `basic_memory_security_provider<manual_utc_clock>`.
 ///
 /// **Guarantees.** Not thread-safe. Ids are deterministic (`mem_sf_1`, ...). Quantities and cash are exact. Errors
 /// follow the redaction rule.
@@ -49,11 +51,12 @@
 /// `demos/interfaces/security_provider_reference_demo.cpp`.
 ///
 /// **Dependencies.** `<chrono>`, `<cstdint>`, `<functional>`, `<map>`, `<optional>`, `<string>`, `<string_view>`,
-/// `<utility>`, `<vector>`, `detail/memory_webhook.hpp` (HMAC-SHA256), `interfaces/security_provider.hpp`, `secret.hpp`.
+/// `<utility>`, `<vector>`, `detail/memory_webhook.hpp` (HMAC-SHA256), `interfaces/security_provider.hpp`, `secret.hpp`, `time/utc_clock.hpp`.
 ///
 /// **Known issues.** Settlement is T+2 calendar days; real settlement is in business days of the market's calendar.
 ///
-/// **Status.** New in 0.27.0.
+/// **Status.** New in 0.27.0; the clock a `utc_clock` template parameter, owned, since 0.27.0 (it was a
+/// `std::function<utc_s()>`).
 
 #ifndef snicholls_core_interfaces_security_provider_reference_hpp
 #define snicholls_core_interfaces_security_provider_reference_hpp
@@ -61,6 +64,7 @@
 #include <snicholls/core/detail/memory_webhook.hpp>
 #include <snicholls/core/interfaces/security_provider.hpp>
 #include <snicholls/core/secret.hpp>
+#include <snicholls/core/time/utc_clock.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -76,10 +80,13 @@ namespace snicholls {
 
     /// \brief The reference security provider.
     /// \ingroup core
-    class memory_security_provider {
+    /// \tparam Clock A `utc_clock` (`time/utc_clock.hpp`), owned by value; `manual_utc_clock` by default, moved by
+    ///               `clock().advance(d)`.
+    template <utc_clock Clock = manual_utc_clock>
+    class basic_memory_security_provider {
     public:
-        /// \brief Reads the time.
-        using clock_source = std::function<utc_s()>;
+        /// \brief The clock.
+        using clock_type = Clock;
         /// \brief The webhook time window, either side of `received_at`.
         static constexpr std::chrono::seconds webhook_tolerance = detail::memory_webhook::tolerance;
         /// \brief The signature header.
@@ -90,10 +97,17 @@ namespace snicholls {
         /// \brief A provider signing webhooks with `webhook_secret`.
         /// \param webhook_secret The HMAC key for webhooks (never logged).
         /// \param clock          The clock.
-        memory_security_provider(secret<std::string> webhook_secret, clock_source clock)
+        basic_memory_security_provider(secret<std::string> webhook_secret, Clock clock)
             : secret_(std::move(webhook_secret)), clock_(std::move(clock))
         {
         }
+
+        /// \brief The clock, to move a manual one: `clock().advance(d)`.
+        /// \return The clock.
+        [[nodiscard]] Clock& clock() noexcept { return clock_; }
+        /// \brief The clock.
+        /// \return The clock.
+        [[nodiscard]] const Clock& clock() const noexcept { return clock_; }
 
         /// \brief What it reports: every kind, and holdings.
         /// \return The capabilities.
@@ -208,7 +222,7 @@ namespace snicholls {
             if (f.fact_id.empty())
                 f.fact_id = *fact_id::make("mem_sf_" + std::to_string(++next_id_));
             if (f.dates.known_at == utc_s{})
-                f.dates.known_at = clock_();
+                f.dates.known_at = stamp();
             if (auto valid = validate(f); !valid)
                 return err(valid.unwrap_err());
             for (const security_fact& g : facts_)
@@ -244,7 +258,7 @@ namespace snicholls {
             f.quantity = quantity;
             f.consideration = consideration;
             f.fees = fees ? *fees : money::zero(consideration.asset_of());
-            f.dates.trade_at = clock_();
+            f.dates.trade_at = stamp();
             f.dates.known_at = f.dates.trade_at;
             f.dates.settles_on = f.dates.trade_at.days() + settlement_lag;
             f.dates.settles_on_estimated = true;
@@ -272,7 +286,7 @@ namespace snicholls {
         /// \return The delivery, with `received_at` the clock's time.
         [[nodiscard]] owned_delivery signed_webhook(const webhook_event& e, std::optional<utc_s> signed_at = {}) const
         {
-            return detail::memory_webhook::sign(secret_, e, signed_at ? *signed_at : clock_(), clock_());
+            return detail::memory_webhook::sign(secret_, e, signed_at ? *signed_at : stamp(), stamp());
         }
 
         /// \brief Makes the next `resolve`, `statement` or `holdings` fail (once) as though the provider answered
@@ -286,6 +300,11 @@ namespace snicholls {
         }
 
     private:
+        // The clock's time, in the seconds every record of this reference carries.
+        [[nodiscard]] utc_s stamp() const noexcept(noexcept(std::declval<const Clock&>().now()))
+        {
+            return detail::clock_now<std::chrono::seconds>(clock_);
+        }
         std::optional<capability_error> take_injected() noexcept
         {
             auto e = injected_;
@@ -307,20 +326,24 @@ namespace snicholls {
             security_fact f = *trade;
             f.fact_id = {};
             f.kind = kind;
-            f.dates.known_at = clock_();
+            f.dates.known_at = stamp();
             if (kind == security_fact_kind::settle)
-                f.dates.settled_at = clock_();
+                f.dates.settled_at = stamp();
             f.refs.settlement = *provider_id::make("mem_set_" + std::to_string(next_id_ + 1));
             return book(f);
         }
 
         secret<std::string> secret_;
-        clock_source clock_;
+        Clock clock_;
         std::uint64_t next_id_{0};
         std::vector<security_fact> facts_;   // in booking order
         snicholls::provider_account provider_account_{"mem_sec_1"};
         std::optional<capability_error> injected_;
     };
+
+    /// \brief The reference with a `manual_utc_clock`: what tests use.
+    /// \ingroup core
+    using memory_security_provider = basic_memory_security_provider<>;
 
     static_assert(security_provider<memory_security_provider>,
                   "snicholls::memory_security_provider must model snicholls::security_provider");

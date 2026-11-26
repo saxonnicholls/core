@@ -31,7 +31,7 @@ int main()
     std::printf("snicholls-core interfaces/key_store_reference.hpp demo\n");
     //! [reference]
     memory_key_store store{[](std::span<std::byte> out) { std::fill(out.begin(), out.end(), std::byte{0x5a}); },   // the OS's, in a program
-                           [] { return utc_s::from_unix_seconds(1'800'000'000); }};
+                           manual_utc_clock{utc_s::from_unix_seconds(1'800'000'000)}};
     const auto made = store.create({signature_algorithm::hs256, "webhooks"});
     const auto refused = store.create({signature_algorithm::eddsa, "jwt"});   // needs elliptic curves: above core
     //! [reference]

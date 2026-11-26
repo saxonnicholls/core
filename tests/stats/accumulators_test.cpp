@@ -42,11 +42,32 @@ static_assert(stats::accumulator<stats::variance<double>, double> && stats::merg
 static_assert(!stats::mergeable<stats::ewma<double>>);
 static_assert(std::is_trivially_copyable_v<stats::variance<double>> && sizeof(stats::variance<double>) == 3 * 8);
 
+// count() and the constexpr square roots
+static_assert(over<stats::mean<double>>({1.0, 2.0, 6.0}).count() == 3 && stats::mean<double>{}.count() == 0);
+static_assert(over<stats::variance<double>>({1.0, 2.0, 6.0}).count() == 3 && stats::variance<double>{}.count() == 0);
+static_assert(over<stats::variance<double>>({1.0, 3.0}).standard_deviation() == snicholls::math::sqrt(2.0));
+static_assert(over<stats::variance<float>>({1.0f, 2.0f, 6.0f}).standard_deviation() == snicholls::math::sqrt(7.0f));
+static_assert(noexcept(stats::variance<double>{}.standard_deviation()) && noexcept(stats::variance<double>{}.count()));
+constexpr stats::covariance<double> line = [] {
+    stats::covariance<double> c;
+    c.add(1.0, 2.0);
+    c.add(2.0, 4.0);
+    c.add(3.0, 6.0);
+    return c;
+}();
+static_assert(line.count() == 3 && line.correlation() == 1.0 && line.beta() == 2.0);
+static_assert(over<stats::ewma<double>>({1.0, 3.0}, stats::ewma<double>{.alpha = 0.5}).volatility() == 1.0);
+static_assert(over<stats::histogram<double, 2>>({-1.0, 0.25, 0.75, 2.0}).count() == 4);
+static_assert(stats::weighted_moments{.weight = 3, .mean = 0, .variance = 4}.standard_deviation() == 2.0);
+
 TEST(Accumulators, EmptyMomentsAreNaN)
 {
     EXPECT_TRUE(std::isnan(stats::mean<double>{}.value()));
     EXPECT_TRUE(std::isnan(over<stats::variance<double>>({1.0}).value()));
     EXPECT_TRUE(std::isnan(stats::covariance<double>{}.value()));
+    EXPECT_TRUE(std::isnan(over<stats::variance<double>>({1.0}).standard_deviation()));
+    EXPECT_TRUE(std::isnan(stats::covariance<double>{}.correlation()));
+    EXPECT_TRUE(std::isnan(stats::ewma<double>{}.volatility()));
 }
 
 TEST(Accumulators, MergingSplitDataEqualsOnePass)
@@ -118,6 +139,7 @@ TEST(Accumulators, HistogramCountsAndMerges)
     EXPECT_EQ(h.value(), (std::array<std::uint64_t, 4>{2, 1, 0, 1}));
     EXPECT_EQ(h.below, 2u);   // -0.1 and NaN
     EXPECT_EQ(h.above, 1u);
+    EXPECT_EQ(h.count(), 7u);
     auto other = h;
     h.merge(other);
     EXPECT_EQ(h.value()[0], 4u);

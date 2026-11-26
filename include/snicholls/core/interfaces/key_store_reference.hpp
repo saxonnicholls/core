@@ -26,6 +26,8 @@
 /// kits in every form; `interfaces/signer_reference.hpp` names it `memory_signer`. Group: \ref core.
 ///
 /// **Implementations / variants.** One.
+/// `basic_memory_key_store<Clock>` reads any `utc_clock` (`time/utc_clock.hpp`), owned by value and reached through
+/// `clock()`; `memory_key_store` is `basic_memory_key_store<manual_utc_clock>`.
 ///
 /// **Guarantees.** Not thread-safe. Signing is deterministic. Key ids are `key-1`, `key-2`, ... and never reused.
 /// Errors follow the redaction rule: no key material, payload or response in them.
@@ -39,13 +41,14 @@
 /// **Tests and demos.** `tests/interfaces/key_store_reference_test.cpp`,
 /// `demos/interfaces/key_store_reference_demo.cpp`.
 ///
-/// **Dependencies.** `<cstddef>`, `<cstdint>`, `<functional>`, `<map>`, `<memory>`, `<optional>`, `<span>`,
+/// **Dependencies.** `<chrono>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<functional>`, `<map>`, `<memory>`, `<optional>`, `<span>`,
 /// `<string>`, `<string_view>`, `<utility>`, `<vector>`, `hash/hmac.hpp`, `hash/secure.hpp`, `hash/sha2.hpp`,
-/// `secret.hpp`, `interfaces/key_store.hpp`, `interfaces/signer.hpp`.
+/// `secret.hpp`, `interfaces/key_store.hpp`, `interfaces/signer.hpp`, `time/utc_clock.hpp`.
 ///
 /// **Known issues.** HS256 only, by design.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; the clock a `utc_clock` template parameter, owned, since 0.27.0 (it was a
+/// `std::function<utc_s()>`).
 
 #ifndef snicholls_core_interfaces_key_store_reference_hpp
 #define snicholls_core_interfaces_key_store_reference_hpp
@@ -56,7 +59,10 @@
 #include <snicholls/core/interfaces/key_store.hpp>
 #include <snicholls/core/interfaces/signer.hpp>
 #include <snicholls/core/secret.hpp>
+#include <snicholls/core/time/utc_clock.hpp>
 
+#include <chrono>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <functional>
@@ -73,12 +79,15 @@ namespace snicholls {
 
     /// \brief The reference key store and signer (HS256, in memory).
     /// \ingroup core
-    class memory_key_store {
+    /// \tparam Clock A `utc_clock` (`time/utc_clock.hpp`), owned by value; `manual_utc_clock` by default, moved by
+    ///               `clock().advance(d)`.
+    template <utc_clock Clock = manual_utc_clock>
+    class basic_memory_key_store {
     public:
         /// \brief Fills a buffer with key material.
         using random_source = std::function<void(std::span<std::byte>)>;
-        /// \brief Reads the time.
-        using clock_source = std::function<utc_s()>;
+        /// \brief The clock.
+        using clock_type = Clock;
 
         /// \brief The key length: 32 bytes, SHA-256's output (RFC 7518 section 3.2 requires at least that).
         static constexpr std::size_t key_bytes = 32;
@@ -86,20 +95,28 @@ namespace snicholls {
         /// \brief A store drawing key material from `random` and the time from `clock`.
         /// \param random The key material source.
         /// \param clock  The clock.
-        memory_key_store(random_source random, clock_source clock) : random_(std::move(random)), clock_(std::move(clock)) {}
+        basic_memory_key_store(random_source random, Clock clock) : random_(std::move(random)), clock_(std::move(clock)) {}
+
+        /// \brief The clock, to move a manual one: `clock().advance(d)`.
+        /// \return The clock.
+        [[nodiscard]] Clock& clock() noexcept { return clock_; }
+        /// \brief The clock.
+        /// \return The clock.
+        [[nodiscard]] const Clock& clock() const noexcept { return clock_; }
 
         /// \brief A store for tests: key material is the byte pattern 0, 1, 2, ... (so every run is the same) and the
         /// clock is fixed at `now`. Never for anything but tests.
         /// \param now The fixed time.
         /// \return The store.
-        [[nodiscard]] static memory_key_store deterministic(utc_s now = utc_s::from_unix_seconds(1'800'000'000))
+        [[nodiscard]] static basic_memory_key_store deterministic(utc_s now = utc_s::from_unix_seconds(1'800'000'000))
+            requires std::same_as<Clock, manual_utc_clock>
         {
             auto counter = std::make_shared<std::uint8_t>(0);
-            return memory_key_store{[counter](std::span<std::byte> out) {
-                                        for (auto& b : out)
-                                            b = static_cast<std::byte>((*counter)++);
-                                    },
-                                    [now] { return now; }};
+            return basic_memory_key_store{[counter](std::span<std::byte> out) {
+                                              for (auto& b : out)
+                                                  b = static_cast<std::byte>((*counter)++);
+                                          },
+                                          manual_utc_clock{now}};
         }
 
         /// \brief Creates a key (HS256 only).
@@ -245,6 +262,11 @@ namespace snicholls {
         }
 
     private:
+        // The clock's time, in the seconds every record of this reference carries.
+        [[nodiscard]] utc_s stamp() const noexcept(noexcept(std::declval<const Clock&>().now()))
+        {
+            return detail::clock_now<std::chrono::seconds>(clock_);
+        }
         struct version {
             std::uint32_t number{0};
             key_state state{key_state::active};
@@ -268,7 +290,7 @@ namespace snicholls {
         {
             std::string bytes(key_bytes, '\0');
             random_(std::as_writable_bytes(std::span<char>(bytes.data(), bytes.size())));
-            return version{number, key_state::active, clock_(), secret<std::string>{std::move(bytes)}};
+            return version{number, key_state::active, stamp(), secret<std::string>{std::move(bytes)}};
         }
 
         static std::vector<std::byte> mac(const version& v, std::span<const std::byte> payload)
@@ -283,11 +305,15 @@ namespace snicholls {
         }
 
         random_source random_;
-        clock_source clock_;
+        Clock clock_;
         std::map<std::string, entry, std::less<>> keys_;
         std::uint64_t next_id_{0};
         std::optional<capability_error> injected_;
     };
+
+    /// \brief The reference with a `manual_utc_clock`: what tests use.
+    /// \ingroup core
+    using memory_key_store = basic_memory_key_store<>;
 
     static_assert(key_store<memory_key_store>, "snicholls::memory_key_store must model snicholls::key_store");
     static_assert(signer<memory_key_store>, "snicholls::memory_key_store must model snicholls::signer");
