@@ -35,9 +35,10 @@ struct broken_store {
         if (D != defect::ignores_the_tenant)
             return inner.grants_of(p, t, now);
         std::vector<role_grant> all;
-        for (const std::string_view tenant : {std::string_view{"acme"}, platform_tenant})
-            for (const auto& g : *inner.grants_of(p, tenant, now))
-                all.push_back(g);
+        for (const std::string_view tenant : {std::string_view{"acme"}, platform_tenant}) {
+            const auto some = inner.grants_of(p, tenant, now);
+            all.insert(all.end(), some->begin(), some->end());
+        }
         return ok(std::move(all));
     }
     capability_result<std::vector<role_grant>> members(std::string_view t, utc_s now) const
