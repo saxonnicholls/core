@@ -87,6 +87,25 @@ A version is released when its tag is on a commit where every blocking CI leg is
   noexcept`: `std::errc{}` is success, and the literal type lets a source be `constexpr`. All four headers are
   C++17-clean (compiled in `snicholls_core_cpp17_check`): ts-moveables implements the operating system's source on it,
   and crypto and core's uuid generator take their randomness through it.
+- **`functional/`, functional programming in `snicholls::fn`, all `constexpr`**: functions that take and return
+  functions, with Haskell's and OCaml's vocabulary. `combinators` (`identity`, `constant`, `flip`, `compose`, `pipe`,
+  `x | then(f)` for `|>` / `&`, `call` for `$` / `@@`, `on`, `apply`, `juxt`, `fix`, `tap`, `when`, `unless`, `until`,
+  `apply_when`, `bool_`, `rotate_args`); `curry` (`curry(f)`, `curry<N>(f)` for generic lambdas, `uncurry`, `partial`,
+  `partial_right`, `lsection` / `rsection`); `bind` (placeholders `arg<N>`, `_1` ... `_9`); `typeclasses` (Semigroup,
+  Monoid, Functor, Applicative, Monad, Alternative, Bifunctor as concepts with instance traits; `fmap`, `pure`, `ap`,
+  `lift_a2`, `mbind`, `kleisli`, `join`, `alt`, `bimap`, `dimap`; the `sum_of` ... `endo` monoid wrappers);
+  `instances` (Maybe = `std::optional`, Either = `result`, tuples, pairs, `std::array` as the list monad, strings,
+  vectors); `state` (Identity, Const, Reader, Writer, State); `monad` (`lift`, `sequence`, `traverse`, `fold_m`,
+  `zip_with_m`, `replicate_m`, `when_m`, `maybe`, `either`, `map_maybe`, `cat_maybes`); `fold` (`foldl`, `foldr`,
+  `scan` over packs, `foldl_of` / `foldr_of` over ranges and tuples, `unfold`, `iterate_n`); `list` (Data.List on
+  `std::array`); `lazy` (`lazy` thunks and infinite `stream`s); `match` (pattern matching with guards and
+  compile-time exhaustiveness over variants, results, tuples and aggregates); `recursion` (`cata`, `ana`, `hylo`,
+  `para`, `trampoline`); `tabulate` (compile-time memoisation); `types` (type-level names for `meta::type_list`);
+  `ocaml` (the Option, Result and List modules). The laws are tested at compile time. A composed, curried pipeline
+  compiles to the same instructions as the hand-written lambda (benchmarks/functional/).
+- **`snicholls::nest` and `snicholls::table` declare their `noexcept`**, as documented: exactly when `f`'s call and the
+  value's moves cannot throw.
+
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
 - **`finance::make_cash_ladder`** (`finance/cash_ladder.hpp`): an opening balance and dated `money` flows as a

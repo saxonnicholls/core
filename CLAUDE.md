@@ -162,7 +162,8 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `type_name`, `compare`, `assignable`, `values`, `attributes`); `reflect/` for reflection over aggregates and strings
   (`member_count`, `struct_tuple`, `string_traits`, `string_access`); `stats/` (`random`, `bootstrap`, `low_discrepancy`, `accumulators`, `pivot`, `covariance`, `resample`, `ransac`; `snicholls::stats`);
   `stochastic/` (`martingale`, `snell`; `snicholls::stochastic`); `math/` (`constexpr_math`, `roots`, `special`; `snicholls::math`); `ml/` (`row`, `activations`, `softmax`, `norm`,
-  `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `combinatorics/` (`permutations`,
+  `minifloat`, `bpe`, `rope`, `attention`, `embedding`, `sampling`, `optim`, `quantize`; `snicholls::ml`); `functional/` (`combinators`, `curry`, `bind`, `typeclasses`, `instances`, `state`, `monad`, `fold`, `list`, `lazy`,
+  `match`, `recursion`, `tabulate`, `types`, `ocaml`; `snicholls::fn`); `combinatorics/` (`permutations`,
   `partition`, `assignment`); `hash/` (`fnv`, `wyhash`, `hash_combine`, `digest`, `sha1`, `sha2`, `sha3`,
   `ripemd160`, `blake2`, `blake3`, `crc`, `hmac`, `kdf`, `scrypt`, `secure`); `containers/`; `ids/` (`check_digits`: Luhn, ISIN, IBAN, LEI, CUSIP, SEDOL, GTIN / EAN-13); `game/` (`snicholls::game`); `finance/`
   (`day_count`, `year_fraction`, `business_day`, ...; `snicholls::finance`); `fsm/` (`state_machine`, `persist`,
@@ -378,6 +379,11 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
 - `invoke_with(set, source)` / `invoke_any(set, {args...})` when the arguments exist only at run time; a source
   for another carrier (JSON, a command line) is `size()` plus `get<T>(i)`. `callable_traits<F>` to read a
   callable's signature; never a hand-rolled `function_traits`.
+- `snicholls::fn` (`functional/`) when the function is the value being built: a pipeline assembled from curried
+  pieces (`fn::pipe`, `fn::curry`, `x | fn::then(f)`), a recursive lambda (`fn::fix`), a calculation generic over
+  Maybe / Either / State (`fn::fmap`, `fn::mbind`, `fn::lift`), pattern matching with guards (`fn::match`), a
+  compile-time list (`functional/list.hpp`, `fn::stream`). Never `std::bind` or `std::function` for this; write the plain lambda
+  when it is used once.
 - `constexpr_map` for a table known when the program is written (an enumeration's names), looked up both ways.
 - `fnv1a_64` where a tiny, specified-by-the-byte hash must agree across machines or be a `switch` label;
   `wyhash` for speed over longer keys and avalanche, also constexpr and machine-independent; `hash_combine` only

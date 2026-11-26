@@ -31,6 +31,11 @@ static_assert(snicholls::fold_list([](int a, int b) { return a + b; }, 0, std::a
 static_assert(snicholls::fixed_point([](int x) { return x / 2; }, 100, 64).value == 0);
 static_assert(snicholls::fixed_point([](int x) { return x / 2; }, 100, 64).converged);
 static_assert(!snicholls::fixed_point([](int x) { return x + 1; }, 0, 5).converged);
+// table and nest declare their noexcept: exactly when f's call (and the value's moves) cannot throw.
+static_assert(noexcept(snicholls::nest([](int x) noexcept { return x; }, 1, 3)));
+static_assert(!noexcept(snicholls::nest(twice, 1, 3)));
+static_assert(noexcept(snicholls::table<3>([](std::size_t i) noexcept { return i; })));
+static_assert(!noexcept(snicholls::table<3>([](std::size_t i) { return i; })));
 
 TEST(Iterate, FixedPointWithAToleranceFindsTheSquareRootOfTwo)
 {

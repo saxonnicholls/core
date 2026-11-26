@@ -61,11 +61,15 @@ GENERATE_LATEX         = NO
 GENERATE_TREEVIEW      = YES
 SOURCE_BROWSER         = YES
 HAVE_DOT               = NO
-MACRO_EXPANSION        = NO
+# Expanded for Doxygen only: SNICHOLLS_FN_RETURNS (functional/) is a function body, which Doxygen cannot parse
+# unexpanded. Nothing else is expanded.
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
 # Seen by Doxygen only: result.hpp documents the throwing policy, and shows
 # bad_result_access<E> deriving from std::logic_error (Doxygen reports the real
 # base, its own <void> specialisation, as a recursive class relation).
-PREDEFINED             = SNICHOLLS_DOXYGEN
+PREDEFINED             = SNICHOLLS_DOXYGEN \
+                         "SNICHOLLS_FN_RETURNS(...)={}"
 # std::hash specialisations are documented in the std namespace
 BUILTIN_STL_SUPPORT    = YES
 # One comment documents a member group (///@{ ... ///@}), e.g. the ref-qualified

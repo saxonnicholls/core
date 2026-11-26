@@ -28,7 +28,8 @@
 ///
 /// **Relationships.** `meta/type_list.hpp`; `thread_apply.hpp`; `combinatorics/subsets.hpp`. Group: \ref core.
 ///
-/// **Guarantees.** `constexpr`, allocation-free; `noexcept` when `f` is. `nest_while` and `fixed_point` stop at
+/// **Guarantees.** `constexpr`, allocation-free; `noexcept` when `f` is (declared on `table` and `nest`, which
+/// `snicholls::fn::tabulate` and `fn::iterate_n` build on). `nest_while` and `fixed_point` stop at
 /// `limit` steps whatever happens.
 ///
 /// **Errors.** None of their own: `fixed_point` reports, through `iterations`, whether it converged.
@@ -61,7 +62,9 @@ namespace snicholls {
     /// \param f The function.
     /// \return The table.
     template <std::size_t N, typename F>
-    [[nodiscard]] constexpr auto table(F&& f)
+    [[nodiscard]] constexpr auto table(F&& f) noexcept(
+        std::is_nothrow_invocable_v<F&, std::size_t> &&
+        std::is_nothrow_move_constructible_v<std::remove_cvref_t<std::invoke_result_t<F&, std::size_t>>>)
     {
         return [&]<std::size_t... Is>(std::index_sequence<Is...>) {
             using R = std::remove_cvref_t<std::invoke_result_t<F&, std::size_t>>;
@@ -78,7 +81,9 @@ namespace snicholls {
     /// \param n How many times.
     /// \return The result.
     template <typename F, typename T>
-    [[nodiscard]] constexpr T nest(F&& f, T x, std::size_t n)
+    [[nodiscard]] constexpr T nest(F&& f, T x, std::size_t n) noexcept(
+        std::is_nothrow_invocable_v<F&, const T&> && std::is_nothrow_assignable_v<T&, std::invoke_result_t<F&, const T&>> &&
+        std::is_nothrow_move_constructible_v<T>)
     {
         for (std::size_t i = 0; i < n; ++i)
             x = std::invoke(f, std::as_const(x));
