@@ -127,7 +127,7 @@ static_assert(fn::run_reader(fn::mbind(fn::mbind(fn::ask, k_rd), h_rd), 5) ==
 template <class T>
 constexpr bool monoid_laws(const T& x, const T& y, const T& z)
 {
-    return fn::combine(fn::mempty<T>, x) == x && fn::combine(x, fn::mempty<T>) == x &&
+    return fn::combine(fn::mempty<T>(), x) == x && fn::combine(x, fn::mempty<T>()) == x &&
            fn::combine(fn::combine(x, y), z) == fn::combine(x, fn::combine(y, z));
 }
 
@@ -155,7 +155,7 @@ TEST(FunctionalTypeclassLaws, HoldAtRunTimeForStrings)
 {
     const std::string x = "EUR", y = "/", z = "USD";
     EXPECT_EQ(fn::combine(fn::combine(x, y), z), fn::combine(x, fn::combine(y, z)));
-    EXPECT_EQ(fn::combine(fn::mempty<std::string>, x), x);
+    EXPECT_EQ(fn::combine(fn::mempty<std::string>(), x), x);
 }
 
 } // namespace

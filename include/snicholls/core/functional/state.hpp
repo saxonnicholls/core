@@ -426,7 +426,7 @@ namespace snicholls::fn {
     struct applicative_instance<const_of<C>> {
         static constexpr bool defined = true;
         template <class X>
-        static constexpr const_of<C> pure(X&&) { return {mempty<C>}; }
+        static constexpr const_of<C> pure(X&&) { return {mempty<C>()}; }
         template <class MF, class MA>
         static constexpr const_of<C> ap(MF&& mf, MA&& ma) { return {fn::combine(mf.value, ma.value)}; }
     };
@@ -482,7 +482,7 @@ namespace snicholls::fn {
     struct applicative_instance<writer<W, A>> {
         static constexpr bool defined = true;
         template <class X>
-        static constexpr writer<W, std::decay_t<X>> pure(X&& x) { return {std::forward<X>(x), mempty<W>}; }
+        static constexpr writer<W, std::decay_t<X>> pure(X&& x) { return {std::forward<X>(x), mempty<W>()}; }
         template <class MF, class MA,
                   class R = std::remove_cvref_t<std::invoke_result_t<decltype((std::declval<MF>().value)), decltype((std::declval<MA>().value))>>>
         static constexpr writer<W, R> ap(MF&& mf, MA&& ma)

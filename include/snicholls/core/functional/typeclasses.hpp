@@ -17,7 +17,7 @@
 /// | class        | instance trait                  | operations here                                            | Haskell                         |
 /// | ------------ | ------------------------------- | ---------------------------------------------------------- | ------------------------------- |
 /// | Semigroup    | `semigroup_instance<T>`         | `combine(a, b)`, `sconcat(a, b, ...)`                      | `<>`, `sconcat`                 |
-/// | Monoid       | `monoid_instance<T>`            | `mempty<T>`, `mconcat(seq)`                                | `mempty`, `mconcat`             |
+/// | Monoid       | `monoid_instance<T>`            | `mempty<T>()`, `mconcat(seq)`                                | `mempty`, `mconcat`             |
 /// | Functor      | `functor_instance<M>`           | `fmap(f, m)`, `replace(x, m)`                              | `fmap`, `<$`                    |
 /// | Applicative  | `applicative_instance<M>`       | `pure<M>(x)`, `ap(mf, mx)`, `lift_a2(f, ma, mb)`           | `pure`, `<*>`, `liftA2`         |
 /// | Monad        | `monad_instance<M>`             | `mbind(m, k)`, `and_then(k, m)`, `mthen(ma, mb)`, `join(mm)`, `kleisli(f, g)`, `kleisli_left(g, f)`, `mreturn<M>(x)` | `>>=`, `=<<`, `>>`, `join`, `>=>`, `<=<`, `return` |
@@ -317,11 +317,15 @@ namespace snicholls::fn {
     /// \ingroup core
     inline constexpr detail::sconcat_fn sconcat{};
 
-    /// \brief `mempty<T>`: the identity of `T`'s monoid, `combine(mempty<T>, x) == x == combine(x, mempty<T>)`.
+    /// \brief `mempty<T>()`: the identity of `T`'s monoid, `combine(mempty<T>(), x) == x == combine(x, mempty<T>())`.
     /// \ingroup core
     /// \tparam T A monoid.
     template <monoid T>
-    inline constexpr T mempty = monoid_instance<T>::empty();
+    [[nodiscard]] constexpr T mempty() noexcept(noexcept(monoid_instance<T>::empty()))
+    {
+        return monoid_instance<T>::empty();   // a function, not a variable: a constexpr std::string variable cannot exist
+                                              // on libstdc++, while one made and destroyed in a constant evaluation can
+    }
 
     /// \brief The type of `mconcat`: every element of a range or array combined, left to right, from `mempty`.
     /// \ingroup core

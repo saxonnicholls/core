@@ -500,7 +500,7 @@ namespace snicholls::fn {
                 requires monoid<M>
             constexpr M operator()(F&& f, R&& xs) const
             {
-                M acc = mempty<M>;
+                M acc = mempty<M>();
                 for (auto&& x : xs) acc = fn::combine(acc, std::invoke(f, x));
                 return acc;
             }

@@ -88,9 +88,9 @@ static_assert(fn::mconcat(std::array{fn::first_of<int>{}, fn::first_of<int>{2}, 
 static_assert(fn::mconcat(std::array{fn::last_of<int>{1}, fn::last_of<int>{3}, fn::last_of<int>{}}) == fn::last_of<int>{3});
 static_assert(fn::mconcat(std::array{fn::all_of{true}, fn::all_of{false}}) == fn::all_of{false});
 static_assert(fn::mconcat(std::array{fn::any_of{false}, fn::any_of{true}}) == fn::any_of{true});
-static_assert(fn::mempty<fn::all_of> == fn::all_of{true});
+static_assert(fn::mempty<fn::all_of>() == fn::all_of{true});
 static_assert(fn::combine(fn::endo{dbl}, fn::endo{inc})(3) == 8);                 // dbl . inc
-static_assert(fn::combine(fn::mempty<fn::endo<fn::detail::identity_fn>>, fn::endo{inc})(3) == 4);
+static_assert(fn::combine(fn::mempty<fn::endo<fn::detail::identity_fn>>(), fn::endo{inc})(3) == 4);
 
 // ---- bifunctor and profunctor -----------------------------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ TEST(FunctionalTypeclasses, StringsAndVectorsConcatenate)
     EXPECT_EQ(fn::sconcat(std::string("bid"), std::string("/"), std::string("ask")), "bid/ask");
     EXPECT_EQ(fn::mconcat(std::array{std::string("a"), std::string("b")}), "ab");
     EXPECT_EQ(fn::combine(std::vector<int>{1}, std::vector<int>{2, 3}), (std::vector<int>{1, 2, 3}));
-    EXPECT_TRUE(fn::mempty<std::string>.empty());
+    EXPECT_TRUE(fn::mempty<std::string>().empty());
 }
 
 TEST(FunctionalTypeclasses, FirstOfKeepsTheEarliestPresentQuote)

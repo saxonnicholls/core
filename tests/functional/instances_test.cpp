@@ -45,7 +45,7 @@ static_assert(fn::combine(fn::sum_of<int>{2}, fn::sum_of<int>{3}).value == 5);
 static_assert(fn::mconcat(std::array{fn::max_of<int>{2}, fn::max_of<int>{7}}).value == 7);
 static_assert(fn::mconcat(std::array<fn::max_of<int>, 0>{}).value == std::numeric_limits<int>::lowest());
 static_assert(fn::sconcat(std::tuple{fn::sum_of<int>{1}, fn::all_of{true}}, std::tuple{fn::sum_of<int>{2}, fn::all_of{false}}) == std::tuple{fn::sum_of<int>{3}, fn::all_of{false}});
-static_assert(fn::mempty<std::tuple<fn::sum_of<int>, fn::product_of<int>>> == std::tuple{fn::sum_of<int>{0}, fn::product_of<int>{1}});
+static_assert(fn::mempty<std::tuple<fn::sum_of<int>, fn::product_of<int>>>() == std::tuple{fn::sum_of<int>{0}, fn::product_of<int>{1}});
 static_assert(fn::combine(std::string("ab"), std::string("c")) == "abc");
 static_assert(fn::combine(fn::endo{dbl}, fn::endo{[](int x) { return x + 1; }})(3) == 8);
 static_assert(fn::bimap(dbl, dbl, std::pair{1, 2}) == std::pair{2, 4});

@@ -100,9 +100,9 @@ namespace snicholls::fn {
             SNICHOLLS_FN_RETURNS(T(std::invoke(f, std::get<J>(a), std::get<J>(b))...))
 
         template <class T, std::size_t... J>
-        constexpr T empty_elements(std::index_sequence<J...>) noexcept(noexcept(T(mempty<std::tuple_element_t<J, T>>...)))
+        constexpr T empty_elements(std::index_sequence<J...>) noexcept(noexcept(T(mempty<std::tuple_element_t<J, T>>()...)))
         {
-            return T(mempty<std::tuple_element_t<J, T>>...);
+            return T(mempty<std::tuple_element_t<J, T>>()...);
         }
 
     } // namespace detail
@@ -266,7 +266,7 @@ namespace snicholls::fn {
         requires monoid<A> && monoid<B>
     struct monoid_instance<std::pair<A, B>> {
         static constexpr bool defined = true;
-        static constexpr std::pair<A, B> empty() { return {mempty<A>, mempty<B>}; }
+        static constexpr std::pair<A, B> empty() { return {mempty<A>(), mempty<B>()}; }
     };
     template <class... Ts>
     struct functor_instance<std::tuple<Ts...>> {
@@ -330,7 +330,7 @@ namespace snicholls::fn {
         static constexpr std::array<T, N> empty()
         {
             return [&]<std::size_t... J>(std::index_sequence<J...>) {
-                return std::array<T, N>{{(static_cast<void>(J), mempty<T>)...}};
+                return std::array<T, N>{{(static_cast<void>(J), mempty<T>())...}};
             }(std::make_index_sequence<N>{});
         }
     };
