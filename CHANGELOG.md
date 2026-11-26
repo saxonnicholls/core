@@ -14,11 +14,20 @@ A version is released when its tag is on a commit where every blocking CI leg is
   `available_at` (an instant a provider gives, Stripe's `available_on`). `validate(fact_dates)` refuses a fact known
   or settled before it happened and an estimate without a date; each fact's `validate` runs it. `same_content`
   compares dates without `known_at`. Migration: `f.occurred_at` becomes `f.dates.trade_at`, and set `f.dates.known_at`.
+- **`uint256`'s 64-bit fast path**: `divmod`, `/`, `%`, `checked_div`, `checked_divmod` and `checked_mul`, and
+  `detail::mul_div` behind `convert`, branch when both operands fit in 64 bits, with bit-identical results (tested
+  against the general path). `divmod` on 64-bit operands 31 ns -> 10 ns, `checked_mul` 17 ns -> 3.4 ns; a 100,000-holder
+  dividend through `convert` 17.3 ms -> 8.8 ms (`benchmarks/money/rate_benchmark.cpp`, against 1.0 ms in 64 bits by
+  hand). `rounds_away` compares in 64 bits when it can.
 
 ### Added
 
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
+- **`rounds_away(quotient, fraction, mode)` and `sum_residuals(parts, denominator)`** (`money/rate.hpp`): the rounding
+  test `convert` applies, public (it was `detail::rounds_away`), and the exact signed total of many residuals over one
+  denominator (`malformed` for another denominator, `overflow` past 256 bits), for an entitlement engine that divides
+  by itself.
 
 ## 0.24.1 - 2026-11-26
 

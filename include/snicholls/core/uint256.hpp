@@ -45,6 +45,12 @@
 /// (asserted); `checked_div` and `checked_divmod` return `std::nullopt` for it. Shifts by
 /// 256 or more give 0. Decimal and hexadecimal round trips are exact.
 ///
+/// **The 64-bit fast path.** Most amounts in a ledger fit in 64 bits (a share count, cents). When both operands' high
+/// limbs are zero, `divmod`, `/`, `%`, `checked_div` and `checked_divmod` are one hardware division and `checked_mul`
+/// one 64 x 64 -> 128-bit product (`detail::mul_div`, behind `money/rate.hpp`, takes the same branch). The results are
+/// bit-identical to the general path, which the tests prove against it; the wrapping `*` keeps the general loop,
+/// which is as fast as the hand-written one.
+///
 /// **Errors.** None thrown by the arithmetic. `to_string`, `to_hex` and `to_abi_word`
 /// allocate and can throw `std::bad_alloc`. The parsers and the checked operations report
 /// through `std::optional`: this header deliberately does not include `result.hpp`, so
@@ -59,6 +65,11 @@
 /// `divmod` 45 ns (Knuth D, base 2^32), `to_string` 540 ns (nine digits per 32-bit division,
 /// plus the string building). Zero overhead on the operators.
 ///
+/// The fast path, against the same division and 128-bit product written on `std::uint64_t` (4,096 pairs that fit in
+/// 64 bits; Release, Apple clang 17, Xeon W-3245 under a load average of 130 to 180, 2026-11-26, CPU time): `divmod`
+/// 10.0 ns (31.3 ns before the fast path; 7.6 ns by hand), `checked_mul` 3.4 ns (17.3 ns before; 1.2 ns by hand, which
+/// returns 16 bytes where `checked_mul` returns a 40-byte `std::optional<uint256>`).
+///
 /// **Tests and demos.** `tests/uint256_test.cpp`, `demos/uint256_demo.cpp`.
 ///
 /// **Dependencies.** `<array>`, `<bit>`, `<cassert>`, `<compare>`, `<cstddef>`, `<cstdint>`,
@@ -71,7 +82,7 @@
 /// point: scale to human units by division and `to_string`, which is exact, and convert the
 /// text if a `double` is really wanted.
 ///
-/// **Status.** New in 0.5.0.
+/// **Status.** New in 0.5.0; the 64-bit fast path in 0.25.0.
 
 #ifndef snicholls_core_uint256_hpp
 #define snicholls_core_uint256_hpp
@@ -430,6 +441,10 @@ namespace snicholls {
         /// \return The product when it fits.
         [[nodiscard]] static constexpr std::optional<uint256> checked_mul(const uint256& a, const uint256& b) noexcept
         {
+            if (both_fit_64(a, b)) {   // the fast path: a 128-bit product never overflows
+                const detail::wide_product p = detail::umul128(a.limbs_[0], b.limbs_[0]);
+                return from_limbs(p.low, p.high);
+            }
             const auto full = mul_full(a, b);
             if ((full[4] | full[5] | full[6] | full[7]) != 0)
                 return std::nullopt;
@@ -443,7 +458,7 @@ namespace snicholls {
         [[nodiscard]] constexpr std::pair<uint256, uint256> divmod(const uint256& divisor) const
         {
             assert(!divisor.is_zero() && "snicholls::uint256: division by zero");
-            return divmod_knuth(*this, divisor);
+            return divmod_any(*this, divisor);
         }
 
         /// \brief `a / b`, or `std::nullopt` when `b` is 0.
@@ -454,7 +469,7 @@ namespace snicholls {
         {
             if (b.is_zero())
                 return std::nullopt;
-            return divmod_knuth(a, b).first;
+            return divmod_any(a, b).first;
         }
 
         /// \brief `{a / b, a % b}`, or `std::nullopt` when `b` is 0.
@@ -466,7 +481,7 @@ namespace snicholls {
         {
             if (b.is_zero())
                 return std::nullopt;
-            return divmod_knuth(a, b);
+            return divmod_any(a, b);
         }
 
         // ---- text ----------------------------------------------------------------------------------------------
@@ -697,6 +712,12 @@ namespace snicholls {
             return static_cast<std::uint32_t>(rem);
         }
 
+        // Whether both values fit in 64 bits: every high limb is zero.
+        static constexpr bool both_fit_64(const uint256& a, const uint256& b) noexcept
+        {
+            return (a.limbs_[1] | a.limbs_[2] | a.limbs_[3] | b.limbs_[1] | b.limbs_[2] | b.limbs_[3]) == 0;
+        }
+
         // The full 512-bit product, as eight limbs.
         static constexpr std::array<std::uint64_t, 8> mul_full(const uint256& a, const uint256& b) noexcept
         {
@@ -718,6 +739,14 @@ namespace snicholls {
         }
 
         // Knuth's algorithm D (TAOCP 4.3.1), base 2^32, in the form of Hacker's Delight's divmnu.
+        // The 64-bit fast path, small enough to inline at every call: one hardware division, the same bits.
+        static constexpr std::pair<uint256, uint256> divmod_any(const uint256& dividend, const uint256& divisor) noexcept
+        {
+            if (both_fit_64(dividend, divisor))
+                return {uint256{dividend.limbs_[0] / divisor.limbs_[0]}, uint256{dividend.limbs_[0] % divisor.limbs_[0]}};
+            return divmod_knuth(dividend, divisor);
+        }
+
         static constexpr std::pair<uint256, uint256> divmod_knuth(const uint256& dividend, const uint256& divisor) noexcept
         {
             std::array<std::uint32_t, 8> u{}, v{};

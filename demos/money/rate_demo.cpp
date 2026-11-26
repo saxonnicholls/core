@@ -8,6 +8,9 @@
 //
 
 // exact conversion with a named rounding and the residual
+#include <array>
+#include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <snicholls/core/money/iso4217.hpp>
 #include <snicholls/core/money/native.hpp>
@@ -43,6 +46,26 @@ int main()
     check(!rate::make(eth, usd, 1, 0), "a zero denominator is refused");
     check(rate::from_decimal(eth, usd, *decimal::parse("3000.25"))->denominator() == uint256(100), "from a decimal");
     check(r.numerator() > r.denominator() && r.to() == usd, "accessors");
+
+    //! [helpers]
+    // a dividend of 1/3 cent per unit to three holders, each line rounded half-even by hand
+    const uint256 d = 3;
+    std::array<residual, 3> left{};
+    uint256 paid = 0;
+    const std::array<std::uint64_t, 3> holdings{100, 200, 400};
+    for (std::size_t i = 0; i < holdings.size(); ++i) {
+        const auto [q, rem] = uint256{holdings[i]}.divmod(d);   // one hardware division: both fit in 64 bits
+        const residual fraction{false, rem, d};
+        const bool up = rounds_away(q, fraction, rounding::half_even);
+        paid += up ? q + 1 : q;
+        left[i] = up ? residual{true, d - rem, d} : fraction;   // exact minus paid
+    }
+    const auto total = sum_residuals(left, d);   // 1/3 - 1/3 + 1/3: the issuer keeps one third of a cent
+    //! [helpers]
+    std::puts("Rounding by hand");
+    check(paid == uint256(233), "33 + 67 + 133 cents paid");
+    check(total && *total == (residual{false, 1, 3}), "one third of a cent left over, exactly");
+    check(sum_residuals(left, 7).err() == money_errc::malformed, "another denominator is refused");
     std::printf("%s\n", failures == 0 ? "all checks passed" : "FAILED");
     return failures == 0 ? 0 : 1;
 }

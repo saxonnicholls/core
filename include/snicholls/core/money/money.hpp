@@ -113,13 +113,10 @@ namespace snicholls {
     };
 
     namespace detail {
-        // Whether q + r/d, of the given sign, rounds up in magnitude (to q + 1) under `mode`. 0 <= r < d.
-        [[nodiscard]] constexpr bool rounds_away(const uint256& q, const uint256& r, const uint256& d, bool negative,
-                                                 rounding mode) noexcept
+        // The rounding test on r and rest = d - r, of any unsigned type: r > rest is above half, r == rest a tie.
+        template <typename U>
+        [[nodiscard]] constexpr bool rounds_away_by(const U& r, const U& rest, bool odd, bool negative, rounding mode) noexcept
         {
-            if (r.is_zero())
-                return false;
-            const uint256 rest = d - r;   // r > rest: above half; r == rest: a tie
             switch (mode) {
             case rounding::toward_zero: return false;
             case rounding::away_from_zero: return true;
@@ -127,9 +124,21 @@ namespace snicholls {
             case rounding::ceiling: return !negative;
             case rounding::half_up: return r >= rest;
             case rounding::half_down: return r > rest;
-            case rounding::half_even: return r > rest || (r == rest && q.bit(0));
+            case rounding::half_even: return r > rest || (r == rest && odd);
             }
             return false;
+        }
+
+        // Whether q + r/d, of the given sign, rounds up in magnitude (to q + 1) under `mode`. 0 <= r < d. When r and d
+        // fit in 64 bits the comparisons are on std::uint64_t, with the same answer.
+        [[nodiscard]] constexpr bool rounds_away(const uint256& q, const uint256& r, const uint256& d, bool negative,
+                                                 rounding mode) noexcept
+        {
+            if (r.is_zero())
+                return false;
+            if ((r.limb(1) | r.limb(2) | r.limb(3) | d.limb(1) | d.limb(2) | d.limb(3)) == 0)
+                return rounds_away_by(r.limb(0), d.limb(0) - r.limb(0), q.bit(0), negative, mode);
+            return rounds_away_by(r, d - r, q.bit(0), negative, mode);
         }
     } // namespace detail
 

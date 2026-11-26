@@ -8,7 +8,9 @@
 //  written out by hand (the same carries, the same 128-bit products from
 //  detail/wide_mul.hpp, in the same order), on 4,096 pairs of values of every
 //  width. Division runs alone: its hand-written equivalent is the same Knuth
-//  algorithm. main() runs a fairness check first and refuses to benchmark if the
+//  algorithm. The 64-bit fast path (divmod and checked_mul on operands that fit
+//  in 64 bits) runs against the same division and 128-bit product written on
+//  std::uint64_t. main() runs a fairness check first and refuses to benchmark if the
 //  two sides disagree on any pair (CLAUDE.md "Zero overhead").
 //
 
@@ -138,8 +140,79 @@ void BM_Uint256_ToString_Core(benchmark::State& state)
 }
 BENCHMARK(BM_Uint256_ToString_Core);
 
+// The 64-bit fast path: operands that fit in 64 bits (an amount in cents, a share count), against the same
+// division and the same 128-bit product written on std::uint64_t.
+std::vector<pair_of> make_narrow_pairs()
+{
+    std::vector<pair_of> out(4096);
+    std::uint64_t x = 0xa4093822299f31d0ULL;
+    auto next = [&] { x ^= x << 13; x ^= x >> 7; x ^= x << 17; return x; };
+    std::size_t i = 0;
+    for (auto& p : out) {
+        p.a = uint256{next() >> (i % 40)};
+        p.b = uint256{(next() >> (20 + i % 40)) | 1};
+        ++i;
+    }
+    return out;
+}
+
+const std::vector<pair_of> narrow = make_narrow_pairs();
+
+struct narrow_divmod {
+    std::uint64_t q;
+    std::uint64_t r;
+};
+
+narrow_divmod divmod_by_hand(std::uint64_t a, std::uint64_t b) noexcept { return {a / b, a % b}; }
+
+void BM_Uint256_Divmod64_Core(benchmark::State& state)
+{
+    for (auto _ : state)
+        for (const auto& p : narrow)
+            benchmark::DoNotOptimize(p.a.divmod(p.b));
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(narrow.size()));
+}
+BENCHMARK(BM_Uint256_Divmod64_Core);
+
+void BM_Uint256_Divmod64_HandWritten(benchmark::State& state)
+{
+    for (auto _ : state)
+        for (const auto& p : narrow)
+            benchmark::DoNotOptimize(divmod_by_hand(p.a.low64(), p.b.low64()));
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(narrow.size()));
+}
+BENCHMARK(BM_Uint256_Divmod64_HandWritten);
+
+void BM_Uint256_CheckedMul64_Core(benchmark::State& state)
+{
+    for (auto _ : state)
+        for (const auto& p : narrow)
+            benchmark::DoNotOptimize(uint256::checked_mul(p.a, p.b));
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(narrow.size()));
+}
+BENCHMARK(BM_Uint256_CheckedMul64_Core);
+
+void BM_Uint256_CheckedMul64_HandWritten(benchmark::State& state)
+{
+    for (auto _ : state)
+        for (const auto& p : narrow)
+            benchmark::DoNotOptimize(snicholls::detail::umul128(p.a.low64(), p.b.low64()));   // never overflows 128 bits
+    state.SetItemsProcessed(state.iterations() * static_cast<std::int64_t>(narrow.size()));
+}
+BENCHMARK(BM_Uint256_CheckedMul64_HandWritten);
+
 bool fair()
 {
+    for (const auto& p : narrow) {
+        const auto [q, r] = p.a.divmod(p.b);
+        const auto hand = divmod_by_hand(p.a.low64(), p.b.low64());
+        if (q != uint256{hand.q} || r != uint256{hand.r})
+            return false;
+        const auto product = uint256::checked_mul(p.a, p.b);
+        const auto w = snicholls::detail::umul128(p.a.low64(), p.b.low64());
+        if (!product || *product != uint256::from_limbs(w.low, w.high))
+            return false;
+    }
     for (const auto& p : pairs) {
         if ((p.a + p.b).limbs() != add_by_hand(p.a.limbs(), p.b.limbs()))
             return false;

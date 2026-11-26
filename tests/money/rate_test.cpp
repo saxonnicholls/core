@@ -15,6 +15,8 @@
 
 #include <gtest/gtest.h>
 
+#include <array>
+#include <cstdint>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -132,6 +134,87 @@ TEST(RateConvert, MatchesDecimalInEveryModeWithTheExactResidual)
         ++cases;
     }
     EXPECT_GT(cases, 500);
+}
+
+TEST(RateRoundsAway, AppliesEveryModeToTheSignedFraction)
+{
+    const residual none{false, 0, 10}, below{false, 4, 10}, tie{false, 5, 10}, above{false, 6, 10};
+    for (const auto m : {rounding::half_even, rounding::half_up, rounding::half_down, rounding::toward_zero,
+                         rounding::away_from_zero, rounding::floor, rounding::ceiling})
+        EXPECT_FALSE(rounds_away(3, none, m));   // nothing left: never rounds
+    EXPECT_FALSE(rounds_away(3, below, rounding::half_up));
+    EXPECT_TRUE(rounds_away(3, above, rounding::half_down));
+    EXPECT_TRUE(rounds_away(3, tie, rounding::half_up));
+    EXPECT_FALSE(rounds_away(3, tie, rounding::half_down));
+    EXPECT_TRUE(rounds_away(3, tie, rounding::half_even));    // 3.5 to 4
+    EXPECT_FALSE(rounds_away(2, tie, rounding::half_even));   // 2.5 to 2
+    EXPECT_FALSE(rounds_away(3, below, rounding::toward_zero));
+    EXPECT_TRUE(rounds_away(3, below, rounding::away_from_zero));
+    EXPECT_FALSE(rounds_away(3, below, rounding::floor));
+    EXPECT_TRUE(rounds_away(3, below, rounding::ceiling));
+    const residual negative{true, 4, 10};   // -3.4: floor goes to -4, ceiling to -3
+    EXPECT_TRUE(rounds_away(3, negative, rounding::floor));
+    EXPECT_FALSE(rounds_away(3, negative, rounding::ceiling));
+    static_assert(rounds_away(0, residual{false, 1, 2}, rounding::half_up));
+    static_assert(noexcept(rounds_away(0, residual{}, rounding::half_up)));
+}
+
+TEST(RateRoundsAway, AgreesWithConvert)
+{
+    // 1 FROM at 0 places is n/d TO: convert rounds up exactly when rounds_away says so
+    const auto from = *make_asset("FROM", 0);
+    const auto to = *make_asset("TO", 0);
+    for (std::uint64_t n = 0; n < 40; ++n)
+        for (const bool neg : {false, true})
+            for (const auto m : {rounding::half_even, rounding::half_up, rounding::floor, rounding::ceiling}) {
+                const auto r = *rate::make(from, to, n, 8);
+                const auto c = convert(money::from_units(from, 1, neg), r, m);
+                ASSERT_TRUE(c);
+                const bool away = rounds_away(n / 8, residual{neg, n % 8, 8}, m);
+                EXPECT_EQ(c->converted.magnitude(), uint256{n / 8 + (away ? 1 : 0)}) << n << " " << neg;
+            }
+}
+
+TEST(RateSumResiduals, AddsSignedFractionsExactly)
+{
+    const std::array parts{residual{false, 3, 10}, residual{true, 7, 10}, residual{false, 9, 10}, residual{true, 0, 10}};
+    const auto s = sum_residuals(parts, 10);
+    ASSERT_TRUE(s);
+    EXPECT_EQ(*s, (residual{false, 5, 10}));   // 3 - 7 + 9 - 0
+    const std::array down{residual{true, 9, 10}, residual{true, 8, 10}};
+    EXPECT_EQ(*sum_residuals(down, 10), (residual{true, 17, 10}));   // the total can exceed one unit
+    const std::array cancel{residual{false, 4, 10}, residual{true, 4, 10}};
+    EXPECT_EQ(*sum_residuals(cancel, 10), (residual{false, 0, 10}));   // zero is never negative
+    EXPECT_EQ(*sum_residuals({}, 7), (residual{false, 0, 7}));
+    constexpr std::array two{residual{false, 1, 3}, residual{false, 1, 3}};
+    static_assert(sum_residuals(two, 3)->numerator == uint256{2});
+    static_assert(noexcept(sum_residuals(two, 3)));
+}
+
+TEST(RateSumResiduals, RefusesAnotherDenominatorAZeroOneAndOverflow)
+{
+    const std::array mixed{residual{false, 1, 10}, residual{false, 1, 100}};
+    EXPECT_EQ(sum_residuals(mixed, 10).err(), money_errc::malformed);
+    EXPECT_EQ(sum_residuals({}, 0).err(), money_errc::malformed);
+    const std::array huge{residual{false, uint256::max(), uint256::max()}, residual{false, 1, uint256::max()}};
+    EXPECT_EQ(sum_residuals(huge, uint256::max()).err(), money_errc::overflow);
+}
+
+TEST(MulDiv, SixtyFourBitFactorsGiveTheSameBitsAsTheGeneralPath)
+{
+    std::uint64_t x = 0x13198a2e03707344ull;
+    auto next = [&] { x ^= x << 13; x ^= x >> 7; x ^= x << 17; return x; };
+    for (int i = 0; i < 5000; ++i) {
+        const std::uint64_t a = next() >> (i % 64), b = next() >> (i % 59);
+        const uint256 d = i % 3 == 0 ? uint256::from_limbs(next() | 1, next()) : uint256{(next() >> (i % 50)) | 1};
+        const auto fast = detail::mul_div(a, b, d);
+        // a 2^64 * b / (d 2^64): the general path, the same quotient and the remainder shifted up a limb
+        const auto general = detail::mul_div(uint256{a} << 64, b, d << 64);
+        ASSERT_TRUE(fast && general);
+        ASSERT_EQ(fast->first, general->first);
+        ASSERT_EQ(fast->second, general->second >> 64);
+    }
+    static_assert(detail::mul_div(~0ull, ~0ull, 3)->first == uint256::from_limbs(0xaaaaaaaaaaaaaaabull, 0x5555555555555554ull));
 }
 
 TEST(MulDiv, DividesTheFull512BitProduct)
