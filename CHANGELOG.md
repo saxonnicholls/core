@@ -3,6 +3,23 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.24.1 - 2026-11-26
+
+One version of core in a build, enforced at compile time too (snicholls-tooling v0.3.1).
+
+### Added
+
+- **The two-versions check** in `version.hpp`, before its guard: a translation unit that sees two copies of core at
+  different versions stops with `#error "snicholls-core: two versions in one translation unit"`, where the shared
+  guard name would otherwise skip the second copy silently. `scripts/check_version.py` checks its literals against the
+  version; the compile-fail test `compile_fail.version_two_copies` proves it fires.
+- **The pin check** (`check.pins`, `make check`, CI): every submodule at a release tag, one version of each library
+  in the build, every library used pinned directly; at a release tag a stale nested pin is an error too.
+
+### Changed
+
+- `third_party/tooling` pinned at `v0.3.1` (was `v0.2.3`).
+
 ## 0.24.0 - 2026-11-24
 
 State machines in boost-ext/sml's notation, whose states load and save, a provider-neutral lifecycle, and Goertzel

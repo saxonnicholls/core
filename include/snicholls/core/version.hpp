@@ -36,8 +36,19 @@
 ///
 /// \snippet version_demo.cpp version
 
+// The two-versions check (tooling STANDARDS section 2). Two copies of core in one translation unit share this
+// header's guard, so the guard alone would skip the second without a word; this block stands before the guard and
+// stops the compile instead. The macros are defined inside the guard, so the version is written out here again, and
+// scripts/check_version.py checks that the two agree.
+#if defined(SNICHOLLS_CORE_VERSION_MAJOR) && \
+    (SNICHOLLS_CORE_VERSION_MAJOR != 0 || SNICHOLLS_CORE_VERSION_MINOR != 24 || SNICHOLLS_CORE_VERSION_PATCH != 1)
+#error "snicholls-core: two versions in one translation unit: 0.24.1 here, and another already included"
+#endif
+
 #ifndef snicholls_core_version_hpp
-#define snicholls_core_version_hpp
+/// \cond
+#define snicholls_core_version_hpp   // the guard: Doxygen does not take it for one after the check above
+/// \endcond
 
 #include <string_view>
 
@@ -49,7 +60,7 @@
 /// \brief Minor version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_MINOR 24
 /// \brief Patch version of snicholls-core.
-#define SNICHOLLS_CORE_VERSION_PATCH 0
+#define SNICHOLLS_CORE_VERSION_PATCH 1
 
 /// \brief Encode a version as one integer the preprocessor can compare.
 ///

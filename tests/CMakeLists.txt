@@ -498,6 +498,7 @@ set(_compile_fail_cases
     "fsm_exit_from_terminal|leaves X, the terminal state"
     "fsm_missing_enumerator|has no enumerator of the machine's state enumeration"
     "fsm_no_initial_state|snicholls::fsm: the table has no initial state"
+    "version_two_copies|snicholls-core: two versions in one translation unit"
     "fsm_constructor_argument|snicholls::fsm: a constructor argument is neither the definition nor a dependency")
 foreach(_case_and_regex IN LISTS _compile_fail_cases)
     string(REPLACE "|" ";" _parts "${_case_and_regex}")

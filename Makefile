@@ -32,6 +32,7 @@ check:
 	python3 scripts/check_mirror.py
 	python3 third_party/tooling/scripts/check_interfaces.py
 	python3 third_party/tooling/scripts/single_include.py --check
+	python3 third_party/tooling/scripts/check_pins.py
 
 # single_include/snicholls_core.hpp, the whole library in one file, for this commit (git-ignored: a release's is
 # attached to the release; every build also generates and compiles its own, tooling STANDARDS section 2)

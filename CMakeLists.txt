@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(snicholls_core
-    VERSION 0.24.0
+    VERSION 0.24.1
     DESCRIPTION "snicholls-core - vocabulary types and compile-time reflection shared by the snicholls libraries"
     LANGUAGES CXX)
 
@@ -186,7 +186,7 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/third_party/tooling/cmake/SnichollsTooling.cmake)
     snicholls_single_include_check(snicholls_core_single_include)
     snicholls_core_compile_options(snicholls_core_single_include)
-    snicholls_tooling_add_checks(SINGLE_INCLUDE INTERFACES)
+    snicholls_tooling_add_checks(SINGLE_INCLUDE INTERFACES PINS)
 
     # GoogleTest, vendored as a shallow submodule pinned to a release tag
     # (CLAUDE.md "Dependencies"). For the tests only: the library has none.

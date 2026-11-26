@@ -45,6 +45,20 @@ def header_version():
     return ".".join(parts)
 
 
+def two_versions_check():
+    """The literals in the two-versions check before the guard, and the version in its #error text."""
+    src = open(HEADER, encoding="utf-8").read()
+    guard = src.find("#ifndef snicholls_core_version_hpp")
+    head = src[:guard] if guard >= 0 else ""
+    m = re.search(r"SNICHOLLS_CORE_VERSION_MAJOR != (\d+) \|\| SNICHOLLS_CORE_VERSION_MINOR != (\d+) \|\| "
+                  r"SNICHOLLS_CORE_VERSION_PATCH != (\d+)", head)
+    e = re.search(r'#error "snicholls-core: two versions in one translation unit: (\d+\.\d+\.\d+) here', head)
+    if not m or not e:
+        raise SystemExit("check_version: the two-versions check is missing before the guard of "
+                         + os.path.relpath(HEADER, ROOT))
+    return ".".join(m.groups()), e.group(1)
+
+
 def cmake_version():
     src = open(CMAKE, encoding="utf-8").read()
     # The VERSION belonging to project(), not to cmake_minimum_required()
@@ -62,12 +76,18 @@ def main():
 
     hdr = header_version()
     cml = cmake_version()
+    check, message = two_versions_check()
 
     ok = True
     print("  include/snicholls/core/version.hpp   %s" % hdr)
     print("  CMakeLists.txt                       %s" % cml)
+    print("  version.hpp (two-versions check)     %s, its message %s" % (check, message))
     if hdr != cml:
         print("check_version: header and CMakeLists disagree", file=sys.stderr)
+        ok = False
+    if check != hdr or message != hdr:
+        print("check_version: the two-versions check says %s (message %s), the header %s" % (check, message, hdr),
+              file=sys.stderr)
         ok = False
 
     if args.tag:

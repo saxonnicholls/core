@@ -209,6 +209,11 @@ different commits link silently. Three rules, implemented in `CMakeLists.txt` an
    calls `snicholls_core_assert_single_version()` at the end of its `CMakeLists.txt`, and configure fails if more
    than one version was reached.
 
+The compile-time counterpart of all three: `version.hpp` starts, before its guard, with a check that `#error`s when
+another copy at a different version was already included (the guard alone would skip it silently). A version bump
+changes its literals too; `scripts/check_version.py` fails if they disagree. tooling's `check_pins.py` (`check.pins`)
+enforces the pins themselves: tags only, one version per build, every library used pinned directly.
+
 Consuming core as a submodule:
 
     add_subdirectory(third_party/core EXCLUDE_FROM_ALL)
@@ -618,7 +623,7 @@ do not own beyond what ADL-scoped helpers need.
 |---|---|---|---|
 | GoogleTest / GoogleMock | `third_party/googletest` | `v1.18.0` | tests only |
 | Google Benchmark | `third_party/benchmark` | `v1.9.5` | benchmarks only |
-| snicholls-tooling | `third_party/tooling` | `v0.2.3` | the single include and the interface check (build-time only) |
+| snicholls-tooling | `third_party/tooling` | `v0.3.1` | the single include and the interface check (build-time only) |
 
 The rules: pin to a release tag, never a branch tip; HTTPS URLs; `shallow = true`; never edit a file
 inside a submodule; consume via `add_subdirectory(... EXCLUDE_FROM_ALL)` with the dependency's tests and install

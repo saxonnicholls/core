@@ -75,6 +75,11 @@ jobs:
       - name: Every interface has its concept, and the reverse
         run: python3 third_party/tooling/scripts/check_interfaces.py
 
+      - name: One version of each library, each pinned where it is used
+        env:
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: python3 third_party/tooling/scripts/check_pins.py
+
       - name: Configure (Release, warnings are errors, benchmarks smoke-run)
         run: >
           cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -148,6 +153,11 @@ jobs:
 
       - name: Every interface has its concept, and the reverse
         run: python3 third_party/tooling/scripts/check_interfaces.py
+
+      - name: One version of each library, each pinned where it is used
+        env:
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: python3 third_party/tooling/scripts/check_pins.py
 
       - name: Configure (warnings are errors)
         run: cmake -B build -DSNICHOLLS_CORE_WERROR=ON -DSNICHOLLS_CORE_BUILD_BENCHMARKS=ON
