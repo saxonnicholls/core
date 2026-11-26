@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -1638,6 +1638,42 @@ Functions</h2></td></tr>
 <tr class="memitem:ga4fab5af7e84035fc6d8be99777d239a6" id="r_ga4fab5af7e84035fc6d8be99777d239a6"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:ga4fab5af7e84035fc6d8be99777d239a6 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga4fab5af7e84035fc6d8be99777d239a6">println</a> (std::format_string&lt; Args... &gt; fmt, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:ga4fab5af7e84035fc6d8be99777d239a6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="group__core.html#ga4d5765970652fa087401b85451916240" title="Print one value to a stream as one message: a printable, a container, a tuple, anything print_to acce...">print</a></span> to <span class="tt">std::cout</span>, with a newline.  <br /></td></tr>
+<tr class="memitem:adddab30c989f446c373aa1031ae4e0e2" id="r_adddab30c989f446c373aa1031ae4e0e2"><td class="memTemplParams" colspan="2">template&lt;class It, class T&gt; </td></tr>
+<tr class="memitem:adddab30c989f446c373aa1031ae4e0e2 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adddab30c989f446c373aa1031ae4e0e2">fill</a> (It first, It last, const T &amp;value) noexcept(detail::walk_noexcept_v&lt; It &gt; &amp;&amp;noexcept(*std::declval&lt; It &amp; &gt;()=value))</td></tr>
+<tr class="memdesc:adddab30c989f446c373aa1031ae4e0e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <span class="tt">value</span> to every element of <span class="tt">[first, last)</span>.  <br /></td></tr>
+<tr class="memitem:a4bcd641af3bf748c5f6f56d142c55a7e" id="r_a4bcd641af3bf748c5f6f56d142c55a7e"><td class="memTemplParams" colspan="2">template&lt;class R, class T&gt; </td></tr>
+<tr class="memitem:a4bcd641af3bf748c5f6f56d142c55a7e template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bcd641af3bf748c5f6f56d142c55a7e">fill</a> (R &amp;&amp;range, const T &amp;value) noexcept(noexcept(snicholls::fill(std::begin(range), std::end(range), value)))</td></tr>
+<tr class="memdesc:a4bcd641af3bf748c5f6f56d142c55a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <span class="tt">value</span> to every element of <span class="tt">range</span>.  <br /></td></tr>
+<tr class="memitem:a0519014888aadfdd651128a2b7c5cbf8" id="r_a0519014888aadfdd651128a2b7c5cbf8"><td class="memTemplParams" colspan="2">template&lt;class It, class T&gt; </td></tr>
+<tr class="memitem:a0519014888aadfdd651128a2b7c5cbf8 template"><td class="memItemLeft" align="right" valign="top">constexpr It&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0519014888aadfdd651128a2b7c5cbf8">fill_n</a> (It first, std::size_t n, const T &amp;value) noexcept(detail::walk_noexcept_v&lt; It &gt; &amp;&amp;noexcept(*std::declval&lt; It &amp; &gt;()=value))</td></tr>
+<tr class="memdesc:a0519014888aadfdd651128a2b7c5cbf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <span class="tt">value</span> to the <span class="tt">n</span> elements from <span class="tt">first</span>.  <br /></td></tr>
+<tr class="memitem:a0a172271c8b01905b1312396bad62341" id="r_a0a172271c8b01905b1312396bad62341"><td class="memTemplParams" colspan="2">template&lt;class In, class Out&gt; </td></tr>
+<tr class="memitem:a0a172271c8b01905b1312396bad62341 template"><td class="memItemLeft" align="right" valign="top">constexpr Out&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a172271c8b01905b1312396bad62341">copy</a> (In first, In last, Out out) noexcept(detail::walk_noexcept_v&lt; In &gt; &amp;&amp;detail::walk_noexcept_v&lt; Out &gt; &amp;&amp;noexcept(*std::declval&lt; Out &amp; &gt;()= *std::declval&lt; In &amp; &gt;()))</td></tr>
+<tr class="memdesc:a0a172271c8b01905b1312396bad62341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies <span class="tt">[first, last)</span> to the elements from <span class="tt">out</span>, first to last.  <br /></td></tr>
+<tr class="memitem:af89f5b818af303fb6419381d30c1c12b" id="r_af89f5b818af303fb6419381d30c1c12b"><td class="memTemplParams" colspan="2">template&lt;class In, class Out&gt; </td></tr>
+<tr class="memitem:af89f5b818af303fb6419381d30c1c12b template"><td class="memItemLeft" align="right" valign="top">constexpr Out&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af89f5b818af303fb6419381d30c1c12b">copy_n</a> (In first, std::size_t n, Out out) noexcept(detail::walk_noexcept_v&lt; In &gt; &amp;&amp;detail::walk_noexcept_v&lt; Out &gt; &amp;&amp;noexcept(*std::declval&lt; Out &amp; &gt;()= *std::declval&lt; In &amp; &gt;()))</td></tr>
+<tr class="memdesc:af89f5b818af303fb6419381d30c1c12b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the <span class="tt">n</span> elements from <span class="tt">first</span> to the elements from <span class="tt">out</span>.  <br /></td></tr>
+<tr class="memitem:a44820726a67f4d26da64555a1bc8ac71" id="r_a44820726a67f4d26da64555a1bc8ac71"><td class="memTemplParams" colspan="2">template&lt;class In, class Out&gt; </td></tr>
+<tr class="memitem:a44820726a67f4d26da64555a1bc8ac71 template"><td class="memItemLeft" align="right" valign="top">constexpr Out&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44820726a67f4d26da64555a1bc8ac71">copy_backward</a> (In first, In last, Out out_last) noexcept(detail::walk_noexcept_v&lt; In &gt; &amp;&amp;detail::walk_noexcept_v&lt; Out &gt; &amp;&amp;noexcept(--std::declval&lt; In &amp; &gt;()) &amp;&amp;noexcept(--std::declval&lt; Out &amp; &gt;()) &amp;&amp;noexcept(*std::declval&lt; Out &amp; &gt;()= *std::declval&lt; In &amp; &gt;()))</td></tr>
+<tr class="memdesc:a44820726a67f4d26da64555a1bc8ac71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies <span class="tt">[first, last)</span> to the elements ending at <span class="tt">out_last</span>, last to first, so the output may overlap the input's end.  <br /></td></tr>
+<tr class="memitem:a867fe1f78dcf43b9741d9f3456390e1b" id="r_a867fe1f78dcf43b9741d9f3456390e1b"><td class="memTemplParams" colspan="2">template&lt;class It, class T&gt; </td></tr>
+<tr class="memitem:a867fe1f78dcf43b9741d9f3456390e1b template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a867fe1f78dcf43b9741d9f3456390e1b">iota</a> (It first, It last, T value) noexcept(detail::walk_noexcept_v&lt; It &gt; &amp;&amp;noexcept(*std::declval&lt; It &amp; &gt;()=value) &amp;&amp;noexcept(++value))</td></tr>
+<tr class="memdesc:a867fe1f78dcf43b9741d9f3456390e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <span class="tt">value</span>, <span class="tt">value + 1</span>, <span class="tt">value + 2</span>, ... to the elements of <span class="tt">[first, last)</span>.  <br /></td></tr>
+<tr class="memitem:a8b3f016254aba6e0750091935426d068" id="r_a8b3f016254aba6e0750091935426d068"><td class="memTemplParams" colspan="2">template&lt;class R, class T&gt; </td></tr>
+<tr class="memitem:a8b3f016254aba6e0750091935426d068 template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b3f016254aba6e0750091935426d068">iota</a> (R &amp;&amp;range, T value) noexcept(noexcept(snicholls::iota(std::begin(range), std::end(range), value)))</td></tr>
+<tr class="memdesc:a8b3f016254aba6e0750091935426d068"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns <span class="tt">value</span>, <span class="tt">value + 1</span>, <span class="tt">value + 2</span>, ... to the elements of <span class="tt">range</span>.  <br /></td></tr>
+<tr class="memitem:ac71e7fdd7a8455244d2d3d9932922ea7" id="r_ac71e7fdd7a8455244d2d3d9932922ea7"><td class="memTemplParams" colspan="2">template&lt;class A, class B&gt; </td></tr>
+<tr class="memitem:ac71e7fdd7a8455244d2d3d9932922ea7 template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac71e7fdd7a8455244d2d3d9932922ea7">equal</a> (A first1, A last1, B first2) noexcept(detail::walk_noexcept_v&lt; A &gt; &amp;&amp;detail::walk_noexcept_v&lt; B &gt; &amp;&amp;noexcept(static_cast&lt; bool &gt;(*std::declval&lt; A &amp; &gt;()== *std::declval&lt; B &amp; &gt;())))</td></tr>
+<tr class="memdesc:ac71e7fdd7a8455244d2d3d9932922ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">[first1, last1)</span> equals the elements from <span class="tt">first2</span>, element by element with <span class="tt">==</span>.  <br /></td></tr>
+<tr class="memitem:af1cdc09cda8451b3635f999cc960673e" id="r_af1cdc09cda8451b3635f999cc960673e"><td class="memTemplParams" colspan="2">template&lt;class R1, class R2&gt; </td></tr>
+<tr class="memitem:af1cdc09cda8451b3635f999cc960673e template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1cdc09cda8451b3635f999cc960673e">equal</a> (const R1 &amp;a, const R2 &amp;b) noexcept(noexcept(std::size(a)) &amp;&amp;noexcept(std::size(b)) &amp;&amp;noexcept(snicholls::equal(std::begin(a), std::end(a), std::begin(b))))</td></tr>
+<tr class="memdesc:af1cdc09cda8451b3635f999cc960673e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether two ranges have the same length and equal elements, compared with <span class="tt">==</span>.  <br /></td></tr>
+<tr class="memitem:a17ad43483025c2f9d973d82c9476959b" id="r_a17ad43483025c2f9d973d82c9476959b"><td class="memTemplParams" colspan="2">template&lt;class It&gt; </td></tr>
+<tr class="memitem:a17ad43483025c2f9d973d82c9476959b template"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17ad43483025c2f9d973d82c9476959b">reverse</a> (It first, It last) noexcept(detail::exchange_noexcept_v&lt; It, It &gt; &amp;&amp;noexcept(--std::declval&lt; It &amp; &gt;()) &amp;&amp;noexcept(std::declval&lt; const It &amp; &gt;()==std::declval&lt; const It &amp; &gt;()))</td></tr>
+<tr class="memdesc:a17ad43483025c2f9d973d82c9476959b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the order of the elements of <span class="tt">[first, last)</span>.  <br /></td></tr>
+<tr class="memitem:a8acbb8e3c940ce1acbb4b129d40702c7" id="r_a8acbb8e3c940ce1acbb4b129d40702c7"><td class="memTemplParams" colspan="2">template&lt;class A, class B&gt; </td></tr>
+<tr class="memitem:a8acbb8e3c940ce1acbb4b129d40702c7 template"><td class="memItemLeft" align="right" valign="top">constexpr B&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8acbb8e3c940ce1acbb4b129d40702c7">swap_ranges</a> (A first1, A last1, B first2) noexcept(detail::exchange_noexcept_v&lt; A, B &gt;)</td></tr>
+<tr class="memdesc:a8acbb8e3c940ce1acbb4b129d40702c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges each element of <span class="tt">[first1, last1)</span> with the element at the same place from <span class="tt">first2</span>.  <br /></td></tr>
 <tr class="memitem:ga3c586978c2822a884b577601ab19dfa8" id="r_ga3c586978c2822a884b577601ab19dfa8"><td class="memItemLeft" align="right" valign="top">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga3c586978c2822a884b577601ab19dfa8">backoff_ceiling</a> (const <a class="el" href="structsnicholls_1_1backoff__policy.html">backoff_policy</a> &amp;policy, std::uint32_t attempt) noexcept</td></tr>
 <tr class="memdesc:ga3c586978c2822a884b577601ab19dfa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The upper bound of the delay before attempt <span class="tt">attempt</span> (0-based): <span class="tt">min(max, min * 2^attempt)</span>, without overflow.  <br /></td></tr>
 <tr class="memitem:ga7e2785ae288572d14b9b94bff8e5a02f" id="r_ga7e2785ae288572d14b9b94bff8e5a02f"><td class="memItemLeft" align="right" valign="top">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga7e2785ae288572d14b9b94bff8e5a02f">backoff_delay</a> (const <a class="el" href="structsnicholls_1_1backoff__policy.html">backoff_policy</a> &amp;policy, std::uint32_t attempt, double fraction) noexcept</td></tr>
@@ -1852,7 +1888,7 @@ requires std::is_invocable_v&lt;F&amp;, <a class="el" href="group__core.html#gae
 <tr class="memitem:ga3433e2c2a1d8413eade9678a9bf84464" id="r_ga3433e2c2a1d8413eade9678a9bf84464"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="group__core.html#ga2a89bcb050e9fe9a48f6678e83cd99b2">capability_result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga3433e2c2a1d8413eade9678a9bf84464">validate</a> (const <a class="el" href="structsnicholls_1_1payment__fact.html">payment_fact</a> &amp;f) noexcept</td></tr>
 <tr class="memdesc:ga3433e2c2a1d8413eade9678a9bf84464"><td class="mdescLeft">&#160;</td><td class="mdescRight">The checks every fact passes before it leaves a provider.  <br /></td></tr>
 <tr class="memitem:a162d78cda69ba7104e55a54ec5800f63" id="r_a162d78cda69ba7104e55a54ec5800f63"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a162d78cda69ba7104e55a54ec5800f63">random_failed</a> (std::errc e) noexcept</td></tr>
-<tr class="memdesc:a162d78cda69ba7104e55a54ec5800f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether a <span class="tt">fill</span> failed: anything but <span class="tt">std::errc{}</span>.  <br /></td></tr>
+<tr class="memdesc:a162d78cda69ba7104e55a54ec5800f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether a <span class="tt"><a class="el" href="#adddab30c989f446c373aa1031ae4e0e2" title="Assigns value to every element of [first, last).">fill</a></span> failed: anything but <span class="tt">std::errc{}</span>.  <br /></td></tr>
 <tr class="memitem:ga1d0af1b589fc0908394d8c8e7404bc4e" id="r_ga1d0af1b589fc0908394d8c8e7404bc4e"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga1d0af1b589fc0908394d8c8e7404bc4e">is_remote_name</a> (std::string_view s) noexcept</td></tr>
 <tr class="memdesc:ga1d0af1b589fc0908394d8c8e7404bc4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <span class="tt">s</span> is a name in a drop: 1 to 255 bytes, <span class="tt">/</span>-separated segments, none empty, <span class="tt">.</span> or <span class="tt">..</span>, no leading or trailing <span class="tt">/</span>, no backslash, NUL or control character.  <br /></td></tr>
 <tr class="memitem:ga6b93e9b24571b78c11227602a6fcd37e" id="r_ga6b93e9b24571b78c11227602a6fcd37e"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga6b93e9b24571b78c11227602a6fcd37e">is_remote_prefix</a> (std::string_view s) noexcept</td></tr>
@@ -4256,6 +4292,174 @@ template&lt;asset_like To, asset_like From&gt; </div>
 
 </div>
 </div>
+<a id="a0a172271c8b01905b1312396bad62341" name="a0a172271c8b01905b1312396bad62341"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a172271c8b01905b1312396bad62341">&#9670;&#160;</a></span>copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class In, class Out&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Out snicholls::copy </td>
+          <td>(</td>
+          <td class="paramtype">In</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">In</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Out</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copies <span class="tt">[first, last)</span> to the elements from <span class="tt">out</span>, first to last. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">In</td><td>An input iterator. </td></tr>
+    <tr><td class="paramname">Out</td><td>An output iterator whose elements are assignable from <span class="tt">*In</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element copied. </td></tr>
+    <tr><td class="paramname">last</td><td>One past the last element copied. </td></tr>
+    <tr><td class="paramname">out</td><td>The first element written; it must not lie in <span class="tt">(first, last)</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>One past the last element written. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00151">151</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a44820726a67f4d26da64555a1bc8ac71" name="a44820726a67f4d26da64555a1bc8ac71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44820726a67f4d26da64555a1bc8ac71">&#9670;&#160;</a></span>copy_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class In, class Out&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Out snicholls::copy_backward </td>
+          <td>(</td>
+          <td class="paramtype">In</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">In</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Out</td>          <td class="paramname"><span class="paramname"><em>out_last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copies <span class="tt">[first, last)</span> to the elements ending at <span class="tt">out_last</span>, last to first, so the output may overlap the input's end. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">In</td><td>A bidirectional iterator. </td></tr>
+    <tr><td class="paramname">Out</td><td>A bidirectional iterator whose elements are assignable from <span class="tt">*In</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element copied. </td></tr>
+    <tr><td class="paramname">last</td><td>One past the last element copied. </td></tr>
+    <tr><td class="paramname">out_last</td><td>One past the last element written; it must not lie in <span class="tt">(first, last]</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The first element written. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00185">185</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af89f5b818af303fb6419381d30c1c12b" name="af89f5b818af303fb6419381d30c1c12b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af89f5b818af303fb6419381d30c1c12b">&#9670;&#160;</a></span>copy_n()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class In, class Out&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Out snicholls::copy_n </td>
+          <td>(</td>
+          <td class="paramtype">In</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Out</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copies the <span class="tt">n</span> elements from <span class="tt">first</span> to the elements from <span class="tt">out</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">In</td><td>An input iterator. </td></tr>
+    <tr><td class="paramname">Out</td><td>An output iterator whose elements are assignable from <span class="tt">*In</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element copied. </td></tr>
+    <tr><td class="paramname">n</td><td>How many elements. </td></tr>
+    <tr><td class="paramname">out</td><td>The first element written. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>One past the last element written. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00167">167</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a0a556aeae9f82242e67de40cb0ce74de" name="a0a556aeae9f82242e67de40cb0ce74de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0a556aeae9f82242e67de40cb0ce74de">&#9670;&#160;</a></span>enumerator_name() <span class="overload">[1/2]</span></h2>
 
@@ -4325,6 +4529,272 @@ template&lt;asset_like To, asset_like From&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>the enumerator name. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="string__traits_8hpp_source.html#l00124">124</a> of file <a class="el" href="string__traits_8hpp_source.html">string_traits.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac71e7fdd7a8455244d2d3d9932922ea7" name="ac71e7fdd7a8455244d2d3d9932922ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac71e7fdd7a8455244d2d3d9932922ea7">&#9670;&#160;</a></span>equal() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class A, class B&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::equal </td>
+          <td>(</td>
+          <td class="paramtype">A</td>          <td class="paramname"><span class="paramname"><em>first1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">A</td>          <td class="paramname"><span class="paramname"><em>last1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">B</td>          <td class="paramname"><span class="paramname"><em>first2</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether <span class="tt">[first1, last1)</span> equals the elements from <span class="tt">first2</span>, element by element with <span class="tt">==</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">A</td><td>An input iterator. </td></tr>
+    <tr><td class="paramname">B</td><td>An input iterator whose elements compare with <span class="tt">*A</span> by <span class="tt">==</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first1</td><td>The first range's first element. </td></tr>
+    <tr><td class="paramname">last1</td><td>One past the first range's last element. </td></tr>
+    <tr><td class="paramname">first2</td><td>The second range's first element; the second range must be at least as long as the first. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> if every pair compares equal, and for an empty first range. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00227">227</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af1cdc09cda8451b3635f999cc960673e" name="af1cdc09cda8451b3635f999cc960673e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1cdc09cda8451b3635f999cc960673e">&#9670;&#160;</a></span>equal() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class R1, class R2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool snicholls::equal </td>
+          <td>(</td>
+          <td class="paramtype">const R1 &amp;</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const R2 &amp;</td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether two ranges have the same length and equal elements, compared with <span class="tt">==</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R1</td><td>A range with <span class="tt">std::size</span>. </td></tr>
+    <tr><td class="paramname">R2</td><td>A range with <span class="tt">std::size</span> whose elements compare with <span class="tt">R1</span>'s by <span class="tt">==</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The first range. </td></tr>
+    <tr><td class="paramname">b</td><td>The second range. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> if the lengths match and every pair compares equal. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00244">244</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="adddab30c989f446c373aa1031ae4e0e2" name="adddab30c989f446c373aa1031ae4e0e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adddab30c989f446c373aa1031ae4e0e2">&#9670;&#160;</a></span>fill() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class It, class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::fill </td>
+          <td>(</td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assigns <span class="tt">value</span> to every element of <span class="tt">[first, last)</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">It</td><td>A forward iterator whose elements are assignable from <span class="tt">T</span>. </td></tr>
+    <tr><td class="paramname">T</td><td>The value's type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">last</td><td>One past the last element. </td></tr>
+    <tr><td class="paramname">value</td><td>The value assigned. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00109">109</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4bcd641af3bf748c5f6f56d142c55a7e" name="a4bcd641af3bf748c5f6f56d142c55a7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bcd641af3bf748c5f6f56d142c55a7e">&#9670;&#160;</a></span>fill() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class R, class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::fill </td>
+          <td>(</td>
+          <td class="paramtype">R &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assigns <span class="tt">value</span> to every element of <span class="tt">range</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R</td><td>A range (<span class="tt">std::begin</span> and <span class="tt">std::end</span> apply) whose elements are assignable from <span class="tt">T</span>. </td></tr>
+    <tr><td class="paramname">T</td><td>The value's type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>The range, written through. </td></tr>
+    <tr><td class="paramname">value</td><td>The value assigned. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00122">122</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0519014888aadfdd651128a2b7c5cbf8" name="a0519014888aadfdd651128a2b7c5cbf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0519014888aadfdd651128a2b7c5cbf8">&#9670;&#160;</a></span>fill_n()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class It, class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">It snicholls::fill_n </td>
+          <td>(</td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assigns <span class="tt">value</span> to the <span class="tt">n</span> elements from <span class="tt">first</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">It</td><td>An output iterator whose elements are assignable from <span class="tt">T</span>. </td></tr>
+    <tr><td class="paramname">T</td><td>The value's type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">n</td><td>How many elements; none if <span class="tt">n</span> is 0. </td></tr>
+    <tr><td class="paramname">value</td><td>The value assigned. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>One past the last element written. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00135">135</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
 
 </div>
 </div>
@@ -4729,6 +5199,110 @@ template&lt;utc_duration D&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The amount, or <span class="tt">too_many_digits</span> or <span class="tt">overflow</span>. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="money_8hpp_source.html#l00529">529</a> of file <a class="el" href="money_8hpp_source.html">money.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a867fe1f78dcf43b9741d9f3456390e1b" name="a867fe1f78dcf43b9741d9f3456390e1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a867fe1f78dcf43b9741d9f3456390e1b">&#9670;&#160;</a></span>iota() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class It, class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::iota </td>
+          <td>(</td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assigns <span class="tt">value</span>, <span class="tt">value + 1</span>, <span class="tt">value + 2</span>, ... to the elements of <span class="tt">[first, last)</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">It</td><td>A forward iterator whose elements are assignable from <span class="tt">T</span>. </td></tr>
+    <tr><td class="paramname">T</td><td>A type with prefix <span class="tt">++</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">last</td><td>One past the last element. </td></tr>
+    <tr><td class="paramname">value</td><td>The first value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00201">201</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8b3f016254aba6e0750091935426d068" name="a8b3f016254aba6e0750091935426d068"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b3f016254aba6e0750091935426d068">&#9670;&#160;</a></span>iota() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class R, class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::iota </td>
+          <td>(</td>
+          <td class="paramtype">R &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assigns <span class="tt">value</span>, <span class="tt">value + 1</span>, <span class="tt">value + 2</span>, ... to the elements of <span class="tt">range</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R</td><td>A range whose elements are assignable from <span class="tt">T</span>. </td></tr>
+    <tr><td class="paramname">T</td><td>A type with prefix <span class="tt">++</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>The range, written through. </td></tr>
+    <tr><td class="paramname">value</td><td>The first value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00214">214</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
 
 </div>
 </div>
@@ -5589,16 +6163,64 @@ requires (!detail::parse::has_from_chars&lt;T&gt;)</div>
 </table>
 </div><div class="memdoc">
 
-<p>Whether a <span class="tt">fill</span> failed: anything but <span class="tt">std::errc{}</span>. </p>
+<p>Whether a <span class="tt"><a class="el" href="#adddab30c989f446c373aa1031ae4e0e2" title="Assigns value to every element of [first, last).">fill</a></span> failed: anything but <span class="tt">std::errc{}</span>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>What <span class="tt">fill</span> returned. </td></tr>
+    <tr><td class="paramname">e</td><td>What <span class="tt"><a class="el" href="#adddab30c989f446c373aa1031ae4e0e2" title="Assigns value to every element of [first, last).">fill</a></span> returned. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> on failure. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="concepts_2random__source_8hpp_source.html#l00082">82</a> of file <a class="el" href="concepts_2random__source_8hpp_source.html">random_source.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a17ad43483025c2f9d973d82c9476959b" name="a17ad43483025c2f9d973d82c9476959b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17ad43483025c2f9d973d82c9476959b">&#9670;&#160;</a></span>reverse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class It&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void snicholls::reverse </td>
+          <td>(</td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">It</td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reverses the order of the elements of <span class="tt">[first, last)</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">It</td><td>A bidirectional iterator over move-assignable, move-constructible elements. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first element. </td></tr>
+    <tr><td class="paramname">last</td><td>One past the last element. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00256">256</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
 
 </div>
 </div>
@@ -5965,6 +6587,62 @@ template&lt;asset_like T&gt; </div>
 <dl class="section note"><dt>Note</dt><dd>O(parts.size()), no allocation. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="rate_8hpp_source.html#l00238">238</a> of file <a class="el" href="rate_8hpp_source.html">rate.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8acbb8e3c940ce1acbb4b129d40702c7" name="a8acbb8e3c940ce1acbb4b129d40702c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8acbb8e3c940ce1acbb4b129d40702c7">&#9670;&#160;</a></span>swap_ranges()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class A, class B&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">B snicholls::swap_ranges </td>
+          <td>(</td>
+          <td class="paramtype">A</td>          <td class="paramname"><span class="paramname"><em>first1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">A</td>          <td class="paramname"><span class="paramname"><em>last1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">B</td>          <td class="paramname"><span class="paramname"><em>first2</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exchanges each element of <span class="tt">[first1, last1)</span> with the element at the same place from <span class="tt">first2</span>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">A</td><td>A forward iterator. </td></tr>
+    <tr><td class="paramname">B</td><td>A forward iterator whose elements exchange with <span class="tt">*A</span> by moves. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first1</td><td>The first range's first element. </td></tr>
+    <tr><td class="paramname">last1</td><td>One past the first range's last element. </td></tr>
+    <tr><td class="paramname">first2</td><td>The second range's first element; the ranges must not overlap. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>One past the last element of the second range exchanged. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="algorithm_8hpp_source.html#l00274">274</a> of file <a class="el" href="algorithm_8hpp_source.html">algorithm.hpp</a>.</p>
 
 </div>
 </div>

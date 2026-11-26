@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -128,12 +128,12 @@ $(function(){initNavTree('concepts_2sql__connection_8hpp_source.html','',''); })
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> C&gt;</div>
 <div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="conceptsnicholls_1_1sql__connection.html">   95</a></span>    <span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1sql__connection.html">sql_connection</a> = <span class="keyword">requires</span>(C&amp; c, <span class="keyword">const</span> C&amp; cc, std::string_view sql, std::span&lt;const sql_param&gt; params,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                                      <a class="code hl_typedef" href="group__core.html#gaaa893035c7890dbecfda80c2210d2d0d">sql_row_visitor</a> visit, <a class="code hl_typedef" href="group__core.html#ga64ac690a1baf523b6b07a1d2fda64cc1">sql_row_filler</a> fill, std::size_t n) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                                      <a class="code hl_typedef" href="group__core.html#gaaa893035c7890dbecfda80c2210d2d0d">sql_row_visitor</a> visit, <a class="code hl_typedef" href="group__core.html#ga64ac690a1baf523b6b07a1d2fda64cc1">sql_row_filler</a> <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>, std::size_t n) {</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keyword">requires</span> <a class="code hl_concept" href="conceptsnicholls_1_1sql__dialect.html">sql_dialect</a>&lt;std::remove_cvref_t&lt;<span class="keyword">decltype</span>(cc.dialect())&gt;&gt;;</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        { c.prepare(sql) } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        { c.execute(sql, params) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        { c.query(sql, params, visit) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        { c.execute_batch(sql, n, n, fill) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        { c.execute_batch(sql, n, n, <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        { c.begin() } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        { c.commit() } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        { c.rollback() } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
@@ -253,6 +253,7 @@ $(function(){initNavTree('concepts_2sql__connection_8hpp_source.html','',''); })
 <div class="ttc" id="agroup__core_html_gadb4a88de3025d152361703de3b90baa0"><div class="ttname"><a href="group__core.html#gadb4a88de3025d152361703de3b90baa0">snicholls::sql_query</a></div><div class="ttdeci">sql_result&lt; std::size_t &gt; sql_query(C &amp;c, std::string_view sql, std::span&lt; const sql_param &gt; params, F &amp;&amp;f)</div><div class="ttdoc">Runs a query whose visitor returns void (every row is seen).</div><div class="ttdef"><b>Definition</b> <a href="#l00131">sql_connection.hpp:131</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf"><div class="ttname"><a href="namespacesnicholls.html#ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf">snicholls::chain_kind::other</a></div><div class="ttdeci">@ other</div><div class="ttdoc">anything else</div><div class="ttdef"><b>Definition</b> <a href="concepts_2chain_8hpp_source.html#l00060">chain.hpp:60</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_adddab30c989f446c373aa1031ae4e0e2"><div class="ttname"><a href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">snicholls::fill</a></div><div class="ttdeci">constexpr void fill(It first, It last, const T &amp;value) noexcept(detail::walk_noexcept_v&lt; It &gt; &amp;&amp;noexcept(*std::declval&lt; It &amp; &gt;()=value))</div><div class="ttdoc">Assigns value to every element of [first, last).</div><div class="ttdef"><b>Definition</b> <a href="algorithm_8hpp_source.html#l00109">algorithm.hpp:109</a></div></div>
 <div class="ttc" id="asql__value_8hpp_html"><div class="ttname"><a href="sql__value_8hpp.html">sql_value.hpp</a></div><div class="ttdoc">SQL values: parameters, rows, column types, errors, and the mappings of core&#39;s types.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

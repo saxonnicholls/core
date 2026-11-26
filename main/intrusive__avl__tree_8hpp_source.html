@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -193,9 +193,9 @@ $(function(){initNavTree('intrusive__avl__tree_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00206" data-start="{" data-end="}">
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#ab4aee70adf9a8bf94c69d1c04d4b606a">  206</a></span>        <a class="code hl_function" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#aeec6200e0b390a33a8f8bda2bd0f402d">basic_iterator</a> <a class="code hl_function" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#ab4aee70adf9a8bf94c69d1c04d4b606a">operator++</a>(<span class="keywordtype">int</span>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        {</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            <span class="keyword">auto</span> copy = *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            <span class="keyword">auto</span> <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a> = *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            ++*<span class="keyword">this</span>;</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            <span class="keywordflow">return</span> copy;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a>;</div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        }</div>
 </div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span></div>
@@ -210,9 +210,9 @@ $(function(){initNavTree('intrusive__avl__tree_8hpp_source.html','',''); });
 <div class="foldopen" id="foldopen00221" data-start="{" data-end="}">
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a712218d5c20a4aa4c57f16c85c6805f9">  221</a></span>        <a class="code hl_function" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#aeec6200e0b390a33a8f8bda2bd0f402d">basic_iterator</a> <a class="code hl_function" href="classsnicholls_1_1containers_1_1intrusive__avl__tree_1_1basic__iterator.html#a712218d5c20a4aa4c57f16c85c6805f9">operator--</a>(<span class="keywordtype">int</span>) <span class="keyword">noexcept</span></div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        {</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="keyword">auto</span> copy = *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="keyword">auto</span> <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a> = *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            --*<span class="keyword">this</span>;</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">return</span> copy;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a>;</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        }</div>
 </div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span></div>
@@ -632,6 +632,7 @@ $(function(){initNavTree('intrusive__avl__tree_8hpp_source.html','',''); });
 <div class="ttc" id="aclasssnicholls_1_1result__terminates_1_1result_html"><div class="ttname"><a href="classsnicholls_1_1result__terminates_1_1result.html">snicholls::result</a></div><div class="ttdoc">Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.</div><div class="ttdef"><b>Definition</b> <a href="result_8hpp_source.html#l01087">result.hpp:1088</a></div></div>
 <div class="ttc" id="aconceptsnicholls_1_1containers_1_1avl__traits_html"><div class="ttname"><a href="conceptsnicholls_1_1containers_1_1avl__traits.html">snicholls::containers::avl_traits</a></div><div class="ttdoc">The traits an intrusive AVL tree needs: where the hook lives, the key and the ordering.</div><div class="ttdef"><b>Definition</b> <a href="#l00054">intrusive_avl_tree.hpp:54</a></div></div>
 <div class="ttc" id="agroup__core_html_gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353"><div class="ttname"><a href="group__core.html#gga43f0a4ea29d88c436e524c4f31640d2cae2942a04780e223b215eb8b663cf5353">snicholls::finance::overdue_treatment::count</a></div><div class="ttdeci">@ count</div><div class="ttdoc">trusted to have happened: counted in the starting position</div><div class="ttdef"><b>Definition</b> <a href="cash__ladder_8hpp_source.html#l00095">cash_ladder.hpp:95</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_a0a172271c8b01905b1312396bad62341"><div class="ttname"><a href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">snicholls::copy</a></div><div class="ttdeci">constexpr Out copy(In first, In last, Out out) noexcept(detail::walk_noexcept_v&lt; In &gt; &amp;&amp;detail::walk_noexcept_v&lt; Out &gt; &amp;&amp;noexcept(*std::declval&lt; Out &amp; &gt;()= *std::declval&lt; In &amp; &gt;()))</div><div class="ttdoc">Copies [first, last) to the elements from out, first to last.</div><div class="ttdef"><b>Definition</b> <a href="algorithm_8hpp_source.html#l00151">algorithm.hpp:151</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf"><div class="ttname"><a href="namespacesnicholls.html#ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf">snicholls::chain_kind::other</a></div><div class="ttdeci">@ other</div><div class="ttdoc">anything else</div><div class="ttdef"><b>Definition</b> <a href="concepts_2chain_8hpp_source.html#l00060">chain.hpp:60</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1containers_1_1avl__hook_html"><div class="ttname"><a href="structsnicholls_1_1containers_1_1avl__hook.html">snicholls::containers::avl_hook</a></div><div class="ttdoc">The linkage a node embeds to be a member of one intrusive AVL tree.</div><div class="ttdef"><b>Definition</b> <a href="#l00037">intrusive_avl_tree.hpp:38</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1containers_1_1avl__hook_html_a033212d39b9ee4265a2b76af4c9fd9aa"><div class="ttname"><a href="structsnicholls_1_1containers_1_1avl__hook.html#a033212d39b9ee4265a2b76af4c9fd9aa">snicholls::containers::avl_hook::left</a></div><div class="ttdeci">T * left</div><div class="ttdoc">Left child (smaller keys under the tree&#39;s ordering).</div><div class="ttdef"><b>Definition</b> <a href="#l00039">intrusive_avl_tree.hpp:39</a></div></div>

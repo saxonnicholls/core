@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -150,7 +150,7 @@ Functions</h2></td></tr>
 </ul>
 <p>The permuted matrix itself is <span class="tt">symmetric_permute_upper</span> of <span class="tt"><a class="el" href="csc_8hpp.html" title="snicholls::sparse::csc_view and csc_matrix: compressed sparse column matrices over the caller&#39;s stora...">sparse/csc.hpp</a></span>.</p>
 <div class="fragment"><div class="line"><span class="comment">// nnz(L) of the matrix whose upper triangle is a, in the order perm (perm[new] = old)</span></div>
-<div class="line">std::size_t fill(sp::csc_view&lt;const double, const I&gt; a, std::span&lt;const I&gt; perm)</div>
+<div class="line">std::size_t <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>(sp::csc_view&lt;const double, const I&gt; a, std::span&lt;const I&gt; perm)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">const</span> std::size_t n = a.cols, nnz = a.nnz();</div>
 <div class="line">    std::vector&lt;I&gt; cp(n + 1), ri(nnz), work(2 * n), parent(n), counts(n), lp(n + 1);</div>
@@ -176,7 +176,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> = sp::reverse_cuthill_mckee(a, std::span&lt;I&gt;(rcm), std::span&lt;I&gt;(rcm_work)).is_ok() &amp;&amp; sp::amd(a, std::span&lt;I&gt;(amd), std::span&lt;I&gt;(amd_work)).is_ok();</div>
 <div class="line">    <span class="keywordflow">if</span> (!ok || !sp::is_permutation(std::span&lt;const I&gt;(amd)) || !sp::is_permutation(std::span&lt;const I&gt;(rcm)))</div>
 <div class="line">        <span class="keywordflow">return</span> {};</div>
-<div class="line">    <span class="keywordflow">return</span> {fill(a, natural), fill(a, rcm), fill(a, amd)};</div>
+<div class="line">    <span class="keywordflow">return</span> {<a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>(a, natural), <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>(a, rcm), <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>(a, amd)};</div>
 <div class="line">}</div>
 </div><!-- fragment --><p><b>Relationships.</b> <span class="tt"><a class="el" href="csc_8hpp.html" title="snicholls::sparse::csc_view and csc_matrix: compressed sparse column matrices over the caller&#39;s stora...">sparse/csc.hpp</a></span> (<span class="tt">csc_view</span>, <span class="tt">symmetric_permute_upper</span>), <span class="tt"><a class="el" href="ldl_8hpp.html" title="snicholls::sparse::ldl_numeric and friends: the sparse A = L D Lᵀ of a quasi-definite matrix without ...">sparse/ldl.hpp</a></span> (the factorisation that the order is for), <span class="tt"><a class="el" href="result_8hpp.html" title="snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...">result.hpp</a></span>. Group: <a class="el" href="group__core.html">snicholls-core</a>.</p>
 <p><b>Implementations.</b> <span class="tt">amd</span> works on the quotient graph: eliminated variables become <em>elements</em> (cliques stored as their variable lists), so the graph never grows beyond the storage of <span class="tt">A + Aᵀ</span>. On each step it takes a variable of least approximate degree, forms its element <span class="tt">Lme</span> from the variable's own list and the elements it touches (absorbing them), and updates the degrees of <span class="tt">Lme</span>'s variables by the bound of Amestoy, Davis and Duff, <span class="tt">d̄ᵢ = min(n - k, d̄ᵢ' + |Lme \ i|, |Aᵢ \ i| + |Lme \ i| + Σ_{e ∈ Eᵢ \ me} |Le \ Lme|)</span>, with <span class="tt">|Le \ Lme|</span> for every element at once in one pass over <span class="tt">Lme</span>. It also does</p><ul>

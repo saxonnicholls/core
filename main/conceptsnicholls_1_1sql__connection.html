@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,12 +100,12 @@ $(function(){initNavTree('conceptsnicholls_1_1sql__connection.html','',''); });
 <h2 id="header-conceptdef" class="groupheader">Concept definition</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</div>
 <div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptsnicholls_1_1sql__connection.html">snicholls::sql_connection</a> =  <span class="keyword">requires</span>(C&amp; c, <span class="keyword">const</span> C&amp; cc, std::string_view sql, std::span&lt;const sql_param&gt; params,</div>
-<div class="line">                                      <a class="code hl_typedef" href="group__core.html#gaaa893035c7890dbecfda80c2210d2d0d">sql_row_visitor</a> visit, <a class="code hl_typedef" href="group__core.html#ga64ac690a1baf523b6b07a1d2fda64cc1">sql_row_filler</a> fill, std::size_t n) {</div>
+<div class="line">                                      <a class="code hl_typedef" href="group__core.html#gaaa893035c7890dbecfda80c2210d2d0d">sql_row_visitor</a> visit, <a class="code hl_typedef" href="group__core.html#ga64ac690a1baf523b6b07a1d2fda64cc1">sql_row_filler</a> <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>, std::size_t n) {</div>
 <div class="line">        <span class="keyword">requires</span> <a class="code hl_concept" href="conceptsnicholls_1_1sql__dialect.html">sql_dialect</a>&lt;std::remove_cvref_t&lt;<span class="keyword">decltype</span>(cc.dialect())&gt;&gt;;</div>
 <div class="line">        { c.prepare(sql) } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
 <div class="line">        { c.execute(sql, params) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
 <div class="line">        { c.query(sql, params, visit) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
-<div class="line">        { c.execute_batch(sql, n, n, fill) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
+<div class="line">        { c.execute_batch(sql, n, n, <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>) } -&gt; std::same_as&lt;sql_result&lt;std::size_t&gt;&gt;;</div>
 <div class="line">        { c.begin() } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
 <div class="line">        { c.commit() } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
 <div class="line">        { c.rollback() } -&gt; std::same_as&lt;sql_result&lt;void&gt;&gt;;</div>
@@ -117,6 +117,7 @@ $(function(){initNavTree('conceptsnicholls_1_1sql__connection.html','',''); });
 <div class="ttc" id="aconceptsnicholls_1_1sql__dialect_html"><div class="ttname"><a href="conceptsnicholls_1_1sql__dialect.html">snicholls::sql_dialect</a></div><div class="ttdoc">A dialect: type names, identifier quoting, placeholders, the transaction statement,...</div><div class="ttdef"><b>Definition</b> <a href="concepts_2sql__dialect_8hpp_source.html#l00081">sql_dialect.hpp:81</a></div></div>
 <div class="ttc" id="agroup__core_html_ga64ac690a1baf523b6b07a1d2fda64cc1"><div class="ttname"><a href="group__core.html#ga64ac690a1baf523b6b07a1d2fda64cc1">snicholls::sql_row_filler</a></div><div class="ttdeci">function_ref&lt; void(std::size_t, std::span&lt; sql_param &gt;)&gt; sql_row_filler</div><div class="ttdoc">A batch&#39;s filler: writes the parameters (size() of them) of row row. Views written must stay valid un...</div><div class="ttdef"><b>Definition</b> <a href="concepts_2sql__connection_8hpp_source.html#l00089">sql_connection.hpp:89</a></div></div>
 <div class="ttc" id="agroup__core_html_gaaa893035c7890dbecfda80c2210d2d0d"><div class="ttname"><a href="group__core.html#gaaa893035c7890dbecfda80c2210d2d0d">snicholls::sql_row_visitor</a></div><div class="ttdeci">function_ref&lt; bool(const sql_row &amp;)&gt; sql_row_visitor</div><div class="ttdoc">A query&#39;s visitor: called with each row in order; false stops.</div><div class="ttdef"><b>Definition</b> <a href="concepts_2sql__connection_8hpp_source.html#l00084">sql_connection.hpp:84</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_adddab30c989f446c373aa1031ae4e0e2"><div class="ttname"><a href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">snicholls::fill</a></div><div class="ttdeci">constexpr void fill(It first, It last, const T &amp;value) noexcept(detail::walk_noexcept_v&lt; It &gt; &amp;&amp;noexcept(*std::declval&lt; It &amp; &gt;()=value))</div><div class="ttdoc">Assigns value to every element of [first, last).</div><div class="ttdef"><b>Definition</b> <a href="algorithm_8hpp_source.html#l00109">algorithm.hpp:109</a></div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A connection: <span class="tt">dialect</span>, <span class="tt">prepare</span>, <span class="tt">execute</span>, <span class="tt">query</span>, <span class="tt">execute_batch</span>, the transaction and the lifecycle. </p>
 

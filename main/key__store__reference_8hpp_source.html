@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -145,7 +145,7 @@ $(function(){initNavTree('key__store__reference_8hpp_source.html','',''); });
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classsnicholls_1_1basic__memory__key__store.html#aff4936b25006faa3d7097de6404b041b">  111</a></span>        [[nodiscard]] <span class="keyword">static</span> <a class="code hl_function" href="classsnicholls_1_1basic__memory__key__store.html#a8414f15693263253e3877f9799545c81">basic_memory_key_store</a> <a class="code hl_function" href="classsnicholls_1_1basic__memory__key__store.html#aff4936b25006faa3d7097de6404b041b">deterministic</a>(<a class="code hl_typedef" href="namespacesnicholls.html#af2d2e27d59b8ddfb641648544da7928b">utc_s</a> now = <a class="code hl_function" href="classsnicholls_1_1utc.html#ad50a8ce646d4c1f16d9b40025c722fb4">utc_s::from_unix_seconds</a>(1&#39;800&#39;000&#39;000))</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <span class="keyword">requires</span> std::same_as&lt;Clock, <a class="code hl_struct" href="structsnicholls_1_1manual__utc__clock.html">manual_utc_clock</a>&gt;</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        {</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keyword">auto</span> counter = std::make_shared&lt;std::uint8_t&gt;(0);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keyword">auto</span> counter = std::make_shared&lt;std::uint8_t&gt;(std::uint8_t{0});</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classsnicholls_1_1basic__memory__key__store.html#a8414f15693263253e3877f9799545c81">basic_memory_key_store</a>{[counter](std::span&lt;std::byte&gt; out) {</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                                              <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; b : out)</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                                                  b = <span class="keyword">static_cast&lt;</span>std::byte<span class="keyword">&gt;</span>((*counter)++);</div>

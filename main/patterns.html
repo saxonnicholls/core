@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -94,7 +94,7 @@ $(function(){initNavTree('patterns.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2core_2core_2docs_2PATTERNS"></a></p>
 <p>How the pieces of snicholls-core fit together. Each pattern names the problem, the types that solve it, a compiled example (every snippet below is cut from a demo that runs as a CTest, so none of it can rot) and when not to use it. The per-header pages hold the detail; this page is the map. The programs in <span class="tt">showcase/</span> put many of these patterns to work at once.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Principles behind every pattern</h1>
 <ul>
 <li><b>Decide at compile time.</b> Tables, maps, attribution weights and stopping regions are built by the compiler (<span class="tt">consteval</span> constructors, <span class="tt">constexpr</span> functions); the hot path is a lookup or a few arithmetic operations.</li>
@@ -103,9 +103,9 @@ Principles behind every pattern</h1>
 <li><b>Zero overhead, proved.</b> Anything with a run-time footprint carries <span class="tt">static_assert</span>s on its layout and a like-for-like benchmark against the hand-written equivalent.</li>
 </ul>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Errors</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Expected failure is a value: <span class="tt">result&lt;V, E&gt;</span></h2>
 <p><b>Problem.</b> A parse, a lookup or a call to a provider can fail in the ordinary course of things; <span class="tt">bool</span> plus an out-parameter loses the reason, and an exception hides the path.</p>
 <p><b>Pieces.</b> <span class="tt"><a class="el" href="classsnicholls_1_1result__terminates_1_1result.html" title="Rust&#39;s Result&lt;V, E&gt;: either a success value V or an error E, with zero runtime overhead.">snicholls::result</a>&lt;V, E&gt;</span>, <span class="tt">ok(v)</span> / <span class="tt">err(e)</span>, <span class="tt">SNICHOLLS_TRY</span> (Rust's <span class="tt">?</span>), and the portable <span class="tt"><a class="el" href="group__core.html#ga3e52450eb4a98b8c99819e0b78252705" title="Portable ? as a statement: declares decl from the value of expr, or returns its error.">SNICHOLLS_TRY_ASSIGN</a></span> / <span class="tt"><a class="el" href="group__core.html#gaa1583aa0ec8823339a420408e653e40a" title="Portable ? as a statement, discarding the value: returns the error of expr if there is one.">SNICHOLLS_TRY_VOID</a></span>. A result of trivial types is trivially copyable and travels in registers.</p>
@@ -130,7 +130,7 @@ Expected failure is a value: <span class="tt">result&lt;V, E&gt;</span></h2>
 <div class="line">    <span class="keywordflow">return</span> <a class="code hl_function" href="group__core.html#ga453227af48b32afbc6c42c021156551f">snicholls::ok</a>();</div>
 <div class="line">}</div>
 </div><!-- fragment --><p><b>Not for</b> the unexpected (a broken invariant): that stays an exception or an assertion.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
 Errors for logs: <span class="tt">traced&lt;E&gt;</span></h2>
 <p><b>Problem.</b> An error that reaches a log needs where it happened and what was going on, without paying for that on the success path.</p>
 <p><b>Pieces.</b> <span class="tt"><a class="el" href="classsnicholls_1_1traced.html" title="An error E with the source_location where it was created, a chain of context frames,...">snicholls::traced</a>&lt;E&gt;</span>: the error plus a source location and lazily allocated context, fields and stack; <span class="tt">error_sink</span> and <span class="tt">log_err(sink)</span> hand it to the logger the program chose.</p>
@@ -156,7 +156,7 @@ Errors for logs: <span class="tt">traced&lt;E&gt;</span></h2>
 <div class="line">}</div>
 </div><!-- fragment --><p><b>Not for</b> the wire: send <span class="tt">error()</span> or the report fields, never the trace. Never put a secret in context text.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
 Capabilities: a contract, its twin, a reference and a kit</h1>
 <p><b>Problem.</b> A library needs "something that can sign", "a key-value store", "a source of random bytes" without depending on the library that implements it, and every implementation must behave the same.</p>
 <p><b>Pieces.</b> For each capability core holds four things:</p>
@@ -193,9 +193,9 @@ Capabilities: a contract, its twin, a reference and a kit</h1>
 </div><!-- fragment --><p>The same shape serves the payment, on-ramp, signer, verifier, key store, key-value store, SQL, HTTP, message, remote-file, task-pool, clock, time-zone and UUID capabilities under <span class="tt">interfaces/</span>.</p>
 <p><b>Not for</b> a helper with one obvious implementation: write the function.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
 State machines</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
 A machine is a table</h2>
 <p><b>Problem.</b> Lifecycles (an order, a payment, a security, a session) are where bugs hide when written as flags and <span class="tt">if</span>s.</p>
 <p><b>Pieces.</b> <span class="tt"><a class="el" href="state__machine_8hpp.html" title="snicholls::fsm: state machines written as sml writes them (*state&lt;A&gt; + event&lt;E&gt; [guard] / action = st...">fsm/state_machine.hpp</a></span>, in the style of Boost.SML: a transition table of <span class="tt">state + event [guard] / action
@@ -235,7 +235,7 @@ A machine is a table</h2>
 <div class="line"> </div>
 <div class="line">    <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= machine.<a class="code hl_function" href="classsnicholls_1_1fsm_1_1sm.html#a31e19bae455e6042a10a4d8cbf3b0bef">process_event</a>(timeout{});</div>
 <div class="line">    <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= machine.<a class="code hl_function" href="classsnicholls_1_1fsm_1_1sm.html#a9271f63ebf6102d03b7d6fff0863f091">is</a>(<a class="code hl_variable" href="group__core.html#ga7d0cac194de047a92f78f3c194765172">X</a>);   <span class="comment">// released</span></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
 Save, load and draw it</h2>
 <p>A machine's state saves and restores, so a lifecycle survives a restart; the same table draws itself.</p>
 <div class="fragment"><div class="line">    <a class="code hl_class" href="classsnicholls_1_1fsm_1_1sm.html">sm&lt;outer&gt;</a> machine;</div>
@@ -252,7 +252,7 @@ Save, load and draw it</h2>
 <div class="line">    <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= <a class="code hl_enumvalue" href="group__core.html#gga997cdf403bc1fdb65d339be4800d8baca36f34fd8319cf30f8e132ef294c616af">stale</a>.is_err() &amp;&amp; <a class="code hl_enumvalue" href="group__core.html#gga997cdf403bc1fdb65d339be4800d8baca36f34fd8319cf30f8e132ef294c616af">stale</a>.unwrap_err_unchecked() == <a class="code hl_enumvalue" href="group__core.html#gga59e4f95e60a612ee3b9583bd55d981d5a36f34fd8319cf30f8e132ef294c616af">fsm_errc::stale</a>;</div>
 <div class="line">    <a class="code hl_function" href="group__core.html#gab1366a52fc6758364b5de782e34cab51">ok</a> &amp;= <a class="code hl_function" href="group__core.html#gaf6a6996b85c2abd14023936459040102">save</a>(store, <span class="stringliteral">&quot;job/7&quot;</span>, restored, *read).is_ok();    <span class="comment">// with the version it read: version 2</span></div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="keyword">const</span> std::string mermaid = <a class="code hl_function" href="group__core.html#ga6b8562de1227f8ee46f92844d81f1eb9">to_mermaid&lt;lifecycle&gt;</a>();   <span class="comment">// or to_mermaid(machine)</span></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
 Lifecycles that read as the domain</h2>
 <div class="fragment"><div class="line">    <a class="code hl_class" href="classsnicholls_1_1fsm_1_1sm.html">sm&lt;lifecycle&gt;</a> machine;   <span class="comment">// requested</span></div>
 <div class="line">    <a class="code hl_struct" href="structsnicholls_1_1payment.html">payment</a> p{12&#39;50};</div>
@@ -264,7 +264,7 @@ Lifecycles that read as the domain</h2>
 <div class="line">        p.state = machine.<a class="code hl_function" href="classsnicholls_1_1fsm_1_1sm.html#a03999085b95079879cd77cb46be3ed82">current</a>();   <span class="comment">// pending, then confirmed, then settled</span></div>
 <div class="line">        <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">snicholls::println</a>(p.state);   <span class="comment">// acout reads the state&#39;s label and colour</span></div>
 <div class="line">    }</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
 Machines, functionally</h2>
 <p>A machine is a function from state and event to state, so everything in <span class="tt">functional/</span> applies to it.</p>
 <ul>
@@ -393,7 +393,7 @@ Machines, functionally</h2>
 <div class="line"><span class="keyword">static_assert</span>(terminal == (bit(order::cancelled) | bit(order::refunded)));</div>
 </div><!-- fragment --><p><b>Not for</b> a two-state toggle: a <span class="tt">bool</span> is fine.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
 Presentation is an attribute of the type</h1>
 <p><b>Problem.</b> Colour, labels, number formats and tooltips written at each call site drift apart, and P&amp;L coloured by hand is eventually coloured wrong.</p>
 <p><b>Pieces.</b> A type or enumeration declares a <span class="tt">constexpr</span> function <span class="tt">attributes</span> in its own namespace returning <span class="tt">attrs(...)</span> (<span class="tt"><a class="el" href="attributes_8hpp.html" title="attribute_set, attrs and attributes_of: compile-time attributes declared beside a type,...">meta/attributes.hpp</a></span>): <span class="tt">colour</span>, <span class="tt">sign_colours</span>, <span class="tt">label</span>, <span class="tt">number_format</span> (checked by the compiler), <span class="tt">tooltip</span>. <span class="tt">acout</span>, <span class="tt">print_to</span>, containers and <span class="tt">stats::pivot</span> read them, and <span class="tt">write_enum_json</span> exports them for a user interface, so each is written once.</p>
@@ -438,9 +438,9 @@ Presentation is an attribute of the type</h1>
 </div><!-- fragment --><div class="fragment"><div class="line">    <a class="code hl_class" href="classsnicholls_1_1acout.html">snicholls::acout</a>{} &lt;&lt; today;   <span class="comment">// the same grid, in colour on a terminal</span></div>
 </div><!-- fragment --><p><b>Rule.</b> Green and red mean up and down, never an identity.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md39"></a>
 Printing</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md40"></a>
 One message, one write</h2>
 <p><b>Problem.</b> Lines from several threads interleave mid-line.</p>
 <p><b>Pieces.</b> <span class="tt">acout{} &lt;&lt; ...</span>, <span class="tt">acerr{}</span>, <span class="tt">print(...)</span> / <span class="tt">println(...)</span>: each message is built whole and written under one lock. Containers, tuples, optionals, variants and results print as they are, recursively.</p>
@@ -463,12 +463,12 @@ One message, one write</h2>
 <div class="line">    <a class="code hl_class" href="classsnicholls_1_1acout.html">snicholls::acout</a>{} &lt;&lt; <span class="stringliteral">&quot;  types &quot;</span> &lt;&lt; <a class="code hl_struct" href="structsnicholls_1_1meta_1_1type__list.html">snicholls::meta::type_list&lt;int, double&gt;</a>{} &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">    std::ostringstream shown;</div>
 <div class="line">    shown &lt;&lt; book &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; std::tuple{1, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;two&quot;</span>};</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md41"></a>
 A type that prints itself</h2>
 <p>One member, <span class="tt">void print(<a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">snicholls::acout</a>&amp;) const</span>, and nothing else: no per-type <span class="tt">operator&lt;&lt;</span>.</p>
 <div class="fragment"><div class="line"><span class="comment">// A type that prints itself: one member, and that is the whole contract. The classic form</span></div>
 <div class="line"><span class="comment">// takes a stream ...</span></div>
-<div class="line"><span class="keyword">struct </span>fill {</div>
+<div class="line"><span class="keyword">struct </span><a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a> {</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* symbol;</div>
 <div class="line">    <span class="keywordtype">int</span> quantity;</div>
 <div class="line">    <span class="keywordtype">double</span> price;</div>
@@ -490,16 +490,16 @@ A type that prints itself</h2>
 <div class="line"><span class="keyword">using </span>snicholls::print_operators::operator&lt;&lt;;</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Through acout, print() is found by the concept; through a plain stream, by the operator above;</span></div>
 <div class="line">    <span class="comment">// println(value) is the one-liner.</span></div>
-<div class="line">    <span class="keyword">const</span> fill f{<span class="stringliteral">&quot;AAPL&quot;</span>, 100, 189.25};</div>
+<div class="line">    <span class="keyword">const</span> <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a> f{<span class="stringliteral">&quot;AAPL&quot;</span>, 100, 189.25};</div>
 <div class="line">    <span class="keyword">const</span> quote q{<span class="stringliteral">&quot;AAPL&quot;</span>, 189.20, 189.30};</div>
 <div class="line">    <a class="code hl_class" href="classsnicholls_1_1acout.html">snicholls::acout</a>{} &lt;&lt; <span class="stringliteral">&quot;  filled: &quot;</span> &lt;&lt; f &lt;&lt; <span class="stringliteral">&quot; at &quot;</span> &lt;&lt; q &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">    <a class="code hl_function" href="group__core.html#ga8f0d61c15248be7e3cb19779e5ce98fb">snicholls::println</a>(q);</div>
 <div class="line">    std::ostringstream <a class="code hl_enumvalue" href="group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e">plain</a>;</div>
 <div class="line">    <a class="code hl_enumvalue" href="group__core.html#ggaa013d97c8c3b51bc39c61b77c316c7b1aac7938d40cfc2307e2bf325d28e7884e">plain</a> &lt;&lt; f &lt;&lt; <span class="stringliteral">&quot;; &quot;</span> &lt;&lt; q;</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md36"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md43"></a>
 Dispatch over types and values</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md44"></a>
 Overload sets, never <span class="tt">if constexpr</span> chains</h2>
 <p><b>Problem.</b> A chain of <span class="tt">if constexpr</span> over a type is hard to read and impossible to extend from outside.</p>
 <p><b>Pieces.</b> <span class="tt">overloaded{...}</span> for cases that do not overlap; <span class="tt">first_match{...}</span> with concept-constrained lambdas (<span class="tt"><a class="el" href="meta_2concepts_8hpp.html" title="The small concepts the family keeps re-declaring: streamable, printable, enumeration,...">meta/concepts.hpp</a></span>) when they do: the first that accepts the argument runs, in the order written.</p>
@@ -544,7 +544,7 @@ Overload sets, never <span class="tt">if constexpr</span> chains</h2>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; m : inbox)</div>
 <div class="line">        std::printf(<span class="stringliteral">&quot;  %s\n&quot;</span>, std::visit(describe, m).c_str());</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md38"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md45"></a>
 Values with <span class="tt">constexpr_for</span>, types with <span class="tt">type_list</span></h2>
 <p>If what you loop over is a value, <span class="tt">constexpr_for</span>; if it is a type, <span class="tt">type_list</span>.</p>
 <div class="fragment"><div class="line">    <span class="comment">// The index is a type, so it can index a tuple: no plain loop can do this</span></div>
@@ -617,7 +617,7 @@ Values with <span class="tt">constexpr_for</span>, types with <span class="tt">t
 <div class="line">    <span class="comment">// whole() repeats a tuple rather than threading it.</span></div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> second_plus = [](<span class="keywordtype">int</span> a, <span class="keyword">const</span> std::tuple&lt;int, int&gt;&amp; t) { <span class="keywordflow">return</span> a + std::get&lt;1&gt;(t); };</div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_function" href="group__core.html#ga968ca0f4473bef80d4a8db236c9a6673">snicholls::thread_apply</a>(second_plus, std::array{1, 2}, <a class="code hl_function" href="group__core.html#ga16b0d838ea3260d7a8f3f8b39b446476">snicholls::whole</a>(std::tuple{0, 5})) == std::tuple{6, 7});</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md39"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md46"></a>
 Arguments that exist only at run time</h2>
 <p>A command line or a JSON object calls a typed function through <span class="tt">invoke_with</span>: the source supplies <span class="tt">size()</span> and <span class="tt">get&lt;T&gt;(i)</span>.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A handler set whose callables have concrete parameter lists, which invoke_any reads.</span></div>
@@ -648,13 +648,13 @@ Arguments that exist only at run time</h2>
 <div class="line">    std::printf(<span class="stringliteral">&quot;  {1, 2, 3}: %s\n&quot;</span>, <a class="code hl_function" href="group__core.html#gaed997a5b399462986484b135e8347f48">snicholls::error_text</a>(three.unwrap_err()).c_str());</div>
 <div class="line">    std::printf(<span class="stringliteral">&quot;  {2.5}:     %s\n&quot;</span>, <a class="code hl_function" href="group__core.html#gaed997a5b399462986484b135e8347f48">snicholls::error_text</a>(wrong.unwrap_err()).c_str());</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md41"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
 Reflection over plain aggregates</h1>
 <p><b>Problem.</b> Serialising, hashing, comparing or printing a struct field by field by hand.</p>
 <p><b>Pieces.</b> <span class="tt">member_count_v&lt;T&gt;</span>, <span class="tt">tie</span> / <span class="tt">to_tuple</span> / <span class="tt">from_tuple</span> (<span class="tt"><a class="el" href="struct__tuple_8hpp.html" title="Conversions between plain aggregate structs and std::tuples.">reflect/struct_tuple.hpp</a></span>), <span class="tt">type_name</span>, scoped enumerations by name (<span class="tt"><a class="el" href="enums_8hpp.html" title="Enum reflection at compile time: names, values and parsing of an enumeration&#39;s enumerators.">meta/enums.hpp</a></span>).</p>
 <div class="fragment"><div class="line">    <span class="comment">// to_tuple / from_tuple: values out, a struct back in. Strict: sizes must match, no narrowing.</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> values = <a class="code hl_function" href="group__core.html#gab6e85e5ecfec81aca2e8a6fd6285e870">snicholls::to_tuple</a>(o);   <span class="comment">// std::tuple&lt;long, leg_row, std::string&gt;</span></div>
-<div class="line">    <span class="keyword">const</span> order_row copy = <a class="code hl_function" href="group__core.html#ga01d6ec8c1e1cde5db5315c1dc4f83e32">snicholls::from_tuple&lt;order_row&gt;</a>(values);</div>
+<div class="line">    <span class="keyword">const</span> order_row <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a> = <a class="code hl_function" href="group__core.html#ga01d6ec8c1e1cde5db5315c1dc4f83e32">snicholls::from_tuple&lt;order_row&gt;</a>(values);</div>
 <div class="line">    <span class="keyword">const</span> leg_row from_pair = <a class="code hl_function" href="group__core.html#ga01d6ec8c1e1cde5db5315c1dc4f83e32">snicholls::from_tuple&lt;leg_row&gt;</a>(std::make_pair(1.5, 2));</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Names, values and parsing straight from the declaration, at compile time.</span></div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_function" href="group__core.html#ga9c3c27fdbddef54e27f51a1e0e4c5c02">snicholls::enum_name</a>(oms::status::filled) == <span class="stringliteral">&quot;filled&quot;</span>);</div>
@@ -670,7 +670,7 @@ Reflection over plain aggregates</h1>
 <div class="line">        all += std::string(<a class="code hl_function" href="group__core.html#ga32a56d8545bb19c61020152ad7cc9699">snicholls::enum_name</a>(s)) + <span class="charliteral">&#39; &#39;</span>;</div>
 </div><!-- fragment --><p><b>Not for</b> classes with invariants, bases or reference members: give those an explicit interface.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md43"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md50"></a>
 Tables built by the compiler</h1>
 <p><b>Problem.</b> Lookups that are known when the program is written should cost nothing to build and little to query.</p>
 <p><b>Pieces.</b> <span class="tt">constexpr_map</span> (an enumeration's names, both ways), <span class="tt">containers::static_map</span> and <span class="tt">perfect_map</span> (built in <span class="tt">consteval</span> constructors), <span class="tt">fnv1a_64</span> for a hash that can be a <span class="tt">switch</span> label.</p>
@@ -706,9 +706,9 @@ Tables built by the compiler</h1>
 <div class="line">    }</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md45"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md52"></a>
 Exact numbers, time and identity</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md46"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md53"></a>
 Money is exact</h2>
 <p><span class="tt">money</span> (asset plus signed minor units), <span class="tt">decimal</span> (exact, one canonical text), <span class="tt">uint256</span> for on-chain amounts, <span class="tt">checked</span> arithmetic that reports overflow. Never <span class="tt">double</span> for an amount.</p>
 <div class="fragment"><div class="line">    <span class="keyword">const</span> <a class="code hl_struct" href="structsnicholls_1_1asset.html">asset</a> eth = <a class="code hl_variable" href="namespacesnicholls.html#a93f1d88a1f5ad6bc1689c4f5910aa5d8">asset_v&lt;native::ETH&gt;</a>;</div>
@@ -754,7 +754,7 @@ Money is exact</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// A price that must be an exact number of ticks before it becomes an integer.</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> ticks = <a class="code hl_function" href="group__core.html#ga84b20ee48f508bf627a6d78933d80051">snicholls::numeric_cast&lt;std::int32_t&gt;</a>(1234.0);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md47"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md54"></a>
 Time is explicit</h2>
 <p><span class="tt">utc&lt;D&gt;</span>: one <span class="tt">sys_time</span>, RFC 3339 text, the same ticks and fields on every platform. "Now" is read only through <span class="tt">utc&lt;D&gt;::now()</span>; default construction is the epoch.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> main()</div>
@@ -836,7 +836,7 @@ Time is explicit</h2>
 <div class="line">    std::cout &lt;&lt; (failures == 0 ? <span class="stringliteral">&quot;OK\n&quot;</span> : <span class="stringliteral">&quot;FAILED\n&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">return</span> failures == 0 ? 0 : 1;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md55"></a>
 Identity is a type</h2>
 <p><span class="tt">uuid</span> (v4 / v7 from bits the caller supplies, v5 from a name, a checked <span class="tt">_uuid</span> literal) and <span class="tt">strong&lt;T, Tag&gt;</span> so an order id never passes for a client id.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> main()</div>
@@ -909,12 +909,12 @@ Identity is a type</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">// The one place a price meets a quantity: stated, not guessed.</span></div>
 <div class="line"><span class="keyword">constexpr</span> notional <a class="code hl_function" href="pointwise_8hpp.html#ab252d9665036a40dd176a2f3ab0e99e8">operator*</a>(price p, quantity q) { <span class="keywordflow">return</span> notional(p.value * q.value); }</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md49"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md56"></a>
 Secrets do not leak</h2>
 <div class="fragment"><div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> masked = <a class="code hl_function" href="group__core.html#gabb577c7b50c434ff8dc6a06dfd4484f6">snicholls::is_secret_key</a>(<span class="stringliteral">&quot;db_password&quot;</span>);   <span class="comment">// PASSWORD, TOKEN, *_KEY, ... (case-insensitive)</span></div>
 <div class="line">    <span class="keyword">const</span> std::string <a class="code hl_variable" href="uuid_8hpp.html#af77d05d48b0df7f3813febc235d8db42">url</a> = <a class="code hl_function" href="group__core.html#gad77ce23dfe8ea2198c2377454c0de766">snicholls::mask_url_credentials</a>(<span class="stringliteral">&quot;postgres://app:pw@db:5432/ledger&quot;</span>);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md51"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md58"></a>
 Dated money: one cash flow</h1>
 <p><span class="tt">finance::cash_flow</span> is one dated, exact, signed flow (positive in, negative out) shared by the liquidity ladder and the return measures.</p>
 <div class="fragment"><div class="line">    <span class="comment">// a settlement credit of 1,250.00 due on 4 March, and a payout of 300.00 on the 5th: positive in, negative out</span></div>
@@ -947,7 +947,7 @@ Dated money: one cash flow</h1>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> dietz = <a class="code hl_function" href="group__core.html#ga35e45d42df998a97e8fab475d5a4d74b">modified_dietz</a>(cents(100&#39;000&#39;000), cents(132&#39;000&#39;000), flows, start, end);   <span class="comment">// exact</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> mwr = <a class="code hl_function" href="group__core.html#gad31670a911d676c2e8f7db5a584942e3">money_weighted_return</a>(cents(100&#39;000&#39;000), cents(132&#39;000&#39;000), flows, start, end);   <span class="comment">// annual</span></div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md53"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
 Statistics that merge</h1>
 <p><b>Problem.</b> Recomputing a statistic from history on every tick, or a <span class="tt">std::map&lt;std::map&lt;...&gt;&gt;</span> loop to group and aggregate.</p>
 <p><b>Pieces.</b> Accumulators (<span class="tt">stats::variance</span>, <span class="tt">covariance</span>, <span class="tt">ewma</span>, ...) that update in O(1) and <span class="tt">merge</span> across workers (a parallel reduction); <span class="tt">stats::pivot&lt;Row, row keys, column keys, measures...&gt;</span> groups and aggregates in one pass.</p>
@@ -1011,7 +1011,7 @@ Statistics that merge</h1>
 <div class="line">                                                 <a class="code hl_struct" href="structsnicholls_1_1stats_1_1measure.html">stats::measure&lt;stats::member&lt;&amp;trade::pnl&gt;</a>, <a class="code hl_struct" href="structsnicholls_1_1stats_1_1sum.html">stats::sum&lt;double&gt;</a>&gt;,</div>
 <div class="line">                                                 <a class="code hl_struct" href="structsnicholls_1_1stats_1_1measure.html">stats::measure&lt;stats::member&lt;&amp;trade::notional&gt;</a>, <a class="code hl_struct" href="structsnicholls_1_1stats_1_1sum.html">stats::sum&lt;double&gt;</a>&gt;&gt;(trades);</div>
 <div class="line">        <a class="code hl_class" href="classsnicholls_1_1acout.html">snicholls::acout</a>{} &lt;&lt; by_member;   <span class="comment">// USD / S&amp;P 500 ... +150, as the tuple blotter&#39;s</span></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md54"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md61"></a>
 Randomness that reproduces</h2>
 <p><span class="tt">stats::wyrand</span> by stream, <span class="tt">uniform_index</span> (never <span class="tt">std::uniform_int_distribution</span>, whose output differs between standard libraries), Sobol points for quasi-Monte Carlo, the bootstrap for error bars.</p>
 <div class="fragment"><div class="line">    <span class="comment">// The same seed gives the same draws on every platform, unlike std::uniform_int_distribution.</span></div>
@@ -1058,7 +1058,7 @@ Randomness that reproduces</h2>
 <div class="line">        block_sharpes.push_back(sharpe(stats::moments_of(returns, counts)));</div>
 <div class="line">    });</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md56"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md63"></a>
 Attribution: who moved the number</h1>
 <p><b>Problem.</b> One-at-a-time and sequential attribution depend on the order you ask in.</p>
 <p><b>Pieces.</b> A game is a callable from <span class="tt">game::coalition</span> to a value; <span class="tt">game::shapley&lt;N&gt;</span> exactly to about 20 players, <span class="tt">game::owen</span> with groups beyond, the samplers when evaluations are expensive, <span class="tt">finance::explain</span> for P&amp;L by greek and factor.</p>
@@ -1094,10 +1094,10 @@ Attribution: who moved the number</h1>
 <div class="line">    <span class="keyword">constexpr</span> finance::market_move&lt;&gt; today{.spot = 2.0, .vol = 1.5, .time = 1.0, .rate = 0.0};</div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> why = finance::explain(straddle, today, 162.4);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md58"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md65"></a>
 Functional programming, at compile time</h1>
 <p><span class="tt">functional/</span> (namespace <span class="tt">snicholls::fn</span>) brings the vocabulary of Haskell, OCaml and Rust to C++20, every piece <span class="tt">constexpr</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md59"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
 Functions that return functions</h2>
 <div class="fragment"><div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="group__core.html#gacbb2177ad645771fa5caceaa82637989">volume</a> = [](<span class="keywordtype">double</span> price, <span class="keywordtype">int</span> lots, <span class="keywordtype">int</span> lot_size) { <span class="keywordflow">return</span> price * lots * lot_size; };</div>
 <div class="line">    <span class="comment">// One argument at a time, several at a time, or all at once: the same call.</span></div>
@@ -1135,7 +1135,7 @@ Functions that return functions</h2>
 <div class="line">    <span class="comment">// A value in the middle: one lot of 100.</span></div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> per_lot = <a class="code hl_variable" href="group__core.html#ga079b6d0632ad0f5fdf0c62bc735c7257">fn::bind</a>(pnl, <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1placeholders.html#a80bbdde9d17a5bf85213b9da8eb914c4">_1</a>, <a class="code hl_variable" href="namespacesnicholls_1_1fn_1_1placeholders.html#adfd12668226608842f93eed5736a32ba">_2</a>, 100.0);</div>
 <div class="line">    <span class="keyword">static_assert</span>(per_lot(1.10, 1.12) &gt; 1.99 &amp;&amp; per_lot(1.10, 1.12) &lt; 2.01);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md67"></a>
 Folds, unfolds and laziness</h2>
 <div class="fragment"><div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b) { <span class="keywordflow">return</span> a + b; };</div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> minus = [](<span class="keyword">auto</span> a, <span class="keyword">auto</span> b) { <span class="keywordflow">return</span> a - b; };</div>
@@ -1177,7 +1177,7 @@ Folds, unfolds and laziness</h2>
 <div class="line">    <span class="keyword">static_assert</span>(price &gt; 999.99 &amp;&amp; price &lt; 1000.01);</div>
 <div class="line">    <span class="comment">// hylo: the undiscounted total, unfolded and folded in one pass, with no schedule in between.</span></div>
 <div class="line">    <span class="keyword">static_assert</span>(fn::hylo([](<span class="keywordtype">double</span> acc, <span class="keywordtype">double</span> cf) { <span class="keywordflow">return</span> acc + cf; }, 0.0, flows, 4) == 1100.0);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md61"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
 Type classes and effects</h2>
 <div class="fragment"><div class="line">    <span class="comment">// One pass over the fills, three summaries at once: a tuple of monoids is a monoid.</span></div>
 <div class="line">    <span class="keyword">constexpr</span> std::array <a class="code hl_enumvalue" href="group__core.html#gga315226356b911c3adfb29a2f8378463eab3b8c36b183ca5767c7df7a16e194d92">fills</a>{120.0, -40.0, 15.0, 60.0};</div>
@@ -1194,14 +1194,14 @@ Type classes and effects</h2>
 <div class="line">                                       std::tuple{std::pair{1.0, 1.2}, std::pair{2.2, 2.0}});</div>
 <div class="line">    <span class="keyword">static_assert</span>(mids.unwrap_err_unchecked() == feed_error::crossed);</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// A fill costs cash; it reports whether the cash covered it. The state is the cash balance.</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> fill = [](<span class="keywordtype">double</span> cost) {</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a> = [](<span class="keywordtype">double</span> cost) {</div>
 <div class="line">        <span class="keywordflow">return</span> fn::mbind(fn::get_state, [cost](<span class="keywordtype">double</span> cash) {</div>
 <div class="line">            <span class="keywordflow">return</span> fn::mthen(fn::put_state(cash - cost), fn::pure&lt;fn::state&lt;&gt;&gt;(cash &gt;= cost));</div>
 <div class="line">        });</div>
 <div class="line">    };</div>
 <div class="line">    <span class="comment">// A day: two fills, then a sweep that adds interest; the value is whether every fill was covered.</span></div>
-<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> day = fn::mbind(fill(40.0), [fill](<span class="keywordtype">bool</span> a) {</div>
-<div class="line">        <span class="keywordflow">return</span> fn::mbind(fill(50.0), [a](<span class="keywordtype">bool</span> b) {</div>
+<div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> day = fn::mbind(<a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>(40.0), [fill](<span class="keywordtype">bool</span> a) {</div>
+<div class="line">        <span class="keywordflow">return</span> fn::mbind(<a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>(50.0), [a](<span class="keywordtype">bool</span> b) {</div>
 <div class="line">            <span class="keywordflow">return</span> fn::mthen(fn::modify([](<span class="keywordtype">double</span> cash) { <span class="keywordflow">return</span> cash * 1.01; }), fn::pure&lt;fn::state&lt;&gt;&gt;(a &amp;&amp; b));</div>
 <div class="line">        });</div>
 <div class="line">    });</div>
@@ -1218,10 +1218,10 @@ Type classes and effects</h2>
 <div class="line">                         [](<span class="keyword">const</span> cancel&amp;) { <span class="keywordflow">return</span> 0.0; },</div>
 <div class="line">                         fn::otherwise([](<span class="keyword">const</span> <span class="keyword">auto</span>&amp;) { <span class="keywordflow">return</span> 0.0; }));                     <span class="comment">// anything else</span></div>
 <div class="line">    };</div>
-<div class="line">    <span class="keyword">static_assert</span>(notional(event{fill{1.25, 1000}}) == 1250.0);</div>
-<div class="line">    <span class="keyword">static_assert</span>(notional(event{fill{1.25, 5&#39;000&#39;000}}) == -1.0);</div>
+<div class="line">    <span class="keyword">static_assert</span>(notional(event{<a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>{1.25, 1000}}) == 1250.0);</div>
+<div class="line">    <span class="keyword">static_assert</span>(notional(event{<a class="code hl_function" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2">fill</a>{1.25, 5&#39;000&#39;000}}) == -1.0);</div>
 <div class="line">    <span class="keyword">static_assert</span>(notional(event{<a class="code hl_enumvalue" href="group__core.html#gga74585c62c5ed106f8834093a12064c52a6bfaf02d9f3b165809fb7f056665a6bd">reject</a>{42}}) == 0.0);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md62"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md69"></a>
 OCaml's pipes and functors</h2>
 <div class="fragment"><div class="line">    <span class="comment">// OCaml: [1.0850; 1.0852; 1.0849] |&gt; List.map to_bp |&gt; List.filter wide |&gt; List.length</span></div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> to_bp = [](<span class="keywordtype">double</span> x) { <span class="keywordflow">return</span> x * 10&#39;000.0; };</div>
@@ -1257,7 +1257,7 @@ OCaml's pipes and functors</h2>
 <div class="line">};</div>
 <div class="line"><span class="keyword">using </span>best_price = make_best&lt;by_price&gt;;</div>
 <div class="line"><span class="keyword">using </span>best_size = make_best&lt;by_size&gt;;</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md63"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
 Parsers from combinators</h2>
 <div class="fragment"><div class="line"><span class="comment">// A parser is a function from the input to a value and the rest, or nothing.</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> F = <span class="keywordtype">void</span>&gt;</div>
@@ -1361,7 +1361,7 @@ Parsers from combinators</h2>
 <div class="line">                                     };</div>
 <div class="line">                                 }, side, keep_left(quantity, literal(<span class="stringliteral">&quot; &quot;</span>))),</div>
 <div class="line">                                 pair_p);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md71"></a>
 Classics, written in C++</h2>
 <p>The showcases are the programs a functional programmer reaches for first, each checked by <span class="tt">static_assert</span> as well as at run time.</p>
 <div class="fragment"><div class="line">    <span class="comment">// primes = filter isPrime [2..]; take 10 primes; primes !! 999</span></div>
@@ -1440,7 +1440,7 @@ Classics, written in C++</h2>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> minus_one = fn::rsection(std::minus&lt;&gt;{}, 1);</div>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> hundred_over = fn::lsection(std::divides&lt;&gt;{}, 100);</div>
 <div class="line">    <span class="keyword">static_assert</span>(fn::pipe(twice, minus_one, hundred_over)(3) == 20);   <span class="comment">// 100 / (2 * 3 - 1)</span></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md65"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
 An interpreter: algebraic data types and pattern matching</h2>
 <div class="fragment"><div class="line"><span class="comment">// data Expr = Lit Int | Var Char | Neg Expr | Bin Op Expr Expr  -- children are indices into one arena.</span></div>
 <div class="line"><span class="keyword">enum class</span> op { <a class="code hl_function" href="group__core.html#ga0f4eff8eed4b1a4e037f5b15086f43c7">add</a>, sub, mul, div };</div>
@@ -1500,7 +1500,7 @@ An interpreter: algebraic data types and pattern matching</h2>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_variable" href="group__core.html#ga43c72d9b4acf627549096a0ff1388100">eval</a>(program, root, env).unwrap_unchecked() == (4 + 3) * -(10 / 2));</div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_variable" href="group__core.html#ga43c72d9b4acf627549096a0ff1388100">eval</a>(program, root, std::array&lt;binding, 1&gt;{{{<span class="charliteral">&#39;x&#39;</span>, 4}}}).unwrap_err_unchecked() == eval_error::unbound_variable);</div>
 <div class="line">    <span class="keyword">static_assert</span>(depth(program, root) == 4);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md73"></a>
 Effects: railway, state, reader and writer</h2>
 <div class="fragment"><div class="line">    <span class="keyword">static_assert</span>(ticket(<span class="stringliteral">&quot;400&quot;</span>).unwrap_unchecked() == 500);</div>
 <div class="line">    <span class="keyword">static_assert</span>(ticket(<span class="stringliteral">&quot;4x0&quot;</span>).unwrap_err_unchecked() == reject::not_a_number);   <span class="comment">// stops at parse</span></div>
@@ -1585,7 +1585,7 @@ Effects: railway, state, reader and writer</h2>
 <div class="line">                                 | fn::then(fn::partial(List::map, square))</div>
 <div class="line">                                 | fn::then(fn::partial(List::filter, odd))</div>
 <div class="line">                                 | fn::then(fn::partial(List::fold_left, plus, 0L));</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md67"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
 Rust's vocabulary</h2>
 <p><span class="tt">std::optional</span> with Rust's Option methods, orderings that chain, slices in windows and chunks, iterator searches with Rust's tie rules. <span class="tt">result</span> already carries Result's methods as members.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A quote that may be missing, checked for freshness, turned into a mid price or an error.</span></div>
@@ -1624,7 +1624,7 @@ Rust's vocabulary</h2>
 <div class="line">    <span class="comment">// The largest fill (the last of equals, as Rust) and a moving VWAP over three fills.</span></div>
 <div class="line">    <span class="keyword">static_assert</span>(iter::max_by_key(fills, [](<span class="keyword">const</span> fill&amp; f) { <span class="keywordflow">return</span> f.qty; })-&gt;venue == <span class="stringliteral">&quot;XAMS&quot;</span>);</div>
 <div class="line">    <span class="keyword">static_assert</span>(vwap(slice::windows(fills, 3)[0]) == (10025 * 300 + 10020 * 100 + 10030 * 500) / 900);</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
 Rewriting and point-wise functions</h2>
 <p>Rules applied once (<span class="tt">/.</span>) or to a fixed point (<span class="tt">//.</span>) over any tree whose children the caller can map; functions combined point by point with ordinary operators.</p>
 <div class="fragment"><div class="line">    <span class="comment">// ((x * 1) + (0 * y)) * (2 + 3)  -&gt;  x * 5</span></div>
@@ -1638,7 +1638,7 @@ Rewriting and point-wise functions</h2>
 <div class="line">    <span class="keyword">static_assert</span>(spread(90) == 0 &amp;&amp; spread(105) == 10 &amp;&amp; spread(130) == 20);</div>
 </div><!-- fragment --><p><b>Not for</b> a hot inner loop the compiler cannot see through: measure, then write the loop.</p>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md77"></a>
 Signals at compile time</h1>
 <p>Coefficients, windows and whole transforms evaluate in the compiler when their input is known, and the same code runs at run time.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A 1 kHz pilot tone at 8 kHz over blocks of 64: bin 8, the coefficient 2 cos(pi / 4) computed by the compiler.</span></div>
@@ -1684,7 +1684,7 @@ Signals at compile time</h1>
 <div class="line">    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a> = s::rfft(std::array&lt;double, 8&gt;{1, 1, 1, 1, 0, 0, 0, 0});</div>
 <div class="line">    <span class="keyword">static_assert</span>(<a class="code hl_variable" href="group__core.html#gabf4bd97f5161c5ad18e5b83759d0ad9b">H</a>.size() == 5 &amp;&amp; H[0].re == 4.0);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md79"></a>
 Fixed sizes for the device</h1>
 <p>Sizes known at compile time, bounded loops, no allocation: the forms an FPGA can synthesize and a GPU kernel can call.</p>
 <div class="fragment"><div class="line">    <span class="comment">// At most four legs per order, held inside the order: no allocation on the hot path.</span></div>
@@ -1725,7 +1725,7 @@ Fixed sizes for the device</h1>
 <div class="line">    <span class="keyword">const</span> ct::kd_tree&lt;xy, 2, mt::manhattan&gt; by_blocks(detections, order_l1);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> closest_l1 = by_blocks.nearest(track);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md81"></a>
 Containers keyed by identity</h1>
 <p><b>Problem.</b> Pointers into a growing vector dangle, and a <span class="tt">std::unordered_map</span> from id to object is slow and wasteful.</p>
 <p><b>Pieces.</b> <span class="tt">index_pool</span> hands out dense indices and recycles them; <span class="tt">dense_id_map</span> / <span class="tt">flat_id_map</span> hold objects by id contiguously; <span class="tt">object_pool</span> reuses storage; <span class="tt">bloom_filter</span> sits in front of an authoritative set when nearly every query misses.</p>
@@ -1768,7 +1768,7 @@ Containers keyed by identity</h1>
 <div class="line">            ++rejected_by_map;   <span class="comment">// a false positive: one wasted lookup</span></div>
 <div class="line">    }</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md76"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md83"></a>
 Hashing: the right hash for the job</h1>
 <p><span class="tt">fnv1a_64</span> when a tiny hash must agree across machines or be a <span class="tt">switch</span> label; <span class="tt">wyhash</span> for speed over longer keys; <span class="tt">hash_combine</span> only for <span class="tt">std::hash</span> values that never leave the process; SHA-2, SHA-3, BLAKE2/3, HMAC and the KDFs when it must be cryptographic. All <span class="tt">constexpr</span>.</p>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacesnicholls_1_1literals.html">snicholls::literals</a>;</div>
@@ -1820,7 +1820,7 @@ Hashing: the right hash for the job</h1>
 <div class="line">    <span class="keywordflow">return</span> std::string(h.<a class="code hl_function" href="classsnicholls_1_1md__hash.html#a2b4fbac26976e03366122aee60e89c84">finish</a>().<a class="code hl_function" href="structsnicholls_1_1digest.html#a4c991efe92fac9dbb88178287fbdd1e7">hex</a>().view());</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md78"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md85"></a>
 Linear algebra: one interface, a backend chosen by type</h1>
 <p><b>Problem.</b> The same numerics must run on a reference CPU path, a tuned library and an accelerator, without a copy of each algorithm per target.</p>
 <p><b>Pieces.</b> <span class="tt">linalg/</span> operates on views of plain data, with the backend a template parameter (or chosen at run time where it must be); fixed-size forms for the device; batched execution for many small problems; Krylov solvers and randomized SVD built on the same operations.</p>
@@ -1878,7 +1878,7 @@ Linear algebra: one interface, a backend chosen by type</h1>
 <div class="line">        <span class="keywordflow">if</span> (status[b] != la::status::ok)</div>
 <div class="line">            std::printf(<span class="stringliteral">&quot;  block %zu: %s, falls back\n&quot;</span>, b, status[b] == la::status::singular ? <span class="stringliteral">&quot;singular&quot;</span> : <span class="stringliteral">&quot;failed&quot;</span>);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md80"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md87"></a>
 Machine learning as small, composable kernels</h1>
 <p><span class="tt">ml/</span> is a transformer, its training and its inference, built from pure functions over rows of plain data: each layer has a forward and a backward, the backend is a template parameter, and a configuration composes the blocks.</p>
 <div class="fragment"><div class="line"><span class="comment">// Grouped-query attention: 8 query heads share 2 key-value heads; RMS norm, SwiGLU, RoPE, a sliding window of 512</span></div>
@@ -2121,7 +2121,7 @@ Machine learning as small, composable kernels</h1>
 <div class="line">    <span class="keywordflow">return</span> losses;</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md82"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md89"></a>
 Optimisation, sparse systems and distances</h1>
 <div class="fragment"><div class="line"><span class="comment">// The extended Rosenbrock function: independent pairs, minimum 0 at all ones</span></div>
 <div class="line"><span class="keywordtype">double</span> rosenbrock(cspan x, std::span&lt;double&gt; g)</div>
@@ -2359,7 +2359,7 @@ Optimisation, sparse systems and distances</h1>
 <div class="line"> </div>
 <div class="line">} <span class="comment">// namespace</span></div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md84"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md91"></a>
 Estimation: tracking a moving thing</h1>
 <p>Gaussian state, transition and measurement models, Kalman and unscented filters, association and fusion, each a <span class="tt">constexpr</span> step over trivially copyable state.</p>
 <div class="fragment"><div class="line">    <span class="comment">// The target moves at (3, -1) m/s from (0, 100); a sensor reports its position every second with 5 m of noise</span></div>
@@ -2407,7 +2407,7 @@ Estimation: tracking a moving thing</h1>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__core.html#gac17e0437fcabde744a091db1bee41c68">weighted</a> = tr::fast_ci_weights&lt;double, 2&gt;(sources, weights, {}, at_most);</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> fused3 = tr::covariance_intersection&lt;double, 2&gt;(sources, weights);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md86"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md93"></a>
 Stochastic control and pricing</h1>
 <p>The Snell envelope prices the right to stop (an American option) over a fixed-size lattice; martingale checks keep a model honest.</p>
 <div class="fragment"><div class="line">    <span class="comment">// A spread in five states, -2 .. 2, drifting back towards 0. Closing in state s pays s; ten days to go.</span></div>
@@ -2473,7 +2473,7 @@ Stochastic control and pricing</h1>
 <div class="line">        moves.push_back(spread[t] - spread[t - 1]);</div>
 <div class="line">    <span class="keyword">const</span> st::test_result memory = st::ljung_box(moves, 5);</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md88"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md95"></a>
 Orderings, subsets and assignments</h1>
 <p>Orderings come from <span class="tt">index_permutations</span> / <span class="tt">for_each_permutation</span>, never a hand-rolled table.</p>
 <div class="fragment"><div class="line">    <span class="comment">// The table, built at compile time: the first row is the identity, the last is reversed.</span></div>
@@ -2497,7 +2497,7 @@ Orderings, subsets and assignments</h1>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> a = cb::linear_assignment(cost);</div>
 <div class="line">    <span class="comment">// Track 0 takes detection 0, track 1 detection 1, track 2 is missed: 1 + 2.5 + 4</span></div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md90"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md97"></a>
 Pipelines of stages</h1>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
@@ -2533,7 +2533,7 @@ Pipelines of stages</h1>
 <div class="line">    <span class="keywordflow">return</span> demo::result();</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md92"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md99"></a>
 Retrying</h1>
 <p><span class="tt">backoff_policy</span> with <span class="tt">backoff_delay</span> / <span class="tt">next_attempt</span>: the caller owns the clock, the randomness and the sleep.</p>
 <div class="fragment"><div class="line">    <span class="keyword">constexpr</span> <a class="code hl_struct" href="structsnicholls_1_1backoff__policy.html">snicholls::backoff_policy</a> policy{.min = 100ms, .max = 5s, .session_grace = 30s};</div>

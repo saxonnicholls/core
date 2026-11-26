@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -184,7 +184,7 @@ rows - h]</span>, the first frame from <span class="tt">[0, frame groups - frame
 <div class="line">    <span class="keywordflow">for</span> (std::size_t s = 0; s &lt; 4; ++s)</div>
 <div class="line">        context_counts[s] = ml::ijepa_masks(config, 2026, 5, s, std::span&lt;std::uint32_t&gt;(lists).subspan(s * 196, 196), scratch, unused).context;</div>
 <div class="line">    <span class="keyword">const</span> std::size_t width = ml::common_count(context_counts);</div>
-<div class="line">    std::vector&lt;std::uint32_t&gt; equal(4 * width);</div>
+<div class="line">    std::vector&lt;std::uint32_t&gt; <a class="code hl_function" href="namespacesnicholls.html#ac71e7fdd7a8455244d2d3d9932922ea7">equal</a>(4 * width);</div>
 <div class="line">    ml::collate_indices(lists, 196, context_counts, width, equal, {});</div>
 <div class="line">    <span class="comment">// ... or pad them to the longest and mask the padding (attention_activations::lengths, the losses&#39; lengths)</span></div>
 <div class="line">    <span class="keyword">const</span> std::size_t longest = std::max(std::max(context_counts[0], context_counts[1]), std::max(context_counts[2], context_counts[3]));</div>

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -100,6 +100,8 @@ $(function(){initNavTree('group__core.html','',''); });
 Files</h2></td></tr>
 <tr class="memitem:acout_2Ehpp" id="r_acout_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="acout_8hpp.html">acout.hpp</a></td></tr>
 <tr class="memdesc:acout_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="classsnicholls_1_1acout.html" title="A message assembled off to the side and written to its target in one call when it is emitted or destr...">snicholls::acout</a></span>, <span class="tt">acerr</span>, <span class="tt">print</span>, <span class="tt">println</span>: thread-safe printing, one write per message, format strings included. <br /></td></tr>
+<tr class="memitem:algorithm_2Ehpp" id="r_algorithm_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="algorithm_8hpp.html">algorithm.hpp</a></td></tr>
+<tr class="memdesc:algorithm_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt"><a class="el" href="namespacesnicholls.html#adddab30c989f446c373aa1031ae4e0e2" title="Assigns value to every element of [first, last).">snicholls::fill</a></span>, <span class="tt">fill_n</span>, <span class="tt">copy</span>, <span class="tt">copy_n</span>, <span class="tt">copy_backward</span>, <span class="tt">iota</span>, <span class="tt">equal</span>, <span class="tt">reverse</span> and <span class="tt">swap_ranges</span>: the elementary algorithms as plain loops, usable in constant evaluation from C++17. <br /></td></tr>
 <tr class="memitem:backoff_2Ehpp" id="r_backoff_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="backoff_8hpp.html">backoff.hpp</a></td></tr>
 <tr class="memdesc:backoff_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retry backoff with full jitter, as a pure function of the attempt: the caller owns the clock and the sleep. <br /></td></tr>
 <tr class="memitem:basic_5Ftype_5Fregistry_2Ehpp" id="r_basic_5Ftype_5Fregistry_2Ehpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__type__registry_8hpp.html">basic_type_registry.hpp</a></td></tr>
@@ -2835,7 +2837,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaa1583aa0ec8823339a420408e653e40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable <span class="tt">?</span> as a statement, discarding the value: returns the error of <span class="tt">expr</span> if there is one.  <br /></td></tr>
 <tr class="memitem:ga4402bc98a6b5059cc7188522bf2c869a" id="r_ga4402bc98a6b5059cc7188522bf2c869a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga4402bc98a6b5059cc7188522bf2c869a">SNICHOLLS_CORE_VERSION_MAJOR</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga4402bc98a6b5059cc7188522bf2c869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version of snicholls-core.  <br /></td></tr>
-<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;27</td></tr>
+<tr class="memitem:gadf931df5254614d71dc7949035714742" id="r_gadf931df5254614d71dc7949035714742"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gadf931df5254614d71dc7949035714742">SNICHOLLS_CORE_VERSION_MINOR</a>&#160;&#160;&#160;28</td></tr>
 <tr class="memdesc:gadf931df5254614d71dc7949035714742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version of snicholls-core.  <br /></td></tr>
 <tr class="memitem:ga1c04de6f815f1793a0d304d63ec0ea57" id="r_ga1c04de6f815f1793a0d304d63ec0ea57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1c04de6f815f1793a0d304d63ec0ea57">SNICHOLLS_CORE_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga1c04de6f815f1793a0d304d63ec0ea57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version of snicholls-core.  <br /></td></tr>
@@ -7477,7 +7479,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;27</td>
+          <td class="memname">#define SNICHOLLS_CORE_VERSION_MINOR&#160;&#160;&#160;28</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -50989,7 +50991,7 @@ requires plain_struct&lt;S&gt;</div>
 <div class="line">    <a class="code hl_function" href="#gacb18d330a80f99a42e228bbfd9073bbe">snicholls::tie</a>(o) = std::make_tuple(8L, leg_row{10.25, 300}, std::string(<span class="stringliteral">&quot;close&quot;</span>));</div>
 </div><!-- fragment --> <div class="fragment"><div class="line">    <span class="comment">// to_tuple / from_tuple: values out, a struct back in. Strict: sizes must match, no narrowing.</span></div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> values = <a class="code hl_function" href="#gab6e85e5ecfec81aca2e8a6fd6285e870">snicholls::to_tuple</a>(o);   <span class="comment">// std::tuple&lt;long, leg_row, std::string&gt;</span></div>
-<div class="line">    <span class="keyword">const</span> order_row copy = <a class="code hl_function" href="#ga01d6ec8c1e1cde5db5315c1dc4f83e32">snicholls::from_tuple&lt;order_row&gt;</a>(values);</div>
+<div class="line">    <span class="keyword">const</span> order_row <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a> = <a class="code hl_function" href="#ga01d6ec8c1e1cde5db5315c1dc4f83e32">snicholls::from_tuple&lt;order_row&gt;</a>(values);</div>
 <div class="line">    <span class="keyword">const</span> leg_row from_pair = <a class="code hl_function" href="#ga01d6ec8c1e1cde5db5315c1dc4f83e32">snicholls::from_tuple&lt;leg_row&gt;</a>(std::make_pair(1.5, 2));</div>
 </div><!-- fragment --><dl class="section user"><dt>Performance</dt><dd></dd></dl>
 <p><span class="tt"><a class="el" href="#gacb18d330a80f99a42e228bbfd9073bbe" title="References to every member of a plain struct: a std::tuple of references.">tie</a></span>, <span class="tt"><a class="el" href="#gab6e85e5ecfec81aca2e8a6fd6285e870" title="Values of every member (plain structs). Moves from rvalues.">to_tuple</a></span> and <span class="tt"><a class="el" href="#ga01d6ec8c1e1cde5db5315c1dc4f83e32" title="Tuple-like to plain struct (brace-initialised: narrowing is a compile-time error).">from_tuple</a></span> are benchmarked like for like against hand-written member access (<span class="tt">benchmarks/reflect/struct_tuple_benchmark.cpp</span>, with a fairness check); see <span class="tt">BENCHMARKS.md</span>.</p>
@@ -57853,7 +57855,7 @@ template&lt;typename T&gt; </div>
 
 <p><span class="tt"><a class="el" href="#ga82e0ed58fab51a32881ab536f4d494d0" title="destructure(f): the case for a plain aggregate, f called with its members (through snicholls::tie).">destructure(f)</a></span>: the case for a plain aggregate, <span class="tt">f</span> called with its members (through <span class="tt"><a class="el" href="#gacb18d330a80f99a42e228bbfd9073bbe" title="References to every member of a plain struct: a std::tuple of references.">snicholls::tie</a></span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00353">353</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00355">355</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>
@@ -59106,7 +59108,7 @@ n * self(n - 1); })(5) == 120</span>, at compile time. <span class="tt">f</span>
 
 <p><span class="tt"><a class="el" href="#ga1373f366c2a1ac78dc338acd208a918b" title="guard(p, case): case, only when p holds of what the case receives (Haskell&#39;s | p, OCaml&#39;s when).">guard(p, case)</a></span>: <span class="tt">case</span>, only when <span class="tt">p</span> holds of what the case receives (Haskell's <span class="tt">| p</span>, OCaml's <span class="tt"><a class="el" href="#ga9b0d1ebdf02dee809d917b785ad8e6ec" title="when(p, f)(x) is p(x) ? f(x) : x, the result in x&#39;s decayed type.">when</a></span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00337">337</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00339">339</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>
@@ -60167,7 +60169,7 @@ template&lt;class E&gt; </div>
 
 <p><span class="tt"><a class="el" href="#gab6e6ce34e79064fe9f1179d5e1312791" title="match(value, cases...): the first case that accepts the value (a variant&#39;s alternative,...">match(value, cases...)</a></span>: the first case that accepts the value (a variant's alternative, a result's side) and whose guard holds; exhaustive by a compile-time check. </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00333">333</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00335">335</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>
@@ -60951,7 +60953,7 @@ template&lt;class T&gt; </div>
 
 <p><span class="tt"><a class="el" href="#ga278322b200db9707c7a23f50ae11b8b5" title="on_err(f): the case for a result&#39;s error.">on_err(f)</a></span>: the case for a result's error. </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00345">345</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00347">347</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>
@@ -61005,7 +61007,7 @@ template&lt;class T&gt; </div>
 
 <p><span class="tt"><a class="el" href="#ga62a4e1a200cb43e57151447cabd6ca10" title="on_ok(f): the case for a result&#39;s value.">on_ok(f)</a></span>: the case for a result's value. </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00341">341</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00343">343</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>
@@ -61031,7 +61033,7 @@ template&lt;class T&gt; </div>
 
 <p><span class="tt"><a class="el" href="#ga528140474a755c3b20e440ef003b417a" title="otherwise(f): a case that accepts anything, Haskell&#39;s _; f takes the value ([](const auto&amp;) {....">otherwise(f)</a></span>: a case that accepts anything, Haskell's <span class="tt">_</span>; <span class="tt">f</span> takes the value (<span class="tt">[](const auto&amp;) {...}</span>). </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00357">357</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00359">359</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>
@@ -62958,7 +62960,7 @@ template&lt;class T&gt; </div>
 
 <p><span class="tt"><a class="el" href="#ga6d6539831650999e4799505d2218180f" title="unpack(f): the case for a tuple, pair or array, f called with its elements.">unpack(f)</a></span>: the case for a tuple, pair or array, <span class="tt">f</span> called with its elements. </p>
 
-<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00349">349</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="match_8hpp_source.html#l00351">351</a> of file <a class="el" href="match_8hpp_source.html">match.hpp</a>.</p>
 
 </div>
 </div>

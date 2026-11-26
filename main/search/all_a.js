@@ -17,7 +17,7 @@ var searchData=
   ['jm_14',['JM',['../structsnicholls_1_1country_1_1JM.html',1,'snicholls::country']]],
   ['jmd_15',['JMD',['../structsnicholls_1_1currency_1_1JMD.html',1,'snicholls::currency']]],
   ['jo_16',['JO',['../structsnicholls_1_1country_1_1JO.html',1,'snicholls::country']]],
-  ['job_17',['Hashing: the right hash for the job',['../patterns.html#autotoc_md76',1,'']]],
+  ['job_17',['Hashing: the right hash for the job',['../patterns.html#autotoc_md83',1,'']]],
   ['jod_18',['JOD',['../structsnicholls_1_1currency_1_1JOD.html',1,'snicholls::currency']]],
   ['join_19',['join',['../namespacesnicholls_1_1fn_1_1ocaml_1_1option.html#aa90f7b8107c38d3e6402d1a770a0e7d8',1,'snicholls::fn::ocaml::option::join'],['../namespacesnicholls_1_1fn_1_1ocaml_1_1result.html#a36e346dfc4ab6b9285ff091d3ad71b50',1,'snicholls::fn::ocaml::result::join'],['../group__core.html#gaf9d3caaeaac0f5658c95b994747e230d',1,'snicholls::fn::join']]],
   ['join_5fbusiness_5fdays_20',['join_business_days',['../group__core.html#ggae875fcf7d9a29ad4819684a99c7f5557a539899dff99a07df4906f26762c33ef2',1,'snicholls::finance']]],

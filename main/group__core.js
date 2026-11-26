@@ -1,6 +1,7 @@
 var group__core =
 [
     [ "acout.hpp", "acout_8hpp.html", null ],
+    [ "algorithm.hpp", "algorithm_8hpp.html", null ],
     [ "backoff.hpp", "backoff_8hpp.html", null ],
     [ "basic_type_registry.hpp", "basic__type__registry_8hpp.html", null ],
     [ "capability_error.hpp", "capability__error_8hpp.html", null ],

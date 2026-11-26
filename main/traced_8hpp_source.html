@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -295,8 +295,8 @@ $(function(){initNavTree('traced_8hpp_source.html','',''); });
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    {</div>
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;o)</div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        {</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>            traced copy(o);</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>            *<span class="keyword">this</span> = std::move(copy);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>            traced <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a>(o);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>            *<span class="keyword">this</span> = std::move(<a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a>);</div>
 <div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        }</div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    }</div>
@@ -685,6 +685,7 @@ $(function(){initNavTree('traced_8hpp_source.html','',''); });
 <div class="ttc" id="ainterfaces_2error__sink_8hpp_html"><div class="ttname"><a href="interfaces_2error__sink_8hpp.html">error_sink.hpp</a></div><div class="ttdoc">snicholls::error_sink, the virtual twin of snicholls::error_sink_like; text_error_sink; the adapter e...</div></div>
 <div class="ttc" id="ameta_2concepts_8hpp_html"><div class="ttname"><a href="meta_2concepts_8hpp.html">concepts.hpp</a></div><div class="ttdoc">The small concepts the family keeps re-declaring: streamable, printable, enumeration,...</div></div>
 <div class="ttc" id="anamespacesnicholls_html"><div class="ttname"><a href="namespacesnicholls.html">snicholls</a></div><div class="ttdoc">Everything the snicholls libraries share, at the bottom of the stack.</div><div class="ttdef"><b>Definition</b> <a href="acout_8hpp_source.html#l00184">acout.hpp:184</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_a0a172271c8b01905b1312396bad62341"><div class="ttname"><a href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">snicholls::copy</a></div><div class="ttdeci">constexpr Out copy(In first, In last, Out out) noexcept(detail::walk_noexcept_v&lt; In &gt; &amp;&amp;detail::walk_noexcept_v&lt; Out &gt; &amp;&amp;noexcept(*std::declval&lt; Out &amp; &gt;()= *std::declval&lt; In &amp; &gt;()))</div><div class="ttdoc">Copies [first, last) to the elements from out, first to last.</div><div class="ttdef"><b>Definition</b> <a href="algorithm_8hpp_source.html#l00151">algorithm.hpp:151</a></div></div>
 <div class="ttc" id="anamespacesnicholls_html_ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf"><div class="ttname"><a href="namespacesnicholls.html#ac738eb3fbb88b7a0c120bf0474ad8876a795f3202b17cb6bc3d4b771d8c6c9eaf">snicholls::chain_kind::other</a></div><div class="ttdeci">@ other</div><div class="ttdoc">anything else</div><div class="ttdef"><b>Definition</b> <a href="concepts_2chain_8hpp_source.html#l00060">chain.hpp:60</a></div></div>
 <div class="ttc" id="aresult_8hpp_html"><div class="ttname"><a href="result_8hpp.html">result.hpp</a></div><div class="ttdoc">snicholls::result&lt;V, E&gt;: Rust&#39;s Result, zero overhead, rethrowable, with SNICHOLLS_TRY as ?...</div></div>
 <div class="ttc" id="astructsnicholls_1_1context__frame_html"><div class="ttname"><a href="structsnicholls_1_1context__frame.html">snicholls::context_frame</a></div><div class="ttdoc">One frame of a traced error&#39;s context chain.</div><div class="ttdef"><b>Definition</b> <a href="#l00085">traced.hpp:86</a></div></div>

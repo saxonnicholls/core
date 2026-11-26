@@ -30,6 +30,7 @@ var dir_56b766c8c7fe03e0b5c0bdbbbcc487fb =
     [ "token", "dir_bbbdc034c7356f4c7dffb16740709ee1.html", "dir_bbbdc034c7356f4c7dffb16740709ee1" ],
     [ "tracking", "dir_a2e28ca3303d09704ffbc62ffaa0ccea.html", "dir_a2e28ca3303d09704ffbc62ffaa0ccea" ],
     [ "acout.hpp", "acout_8hpp.html", "acout_8hpp" ],
+    [ "algorithm.hpp", "algorithm_8hpp.html", "algorithm_8hpp" ],
     [ "backoff.hpp", "backoff_8hpp.html", "backoff_8hpp" ],
     [ "basic_type_registry.hpp", "basic__type__registry_8hpp.html", null ],
     [ "capability_error.hpp", "capability__error_8hpp.html", "capability__error_8hpp" ],

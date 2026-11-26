@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -95,26 +95,110 @@ $(function(){initNavTree('index.html','',''); });
 <div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2core_2core_2README"></a></p>
 <p><a href="https://github.com/saxonnicholls/core/actions/workflows/ci.yml"><img src="https://github.com/saxonnicholls/core/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://saxonnicholls.github.io/core/"><img src="https://img.shields.io/badge/docs-doxygen-blue" alt="Docs" class="inline"/></a></p>
 <p><b>Documentation:</b> <a href="https://saxonnicholls.github.io/core/">https://saxonnicholls.github.io/core/</a>: the newest release at the root, every version under <span class="tt">/vX.Y.Z/</span>, and the latest <span class="tt">main</span> under <span class="tt">/main/</span>.</p>
-<p>The vocabulary types and the compile-time reflection shared by the snicholls C++ libraries, in one header-only, standard-library-only, C++20 library at the bottom of the stack.</p>
+<p>A header-only C++20 library that depends on nothing but the standard library, and puts as much as it can into the compiler. It holds what the snicholls libraries share: vocabulary types, reflection, exact money and time. It also holds a large body of numerics in the same style:</p><ul>
+<li>state machines;</li>
+<li>functional programming in the manner of Haskell, OCaml and Rust;</li>
+<li>signal processing, target tracking and optimisation;</li>
+<li>statistics and game-theoretic attribution;</li>
+<li>option pricing;</li>
+<li>the primitives of transformer models.</li>
+</ul>
+<p>Almost everything is <span class="tt">constexpr</span>, allocation-free and checked against a reference implementation. It has more than 400 headers, each with its tests, a demo that checks itself and its documentation, and five showcase programs that combine many areas into one program.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Why</h1>
 <p>Several libraries, among them ts-moveables and base-encode-decode, had grown their own copies of the same small things: a lambda overload set for <span class="tt">std::visit</span>, a string usable as a template parameter, a compile-time <span class="tt">for</span>, a way to count the members of a plain struct. Each copy was slightly different, and each library imported the others' through allowlists and <span class="tt">#ifndef</span> guards to make sure it got the right one. That is the kind of duplication that survives, because every copy is correct, until one gets a fix the others do not.</p>
 <p>So the shared parts live here, once. The libraries that need them pin a release of core and use the names from <span class="tt">namespace <a class="el" href="namespacesnicholls.html" title="Everything the snicholls libraries share, at the bottom of the stack.">snicholls</a></span>. Core depends on nothing, does no I/O, starts no threads and knows nothing about objects, sockets or codecs; those are the business of the libraries above it.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 What is here</h1>
-<p>For how the pieces fit together, start with <a class="el" href="patterns.html#md__2home_2runner_2work_2core_2core_2docs_2PATTERNS">the patterns page</a>: each pattern's problem, its types and compiled examples.</p>
-<ul>
-<li><b>Vocabulary types:</b> <span class="tt">overloaded</span> and <span class="tt">first_match</span>, <span class="tt">fixed_string</span>, <span class="tt">function_ref</span>, <span class="tt">result&lt;V, E&gt;</span> and <span class="tt">traced&lt;E&gt;</span>, <span class="tt">strong&lt;T, Tag&gt;</span>, <span class="tt">uuid</span>, <span class="tt">decimal</span>, <span class="tt">uint256</span>, <span class="tt">inplace_string&lt;N&gt;</span>, checked arithmetic, UTC time and RFC 3339, ISO 8601 week dates.</li>
-<li><b>Compile-time loops and types:</b> <span class="tt">constexpr_for</span> and <span class="tt">constexpr_nest</span>, <span class="tt">type_list</span> (filter, products, permutations), <span class="tt">thread_apply</span>, <span class="tt">zip</span>, enum reflection, and reflection over plain aggregates.</li>
-<li><b>Containers:</b> <span class="tt">inplace_vector</span>, <span class="tt">static_map</span>, <span class="tt">perfect_map</span>, <span class="tt">md_array</span> and <span class="tt">md_span</span> (row-major, column-major and strided views, <span class="tt">submdspan</span>), <span class="tt">byte_map</span> (byte strings to 32-bit values, for a BPE vocabulary), allocation-free id maps and pools, and the platform-free half of mapped storage (<span class="tt">index_pool</span>, <span class="tt">mapped_header</span>, <span class="tt">offset_ptr</span>).</li>
-<li><b>Market conventions:</b> day counts (ACT/360, ACT/365F, 30/360, 30E/360, ACT/ACT ISDA) with exact year fractions, business-day rules over the caller's holiday calendar, and the check digits of ISIN, IBAN, LEI, CUSIP, SEDOL and Luhn.</li>
-<li><b>Linear algebra:</b> an interface resolved at compile time (BLAS operations, LU, Cholesky, LDLT, QR, least squares, the symmetric eigenproblem, SVD, batched solves with a status per system) over <span class="tt">md_span</span> views, a standard-library reference backend, and a conformance suite for backends in other libraries. On top of it, the randomised truncated SVD (the leading <span class="tt">k</span> factors of a large matrix, with an interchangeable random sketch). A GPU backend (OpenCL) is <a href="https://github.com/saxonnicholls/gpu">snicholls-gpu</a>.</li>
-<li><b>Numerics:</b> <span class="tt">constexpr</span> maths for any floating-point type, random numbers (with interchangeable Gaussian samplers) and the bootstrap, Sobol sequences, online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.</li>
-<li><b>Printing:</b> <span class="tt">acout</span>, thread-safe printing of any value, container or tuple, with compile-time display attributes (colour, label, format, tooltip) exported to JSON for other front ends.</li>
-<li><b>Machine learning (experimental):</b> the primitives (activations with their derivatives, softmax and cross-entropy, a running softmax that merges across workers, LayerNorm and RMSNorm, RoPE, one-pass attention with mergeable partials, embeddings, sampling, bfloat16, float16, FP8 and the MX formats, ggml's Q8_0, Q4_0 and MXFP4 blocks, byte-level BPE that gives tiktoken's tokens); the transformer layer, configured at compile time for GPT-2, Llama and nanochat shapes, with a KV cache (flat, ring or paged) for decoding; and training: the backward pass of every primitive, the attention layer, the MLP and the block, checked against llm.c and central differences, the LM-head loss, AdamW and Muon, and batched products through any linalg backend. Everything is <span class="tt">constexpr</span> and allocation-free.</li>
-</ul>
-<p><span class="tt">CHANGELOG.md</span> lists every header by release.</p>
+<p>For how the pieces fit together, start with <a class="el" href="patterns.html#md__2home_2runner_2work_2core_2core_2docs_2PATTERNS">the patterns page</a>: each pattern's problem, its types and compiled examples. For whole programs, see <a href="showcase/"><span class="tt">showcase/</span></a>.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Foundations</h2>
+<ul>
+<li><b>Vocabulary types:</b> <span class="tt">overloaded</span> and <span class="tt">first_match</span>, <span class="tt">fixed_string</span>, <span class="tt">function_ref</span>, <span class="tt">result&lt;V, E&gt;</span> (Rust's <span class="tt">?</span> as <span class="tt">SNICHOLLS_TRY</span>) and <span class="tt">traced&lt;E&gt;</span>, <span class="tt">strong&lt;T, Tag&gt;</span>, <span class="tt">uuid</span> (v4, v5, v7), <span class="tt">decimal</span>, <span class="tt">uint256</span>, <span class="tt">inplace_string&lt;N&gt;</span>, checked arithmetic, <span class="tt">secret&lt;T&gt;</span>, E.164 phone numbers, ISO 3166 countries.</li>
+<li><b>Compile-time loops, types and algorithms:</b> <span class="tt">constexpr_for</span> and <span class="tt">constexpr_nest</span>, <span class="tt">type_list</span> (filter, products, permutations), <span class="tt">thread_apply</span>, <span class="tt">zip</span>, <span class="tt">invoke_with</span>, and <span class="tt">fill</span>, <span class="tt">copy</span>, <span class="tt">iota</span>, <span class="tt">equal</span> and <span class="tt">reverse</span> usable at compile time from C++17.</li>
+<li><b>Reflection:</b> member counts, <span class="tt">tie</span> / <span class="tt">to_tuple</span> / <span class="tt">from_tuple</span> over plain aggregates (up to 256 members), enum names without a table, type names, and a classification of every string and byte-sequence type with zero-copy access.</li>
+<li><b>Presentation:</b> colour, labels, number formats and tooltips declared once as compile-time attributes of a type (P&amp;L green up, red down), read by <span class="tt">acout</span>, thread-safe printing of any value, container or tuple, and exported as JSON for imgui and React.</li>
+<li><b>Containers:</b> <span class="tt">inplace_vector</span>, <span class="tt">static_map</span> and <span class="tt">perfect_map</span> built by the compiler, <span class="tt">md_array</span> and <span class="tt">md_span</span> (<span class="tt">submdspan</span>), a k-d tree with bounded, tie-ordered queries, an approximate-nearest-neighbour forest, a Bloom filter, a hierarchical bitset, an intrusive AVL tree, id maps and object pools, <span class="tt">byte_map</span> for a BPE vocabulary, and the platform-free half of mapped storage (<span class="tt">index_pool</span>, <span class="tt">mapped_header</span>, <span class="tt">offset_ptr</span>).</li>
+<li><b>Hashing, at compile time:</b> SHA-1, SHA-2, SHA-3 and Keccak-256, BLAKE2 and BLAKE3, RIPEMD-160, CRC-32/32C/64, FNV-1a and wyhash; HMAC, HKDF, PBKDF2 and scrypt; constant-time compare and a wipe the optimiser may not remove.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Money, time and markets</h2>
+<ul>
+<li><b>Exact money:</b> <span class="tt">money</span> (256-bit, any asset), ISO 4217 currencies and the major chains' native assets and tokens as types, exact rates and conversion with a named rounding, exact ratios and year fractions.</li>
+<li><b>Time:</b> <span class="tt">utc&lt;D&gt;</span> with RFC 3339 text, identical on every platform (checked against fixtures generated from an independent implementation), ISO 8601 week dates, civil calendar arithmetic, business days, and the sun's position.</li>
+<li><b>Market conventions:</b> day counts (ACT/360, ACT/365F, 30/360, 30E/360, ACT/ACT ISDA) with exact year fractions, business-day rules over the caller's calendar, dated cash flows and the cash ladder, time- and money-weighted returns, and the check digits of ISIN, IBAN, LEI, CUSIP, SEDOL and Luhn.</li>
+<li><b>Option pricing by the compiler:</b> Black-Scholes-Merton and its greeks in closed form, binomial trees for American exercise on the Snell envelope, P&amp;L explained by greek and factor.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+State machines and functional programming</h2>
+<ul>
+<li><b>State machines</b> (<span class="tt">fsm/</span>) in sml's notation, <span class="tt">*state&lt;A&gt; + event&lt;E&gt; [guard] / action = state&lt;B&gt;</span>, checked by the compiler. They are saved and loaded through any key-value store, drawn as Mermaid, DOT or PlantUML, and come with the reference lifecycles of payments, trades, fund applications and corporate actions. The demos also run them functionally: as a fold over events, as event sourcing, as Mealy machines, as a railway of <span class="tt">result</span>s and as a reachability check at compile time.</li>
+<li><b>Functional programming</b> (<span class="tt">functional/</span>), all <span class="tt">constexpr</span>:<ul>
+<li>Haskell's type classes as concepts (Semigroup, Monoid, Functor, Applicative, Monad, Foldable), with instances for <span class="tt">optional</span> (Maybe), <span class="tt">result</span> (Either), tuples, <span class="tt">array</span>, <span class="tt">vector</span>, strings and <span class="tt">inplace_vector</span>;</li>
+<li>the Reader, Writer and State monads;</li>
+<li>folds, scans and unfolds, and recursion schemes (<span class="tt">cata</span>, <span class="tt">ana</span>, <span class="tt">hylo</span>, <span class="tt">para</span>) with a trampoline;</li>
+<li>lazy values and infinite streams;</li>
+<li>currying, placeholders and pattern matching with guards;</li>
+<li>Data.List over fixed-size arrays, and type-level <span class="tt">map</span> / <span class="tt">filter</span> / <span class="tt">fold</span>;</li>
+<li>OCaml's Option, Result and List modules, and Rust's <span class="tt">Option</span> methods, iterators and slices;</li>
+<li>Wolfram-style rewriting by rules (<span class="tt">/.</span> and <span class="tt">//.</span>), and functions lifted pointwise into an algebra.</li>
+</ul>
+</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Mathematics and numerics</h2>
+<ul>
+<li><b>Maths:</b> <span class="tt">constexpr</span> elementary and special functions (gamma, erf, Lambert W, Bessel, the normal quantile) in any floating-point type, root finding (Brent, safeguarded Newton), and complex numbers usable at compile time.</li>
+<li><p class="startli"><b>Linear algebra:</b> an interface resolved at compile time (BLAS operations, LU, Cholesky, LDLT, QR, least squares, the symmetric eigenproblem, SVD, batched solves with a status per system) over <span class="tt">md_span</span> views, a standard-library reference backend, and a conformance suite for backends in other libraries. On top of it:</p><ul>
+<li>fixed-size matrices for state estimation;</li>
+<li>the conjugate-gradient and MINRES solvers;</li>
+<li>the randomised truncated SVD.</li>
+</ul>
+<p class="startli">A GPU backend (CUDA and OpenCL) is <a href="https://github.com/saxonnicholls/gpu">snicholls-gpu</a>.</p>
+</li>
+<li><b>Sparse matrices and optimisation:</b> CSC matrices, AMD and reverse Cuthill-McKee orderings, a sparse LDLᵀ of quasi-definite systems; L-BFGS, Armijo and strong-Wolfe line searches, proximal operators, projections onto the cones of conic optimisation, and Ruiz equilibration.</li>
+<li><b>Signal processing:</b> FFTs of any length at compile time and at run time, the DCT and DST, convolution, FIR design by windowed sinc, IIR biquads and Butterworth sections, Goertzel detectors, the Hilbert transform, polyphase resampling, the STFT and its inverse, and mel spectrograms. Each matches scipy, librosa or torch.</li>
+<li><b>Statistics:</b> random generators that reproduce on every standard library, the bootstrap (by counts, balanced, stationary for returns), Sobol and Halton sequences, streaming accumulators that merge across workers, covariance with Ledoit-Wolf shrinkage, RANSAC, particle resampling, and one-pass pivot tables whose keys and measures are types.</li>
+<li><b>Stochastic processes:</b> martingale tools (the Doob decomposition, quadratic variation, Markov chains) and the Snell envelope of optimal stopping.</li>
+<li><b>Game theory and attribution:</b> Shapley values exactly or by sampling, Owen values for groups, Harsanyi dividends, the properties of a game, and "why did the value move" over any model.</li>
+<li><b>Combinatorics:</b> permutations, partitions, subsets and tuples at compile time, and the linear assignment problem.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Tracking, geometry and distances</h2>
+<ul>
+<li><b>Target tracking</b> (<span class="tt">tracking/</span>):<ul>
+<li>Kalman, extended, unscented and cubature filters, with the information form;</li>
+<li>motion models (constant velocity, Singer, constant turn) and sensor models (bearing-range and others);</li>
+<li>probabilistic and joint probabilistic data association;</li>
+<li>covariance intersection for fusion with unknown correlation;</li>
+<li>Gaussian-mixture reduction, and hidden-Markov filters for a target's class.</li>
+</ul>
+</li>
+<li><b>Geometry:</b> WGS 84 geodetic, ECEF and local ENU coordinates, polar and spherical frames, rigid and similarity alignment (Umeyama), boxes with IoU, GIoU and non-max suppression, and pinhole cameras.</li>
+<li><b>Metrics:</b> Minkowski, cosine and angular, Hamming and Jaccard, haversine, Mahalanobis, Hellinger and KL, the edit distance, and the set distances OSPA, GOSPA and Hausdorff. Each one plugs into the k-d tree and the nearest-neighbour forest.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+Capability contracts</h2>
+<ul>
+<li><b>Interfaces</b> (<span class="tt">concepts/</span>, <span class="tt">interfaces/</span>): 34 capabilities, each a concept and its virtual twin, with a reference implementation and a conformance kit that other libraries' implementations must pass. They include payments, key stores and signers, token verification, key-value stores, HTTP and SQL clients, random sources, uuid generators, time zones, task pools and loop clocks.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Machine learning (experimental)</h2>
+<ul>
+<li><b>The primitives:</b><ul>
+<li>activations with their derivatives, softmax and cross-entropy, and a running softmax that merges across workers;</li>
+<li>LayerNorm and RMSNorm, RoPE, and one-pass attention with mergeable partials;</li>
+<li>embeddings and sampling;</li>
+<li>bfloat16, float16, FP8 and the MX formats, and ggml's quantised blocks (Q8_0, Q4_0, MXFP4, the K-quants, the IQ formats);</li>
+<li>byte-level BPE that gives tiktoken's tokens, SentencePiece, WordPiece and unigram tokenizers.</li>
+</ul>
+</li>
+<li><b>The layers:</b> transformers configured at compile time for GPT-2, Llama and nanochat shapes, with a KV cache (flat, ring or paged) for decoding. There are also mixture-of-experts, latent attention, state-space and linear-attention mixers, LoRA and speculative decoding.</li>
+<li><b>Training:</b> the backward pass of every primitive, checked against llm.c and central differences, AdamW and Muon, and DiLoCo.</li>
+</ul>
+<p>All of <span class="tt">ml/</span> is <span class="tt">constexpr</span> and allocation-free.</p>
+<p><span class="tt">CHANGELOG.md</span> lists every header by release.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Tokenizer throughput</h2>
 <p><span class="tt"><a class="el" href="bpe_8hpp.html" title="snicholls::ml::bpe_encode_piece, bpe_encode_long_piece and bpe_decode: byte-level BPE,...">ml/bpe.hpp</a></span> against tiktoken and rustbpe. The test text is 12.3 MB of Python source, 2.8 million pieces. Every token matched tiktoken's on both vocabularies.</p>
 <table class="markdownTable">
@@ -131,31 +215,31 @@ Tokenizer throughput</h2>
 <li><b>Core:</b> splits the text with PCRE2 JIT, using each vocabulary's own pattern, then merges with <span class="tt">bpe_encode_piece</span> and an open-addressing vocabulary. The merge alone runs at 19 M tokens/s with cl100k and 26 M tokens/s with the 32K vocabulary; splitting takes the other half of the time.</li>
 <li><b>tiktoken and rustbpe:</b> called from Python, one document per call. Their times include building the Python list of tokens.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Using it</h1>
 <p>As a git submodule, pinned to a release tag:</p>
 <div class="fragment"><div class="line">add_subdirectory(third_party/core EXCLUDE_FROM_ALL)</div>
-<div class="line">snicholls_core_require(0.5.0)</div>
+<div class="line">snicholls_core_require(0.28.0)</div>
 <div class="line">target_link_libraries(my_target PRIVATE snicholls::core)</div>
 <div class="line"> </div>
 <div class="line"># last line of the top-level CMakeLists.txt</div>
 <div class="line">snicholls_core_assert_single_version()</div>
 </div><!-- fragment --><p>Installed, with <span class="tt">cmake --install</span>:</p>
-<div class="fragment"><div class="line">find_package(snicholls_core 0.5 REQUIRED)</div>
+<div class="fragment"><div class="line">find_package(snicholls_core 0.28 REQUIRED)</div>
 <div class="line">target_link_libraries(my_target PRIVATE snicholls::core)</div>
 </div><!-- fragment --><p>In code:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="version_8hpp.html">snicholls/core/version.hpp</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><a class="code hl_define" href="group__core.html#ga19ac2a1db45e45addb66f168c00dae9c">SNICHOLLS_CORE_REQUIRE_VERSION</a>(0, 5, 0);   <span class="comment">// fails to compile against an older core</span></div>
-<div class="line"><span class="keyword">static_assert</span>(<a class="code hl_function" href="group__core.html#ga3f96282a1da786108d1b05820da0cc71">snicholls::core::version</a>() &gt;= <a class="code hl_define" href="group__core.html#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(0, 5, 0));</div>
+<div class="line"><a class="code hl_define" href="group__core.html#ga19ac2a1db45e45addb66f168c00dae9c">SNICHOLLS_CORE_REQUIRE_VERSION</a>(0, 28, 0);   <span class="comment">// fails to compile against an older core</span></div>
+<div class="line"><span class="keyword">static_assert</span>(<a class="code hl_function" href="group__core.html#ga3f96282a1da786108d1b05820da0cc71">snicholls::core::version</a>() &gt;= <a class="code hl_define" href="group__core.html#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a>(0, 28, 0));</div>
 <div class="ttc" id="agroup__core_html_ga19ac2a1db45e45addb66f168c00dae9c"><div class="ttname"><a href="group__core.html#ga19ac2a1db45e45addb66f168c00dae9c">SNICHOLLS_CORE_REQUIRE_VERSION</a></div><div class="ttdeci">#define SNICHOLLS_CORE_REQUIRE_VERSION(major, minor, patch)</div><div class="ttdoc">Fail to compile unless snicholls-core is at least major.minor.patch.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00100">version.hpp:100</a></div></div>
 <div class="ttc" id="agroup__core_html_ga1e7069d6d9a404d68423cd8a030af191"><div class="ttname"><a href="group__core.html#ga1e7069d6d9a404d68423cd8a030af191">SNICHOLLS_CORE_VERSION_CHECK</a></div><div class="ttdeci">#define SNICHOLLS_CORE_VERSION_CHECK(major, minor, patch)</div><div class="ttdoc">Encode a version as one integer the preprocessor can compare.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00072">version.hpp:72</a></div></div>
 <div class="ttc" id="agroup__core_html_ga3f96282a1da786108d1b05820da0cc71"><div class="ttname"><a href="group__core.html#ga3f96282a1da786108d1b05820da0cc71">snicholls::core::version</a></div><div class="ttdeci">constexpr int version() noexcept</div><div class="ttdoc">The encoded version, the same as SNICHOLLS_CORE_VERSION.</div><div class="ttdef"><b>Definition</b> <a href="version_8hpp_source.html#l00126">version.hpp:126</a></div></div>
 <div class="ttc" id="aversion_8hpp_html"><div class="ttname"><a href="version_8hpp.html">version.hpp</a></div><div class="ttdoc">Which version of snicholls-core you are compiling against.</div></div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Two copies in one build</h2>
 <p>A library that pins core and also pins another library that pins core can reach it twice in one build. Core handles that itself: the first copy added defines the target and later copies step aside; every consumer states the minimum it needs with <span class="tt">snicholls_core_require</span> and configure fails if the winning copy is older; and <span class="tt">snicholls_core_assert_single_version</span> fails configure if copies at two different versions were reached. The rules are tested, not just documented: <span class="tt">ctest -L boundary</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Building and testing</h1>
 <div class="fragment"><div class="line">git clone --recurse-submodules &lt;url&gt;</div>
 <div class="line">make test            # configure, build, every test, every demo</div>
@@ -166,7 +250,7 @@ Building and testing</h1>
 </div><!-- fragment --><p>Every header has a demo (<span class="tt">demos/</span>, mirroring <span class="tt">include/</span>). The showcases (<span class="tt">showcase/</span>) are whole programs, each weaving many areas together: a trading day (exact money, the trade lifecycle, a P&amp;L pivot, Shapley and Owen attribution of a compile-time Black-Scholes revaluation), a shop's payments on the capability contracts' reference implementations (uuid v7, result railways, retries, webhooks, reconciliation, a cash ladder), a harbour crossing (Goertzel tone detection, a k-d tree, a state machine, merged accumulators), an option priced four ways (closed form and Snell envelope at compile time, Monte Carlo with a bootstrap, Sobol quasi-Monte Carlo) and a report the compiler writes in the functional style (reflection, curry, fold, match, Maybe, Either and State). Each checks itself and is a CTest (<span class="tt">ctest -L showcase</span>).</p>
 <p>CI runs the same on Linux (x86-64 and ARM64, GCC and Clang), macOS (ARM64 and x86-64) and Windows (MSVC), plus a Debug build with asserts live and the documentation build. Every leg blocks except Windows, which is reported but not gated on while no consumer builds there.</p>
 <p>The standards the code is held to - what may be admitted, the mirror rule for tests and demos, the documentation standard - are in <span class="tt">CLAUDE.md</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Licence</h1>
 <p>MIT. Copyright 2010-2026 Saxon Nicholls. </p>
 </div></div><!-- PageDoc -->

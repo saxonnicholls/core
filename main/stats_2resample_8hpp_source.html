@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.27.0</span>
+   <div id="projectname">snicholls-core<span id="projectnumber">&#160;0.28.0</span>
    </div>
    <div id="projectbrief">Vocabulary types and compile-time reflection shared by the snicholls libraries</div>
   </td>
@@ -249,10 +249,10 @@ $(function(){initNavTree('stats_2resample_8hpp_source.html','',''); });
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        <span class="comment">// S_{M+1} first as a whole (a sum of M + 1 exponentials is not cheaper to draw directly), so draw the M + 1</span></div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="comment">// exponentials twice from a copy of the generator: once to total them, once to walk.</span></div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keyword">auto</span> exp1 = [](G&amp; gg) { <span class="keywordflow">return</span> -<span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(<a class="code hl_function" href="constexpr__math_8hpp.html#ac4e139fa17377290ae3a108f550d2b29">math::log</a>(T(1) - <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(<a class="code hl_function" href="group__core.html#ga4985e2a83e6d6f215e3e7034182b2f02">uniform_real</a>(gg)))); };</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        G copy = g;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        G <a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a> = g;</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        T total(0);</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt;= indices.size(); ++i)</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            total += exp1(copy);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            total += exp1(<a class="code hl_function" href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">copy</a>);</div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        T partial(0);</div>
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        detail::resample::walk(weights, <a class="code hl_struct" href="structsnicholls_1_1stats_1_1sum.html">sum</a>, indices, [&amp;](std::size_t) {</div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            partial += exp1(g);</div>
@@ -324,6 +324,7 @@ $(function(){initNavTree('stats_2resample_8hpp_source.html','',''); });
 <div class="ttc" id="agroup__core_html_ggaef6e42ba25e24139eab35f12ecd7873da2cbb3f454375ac06336e0c6d6dc4cdc1"><div class="ttname"><a href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873da2cbb3f454375ac06336e0c6d6dc4cdc1">snicholls::stats::residual_method::stratified</a></div><div class="ttdeci">@ stratified</div><div class="ttdoc">One uniform per draw, each in its stratum.</div><div class="ttdef"><b>Definition</b> <a href="#l00073">resample.hpp:73</a></div></div>
 <div class="ttc" id="agroup__core_html_ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248"><div class="ttname"><a href="group__core.html#ggaef6e42ba25e24139eab35f12ecd7873daa98abe6be31c2a0ffb40a599346e4248">snicholls::stats::residual_method::systematic</a></div><div class="ttdeci">@ systematic</div><div class="ttdoc">One uniform.</div><div class="ttdef"><b>Definition</b> <a href="#l00072">resample.hpp:72</a></div></div>
 <div class="ttc" id="anamespacesnicholls_1_1fn_1_1rust_1_1iter_html_a45a83fa3862cfc15826459c5d27f3803"><div class="ttname"><a href="namespacesnicholls_1_1fn_1_1rust_1_1iter.html#a45a83fa3862cfc15826459c5d27f3803">snicholls::fn::rust::iter::last</a></div><div class="ttdeci">constexpr detail::last_fn last</div><div class="ttdoc">last(r): the last element, or empty.</div><div class="ttdef"><b>Definition</b> <a href="rust__iter_8hpp_source.html#l00466">rust_iter.hpp:466</a></div></div>
+<div class="ttc" id="anamespacesnicholls_html_a0a172271c8b01905b1312396bad62341"><div class="ttname"><a href="namespacesnicholls.html#a0a172271c8b01905b1312396bad62341">snicholls::copy</a></div><div class="ttdeci">constexpr Out copy(In first, In last, Out out) noexcept(detail::walk_noexcept_v&lt; In &gt; &amp;&amp;detail::walk_noexcept_v&lt; Out &gt; &amp;&amp;noexcept(*std::declval&lt; Out &amp; &gt;()= *std::declval&lt; In &amp; &gt;()))</div><div class="ttdoc">Copies [first, last) to the elements from out, first to last.</div><div class="ttdef"><b>Definition</b> <a href="algorithm_8hpp_source.html#l00151">algorithm.hpp:151</a></div></div>
 <div class="ttc" id="arandom_8hpp_html"><div class="ttname"><a href="random_8hpp.html">random.hpp</a></div><div class="ttdoc">wyrand, a fast 64-bit generator, and unbiased draws from any full-range generator.</div></div>
 <div class="ttc" id="astructsnicholls_1_1residual_html"><div class="ttname"><a href="structsnicholls_1_1residual.html">snicholls::residual</a></div><div class="ttdoc">An exact signed fraction of one minor unit: what rounding left behind.</div><div class="ttdef"><b>Definition</b> <a href="rate_8hpp_source.html#l00183">rate.hpp:183</a></div></div>
 <div class="ttc" id="astructsnicholls_1_1stats_1_1sum_html"><div class="ttname"><a href="structsnicholls_1_1stats_1_1sum.html">snicholls::stats::sum</a></div><div class="ttdoc">The sum.</div><div class="ttdef"><b>Definition</b> <a href="accumulators_8hpp_source.html#l00119">accumulators.hpp:119</a></div></div>
