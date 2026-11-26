@@ -19,7 +19,6 @@
 #include <cstddef>
 #include <cstdio>
 #include <optional>
-#include <tuple>
 
 namespace {
 int failures = 0;
@@ -35,11 +34,14 @@ namespace fn = snicholls::fn;
 // do { a <- [1..n]; b <- [a..n]; c <- [b..n]; guard (a*a + b*b == c*c); return (a, b, c) }
 // A guard that may reject is an optional in the array; cat_maybes keeps the survivors.
 constexpr auto upto = snicholls::table<17>([](std::size_t i) { return static_cast<int>(i) + 1; });
-using triple = std::tuple<int, int, int>;
+struct triple {   // a plain struct: GCC 13 crashes constant-evaluating std::tuple inside these nested closures
+    int a, b, c;
+    friend constexpr bool operator==(const triple&, const triple&) = default;
+};
 
 constexpr auto triples = fn::cat_maybes(fn::mbind(upto, [](int a) {
     return fn::mbind(upto, [a](int b) {
-        return fn::fmap([a, b](int c) { return a <= b && b <= c && a * a + b * b == c * c ? std::optional<triple>({a, b, c}) : std::nullopt; },
+        return fn::fmap([a, b](int c) { return a <= b && b <= c && a * a + b * b == c * c ? std::optional<triple>(triple{a, b, c}) : std::nullopt; },
                         upto);
     });
 }));

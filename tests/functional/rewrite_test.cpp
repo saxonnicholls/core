@@ -99,7 +99,9 @@ constexpr expr sample() { return add({mul({num(2), num(3)}), add({num(1), num(4)
 
 static_assert(fn::rewrite_up(children, fold, sample()) == num(16));
 static_assert(fn::transform_up(children, [](expr e) { return fn::replace_once(e, fold); }, sample()) == num(16));
-static_assert(fn::rewrite_up(children, fn::rules(times_zero, fold), mul({add({num(1), num(2)}), num(0)})) == num(0));
+// Built in a function, like sample(): GCC does not constant-evaluate nested braced vectors written inline here.
+constexpr expr times_nothing() { return mul({add({num(1), num(2)}), num(0)}); }
+static_assert(fn::rewrite_up(children, fn::rules(times_zero, fold), times_nothing()) == num(0));
 
 // transform_down sees the parent before its children: renaming adds to muls everywhere, then folding.
 constexpr expr flip(expr e)
