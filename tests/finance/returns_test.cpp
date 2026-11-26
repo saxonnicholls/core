@@ -44,7 +44,7 @@ static_assert([] {
     return *time_weighted_return(months) == ratio{};   // -20% then +25%
 }());
 static_assert([] {
-    const money_flow in[] = {{on(2026, 2, 15), cents(500000)}};
+    const cash_flow in[] = {{on(2026, 2, 15), cents(500000)}};
     return *modified_dietz(cents(1000000), cents(1550000), in, on(2026, 1, 1), on(2026, 3, 31)) == ratio{89, 2220};
 }());
 static_assert([] {
@@ -64,9 +64,9 @@ std::vector<double> numbers(const std::vector<std::string>& f, std::size_t from,
 
 money minor(const std::string& s) { return cents(std::stoll(s)); }
 
-std::vector<money_flow> money_flows(const std::vector<std::string>& f, std::size_t from)
+std::vector<cash_flow> cash_flows(const std::vector<std::string>& f, std::size_t from)
 {
-    std::vector<money_flow> out;
+    std::vector<cash_flow> out;
     const auto n = std::stoul(f.at(from));
     for (std::size_t i = 0; i < n; ++i)
         out.push_back({snicholls::test::fixture_date(f.at(from + 1 + 2 * i)), minor(f.at(from + 2 + 2 * i))});
@@ -117,14 +117,14 @@ TEST(FinanceReturns, AgreesWithTheOracles)
             expect_near(*r, std::stod(f[2]), where);
         } else if (f[0] == "mwr") {
             ++seen[2];
-            const auto flows = money_flows(f, 7);
+            const auto flows = cash_flows(f, 7);
             const auto r = money_weighted_return(minor(f.at(5)), minor(f.at(6)), flows, snicholls::test::fixture_date(f.at(3)),
                                                  snicholls::test::fixture_date(f.at(4)));
             ASSERT_TRUE(r.is_ok()) << where;
             expect_near(*r, std::stod(f[2]), where);
         } else if (f[0] == "dietz") {
             ++seen[3];
-            const auto flows = money_flows(f, 8);
+            const auto flows = cash_flows(f, 8);
             const auto r = modified_dietz(minor(f.at(6)), minor(f.at(7)), flows, snicholls::test::fixture_date(f.at(4)),
                                           snicholls::test::fixture_date(f.at(5)));
             ASSERT_TRUE(r.is_ok()) << where;
@@ -181,14 +181,14 @@ TEST(FinanceReturns, AnExactChainThatLeaves64BitsSaysSo)
 
 TEST(FinanceReturns, DietzErrors)
 {
-    const money_flow late[] = {{on(2026, 4, 1), cents(10)}};
+    const cash_flow late[] = {{on(2026, 4, 1), cents(10)}};
     EXPECT_EQ(modified_dietz(cents(100), cents(110), late, on(2026, 1, 1), on(2026, 3, 31)).unwrap_err(), returns_errc::invalid_dates);
-    const money_flow unordered[] = {{on(2026, 2, 1), cents(10)}, {on(2026, 1, 15), cents(10)}};
+    const cash_flow unordered[] = {{on(2026, 2, 1), cents(10)}, {on(2026, 1, 15), cents(10)}};
     EXPECT_EQ(modified_dietz(cents(100), cents(110), unordered, on(2026, 1, 1), on(2026, 3, 31)).unwrap_err(),
               returns_errc::invalid_dates);
     EXPECT_EQ(modified_dietz(cents(100), cents(110), {}, on(2026, 1, 1), on(2026, 1, 1)).unwrap_err(), returns_errc::invalid_dates);
     EXPECT_EQ(modified_dietz(cents(100), money::zero(usd), {}, on(2026, 1, 1), on(2026, 2, 1)).unwrap_err(), returns_errc::asset_mismatch);
-    const money_flow dollars[] = {{on(2026, 1, 2), money::zero(usd)}};
+    const cash_flow dollars[] = {{on(2026, 1, 2), money::zero(usd)}};
     EXPECT_EQ(modified_dietz(cents(100), cents(100), dollars, on(2026, 1, 1), on(2026, 2, 1)).unwrap_err(), returns_errc::asset_mismatch);
     EXPECT_EQ(modified_dietz(cents(0), cents(100), {}, on(2026, 1, 1), on(2026, 2, 1)).unwrap_err(), returns_errc::zero_capital);
     const money huge = money::from_units(aud, snicholls::uint256::from_limbs(0, 1));

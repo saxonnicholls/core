@@ -51,6 +51,8 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
 
 ### Added
 
+- **`finance/cash_flow.hpp`: one dated cash flow** (`finance::cash_flow`, exact `money`, positive in and negative out),
+  shared by `make_cash_ladder` and the return measures in place of their separate types.
 - **`containers::kd_tree::k_nearest_within(q, radius, out)`**: the k nearest points strictly within a radius, nearest
   first (SciPy's `cKDTree.query(k, distance_upper_bound=radius)`), the neighbourhood search kriging uses; tested against
   a linear scan in 1 to 5 dimensions and every metric. ore-body's own k-d tree is replaced by core's.

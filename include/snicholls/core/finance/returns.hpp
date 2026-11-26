@@ -73,6 +73,7 @@
 #ifndef snicholls_core_finance_returns_hpp
 #define snicholls_core_finance_returns_hpp
 
+#include <snicholls/core/finance/cash_flow.hpp>
 #include <snicholls/core/finance/ratio.hpp>
 #include <snicholls/core/math/constexpr_math.hpp>
 #include <snicholls/core/math/roots.hpp>
@@ -113,18 +114,8 @@ namespace snicholls::finance {
         friend constexpr bool operator==(const valuation&, const valuation&) noexcept = default;
     };
 
-    /// \brief An external flow on a day, exact: in positive, out negative.
-    /// \ingroup core
-    struct money_flow {
-        std::chrono::sys_days on{};  ///< the day
-        money amount;                ///< the amount
-
-        /// \brief Equality.
-        friend constexpr bool operator==(const money_flow&, const money_flow&) noexcept = default;
-    };
-
     /// \brief A flow on a day, in `double`, for `xirr`: received positive, paid negative.
-    /// `money_flow` is the exact one.
+    /// `cash_flow` is the exact one.
     /// \ingroup core
     struct xirr_flow {
         std::chrono::sys_days on{};  ///< the day
@@ -278,7 +269,7 @@ namespace snicholls::finance {
         // The investor's flows: the opening value paid in, each contribution paid in, the closing value received.
         struct investor_flows {
             double start_value, end_value;
-            std::span<const money_flow> flows;
+            std::span<const cash_flow> flows;
             std::chrono::sys_days start, end;
             constexpr std::size_t size() const noexcept { return flows.size() + 2; }
             constexpr double amount(std::size_t i) const noexcept
@@ -294,7 +285,7 @@ namespace snicholls::finance {
         };
 
         // Flows within [start, end], in order, all of one asset.
-        constexpr std::optional<returns_errc> check_period(const money& v0, const money& v1, std::span<const money_flow> flows,
+        constexpr std::optional<returns_errc> check_period(const money& v0, const money& v1, std::span<const cash_flow> flows,
                                                            std::chrono::sys_days start, std::chrono::sys_days end) noexcept
         {
             if (end <= start)
@@ -302,7 +293,7 @@ namespace snicholls::finance {
             if (v0.asset_of() != v1.asset_of())
                 return returns_errc::asset_mismatch;
             std::chrono::sys_days previous = start;
-            for (const money_flow& f : flows) {
+            for (const cash_flow& f : flows) {
                 if (f.amount.asset_of() != v0.asset_of())
                     return returns_errc::asset_mismatch;
                 if (f.on < previous || f.on > end)
@@ -381,7 +372,7 @@ namespace snicholls::finance {
     /// \param end         The last day, after `start`.
     /// \return The return; `invalid_dates`, `asset_mismatch`, `zero_capital` or `out_of_range`.
     [[nodiscard]] constexpr result<ratio, returns_errc> modified_dietz(const money& start_value, const money& end_value,
-                                                                       std::span<const money_flow> flows,
+                                                                       std::span<const cash_flow> flows,
                                                                        std::chrono::sys_days start,
                                                                        std::chrono::sys_days end) noexcept
     {
@@ -393,7 +384,7 @@ namespace snicholls::finance {
             return err(returns_errc::out_of_range);
         auto gain = checked_sub(*v1, *v0);                // V1 - V0 - sum F
         auto capital = detail::mul(*v0, days);            // D V0 + sum (D - d) F
-        for (const money_flow& f : flows) {
+        for (const cash_flow& f : flows) {
             const auto a = detail::minor_units(f.amount);
             const auto weighted = a ? detail::mul(*a, days - (f.on - start).count()) : std::nullopt;
             gain = gain && a ? checked_sub(*gain, *a) : std::nullopt;
@@ -455,7 +446,7 @@ namespace snicholls::finance {
     /// \return The annual rate (the period's is `(1 + r)^(days / 365) - 1`); `invalid_dates`, `asset_mismatch`,
     /// `no_root` or `multiple_roots`.
     [[nodiscard]] constexpr result<double, returns_errc> money_weighted_return(const money& start_value, const money& end_value,
-                                                                               std::span<const money_flow> flows,
+                                                                               std::span<const cash_flow> flows,
                                                                                std::chrono::sys_days start,
                                                                                std::chrono::sys_days end) noexcept
     {

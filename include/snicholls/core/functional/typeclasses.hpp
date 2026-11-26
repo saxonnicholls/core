@@ -320,6 +320,7 @@ namespace snicholls::fn {
     /// \brief `mempty<T>()`: the identity of `T`'s monoid, `combine(mempty<T>(), x) == x == combine(x, mempty<T>())`.
     /// \ingroup core
     /// \tparam T A monoid.
+    /// \return The identity.
     template <monoid T>
     [[nodiscard]] constexpr T mempty() noexcept(noexcept(monoid_instance<T>::empty()))
     {

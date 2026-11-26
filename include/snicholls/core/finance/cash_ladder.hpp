@@ -76,6 +76,7 @@
 #ifndef snicholls_core_finance_cash_ladder_hpp
 #define snicholls_core_finance_cash_ladder_hpp
 
+#include <snicholls/core/finance/cash_flow.hpp>
 #include <snicholls/core/money/money.hpp>
 #include <snicholls/core/result.hpp>
 
@@ -87,16 +88,6 @@
 #include <span>
 
 namespace snicholls::finance {
-
-    /// \brief One dated cash flow: positive in, negative out.
-    /// \ingroup core
-    struct cash_flow {
-        std::chrono::sys_days on{};  ///< the value date
-        money amount{};              ///< the signed amount, of the ladder's asset
-
-        /// \brief Equality, member by member.
-        friend constexpr bool operator==(const cash_flow&, const cash_flow&) noexcept = default;
-    };
 
     /// \brief What a ladder does with a flow dated before `as_of`.
     /// \ingroup core

@@ -47,7 +47,7 @@ int main()
         {cents(153'000'000), cents(-20'000'000), cents(132'000'000)},   // March, after the withdrawal
     };
     const auto twr = time_weighted_return(months);                       // exact
-    const money_flow flows[] = {{sys_days{2026y / February / 1d}, cents(50'000'000)},
+    const cash_flow flows[] = {{sys_days{2026y / February / 1d}, cents(50'000'000)},
                                 {sys_days{2026y / March / 1d}, cents(-20'000'000)}};
     const sys_days start = sys_days{2026y / January / 1d}, end = sys_days{2026y / March / 31d};
     const auto dietz = modified_dietz(cents(100'000'000), cents(132'000'000), flows, start, end);   // exact
