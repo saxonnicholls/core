@@ -40,7 +40,7 @@
 /// and `std::vector`, and core's `result`, are). The carrier's value category is kept (an rvalue
 /// optional moves its value into `f`). `noexcept` exactly when `f` and the copies are, except that the
 /// standard library's string and vector operations allocate and are never `noexcept`. The laws hold
-/// and are tested at compile time (`tests/functional/laws_test.cpp`).
+/// and are tested at compile time (`tests/functional/typeclasses_laws_test.cpp`).
 ///
 /// **Errors.** None of their own; results propagate their first error.
 ///
@@ -49,8 +49,9 @@
 /// **Performance.** A branch and the call for Maybe and Either; the elements' calls for products and
 /// arrays. Not benchmarked separately.
 ///
-/// **Tests and demos.** `tests/functional/instances_test.cpp`, `tests/functional/laws_test.cpp`,
-/// `demos/functional/instances_demo.cpp`.
+/// **Tests and demos.** `tests/functional/instances_test.cpp`, `tests/functional/instances_edge_test.cpp`,
+/// `tests/functional/typeclasses_laws_test.cpp`, `demos/functional/instances_demo.cpp`,
+/// `demos/functional/instances_list_monad_demo.cpp` (the list monad's searches).
 ///
 /// **Dependencies.** `<array>`, `<cstddef>`, `<functional>`, `<optional>`, `<string>`, `<tuple>`,
 /// `<type_traits>`, `<utility>`, `<vector>`, `snicholls/core/result.hpp`, `snicholls/core/meta/concepts.hpp`

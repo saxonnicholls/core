@@ -50,7 +50,8 @@
 ///
 /// **Performance.** A branch on `has_value()` / `is_ok()` and the call; not benchmarked.
 ///
-/// **Tests and demos.** `tests/functional/monad_test.cpp`, `demos/functional/monad_demo.cpp`.
+/// **Tests and demos.** `tests/functional/monad_test.cpp`, `tests/functional/monad_traversable_test.cpp`,
+/// `demos/functional/monad_demo.cpp`, `demos/functional/monad_railway_demo.cpp` (railway error handling).
 ///
 /// **Dependencies.** `<array>`, `<cstddef>`, `<functional>`, `<optional>`, `<tuple>`, `<type_traits>`,
 /// `<utility>`, `<variant>`, `snicholls/core/result.hpp` (heavier than it looks: `<string_view>` and
@@ -123,10 +124,12 @@ namespace snicholls::fn {
             return std::forward<M0>(m0).unwrap_err_unchecked();
         }
 
+        // The noexcept is spelled out: naming this overload in its own specification fails for three or more.
         template <class E, class M0, class M1, class... M>
         constexpr E first_error(M0&& m0, M1&& m1, M&&... m) noexcept(
-            noexcept(detail::first_error<E>(std::forward<M1>(m1), std::forward<M>(m)...)) &&
-            noexcept(detail::first_error<E>(std::forward<M0>(m0))))
+            ((std::is_nothrow_constructible_v<E, decltype(std::declval<M0>().unwrap_err_unchecked())> &&
+              std::is_nothrow_constructible_v<E, decltype(std::declval<M1>().unwrap_err_unchecked())>) && ... &&
+             std::is_nothrow_constructible_v<E, decltype(std::declval<M>().unwrap_err_unchecked())>))
         {
             if (m0.is_err()) return detail::first_error<E>(std::forward<M0>(m0));
             return detail::first_error<E>(std::forward<M1>(m1), std::forward<M>(m)...);

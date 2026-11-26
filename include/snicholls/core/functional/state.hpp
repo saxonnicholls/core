@@ -49,8 +49,9 @@
 /// `benchmarks/functional/lazy_benchmark.cpp`, a day of three fills as a State program against the
 /// hand-written loop, fairness-checked: 1.82 ns each (macOS x86-64 Xeon W-3245, Apple Clang 17, Release, 2026-11-26, 5 repetitions).
 ///
-/// **Tests and demos.** `tests/functional/state_test.cpp`, `tests/functional/laws_test.cpp`,
-/// `demos/functional/state_demo.cpp`.
+/// **Tests and demos.** `tests/functional/state_test.cpp`, `tests/functional/state_laws_test.cpp`,
+/// `tests/functional/typeclasses_laws_test.cpp`, `demos/functional/state_demo.cpp`,
+/// `demos/functional/state_rpn_demo.cpp` (fresh ids, a stack machine, Reader and Writer).
 ///
 /// **Dependencies.** `<cstddef>`, `<functional>`, `<type_traits>`, `<utility>`, `<variant>` (for
 /// `std::monostate`, the unit value) and `functional/typeclasses.hpp`.

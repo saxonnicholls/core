@@ -116,6 +116,35 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
   `para`, `trampoline`); `tabulate` (compile-time memoisation); `types` (type-level names for `meta::type_list`);
   `ocaml` (the Option, Result and List modules). The laws are tested at compile time. A composed, curried pipeline
   compiles to the same instructions as the hand-written lambda (benchmarks/functional/).
+- **`functional/` takes the best of Rust and of symbolic-expression-templates**, adding only what core and C++20
+  lacked. `rust` (`fn::rust::option`: Rust's `Option` methods over `std::optional`, the optional first, among them
+  `map_or`, `ok_or`, `filter`, `xor_`, `zip`, `transpose`, `take`, `replace` and `get_or_insert_with`;
+  `fn::rust::cmp`: `then`, `then_with`, `reverse` on orderings, and comparators built with `comparing(key)`,
+  `lexicographic(...)`, `reversed` and `as_less`; `into<T>`, a non-narrowing conversion). `rust_iter`
+  (`fn::rust::slice`: `windows`, `chunks`, `chunks_exact`, with static-extent spans from `windows_of<K>` and
+  `chunks_exact_of<K>`, and `dedup`; `fn::rust::iter`: `enumerate`, `step_by`, `find_map`, `max_by_key` /
+  `min_by_key` / `max_by` / `min_by` with Rust's ties and an empty optional for no elements, `nth`, `last`,
+  `try_for_each`); the views are trivially copyable `std::ranges::view`s, and a moving sum over `windows_of<8>` is
+  benchmarked against the index loop. `rewrite` (from SXT's `replace` and `rewrite`, at the value level: `rule`,
+  `rules`, `except`, `replace_once`, `replace_repeated` to a normal form, and Uniplate's `transform_up`,
+  `transform_down` and `rewrite_up` over any tree whose children the caller can map). `pointwise` (from SXT's
+  operators as algebra elements: `fn::pointwise{f}` added, scaled, compared and combined with `&&` / `||`, point by
+  point). Each header's documentation maps Rust's names to where core or `std` already has them (`Result`'s methods
+  are `snicholls::result`'s members; `filter_map`, `flat_map`, `try_fold`, `position` are `fn::map_maybe`,
+  `fn::concat_map`, `fn::fold_m`, `fn::find_index`; `take_while`, `skip_while`, `chain` are `std::views`).
+- **`functional/` is tested by its laws and shown by showcases**: laws test files for every header (functor,
+  applicative, monad, Kleisli, alternative and monoid laws, curry / uncurry round trips, fold fusion, Data.List and
+  stream laws, as `static_assert`s), and showcase demos of the classic examples in `constexpr` C++: point-free
+  pipelines, the Y combinator, `unfold` Fibonacci and Collatz, infinite primes, Maybe / Either railways by Kleisli
+  composition, an RPN machine on State, map-reduce in one monoid pass, a variant expression evaluator by `fn::match`,
+  OCaml pipes, the list monad's Pythagorean triples, a Rust-style fills pipeline and an algebraic simplifier by
+  rewriting. functional/ goes from 16 test files (47 tests, 442 `static_assert`s) and 16 demos to 34 and 34
+  (91 tests, 934 `static_assert`s). The laws found that `fn::lift` over three or more `result`s did not compile
+  (`detail::first_error` named itself in its own `noexcept`); it does.
+- **State machines, functionally** (`demos/fsm/`): a machine as a fold and a lazy scan over its events, event sourcing
+  with the snapshot law proved at compile time and a persisted replay, a Mealy machine written as a table and as
+  `fn::state` and proved identical over every input of length 8, a checkout railway whose guards are composed and
+  `pointwise` functions, and the reachable set as a least fixed point.
 - **`snicholls::nest` and `snicholls::table` declare their `noexcept`**, as documented: exactly when `f`'s call and the
   value's moves cannot throw.
 

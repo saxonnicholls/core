@@ -52,7 +52,7 @@
 /// **Guarantees.** `constexpr` wherever the instance is. Every operation is a function object, so it
 /// can be passed, composed and curried. `noexcept` follows the instance's operation exactly (each
 /// dispatch is `noexcept(noexcept(instance call))`). The laws are the instance's promise; for core's
-/// instances they are tested at compile time (`tests/functional/laws_test.cpp`): Functor identity
+/// instances they are tested at compile time (`tests/functional/typeclasses_laws_test.cpp`): Functor identity
 /// and composition, Monad left and right identity and associativity, Monoid identity and associativity.
 ///
 /// **Errors.** An operation on a type with no instance is not invocable (`std::is_invocable_v` false).
@@ -66,8 +66,9 @@
 ///
 /// **Performance.** Each operation is the instance's call, inlined; not benchmarked separately.
 ///
-/// **Tests and demos.** `tests/functional/typeclasses_test.cpp`, `tests/functional/laws_test.cpp`,
-/// `demos/functional/typeclasses_demo.cpp`.
+/// **Tests and demos.** `tests/functional/typeclasses_test.cpp`, `tests/functional/typeclasses_laws_test.cpp`,
+/// `demos/functional/typeclasses_demo.cpp`, `demos/functional/typeclasses_parser_demo.cpp`,
+/// `demos/functional/typeclasses_map_reduce_demo.cpp` (map-reduce with monoids).
 ///
 /// **Dependencies.** `<concepts>`, `<cstddef>`, `<functional>`, `<limits>`, `<optional>`, `<type_traits>`,
 /// `<utility>`, `functional/combinators.hpp`, `functional/curry.hpp`, `functional/fold.hpp`.
