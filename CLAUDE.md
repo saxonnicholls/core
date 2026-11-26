@@ -195,9 +195,9 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `harbour_beacons`, `option_risk`, `functional_report`). They mirror no header, so `check_mirror.py` does not look
   there (Demos, below).
 
-## Pinned at 0.27.0 (Saxon, 2026-11-26)
+## Pinned at 0.28.0 (Saxon, 2026-11-26; 0.28.0 on 2026-11-27)
 
-**Core is frozen at v0.27.0 for the next few weeks**, so the family converges on one version. No core release until
+**Core is frozen at v0.28.0 for the next few weeks** (0.27.0 plus `algorithm.hpp`, the MSVC single-include fix and the README), so the family converges on one version. No core release until
 Saxon lifts the freeze: new work is written up in `internal/proposals/core.md` and queued, not merged to `main`. A
 defect that blocks a consumer is the one exception, as a patch release (0.27.x) with only the fix.
 
@@ -386,6 +386,8 @@ host Apple's TSan runtime traps before `main` in every instrumented binary, so T
   orderings, never a hand-rolled `next_permutation` table.
 - The line: if the thing you are looping over is a value, `constexpr_for`; if it is a type, `type_list`. Do not
   build a type-level algorithm out of `constexpr_for` and `index_sequence` tricks when `type_list` already has it.
+- `snicholls::fill`, `copy`, `iota`, `equal`, `reverse` (`algorithm.hpp`) in C++17 code that runs at compile time,
+  in device code, and to clear a buffer without `memset`; called qualified. In C++20 host code `std::ranges` is as good.
 - `overloaded{...}` for a lambda overload set in `std::visit`. `fixed_string` for a string as a non-type template
   parameter. `function_ref` for a non-owning callable parameter. `result<V, E>` where failure is a value rather
   than an exception.

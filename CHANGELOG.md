@@ -3,6 +3,32 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.28.0 - 2026-11-27
+
+The version the family pins: 0.27.0 with the elementary algorithms usable at compile time from C++17, an MSVC build
+fix, and a README that says what is here.
+
+### Added
+
+- `algorithm.hpp`: `snicholls::fill`, `fill_n`, `copy`, `copy_n`, `copy_backward`, `iota`, `equal`, `reverse` and
+  `swap_ranges`, with range forms of `fill`, `iota` and `equal` (which compares lengths first). Plain loops,
+  `constexpr` from C++17 (the standard's are `constexpr` only from C++20) and `noexcept` exactly when the element
+  operations are: for tables built at compile time in ts-moveables and other C++17 code, for device kernels, and for
+  clearing a buffer without `memset`. Compiled as C++17 by `snicholls_core_cpp17_check`; a benchmark against
+  `std::fill`, `std::copy` and the hand-written loop.
+
+### Fixed
+
+- MSVC: the single-include check (`snicholls_core_single_include`) is compiled with `/Zc:preprocessor`. It does not link
+  `snicholls::core`, so it missed the one flag the target propagates, and MSVC's traditional preprocessor stopped at
+  the struct binders' 256-deep member lists (C1009, "macros nested too deeply"). A consumer of the single include on
+  MSVC needs `/Zc:preprocessor` too, as every consumer of core on MSVC already does.
+
+### Changed
+
+- README: what is here, area by area (state machines, functional programming, tracking, signal processing,
+  optimisation, geometry, hashing, the capability contracts and the rest), and the version to pin.
+
 ## 0.27.0 - 2026-11-26
 
 The release core is pinned at for the next few weeks: one version across the family. Trade and settlement dates on
