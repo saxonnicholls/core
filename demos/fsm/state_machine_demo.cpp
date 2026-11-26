@@ -12,6 +12,7 @@
 
 #include <snicholls/core/fsm/state_machine.hpp>
 
+#include <array>
 #include <cstdint>
 #include <cstdio>
 #include <string_view>
@@ -101,6 +102,10 @@ int main()
     ok &= snap[0].value == 2 && snap[0].name == "shipped";
     sm<order> copy;
     ok &= copy.restore_snapshot(snap).is_ok() && copy.current() == order_state::shipped;
+    // check_snapshot is restore_snapshot's strict check: the names must agree with the values too
+    ok &= sm<order>::check_snapshot(snap).is_ok();
+    ok &= sm<order>::check_snapshot(std::array<wire_state, 1>{{{2, "renamed"}}}).unwrap_err_unchecked() ==
+          fsm_errc::state_name_mismatch;
 
     // The compile-time checks, as values
     using diagnosis = table_diagnostics<broken>;
