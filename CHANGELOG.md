@@ -51,6 +51,8 @@ toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-orde
 
 ### Added
 
+- **Showcases** (`showcase/`, `make showcase`, CTest label `showcase`): five whole programs, each across many areas
+  and checking itself - `trading_day`, `payments_ledger`, `harbour_beacons`, `option_risk` and `functional_report`.
 - **`finance/cash_flow.hpp`: one dated cash flow** (`finance::cash_flow`, exact `money`, positive in and negative out),
   shared by `make_cash_ladder` and the return measures in place of their separate types.
 - **`containers::kd_tree::k_nearest_within(q, radius, out)`**: the k nearest points strictly within a radius, nearest

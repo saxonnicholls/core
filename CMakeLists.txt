@@ -225,6 +225,7 @@ if(SNICHOLLS_CORE_BUILD_TESTS)
 
     add_subdirectory(tests)
     add_subdirectory(demos)
+    add_subdirectory(showcase)
 endif()
 
 if(SNICHOLLS_CORE_BUILD_BENCHMARKS)

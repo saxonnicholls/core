@@ -191,6 +191,9 @@ integrity and consistency. The same twelve rules hold in every one of them.
   `core.hpp`. `make single-include` writes it locally.
 - `tests/`, `demos/` and `benchmarks/` mirror `include/snicholls/core/` (below). `scripts/` holds the CI checks.
   `third_party/` holds the test-only submodules.
+- `showcase/` holds whole programs, each woven from many areas of core (`trading_day`, `payments_ledger`,
+  `harbour_beacons`, `option_risk`, `functional_report`). They mirror no header, so `check_mirror.py` does not look
+  there (Demos, below).
 
 ## Pinned at 0.27.0 (Saxon, 2026-11-26)
 
@@ -274,6 +277,12 @@ how to use it.
 - Regions marked `//! [tag]` are pulled into the documentation with `\snippet <name>_demo.cpp tag`, so every
   documented example is compiled code. A header's `\snippet` points at *core's* demo, never at a demo in the
   repository the header came from.
+- **Showcases** show the library come to life: `showcase/<name>.cpp`, registered with
+  `snicholls_core_add_showcase(<name>)` in `showcase/CMakeLists.txt` (CTest `showcase.<name>`, labels `demo` and
+  `showcase`), is one realistic program across many areas. It prints a coloured narrative through `acout` and type
+  attributes, is deterministic (seeded `wyrand`, manual clocks, `test_random_source`), proves at compile time what it
+  can (`static_assert` of real results) and exits non-zero on a mismatch. It uses public API only and never adds any.
+  `make showcase` runs them with their output shown.
 
 ## Zero overhead (MUST)
 
@@ -324,6 +333,7 @@ banner, then `/// \file`, `\brief` and `\ingroup`. `snicholls::detail` is exclud
     make check           # scripts/check_version.py and scripts/check_mirror.py
     make ubuntu          # the full suite on Ubuntu in Docker: GCC 13, GCC 15 and Clang, Release and Debug, sanitizers
     make demos           # build and run every demo with its output shown (scripts/run_demos.sh --all, or <name>...)
+    make showcase        # build and run the showcases (showcase/), output shown
     make benchmarks      # every benchmark in Release; rewrites BENCHMARKS.md, which is never edited by hand
 
 CI records throughput on every leg: `scripts/benchmarks_md.py --output -` writes each platform's tables into its job

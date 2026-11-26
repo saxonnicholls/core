@@ -13,6 +13,7 @@
 #                        (scripts/benchmarks_md.py; --filter for one file)
 #   make demos           build and run every demo, output shown (scripts/run_demos.sh --all;
 #                        scripts/run_demos.sh acout for one)
+#   make showcase        build and run the showcases (showcase/), each a whole program across core, output shown
 #   make clean
 #
 #   make test CXX=clang++      any target with a different compiler
@@ -23,7 +24,7 @@ BUILD    ?= build
 CONFIG   ?= Release
 CMAKE_FLAGS ?=
 
-.PHONY: all test test-werror asan docs check single-include ubuntu demos benchmarks clean
+.PHONY: all test test-werror asan docs check single-include ubuntu demos showcase benchmarks clean
 
 all: test
 
@@ -67,6 +68,12 @@ benchmarks:
 
 demos:
 	BUILD=$(BUILD) CONFIG=$(CONFIG) CXX=$(CXX) scripts/run_demos.sh --all
+
+SHOWCASES = $(shell sed -n 's/^snicholls_core_add_showcase(\([a-z_]*\))$$/\1/p' showcase/CMakeLists.txt)
+
+showcase: $(BUILD)/CMakeCache.txt
+	cmake --build $(BUILD) --parallel --target $(addprefix snicholls_core_showcase_,$(SHOWCASES))
+	@for s in $(SHOWCASES); do $(BUILD)/showcase/snicholls_core_showcase_$$s || exit 1; echo; done
 
 clean:
 	rm -rf build build-*
