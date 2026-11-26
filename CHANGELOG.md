@@ -25,6 +25,11 @@ A version is released when its tag is on a commit where every blocking CI leg is
   against the general path). `divmod` on 64-bit operands 31 ns -> 10 ns, `checked_mul` 17 ns -> 3.4 ns; a 100,000-holder
   dividend through `convert` 17.3 ms -> 8.8 ms (`benchmarks/money/rate_benchmark.cpp`, against 1.0 ms in 64 bits by
   hand). `rounds_away` compares in 64 bits when it can.
+- **The reference providers sign webhooks with one implementation** (`detail/memory_webhook.hpp`), shared by
+  `memory_payment_provider` and `memory_security_provider`; the payment reference's behaviour is unchanged.
+- **`finance::year_fraction` is `finance::ratio`** (an alias), source-compatible: the constructor, `numerator()`,
+  `denominator()`, `to_double()`, `==` and `<=>` are unchanged, and `<=>` is now exact for every pair (it
+  cross-multiplied in 64 bits). Its parts may no longer be `INT64_MIN` (asserted).
 
 ### Added
 
@@ -84,6 +89,42 @@ A version is released when its tag is on a commit where every blocking CI leg is
     `cassette`, `recording_https_client`, `replay_https_client` for recorded days. The transport stays in ts-moveables
     and servers.
 - `capability_ids.hpp`: `role_id`, `permission_id`, `tenant_id` (64) and `wallet_address` (42).
+- **`security_fact` and the `security_provider` capability** (`concepts/security_provider.hpp`, with its virtual twin
+  `interfaces/security_provider.hpp`, the reference `memory_security_provider` and the kit
+  `run_security_provider_conformance`): the broker, custodian and registry side of one ledger, a sibling of
+  `payment_fact`. A fact carries its kind (trades and settlement; dividends, withholding, DRPs, capital returns;
+  splits, consolidations, bonuses, symbol changes, mergers, demergers, rights, takeovers; repos and reverse repos,
+  accruals, margin and collateral reuse; and the fund kinds application, redemption, `unit_switch` and
+  distribution_reinvested), the instrument as an asset `<SYMBOL>:<VENUE>` with an optional ISIN, the second
+  instrument and cost apportionment of a two-instrument action, a signed exact quantity, a `new_for_old` ratio,
+  price, consideration, fees and taxes as money with franking as a tax attribute, `fact_dates` with ex, record and
+  pay dates, a repo's counterparty, agreement, rate, `day_count_basis` and maturity, and refs; `validate` and
+  `cash_movement`. The capability: `capabilities`, `verify_webhook`, `resolve(event)` and `statement(query)` as
+  `payment_provider` has them, and `holdings(as_of)` by trade date and by settlement.
+- **`event_kind::security_updated`** (appended to `concepts/payment_provider.hpp`): an event about a trade, an action
+  or a position.
+- **`finance::ratio`** (`finance/ratio.hpp`): one exact rational for `finance/`, `int64` numerator over a positive
+  denominator in lowest terms; `make` and `parse` (`"3/2"`, `"-1.25"`, `"13.24%"`) with `ratio_errc`; checked `add`,
+  `subtract` and `multiply` (cancelled across first); `inverse`; an exact `<=>` for every pair. For split and rights
+  ratios, cost apportionments, repo rates and exact returns. `benchmarks/finance/ratio_benchmark.cpp` measures `<=>`
+  and `multiply` against the hand-written 64-bit forms.
+- **`finance/money_ratio.hpp`**: exact arithmetic between `money` and the asset-free `finance::ratio`, for fund
+  dealing (`units = amount / NAV per unit`): `exact_value`, `multiply` and `divide` to an exact ratio, or to money of
+  a stated asset rounded once under a named `rounding` mode (256-bit intermediate), `to_money`, `ratio_of` (net assets
+  over units outstanding), and consteval `_ratio` literals (`"1.234567"_ratio`).
+- **`finance::day_count_basis`** and `accrual_fraction(basis, start, end)` (`finance/day_count.hpp`): a convention as a
+  stable value, for data that names one.
+- **`finance/returns.hpp`**: exact `period_return`, `time_weighted_return` (chained sub-periods) and `modified_dietz`
+  from `money`; in `double`, `time_weighted_return` over returns, `irr` and `irr_roots` (flows one period apart),
+  `xirr` (dated, ACT/365F) and `money_weighted_return` (annualised), by Brent's method behind Descartes' rule of signs,
+  with `returns_errc::no_root` and `multiple_roots`. Tested against numpy-financial 1.0.0 and exact references in
+  Python's `decimal` and `fractions` (`scripts/generate_returns_fixtures.py`, CTest
+  `generated.returns_fixtures_up_to_date`, skipped without numpy-financial).
+- **`fsm/securities.hpp`**: the reference lifecycles of securities in sml's notation, each state an enumerator (so
+  `fsm::save` and `load` keep it) with its colour, label and tooltip: `trade_lifecycle` (placed, filled, settling,
+  settled or failed; cancelled before a fill), `dealing_lifecycle` for a fund application or redemption (requested,
+  priced, issued or cancelled, settled), `corporate_action_lifecycle` (announced, ex, record, paid; withdrawn before
+  the record date) and `repo_lifecycle` (open, accruing, closed).
 
 ## 0.24.1 - 2026-11-26
 

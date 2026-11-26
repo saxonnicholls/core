@@ -62,5 +62,14 @@ int main()
     check(isda == year_fraction{366 + 90 * 365, 133590}, "ACT/ACT ISDA splits the period at the year end");
     check(act_365_fixed::year_fraction(start, end) == year_fraction{91, 365}, "ACT/365F: 91 actual days over 365");
     check(act_360::day_count(end, start) == -91, "a reversed period counts negative");
+
+    //! [basis]
+    const day_count_basis named = day_count_basis::act_act_isda;   // as a repo's terms carry it
+    const year_fraction accrued = accrual_fraction(named, start, end);
+    //! [basis]
+    check(accrued == isda, "a day_count_basis gives its convention's fraction");
+    for (const auto b : {day_count_basis::act_360, day_count_basis::act_365_fixed, day_count_basis::thirty_360,
+                         day_count_basis::thirty_e_360})
+        std::printf("  basis %d: %.10f\n", static_cast<int>(b), accrual_fraction(b, start, end).to_double());
     return failures == 0 ? 0 : 1;
 }

@@ -81,6 +81,7 @@
 #include <snicholls/core/concepts/random_source.hpp>
 #include <snicholls/core/concepts/remote_files.hpp>
 #include <snicholls/core/concepts/role_store.hpp>
+#include <snicholls/core/concepts/security_provider.hpp>
 #include <snicholls/core/concepts/signature_verifier.hpp>
 #include <snicholls/core/concepts/signer.hpp>
 #include <snicholls/core/concepts/token.hpp>
@@ -109,10 +110,14 @@
 #include <snicholls/core/finance/business_day.hpp>
 #include <snicholls/core/finance/cash_ladder.hpp>
 #include <snicholls/core/finance/day_count.hpp>
+#include <snicholls/core/finance/money_ratio.hpp>
+#include <snicholls/core/finance/ratio.hpp>
+#include <snicholls/core/finance/returns.hpp>
 #include <snicholls/core/finance/year_fraction.hpp>
 #include <snicholls/core/fsm/diagram.hpp>
 #include <snicholls/core/fsm/lifecycle.hpp>
 #include <snicholls/core/fsm/persist.hpp>
+#include <snicholls/core/fsm/securities.hpp>
 #include <snicholls/core/fsm/state_machine.hpp>
 #include <snicholls/core/game/change.hpp>
 #include <snicholls/core/game/coalition.hpp>
@@ -189,6 +194,9 @@
 #include <snicholls/core/interfaces/role_store.hpp>
 #include <snicholls/core/interfaces/role_store_conformance.hpp>
 #include <snicholls/core/interfaces/role_store_reference.hpp>
+#include <snicholls/core/interfaces/security_provider.hpp>
+#include <snicholls/core/interfaces/security_provider_conformance.hpp>
+#include <snicholls/core/interfaces/security_provider_reference.hpp>
 #include <snicholls/core/interfaces/signature_verifier.hpp>
 #include <snicholls/core/interfaces/signature_verifier_conformance.hpp>
 #include <snicholls/core/interfaces/signature_verifier_reference.hpp>

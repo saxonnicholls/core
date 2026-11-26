@@ -55,6 +55,7 @@ add_executable(snicholls_core_tests
     concepts/random_source_test.cpp
     concepts/remote_files_test.cpp
     concepts/role_store_test.cpp
+    concepts/security_provider_test.cpp
     concepts/signature_verifier_test.cpp
     concepts/signer_test.cpp
     concepts/token_test.cpp
@@ -82,6 +83,7 @@ add_executable(snicholls_core_tests
     detail/hash_engine_test.cpp
     detail/iso3166_table_test.cpp
     detail/iso4217_table_test.cpp
+    detail/memory_webhook_test.cpp
     detail/mul_div_test.cpp
     detail/pp_for_each_test.cpp
     detail/sobol_directions_test.cpp
@@ -94,10 +96,14 @@ add_executable(snicholls_core_tests
     finance/business_day_test.cpp
     finance/cash_ladder_test.cpp
     finance/day_count_test.cpp
+    finance/money_ratio_test.cpp
+    finance/ratio_test.cpp
+    finance/returns_test.cpp
     finance/year_fraction_test.cpp
     fsm/diagram_test.cpp
     fsm/lifecycle_test.cpp
     fsm/persist_test.cpp
+    fsm/securities_test.cpp
     fsm/state_machine_test.cpp
     fsm/state_machine_hierarchy_test.cpp
     game/change_test.cpp
@@ -175,6 +181,9 @@ add_executable(snicholls_core_tests
     interfaces/role_store_conformance_test.cpp
     interfaces/role_store_reference_test.cpp
     interfaces/role_store_test.cpp
+    interfaces/security_provider_conformance_test.cpp
+    interfaces/security_provider_reference_test.cpp
+    interfaces/security_provider_test.cpp
     interfaces/signature_verifier_conformance_test.cpp
     interfaces/signature_verifier_reference_test.cpp
     interfaces/signature_verifier_test.cpp
@@ -492,6 +501,11 @@ set_tests_properties(generated.week_date_fixtures_up_to_date PROPERTIES LABELS b
 add_test(NAME generated.goertzel_fixtures_up_to_date
     COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_goertzel_fixtures.py --check)
 set_tests_properties(generated.goertzel_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The returns oracle fixture (tests/fixtures/finance/returns.txt) must be what scripts/generate_returns_fixtures.py
+# computes with numpy-financial, decimal and fractions; skipped when numpy-financial 1.0.0 is not installed.
+add_test(NAME generated.returns_fixtures_up_to_date
+    COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_returns_fixtures.py --check)
+set_tests_properties(generated.returns_fixtures_up_to_date PROPERTIES LABELS boundary)
 
 # Compile-fail tests. Each case in compile_fail/ is one source built twice, as
 # an object library outside ALL: with SNICHOLLS_COMPILE_FAIL defined it must
