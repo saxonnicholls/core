@@ -6,7 +6,8 @@
 //
 //  Demo for <snicholls/core/stats/pivot.hpp>: P&L and return by currency and index from a blotter
 //  of strong-typed tuples, in one pass, two workers' pivots merged, and the grid printed through acout in
-//  each currency's and index's colour with P&L green or red. Exits non-zero if a cell is not the one documented.
+//  each currency's and index's colour with P&L green or red; then the same from a plain struct, its keys and
+//  measures read straight from its members. Exits non-zero if a cell is not the one documented.
 //
 
 #include <snicholls/core/acout.hpp>
@@ -57,6 +58,22 @@ constexpr auto attributes(const pnl_of&) { return snicholls::attrs(snicholls::si
 struct ret_of {
     double operator()(const fill& f) const { return std::get<ret>(f).value; }
 };
+
+//! [pivot_members]
+// A plain struct needs no getters: stats::member<&trade::book> reads the member. The P&L member's cells are
+// declared green up and red down here, beside the struct; the keys print under their own types' attributes.
+struct trade {
+    currency ccy;
+    equity_index index;
+    double pnl;
+    double quantity, price;
+    double notional() const { return quantity * price; }   // a const member function reads as a member too
+};
+constexpr auto attributes(const snicholls::stats::member<&trade::pnl>&)
+{
+    return snicholls::attrs(snicholls::sign_colours{}, snicholls::number_format{"{:+.0f}"});
+}
+//! [pivot_members]
 } // namespace blotter
 
 int main()
@@ -97,6 +114,26 @@ int main()
     //! [pivot_colour]
     std::printf("  usd/spx %.0f, total %.0f, merged usd/spx %.0f\n", *usd_spx, total, *worker_a.value<0>({currency::usd, equity_index::spx}));
     ok &= usd_spx == 150.0 && total == 125.0 && worker_a.value<0>({currency::usd, equity_index::spx}) == 150.0;
+
+    {
+        //! [pivot_members_use]
+        namespace stats = snicholls::stats;
+        using snicholls::meta::type_list;
+        const std::vector<trade> trades{{currency::usd, equity_index::spx, 120, 10, 4500},
+                                        {currency::eur, equity_index::sx5e, -40, -5, 4800},
+                                        {currency::usd, equity_index::spx, 30, 2, 4510}};
+        const auto by_member = stats::make_pivot<trade, type_list<stats::member<&trade::ccy>>, type_list<stats::member<&trade::index>>,
+                                                 stats::measure<stats::member<&trade::pnl>, stats::sum<double>>,
+                                                 stats::measure<stats::member<&trade::notional>, stats::sum<double>>>(trades);
+        snicholls::acout{} << by_member;   // USD / S&P 500 ... +150, as the tuple blotter's
+        //! [pivot_members_use]
+        const auto pnl = by_member.value<0>({currency::usd, equity_index::spx});
+        const auto notional = by_member.value<1>({currency::usd, equity_index::spx});
+        std::printf("  from members: usd/spx P&L %.0f, notional %.0f\n", *pnl, *notional);
+        std::ostringstream members_grid;
+        by_member.print(members_grid);
+        ok &= pnl == 150.0 && notional == 54020.0 && members_grid.str().find("+150") != std::string::npos;
+    }
 
     std::printf(ok ? "pivot demo: ok\n" : "pivot demo: FAILED\n");
     return ok ? 0 : 1;

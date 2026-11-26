@@ -6,11 +6,12 @@
 //
 //  Tests for <snicholls/core/stats/pivot.hpp>: keys read by type and by getter, enumeration, bool,
 //  declared and discovered dimensions, every measure in one pass, margins, merging partial pivots,
-//  dropped rows, and the printed grid.
+//  dropped rows, the printed grid, and keys and measures read straight from a struct's members.
 //
 
 #include <snicholls/core/stats/pivot.hpp>
 
+#include <snicholls/core/display.hpp>
 #include <snicholls/core/fixed_string.hpp>
 
 #include <gtest/gtest.h>
@@ -22,6 +23,7 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <vector>
 
 namespace book {
@@ -264,6 +266,121 @@ TEST(PivotCells, EachCellCarriesItsOwnPoissonBootstrap)
     a.merge(b);
     EXPECT_NEAR(a.value<0>({currency::usd})->estimate, usd.estimate, 1e-12);
     EXPECT_NEAR(a.value<0>({currency::usd})->standard_error(), expected, 0.15 * expected);
+}
+
+// ---- keys and measures read from a plain struct's members -----------------------------------------------
+
+} // namespace
+
+namespace ledger {
+enum class side : std::uint8_t { buy, sell };
+constexpr auto attributes(side s)
+{
+    using namespace snicholls;
+    return per_enumerator(s, [] { return std::array{attrs(label{"BUY"}), attrs(label{"SELL"})}; });
+}
+struct trade {
+    book::currency ccy;
+    side way;
+    std::string desk;
+    double pnl;
+    double quantity, price;
+    constexpr double notional() const noexcept { return quantity * price; }
+};
+// The P&L measure's presentation, declared beside the struct: found through member<>'s Class argument
+constexpr auto attributes(const snicholls::stats::member<&trade::pnl>&) { return snicholls::attrs(snicholls::number_format{"{:+.1f}"}); }
+
+struct point {   // a literal type, for the compile-time checks
+    int x;
+    double y;
+};
+struct labelled_point : point {
+    char tag;
+};
+} // namespace ledger
+
+namespace {
+
+using ledger::side;
+using ledger::trade;
+
+// A member getter is a constexpr, noexcept read; a data member comes back by reference, a member function by value
+static_assert(stats::member<&ledger::point::x>{}(ledger::point{3, 0.5}) == 3);
+static_assert(stats::member<&ledger::point::y>{}(ledger::labelled_point{{1, 2.5}, 'a'}) == 2.5);   // read through the base
+static_assert(noexcept(stats::member<&ledger::point::x>{}(std::declval<const ledger::point&>())));
+static_assert(std::is_same_v<decltype(stats::member<&trade::desk>{}(std::declval<const trade&>())), const std::string&>);
+static_assert(std::is_same_v<decltype(stats::member<&trade::notional>{}(std::declval<const trade&>())), double>);
+static_assert(noexcept(stats::member<&trade::notional>{}(std::declval<const trade&>())));
+static_assert(std::is_same_v<stats::member<&trade::pnl>, stats::member<&trade::pnl, trade>>);
+static_assert(std::is_empty_v<stats::member<&trade::pnl>> && std::is_trivially_copyable_v<stats::member<&trade::pnl>>);
+// Only a member pointer is a member getter
+template <auto M>
+concept member_getter = requires { typename stats::member<M>; };
+static_assert(member_getter<&trade::pnl> && !member_getter<0> && !member_getter<nullptr>);
+// The key types are the members' types, with no reference
+using by_members = stats::pivot<trade, type_list<stats::member<&trade::ccy>, stats::member<&trade::desk>>, type_list<stats::member<&trade::way>>,
+                                stats::measure<stats::member<&trade::pnl>, stats::sum<double>>,
+                                stats::measure<stats::member<&trade::notional>, stats::sum<double>>>;
+static_assert(std::is_same_v<by_members::keys_type, std::tuple<currency, std::string, side>>);
+
+const std::vector<trade> ledger_trades{
+    {currency::usd, side::buy, "delta", 10, 100, 1.5},
+    {currency::usd, side::sell, "delta", -4, -50, 2.0},
+    {currency::eur, side::buy, "vol", 7, 10, 3.0},
+    {currency::usd, side::buy, "delta", 2, 20, 1.0},
+};
+
+TEST(PivotMembers, KeysAndMeasuresReadStraightFromAStruct)
+{
+    by_members p;
+    p.add_all(ledger_trades);
+    EXPECT_EQ((p.value<0>({currency::usd, "delta", side::buy})), 12.0);
+    EXPECT_EQ((p.value<1>({currency::usd, "delta", side::buy})), 170.0);   // 100 x 1.5 + 20 x 1, by the member function
+    EXPECT_EQ((p.value<0>({currency::usd, "delta", side::sell})), -4.0);
+    EXPECT_FALSE((p.value<0>({currency::eur, "delta", side::buy})).has_value());
+    EXPECT_EQ(p.labels<1>(), (std::vector<std::string>{"delta", "vol"}));
+    EXPECT_EQ(std::get<0>(p.total()).value(), 15.0);
+}
+
+TEST(PivotMembers, MixWithGettersAndAgreeWithThem)
+{
+    struct ccy_of {
+        currency operator()(const trade& t) const { return t.ccy; }
+    };
+    struct pnl_of_trade {
+        double operator()(const trade& t) const { return t.pnl; }
+    };
+    const auto by_getters = stats::make_pivot<trade, type_list<ccy_of>, type_list<>, stats::measure<pnl_of_trade, stats::mean<double>>>(ledger_trades);
+    const auto mixed = stats::make_pivot<trade, type_list<stats::member<&trade::ccy>>, type_list<>, stats::measure<pnl_of_trade, stats::mean<double>>,
+                                         stats::measure<stats::member<&trade::pnl>, stats::mean<double>>>(ledger_trades);
+    for (const auto c : {currency::usd, currency::eur}) {
+        EXPECT_EQ((mixed.value<0>({c})), (by_getters.value<0>({c})));
+        EXPECT_EQ((mixed.value<1>({c})), (by_getters.value<0>({c})));
+    }
+}
+
+TEST(PivotMembers, ARowOfADerivedClassIsReadThroughItsBase)
+{
+    const std::vector<ledger::labelled_point> points{{{1, 2.0}, 'a'}, {{1, 3.0}, 'b'}, {{2, 4.0}, 'a'}};
+    const auto p = stats::make_pivot<ledger::labelled_point, type_list<stats::member<&ledger::point::x>>, type_list<stats::member<&ledger::labelled_point::tag>>,
+                                     stats::measure<stats::member<&ledger::point::y>, stats::sum<double>>>(points);
+    EXPECT_EQ((p.value<0>({1, 'a'})), 2.0);
+    EXPECT_EQ((p.value<0>({2, 'a'})), 4.0);
+    EXPECT_EQ(std::get<0>(p.row_total({1})).value(), 5.0);
+}
+
+TEST(PivotMembers, KeysPrintUnderTheirTypesAttributesAndCellsUnderTheMembers)
+{
+    const auto p = stats::make_pivot<trade, type_list<stats::member<&trade::ccy>>, type_list<stats::member<&trade::way>>,
+                                     stats::measure<stats::member<&trade::pnl>, stats::sum<double>>>(ledger_trades);
+    std::ostringstream os;
+    p.print(os);
+    // side's labels, and the P&L member's number format; a measure without attributes prints plainly
+    EXPECT_EQ(os.str(), "\tBUY\tSELL\nusd\t+12.0\t-4.0\neur\t+7.0\t\n");
+    const auto plain = stats::make_pivot<trade, type_list<stats::member<&trade::ccy>>, type_list<>, stats::measure<stats::member<&trade::notional>, stats::sum<double>>>(ledger_trades);
+    std::ostringstream os2;
+    plain.print(os2);
+    EXPECT_EQ(os2.str(), "\t\nusd\t70\neur\t30\n");
 }
 
 } // namespace

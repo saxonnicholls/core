@@ -97,13 +97,7 @@ inline double as_double(const money& m) { return to_decimal(m)->to_double(); }
 static_assert(pnl_of(blotter[0]) == dollars("200.00"));
 static_assert(day_total == dollars("-455.00"));
 
-// The pivot's keys and measure: getters, and the measure shows as P&L does
-struct desk_of {
-    desk operator()(const fill& f) const { return f.book; }
-};
-struct instrument_of {
-    instrument operator()(const fill& f) const { return f.what; }
-};
+// The pivot's measure: P&L in money, computed, so a getter; the keys are the fill's members. It shows as P&L does
 struct pnl_value {
     double operator()(const fill& f) const { return as_double(pnl_of(f)); }
 };
@@ -205,7 +199,7 @@ int main()
 
     // ---- 2. The pivot: P&L by desk and instrument, one pass --------------------------------------------------------
     println("\n2. P&L by desk and instrument");
-    using grid = stats::pivot<fill, snicholls::meta::type_list<desk_of>, snicholls::meta::type_list<instrument_of>,
+    using grid = stats::pivot<fill, snicholls::meta::type_list<stats::member<&fill::book>>, snicholls::meta::type_list<stats::member<&fill::what>>,
                               stats::measure<pnl_value, stats::sum<double>>>;
     grid book;
     book.add_all(blotter);
