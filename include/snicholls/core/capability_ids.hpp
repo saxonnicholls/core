@@ -25,6 +25,10 @@
 /// | `client_id` | 64 | an id we choose: an idempotency key, a client order id, a client reference | OKX `clOrdId` allows 32; ours are UUIDs (36) or shorter |
 /// | `provider_name` | 32 | which provider: `"stripe"`, `"wise"`, `"okx"`, `"chain"` | a name |
 /// | `short_text` | 255 | a short field a provider returns: a label, a name, a payment reference, an address | SEPA's remittance text is 140 characters, an account name 70 |
+/// | `role_id` | 64 | a role: `"owner"`, `"admin"`, `"auditor"` | a name |
+/// | `permission_id` | 64 | a permission or scope, `resource.action` | `"payments.refund"`, an OAuth scope |
+/// | `tenant_id` | 64 | an organisation or workspace that roles are held in, or `"platform"` for staff | a UUID (36) or a slug |
+/// | `wallet_address` | 42 | an EVM address, lowercase `0x` and 40 hex digits | exactly 42 |
 ///
 /// Stripe documents its ids as up to 255 characters, but none it issues today comes near 96; an implementation that
 /// meets a longer one answers `capability_errc::internal` rather than cut it (an id cut short is another id).
@@ -89,6 +93,18 @@ namespace snicholls {
     /// \brief A short field a provider returns: a label, a name, a payment reference, an address.
     /// \ingroup core
     using short_text = inplace_string<255>;
+    /// \brief A role (`"owner"`, `"admin"`, `"auditor"`).
+    /// \ingroup core
+    using role_id = inplace_string<64>;
+    /// \brief A permission or scope, `resource.action` (`"payments.refund"`).
+    /// \ingroup core
+    using permission_id = inplace_string<64>;
+    /// \brief An organisation or workspace roles are held in, or `"platform"` for staff.
+    /// \ingroup core
+    using tenant_id = inplace_string<64>;
+    /// \brief An EVM address: lowercase `0x` and 40 hex digits.
+    /// \ingroup core
+    using wallet_address = inplace_string<42>;
 
     /// \brief `text` as the identifier `Id`, or `invalid_argument` when it does not fit; never truncated.
     /// \ingroup core
