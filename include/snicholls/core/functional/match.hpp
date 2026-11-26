@@ -259,7 +259,9 @@ namespace snicholls::fn {
             constexpr decltype(auto) operator()(V&& v, C&&... c) const
             {
                 return [&](const auto&... cs) -> decltype(auto) {
-                    return std::visit([&](auto& alt) -> decltype(auto) { return detail::match_one(alt, cs...); }, v);
+                    // The first alternative's result type, which every other alternative's converts to (as documented)
+                    using R = decltype(detail::match_one(std::get<0>(v), cs...));
+                    return std::visit([&](auto& alt) -> R { return detail::match_one(alt, cs...); }, v);
                 }(detail::to_case(std::forward<C>(c))...);
             }
 

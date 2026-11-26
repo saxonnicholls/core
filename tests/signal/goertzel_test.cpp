@@ -305,8 +305,8 @@ void tone_on_a_bin()
     s::goertzel<T> d = s::goertzel<T>::at_bin(k, n);
     d.update(x);
     const T tol = T(64) * eps<T>() * T(n);
-    EXPECT_NEAR(d.magnitude(), a * T(n) / 2, tol);   // A n / 2
-    EXPECT_NEAR(d.phase(), phi, tol / T(n));
+    EXPECT_NEAR(static_cast<double>(d.magnitude()), static_cast<double>(a * T(n) / 2), static_cast<double>(tol));   // A n / 2
+    EXPECT_NEAR(static_cast<double>(d.phase()), static_cast<double>(phi), static_cast<double>(tol / T(n)));
     // Every other bin sees nothing (leakage is zero on a bin).
     for (std::size_t q : {0u, 1u, 36u, 38u, 128u, 218u}) {
         s::goertzel<T> o = s::goertzel<T>::at_bin(q, n);
@@ -316,7 +316,7 @@ void tone_on_a_bin()
     // The mirror bin n - k is the conjugate.
     s::goertzel<T> mirror = s::goertzel<T>::at_bin(n - k, n);
     mirror.update(x);
-    EXPECT_NEAR(mirror.phase(), -phi, tol / T(n));
+    EXPECT_NEAR(static_cast<double>(mirror.phase()), static_cast<double>(-phi), static_cast<double>(tol / T(n)));
 }
 
 TEST(GoertzelTones, ToneOnABinHasMagnitudeANOverTwoAndItsPhase)

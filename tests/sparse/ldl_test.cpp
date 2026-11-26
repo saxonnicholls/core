@@ -305,7 +305,13 @@ TEST(SparseLdlSymbolic, ReportsErrors)
             arrow.add(0, i, 1);
     }
     const matrix am = arrow.assemble();
-    std::vector<std::int16_t> cp16(am.cp.begin(), am.cp.end()), ri16(am.ri.begin(), am.ri.end()), p16(300), c16(300), lp16(301), w16(300);
+    const auto narrow16 = [](const auto& v) {   // each index cast, not converted inside the vector (MSVC C4244)
+        std::vector<std::int16_t> out(v.size());
+        for (std::size_t i = 0; i < v.size(); ++i)
+            out[i] = static_cast<std::int16_t>(v[i]);
+        return out;
+    };
+    std::vector<std::int16_t> cp16 = narrow16(am.cp), ri16 = narrow16(am.ri), p16(300), c16(300), lp16(301), w16(300);
     const sp::csc_view<const double, const std::int16_t> a16{300, 300, cp16, ri16, am.vx};
     EXPECT_EQ(sp::ldl_symbolic(a16, std::span<std::int16_t>(p16), std::span<std::int16_t>(c16), std::span<std::int16_t>(lp16), std::span<std::int16_t>(w16)).unwrap_err(),
               sp::sparse_error::insufficient_capacity);

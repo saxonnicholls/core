@@ -3,6 +3,54 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
+## 0.28.0 - 2026-11-27
+
+The version the family pins: 0.27.0 with the elementary algorithms usable at compile time from C++17, an MSVC build
+fix, and a README that says what is here.
+
+### Added
+
+- `algorithm.hpp`: `snicholls::fill`, `fill_n`, `copy`, `copy_n`, `copy_backward`, `iota`, `equal`, `reverse` and
+  `swap_ranges`, with range forms of `fill`, `iota` and `equal` (which compares lengths first). Plain loops,
+  `constexpr` from C++17 (the standard's are `constexpr` only from C++20) and `noexcept` exactly when the element
+  operations are: for tables built at compile time in ts-moveables and other C++17 code, for device kernels, and for
+  clearing a buffer without `memset`. Compiled as C++17 by `snicholls_core_cpp17_check`; a benchmark against
+  `std::fill`, `std::copy` and the hand-written loop.
+
+### Fixed
+
+- `fn::match` over a `std::variant` gives every alternative's case the first alternative's result type, as its
+  documentation says: a later case returning `int` where the first returns `long` is converted, where `std::visit`
+  refused the mixed types before. The test that claimed it had passed only because its `[](int)` case also took the
+  `double` alternative.
+- Windows: two tests assumed a 64-bit `long` (`1L << 62`, `9'876'543'210L`); they use `long long`. The key store's
+  test key pattern starts from a `std::uint8_t`, not an `int`.
+- MSVC: the tests and demos build at `/W4 /WX`: narrowing made explicit, and C4702 (the optimiser's unreachable code
+  after a callback that always throws) and C4834 (a `[[nodiscard]]` fsm action as the left operand of the overloaded
+  comma) off for test code only.
+- MSVC: the single-include check (`snicholls_core_single_include`) is compiled with `/Zc:preprocessor`. It does not link
+  `snicholls::core`, so it missed the one flag the target propagates, and MSVC's traditional preprocessor stopped at
+  the struct binders' 256-deep member lists (C1009, "macros nested too deeply"). A consumer of the single include on
+  MSVC needs `/Zc:preprocessor` too, as every consumer of core on MSVC already does.
+
+### Known issues
+
+- **Windows (MSVC) does not build the tests of 0.28.0.** The library's headers each compile alone at `/W4 /WX`, and
+  the single include compiles, but 21 errors remain in the tests and demos of `functional/` and `fsm/` (new in
+  0.25-0.27, never built on MSVC before):
+  - 15 compile-time checks MSVC cannot evaluate (C2131, C2607);
+  - fsm's size checks (C2338): MSVC ignores `[[no_unique_address]]` and needs `[[msvc::no_unique_address]]`, so a
+    machine is larger there than documented;
+  - an access error in `money/rate.hpp` (C2248).
+
+  No consumer builds on Windows, the leg is not blocking (CLAUDE.md), and the release went out without it. The port
+  is queued for 0.28.1.
+
+### Changed
+
+- README: what is here, area by area (state machines, functional programming, tracking, signal processing,
+  optimisation, geometry, hashing, the capability contracts and the rest), and the version to pin.
+
 ## 0.27.0 - 2026-11-26
 
 The release core is pinned at for the next few weeks: one version across the family. Trade and settlement dates on

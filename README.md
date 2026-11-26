@@ -6,8 +6,19 @@
 **Documentation:** <https://saxonnicholls.github.io/core/>: the newest release at the root, every version under
 `/vX.Y.Z/`, and the latest `main` under `/main/`.
 
-The vocabulary types and the compile-time reflection shared by the snicholls C++ libraries, in one header-only,
-standard-library-only, C++20 library at the bottom of the stack.
+A header-only C++20 library that depends on nothing but the standard library, and puts as much as it can into the
+compiler. It holds what the snicholls libraries share: vocabulary types, reflection, exact money and time. It also
+holds a large body of numerics in the same style:
+- state machines;
+- functional programming in the manner of Haskell, OCaml and Rust;
+- signal processing, target tracking and optimisation;
+- statistics and game-theoretic attribution;
+- option pricing;
+- the primitives of transformer models.
+
+Almost everything is `constexpr`, allocation-free and checked against a reference implementation. It has
+more than 400 headers, each with its tests, a demo that checks itself and its documentation, and five showcase programs that
+combine many areas into one program.
 
 ## Why
 
@@ -24,37 +35,124 @@ sockets or codecs; those are the business of the libraries above it.
 ## What is here
 
 For how the pieces fit together, start with [the patterns page](docs/PATTERNS.md): each pattern's problem, its
-types and compiled examples.
+types and compiled examples. For whole programs, see [`showcase/`](showcase/).
 
-- **Vocabulary types:** `overloaded` and `first_match`, `fixed_string`, `function_ref`, `result<V, E>` and
-  `traced<E>`, `strong<T, Tag>`, `uuid`, `decimal`, `uint256`, `inplace_string<N>`, checked arithmetic, UTC time and
-  RFC 3339, ISO 8601 week dates.
-- **Compile-time loops and types:** `constexpr_for` and `constexpr_nest`, `type_list` (filter, products,
-  permutations), `thread_apply`, `zip`, enum reflection, and reflection over plain aggregates.
-- **Containers:** `inplace_vector`, `static_map`, `perfect_map`, `md_array` and `md_span` (row-major, column-major
-  and strided views, `submdspan`), `byte_map` (byte strings to 32-bit values, for a BPE vocabulary), allocation-free
-  id maps and pools, and the platform-free half of mapped storage (`index_pool`, `mapped_header`, `offset_ptr`).
+### Foundations
+
+- **Vocabulary types:** `overloaded` and `first_match`, `fixed_string`, `function_ref`, `result<V, E>` (Rust's `?`
+  as `SNICHOLLS_TRY`) and `traced<E>`, `strong<T, Tag>`, `uuid` (v4, v5, v7), `decimal`, `uint256`,
+  `inplace_string<N>`, checked arithmetic, `secret<T>`, E.164 phone numbers, ISO 3166 countries.
+- **Compile-time loops, types and algorithms:** `constexpr_for` and `constexpr_nest`, `type_list` (filter, products,
+  permutations), `thread_apply`, `zip`, `invoke_with`, and `fill`, `copy`, `iota`, `equal` and `reverse` usable at
+  compile time from C++17.
+- **Reflection:** member counts, `tie` / `to_tuple` / `from_tuple` over plain aggregates (up to 256 members), enum
+  names without a table, type names, and a classification of every string and byte-sequence type with zero-copy
+  access.
+- **Presentation:** colour, labels, number formats and tooltips declared once as compile-time attributes of a type
+  (P&L green up, red down), read by `acout`, thread-safe printing of any value, container or tuple, and exported as
+  JSON for imgui and React.
+- **Containers:** `inplace_vector`, `static_map` and `perfect_map` built by the compiler, `md_array` and `md_span`
+  (`submdspan`), a k-d tree with bounded, tie-ordered queries, an approximate-nearest-neighbour forest, a Bloom
+  filter, a hierarchical bitset, an intrusive AVL tree, id maps and object pools, `byte_map` for a BPE vocabulary,
+  and the platform-free half of mapped storage (`index_pool`, `mapped_header`, `offset_ptr`).
+- **Hashing, at compile time:** SHA-1, SHA-2, SHA-3 and Keccak-256, BLAKE2 and BLAKE3, RIPEMD-160, CRC-32/32C/64,
+  FNV-1a and wyhash; HMAC, HKDF, PBKDF2 and scrypt; constant-time compare and a wipe the optimiser may not remove.
+
+### Money, time and markets
+
+- **Exact money:** `money` (256-bit, any asset), ISO 4217 currencies and the major chains' native assets and tokens
+  as types, exact rates and conversion with a named rounding, exact ratios and year fractions.
+- **Time:** `utc<D>` with RFC 3339 text, identical on every platform (checked against fixtures generated from an
+  independent implementation), ISO 8601 week dates, civil calendar arithmetic, business days, and the sun's position.
 - **Market conventions:** day counts (ACT/360, ACT/365F, 30/360, 30E/360, ACT/ACT ISDA) with exact year fractions,
-  business-day rules over the caller's holiday calendar, and the check digits of ISIN, IBAN, LEI, CUSIP, SEDOL and
-  Luhn.
+  business-day rules over the caller's calendar, dated cash flows and the cash ladder, time- and money-weighted
+  returns, and the check digits of ISIN, IBAN, LEI, CUSIP, SEDOL and Luhn.
+- **Option pricing by the compiler:** Black-Scholes-Merton and its greeks in closed form, binomial trees for American
+  exercise on the Snell envelope, P&L explained by greek and factor.
+
+### State machines and functional programming
+
+- **State machines** (`fsm/`) in sml's notation, `*state<A> + event<E> [guard] / action = state<B>`, checked by the
+  compiler. They are saved and loaded through any key-value store, drawn as Mermaid, DOT or PlantUML, and come with
+  the reference lifecycles of payments, trades, fund applications and corporate actions. The demos also run them
+  functionally: as a fold over events, as event sourcing, as Mealy machines, as a railway of `result`s and as a
+  reachability check at compile time.
+- **Functional programming** (`functional/`), all `constexpr`:
+  - Haskell's type classes as concepts (Semigroup, Monoid, Functor, Applicative, Monad, Foldable), with instances for
+    `optional` (Maybe), `result` (Either), tuples, `array`, `vector`, strings and `inplace_vector`;
+  - the Reader, Writer and State monads;
+  - folds, scans and unfolds, and recursion schemes (`cata`, `ana`, `hylo`, `para`) with a trampoline;
+  - lazy values and infinite streams;
+  - currying, placeholders and pattern matching with guards;
+  - Data.List over fixed-size arrays, and type-level `map` / `filter` / `fold`;
+  - OCaml's Option, Result and List modules, and Rust's `Option` methods, iterators and slices;
+  - Wolfram-style rewriting by rules (`/.` and `//.`), and functions lifted pointwise into an algebra.
+
+### Mathematics and numerics
+
+- **Maths:** `constexpr` elementary and special functions (gamma, erf, Lambert W, Bessel, the normal quantile) in any
+  floating-point type, root finding (Brent, safeguarded Newton), and complex numbers usable at compile time.
 - **Linear algebra:** an interface resolved at compile time (BLAS operations, LU, Cholesky, LDLT, QR, least squares,
   the symmetric eigenproblem, SVD, batched solves with a status per system) over `md_span` views, a
-  standard-library reference backend, and a conformance suite for backends in other libraries. On top of it, the
-  randomised truncated SVD (the leading `k` factors of a large matrix, with an interchangeable random sketch). A GPU
-  backend (OpenCL) is [snicholls-gpu](https://github.com/saxonnicholls/gpu).
-- **Numerics:** `constexpr` maths for any floating-point type, random numbers (with interchangeable Gaussian
-  samplers) and the bootstrap, Sobol sequences,
-  online accumulators, one-pass pivot tables, martingale tools and the Snell envelope, and Shapley and Owen values.
-- **Printing:** `acout`, thread-safe printing of any value, container or tuple, with compile-time display
-  attributes (colour, label, format, tooltip) exported to JSON for other front ends.
-- **Machine learning (experimental):** the primitives (activations with their derivatives, softmax and
-  cross-entropy, a running softmax that merges across workers, LayerNorm and RMSNorm, RoPE, one-pass attention with
-  mergeable partials, embeddings, sampling, bfloat16, float16, FP8 and the MX formats, ggml's Q8_0, Q4_0 and MXFP4
-  blocks, byte-level BPE that gives tiktoken's tokens); the transformer layer, configured at compile time for GPT-2,
-  Llama and nanochat shapes, with a KV cache (flat, ring or paged) for decoding; and training: the backward pass of
-  every primitive, the attention layer, the MLP and the block, checked against llm.c and central differences, the
-  LM-head loss, AdamW and Muon, and batched products through any linalg backend. Everything is `constexpr` and
-  allocation-free.
+  standard-library reference backend, and a conformance suite for backends in other libraries. On top of it:
+  - fixed-size matrices for state estimation;
+  - the conjugate-gradient and MINRES solvers;
+  - the randomised truncated SVD.
+
+  A GPU backend (CUDA and OpenCL) is [snicholls-gpu](https://github.com/saxonnicholls/gpu).
+- **Sparse matrices and optimisation:** CSC matrices, AMD and reverse Cuthill-McKee orderings, a sparse LDLᵀ of
+  quasi-definite systems; L-BFGS, Armijo and strong-Wolfe line searches, proximal operators, projections onto the
+  cones of conic optimisation, and Ruiz equilibration.
+- **Signal processing:** FFTs of any length at compile time and at run time, the DCT and DST, convolution, FIR design
+  by windowed sinc, IIR biquads and Butterworth sections, Goertzel detectors, the Hilbert transform, polyphase
+  resampling, the STFT and its inverse, and mel spectrograms. Each matches scipy, librosa or torch.
+- **Statistics:** random generators that reproduce on every standard library, the bootstrap (by counts, balanced,
+  stationary for returns), Sobol and Halton sequences, streaming accumulators that merge across workers, covariance
+  with Ledoit-Wolf shrinkage, RANSAC, particle resampling, and one-pass pivot tables whose keys and measures are
+  types.
+- **Stochastic processes:** martingale tools (the Doob decomposition, quadratic variation, Markov chains) and the Snell
+  envelope of optimal stopping.
+- **Game theory and attribution:** Shapley values exactly or by sampling, Owen values for groups, Harsanyi dividends,
+  the properties of a game, and "why did the value move" over any model.
+- **Combinatorics:** permutations, partitions, subsets and tuples at compile time, and the linear assignment problem.
+
+### Tracking, geometry and distances
+
+- **Target tracking** (`tracking/`):
+  - Kalman, extended, unscented and cubature filters, with the information form;
+  - motion models (constant velocity, Singer, constant turn) and sensor models (bearing-range and others);
+  - probabilistic and joint probabilistic data association;
+  - covariance intersection for fusion with unknown correlation;
+  - Gaussian-mixture reduction, and hidden-Markov filters for a target's class.
+- **Geometry:** WGS 84 geodetic, ECEF and local ENU coordinates, polar and spherical frames, rigid and similarity
+  alignment (Umeyama), boxes with IoU, GIoU and non-max suppression, and pinhole cameras.
+- **Metrics:** Minkowski, cosine and angular, Hamming and Jaccard, haversine, Mahalanobis, Hellinger and KL, the
+  edit distance, and the set distances OSPA, GOSPA and Hausdorff. Each one plugs into the k-d tree and the
+  nearest-neighbour forest.
+
+### Capability contracts
+
+- **Interfaces** (`concepts/`, `interfaces/`): 34 capabilities, each a concept and its virtual twin, with a reference
+  implementation and a conformance kit that other libraries' implementations must pass. They include payments, key
+  stores and signers, token verification, key-value stores, HTTP and SQL clients, random sources, uuid generators,
+  time zones, task pools and loop clocks.
+
+### Machine learning (experimental)
+
+- **The primitives:**
+  - activations with their derivatives, softmax and cross-entropy, and a running softmax that merges across workers;
+  - LayerNorm and RMSNorm, RoPE, and one-pass attention with mergeable partials;
+  - embeddings and sampling;
+  - bfloat16, float16, FP8 and the MX formats, and ggml's quantised blocks (Q8_0, Q4_0, MXFP4, the K-quants, the
+    IQ formats);
+  - byte-level BPE that gives tiktoken's tokens, SentencePiece, WordPiece and unigram tokenizers.
+- **The layers:** transformers configured at compile time for GPT-2, Llama and nanochat shapes, with a KV cache
+  (flat, ring or paged) for decoding. There are also mixture-of-experts, latent attention, state-space and
+  linear-attention mixers, LoRA and speculative decoding.
+- **Training:** the backward pass of every primitive, checked against llm.c and central differences, AdamW and Muon,
+  and DiLoCo.
+
+All of `ml/` is `constexpr` and allocation-free.
 
 `CHANGELOG.md` lists every header by release.
 
@@ -83,7 +181,7 @@ As a git submodule, pinned to a release tag:
 
 ```cmake
 add_subdirectory(third_party/core EXCLUDE_FROM_ALL)
-snicholls_core_require(0.5.0)
+snicholls_core_require(0.28.0)
 target_link_libraries(my_target PRIVATE snicholls::core)
 
 # last line of the top-level CMakeLists.txt
@@ -93,7 +191,7 @@ snicholls_core_assert_single_version()
 Installed, with `cmake --install`:
 
 ```cmake
-find_package(snicholls_core 0.5 REQUIRED)
+find_package(snicholls_core 0.28 REQUIRED)
 target_link_libraries(my_target PRIVATE snicholls::core)
 ```
 
@@ -102,8 +200,8 @@ In code:
 ```cpp
 #include <snicholls/core/version.hpp>
 
-SNICHOLLS_CORE_REQUIRE_VERSION(0, 5, 0);   // fails to compile against an older core
-static_assert(snicholls::core::version() >= SNICHOLLS_CORE_VERSION_CHECK(0, 5, 0));
+SNICHOLLS_CORE_REQUIRE_VERSION(0, 28, 0);   // fails to compile against an older core
+static_assert(snicholls::core::version() >= SNICHOLLS_CORE_VERSION_CHECK(0, 28, 0));
 ```
 
 ### Two copies in one build

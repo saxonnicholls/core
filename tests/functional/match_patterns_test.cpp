@@ -102,7 +102,9 @@ constexpr int route(const res& r)
 static_assert(route(ok(5)) == 5 && route(err(e::stale)) == 0 && route(err(e::crossed)) == -1);
 
 // The result type is the first unguarded case's; later cases convert to it.
-static_assert(std::is_same_v<decltype(fn::match(std::variant<int, double>{1}, [](int) { return 1L; }, [](double) { return 2; })), long>);
+static_assert(std::is_same_v<decltype(fn::match(std::variant<int, const char*>{1}, [](int) { return 1L; }, [](const char*) { return 2; })), long>);
+static_assert(fn::match(std::variant<int, const char*>{"x"}, [](int) { return 1L; }, [](const char*) { return 2; }) == 2L,
+              "the second alternative's int is converted to the first's long");
 
 TEST(FunctionalMatchPatterns, OverStringsAtRunTime)
 {

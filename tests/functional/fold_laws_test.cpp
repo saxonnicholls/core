@@ -61,9 +61,9 @@ static_assert(fn::foldl_of(plus, 0, std::tuple{1, 2.5, 3.0f}) == 6.5);
 static_assert(fn::foldr_of([](auto x, auto acc) { return acc * 10 + x; }, 0, std::tuple{1, 2L, short{3}}) == 321);
 
 // iterate_n composes: n then m applications is n + m.
-constexpr auto twice = [](long x) { return 2 * x; };
-static_assert(fn::iterate_n(twice, 3)(fn::iterate_n(twice, 4)(1L)) == fn::iterate_n(twice, 7)(1L));
-static_assert(fn::iterate_n(twice, 1L, 62) == (1L << 62));
+constexpr auto twice = [](long long x) { return 2 * x; };   // long long: long is 32 bits on Windows
+static_assert(fn::iterate_n(twice, 3)(fn::iterate_n(twice, 4)(1LL)) == fn::iterate_n(twice, 7)(1LL));
+static_assert(fn::iterate_n(twice, 1LL, 62) == (1LL << 62));
 
 // unfold: Fibonacci and the powers of two, as std::arrays.
 constexpr auto fibs = fn::unfold<10>(std::pair{0, 1}, [](std::pair<int, int> s) { return std::pair{s.first, std::pair{s.second, s.first + s.second}}; });

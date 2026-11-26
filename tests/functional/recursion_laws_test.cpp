@@ -34,22 +34,23 @@ static_assert(fn::cata(minus, 9, std::array<int, 0>{}) == 9);
 
 // ---- ana: digits of a number, least significant first -----------------------------------------------------------------
 
-constexpr auto digits = [](long n) { return n == 0 ? std::nullopt : std::optional{std::pair{static_cast<int>(n % 10), n / 10}}; };
-static_assert(fn::ana<20>(digits, 9'876L).size() == 4 && fn::ana<20>(digits, 9'876L)[0] == 6);
-static_assert(fn::ana<2>(digits, 9'876L).size() == 2);                                          // the bound stops it
-static_assert(fn::ana<5>(digits, 0L).empty());
+constexpr auto digits = [](long long n) {   // long long: long is 32 bits on Windows
+    return n == 0 ? std::nullopt : std::optional{std::pair{static_cast<int>(n % 10), n / 10}}; };
+static_assert(fn::ana<20>(digits, 9'876LL).size() == 4 && fn::ana<20>(digits, 9'876LL)[0] == 6);
+static_assert(fn::ana<2>(digits, 9'876LL).size() == 2);                                          // the bound stops it
+static_assert(fn::ana<5>(digits, 0LL).empty());
 
 // ---- hylo = cata . ana, fused ------------------------------------------------------------------------------------------
 
-constexpr int digit_sum_hylo(long n) { return fn::hylo([](int acc, int d) { return acc + d; }, 0, digits, n); }
-constexpr int digit_sum_two_pass(long n)
+constexpr int digit_sum_hylo(long long n) { return fn::hylo([](int acc, int d) { return acc + d; }, 0, digits, n); }
+constexpr int digit_sum_two_pass(long long n)
 {
     const auto ds = fn::ana<20>(digits, n);
     int s = 0;
     for (int d : ds) s += d;
     return s;
 }
-static_assert(digit_sum_hylo(9'876'543'210L) == 45 && digit_sum_hylo(9'876'543'210L) == digit_sum_two_pass(9'876'543'210L));
+static_assert(digit_sum_hylo(9'876'543'210LL) == 45 && digit_sum_hylo(9'876'543'210LL) == digit_sum_two_pass(9'876'543'210LL));
 
 // Binary representation by hylo: the bits unfolded, folded back into a decimal-looking number.
 constexpr auto bits = [](unsigned n) { return n == 0 ? std::nullopt : std::optional{std::pair{n % 2, n / 2}}; };

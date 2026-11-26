@@ -41,8 +41,8 @@
 // stops the compile instead. The macros are defined inside the guard, so the version is written out here again, and
 // scripts/check_version.py checks that the two agree.
 #if defined(SNICHOLLS_CORE_VERSION_MAJOR) && \
-    (SNICHOLLS_CORE_VERSION_MAJOR != 0 || SNICHOLLS_CORE_VERSION_MINOR != 27 || SNICHOLLS_CORE_VERSION_PATCH != 0)
-#error "snicholls-core: two versions in one translation unit: 0.27.0 here, and another already included"
+    (SNICHOLLS_CORE_VERSION_MAJOR != 0 || SNICHOLLS_CORE_VERSION_MINOR != 28 || SNICHOLLS_CORE_VERSION_PATCH != 0)
+#error "snicholls-core: two versions in one translation unit: 0.28.0 here, and another already included"
 #endif
 
 #ifndef snicholls_core_version_hpp
@@ -58,7 +58,7 @@
 /// \brief Major version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_MAJOR 0
 /// \brief Minor version of snicholls-core.
-#define SNICHOLLS_CORE_VERSION_MINOR 27
+#define SNICHOLLS_CORE_VERSION_MINOR 28
 /// \brief Patch version of snicholls-core.
 #define SNICHOLLS_CORE_VERSION_PATCH 0
 
