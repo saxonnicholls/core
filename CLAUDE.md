@@ -288,7 +288,8 @@ CTest (label `benchmark`).
 
 Every public entity is documented in the source with Doxygen. Warnings are errors for everything from the first
 header (`docs/Doxyfile.in`, `WARN_AS_ERROR = FAIL_ON_WARNINGS`). There is no list of unconverted modules to shrink,
-because nothing is admitted unconverted. Build: `make docs`, or `-DSNICHOLLS_CORE_BUILD_DOCS=ON` and the `docs`
+because nothing is admitted unconverted. `docs/PATTERNS.md` (`\ref patterns`) is the map of how the pieces fit together: a new
+pattern, or a header that changes one, updates it in the same change, with `\snippet`s from compiled demos only. Build: `make docs`, or `-DSNICHOLLS_CORE_BUILD_DOCS=ON` and the `docs`
 target; output `build-docs/docs/html/index.html`. CI builds it on every push and publishes it to GitHub Pages
 (<https://saxonnicholls.github.io/core/>): `main` to `/main/`, each release tag to `/vX.Y.Z/`, the root to the newest
 release. The `gh-pages` branch is generated; never edit it.
