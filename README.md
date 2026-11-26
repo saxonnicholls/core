@@ -23,6 +23,9 @@ sockets or codecs; those are the business of the libraries above it.
 
 ## What is here
 
+For how the pieces fit together, start with [the patterns page](docs/PATTERNS.md): each pattern's problem, its
+types and compiled examples.
+
 - **Vocabulary types:** `overloaded` and `first_match`, `fixed_string`, `function_ref`, `result<V, E>` and
   `traced<E>`, `strong<T, Tag>`, `uuid`, `decimal`, `uint256`, `inplace_string<N>`, checked arithmetic, UTC time and
   RFC 3339, ISO 8601 week dates.
