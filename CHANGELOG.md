@@ -33,6 +33,19 @@ fix, and a README that says what is here.
   the struct binders' 256-deep member lists (C1009, "macros nested too deeply"). A consumer of the single include on
   MSVC needs `/Zc:preprocessor` too, as every consumer of core on MSVC already does.
 
+### Known issues
+
+- **Windows (MSVC) does not build the tests of 0.28.0.** The library's headers each compile alone at `/W4 /WX`, and
+  the single include compiles, but 21 errors remain in the tests and demos of `functional/` and `fsm/` (new in
+  0.25-0.27, never built on MSVC before):
+  - 15 compile-time checks MSVC cannot evaluate (C2131, C2607);
+  - fsm's size checks (C2338): MSVC ignores `[[no_unique_address]]` and needs `[[msvc::no_unique_address]]`, so a
+    machine is larger there than documented;
+  - an access error in `money/rate.hpp` (C2248).
+
+  No consumer builds on Windows, the leg is not blocking (CLAUDE.md), and the release went out without it. The port
+  is queued for 0.28.1.
+
 ### Changed
 
 - README: what is here, area by area (state machines, functional programming, tracking, signal processing,
