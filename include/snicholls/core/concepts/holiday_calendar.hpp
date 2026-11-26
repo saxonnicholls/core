@@ -19,7 +19,9 @@
 /// \snippet concepts/holiday_calendar_demo.cpp holiday_calendar
 ///
 /// **Relationships.** `finance/business_day.hpp` (the adjustment rules, `finance::weekend_calendar`, the reference
-/// calendar, and `finance::weekends_and_holidays`, a calendar from a predicate), `interfaces/holiday_calendar.hpp`,
+/// calendar, and `finance::weekends_and_holidays`, a calendar from a predicate; since 0.27.0 also crtp's calendar
+/// operations over any model: `end_of_month`, `advance_business_days`, `advance_months`, `count_business_days`,
+/// `holidays_between`, `joint_calendar`, `adjusted_calendar`), `interfaces/holiday_calendar.hpp`,
 /// `interfaces/holiday_calendar_conformance.hpp`, `time/business_days.hpp` (Monday to Friday arithmetic).
 /// Group: \ref core.
 ///
@@ -38,7 +40,7 @@
 ///
 /// **Known issues.** None.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; the calendar operations over it in 0.27.0.
 
 #ifndef snicholls_core_concepts_holiday_calendar_hpp
 #define snicholls_core_concepts_holiday_calendar_hpp
