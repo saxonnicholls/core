@@ -58,7 +58,7 @@ std::optional<token_claims> by_hand(std::string_view token, const std::vector<to
 }
 
 struct fixture {
-    memory_token_verifier verifier{secret<std::string>{key}, [] { return utc_s::from_unix_seconds(1'800'000'000); }};
+    memory_token_verifier verifier{secret<std::string>{key}, manual_utc_clock{utc_s::from_unix_seconds(1'800'000'000)}};
     std::vector<token_claims> issued{the_claims()};
     std::string token = verifier.issue(the_claims());
 };
