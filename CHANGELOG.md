@@ -14,11 +14,26 @@ A version is released when its tag is on a commit where every blocking CI leg is
   `available_at` (an instant a provider gives, Stripe's `available_on`). `validate(fact_dates)` refuses a fact known
   or settled before it happened and an estimate without a date; each fact's `validate` runs it. `same_content`
   compares dates without `known_at`. Migration: `f.occurred_at` becomes `f.dates.trade_at`, and set `f.dates.known_at`.
+- **`finance::year_fraction` is `finance::ratio`** (an alias), source-compatible: the constructor, `numerator()`,
+  `denominator()`, `to_double()`, `==` and `<=>` are unchanged, and `<=>` is now exact for every pair (it
+  cross-multiplied in 64 bits). Its parts may no longer be `INT64_MIN` (asserted).
 
 ### Added
 
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
+- **`finance::ratio`** (`finance/ratio.hpp`): one exact rational for `finance/`, `int64` numerator over a positive
+  denominator in lowest terms; `make` and `parse` (`"3/2"`, `"-1.25"`, `"13.24%"`) with `ratio_errc`; checked `add`,
+  `subtract` and `multiply` (cancelled across first); `inverse`; an exact `<=>` for every pair. For split and rights
+  ratios, cost apportionments, repo rates and exact returns.
+- **`finance::day_count_basis`** and `accrual_fraction(basis, start, end)` (`finance/day_count.hpp`): a convention as a
+  stable value, for data that names one.
+- **`finance/returns.hpp`**: exact `period_return`, `time_weighted_return` (chained sub-periods) and `modified_dietz`
+  from `money`; in `double`, `time_weighted_return` over returns, `irr` and `irr_roots` (flows one period apart),
+  `xirr` (dated, ACT/365F) and `money_weighted_return` (annualised), by Brent's method behind Descartes' rule of signs,
+  with `returns_errc::no_root` and `multiple_roots`. Tested against numpy-financial 1.0.0 and exact references in
+  Python's `decimal` and `fractions` (`scripts/generate_returns_fixtures.py`, CTest
+  `generated.returns_fixtures_up_to_date`, skipped without numpy-financial).
 
 ## 0.24.1 - 2026-11-26
 

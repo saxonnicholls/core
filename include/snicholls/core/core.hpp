@@ -101,6 +101,8 @@
 #include <snicholls/core/finance/attribution.hpp>
 #include <snicholls/core/finance/business_day.hpp>
 #include <snicholls/core/finance/day_count.hpp>
+#include <snicholls/core/finance/ratio.hpp>
+#include <snicholls/core/finance/returns.hpp>
 #include <snicholls/core/finance/year_fraction.hpp>
 #include <snicholls/core/fsm/diagram.hpp>
 #include <snicholls/core/fsm/lifecycle.hpp>

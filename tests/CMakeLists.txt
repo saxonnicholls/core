@@ -86,6 +86,8 @@ add_executable(snicholls_core_tests
     finance/attribution_test.cpp
     finance/business_day_test.cpp
     finance/day_count_test.cpp
+    finance/ratio_test.cpp
+    finance/returns_test.cpp
     finance/year_fraction_test.cpp
     fsm/diagram_test.cpp
     fsm/lifecycle_test.cpp
@@ -463,6 +465,11 @@ set_tests_properties(generated.week_date_fixtures_up_to_date PROPERTIES LABELS b
 add_test(NAME generated.goertzel_fixtures_up_to_date
     COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_goertzel_fixtures.py --check)
 set_tests_properties(generated.goertzel_fixtures_up_to_date PROPERTIES LABELS boundary)
+# The returns oracle fixture (tests/fixtures/finance/returns.txt) must be what scripts/generate_returns_fixtures.py
+# computes with numpy-financial, decimal and fractions; skipped when numpy-financial 1.0.0 is not installed.
+add_test(NAME generated.returns_fixtures_up_to_date
+    COMMAND Python3::Interpreter -I ${PROJECT_SOURCE_DIR}/scripts/generate_returns_fixtures.py --check)
+set_tests_properties(generated.returns_fixtures_up_to_date PROPERTIES LABELS boundary)
 
 # Compile-fail tests. Each case in compile_fail/ is one source built twice, as
 # an object library outside ALL: with SNICHOLLS_COMPILE_FAIL defined it must

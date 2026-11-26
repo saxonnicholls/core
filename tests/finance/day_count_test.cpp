@@ -105,6 +105,22 @@ TEST(FinanceDayCount, ActActIsdaSumsWholeYearsExactly)
     }
 }
 
+// a basis names a convention: the same fraction as the type, and stable values
+static_assert(accrual_fraction(day_count_basis::act_360, day(2024, 1, 1), day(2024, 4, 1)) == year_fraction{91, 360});
+static_assert(noexcept(accrual_fraction(day_count_basis::act_360, std::declval<sys_days>(), std::declval<sys_days>())));
+static_assert(static_cast<int>(day_count_basis::act_360) == 1 && static_cast<int>(day_count_basis::act_act_isda) == 5);
+
+TEST(FinanceDayCount, ABasisGivesItsConventionsFraction)
+{
+    const sys_days a = day(2023, 12, 15), b = day(2024, 3, 31);
+    EXPECT_EQ(accrual_fraction(day_count_basis::act_360, a, b), act_360::year_fraction(a, b));
+    EXPECT_EQ(accrual_fraction(day_count_basis::act_365_fixed, a, b), act_365_fixed::year_fraction(a, b));
+    EXPECT_EQ(accrual_fraction(day_count_basis::thirty_360, a, b), thirty_360::year_fraction(a, b));
+    EXPECT_EQ(accrual_fraction(day_count_basis::thirty_e_360, a, b), thirty_e_360::year_fraction(a, b));
+    EXPECT_EQ(accrual_fraction(day_count_basis::act_act_isda, a, b), act_act_isda::year_fraction(a, b));
+    EXPECT_EQ(accrual_fraction(static_cast<day_count_basis>(0), a, b), year_fraction{}) << "not an enumerator";
+}
+
 TEST(FinanceDayCount, EveryConventionPassesTheConformanceKit)
 {
     // a window over a leap February and a year end
