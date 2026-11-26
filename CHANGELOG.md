@@ -30,6 +30,15 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`finance::year_fraction` is `finance::ratio`** (an alias), source-compatible: the constructor, `numerator()`,
   `denominator()`, `to_double()`, `==` and `<=>` are unchanged, and `<=>` is now exact for every pair (it
   cross-multiplied in 64 bits). Its parts may no longer be `INT64_MIN` (asserted).
+- **`fsm::load` refuses a record it cannot trust** (breaking for records of a renamed machine or state): a record
+  saved by a machine of another name is `fsm_errc::wrong_machine` (it was restored by enumerator value into whatever
+  machine read it), and a state whose recorded name is not the name of the state its value restores is
+  `fsm_errc::state_name_mismatch` (an enumerator renamed, or the enumeration's values reordered, since the save), at
+  every level of a composite. Appending enumerators still keeps records valid. `sm::check_snapshot(slots)` is the
+  strict check, changing nothing; `restore_snapshot` still goes by value alone.
+- **`money::from_units(asset, -40)` is minus 40 units**, as is `money_of<T>::from_units(-40)`: a signed integer keeps
+  its own sign (`negative` reverses it), where it converted silently to the magnitude 2^64 - 40. Unsigned and `uint256`
+  magnitudes are unchanged.
 
 ### Added
 
