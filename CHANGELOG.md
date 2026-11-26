@@ -41,7 +41,8 @@ A version is released when its tag is on a commit where every blocking CI leg is
 - **`finance::ratio`** (`finance/ratio.hpp`): one exact rational for `finance/`, `int64` numerator over a positive
   denominator in lowest terms; `make` and `parse` (`"3/2"`, `"-1.25"`, `"13.24%"`) with `ratio_errc`; checked `add`,
   `subtract` and `multiply` (cancelled across first); `inverse`; an exact `<=>` for every pair. For split and rights
-  ratios, cost apportionments, repo rates and exact returns.
+  ratios, cost apportionments, repo rates and exact returns. `benchmarks/finance/ratio_benchmark.cpp` measures `<=>`
+  and `multiply` against the hand-written 64-bit forms.
 - **`finance::day_count_basis`** and `accrual_fraction(basis, start, end)` (`finance/day_count.hpp`): a convention as a
   stable value, for data that names one.
 - **`finance/returns.hpp`**: exact `period_return`, `time_weighted_return` (chained sub-periods) and `modified_dietz`

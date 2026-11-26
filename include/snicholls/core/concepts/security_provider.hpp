@@ -198,11 +198,18 @@ namespace snicholls {
     /// \return `true` when it does.
     [[nodiscard]] constexpr bool is_instrument_code(std::string_view code) noexcept
     {
-        const auto colon = code.find(':');
-        if (!is_asset_code(code) || colon == std::string_view::npos || colon == 0 || colon + 1 == code.size())
+        // A loop rather than find(): GCC 13 refuses string_view::find over an asset's own characters in a constant
+        // expression.
+        std::size_t colon = 0, colons = 0;
+        for (std::size_t i = 0; i < code.size(); ++i)
+            if (code[i] == ':') {
+                colon = i;
+                ++colons;
+            }
+        if (!is_asset_code(code) || colons != 1 || colon == 0 || colon + 1 == code.size())
             return false;
-        for (const char c : code.substr(colon + 1))
-            if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')))
+        for (std::size_t i = colon + 1; i < code.size(); ++i)
+            if (!((code[i] >= 'A' && code[i] <= 'Z') || (code[i] >= '0' && code[i] <= '9')))
                 return false;
         return true;
     }

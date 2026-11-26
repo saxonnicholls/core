@@ -22,7 +22,8 @@
 /// - `ratio::parse` reads `"3/2"`, `"7"`, `"-1.25"` and `"13.24%"` exactly.
 /// - `add`, `subtract` and `multiply` are exact and checked: `std::nullopt` when the result does not fit in 64 bits.
 ///   `multiply` cancels across before it multiplies, so a chain of returns or ratios stays small as long as it can.
-/// - `<=>` is exact for every pair (a continued-fraction comparison, no cross-multiplication to overflow).
+/// - `<=>` is exact for every pair: cross-multiplied while the products fit in 64 bits, and compared by continued
+///   fractions (only divisions) when they would not.
 /// - `to_double()` is for display and for code that wants a `double` anyway.
 ///
 /// Use it where an exact fraction is the answer; use `snicholls::rate` (`money/rate.hpp`) to convert an amount from
@@ -45,8 +46,10 @@
 /// `INT64_MIN` or does not fit), `malformed` (text that is not a ratio). The arithmetic returns `std::nullopt` on
 /// overflow.
 ///
-/// **Performance.** One `std::gcd` on construction; `<=>` is a few divisions. Not benchmarked on its own; see
-/// `finance/day_count.hpp`.
+/// **Performance.** One `std::gcd` on construction. `benchmarks/finance/ratio_benchmark.cpp`, 4,096 pairs of day-count
+/// fractions, Release, Apple clang 17, macOS x86-64, 2026-11-26, CPU time on a loaded machine (load 200, so a record,
+/// not a quote): `<=>` 10.0 us against 7.4 us for the bare 64-bit cross-multiplication (the overflow checks);
+/// `multiply` 648 us against 358 us for the same cancel-then-multiply unchecked and unnormalised.
 ///
 /// **Tests and demos.** `tests/finance/ratio_test.cpp`, `demos/finance/ratio_demo.cpp`.
 ///
@@ -218,8 +221,12 @@ namespace snicholls::finance {
         /// \return The order of `a` and `b`.
         friend constexpr std::strong_ordering operator<=>(const ratio& a, const ratio& b) noexcept
         {
-            // Compare a/b with c/d (b, d > 0) by their continued fractions: whole parts first, then the remainders'
+            // Cross-multiplied while the products fit (one multiply each, the usual case); otherwise
+            // compare a/b with c/d (b, d > 0) by their continued fractions: whole parts first, then the remainders'
             // inverses, with the order flipping at each inversion. Every step divides; nothing is multiplied.
+            const auto left = checked_mul(a.numerator_, b.denominator_), right = checked_mul(b.numerator_, a.denominator_);
+            if (left && right)
+                return *left <=> *right;
             std::int64_t p = a.numerator_, q = a.denominator_, r = b.numerator_, s = b.denominator_;
             bool flipped = false;
             for (;;) {
