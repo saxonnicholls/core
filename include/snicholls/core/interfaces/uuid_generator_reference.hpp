@@ -14,7 +14,7 @@
 /// `random_source_like` source, `concepts/random_source.hpp`, whose real implementation is ts-moveables' operating-system
 /// source; for tests a seeded one, or a callable returning `std::uint64_t` such as `stats::wyrand`, or
 /// `std::optional<std::uint64_t>` when it can fail) and a clock `Clock`
-/// (anything whose `now()` has `unix_millis()`, such as `manual_utc_clock`). Version 7 is monotonic by RFC
+/// (anything whose `now()` has `unix_millis()`: every `utc_clock`, such as `manual_utc_clock`, `time/utc_clock.hpp`). Version 7 is monotonic by RFC
 /// 9562 section 6.2, method 1: a 12-bit counter in `rand_a`, started from a random value below 2048 at each new
 /// millisecond and incremented within one; when it would overflow, or when the clock steps back, the timestamp moves
 /// one millisecond past the last one used instead. `reference_uuid_generator` is the deterministic one tests use.
@@ -41,7 +41,7 @@
 /// `demos/interfaces/uuid_generator_reference_demo.cpp`.
 ///
 /// **Dependencies.** `<array>`, `<chrono>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<system_error>`, `<type_traits>`, `<utility>`,
-/// `interfaces/uuid_generator.hpp`, `stats/random.hpp`, `time/utc.hpp`.
+/// `interfaces/uuid_generator.hpp`, `stats/random.hpp`, `time/utc.hpp`, `time/utc_clock.hpp`.
 ///
 /// **Known issues.** Predictable by design when the source is `wyrand`: a test double, never an identifier source in
 /// production.
@@ -55,6 +55,7 @@
 #include <snicholls/core/interfaces/uuid_generator.hpp>
 #include <snicholls/core/stats/random.hpp>
 #include <snicholls/core/time/utc.hpp>
+#include <snicholls/core/time/utc_clock.hpp>
 
 #include <array>
 #include <chrono>
@@ -85,28 +86,11 @@ namespace snicholls {
         requires std::same_as<decltype(r()), std::uint64_t> || std::same_as<decltype(r()), std::optional<std::uint64_t>>;
     };
 
-    /// \brief A clock a UUID generator reads: `c.now().unix_millis()`.
+    /// \brief A clock a UUID generator reads: `c.now().unix_millis()`. Every `utc_clock` (`time/utc_clock.hpp`) is one.
     /// \ingroup core
     template <typename C>
     concept uuid_clock = requires(const C& c) {
         { c.now().unix_millis() } -> std::convertible_to<std::int64_t>;
-    };
-
-    /// \brief A wall clock in milliseconds that moves only when told: the fixed clock of a deterministic generator.
-    /// \ingroup core
-    struct manual_utc_clock {
-        utc_ms t{};   ///< the instant it reads
-
-        /// \brief The instant.
-        /// \return `t`.
-        [[nodiscard]] constexpr utc_ms now() const noexcept { return t; }
-        /// \brief Moves forward by `d` (a negative `d` is ignored).
-        /// \param d The step.
-        constexpr void advance(std::chrono::milliseconds d) noexcept
-        {
-            if (d.count() > 0)
-                t += d;
-        }
     };
 
     namespace detail {

@@ -57,6 +57,25 @@ constexpr auto compile_time = [] {
 }();
 static_assert(compile_time == money::from_units(eth, uint256::pow10(21)));
 
+// to_double: display only, at compile time too
+static_assert(noexcept(money{}.to_double()));
+static_assert(money::from_units(aud, 210).to_double() == 2.1, "2.10 AUD is the double nearest 2.1");
+static_assert(money::from_units(aud, -40).to_double() == -0.4);
+static_assert(money::zero(aud).to_double() == 0.0 && money{}.to_double() == 0.0);
+static_assert(money_of<currency::AUD>::from_units(-1025).to_double() == -10.25);
+
+TEST(MoneyDouble, IsTheNearestDoubleForDisplay)
+{
+    EXPECT_EQ(m(eth, "1000.5").to_double(), 1000.5);
+    EXPECT_EQ(m(eth, "-0.000000000000000001").to_double(), -1e-18);
+    EXPECT_EQ(m(usdt, "123456.789012").to_double(), 123456.789012);
+    EXPECT_EQ(money::from_units(asset{}, uint256{7}).to_double(), 7.0) << "scale 0";
+    // beyond 2^64 minor units: within rounding of the exact value
+    const double big = money::from_units(eth, uint256::max()).to_double();
+    EXPECT_NEAR(big / 1.157920892373162e59, 1.0, 1e-15) << "2^256 - 1 wei";
+    EXPECT_EQ(money::from_units(eth, uint256::max(), true).to_double(), -big);
+}
+
 TEST(MoneyRepresentation, ZeroIsNeverNegative)
 {
     EXPECT_FALSE(money::from_units(aud, 0, true).is_negative());

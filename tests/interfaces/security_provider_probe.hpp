@@ -25,7 +25,7 @@ namespace snicholls::test {
 
     inline memory_security_provider make_security_provider()
     {
-        return memory_security_provider{secret<std::string>{"whsec_test_only"}, [] { return probe_time; }};
+        return memory_security_provider{secret<std::string>{"whsec_test_only"}, manual_utc_clock{probe_time}};
     }
 
     template <form F>

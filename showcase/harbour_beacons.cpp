@@ -184,9 +184,9 @@ int main()
 
     // Two workers' statistics merge into the single pass, exactly as far as rounding allows
     worker[1].merge(worker[0]);
-    acout{} << "  tone-to-runner-up ratio over " << one_pass.n << " blocks: mean " << snr_db{one_pass.mean()} << ", spread "
+    acout{} << "  tone-to-runner-up ratio over " << one_pass.count() << " blocks: mean " << snr_db{one_pass.mean()} << ", spread "
             << snr_db{one_pass.standard_deviation()} << '\n';
-    expect(worker[1].n == one_pass.n && std::abs(worker[1].mean() - one_pass.mean()) < 1e-12 &&
+    expect(worker[1].count() == one_pass.count() && std::abs(worker[1].mean() - one_pass.mean()) < 1e-12 &&
                std::abs(worker[1].value() - one_pass.value()) < 1e-9,
            "two workers' accumulators merge into one pass's");
 

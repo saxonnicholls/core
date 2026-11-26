@@ -35,7 +35,7 @@ const utc_s now = utc_s::from_unix_seconds(1'800'000'000);
 
 template <bool SettlesAtOnce>
 struct probe {
-    memory_security_provider impl{secret<std::string>{"whsec_demo_only"}, [] { return now; }};
+    memory_security_provider impl{secret<std::string>{"whsec_demo_only"}, manual_utc_clock{now}};
     auto& provider() { return impl; }
     money quantity() { return money::from_units(bhp, 100); }
     money consideration() { return -*parse_money(aud, "4512.50"); }

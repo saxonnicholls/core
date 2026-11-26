@@ -115,7 +115,7 @@ int main()
               !needs_ratio(security_fact_kind::demerger),
           "a demerger is an action with a second instrument and no ratio");
 
-    memory_security_provider broker{secret<std::string>{"whsec_demo_only"}, [] { return now; }};
+    memory_security_provider broker{secret<std::string>{"whsec_demo_only"}, manual_utc_clock{now}};
     static_cast<void>(broker.execute("ord-1", money::from_units(bhp, 100), -*parse_money(aud, "4512.50")));
     static_cast<void>(broker.settle("ord-1"));
     check(count_facts(broker) == 2, "code written against the concept reads the reference");

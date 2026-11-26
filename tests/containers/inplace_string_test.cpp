@@ -8,16 +8,19 @@
 //  comparison across capacities, hashing, and use as a template argument.
 //
 
+#include <snicholls/core/acout.hpp>
 #include <snicholls/core/containers/inplace_string.hpp>
 #include <snicholls/core/hash/fnv.hpp>
 
 #include <gtest/gtest.h>
 
 #include <cstring>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <type_traits>
 #include <unordered_set>
+#include <vector>
 
 namespace {
 
@@ -53,6 +56,26 @@ template <inplace_string<16> Id>
 constexpr std::string_view id_of() { return Id.view(); }
 static_assert(id_of<"order-7">() == "order-7");
 static_assert(&id_of<"a"> == &id_of<inplace_string<16>{"a"}>);   // one specialisation: equal values are one argument
+
+// text wherever a std::string_view is taken, and printable
+static_assert(std::is_nothrow_convertible_v<const inplace_string<8>&, std::string_view>);
+static_assert(std::string_view{inplace_string<8>{"ETH-PERP"}} == "ETH-PERP");
+static_assert(snicholls::printable_any<inplace_string<64>>);
+constexpr std::size_t length(std::string_view s) { return s.size(); }
+static_assert(length(inplace_string<8>{"ETH"}) == 3);
+
+TEST(ContainersInplaceString, PrintsAsTextAndQuotedInsideAContainer)
+{
+    const auto id = *inplace_string<64>::make("mem_pay_1");
+    std::ostringstream plain, nested, message;
+    snicholls::print_to(plain, id);
+    snicholls::print_to(nested, std::vector{id, inplace_string<64>{"mem_pay_2"}});
+    snicholls::acout{message} << "payment " << id;
+    EXPECT_EQ(plain.str(), "mem_pay_1");
+    EXPECT_EQ(nested.str(), R"(["mem_pay_1", "mem_pay_2"])");
+    EXPECT_EQ(message.str(), "payment mem_pay_1");
+    EXPECT_EQ(std::string{id}, "mem_pay_1") << "std::string's constructor from a view";
+}
 
 TEST(ContainersInplaceString, RefusesTextTooLongInsteadOfTruncating)
 {

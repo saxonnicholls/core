@@ -92,15 +92,12 @@ constexpr std::array<fill, 7> blotter{{
 
 // The day's P&L, folded over the blotter by the compiler, exactly.
 constexpr money day_total = fn::foldl_of([](money a, const fill& f) { return *add(a, pnl_of(f)); }, money::zero(usd), blotter);
-// For display only: money has no double, a decimal does
-inline double as_double(const money& m) { return to_decimal(m)->to_double(); }
-
 static_assert(pnl_of(blotter[0]) == dollars("200.00"));
 static_assert(day_total == dollars("-455.00"));
 
 // The pivot's measure: P&L in money, computed, so a getter; the keys are the fill's members. It shows as P&L does
 struct pnl_value {
-    double operator()(const fill& f) const { return as_double(pnl_of(f)); }
+    double operator()(const fill& f) const { return pnl_of(f).to_double(); }
 };
 constexpr auto attributes(const pnl_value&) { return attributes(pnl{}); }
 
@@ -182,10 +179,10 @@ int main()
         f.id == "T-007" ? order.process_event(fsm::trade_event::fail{}) : order.process_event(fsm::trade_event::settle{});
         states.push_back(order.current());
         acout{} << "  " << f.id << "  " << stamp << "  " << f.book << ' ' << f.what << "  " << f.quantity << " @ " << f.price << " -> "
-                << f.close << "  " << order.current() << "  " << pnl{as_double(pnl_of(f))} << '\n';
+                << f.close << "  " << order.current() << "  " << pnl{pnl_of(f).to_double()} << '\n';
         stamp += chr::minutes{17};
     }
-    acout{} << "  total " << day_total << ", folded by the compiler: " << pnl{as_double(day_total)} << '\n';
+    acout{} << "  total " << day_total << ", folded by the compiler: " << pnl{day_total.to_double()} << '\n';
     expect(states.back() == fsm::trade_state::failed && states.front() == fsm::trade_state::settled, "six settle on Monday, one fails");
 
     // ---- 2. The pivot: P&L by desk and instrument, one pass --------------------------------------------------------
@@ -197,7 +194,7 @@ int main()
     acout{} << book;
     const double equity_stock = *book.value<0>({desk::equity, instrument::stock});
     expect(equity_stock == -1620.00, "equity desk's stock: -3960 on the buy, +2340 on the sale");
-    expect(std::abs(std::get<0>(book.total()).value() - as_double(day_total)) < 1e-9, "the grid's total is the exact total");
+    expect(std::abs(std::get<0>(book.total()).value() - day_total.to_double()) < 1e-9, "the grid's total is the exact total");
 
     // ---- 3. Overnight: why the book moved ------------------------------------------------------------------------
     println("\n3. Overnight the market moved; the book is revalued in full and the move explained");

@@ -15,9 +15,11 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <span>
 #include <string>
+#include <type_traits>
 
 using namespace snicholls;
 
@@ -64,13 +66,21 @@ TEST(MemoryKeyStore, ARetiredVersionStillVerifiesAndADestroyedOneDoesNot)
     EXPECT_FALSE(s.verify(*old_sig, p));
 }
 
+// Any utc_clock, at any precision: this one reads seconds and never moves.
+struct fixed_clock {
+    [[nodiscard]] constexpr utc_s now() const noexcept { return utc_s::from_unix_seconds(42); }
+};
+static_assert(utc_clock<fixed_clock> && key_store<basic_memory_key_store<fixed_clock>>);
+static_assert(std::is_copy_constructible_v<memory_key_store>, "the clock is owned: nothing captures the store");
+
 TEST(MemoryKeyStore, CreatedAtComesFromTheInjectedClock)
 {
     memory_key_store s = memory_key_store::deterministic();
     EXPECT_EQ(s.create(hs256)->created_at.unix_seconds(), 1'800'000'000);
-    memory_key_store t{[](std::span<std::byte> out) { std::fill(out.begin(), out.end(), std::byte{7}); },
-                       [] { return utc_s::from_unix_seconds(42); }};
+    basic_memory_key_store<fixed_clock> t{[](std::span<std::byte> out) { std::fill(out.begin(), out.end(), std::byte{7}); }, {}};
     EXPECT_EQ(t.create(hs256)->created_at.unix_seconds(), 42);
+    s.clock().advance(std::chrono::milliseconds{1'999});   // floored to the second it records
+    EXPECT_EQ(s.create(hs256)->created_at.unix_seconds(), 1'800'000'001);
 }
 
 TEST(MemoryKeyStore, PublicKeysAreUnsupportedDigestsRefusedAndUnknownVersionsNotFound)

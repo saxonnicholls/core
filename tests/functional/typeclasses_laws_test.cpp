@@ -17,6 +17,7 @@
 //    Foldable:    mconcat == foldr (<>) mempty
 //
 
+#include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/functional/instances.hpp>
 #include <snicholls/core/functional/state.hpp>
 
@@ -53,6 +54,8 @@ constexpr bool functor_laws(const M& m)
 
 static_assert(functor_laws(std::optional<int>{2}) && functor_laws(std::optional<int>{}));
 static_assert(functor_laws(std::array{1, 2, 3}) && functor_laws(std::array<int, 0>{}));
+static_assert(functor_laws(snicholls::containers::inplace_vector<int, 4>{1, 2, 3}) &&
+              functor_laws(snicholls::containers::inplace_vector<int, 4>{}) && functor_laws(snicholls::containers::inplace_vector<int, 2>{5, 6}));
 static_assert(functor_laws(std::tuple{1, 2}) && functor_laws(std::pair{1, 2}));
 static_assert(functor_laws(fn::identity_of<int>{4}) && functor_laws(fn::const_of<int>{4}));
 static_assert(functor_laws(fn::writer<fn::sum_of<int>, int>{4, {1}}));

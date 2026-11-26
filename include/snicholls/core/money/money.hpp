@@ -54,6 +54,8 @@
 /// - Both forms are trivially copyable.
 /// - `money_of<T>` is the size of its sign plus its `uint256`.
 /// - Equality compares asset, sign and magnitude; zero is normalised to non-negative, so `-0 == 0`.
+/// - `to_double()` is for display only (a chart, a `number_format`): the nearest `double`, never fed back into a
+///   balance.
 ///
 /// **Errors.** `money_errc`, returned through `result`:
 /// - `asset_mismatch`: two different assets;
@@ -71,9 +73,9 @@
 /// **Dependencies.** `<array>`, `<charconv>`, `<compare>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<ostream>`,
 /// `<string>`, `<string_view>`, `money/asset.hpp`, `result.hpp`, `uint256.hpp`.
 ///
-/// **Known issues.** None.
+/// **Known issues.** `to_double()` rounds, as every `double` does: `0.1` has no exact `double`. It is for display.
 ///
-/// **Status.** New in 0.22.0; `from_units` of a signed integer keeps its sign since 0.27.0.
+/// **Status.** New in 0.22.0; `from_units` of a signed integer keeps its sign and `to_double()` is new since 0.27.0.
 
 #ifndef snicholls_core_money_money_hpp
 #define snicholls_core_money_money_hpp
@@ -218,6 +220,20 @@ namespace snicholls {
         /// \return The negation.
         [[nodiscard]] constexpr money operator-() const noexcept { return from_units(asset_, magnitude_, !negative_); }
 
+        /// \brief The nearest `double` to the amount in whole units (`2.10 AUD` is `2.1`), for display and charts only:
+        /// never for arithmetic, comparison or a balance, which stay exact. Correctly rounded when the magnitude is
+        /// below 2^53 and the scale at most 22; otherwise within a few units in the last place.
+        /// \return The value.
+        [[nodiscard]] constexpr double to_double() const noexcept
+        {
+            double v = 0, unit = 1;
+            for (int i = 3; i >= 0; --i)
+                v = v * 18446744073709551616.0 + static_cast<double>(magnitude_.limb(static_cast<std::size_t>(i)));
+            for (unsigned s = asset_.scale(); s > 0; --s)
+                unit *= 10;   // exact up to 10^22
+            return negative_ ? -(v / unit) : v / unit;
+        }
+
         /// \brief Equality: the same asset, sign and magnitude.
         friend constexpr bool operator==(const money&, const money&) noexcept = default;
 
@@ -289,6 +305,10 @@ namespace snicholls {
         /// \brief As a run-time `money`.
         /// \return The same amount, with its asset as a value.
         [[nodiscard]] constexpr money to_money() const noexcept { return money::from_units(asset_of(), magnitude_, negative_); }
+
+        /// \brief The nearest `double` in whole units, for display only (`money::to_double`).
+        /// \return The value.
+        [[nodiscard]] constexpr double to_double() const noexcept { return to_money().to_double(); }
 
         /// \brief From a run-time `money` of the same asset.
         /// \param m The amount.

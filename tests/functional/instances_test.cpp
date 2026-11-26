@@ -7,6 +7,7 @@
 //  Tests for <snicholls/core/functional/instances.hpp>: every instance of the standard library's and core's types, at compile time and at run time.
 //
 
+#include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/functional/instances.hpp>
 
 #include <gtest/gtest.h>
@@ -69,6 +70,23 @@ TEST(FunctionalInstances, AnRvalueOptionalMovesItsValueIntoFmap)
 {
     auto r = fn::fmap([](std::unique_ptr<int> p) { return *p + 1; }, std::optional<std::unique_ptr<int>>(std::make_unique<int>(1)));
     EXPECT_EQ(r, std::optional<int>(2));
+}
+
+// inplace_vector: same size and capacity, at compile time, moving out of an rvalue
+using small = snicholls::containers::inplace_vector<int, 4>;
+static_assert(fn::fmap([](int x) { return x * 2; }, small{1, 2, 3}) == small{2, 4, 6});
+static_assert(fn::fmap([](int x) { return x * 0.5; }, small{1}) == snicholls::containers::inplace_vector<double, 4>{0.5});
+static_assert(fn::fmap([](int x) { return x; }, small{}).empty() && decltype(fn::fmap(dbl, small{}))::capacity() == 4);
+static_assert(fn::functor<small> && !fn::monoid<small>);
+static_assert(noexcept(fn::fmap([](int x) noexcept { return x; }, small{})) && !noexcept(fn::fmap(dbl, small{})));
+
+TEST(FunctionalInstances, InplaceVectorsMapElementByElement)
+{
+    snicholls::containers::inplace_vector<std::string, 3> words{"a", "bc"};
+    const auto sizes = fn::fmap([](std::string w) { return w.size(); }, std::move(words));   // moved into f
+    EXPECT_EQ(sizes.size(), 2u);
+    EXPECT_EQ(sizes[0], 1u);
+    EXPECT_EQ(sizes[1], 2u);
 }
 
 TEST(FunctionalInstances, VectorsMapAndConcatenate)

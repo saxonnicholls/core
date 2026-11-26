@@ -27,6 +27,8 @@
 /// \ref core.
 ///
 /// **Implementations / variants.** One.
+/// `basic_memory_token_verifier<Clock>` reads any `utc_clock` (`time/utc_clock.hpp`), owned by value and reached through
+/// `clock()`; `memory_token_verifier` is `basic_memory_token_verifier<manual_utc_clock>`.
 ///
 /// **Guarantees.** `verify` is `const`; it is safe to call concurrently once the tokens are issued and no failure is
 /// armed (`issue`, `expire` and `fail_next` are not). Errors carry fixed messages only: never the token, never the key.
@@ -41,13 +43,14 @@
 /// **Tests and demos.** `tests/interfaces/token_verifier_reference_test.cpp`,
 /// `demos/interfaces/token_verifier_reference_demo.cpp`.
 ///
-/// **Dependencies.** `<charconv>`, `<cstddef>`, `<cstdint>`, `<functional>`, `<optional>`, `<string>`,
+/// **Dependencies.** `<charconv>`, `<chrono>`, `<concepts>`, `<cstddef>`, `<cstdint>`, `<optional>`, `<string>`,
 /// `<string_view>`, `<system_error>`, `<utility>`, `<vector>`, `hash/hmac.hpp`, `hash/secure.hpp`, `hash/sha2.hpp`,
-/// `secret.hpp`, `interfaces/token_verifier.hpp`.
+/// `secret.hpp`, `interfaces/token_verifier.hpp`, `time/utc_clock.hpp`.
 ///
 /// **Known issues.** Claims are held in memory for the verifier's life; it is a test fixture.
 ///
-/// **Status.** New in 0.27.0.
+/// **Status.** New in 0.27.0; the clock a `utc_clock` template parameter, owned, since 0.27.0 (it was a
+/// `std::function<utc_s()>`).
 
 #ifndef snicholls_core_interfaces_token_verifier_reference_hpp
 #define snicholls_core_interfaces_token_verifier_reference_hpp
@@ -57,11 +60,13 @@
 #include <snicholls/core/hash/sha2.hpp>
 #include <snicholls/core/interfaces/token_verifier.hpp>
 #include <snicholls/core/secret.hpp>
+#include <snicholls/core/time/utc_clock.hpp>
 
 #include <charconv>
+#include <chrono>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
-#include <functional>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -73,10 +78,13 @@ namespace snicholls {
 
     /// \brief The reference token verifier: tokens it issues, tagged with HMAC-SHA256.
     /// \ingroup core
-    class memory_token_verifier {
+    /// \tparam Clock A `utc_clock` (`time/utc_clock.hpp`), owned by value; `manual_utc_clock` by default, moved by
+    ///               `clock().advance(d)`.
+    template <utc_clock Clock = manual_utc_clock>
+    class basic_memory_token_verifier {
     public:
-        /// \brief Reads the time.
-        using clock_source = std::function<utc_s()>;
+        /// \brief The clock.
+        using clock_type = Clock;
 
         /// \brief The prefix of every token it issues.
         static constexpr std::string_view prefix = "mt1.";
@@ -84,14 +92,22 @@ namespace snicholls {
         /// \brief A verifier tagging with `key` and reading the time from `clock`.
         /// \param key   The HMAC key (any bytes; 32 or more, as RFC 7518 requires of HS256).
         /// \param clock The clock.
-        memory_token_verifier(secret<std::string> key, clock_source clock) : key_(std::move(key)), clock_(std::move(clock)) {}
+        basic_memory_token_verifier(secret<std::string> key, Clock clock) : key_(std::move(key)), clock_(std::move(clock)) {}
+
+        /// \brief The clock, to move a manual one: `clock().advance(d)`.
+        /// \return The clock.
+        [[nodiscard]] Clock& clock() noexcept { return clock_; }
+        /// \brief The clock.
+        /// \return The clock.
+        [[nodiscard]] const Clock& clock() const noexcept { return clock_; }
 
         /// \brief A verifier for tests: a fixed key and a clock fixed at `now`. Never for anything but tests.
         /// \param now The fixed time.
         /// \return The verifier.
-        [[nodiscard]] static memory_token_verifier deterministic(utc_s now = utc_s::from_unix_seconds(1'800'000'000))
+        [[nodiscard]] static basic_memory_token_verifier deterministic(utc_s now = utc_s::from_unix_seconds(1'800'000'000))
+            requires std::same_as<Clock, manual_utc_clock>
         {
-            return memory_token_verifier{secret<std::string>{"memory_token_verifier: a test-only HS256 key"}, [now] { return now; }};
+            return basic_memory_token_verifier{secret<std::string>{"memory_token_verifier: a test-only HS256 key"}, manual_utc_clock{now}};
         }
 
         /// \brief Issues a token for `claims`.
@@ -126,7 +142,7 @@ namespace snicholls {
             if (!i)
                 return fail(capability_errc::unauthorized, {}, "the token does not verify");
             const auto& entry = issued_[*i];
-            if (entry.expired || (entry.claims.expires_at && *entry.claims.expires_at <= clock_()))
+            if (entry.expired || (entry.claims.expires_at && *entry.claims.expires_at <= stamp()))
                 return fail(capability_errc::stale, {}, "the token has expired");
             return ok(entry.claims);
         }
@@ -140,6 +156,11 @@ namespace snicholls {
         }
 
     private:
+        // The clock's time, in the seconds every record of this reference carries.
+        [[nodiscard]] utc_s stamp() const noexcept(noexcept(std::declval<const Clock&>().now()))
+        {
+            return detail::clock_now<std::chrono::seconds>(clock_);
+        }
         struct entry {
             token_claims claims;
             bool expired;
@@ -171,10 +192,14 @@ namespace snicholls {
         }
 
         secret<std::string> key_;
-        clock_source clock_;
+        Clock clock_;
         std::vector<entry> issued_;
         mutable std::optional<capability_error> injected_;
     };
+
+    /// \brief The reference with a `manual_utc_clock`: what tests use.
+    /// \ingroup core
+    using memory_token_verifier = basic_memory_token_verifier<>;
 
     static_assert(token_verifier<memory_token_verifier>, "snicholls::memory_token_verifier must model snicholls::token_verifier");
 

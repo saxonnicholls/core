@@ -7,6 +7,7 @@
 //  Demo for <snicholls/core/functional/instances.hpp>: Maybe, Either, products and fixed lists as Functors, Applicatives and Monads. Exits non-zero if a result is not the one documented.
 //
 
+#include <snicholls/core/containers/inplace_vector.hpp>
 #include <snicholls/core/functional/instances.hpp>
 
 #include <array>
@@ -55,6 +56,13 @@ int main()
     static_assert(grid == std::array{2.0, 3.0, 2.0, 4.0});
     //! [list]
     check(shocked[5] > 111.0, "six shocked spots");
+    //! [bounded]
+    // A bounded list (what fn::filter and fn::partition return) maps too, still at compile time.
+    constexpr snicholls::containers::inplace_vector<double, 4> longs{120.0, 80.0};
+    constexpr auto doubled = fn::fmap([](double q) { return 2 * q; }, longs);   // inplace_vector<double, 4>
+    static_assert(doubled.size() == 2 && doubled[1] == 160.0);
+    //! [bounded]
+    check(doubled[0] == 240.0, "an inplace_vector maps element by element");
     check(fn::fmap([](double x) { return x * 2; }, std::pair{1.0, 2.0}) == std::pair{2.0, 4.0}, "a pair maps both sides");
     check(fn::bimap([](int x) { return x + 1; }, [](why) { return 0; }, snicholls::result<int, why>(err(why::crossed))).is_err(),
           "bimap over a result maps the error side");

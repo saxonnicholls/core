@@ -20,6 +20,10 @@
 ///
 /// \snippet containers/inplace_string_demo.cpp inplace_string
 ///
+/// It prints as the text it holds, with no `.view()`:
+///
+/// \snippet containers/inplace_string_demo.cpp print
+///
 /// **Relationships.** `containers/inplace_vector.hpp` (the same idea for elements), `fixed_string.hpp` (a string
 /// whose length is part of its type, for template arguments of exactly one text), `hash/fnv.hpp` (the hash).
 /// Group: \ref core.
@@ -33,6 +37,8 @@
 /// - Trivially copyable, standard layout and structural. The characters past the length are always zero, so two
 ///   equal strings have equal members (and, up to 255, no padding: they are equal byte for byte), and the
 ///   member-wise equivalence of template arguments agrees with `==`.
+/// - It converts implicitly to `std::string_view`, as `std::string` does, so it is text to every function that takes
+///   one, and `acout`, `print` and `print_to` print it as text, quoted inside a container (`acout.hpp`).
 /// - `==` and `<=>` compare the text (as `std::string_view` does), also across capacities and against a
 ///   `std::string_view`; `hash()` is FNV-1a 64 of the text, the same on every machine, and `std::hash` is
 ///   specialised.
@@ -50,9 +56,11 @@
 /// `<type_traits>`, `<utility>`, `hash/fnv.hpp`, `result.hpp`.
 ///
 /// **Known issues.** No `c_str()`: the characters are not followed by a terminator (that byte is the length's).
+/// The view from the implicit conversion lives as long as the string: never keep one taken from a temporary
+/// (`std::string_view v = make_id();` dangles), as with `std::string`.
 /// Text only, `char`; for bytes use `containers::inplace_vector<std::byte, N>`.
 ///
-/// **Status.** New in 0.23.0.
+/// **Status.** New in 0.23.0; converts to `std::string_view` and prints through `acout` since 0.27.0.
 
 #ifndef snicholls_core_containers_inplace_string_hpp
 #define snicholls_core_containers_inplace_string_hpp
@@ -139,6 +147,10 @@ namespace snicholls {
         /// \brief The text.
         /// \return A view of the characters, valid while this string lives and is unchanged.
         [[nodiscard]] constexpr std::string_view view() const noexcept { return {chars_, size_}; }
+        /// \brief The text, as a view, implicitly, as `std::string` converts: an `inplace_string` goes wherever a
+        /// `std::string_view` is taken, and `acout`, `print` and `print_to` print it as text (quoted inside a container).
+        /// \return `view()`, valid while this string lives and is unchanged.
+        constexpr operator std::string_view() const noexcept { return view(); }   // NOLINT(google-explicit-constructor)
         /// \brief The characters.
         /// \return A pointer to the first; not followed by a terminator.
         [[nodiscard]] constexpr const char* data() const noexcept { return chars_; }
