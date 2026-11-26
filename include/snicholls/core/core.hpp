@@ -100,6 +100,7 @@
 #include <snicholls/core/detail/pp_for_each.hpp>
 #include <snicholls/core/finance/attribution.hpp>
 #include <snicholls/core/finance/business_day.hpp>
+#include <snicholls/core/finance/cash_ladder.hpp>
 #include <snicholls/core/finance/day_count.hpp>
 #include <snicholls/core/finance/year_fraction.hpp>
 #include <snicholls/core/fsm/diagram.hpp>

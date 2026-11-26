@@ -24,6 +24,11 @@ A version is released when its tag is on a commit where every blocking CI leg is
 
 - **`webhook_event::is_test`**: a test delivery (Wise's `X-Test-Notification`) is recorded but resolves to no facts
   and is never booked; the payment kit checks it.
+- **`finance::make_cash_ladder`** (`finance/cash_ladder.hpp`): an opening balance and dated `money` flows as a
+  liquidity ladder, per date inflow, outflow, net and cumulative, with the first date below a threshold, the lowest
+  position and an overdue bucket. Overdue flows follow an `overdue_policy` set separately for inflows and outflows
+  (`count`, `report_only`, `due_today`); the default is the prudent `{report_only, due_today}`. One asset per ladder
+  (`asset_mismatch` otherwise); exact, constexpr, written into the caller's span.
 - **`rounds_away(quotient, fraction, mode)` and `sum_residuals(parts, denominator)`** (`money/rate.hpp`): the rounding
   test `convert` applies, public (it was `detail::rounds_away`), and the exact signed total of many residuals over one
   denominator (`malformed` for another denominator, `overflow` past 256 bits), for an entitlement engine that divides

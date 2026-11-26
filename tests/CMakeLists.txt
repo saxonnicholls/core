@@ -85,6 +85,7 @@ add_executable(snicholls_core_tests
     detail/wide_mul_test.cpp
     finance/attribution_test.cpp
     finance/business_day_test.cpp
+    finance/cash_ladder_test.cpp
     finance/day_count_test.cpp
     finance/year_fraction_test.cpp
     fsm/diagram_test.cpp
