@@ -590,3 +590,20 @@ Orderings come from `index_permutations` / `for_each_permutation`, never a hand-
 `backoff_policy` with `backoff_delay` / `next_attempt`: the caller owns the clock, the randomness and the sleep.
 
 \snippet backoff_demo.cpp schedule
+
+---
+
+## Showcase: the whole library at work {#patterns_showcase}
+
+The programs in `showcase/` each weave many of the patterns above into one realistic program. Each prints what it
+does, proves what it can at compile time and exits non-zero if any result is not what it documents; they run as the
+CTests `showcase.<name>` and with `make showcase`.
+
+| Program | What it shows | Patterns at work |
+|---|---|---|
+| `trading_day.cpp` | Fills to P&L in exact money, folded and checked to the cent at compile time; orders through the trade lifecycle with T+2 settlement; P&L pivoted by desk and instrument; the book's overnight move attributed by Shapley and Owen against one-at-a-time; greeks by compile-time central differences | money, functional folds, fsm, time, pivot, attribution, presentation |
+| `payments_ledger.cpp` | Checkouts on the railway (`SNICHOLLS_TRY`), v7 identifiers matched to their compile-time twin, a timeout retried with backoff under the same idempotency key, refunds and payouts through the lifecycle, a signed webhook that fails closed when tampered, a statement reconciled to the cent, a cash ladder that finds the overdraft | capabilities, result, identity, retrying, fsm, dated money |
+| `harbour_beacons.cpp` | A compile-time Goertzel bank hears a beacon's tone through seeded noise, a k-d tree picks the beacon, a state machine holds and regains the lock, two workers' statistics merge into the single pass | signals, fixed sizes, fsm, statistics that merge, reproducible randomness |
+| `option_risk.cpp` | One put priced four ways: Black-Scholes and a lattice solved by its Snell envelope at compile time, Monte Carlo with a bootstrap interval, Sobol with shifted copies and a tighter error bar | stochastic control, constexpr maths, randomness, statistics |
+| `functional_report.cpp` | A report over plain structs computed by the compiler (reflection, type lists, curried folds, partition, State) and the same lambdas driving a run-time pipeline that must agree exactly | reflection, functional, pipelines, result |
+
