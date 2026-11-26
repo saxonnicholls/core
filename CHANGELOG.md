@@ -3,10 +3,19 @@
 All notable changes to snicholls-core. The format follows Keep a Changelog; versions follow Semantic Versioning.
 A version is released when its tag is on a commit where every blocking CI leg is green.
 
-## Unreleased
+## 0.27.0 - 2026-11-26
+
+The release core is pinned at for the next few weeks: one version across the family. Trade and settlement dates on
+every fact; the capability contracts from servers, crtp, ts-moveables and base-encode-decode (26 capabilities, each a
+concept and its virtual twin); securities facts and the securities provider; exact ratios, returns and the cash ladder;
+`random_source`, `uuid_generator`, `time_zone`, SQL, `task_pool` and `loop_clock`; `functional/`, Haskell's and OCaml's
+toolkit at compile time; the uint256 fast path; the k-d tree's bounded, tie-ordered queries.
 
 ### Changed
 
+- `scripts/test_ubuntu.sh` takes the machine's share from snicholls-tooling v0.3.2 (`third_party/tooling`, from
+  v0.3.1): one gate at a time across every repository and session, its parallelism a share of the machine, each
+  container capped in memory (`SNICHOLLS_GATE_MEMORY`, 24 GB).
 - **k-d tree ties are broken by index:** `nearest`, `k_nearest` and `k_nearest_within` return equal distances in
   ascending point index, and cut a tie at the k-th place by index, so a query is one well-defined list (it matches a
   reference sorting by distance then index, bit for bit, as ore-body's kriging requires on regular grids).

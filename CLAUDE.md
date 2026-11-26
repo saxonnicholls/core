@@ -192,6 +192,12 @@ integrity and consistency. The same twelve rules hold in every one of them.
 - `tests/`, `demos/` and `benchmarks/` mirror `include/snicholls/core/` (below). `scripts/` holds the CI checks.
   `third_party/` holds the test-only submodules.
 
+## Pinned at 0.27.0 (Saxon, 2026-11-26)
+
+**Core is frozen at v0.27.0 for the next few weeks**, so the family converges on one version. No core release until
+Saxon lifts the freeze: new work is written up in `internal/proposals/core.md` and queued, not merged to `main`. A
+defect that blocks a consumer is the one exception, as a patch release (0.27.x) with only the fix.
+
 ## Versioning and the diamond (MUST)
 
 Semantic versioning. A release is a tag `vX.Y.Z` on a commit where every CI leg is green. Consumers pin the tag,
@@ -630,7 +636,7 @@ do not own beyond what ADL-scoped helpers need.
 |---|---|---|---|
 | GoogleTest / GoogleMock | `third_party/googletest` | `v1.18.0` | tests only |
 | Google Benchmark | `third_party/benchmark` | `v1.9.5` | benchmarks only |
-| snicholls-tooling | `third_party/tooling` | `v0.3.1` | the single include and the interface check (build-time only) |
+| snicholls-tooling | `third_party/tooling` | `v0.3.2` | the single include and the interface check (build-time only) |
 
 The rules: pin to a release tag, never a branch tip; HTTPS URLs; `shallow = true`; never edit a file
 inside a submodule; consume via `add_subdirectory(... EXCLUDE_FROM_ALL)` with the dependency's tests and install

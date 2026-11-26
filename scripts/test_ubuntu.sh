@@ -54,6 +54,12 @@ esac
 command -v docker >/dev/null || { echo "test_ubuntu: docker is not installed" >&2; exit 2; }
 docker info >/dev/null 2>&1 || { echo "test_ubuntu: docker is not running" >&2; exit 2; }
 
+# The machine's share (snicholls-tooling's scripts/resources.sh, internal RESOURCES.md): one gate at a time across every
+# repository and session, its parallelism a share of the machine, each container capped in memory
+# shellcheck source=../third_party/tooling/scripts/resources.sh disable=SC1091
+. "$ROOT/third_party/tooling/scripts/resources.sh"
+[ -n "$JOBS" ] || JOBS="$(snicholls_jobs)"
+
 # Each image is tagged by a hash of its Dockerfile, so editing a Dockerfile
 # builds a new image and an unchanged one is reused
 image() {   # image <docker/ directory> <repository>: builds if needed, prints the tag
@@ -72,7 +78,8 @@ IMAGE_GCC15="$(image ubuntu-26.04 snicholls-core-ubuntu-gcc15)"
 # Tracked files only, including the submodules' tracked files
 LIST="$(mktemp)"
 OUT="$(mktemp)"
-trap 'rm -f "$LIST" "$OUT"' EXIT
+trap 'rm -f "$LIST" "$OUT"; snicholls_gate_release' EXIT
+snicholls_gate_acquire "snicholls-core: test_ubuntu.sh$([ "$QUICK" = 1 ] && echo ' --quick')"
 ( cd "$ROOT" && git ls-files && git submodule foreach --quiet --recursive \
     'git ls-files | sed "s|^|$sm_path/|"' ) > "$LIST"
 
@@ -136,7 +143,8 @@ in_image() {   # in_image <image> <set>: runs in_container there, its report sho
     in_container | docker run --rm -i \
         -v "$ROOT:/src:ro" -v "$LIST:/filelist:ro" \
         -e QUICK="$QUICK" -e SET="$2" \
-        ${JOBS:+-e CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" -e CTEST_PARALLEL_LEVEL="$JOBS"} \
+        -e CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" -e CTEST_PARALLEL_LEVEL="$JOBS" \
+        --memory "$(snicholls_gate_memory)" --memory-swap "$(snicholls_gate_memory)" \
         "$1" bash -s | tee -a "$OUT" || echo "  $2 image                  FAILED" | tee -a "$OUT"
 }
 in_image "$IMAGE" gcc13-clang18
