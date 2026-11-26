@@ -25,6 +25,11 @@ struct overruns {   // writes one byte past the end
     test_random_source inner{3};
     std::errc fill(std::byte* d, std::size_t n) noexcept { return n ? inner.fill(d, n + 1) : std::errc{}; }
 };
+// GCC inlines these deliberately broken sources into the kit's zero-length fill(nullptr, 0) and reports the folded
+// memset's bound as an overflow, a false positive (-Wstringop-overflow); only for this file's test doubles.
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
 struct constant {   // the same bytes every time
     std::errc fill(std::byte* d, std::size_t n) noexcept
     {
@@ -36,7 +41,7 @@ struct constant {   // the same bytes every time
 struct zeros {
     std::errc fill(std::byte* d, std::size_t n) noexcept
     {
-        for (std::size_t i = 0; i < n; ++i)   // a loop, not memset: GCC's -Wstringop-overflow misjudges the bound
+        for (std::size_t i = 0; i < n; ++i)
             d[i] = std::byte{0};
         return std::errc{};
     }
