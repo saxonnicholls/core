@@ -45,7 +45,7 @@
 /// **Known issues.** `fill` takes a pointer and a size rather than `std::span`, which is C++20. A platform's own
 /// error (a Windows status, an `errno`) is mapped by the implementation to the nearest `std::errc`.
 ///
-/// **Status.** New in 0.25.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_concepts_random_source_hpp
 #define snicholls_core_concepts_random_source_hpp

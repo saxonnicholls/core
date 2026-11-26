@@ -116,9 +116,9 @@ A version is released when its tag is on a commit where every blocking CI leg is
   stable value, for data that names one.
 - **`finance/returns.hpp`**: exact `period_return`, `time_weighted_return` (chained sub-periods) and `modified_dietz`
   from `money`; in `double`, `time_weighted_return` over returns, `irr` and `irr_roots` (flows one period apart),
-  `xirr` (dated, ACT/365F) and `money_weighted_return` (annualised), by Brent's method behind Descartes' rule of signs,
-  with `returns_errc::no_root` and `multiple_roots`. Tested against numpy-financial 1.0.0 and exact references in
-  Python's `decimal` and `fractions` (`scripts/generate_returns_fixtures.py`, CTest
+  `xirr` (dated `xirr_flow`s, ACT/365F) and `money_weighted_return` (annualised), by Brent's method behind
+  Descartes' rule of signs, with `returns_errc::no_root` and `multiple_roots`. Tested against numpy-financial 1.0.0
+  and exact references in Python's `decimal` and `fractions` (`scripts/generate_returns_fixtures.py`, CTest
   `generated.returns_fixtures_up_to_date`, skipped without numpy-financial).
 - **`fsm/securities.hpp`**: the reference lifecycles of securities in sml's notation, each state an enumerator (so
   `fsm::save` and `load` keep it) with its colour, label and tooltip: `trade_lifecycle` (placed, filled, settling,

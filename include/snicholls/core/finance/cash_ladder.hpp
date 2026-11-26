@@ -71,7 +71,7 @@
 /// **Known issues.** A zero-amount flow still makes a rung for its date (an inflow of zero). Dates are value dates as
 /// given: a flow on a weekend stays on the weekend unless the caller adjusts it.
 ///
-/// **Status.** New in 0.25.0. Experimental.
+/// **Status.** New in 0.27.0. Experimental.
 
 #ifndef snicholls_core_finance_cash_ladder_hpp
 #define snicholls_core_finance_cash_ladder_hpp

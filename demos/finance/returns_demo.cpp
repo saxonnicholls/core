@@ -72,7 +72,7 @@ int main()
     const double two[] = {-100, 230, -132};               // worth zero at 10% and at 20%
     double rates[4]{};
     const std::size_t n = irr_roots(two, rates);
-    const cash_flow dated[] = {{sys_days{2026y / January / 1d}, -10'000}, {sys_days{2026y / March / 1d}, 2'750},
+    const xirr_flow dated[] = {{sys_days{2026y / January / 1d}, -10'000}, {sys_days{2026y / March / 1d}, 2'750},
                                {sys_days{2026y / October / 30d}, 4'250}, {sys_days{2027y / February / 15d}, 3'250},
                                {sys_days{2027y / April / 1d}, 2'750}};
     const auto annual = xirr(dated);

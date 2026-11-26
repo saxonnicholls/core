@@ -56,7 +56,7 @@
 /// **Known issues.** QuantLib's `Thirty360(ISDA)` is 30E/360 ISDA, not this header's `thirty_360`; QuantLib's
 /// `Thirty360(BondBasis)` is.
 ///
-/// **Status.** New in 0.23.0; `day_count_basis` and `accrual_fraction` new in 0.26.0.
+/// **Status.** New in 0.23.0; `day_count_basis` and `accrual_fraction` new in 0.27.0.
 
 #ifndef snicholls_core_finance_day_count_hpp
 #define snicholls_core_finance_day_count_hpp

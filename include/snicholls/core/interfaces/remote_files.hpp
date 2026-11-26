@@ -37,7 +37,7 @@
 ///
 /// **Known issues.** None.
 ///
-/// **Status.** New in 0.25.0. Experimental until two real implementations pass the kit.
+/// **Status.** New in 0.27.0. Experimental until two real implementations pass the kit.
 
 #ifndef snicholls_core_interfaces_remote_files_hpp
 #define snicholls_core_interfaces_remote_files_hpp

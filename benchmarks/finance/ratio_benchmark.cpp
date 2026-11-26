@@ -5,7 +5,7 @@
 //  Copyright 2010-2026 Saxon Herschel Nicholls
 //
 //  finance::ratio's exact <=> (a continued-fraction comparison) against the 64-bit cross-multiplication year_fraction
-//  used before 0.26.0, over 4,096 pairs of day-count fractions (numerators up to 2^32, denominators up to 133,590,
+//  used before 0.27.0, over 4,096 pairs of day-count fractions (numerators up to 2^32, denominators up to 133,590,
 //  where cross-multiplication is still exact), and finance::multiply against the same cancel-then-multiply written by
 //  hand. main() runs a fairness check first and refuses to benchmark if the two sides disagree on any pair
 //  (CLAUDE.md "Zero overhead").
@@ -45,7 +45,7 @@ const std::vector<std::pair<ratio, ratio>>& pairs()
     return p;
 }
 
-// year_fraction's order before 0.26.0
+// year_fraction's order before 0.27.0
 std::strong_ordering cross_multiplied(const ratio& a, const ratio& b) noexcept
 {
     return a.numerator() * b.denominator() <=> b.numerator() * a.denominator();

@@ -47,7 +47,7 @@
 ///
 /// **Known issues.** The kit cannot see what an implementation logs; it checks only what is returned.
 ///
-/// **Status.** New in 0.25.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_interfaces_remote_files_conformance_hpp
 #define snicholls_core_interfaces_remote_files_conformance_hpp

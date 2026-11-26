@@ -11,12 +11,13 @@
 ///
 /// **Overview.** Each capability's kit (`interfaces/message_sender_conformance.hpp`, `signer_conformance.hpp`,
 /// `key_store_conformance.hpp`, `payment_provider_conformance.hpp`, `onramp_provider_conformance.hpp`,
-/// `http_handler_conformance.hpp`, `token_verifier_conformance.hpp`, `signature_verifier_conformance.hpp`,
-/// `wallet_verifier_conformance.hpp`, `role_store_conformance.hpp`, `https_client_conformance.hpp`) is a plain
-/// function template over a *probe*, a default-constructible type the implementation's test writes, which hands the
-/// kit the implementation in either form (a model of the concept, an interface reference, a handle). The kit makes a fresh probe for every check, runs the check, and records each
-/// expectation that failed in a `capability_conformance_report`, with the check's name. No test framework is
-/// included: a test asserts `report.ok()` and prints the failures.
+/// `security_provider_conformance.hpp`, `http_handler_conformance.hpp`, `remote_files_conformance.hpp`,
+/// `token_verifier_conformance.hpp`, `signature_verifier_conformance.hpp`, `wallet_verifier_conformance.hpp`,
+/// `role_store_conformance.hpp`, `https_client_conformance.hpp`) is a plain function template over a *probe*, a
+/// default-constructible type the implementation's test writes, which hands the kit the implementation in either form
+/// (a model of the concept, an interface reference, a handle). The kit makes a fresh probe for every check, runs the
+/// check, and records each expectation that failed in a `capability_conformance_report`, with the check's name. No
+/// test framework is included: a test asserts `report.ok()` and prints the failures.
 ///
 /// **The redaction check.** Every kit with a `capability_error` asks the probe to make the implementation's next
 /// call fail as though the provider had answered `capability_provider_response`, a body that carries
@@ -26,7 +27,7 @@
 ///
 /// \snippet interfaces/capability_conformance_demo.cpp report
 ///
-/// **Relationships.** `capability_error.hpp`; the eleven kits. Group: \ref core.
+/// **Relationships.** `capability_error.hpp`; the thirteen kits. Group: \ref core.
 ///
 /// **Implementations / variants.** One report for every capability kit. `kv_conformance_report`
 /// (`interfaces/key_value_store_conformance.hpp`) is the same shape, older.

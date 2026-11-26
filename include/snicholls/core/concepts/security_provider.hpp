@@ -86,7 +86,7 @@
 /// scale at least as fine as the currency's (a share priced at 0.5 cents is `AUD` at scale 3). Holdings are positions,
 /// not cost: cost is the ledger's.
 ///
-/// **Status.** New in 0.26.0. Experimental until two real implementations pass the kit.
+/// **Status.** New in 0.27.0. Experimental until two real implementations pass the kit.
 
 #ifndef snicholls_core_concepts_security_provider_hpp
 #define snicholls_core_concepts_security_provider_hpp

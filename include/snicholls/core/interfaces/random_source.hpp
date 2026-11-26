@@ -37,7 +37,7 @@
 ///
 /// **Known issues.** None.
 ///
-/// **Status.** New in 0.25.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_interfaces_random_source_hpp
 #define snicholls_core_interfaces_random_source_hpp

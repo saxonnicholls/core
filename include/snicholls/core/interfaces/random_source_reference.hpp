@@ -40,7 +40,7 @@
 ///
 /// **Known issues.** None: it is a test double by design.
 ///
-/// **Status.** New in 0.25.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_interfaces_random_source_reference_hpp
 #define snicholls_core_interfaces_random_source_reference_hpp

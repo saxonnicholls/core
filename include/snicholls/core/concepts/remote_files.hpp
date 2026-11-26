@@ -67,7 +67,7 @@
 /// **Known issues.** A name is bytes: two names that are the same text in different Unicode normalisations are two
 /// files. Modification times finer than a second are truncated by the implementation.
 ///
-/// **Status.** New in 0.25.0. Experimental until two real implementations pass the kit.
+/// **Status.** New in 0.27.0. Experimental until two real implementations pass the kit.
 
 #ifndef snicholls_core_concepts_remote_files_hpp
 #define snicholls_core_concepts_remote_files_hpp

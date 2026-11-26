@@ -16,7 +16,7 @@
 /// conventions' answers compare exactly and an accrual is `notional * numerator / denominator` with one rounding
 /// at the end. `to_double()` is for display and for code that wants a `double` anyway.
 ///
-/// Since 0.26.0 it is an alias of `finance::ratio` (`finance/ratio.hpp`), the one exact rational of `finance/`: a year
+/// Since 0.27.0 it is an alias of `finance::ratio` (`finance/ratio.hpp`), the one exact rational of `finance/`: a year
 /// fraction multiplies a repo rate or a return with `multiply` and compares with a split ratio, with no conversion.
 /// Every use that compiled before compiles unchanged: the constructor, `numerator()`, `denominator()`, `to_double()`,
 /// `==` and `<=>`.
@@ -29,7 +29,7 @@
 /// **Implementations.** One: `finance::ratio`.
 ///
 /// **Guarantees.** As `finance::ratio`: constexpr, `noexcept`, trivially copyable, 16 bytes, always normalised, so `==`
-/// is member-wise. `<=>` is exact for every pair (before 0.26.0 it cross-multiplied in 64 bits, exact only below
+/// is member-wise. `<=>` is exact for every pair (before 0.27.0 it cross-multiplied in 64 bits, exact only below
 /// 2^63).
 ///
 /// **Errors.** None. The constructor's denominator must not be zero, and neither part `INT64_MIN`: a precondition,
@@ -44,7 +44,7 @@
 /// **Known issues.** A sum of two conventions' fractions means nothing, though `add` will compute one: scale an
 /// amount by `numerator` and `denominator`, or `multiply` by a rate.
 ///
-/// **Status.** New in 0.23.0; an alias of `finance::ratio` since 0.26.0.
+/// **Status.** New in 0.23.0; an alias of `finance::ratio` since 0.27.0.
 
 #ifndef snicholls_core_finance_year_fraction_hpp
 #define snicholls_core_finance_year_fraction_hpp

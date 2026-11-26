@@ -68,7 +68,7 @@
 /// returns one of several roots where this header says `multiple_roots`: deliberately, since the IRR is then not a
 /// return. The time-weighted return's flow is at the start of its sub-period; a flow at the end belongs to the next.
 ///
-/// **Status.** New in 0.26.0. Experimental.
+/// **Status.** New in 0.27.0. Experimental.
 
 #ifndef snicholls_core_finance_returns_hpp
 #define snicholls_core_finance_returns_hpp
@@ -123,14 +123,15 @@ namespace snicholls::finance {
         friend constexpr bool operator==(const money_flow&, const money_flow&) noexcept = default;
     };
 
-    /// \brief A cash flow on a day, for an internal rate of return: received positive, paid negative.
+    /// \brief A flow on a day, in `double`, for `xirr`: received positive, paid negative.
+    /// `money_flow` is the exact one.
     /// \ingroup core
-    struct cash_flow {
+    struct xirr_flow {
         std::chrono::sys_days on{};  ///< the day
         double amount = 0;           ///< the amount
 
         /// \brief Equality.
-        friend constexpr bool operator==(const cash_flow&, const cash_flow&) noexcept = default;
+        friend constexpr bool operator==(const xirr_flow&, const xirr_flow&) noexcept = default;
     };
 
     namespace detail {
@@ -264,7 +265,7 @@ namespace snicholls::finance {
         };
 
         struct dated_flows {
-            std::span<const cash_flow> flows;
+            std::span<const xirr_flow> flows;
             constexpr std::size_t size() const noexcept { return flows.size(); }
             constexpr double amount(std::size_t i) const noexcept { return flows[i].amount; }
             constexpr double time(std::size_t i) const noexcept
@@ -433,7 +434,7 @@ namespace snicholls::finance {
     /// \ingroup core
     /// \param flows The flows, in date order.
     /// \return The annual rate; `empty`, `invalid_dates`, `no_root` or `multiple_roots`.
-    [[nodiscard]] constexpr result<double, returns_errc> xirr(std::span<const cash_flow> flows) noexcept
+    [[nodiscard]] constexpr result<double, returns_errc> xirr(std::span<const xirr_flow> flows) noexcept
     {
         if (flows.empty())
             return err(returns_errc::empty);

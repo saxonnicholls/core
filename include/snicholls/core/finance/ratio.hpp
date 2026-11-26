@@ -62,7 +62,7 @@
 /// **Known issues.** 64 bits: a long chain of unrelated ratios overflows (the arithmetic says so with `std::nullopt`),
 /// and `finance/returns.hpp` falls back to `double` there. Not a general arithmetic type: no operators but negation.
 ///
-/// **Status.** New in 0.26.0. `year_fraction` became an alias of it, source-compatible.
+/// **Status.** New in 0.27.0. `year_fraction` became an alias of it, source-compatible.
 
 #ifndef snicholls_core_finance_ratio_hpp
 #define snicholls_core_finance_ratio_hpp

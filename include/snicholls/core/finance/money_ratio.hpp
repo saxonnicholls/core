@@ -44,7 +44,7 @@
 /// **Known issues.** The ratio forms keep 64-bit parts: an amount in wei with 18 decimals rarely fits; use the money
 /// forms, which do not have that limit.
 ///
-/// **Status.** New in 0.26.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_finance_money_ratio_hpp
 #define snicholls_core_finance_money_ratio_hpp

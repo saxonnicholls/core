@@ -109,7 +109,7 @@ TEST(FinanceReturns, AgreesWithTheOracles)
             }
         } else if (f[0] == "xirr") {
             ++seen[1];
-            std::vector<cash_flow> flows;
+            std::vector<xirr_flow> flows;
             for (std::size_t i = 0, n = std::stoul(f.at(3)); i < n; ++i)
                 flows.push_back({snicholls::test::fixture_date(f.at(4 + 2 * i)), std::stod(f.at(5 + 2 * i))});
             const auto r = xirr(flows);
@@ -198,8 +198,8 @@ TEST(FinanceReturns, DietzErrors)
 TEST(FinanceReturns, RateErrors)
 {
     EXPECT_EQ(irr(std::span<const double>{}).unwrap_err(), returns_errc::empty);
-    EXPECT_EQ(xirr(std::span<const cash_flow>{}).unwrap_err(), returns_errc::empty);
-    const cash_flow backwards[] = {{on(2026, 2, 1), -100}, {on(2026, 1, 1), 110}};
+    EXPECT_EQ(xirr(std::span<const xirr_flow>{}).unwrap_err(), returns_errc::empty);
+    const xirr_flow backwards[] = {{on(2026, 2, 1), -100}, {on(2026, 1, 1), 110}};
     EXPECT_EQ(xirr(backwards).unwrap_err(), returns_errc::invalid_dates);
     const double beyond[] = {-1, 1e7};   // a rate of 9,999,999: beyond the range
     EXPECT_EQ(irr(beyond).unwrap_err(), returns_errc::no_root);

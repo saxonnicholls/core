@@ -51,7 +51,7 @@
 ///
 /// **Known issues.** None.
 ///
-/// **Status.** New in 0.26.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_interfaces_security_provider_conformance_hpp
 #define snicholls_core_interfaces_security_provider_conformance_hpp

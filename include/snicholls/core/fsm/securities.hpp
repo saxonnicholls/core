@@ -56,7 +56,7 @@
 /// failed settlement into the next day's batch. A repo's accruals keep it `accruing` (a self-transition, which runs the
 /// state's exit and entry, as sml's does).
 ///
-/// \status Experimental, new in 0.26.0.
+/// \status Experimental, new in 0.27.0.
 
 #ifndef snicholls_core_fsm_securities_hpp
 #define snicholls_core_fsm_securities_hpp

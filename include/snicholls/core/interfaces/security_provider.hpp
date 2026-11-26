@@ -39,7 +39,7 @@
 ///
 /// **Known issues.** None.
 ///
-/// **Status.** New in 0.26.0. Experimental until two real implementations pass the kit.
+/// **Status.** New in 0.27.0. Experimental until two real implementations pass the kit.
 
 #ifndef snicholls_core_interfaces_security_provider_hpp
 #define snicholls_core_interfaces_security_provider_hpp

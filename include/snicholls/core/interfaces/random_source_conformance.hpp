@@ -40,7 +40,7 @@
 /// **Known issues.** "Two fills differ" can fail by chance for a true source with probability 2^-256; the kit draws
 /// 32 bytes each time.
 ///
-/// **Status.** New in 0.25.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_interfaces_random_source_conformance_hpp
 #define snicholls_core_interfaces_random_source_conformance_hpp

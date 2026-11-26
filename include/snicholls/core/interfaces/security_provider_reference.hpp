@@ -53,7 +53,7 @@
 ///
 /// **Known issues.** Settlement is T+2 calendar days; real settlement is in business days of the market's calendar.
 ///
-/// **Status.** New in 0.26.0.
+/// **Status.** New in 0.27.0.
 
 #ifndef snicholls_core_interfaces_security_provider_reference_hpp
 #define snicholls_core_interfaces_security_provider_reference_hpp
