@@ -15,7 +15,6 @@
 #include <gtest/gtest.h>
 
 #include <cstddef>
-#include <cstring>
 #include <system_error>
 
 namespace {
@@ -37,8 +36,8 @@ struct constant {   // the same bytes every time
 struct zeros {
     std::errc fill(std::byte* d, std::size_t n) noexcept
     {
-        if (n)
-            std::memset(d, 0, n);
+        for (std::size_t i = 0; i < n; ++i)   // a loop, not memset: GCC's -Wstringop-overflow misjudges the bound
+            d[i] = std::byte{0};
         return std::errc{};
     }
 };
